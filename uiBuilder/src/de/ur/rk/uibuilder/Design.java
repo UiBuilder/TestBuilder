@@ -18,5 +18,5 @@ public class Design extends Activity {
 		getMenuInflater().inflate(R.menu.design, menu);
 		return true;
 	}
-
+//test
 }
