@@ -1,4 +1,4 @@
-package de.ur.rk.uibuilder.helpers;
+package helpers;
 
 public class Log 
 {

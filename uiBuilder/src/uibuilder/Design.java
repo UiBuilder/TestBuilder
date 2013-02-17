@@ -1,12 +1,13 @@
-package de.ur.rk.uibuilder;
+package uibuilder;
 
+import creators.ObjectFactory;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import de.ur.rk.uibuilder.creators.ObjectFactory;
+import de.ur.rk.uibuilder.R;
 
 
 public class Design extends Activity 

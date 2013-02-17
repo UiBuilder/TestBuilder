@@ -1,4 +1,4 @@
-package de.ur.rk.uibuilder.creators;
+package creators;
 
 import java.util.ArrayList;
 
@@ -115,8 +115,8 @@ public class ObjectFactory
 			ViewGroup.LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
 			
 			generatedB.setLayoutParams(params);
-			generatedB.setX(0);
-			generatedB.setY(0);
+			generatedB.setX(100);
+			generatedB.setY(100);
 			generatedB.setEnabled(false);
 			
 			buttonHolder.add(generatedB);
