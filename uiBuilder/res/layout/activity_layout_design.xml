@@ -17,7 +17,7 @@
         
         />
     
-    <AbsoluteLayout android:id="@+id/design_area"
+    <RelativeLayout android:id="@+id/design_area"
         
         android:layout_alignParentTop="true"
         android:layout_below="@id/design_button_add"
