@@ -47,7 +47,7 @@ public class ObjectFactory
 	}
 
 	/**
-	 * Aktuelle Displaygr��e ermitteln
+	 * Aktuelle Displaygröße ermitteln
 	 */
 	private void measure() 
 	{
