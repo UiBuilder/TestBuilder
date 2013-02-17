@@ -117,7 +117,13 @@ public class ObjectFactory
 		 */
 		private Button newButton() 
 		{
-			Button generatedB = new Button(ref);
+			Button generatedB = new Button(ref){@Override
+			public boolean performClick()
+			{
+				// TODO Auto-generated method stub
+				return //super.performClick();
+						false;
+			}};
 			
 			
 			generatedB.setText("Button");
