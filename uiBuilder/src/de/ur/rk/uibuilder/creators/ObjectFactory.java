@@ -1,34 +1,40 @@
 package de.ur.rk.uibuilder.creators;
 
+import java.util.ArrayList;
+
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.AbsoluteLayout;
 import android.widget.Button;
+import android.widget.TextView;
 
-public class ObjectFactory {
-
+public class ObjectFactory 
+{
 	public static final int ID_BUTTON = 1; /** Konstante für Buttons */
 	public static final int ID_TEXTVIEW = 2; /** Konstante für TextViews */
 	
 	private Context ref;
-	private int idCount;
-	
+	private Generator generator;
 	private int displayWidth;
 	private int displayHeight;
 	
+	private ArrayList<Button> buttonHolder;
+	private static final String LOGTAG = "OBJECTFACTORY says:";
 	
 	/**
 	 * KONSTRUKTOR
 	 * 
 	 * @param c Referenz auf die Activity
 	 */
-	public ObjectFactory(Context c) {
+	public ObjectFactory(Context c) 
+	{
 		super();
-		// TODO Auto-generated constructor stub
+
 		ref = c;
-		idCount = 1;
+		generator = new Generator();
+		buttonHolder = new ArrayList<Button>();
 		
 		measure();
 	}
@@ -36,12 +42,13 @@ public class ObjectFactory {
 	/**
 	 * Aktuelle Displaygröße ermitteln
 	 */
-	private void measure() {
-		// TODO Auto-generated method stub
+	private void measure() 
+	{
 		displayHeight = ref.getResources().getDisplayMetrics().heightPixels;
 		displayWidth = ref.getResources().getDisplayMetrics().widthPixels;
 	}
-
+	
+	
 	/**
 	 * 
 	 * @param which Definiert die Art des zu erzeugenden Elementes
@@ -49,48 +56,71 @@ public class ObjectFactory {
 	 */
 	public View getElement (int which)
 	{
-		switch (which)
+		try
 		{
-			case ID_BUTTON: return newButton();
+			switch (which)
+			{
+			case ID_BUTTON: return generator.newButton();
 				
-			case ID_TEXTVIEW: return newTextview();
-				
+			case ID_TEXTVIEW: return generator.newTextview();
+		
+			default: throw new NoClassDefFoundError();
+			}
 		}
-		
-		return null;
+		catch (Exception e)
+		{
+			Log.d(LOGTAG, "Übergebene ID existiert nicht.");
+			return null;
+		}
 	}
+	
 
-	/**
-	 * Methode zur Generierung eines neuen TextView-Objekts.
-	 * Default Eigenschaften werden gesetzt.
-	 * @return Neuer TextView
-	 */
-	private View newTextview() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	private class Generator
+	{
+		private int idCount; /** Variable zur dynamischen Vergabe laufender IDs */
 
-	/**
-	 * Methode zur Generierung eines neuen Button-Objekts.
-	 * Default Eigenschaften werden gesetzt.
-	 * @return Neuer Button 
-	 */
-	private View newButton() {
-		// TODO Auto-generated method stub
-		Button newB = new Button(ref);
-		
-		newB.setText("Button");
-		newB.setId(idCount);
-		idCount++;
-		
-		@SuppressWarnings("deprecation")
-		ViewGroup.LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
-		
-		
-		newB.setLayoutParams(params);
-		newB.setX(0);
-		newB.setY(0);
-		
-		return newB;
+		/**
+		 * Konstruktor
+		 */
+		public Generator() 
+		{
+			idCount = 1;
+		}
+
+
+		/**
+		 * Methode zur Generierung eines neuen TextView-Objekts.
+		 * Default Eigenschaften werden gesetzt.
+		 * @return Neuer TextView
+		 */
+		private TextView newTextview() 
+		{
+			return null;
+		}
+
+		/**
+		 * Methode zur Generierung eines neuen Button-Objekts.
+		 * Default Eigenschaften werden gesetzt.
+		 * 
+		 * @return Neuer Button 
+		 */
+		private Button newButton() 
+		{
+			Button generatedB = new Button(ref);
+			
+			generatedB.setText("Button");
+			generatedB.setId(idCount);
+			idCount++;
+			
+			ViewGroup.LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+			
+			generatedB.setLayoutParams(params);
+			generatedB.setX(0);
+			generatedB.setY(0);
+			generatedB.setEnabled(false);
+			
+			buttonHolder.add(generatedB);
+			return generatedB;
+		}
 	}
 }
