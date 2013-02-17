@@ -2,6 +2,7 @@ package creators;
 
 import java.util.ArrayList;
 
+import manipulators.Manipulator;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +18,9 @@ public class ObjectFactory
 	
 	private Context ref;
 	private Generator generator;
+	//private Manipulator manipulator;
+	
+	
 	private int displayWidth;
 	private int displayHeight;
 	
@@ -34,6 +38,7 @@ public class ObjectFactory
 
 		ref = c;
 		generator = new Generator();
+		//manipulator = new Manipulator();
 		buttonHolder = new ArrayList<Button>();
 		
 		measure();
@@ -78,13 +83,14 @@ public class ObjectFactory
 	private class Generator
 	{
 		private int idCount; /** Variable zur dynamischen Vergabe laufender IDs */
-
+		private Manipulator manipulator;
 		/**
 		 * Konstruktor
 		 */
 		public Generator() 
 		{
 			idCount = 1;
+			manipulator = new Manipulator(ref);
 		}
 
 
@@ -117,8 +123,9 @@ public class ObjectFactory
 			generatedB.setLayoutParams(params);
 			generatedB.setX(100);
 			generatedB.setY(100);
-			generatedB.setEnabled(false);
+			generatedB.setEnabled(true);
 			
+			generatedB.setOnLongClickListener(manipulator);
 			buttonHolder.add(generatedB);
 			return generatedB;
 		}
