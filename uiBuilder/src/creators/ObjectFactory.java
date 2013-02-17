@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 public class ObjectFactory 
 {
-	public static final int ID_BUTTON = 1; /** Konstante fŸr Buttons */
-	public static final int ID_TEXTVIEW = 2; /** Konstante fŸr TextViews */
+	public static final int ID_BUTTON = 1; /** Konstante fï¿½r Buttons */
+	public static final int ID_TEXTVIEW = 2; /** Konstante fï¿½r TextViews */
 	
 	private Context ref;
 	private Generator generator;
@@ -40,12 +40,12 @@ public class ObjectFactory
 		generator = new Generator();
 		//manipulator = new Manipulator();
 		buttonHolder = new ArrayList<Button>();
-		
+		//
 		measure();
 	}
 
 	/**
-	 * Aktuelle Displaygrš§e ermitteln
+	 * Aktuelle Displaygrï¿½ï¿½e ermitteln
 	 */
 	private void measure() 
 	{
@@ -74,7 +74,7 @@ public class ObjectFactory
 		}
 		catch (Exception e)
 		{
-			Log.d(LOGTAG, "†bergebene ID existiert nicht.");
+			Log.d(LOGTAG, "ï¿½bergebene ID existiert nicht.");
 			return null;
 		}
 	}
