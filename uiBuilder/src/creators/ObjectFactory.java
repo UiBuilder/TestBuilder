@@ -114,6 +114,7 @@ public class ObjectFactory
 		{
 			Button generatedB = new Button(ref);
 			
+			
 			generatedB.setText("Button");
 			generatedB.setId(idCount);
 			idCount++;
