@@ -42,7 +42,7 @@ public class ObjectFactory
 		generator = new Generator();
 		//manipulator = new Manipulator();
 		buttonHolder = new ArrayList<Button>();
-		//
+		///////////////
 		measure();
 	}
 
