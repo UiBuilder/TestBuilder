@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class ObjectFactory 
@@ -122,7 +123,7 @@ public class ObjectFactory
 			{
 				// TODO Auto-generated method stub
 				return //super.performClick();
-						false;
+						true;
 			}};
 			
 			
@@ -130,11 +131,11 @@ public class ObjectFactory
 			generatedB.setId(idCount);
 			idCount++;
 			
-			ViewGroup.LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
 			
 			generatedB.setLayoutParams(params);
-			generatedB.setX(100);
-			generatedB.setY(100);
+			//generatedB.setX(100);
+			//generatedB.setY(100);
 			generatedB.setEnabled(true);
 			
 			generatedB.setOnLongClickListener(manipulator);

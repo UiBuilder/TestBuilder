@@ -1,5 +1,7 @@
 package manipulators;
 
+import android.content.ClipData;
+import android.content.ClipDescription;
 import android.content.Context;
 import android.view.DragEvent;
 import android.view.View;
@@ -10,8 +12,6 @@ import android.widget.Toast;
 public class Manipulator implements OnLongClickListener, OnDragListener
 {
 	private Context context;
-	
-	
 	
 	public Manipulator(Context context)
 	{
@@ -25,20 +25,46 @@ public class Manipulator implements OnLongClickListener, OnDragListener
 	}
 	
 	@Override
-	public boolean onDrag(View arg0, DragEvent arg1)
+	public boolean onDrag(View v, DragEvent event)
 	{
-		// TODO Auto-generated method stub
+		/*switch(event.getAction())
+		{
+	    case DragEvent.ACTION_DRAG_STARTED:
+	        break;
+	    case DragEvent.ACTION_DRAG_ENTERED:
+	        break;
+	    case DragEvent.ACTION_DRAG_LOCATION:
+	        break;
+	    case DragEvent.ACTION_DRAG_ENDED:
+	    	v.setX(event.getX());
+	    	v.setY(event.getY());
+	        break;
+	    case DragEvent.ACTION_DRAG_EXITED:
+	        break;
+	    case DragEvent.ACTION_DROP:
+	    	v.setX(event.getX());
+	    	v.setY(event.getY());
+	    	//return true;
+	        //break;
+		}
+		return true;*/
 		return false;
 	}
 
 	@Override
-	public boolean onLongClick(View arg0)
+	public boolean onLongClick(View v)
 	{
-		// TODO Auto-generated method stub
 		Toast.makeText(context.getApplicationContext(), 
                 "Button is clicked", Toast.LENGTH_LONG).show();
+	
+		ClipData.Item item = new ClipData.Item((String) v.getTag());
+		ClipData clipData = new ClipData((CharSequence) v.getTag(),
+				new String[] { ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
+		v.startDrag(clipData, new View.DragShadowBuilder(v), null, 0);
+
 		
-		return false;
+		return true;
+
 	}
 
 }

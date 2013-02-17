@@ -1,18 +1,24 @@
 package uibuilder;
 
-import creators.ObjectFactory;
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.DragEvent;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnDragListener;
+import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import creators.ObjectFactory;
 import de.ur.rk.uibuilder.R;
 
 
 public class Design extends Activity 
 {
-
+	private float dragx;
+	private float dragy;
+	
 	private RelativeLayout root;
 	private Button addView;
 	
@@ -56,6 +62,41 @@ public class Design extends Activity
 			{
 				Button newOne = (Button) factory.getElement(ObjectFactory.ID_BUTTON);
 				root.addView(newOne);
+				root.invalidate();
+			}
+		});
+		
+		root.setOnDragListener(new OnDragListener()
+		{
+
+			@Override
+			public boolean onDrag(View v, DragEvent event)
+			{
+				
+				switch(event.getAction())
+				{
+			    case DragEvent.ACTION_DRAG_STARTED:
+			    	
+			        break;
+			    case DragEvent.ACTION_DRAG_ENTERED:
+			        break;
+			    case DragEvent.ACTION_DRAG_LOCATION:
+			        break;
+			    case DragEvent.ACTION_DRAG_ENDED:
+			        break;
+			    case DragEvent.ACTION_DRAG_EXITED:
+			        break;
+			    case DragEvent.ACTION_DROP:
+			    	MarginLayoutParams marginParams = new MarginLayoutParams(v.getLayoutParams());
+			    	
+			    	marginParams.topMargin = (int)event.getY();// - (v.getHeight()); 
+			    	marginParams.leftMargin = (int)event.getX();// - (v.getWidth()/2);
+			    	
+			    	RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(marginParams);
+			    	Log.d("paramstop", String.valueOf(marginParams.topMargin));
+			    	v.setLayoutParams(params);
+				}
+				return true;
 			}
 		});
 	}
