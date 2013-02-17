@@ -7,7 +7,11 @@ import android.view.View.OnLongClickListener;
 
 public class Manipulator implements OnLongClickListener, OnDragListener
 {
-
+	public View.OnLongClickListener addLongClickListener(View v)
+	{
+		return this;
+	}
+	
 	@Override
 	public boolean onDrag(View arg0, DragEvent arg1)
 	{
