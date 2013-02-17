@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 public class ObjectFactory 
 {
-	public static final int ID_BUTTON = 1; /** Konstante für Buttons */
-	public static final int ID_TEXTVIEW = 2; /** Konstante für TextViews */
+	public static final int ID_BUTTON = 1; /** Konstante f√ºr Buttons */
+	public static final int ID_TEXTVIEW = 2; /** Konstante f√ºr TextViews */
 	
 	private Context ref;
 	private Generator generator;
@@ -45,7 +45,7 @@ public class ObjectFactory
 	}
 
 	/**
-	 * Aktuelle Displaygröße ermitteln
+	 * Aktuelle DisplaygrÔøΩÔøΩe ermitteln
 	 */
 	private void measure() 
 	{
@@ -74,7 +74,7 @@ public class ObjectFactory
 		}
 		catch (Exception e)
 		{
-			Log.d(LOGTAG, "Übergebene ID existiert nicht.");
+			Log.d(LOGTAG, "√úbergebene ID existiert nicht.");
 			return null;
 		}
 	}
