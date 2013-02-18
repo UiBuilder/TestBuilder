@@ -1,6 +1,5 @@
 package manipulators;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 
 import android.content.ClipData;
@@ -20,17 +19,18 @@ import creators.ObjectFactory;
 public class TheBoss implements OnLongClickListener, OnDragListener, OnTouchListener
 {
 	
-	private static final float FLING_DISTANCE = 50.00f;
 	private Context context;
 	private View activeItem;
 	private ObjectFactory factory;
 	private RelativeLayout root;
 	
 	private DragEvent start;
-	private int maxTime = 400;
+
 	private Timestamp timeStart;
 	private Timestamp timeEnd;
 	
+	private static final float FLING_DISTANCE = 50.00f;
+	private static final int MAX_TIME = 400;
 	/**
 	 * KONSTRUKTOR
 	 * @param context
@@ -80,7 +80,7 @@ public class TheBoss implements OnLongClickListener, OnDragListener, OnTouchList
 				
 				if(isFling(start, event,timeStart, timeEnd))
 				{
-					
+					// What to do if fling-gesture was identified
 					activeItem.setVisibility(View.GONE);
 				}
 				else
@@ -90,18 +90,17 @@ public class TheBoss implements OnLongClickListener, OnDragListener, OnTouchList
 					activeItem.setY(event.getY() - (activeItem.getHeight() / 2));
 				}
 				activeItem = null;
+				break;
 			}
 			return true;
 	}
 
 	private boolean isFling(DragEvent start, DragEvent end, Timestamp timeStart2, Timestamp timeEnd2)
 	{
-		//float minDistance = 100.0f; //WERT noch zu ermitteln
 		
 		if (Math.abs(start.getX()-end.getX()) >= FLING_DISTANCE || Math.abs(start.getY()-end.getY()) >= FLING_DISTANCE)
 		{
-			//TODO
-			 if (timeEnd2.getTime() - timeStart2.getTime() <= maxTime){
+			 if (timeEnd2.getTime() - timeStart2.getTime() <= MAX_TIME){
 				Toast.makeText(context.getApplicationContext(), "Button " + activeItem.getId() + " is now in Orbit", Toast.LENGTH_SHORT).show();
 				return true;
 			 }
@@ -128,20 +127,31 @@ public class TheBoss implements OnLongClickListener, OnDragListener, OnTouchList
 	@Override
 	public boolean onTouch(View v, MotionEvent event)
 	{
+		
+		
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
 			
 			// holt die Koordinaten des Touch-Punktes
 			float clickPosX = event.getAxisValue(MotionEvent.AXIS_X);
 			float clickPosY = event.getAxisValue(MotionEvent.AXIS_Y);
 
-			// erstellt den Button an den zuvor ermittelten Koordinaten
-			Button newOne = (Button) factory.getElement(ObjectFactory.ID_BUTTON);
-			
-			root.addView(newOne);
+			if(v instanceof RelativeLayout){
+				// erstellt den Button an den zuvor ermittelten Koordinaten
+				Button newOne = (Button) factory.getElement(ObjectFactory.ID_BUTTON);
+				
+				root.addView(newOne);
 
-			//DOES NOT WORK
-			newOne.setX(clickPosX - (newOne.getWidth() / 2));
-			newOne.setY(clickPosY- (newOne.getHeight() / 2));			
+				//DOES NOT WORK
+				newOne.setX(clickPosX - (newOne.getWidth() / 2));
+				newOne.setY(clickPosY- (newOne.getHeight() / 2));
+				return true;
+			}
+			//if(v instanceof Button ){
+			//	Toast.makeText(context.getApplicationContext(), "Button " + v.getId() + " was klicked normaly", Toast.LENGTH_SHORT).show();
+
+			//}
+			
+					
 		}
 		return true;
 	}
