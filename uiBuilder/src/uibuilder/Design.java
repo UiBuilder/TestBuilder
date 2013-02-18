@@ -15,6 +15,7 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import creators.ObjectFactory;
 import de.ur.rk.uibuilder.R;
 
@@ -96,25 +97,28 @@ public class Design extends Activity {
 					 
 					//marginParams.topMargin = (int)event.getY();// -(v.getHeight()); 
 					//marginParams.leftMargin = (int)event.getX();// - (v.getWidth()/2);
-					
+					Log.d("try get item", "trying!");
 					View v = manipulator.getActiveItem();
 					Log.d("get item", "got!");
-					RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(v.getLayoutParams());
+					//RelativeLayout.LayoutParams params = new LayoutParams(v.getLayoutParams());
+					Log.d("searching bug", "params!");
 					//RelativeLayout.LayoutParams params = new
 					//RelativeLayout.LayoutParams(marginParams);
 					
-					params.setMargins((int)event.getX(), (int)event.getY(), 0, 0);
-					v.setLayoutParams(params); 
-					
-					Log.d("event","top"+String.valueOf(event.getY())+"left"+String.valueOf(event.getX()));
-					Log.d("params","top"+String.valueOf(params.topMargin)+"left"+String.valueOf(params.leftMargin));
-					Log.d("pos margins","top"+v.getTop()+"left"+v.getLeft());
-					Log.d("pos get","top"+v.getY()+"left"+v.getX());
-					
+					//params.setMargins((int)event.getX(), (int)event.getY(), 0, 0);
+					Log.d("searching bug", "margins!");
 					//v.setLayoutParams(params); 
-					
+					Log.d("searching bug", "params set!");
+					Log.d("event","top"+String.valueOf(event.getY())+"left"+String.valueOf(event.getX()));
+					//Log.d("params","top"+String.valueOf(params.topMargin)+"left"+String.valueOf(params.leftMargin));
+					//Log.d("pos margins","top"+v.getTop()+"left"+v.getLeft());
+					//Log.d("pos get","top"+v.getY()+"left"+v.getX());
+					v.setX(event.getX());
+					v.setY(event.getY());
+					//v.setLayoutParams(params); 
+					Log.d("searching bug", "pos set!");
 					root.invalidate();
-					manipulator.setActiveItem(null);
+					//manipulator.setActiveItem(null);
 				}
 				return true;
 			}
