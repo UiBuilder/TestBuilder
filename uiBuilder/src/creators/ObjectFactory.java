@@ -6,11 +6,7 @@ import manipulators.Manipulator;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 public class ObjectFactory 
 {
@@ -21,8 +17,6 @@ public class ObjectFactory
 	
 	private Context ref;
 	private Generator generator;
-	//private Manipulator manipulator;
-	
 	
 	private int displayWidth;
 	private int displayHeight;
@@ -41,9 +35,8 @@ public class ObjectFactory
 
 		ref = c;
 		generator = new Generator(ref);
-		//manipulator = new Manipulator();
 		buttonHolder = new ArrayList<Button>();
-		///////////////
+
 		measure();
 	}
 	
