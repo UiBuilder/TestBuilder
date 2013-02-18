@@ -37,10 +37,7 @@ public class TheBoss implements OnLongClickListener, OnDragListener, OnTouchList
 		activeItem = null;
 	}
 
-	public View.OnLongClickListener addLongClickListener(View v)
-	{
-		return this;
-	}
+	
 	
 	@Override
 	public boolean onDrag(View root, DragEvent event)
