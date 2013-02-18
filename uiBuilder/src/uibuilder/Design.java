@@ -29,6 +29,7 @@ public class Design extends Activity {
 		setContentView(R.layout.activity_layout_design);
 
 		linkElements();
+		setListeners();
 		initHelpers();
 	}
 
@@ -39,7 +40,7 @@ public class Design extends Activity {
 	private void linkElements() {
 		root = (RelativeLayout) findViewById(R.id.design_area);
 
-		setListeners();
+
 	}
 
 	private void setListeners() {
