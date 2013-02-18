@@ -1,5 +1,8 @@
 package manipulators;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.Context;
@@ -16,12 +19,17 @@ import creators.ObjectFactory;
 
 public class TheBoss implements OnLongClickListener, OnDragListener, OnTouchListener
 {
+	
+	private static final float FLING_DISTANCE = 50.00f;
 	private Context context;
 	private View activeItem;
 	private ObjectFactory factory;
 	private RelativeLayout root;
 	
 	private DragEvent start;
+	private int maxTime = 400;
+	private Timestamp timeStart;
+	private Timestamp timeEnd;
 	
 	/**
 	 * KONSTRUKTOR
@@ -33,10 +41,12 @@ public class TheBoss implements OnLongClickListener, OnDragListener, OnTouchList
 		this.context = context;
 		factory = new ObjectFactory(context, this);
 		this.root = root;
-		
+		timeStart = new Timestamp(0);
+		timeEnd = new Timestamp(0);
 		activeItem = null;
 	}
 
+	
 	
 	
 	@Override
@@ -47,6 +57,7 @@ public class TheBoss implements OnLongClickListener, OnDragListener, OnTouchList
 			{
 			case DragEvent.ACTION_DRAG_STARTED:
 				start = event;
+				timeStart.setTime(System.currentTimeMillis());
 				break;
 			case DragEvent.ACTION_DRAG_ENTERED:
 				break;
@@ -57,17 +68,20 @@ public class TheBoss implements OnLongClickListener, OnDragListener, OnTouchList
 				
 				break;
 			case DragEvent.ACTION_DRAG_EXITED:
-				
-				if(isFling(start, event))
+				timeEnd.setTime(System.currentTimeMillis());
+				if(isFling(start, event, timeStart, timeEnd))
 				{
-					// DELETE ACTION
+					activeItem.setVisibility(View.GONE);
 				}
 				break;
 			case DragEvent.ACTION_DROP:
+				timeEnd.setTime(System.currentTimeMillis());
+
 				
-				if(isFling(start, event))
+				if(isFling(start, event,timeStart, timeEnd))
 				{
-					// DELETE ACTION
+					
+					activeItem.setVisibility(View.GONE);
 				}
 				else
 				{
@@ -80,15 +94,18 @@ public class TheBoss implements OnLongClickListener, OnDragListener, OnTouchList
 			return true;
 	}
 
-	private boolean isFling(DragEvent start, DragEvent end)
+	private boolean isFling(DragEvent start, DragEvent end, Timestamp timeStart2, Timestamp timeEnd2)
 	{
-		float minDistance = 100.0f; //WERT noch zu ermitteln
+		//float minDistance = 100.0f; //WERT noch zu ermitteln
 		
-		if (Math.abs(start.getX()-end.getX()) >= minDistance || Math.abs(start.getY()-end.getY()) >= minDistance)
+		if (Math.abs(start.getX()-end.getX()) >= FLING_DISTANCE || Math.abs(start.getY()-end.getY()) >= FLING_DISTANCE)
 		{
 			//TODO
-			//if () Endzeit - Startzeit <= maxTime
-			// return true
+			 if (timeEnd2.getTime() - timeStart2.getTime() <= maxTime){
+				Toast.makeText(context.getApplicationContext(), "Button " + activeItem.getId() + " is now in Orbit", Toast.LENGTH_SHORT).show();
+				return true;
+			 }
+			
 		}
 		return false;
 	}
@@ -98,7 +115,7 @@ public class TheBoss implements OnLongClickListener, OnDragListener, OnTouchList
 	{		
 		activeItem = v;
 		
-		Toast.makeText(context.getApplicationContext(), "Button " + v.getId() + " is clicked", Toast.LENGTH_SHORT).show();
+		//Toast.makeText(context.getApplicationContext(), "Button " + v.getId() + " is clicked", Toast.LENGTH_SHORT).show();
 	
 		ClipData.Item item = new ClipData.Item((String) v.getTag());
 		ClipData clipData = new ClipData((CharSequence) v.getTag(), new String[] { ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
