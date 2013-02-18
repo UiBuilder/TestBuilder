@@ -1,5 +1,7 @@
 package uibuilder;
 
+import manipulators.Manipulator;
+import helpers.Log;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -10,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import creators.ObjectFactory;
@@ -18,7 +21,8 @@ import de.ur.rk.uibuilder.R;
 public class Design extends Activity {
 	private float dragx;
 	private float dragy;
-
+	private Manipulator manipulator;
+	
 	private RelativeLayout root;
 	// private Button addView;
 
@@ -33,8 +37,10 @@ public class Design extends Activity {
 		initHelpers();
 	}
 
-	private void initHelpers() {
+	private void initHelpers() 
+	{
 		factory = new ObjectFactory(getApplicationContext());
+		manipulator = new Manipulator(getApplicationContext());
 	}
 
 	private void linkElements() {
@@ -66,7 +72,7 @@ public class Design extends Activity {
 		root.setOnDragListener(new OnDragListener() {
 
 			@Override
-			public boolean onDrag(View v, DragEvent event) {
+			public boolean onDrag(View parent, DragEvent event) {
 
 				switch (event.getAction()) {
 				case DragEvent.ACTION_DRAG_STARTED:
@@ -83,22 +89,32 @@ public class Design extends Activity {
 				case DragEvent.ACTION_DRAG_EXITED:
 					break;
 				case DragEvent.ACTION_DROP:
-					v.setX(event.getX());
-					v.setY(event.getY());
-					/*
-					 * MarginLayoutParams marginParams = new
-					 * MarginLayoutParams(v.getLayoutParams());
-					 * 
-					 * marginParams.topMargin = (int)event.getY();// -
-					 * (v.getHeight()); marginParams.leftMargin =
-					 * (int)event.getX();// - (v.getWidth()/2);
-					 * 
-					 * RelativeLayout.LayoutParams params = new
-					 * RelativeLayout.LayoutParams(marginParams);
-					 * Log.d("paramstop",
-					 * String.valueOf(marginParams.topMargin));
-					 * v.setLayoutParams(params); root.invalidate();
-					 */
+					//v.setX(event.getX());
+					//v.setY(event.getY());
+					
+					//MarginLayoutParams marginParams = new MarginLayoutParams(v.getLayoutParams());
+					 
+					//marginParams.topMargin = (int)event.getY();// -(v.getHeight()); 
+					//marginParams.leftMargin = (int)event.getX();// - (v.getWidth()/2);
+					
+					View v = manipulator.getActiveItem();
+					Log.d("get item", "got!");
+					RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(v.getLayoutParams());
+					//RelativeLayout.LayoutParams params = new
+					//RelativeLayout.LayoutParams(marginParams);
+					
+					params.setMargins((int)event.getX(), (int)event.getY(), 0, 0);
+					v.setLayoutParams(params); 
+					
+					Log.d("event","top"+String.valueOf(event.getY())+"left"+String.valueOf(event.getX()));
+					Log.d("params","top"+String.valueOf(params.topMargin)+"left"+String.valueOf(params.leftMargin));
+					Log.d("pos margins","top"+v.getTop()+"left"+v.getLeft());
+					Log.d("pos get","top"+v.getY()+"left"+v.getX());
+					
+					//v.setLayoutParams(params); 
+					
+					root.invalidate();
+					manipulator.setActiveItem(null);
 				}
 				return true;
 			}

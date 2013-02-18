@@ -3,6 +3,7 @@ package manipulators;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.Context;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.View.OnDragListener;
@@ -12,11 +13,23 @@ import android.widget.Toast;
 public class Manipulator implements OnLongClickListener, OnDragListener
 {
 	private Context context;
+	private View activeItem;
 	
+	public View getActiveItem()
+	{
+		return activeItem;
+	}
+
+	public void setActiveItem(View activeItem)
+	{
+		this.activeItem = activeItem;
+	}
+
 	public Manipulator(Context context)
 	{
 		super();
 		this.context = context;
+		activeItem = null;
 	}
 
 	public View.OnLongClickListener addLongClickListener(View v)
@@ -54,6 +67,10 @@ public class Manipulator implements OnLongClickListener, OnDragListener
 	@Override
 	public boolean onLongClick(View v)
 	{
+		
+		activeItem = v;
+		Log.d("set active item", "set!");
+		
 		Toast.makeText(context.getApplicationContext(), 
                 "Button is clicked", Toast.LENGTH_LONG).show();
 	
