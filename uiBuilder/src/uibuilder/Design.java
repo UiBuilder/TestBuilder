@@ -18,8 +18,7 @@ import de.ur.rk.uibuilder.R;
 public class Design extends Activity {
 	private float dragx;
 	private float dragy;
-	
-	
+
 	private RelativeLayout root;
 	// private Button addView;
 
@@ -34,8 +33,7 @@ public class Design extends Activity {
 		initHelpers();
 	}
 
-	private void initHelpers() 
-	{
+	private void initHelpers() {
 		factory = new ObjectFactory(getApplicationContext());
 	}
 
@@ -52,16 +50,20 @@ public class Design extends Activity {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 
-				// holt die Koordinaten des Touch-Punktes
-				float clickPosX = event.getAxisValue(MotionEvent.AXIS_X);
-				float clickPosY = event.getAxisValue(MotionEvent.AXIS_Y);
-				// erstellt den Button an den zuvor ermittelten Koordinaten
-				Button newOne = (Button) factory
-						.getElement(ObjectFactory.ID_BUTTON);
-				newOne.setX(clickPosX);
-				newOne.setY(clickPosY);
-				root.addView(newOne);
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+					// holt die Koordinaten des Touch-Punktes
+					float clickPosX = event.getAxisValue(MotionEvent.AXIS_X);
+					float clickPosY = event.getAxisValue(MotionEvent.AXIS_Y);
+					// erstellt den Button an den zuvor ermittelten Koordinaten
+					Button newOne = (Button) factory
+							.getElement(ObjectFactory.ID_BUTTON);
+					root.addView(newOne);
+					newOne.setX(clickPosX - (newOne.getWidth() / 2));
+					newOne.setY(clickPosY - (newOne.getHeight() / 2));
+					
+				}
 				return true;
+
 			}
 		});
 
@@ -85,35 +87,41 @@ public class Design extends Activity {
 				case DragEvent.ACTION_DRAG_EXITED:
 					break;
 				case DragEvent.ACTION_DROP:
-					//v.setX(event.getX());
-					//v.setY(event.getY());
-					
-					//MarginLayoutParams marginParams = new MarginLayoutParams(v.getLayoutParams());
-					 
-					//marginParams.topMargin = (int)event.getY();// -(v.getHeight()); 
-					//marginParams.leftMargin = (int)event.getX();// - (v.getWidth()/2);
+					// v.setX(event.getX());
+					// v.setY(event.getY());
+
+					// MarginLayoutParams marginParams = new
+					// MarginLayoutParams(v.getLayoutParams());
+
+					// marginParams.topMargin = (int)event.getY();//
+					// -(v.getHeight());
+					// marginParams.leftMargin = (int)event.getX();// -
+					// (v.getWidth()/2);
 					Log.d("try get item", "trying!");
 					View v = factory.getManipulator().getActiveItem();
 					Log.d("get item", "got!");
-					RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(v.getLayoutParams());
+					RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+							v.getLayoutParams());
 					Log.d("searching bug", "params!");
-					//RelativeLayout.LayoutParams params = new
-					//RelativeLayout.LayoutParams(marginParams);
-					
-					//params.setMargins((int)event.getX(), (int)event.getY(), 0, 0);
+					// RelativeLayout.LayoutParams params = new
+					// RelativeLayout.LayoutParams(marginParams);
+
+					// params.setMargins((int)event.getX(), (int)event.getY(),
+					// 0, 0);
 					Log.d("searching bug", "margins!");
-					//v.setLayoutParams(params); 
-					
-					Log.d("event","top"+String.valueOf(event.getY())+"left"+String.valueOf(event.getX()));
-					//Log.d("params","top"+String.valueOf(params.topMargin)+"left"+String.valueOf(params.leftMargin));
-					//Log.d("pos margins","top"+v.getTop()+"left"+v.getLeft());
-					//Log.d("pos get","top"+v.getY()+"left"+v.getX());
-					v.setX(event.getX() - (v.getWidth()/2));
-					v.setY(event.getY() - (v.getHeight()/2));
-					//v.setLayoutParams(params); 
+					// v.setLayoutParams(params);
+
+					Log.d("event", "top" + String.valueOf(event.getY())
+							+ "left" + String.valueOf(event.getX()));
+					// Log.d("params","top"+String.valueOf(params.topMargin)+"left"+String.valueOf(params.leftMargin));
+					// Log.d("pos margins","top"+v.getTop()+"left"+v.getLeft());
+					// Log.d("pos get","top"+v.getY()+"left"+v.getX());
+					v.setX(event.getX() - (v.getWidth() / 2));
+					v.setY(event.getY() - (v.getHeight() / 2));
+					// v.setLayoutParams(params);
 					Log.d("searching bug", "pos set!");
-					//root.invalidate();
-					//manipulator.setActiveItem(null);
+					// root.invalidate();
+					// manipulator.setActiveItem(null);
 				}
 				return true;
 			}
