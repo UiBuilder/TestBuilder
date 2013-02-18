@@ -123,10 +123,6 @@ public class Design extends Activity {
 					// Log.d("pos get","top"+v.getY()+"left"+v.getX());
 					v.setX(event.getX() - (v.getWidth() / 2));
 					v.setY(event.getY() - (v.getHeight() / 2));
-					// v.setLayoutParams(params);
-					Log.d("searching bug", "pos set!");
-					// root.invalidate();
-					// manipulator.setActiveItem(null);
 				}
 				return true;
 			}
