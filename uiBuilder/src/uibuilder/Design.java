@@ -1,19 +1,11 @@
 package uibuilder;
 
-import helpers.Log;
-import android.annotation.SuppressLint;
+import manipulators.TheBoss;
 import android.app.Activity;
 import android.app.AlertDialog.Builder;
 import android.os.Bundle;
-import android.view.DragEvent;
 import android.view.Menu;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnDragListener;
-import android.view.View.OnTouchListener;
-import android.widget.Button;
 import android.widget.RelativeLayout;
-import creators.ObjectFactory;
 import de.ur.rk.uibuilder.R;
 
 public class Design extends Activity {
@@ -21,7 +13,7 @@ public class Design extends Activity {
 
 	private RelativeLayout root;
 
-	private ObjectFactory factory;
+	private TheBoss manipulator;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +21,12 @@ public class Design extends Activity {
 		setContentView(R.layout.activity_layout_design);
 
 		linkElements();
-		setListeners();
 		initHelpers();
+		setListeners();
 	}
 
 	private void initHelpers() {
-		factory = new ObjectFactory(getApplicationContext());
+		manipulator = new TheBoss(this,root);
 	}
 
 	private void linkElements() {
@@ -43,62 +35,11 @@ public class Design extends Activity {
 
 	}
 
-	private void setListeners() {
-		root.setOnTouchListener(new OnTouchListener() {
+	private void setListeners() 
+	{
+		root.setOnTouchListener(manipulator);
 
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-
-				if (event.getAction() == MotionEvent.ACTION_DOWN) {
-					// holt die Koordinaten des Touch-Punktes
-					float clickPosX = event.getAxisValue(MotionEvent.AXIS_X);
-					float clickPosY = event.getAxisValue(MotionEvent.AXIS_Y);
-					// erstellt den Button an den zuvor ermittelten Koordinaten
-					Button newOne = (Button) factory
-							.getElement(ObjectFactory.ID_BUTTON);
-					root.addView(newOne);
-					
-					Log.d("Button Width", String.valueOf(newOne.getWidth()));
-					Log.d("Button Height",String.valueOf(newOne.getHeight()) );
-					newOne.setX(clickPosX - (newOne.getWidth() / 2));
-					newOne.setY(clickPosY- (newOne.getHeight() / 2));
-					
-				}
-				return true;
-
-			}
-		});
-
-		root.setOnDragListener(new OnDragListener() {
-
-			@Override
-			public boolean onDrag(View parent, DragEvent event) {
-
-				switch (event.getAction()) {
-				case DragEvent.ACTION_DRAG_STARTED:
-
-					break;
-				case DragEvent.ACTION_DRAG_ENTERED:
-					break;
-				case DragEvent.ACTION_DRAG_LOCATION:
-
-					break;
-				case DragEvent.ACTION_DRAG_ENDED:
-
-					break;
-				case DragEvent.ACTION_DRAG_EXITED:
-					break;
-				case DragEvent.ACTION_DROP:
-
-					View v = factory.getManipulator().getActiveItem();
-
-					v.setX(event.getX() - (v.getWidth() / 2));
-					v.setY(event.getY() - (v.getHeight() / 2));
-				}
-				return true;
-			}
-		});
+		root.setOnDragListener(manipulator);
 	}
 
 	protected Builder createItemChooseDialog() {

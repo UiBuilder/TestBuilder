@@ -1,6 +1,6 @@
 package creators;
 
-import manipulators.Manipulator;
+import manipulators.TheBoss;
 import android.content.Context;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
@@ -11,21 +11,17 @@ public class Generator
 {
 
 		private int idCount; /** Variable zur dynamischen Vergabe laufender IDs */
-		private Manipulator manipulator;
+
 		private Context context;
+		private TheBoss manipulator;
 		/**
 		 * Konstruktor
 		 */
-		public Generator(Context ref) 
+		public Generator(Context ref, TheBoss mp) 
 		{
 			idCount = 1;
 			context = ref;
-			manipulator = new Manipulator(ref);
-		}
-
-		public Manipulator getMani()
-		{
-			return manipulator;
+			manipulator = mp;
 		}
 		/**
 		 * Methode zur Generierung eines neuen TextView-Objekts.
@@ -53,7 +49,6 @@ public class Generator
 						true;
 			}};
 			
-			
 			generatedB.setText("Button");
 			generatedB.setId(idCount);
 			idCount++;
@@ -61,8 +56,6 @@ public class Generator
 			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
 			
 			generatedB.setLayoutParams(params);
-			//generatedB.setX(100);
-			//generatedB.setY(100);
 			generatedB.setEnabled(true);
 			
 			generatedB.setOnLongClickListener(manipulator);

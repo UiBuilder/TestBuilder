@@ -1,12 +1,9 @@
 package creators;
 
-import java.util.ArrayList;
-
-import manipulators.Manipulator;
+import manipulators.TheBoss;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 
 public class ObjectFactory 
 {
@@ -21,7 +18,6 @@ public class ObjectFactory
 	private int displayWidth;
 	private int displayHeight;
 	
-	private ArrayList<Button> buttonHolder;
 	private static final String LOGTAG = "OBJECTFACTORY says:";
 	
 	/**
@@ -29,20 +25,14 @@ public class ObjectFactory
 	 * 
 	 * @param c Referenz auf die Activity
 	 */
-	public ObjectFactory(Context c) 
+	public ObjectFactory(Context c, TheBoss mp) 
 	{
 		super();
 
 		ref = c;
-		generator = new Generator(ref);
-		buttonHolder = new ArrayList<Button>();
+		generator = new Generator(ref, mp);
 
 		measure();
-	}
-	
-	public Manipulator getManipulator()
-	{
-		return generator.getMani();
 	}
 
 	/**
