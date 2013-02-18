@@ -72,7 +72,7 @@ public class Manipulator implements OnLongClickListener, OnDragListener
 		Log.d("set active item", activeItem.toString());
 		
 		Toast.makeText(context.getApplicationContext(), 
-                "Button is clicked", Toast.LENGTH_LONG).show();
+                "Button "+v.getId()+" is clicked", Toast.LENGTH_SHORT).show();
 	
 		ClipData.Item item = new ClipData.Item((String) v.getTag());
 		ClipData clipData = new ClipData((CharSequence) v.getTag(),
