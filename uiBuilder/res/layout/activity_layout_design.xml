@@ -8,19 +8,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Design" >
 
-    <Button android:id="@+id/design_button_add" 
-        
-        android:layout_alignParentBottom="true"
-        
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        
-        />
+
     
     <RelativeLayout android:id="@+id/design_area"
         
-        android:layout_alignParentTop="true"
-        android:layout_below="@id/design_button_add"
         
         android:layout_width="match_parent"
         android:layout_height="match_parent"
