@@ -1,9 +1,7 @@
 package uibuilder;
 
-import manipulators.Manipulator;
 import helpers.Log;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.os.Bundle;
 import android.view.DragEvent;
@@ -12,17 +10,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 import creators.ObjectFactory;
 import de.ur.rk.uibuilder.R;
 
 public class Design extends Activity {
 	private float dragx;
 	private float dragy;
-	private Manipulator manipulator;
+	
 	
 	private RelativeLayout root;
 	// private Button addView;
@@ -41,7 +37,6 @@ public class Design extends Activity {
 	private void initHelpers() 
 	{
 		factory = new ObjectFactory(getApplicationContext());
-		manipulator = new Manipulator(getApplicationContext());
 	}
 
 	private void linkElements() {
@@ -98,7 +93,7 @@ public class Design extends Activity {
 					//marginParams.topMargin = (int)event.getY();// -(v.getHeight()); 
 					//marginParams.leftMargin = (int)event.getX();// - (v.getWidth()/2);
 					Log.d("try get item", "trying!");
-					View v = manipulator.getActiveItem();
+					View v = factory.getManipulator().getActiveItem();
 					Log.d("get item", "got!");
 					//RelativeLayout.LayoutParams params = new LayoutParams(v.getLayoutParams());
 					Log.d("searching bug", "params!");
@@ -108,16 +103,16 @@ public class Design extends Activity {
 					//params.setMargins((int)event.getX(), (int)event.getY(), 0, 0);
 					Log.d("searching bug", "margins!");
 					//v.setLayoutParams(params); 
-					Log.d("searching bug", "params set!");
+					
 					Log.d("event","top"+String.valueOf(event.getY())+"left"+String.valueOf(event.getX()));
 					//Log.d("params","top"+String.valueOf(params.topMargin)+"left"+String.valueOf(params.leftMargin));
 					//Log.d("pos margins","top"+v.getTop()+"left"+v.getLeft());
 					//Log.d("pos get","top"+v.getY()+"left"+v.getX());
-					v.setX(event.getX());
-					v.setY(event.getY());
+					//v.setTranslationX(event.getX());
+					//v.setY(event.getY());
 					//v.setLayoutParams(params); 
 					Log.d("searching bug", "pos set!");
-					root.invalidate();
+					//root.invalidate();
 					//manipulator.setActiveItem(null);
 				}
 				return true;

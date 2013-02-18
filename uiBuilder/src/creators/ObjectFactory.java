@@ -40,11 +40,16 @@ public class ObjectFactory
 		super();
 
 		ref = c;
-		generator = new Generator();
+		generator = new Generator(ref);
 		//manipulator = new Manipulator();
 		buttonHolder = new ArrayList<Button>();
 		///////////////
 		measure();
+	}
+	
+	public Manipulator getManipulator()
+	{
+		return generator.getMani();
 	}
 
 	/**
@@ -82,65 +87,6 @@ public class ObjectFactory
 
 
 			return null;
-		}
-	}
-	
-
-	private class Generator
-	{
-		private int idCount; /** Variable zur dynamischen Vergabe laufender IDs */
-		private Manipulator manipulator;
-		/**
-		 * Konstruktor
-		 */
-		public Generator() 
-		{
-			idCount = 1;
-			manipulator = new Manipulator(ref);
-		}
-
-
-		/**
-		 * Methode zur Generierung eines neuen TextView-Objekts.
-		 * Default Eigenschaften werden gesetzt.
-		 * @return Neuer TextView
-		 */
-		private TextView newTextview() 
-		{
-			return null;
-		}
-
-		/**
-		 * Methode zur Generierung eines neuen Button-Objekts.
-		 * Default Eigenschaften werden gesetzt.
-		 * 
-		 * @return Neuer Button 
-		 */
-		private Button newButton() 
-		{
-			Button generatedB = new Button(ref){@Override
-			public boolean performClick()
-			{
-				// TODO Auto-generated method stub
-				return //super.performClick();
-						true;
-			}};
-			
-			
-			generatedB.setText("Button");
-			generatedB.setId(idCount);
-			idCount++;
-			
-			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
-			
-			generatedB.setLayoutParams(params);
-			//generatedB.setX(100);
-			//generatedB.setY(100);
-			generatedB.setEnabled(true);
-			
-			generatedB.setOnLongClickListener(manipulator);
-			buttonHolder.add(generatedB);
-			return generatedB;
 		}
 	}
 }
