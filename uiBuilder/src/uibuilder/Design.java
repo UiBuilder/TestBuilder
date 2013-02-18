@@ -95,7 +95,7 @@ public class Design extends Activity {
 					Log.d("try get item", "trying!");
 					View v = factory.getManipulator().getActiveItem();
 					Log.d("get item", "got!");
-					//RelativeLayout.LayoutParams params = new LayoutParams(v.getLayoutParams());
+					RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(v.getLayoutParams());
 					Log.d("searching bug", "params!");
 					//RelativeLayout.LayoutParams params = new
 					//RelativeLayout.LayoutParams(marginParams);
@@ -108,8 +108,8 @@ public class Design extends Activity {
 					//Log.d("params","top"+String.valueOf(params.topMargin)+"left"+String.valueOf(params.leftMargin));
 					//Log.d("pos margins","top"+v.getTop()+"left"+v.getLeft());
 					//Log.d("pos get","top"+v.getY()+"left"+v.getX());
-					//v.setTranslationX(event.getX());
-					//v.setY(event.getY());
+					v.setX(event.getX() - (v.getWidth()/2));
+					v.setY(event.getY() - (v.getHeight()/2));
 					//v.setLayoutParams(params); 
 					Log.d("searching bug", "pos set!");
 					//root.invalidate();
