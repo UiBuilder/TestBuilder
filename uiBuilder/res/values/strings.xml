@@ -4,5 +4,14 @@
     <string name="app_name">uiBuilder</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="design_choose_item_to_add">Choose the Item you want to add</string>
+
+    <string-array name="design_items_to_choose">
+        <item>Button</item>
+        <item>List</item>
+        <item >Image</item>
+        <item >TextView</item>
+        <item >EditText</item>
+    </string-array>
 
 </resources>
