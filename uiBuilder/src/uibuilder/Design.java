@@ -125,8 +125,6 @@ public class Design extends Activity {
 					v.setY(event.getY() - (v.getHeight() / 2));
 					// v.setLayoutParams(params);
 					Log.d("searching bug", "pos set!");
-					// root.invalidate();
-					// manipulator.setActiveItem(null);
 				}
 				return true;
 			}
