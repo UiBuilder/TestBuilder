@@ -1,6 +1,7 @@
 package uibuilder;
 
 import helpers.Log;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog.Builder;
 import android.os.Bundle;
@@ -47,6 +48,7 @@ public class Design extends Activity {
 	private void setListeners() {
 		root.setOnTouchListener(new OnTouchListener() {
 
+			@SuppressLint("NewApi")
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 
@@ -58,8 +60,11 @@ public class Design extends Activity {
 					Button newOne = (Button) factory
 							.getElement(ObjectFactory.ID_BUTTON);
 					root.addView(newOne);
+					
+					Log.d("Button Width", String.valueOf(newOne.getWidth()));
+					Log.d("Button Height",String.valueOf(newOne.getHeight()) );
 					newOne.setX(clickPosX - (newOne.getWidth() / 2));
-					newOne.setY(clickPosY - (newOne.getHeight() / 2));
+					newOne.setY(clickPosY- (newOne.getHeight() / 2));
 					
 				}
 				return true;
