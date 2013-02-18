@@ -87,7 +87,9 @@ public class Design extends Activity
 			    case DragEvent.ACTION_DRAG_EXITED:
 			        break;
 			    case DragEvent.ACTION_DROP:
-			    	MarginLayoutParams marginParams = new MarginLayoutParams(v.getLayoutParams());
+			    	v.setX(event.getX());
+			    	v.setY(event.getY());
+			    	/*MarginLayoutParams marginParams = new MarginLayoutParams(v.getLayoutParams());
 			    	
 			    	marginParams.topMargin = (int)event.getY();// - (v.getHeight()); 
 			    	marginParams.leftMargin = (int)event.getX();// - (v.getWidth()/2);
@@ -95,6 +97,7 @@ public class Design extends Activity
 			    	RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(marginParams);
 			    	Log.d("paramstop", String.valueOf(marginParams.topMargin));
 			    	v.setLayoutParams(params);
+			    	root.invalidate();*/
 				}
 				return true;
 			}
