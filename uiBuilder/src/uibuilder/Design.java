@@ -45,7 +45,7 @@ public class Design extends Activity {
 	private void setListeners() {
 		root.setOnTouchListener(new OnTouchListener() {
 
-			@SuppressLint("NewApi")
+
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 
