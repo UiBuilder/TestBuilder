@@ -31,7 +31,6 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 	private Timestamp timeStart;
 	private Timestamp timeEnd;
 
-
 	private static final float DRAG_THRESHOLD = 50;
 	private static final float FLING_DISTANCE = 300f;
 	private static final int MAX_TIME = 200;
@@ -147,7 +146,6 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 	@Override
 	public boolean onTouch(View v, MotionEvent event)
 	{
-
 		if (event.getAction() == MotionEvent.ACTION_DOWN)
 		{
 
