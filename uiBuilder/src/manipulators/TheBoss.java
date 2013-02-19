@@ -30,8 +30,10 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 
 	private Timestamp timeStart;
 	private Timestamp timeEnd;
+	private float objectCurrentPosX = -1;
+	private float objectCurrentPosY = -1;
 
-	private static final float DRAG_THRESHOLD = 50f;
+	private static final float DRAG_THRESHOLD = 10f;
 	private static final float FLING_DISTANCE = 50.00f;
 	private static final int MAX_TIME = 400;
 
@@ -54,7 +56,7 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 	@Override
 	public boolean onDrag(View root, DragEvent event)
 	{
-
+		boolean isDragging = false;
 		switch (event.getAction()) {
 		case DragEvent.ACTION_DRAG_STARTED:
 			start = event;
@@ -64,7 +66,7 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 		case DragEvent.ACTION_DRAG_ENTERED:
 			break;
 		case DragEvent.ACTION_DRAG_LOCATION:
-
+			isDragging = isDrag(event);
 			break;
 		case DragEvent.ACTION_DRAG_ENDED:
 
@@ -81,14 +83,18 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 			if (isFling(start, event, timeStart, timeEnd)) {
 				// What to do if fling-gesture was identified
 				activeItem.setVisibility(View.GONE);
-			} else if (isDrag(event)) {
-
+			} else if (isDragging) {
+				
 				// Drop-Action
 				activeItem.setX(event.getX() - (activeItem.getWidth() / 2));
 				activeItem.setY(event.getY() - (activeItem.getHeight() / 2));
 			}else
-			{//Zeige das Kontextmenü zum Verschieben und Skalieren.
+			{Toast.makeText(context.getApplicationContext(),
+					"Button " + activeItem.getId() + " is not dragged",
+					Toast.LENGTH_SHORT).show();
 			}
+			objectCurrentPosX = -1;
+			objectCurrentPosY = -1;
 			activeItem = null;
 			break;
 		}
@@ -126,12 +132,13 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 		// Toast.makeText(context.getApplicationContext(), "Button " + v.getId()
 		// + " is clicked", Toast.LENGTH_SHORT).show();
 
+		
 		ClipData.Item item = new ClipData.Item((String) v.getTag());
 		ClipData clipData = new ClipData((CharSequence) v.getTag(),
 				new String[] { ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
 
 		v.startDrag(clipData, new View.DragShadowBuilder(v), null, 0);
-		
+	
 
 		return true;
 	}
