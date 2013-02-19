@@ -60,7 +60,7 @@ public class Generator
 			}
 		};
 
-		generatedB.setText("Button");
+		generatedB.setText("ButtonButtonButton");
 		generatedB.setId(idCount);
 		idCount++;
 

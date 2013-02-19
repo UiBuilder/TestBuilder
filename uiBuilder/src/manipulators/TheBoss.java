@@ -2,11 +2,9 @@ package manipulators;
 
 import java.sql.Timestamp;
 
-import android.R;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.Context;
-import android.text.Layout;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.MotionEvent;
@@ -57,7 +55,7 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 	@Override
 	public boolean onDrag(View root, DragEvent event)
 	{
-		
+
 		switch (event.getAction()) {
 		case DragEvent.ACTION_DRAG_STARTED:
 			start = event;
@@ -90,7 +88,7 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 			{
 				// What to do if fling-gesture was identified
 				this.root.removeView(activeItem);
-				
+
 			} else
 			{
 				// Drop-Action
@@ -132,9 +130,7 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 	@Override
 	public boolean onLongClick(View v)
 	{
-		
-		
-		
+
 		activeItem = v;
 
 		// Toast.makeText(context.getApplicationContext(), "Button " + v.getId()
@@ -143,21 +139,22 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 		ClipData.Item item = new ClipData.Item((String) v.getTag());
 		ClipData clipData = new ClipData((CharSequence) v.getTag(),
 				new String[] { ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
-		
+
 		Button companion = new Button(context);
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		params.addRule(RelativeLayout.ALIGN_TOP, v.getId());
-		params.addRule(RelativeLayout.RIGHT_OF,v.getId());
-		
-		
+		params.addRule(RelativeLayout.RIGHT_OF, v.getId());
+
+		companion.setId(4444);
 		companion.setLayoutParams(params);
-		
+
 		companion.setText("Companion");
-		root.addView(companion,params);
-		//companion.setX(100);
-		//companion.setY(100);
-		Log.d("OnLongclick","Wurde Ausgeführt und nach Compantion aufruf geschafft");
+		root.addView(companion, params);
+		// companion.setX(100);
+		// companion.setY(100);
+		Log.d("OnLongclick",
+				"Wurde Ausgeführt und nach Compantion aufruf geschafft");
 		v.startDrag(clipData, new View.DragShadowBuilder(v), null, 0);
 
 		return true;
@@ -178,13 +175,17 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 				// erstellt den Button an den zuvor ermittelten Koordinaten
 				Button newOne = (Button) factory
 						.getElement(ObjectFactory.ID_BUTTON);
+				RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) newOne
+						.getLayoutParams();
+				params.addRule(params.leftMargin = (int) clickPosX);
+				params.addRule(params.topMargin = (int) clickPosY);
+				root.addView(newOne, params);
 
-				root.addView(newOne);
-
-				// DOES NOT WORK
-				newOne.setX(clickPosX - (newOne.getWidth() / 2));
-				newOne.setY(clickPosY - (newOne.getHeight() / 2));
-				return true;
+				/*
+				 * // DOES NOT WORK newOne.setX(clickPosX - (newOne.getWidth() /
+				 * 2)); newOne.setY(clickPosY - (newOne.getHeight() / 2));
+				 * return true;
+				 */
 			}
 
 		}
