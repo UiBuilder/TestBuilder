@@ -33,7 +33,7 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 	private float objectCurrentPosX = -1;
 	private float objectCurrentPosY = -1;
 
-	private static final float DRAG_THRESHOLD = 10f;
+	private static final float DRAG_THRESHOLD = 30f;
 	private static final float FLING_DISTANCE = 50.00f;
 	private static final int MAX_TIME = 400;
 
@@ -61,40 +61,41 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 		case DragEvent.ACTION_DRAG_STARTED:
 			start = event;
 			timeStart.setTime(System.currentTimeMillis());
-			
+
 			break;
 		case DragEvent.ACTION_DRAG_ENTERED:
 			break;
 		case DragEvent.ACTION_DRAG_LOCATION:
-			isDragging = isDrag(event);
 			break;
 		case DragEvent.ACTION_DRAG_ENDED:
-
 			break;
 		case DragEvent.ACTION_DRAG_EXITED:
 			timeEnd.setTime(System.currentTimeMillis());
-			if (isFling(start, event, timeStart, timeEnd)) {
+			if (isFling(start, event, timeStart, timeEnd))
+			{
 				activeItem.setVisibility(View.GONE);
 			}
 			break;
 		case DragEvent.ACTION_DROP:
+
 			timeEnd.setTime(System.currentTimeMillis());
 
-			if (isFling(start, event, timeStart, timeEnd)) {
+			if (!isDrag(event))
+			{
+				Toast.makeText(context.getApplicationContext(),
+						"Button " + activeItem.getId() + " is not dragged",
+						Toast.LENGTH_SHORT).show();
+			} else if (isFling(start, event, timeStart, timeEnd))
+			{
 				// What to do if fling-gesture was identified
 				activeItem.setVisibility(View.GONE);
-			} else if (isDragging) {
-				
+			} else
+			{
 				// Drop-Action
 				activeItem.setX(event.getX() - (activeItem.getWidth() / 2));
 				activeItem.setY(event.getY() - (activeItem.getHeight() / 2));
-			}else
-			{Toast.makeText(context.getApplicationContext(),
-					"Button " + activeItem.getId() + " is not dragged",
-					Toast.LENGTH_SHORT).show();
 			}
-			objectCurrentPosX = -1;
-			objectCurrentPosY = -1;
+
 			activeItem = null;
 			break;
 		}
@@ -112,8 +113,10 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 	{
 
 		if (Math.abs(start.getX() - end.getX()) >= FLING_DISTANCE
-				|| Math.abs(start.getY() - end.getY()) >= FLING_DISTANCE) {
-			if (timeEnd2.getTime() - timeStart2.getTime() <= MAX_TIME) {
+				|| Math.abs(start.getY() - end.getY()) >= FLING_DISTANCE)
+		{
+			if (timeEnd2.getTime() - timeStart2.getTime() <= MAX_TIME)
+			{
 				Toast.makeText(context.getApplicationContext(),
 						"Button " + activeItem.getId() + " is now in Orbit",
 						Toast.LENGTH_SHORT).show();
@@ -132,13 +135,11 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 		// Toast.makeText(context.getApplicationContext(), "Button " + v.getId()
 		// + " is clicked", Toast.LENGTH_SHORT).show();
 
-		
 		ClipData.Item item = new ClipData.Item((String) v.getTag());
 		ClipData clipData = new ClipData((CharSequence) v.getTag(),
 				new String[] { ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
 
 		v.startDrag(clipData, new View.DragShadowBuilder(v), null, 0);
-	
 
 		return true;
 	}
@@ -146,14 +147,16 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 	@Override
 	public boolean onTouch(View v, MotionEvent event)
 	{
-	
-		if (event.getAction() == MotionEvent.ACTION_DOWN) {
+
+		if (event.getAction() == MotionEvent.ACTION_DOWN)
+		{
 
 			// holt die Koordinaten des Touch-Punktes
 			float clickPosX = event.getAxisValue(MotionEvent.AXIS_X);
 			float clickPosY = event.getAxisValue(MotionEvent.AXIS_Y);
 
-			if (v instanceof RelativeLayout) {
+			if (v instanceof RelativeLayout)
+			{
 				// erstellt den Button an den zuvor ermittelten Koordinaten
 				Button newOne = (Button) factory
 						.getElement(ObjectFactory.ID_BUTTON);
