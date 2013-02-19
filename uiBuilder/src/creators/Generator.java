@@ -1,12 +1,10 @@
 package creators;
 
-import de.ur.rk.uibuilder.R;
+import helpers.Log;
 import manipulators.TheBoss;
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
-import android.webkit.WebView.FindListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -60,7 +58,7 @@ public class Generator
 			}
 		};
 
-		generatedB.setText("ButtonButtonButton");
+		generatedB.setText("Button");
 		generatedB.setId(idCount);
 		idCount++;
 
@@ -74,16 +72,69 @@ public class Generator
 		return generatedB;
 	}
 
-	protected View newDragMenu()
+	protected RelativeLayout newDragMenu(View inProgress)
 	
-	{//Call this experimental!!
-		TextView genText = new TextView(context);
-		genText.setText("DRAG");
+	{
+		Log.d("dragmenu", "called");
+		RelativeLayout overlay = new RelativeLayout(context);
 		
-		genText.setWidth(30);
-		genText.setHeight(30);
-		genText.setOnTouchListener(manipulator);
-		genText.setEnabled(true);
-		return genText;
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		
+		overlay.setLayoutParams(params);
+		
+		params = new RelativeLayout.LayoutParams(inProgress.getLayoutParams());
+		
+		RelativeLayout.LayoutParams modified = new RelativeLayout.LayoutParams(params);
+		
+		Button drag = new Button(context);
+		modified.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+		drag.setId(1111);
+		overlay.addView(drag, modified);
+		
+		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		
+		Button left = new Button(context);
+		left.setBackgroundResource(android.R.color.background_dark);
+		modified.addRule(RelativeLayout.ALIGN_TOP, drag.getId());
+		modified.addRule(RelativeLayout.LEFT_OF, drag.getId());
+		modified.height = inProgress.getHeight();
+		modified.width = inProgress.getHeight();
+		overlay.addView(left, modified);
+		
+		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		
+		Button right = new Button(context);
+		right.setBackgroundResource(android.R.color.background_dark);
+		modified.addRule(RelativeLayout.ALIGN_TOP, drag.getId());
+		modified.addRule(RelativeLayout.RIGHT_OF, drag.getId());
+		modified.height = inProgress.getHeight();
+		modified.width = inProgress.getHeight();
+		overlay.addView(right, modified);
+		
+		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		
+		Button top = new Button(context);
+		top.setBackgroundResource(android.R.color.background_dark);
+		modified.addRule(RelativeLayout.ABOVE, drag.getId());
+		modified.addRule(RelativeLayout.ALIGN_LEFT, drag.getId());
+		modified.addRule(RelativeLayout.ALIGN_RIGHT, drag.getId());
+		modified.height = inProgress.getHeight();
+		modified.width = inProgress.getWidth();
+		overlay.addView(top, modified);
+		
+		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		
+		Button bottom = new Button(context);
+		bottom.setBackgroundResource(android.R.color.background_dark);
+		modified.addRule(RelativeLayout.BELOW, drag.getId());
+		modified.addRule(RelativeLayout.ALIGN_LEFT, drag.getId());
+		modified.addRule(RelativeLayout.ALIGN_RIGHT, drag.getId());
+		modified.height = inProgress.getHeight();
+		modified.width = inProgress.getWidth();
+		overlay.addView(bottom, modified);
+		
+		Log.d("bottom", String.valueOf(bottom.getWidth()));
+		return overlay;
 	}
 }

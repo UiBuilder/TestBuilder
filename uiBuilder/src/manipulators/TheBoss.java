@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.View.OnDragListener;
 import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -102,9 +101,6 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 						- (activeItem.getHeight() / 2);
 
 				root.requestLayout();
-
-				// this.root.invalidate();
-
 			}
 
 			activeItem = null;
@@ -151,21 +147,22 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 		ClipData clipData = new ClipData((CharSequence) v.getTag(),
 				new String[] { ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
 
-		Button companion = new Button(context);
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		params.addRule(RelativeLayout.ALIGN_TOP, v.getId());
-		params.addRule(RelativeLayout.RIGHT_OF, v.getId());
+		//Button companion = new Button(context);
+		//RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+			//	LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		//params.addRule(RelativeLayout.ALIGN_TOP, v.getId());
+		//params.addRule(RelativeLayout.RIGHT_OF, v.getId());
 
-		companion.setId(4444);
-		companion.setLayoutParams(params);
+		//companion.setLayoutParams(params);
 
-		companion.setText("Companion");
-		root.addView(companion, params);
-		// companion.setX(100);
-		// companion.setY(100);
+		//companion.setText("Companion");
+		RelativeLayout overlay = factory.getOverlay(activeItem);
+		
+		root.addView(overlay);
+		root.requestLayout();
+		
 		Log.d("OnLongclick",
-				"Wurde Ausgeführt und nach Compantion aufruf geschafft");
+				String.valueOf(overlay.getWidth()));
 		v.startDrag(clipData, new View.DragShadowBuilder(v), null, 0);
 
 		return true;

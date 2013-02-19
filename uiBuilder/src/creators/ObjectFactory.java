@@ -4,6 +4,7 @@ import manipulators.TheBoss;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 public class ObjectFactory 
 {
@@ -61,7 +62,7 @@ public class ObjectFactory
 				
 			case ID_TEXTVIEW: return generator.newTextview();
 			
-			case ID_LONG_CLICK_MENU: return generator.newDragMenu();
+			//case ID_LONG_CLICK_MENU: return generator.newDragMenu();
 		
 			default: throw new NoClassDefFoundError();
 			}
@@ -74,5 +75,10 @@ public class ObjectFactory
 
 			return null;
 		}
+	}
+	
+	public RelativeLayout getOverlay(View v)
+	{
+		return generator.newDragMenu(v);
 	}
 }
