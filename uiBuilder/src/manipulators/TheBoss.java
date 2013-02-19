@@ -34,8 +34,8 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 	private float objectCurrentPosY = -1;
 
 	private static final float DRAG_THRESHOLD = 30f;
-	private static final float FLING_DISTANCE = 50.00f;
-	private static final int MAX_TIME = 400;
+	private static final float FLING_DISTANCE = 81.00f;
+	private static final int MAX_TIME = 300;
 
 	/**
 	 * KONSTRUKTOR
