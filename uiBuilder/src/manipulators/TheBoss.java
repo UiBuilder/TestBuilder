@@ -2,9 +2,12 @@ package manipulators;
 
 import java.sql.Timestamp;
 
+import android.R;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.Context;
+import android.text.Layout;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -129,6 +132,9 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 	@Override
 	public boolean onLongClick(View v)
 	{
+		
+		
+		
 		activeItem = v;
 
 		// Toast.makeText(context.getApplicationContext(), "Button " + v.getId()
@@ -138,12 +144,20 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 		ClipData clipData = new ClipData((CharSequence) v.getTag(),
 				new String[] { ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
 		
-		Button companion = (Button) factory.getElement(factory.ID_BUTTON);
-		RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		p.addRule(RelativeLayout.LEFT_OF, v.getId());
+		Button companion = new Button(context);
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		params.addRule(RelativeLayout.ALIGN_TOP, v.getId());
+		params.addRule(RelativeLayout.RIGHT_OF,v.getId());
 		
-		v.setLayoutParams(p);
 		
+		companion.setLayoutParams(params);
+		
+		companion.setText("Companion");
+		root.addView(companion,params);
+		//companion.setX(100);
+		//companion.setY(100);
+		Log.d("OnLongclick","Wurde Ausgeführt und nach Compantion aufruf geschafft");
 		v.startDrag(clipData, new View.DragShadowBuilder(v), null, 0);
 
 		return true;
