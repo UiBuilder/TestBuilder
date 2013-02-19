@@ -25,10 +25,12 @@ public class Design extends Activity
 		initHelpers();
 		setListeners();
 	}
+	
 
 	private void initHelpers()
 	{
 		manipulator = new TheBoss(this, root);
+		
 	}
 
 	private void linkElements()

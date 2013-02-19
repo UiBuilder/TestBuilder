@@ -92,8 +92,19 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 			} else
 			{
 				// Drop-Action
-				activeItem.setX(event.getX() - (activeItem.getWidth() / 2));
-				activeItem.setY(event.getY() - (activeItem.getHeight() / 2));
+
+				RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) activeItem
+						.getLayoutParams();
+
+				params.leftMargin = (int) event.getX()
+						- (activeItem.getWidth() / 2);
+				params.topMargin = (int) event.getY()
+						- (activeItem.getHeight() / 2);
+
+				root.requestLayout();
+
+				// this.root.invalidate();
+
 			}
 
 			activeItem = null;
@@ -177,8 +188,9 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 						.getElement(ObjectFactory.ID_BUTTON);
 				RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) newOne
 						.getLayoutParams();
-				params.addRule(params.leftMargin = (int) clickPosX);
-				params.addRule(params.topMargin = (int) clickPosY);
+
+				params.leftMargin = (int) clickPosX;
+				params.topMargin = (int) clickPosY;
 				root.addView(newOne, params);
 
 				/*
