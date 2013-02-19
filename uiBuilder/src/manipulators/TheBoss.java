@@ -106,7 +106,7 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 	private boolean isDrag(DragEvent event)
 	{
 		return (Math.abs(start.getX() - event.getX()) > DRAG_THRESHOLD)
-				&& (Math.abs(start.getY() - event.getY()) > DRAG_THRESHOLD);
+				|| (Math.abs(start.getY() - event.getY()) > DRAG_THRESHOLD);
 	}
 
 	private boolean isFling(DragEvent start, DragEvent end,
