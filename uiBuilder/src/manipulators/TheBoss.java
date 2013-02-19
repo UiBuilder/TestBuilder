@@ -1,5 +1,6 @@
 package manipulators;
 
+import helpers.Log;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.Context;
@@ -123,11 +124,13 @@ public class TheBoss implements OnLongClickListener, OnDragListener, OnTouchList
 			// erstellt den Button an den zuvor ermittelten Koordinaten
 			Button newOne = (Button) factory.getElement(ObjectFactory.ID_BUTTON);
 			
-			root.addView(newOne);
+			//root.addView(newOne);
 
 			//DOES NOT WORK
-			newOne.setX(clickPosX - (newOne.getWidth() / 2));
-			newOne.setY(clickPosY- (newOne.getHeight() / 2));			
+			newOne.setX(clickPosX);
+			newOne.setY(clickPosY);		
+			
+			root.addView(newOne);
 		}
 		return true;
 	}
