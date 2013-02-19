@@ -11,9 +11,9 @@ import android.view.View;
 import android.view.View.OnDragListener;
 import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 import creators.ObjectFactory;
 
@@ -137,7 +137,13 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 		ClipData.Item item = new ClipData.Item((String) v.getTag());
 		ClipData clipData = new ClipData((CharSequence) v.getTag(),
 				new String[] { ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
-
+		
+		Button companion = (Button) factory.getElement(factory.ID_BUTTON);
+		RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		p.addRule(RelativeLayout.LEFT_OF, v.getId());
+		
+		v.setLayoutParams(p);
+		
 		v.startDrag(clipData, new View.DragShadowBuilder(v), null, 0);
 
 		return true;
