@@ -33,9 +33,9 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 	private float objectCurrentPosX = -1;
 	private float objectCurrentPosY = -1;
 
-	private static final float DRAG_THRESHOLD = 30f;
-	private static final float FLING_DISTANCE = 81.00f;
-	private static final int MAX_TIME = 300;
+	private static final float DRAG_THRESHOLD = 20;
+	private static final float FLING_DISTANCE = 300f;
+	private static final int MAX_TIME = 200;
 
 	/**
 	 * KONSTRUKTOR
@@ -73,7 +73,7 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 			timeEnd.setTime(System.currentTimeMillis());
 			if (isFling(start, event, timeStart, timeEnd))
 			{
-				activeItem.setVisibility(View.GONE);
+				this.root.removeView(activeItem);
 			}
 			break;
 		case DragEvent.ACTION_DROP:
@@ -88,7 +88,8 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 			} else if (isFling(start, event, timeStart, timeEnd))
 			{
 				// What to do if fling-gesture was identified
-				activeItem.setVisibility(View.GONE);
+				this.root.removeView(activeItem);
+				
 			} else
 			{
 				// Drop-Action
