@@ -34,11 +34,9 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	private boolean isDragging;
 	private Timestamp timeStart;
 	private Timestamp timeEnd;
+	
 
-	private static final float DRAG_THRESHOLD = 50;
-	private static final float FLING_DISTANCE = 300f;
-	private static final int MAX_TIME = 200;
-
+	
 	/**
 	 * KONSTRUKTOR
 	 * 
@@ -141,12 +139,12 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY)
 	{
-		if(isDragging)
-		{
+		
+		
 			Toast.makeText(context.getApplicationContext(), "fling",
 					Toast.LENGTH_LONG).show();
 
-		}
+		
 
 		return false;
 	}
@@ -213,6 +211,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			start = event;
 			isDragging = true;
 			
+			
 
 			break;
 		case DragEvent.ACTION_DRAG_ENTERED:
@@ -248,7 +247,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			isDragging = false;
 			activeItem = null;
 			break;
-		
+			
 		
 		}
 		return true;
