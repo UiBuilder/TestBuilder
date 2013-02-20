@@ -37,7 +37,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	private float downX = 0;
 	private float downY = 0;
 
-	
 	/**
 	 * KONSTRUKTOR
 	 * 
@@ -91,32 +90,21 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	public boolean onTouch(View v, MotionEvent event)
 	{
 
-		
-			activeItem = v;
-		
-			if(activeItem instanceof Button){
-				detector.setIsLongpressEnabled(true);
-			}else detector.setIsLongpressEnabled(false);
-			
-			switch(event.getAction()){
-			case MotionEvent.ACTION_DOWN:
-				 downX = event.getX();
-				 downY = event.getY();
-			case MotionEvent.ACTION_MOVE:
-				float moveX = event.getX();
-				float moveY = event.getY();
-				
-				if(Math.abs(downX - moveX) >150 || Math.abs(downY - moveY)>150 ){
-					
-					
-				}
-				
-			}
-			
-			
+		activeItem = v;
 
-		
-		//detector.onTouchEvent(event);
+		if (activeItem instanceof Button)
+		{
+			detector.setIsLongpressEnabled(true);
+		} else
+			detector.setIsLongpressEnabled(false);
+
+		switch (event.getAction()) {
+		case MotionEvent.ACTION_UP:
+			isDragging = false;
+
+		}
+
+		// detector.onTouchEvent(event);
 		return detector.onTouchEvent(event); // MUSS SO AUFGERUFEN WERDEN
 	}
 
@@ -139,7 +127,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			params.leftMargin = (int) clickPosX;
 			params.topMargin = (int) clickPosY;
 			root.addView(newOne, params);
-			
 
 			/*
 			 * // DOES NOT WORK newOne.setX(clickPosX - (newOne.getWidth() /
@@ -148,7 +135,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			 */
 		}
 
-		
 		return false;
 	}
 
@@ -156,12 +142,9 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY)
 	{
-		
-		
-			Toast.makeText(context.getApplicationContext(), "fling",
-					Toast.LENGTH_LONG).show();
 
-		
+		Toast.makeText(context.getApplicationContext(), "fling",
+				Toast.LENGTH_LONG).show();
 
 		return false;
 	}
@@ -174,11 +157,11 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 
 		if (activeItem instanceof Button)
 		{
-			isDragging =true;
+			isDragging = true;
 			Toast.makeText(context.getApplicationContext(),
 					"Button " + activeItem.getId() + " is longclicked",
 					Toast.LENGTH_SHORT).show();
-			
+
 			ClipData.Item item = new ClipData.Item((String) activeItem.getTag());
 			ClipData clipData = new ClipData(
 					(CharSequence) activeItem.getTag(),
@@ -190,10 +173,9 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			root.requestLayout();
 
 			Log.d("OnLongclick", String.valueOf(overlay.getWidth()));
-			
 
-			//activeItem.startDrag(clipData, new View.DragShadowBuilder(
-				//	activeItem), null, 0);
+			// activeItem.startDrag(clipData, new View.DragShadowBuilder(
+			// activeItem), null, 0);
 		}
 
 	}
@@ -202,20 +184,20 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
 			float distanceY)
 	{
+		Log.d("onScroll", "wurde Aufgerufen");
 		
-		if(isDragging){
-		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) activeItem
-				.getLayoutParams();
+		
+			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) activeItem
+					.getLayoutParams();
 
-		params.leftMargin += (int) e2.getX();
-		params.topMargin += (int) e2.getY();
+			params.leftMargin += (int) e2.getX();
+			params.topMargin += (int) e2.getY();
+
+			activeItem.setLayoutParams(params);
+			root.requestLayout();
 		
-		activeItem.setLayoutParams(params);
-		root.requestLayout();
-		}
-	
-	
-	activeItem = null;
+
+		//activeItem = null;
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -230,7 +212,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	@Override
 	public boolean onSingleTapUp(MotionEvent e)
 	{
-		isDragging=false;
+		isDragging = false;
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -243,8 +225,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		case DragEvent.ACTION_DRAG_STARTED:
 			start = event;
 			isDragging = true;
-			
-			
 
 			break;
 		case DragEvent.ACTION_DRAG_ENTERED:
@@ -264,16 +244,10 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 
 			timeEnd.setTime(System.currentTimeMillis());
 
-			
-			
-
 			break;
-			
-		
+
 		}
 		return true;
 	}
-
-	
 
 }
