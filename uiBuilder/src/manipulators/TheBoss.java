@@ -19,8 +19,8 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 import creators.ObjectFactory;
 
-public class TheBoss implements OnLongClickListener, OnDragListener,
-		OnTouchListener, OnGestureListener
+public class TheBoss implements OnDragListener, OnGestureListener,
+		OnTouchListener
 {
 
 	private Context context;
@@ -31,6 +31,7 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 	private DragEvent start;
 	private GestureDetector detector;
 
+	private boolean isDragging;
 	private Timestamp timeStart;
 	private Timestamp timeEnd;
 
@@ -52,9 +53,156 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 		timeStart = new Timestamp(0);
 		timeEnd = new Timestamp(0);
 		detector = new GestureDetector(context, this);
+		isDragging = false;
+
 		activeItem = null;
 	}
-	
+
+	/*
+	 * @Override public boolean onLongClick(View v) {
+	 * 
+	 * activeItem = v;
+	 * 
+	 * // Toast.makeText(context.getApplicationContext(), "Button " + v.getId()
+	 * // + " is clicked", Toast.LENGTH_SHORT).show();
+	 * 
+	 * ClipData.Item item = new ClipData.Item((String) v.getTag()); ClipData
+	 * clipData = new ClipData((CharSequence) v.getTag(), new String[] {
+	 * ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
+	 * 
+	 * //Button companion = new Button(context); //RelativeLayout.LayoutParams
+	 * params = new RelativeLayout.LayoutParams( // LayoutParams.WRAP_CONTENT,
+	 * LayoutParams.WRAP_CONTENT); //params.addRule(RelativeLayout.ALIGN_TOP,
+	 * v.getId()); //params.addRule(RelativeLayout.RIGHT_OF, v.getId());
+	 * 
+	 * //companion.setLayoutParams(params);
+	 * 
+	 * //companion.setText("Companion"); RelativeLayout overlay =
+	 * factory.getOverlay(activeItem);
+	 * 
+	 * root.addView(overlay); root.requestLayout();
+	 * 
+	 * Log.d("OnLongclick", String.valueOf(overlay.getWidth()));
+	 * v.startDrag(clipData, new View.DragShadowBuilder(v), null, 0);
+	 * 
+	 * return true; }
+	 */
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event)
+	{
+
+		
+			activeItem = v;
+		
+			if(activeItem instanceof Button){
+				detector.setIsLongpressEnabled(true);
+			}else detector.setIsLongpressEnabled(false);
+
+
+		
+		//detector.onTouchEvent(event);
+		return detector.onTouchEvent(event); // MUSS SO AUFGERUFEN WERDEN
+	}
+
+	@Override
+	public boolean onDown(MotionEvent event)
+	{
+
+		// holt die Koordinaten des Touch-Punktes
+		float clickPosX = event.getAxisValue(MotionEvent.AXIS_X);
+		float clickPosY = event.getAxisValue(MotionEvent.AXIS_Y);
+
+		if (activeItem instanceof RelativeLayout)
+		{
+			// erstellt den Button an den zuvor ermittelten Koordinaten
+			Button newOne = (Button) factory
+					.getElement(ObjectFactory.ID_BUTTON);
+			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) newOne
+					.getLayoutParams();
+
+			params.leftMargin = (int) clickPosX;
+			params.topMargin = (int) clickPosY;
+			root.addView(newOne, params);
+			
+
+			/*
+			 * // DOES NOT WORK newOne.setX(clickPosX - (newOne.getWidth() /
+			 * 2)); newOne.setY(clickPosY - (newOne.getHeight() / 2)); return
+			 * true;
+			 */
+		}
+
+		
+		return false;
+	}
+
+	@Override
+	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+			float velocityY)
+	{
+		if(isDragging)
+		{
+			Toast.makeText(context.getApplicationContext(), "fling",
+					Toast.LENGTH_LONG).show();
+
+		}
+
+		return false;
+	}
+
+	@Override
+	public void onLongPress(MotionEvent e)
+	{
+
+		Log.d("OnLongpress", "is called");
+
+		if (activeItem instanceof Button)
+		{
+			Toast.makeText(context.getApplicationContext(),
+					"Button " + activeItem.getId() + " is longclicked",
+					Toast.LENGTH_SHORT).show();
+			
+			ClipData.Item item = new ClipData.Item((String) activeItem.getTag());
+			ClipData clipData = new ClipData(
+					(CharSequence) activeItem.getTag(),
+					new String[] { ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
+
+			RelativeLayout overlay = factory.getOverlay(activeItem);
+
+			root.addView(overlay);
+			root.requestLayout();
+
+			Log.d("OnLongclick", String.valueOf(overlay.getWidth()));
+			
+
+			activeItem.startDrag(clipData, new View.DragShadowBuilder(
+					activeItem), null, 0);
+		}
+
+	}
+
+	@Override
+	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
+			float distanceY)
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void onShowPress(MotionEvent e)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public boolean onSingleTapUp(MotionEvent e)
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 	@Override
 	public boolean onDrag(View root, DragEvent event)
@@ -64,6 +212,7 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 		case DragEvent.ACTION_DRAG_STARTED:
 			start = event;
 			timeStart.setTime(System.currentTimeMillis());
+			isDragging = true;
 
 			break;
 		case DragEvent.ACTION_DRAG_ENTERED:
@@ -75,11 +224,9 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 		case DragEvent.ACTION_DRAG_EXITED:
 			timeEnd.setTime(System.currentTimeMillis());
 			/*
-			if (isFling(start, event, timeStart, timeEnd))
-			{
-				this.root.removeView(activeItem);
-			}
-			*/
+			 * if (isFling(start, event, timeStart, timeEnd)) {
+			 * this.root.removeView(activeItem); }
+			 */
 			break;
 		case DragEvent.ACTION_DROP:
 
@@ -90,12 +237,12 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 				Toast.makeText(context.getApplicationContext(),
 						"Button " + activeItem.getId() + " is not dragged",
 						Toast.LENGTH_SHORT).show();
-			}else if (isFling(start, event, timeStart, timeEnd))
+			} else if (isFling(start, event, timeStart, timeEnd))
 			{
 				// What to do if fling-gesture was identified
 				this.root.removeView(activeItem);
 
-			} //else
+			} // else
 			{
 				// Drop-Action
 
@@ -109,7 +256,7 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 
 				root.requestLayout();
 			}
-
+			isDragging = false;
 			activeItem = null;
 			break;
 		}
@@ -138,143 +285,6 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 			}
 
 		}
-		return false;
-	}
-
-	@Override
-	public boolean onLongClick(View v)
-	{
-
-		activeItem = v;
-
-		// Toast.makeText(context.getApplicationContext(), "Button " + v.getId()
-		// + " is clicked", Toast.LENGTH_SHORT).show();
-
-		ClipData.Item item = new ClipData.Item((String) v.getTag());
-		ClipData clipData = new ClipData((CharSequence) v.getTag(),
-				new String[] { ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
-
-		//Button companion = new Button(context);
-		//RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-			//	LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		//params.addRule(RelativeLayout.ALIGN_TOP, v.getId());
-		//params.addRule(RelativeLayout.RIGHT_OF, v.getId());
-
-		//companion.setLayoutParams(params);
-
-		//companion.setText("Companion");
-		RelativeLayout overlay = factory.getOverlay(activeItem);
-		
-		root.addView(overlay);
-		root.requestLayout();
-		
-		Log.d("OnLongclick",
-				String.valueOf(overlay.getWidth()));
-		v.startDrag(clipData, new View.DragShadowBuilder(v), null, 0);
-
-		return true;
-	}
-
-	@Override
-	public boolean onTouch(View v, MotionEvent event)
-	{
-/*		if (event.getAction() == MotionEvent.ACTION_DOWN)
-		{
-
-			// holt die Koordinaten des Touch-Punktes
-			float clickPosX = event.getAxisValue(MotionEvent.AXIS_X);
-			float clickPosY = event.getAxisValue(MotionEvent.AXIS_Y);
-
-			if (v instanceof RelativeLayout)
-			{
-				// erstellt den Button an den zuvor ermittelten Koordinaten
-				Button newOne = (Button) factory
-						.getElement(ObjectFactory.ID_BUTTON);
-				RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) newOne
-						.getLayoutParams();
-
-				params.leftMargin = (int) clickPosX;
-				params.topMargin = (int) clickPosY;
-				root.addView(newOne, params);
-
-				*//*
-				 * // DOES NOT WORK newOne.setX(clickPosX - (newOne.getWidth() /
-				 * 2)); newOne.setY(clickPosY - (newOne.getHeight() / 2));
-				 * return true;
-				 *//*
-			}
-
-		}
-	*/	
-		return detector.onTouchEvent(event); //MUSS SO AUFGERUFEN WERDEN
-	}
-
-	@Override
-	public boolean onDown(MotionEvent event)
-	{
-		// TODO Auto-generated method stub
-
-		// holt die Koordinaten des Touch-Punktes
-		float clickPosX = event.getAxisValue(MotionEvent.AXIS_X);
-		float clickPosY = event.getAxisValue(MotionEvent.AXIS_Y);
-
-		//if (v instanceof RelativeLayout)
-		{
-			// erstellt den Button an den zuvor ermittelten Koordinaten
-			Button newOne = (Button) factory
-					.getElement(ObjectFactory.ID_BUTTON);
-			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) newOne
-					.getLayoutParams();
-
-			params.leftMargin = (int) clickPosX;
-			params.topMargin = (int) clickPosY;
-			root.addView(newOne, params);
-
-			/*
-			 * // DOES NOT WORK newOne.setX(clickPosX - (newOne.getWidth() /
-			 * 2)); newOne.setY(clickPosY - (newOne.getHeight() / 2));
-			 * return true;
-			 */
-		}
-		return false;
-	}
-
-	@Override
-	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-			float velocityY)
-	{
-
-            Toast.makeText(context.getApplicationContext(), "fling", Toast.LENGTH_LONG).show();
-
-		return false;
-	}
-
-	@Override
-	public void onLongPress(MotionEvent e)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
-			float distanceY)
-	{
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void onShowPress(MotionEvent e)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean onSingleTapUp(MotionEvent e)
-	{
-		// TODO Auto-generated method stub
 		return false;
 	}
 

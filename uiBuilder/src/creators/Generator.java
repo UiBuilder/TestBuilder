@@ -67,7 +67,8 @@ public class Generator
 
 		generatedB.setLayoutParams(params);
 		generatedB.setEnabled(true);
-		generatedB.setOnLongClickListener(manipulator);
+		generatedB.setOnTouchListener(manipulator);
+		//generatedB.setOnLongClickListener(manipulator);
 
 		return generatedB;
 	}

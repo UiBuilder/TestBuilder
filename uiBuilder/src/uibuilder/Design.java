@@ -42,7 +42,6 @@ public class Design extends Activity
 	private void setListeners()
 	{
 		root.setOnTouchListener(manipulator);
-
 		root.setOnDragListener(manipulator);
 	}
 
