@@ -211,8 +211,8 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		switch (event.getAction()) {
 		case DragEvent.ACTION_DRAG_STARTED:
 			start = event;
-			timeStart.setTime(System.currentTimeMillis());
 			isDragging = true;
+			
 
 			break;
 		case DragEvent.ACTION_DRAG_ENTERED:
@@ -232,19 +232,8 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 
 			timeEnd.setTime(System.currentTimeMillis());
 
-			if (!isDrag(event))
-			{
-				Toast.makeText(context.getApplicationContext(),
-						"Button " + activeItem.getId() + " is not dragged",
-						Toast.LENGTH_SHORT).show();
-			} else if (isFling(start, event, timeStart, timeEnd))
-			{
-				// What to do if fling-gesture was identified
-				this.root.removeView(activeItem);
-
-			} // else
-			{
-				// Drop-Action
+			
+			
 
 				RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) activeItem
 						.getLayoutParams();
@@ -255,37 +244,16 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 						- (activeItem.getHeight() / 2);
 
 				root.requestLayout();
-			}
+			
 			isDragging = false;
 			activeItem = null;
 			break;
+		
+		
 		}
 		return true;
 	}
 
-	private boolean isDrag(DragEvent event)
-	{
-		return (Math.abs(start.getX() - event.getX()) > DRAG_THRESHOLD)
-				|| (Math.abs(start.getY() - event.getY()) > DRAG_THRESHOLD);
-	}
-
-	private boolean isFling(DragEvent start, DragEvent end,
-			Timestamp timeStart2, Timestamp timeEnd2)
-	{
-
-		if (Math.abs(start.getX() - end.getX()) >= FLING_DISTANCE
-				|| Math.abs(start.getY() - end.getY()) >= FLING_DISTANCE)
-		{
-			if (timeEnd2.getTime() - timeStart2.getTime() <= MAX_TIME)
-			{
-				Toast.makeText(context.getApplicationContext(),
-						"Button " + activeItem.getId() + " is now in Orbit",
-						Toast.LENGTH_SHORT).show();
-				return true;
-			}
-
-		}
-		return false;
-	}
+	
 
 }
