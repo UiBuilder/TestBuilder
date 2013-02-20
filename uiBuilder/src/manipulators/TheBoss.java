@@ -142,7 +142,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY)
 	{
-
+		this.root.removeView(activeItem);
 		Toast.makeText(context.getApplicationContext(), "fling",
 				Toast.LENGTH_LONG).show();
 
