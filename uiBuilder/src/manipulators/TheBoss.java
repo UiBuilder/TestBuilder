@@ -12,8 +12,8 @@ import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnDragListener;
-import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -27,15 +27,13 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	private View activeItem;
 	private ObjectFactory factory;
 	private RelativeLayout root;
-
-	private DragEvent start;
+	
 	private GestureDetector detector;
-
+	private final String OVERLAYTAG = "Overlay";
+	
 	private boolean isDragging;
-	private Timestamp timeStart;
-	private Timestamp timeEnd;
-	private float downX = 0;
-	private float downY = 0;
+
+
 
 	/**
 	 * KONSTRUKTOR
@@ -48,70 +46,40 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		this.context = context;
 		factory = new ObjectFactory(context, this);
 		this.root = root;
-		timeStart = new Timestamp(0);
-		timeEnd = new Timestamp(0);
+
 		detector = new GestureDetector(context, this);
 		isDragging = false;
 
 		activeItem = null;
 	}
 
-	/*
-	 * @Override public boolean onLongClick(View v) {
-	 * 
-	 * activeItem = v;
-	 * 
-	 * // Toast.makeText(context.getApplicationContext(), "Button " + v.getId()
-	 * // + " is clicked", Toast.LENGTH_SHORT).show();
-	 * 
-	 * ClipData.Item item = new ClipData.Item((String) v.getTag()); ClipData
-	 * clipData = new ClipData((CharSequence) v.getTag(), new String[] {
-	 * ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
-	 * 
-	 * //Button companion = new Button(context); //RelativeLayout.LayoutParams
-	 * params = new RelativeLayout.LayoutParams( // LayoutParams.WRAP_CONTENT,
-	 * LayoutParams.WRAP_CONTENT); //params.addRule(RelativeLayout.ALIGN_TOP,
-	 * v.getId()); //params.addRule(RelativeLayout.RIGHT_OF, v.getId());
-	 * 
-	 * //companion.setLayoutParams(params);
-	 * 
-	 * //companion.setText("Companion"); RelativeLayout overlay =
-	 * factory.getOverlay(activeItem);
-	 * 
-	 * root.addView(overlay); root.requestLayout();
-	 * 
-	 * Log.d("OnLongclick", String.valueOf(overlay.getWidth()));
-	 * v.startDrag(clipData, new View.DragShadowBuilder(v), null, 0);
-	 * 
-	 * return true; }
-	 */
-
 	@Override
 	public boolean onTouch(View v, MotionEvent event)
 	{
-
 		activeItem = v;
 
-		if (activeItem instanceof Button)
+		if (!(activeItem instanceof Button))
+		{
+			detector.setIsLongpressEnabled(false);
+		}
+		else
 		{
 			detector.setIsLongpressEnabled(true);
-		} else
-			detector.setIsLongpressEnabled(false);
-
-		switch (event.getAction()) {
-		case MotionEvent.ACTION_UP:
-			isDragging = false;
-
 		}
 
-		// detector.onTouchEvent(event);
+		switch (event.getAction()) 
+		{
+		case MotionEvent.ACTION_UP:
+			isDragging = false;
+			break;
+
+		}
 		return detector.onTouchEvent(event); // MUSS SO AUFGERUFEN WERDEN
 	}
 
 	@Override
 	public boolean onDown(MotionEvent event)
 	{
-
 		// holt die Koordinaten des Touch-Punktes
 		float clickPosX = event.getAxisValue(MotionEvent.AXIS_X);
 		float clickPosY = event.getAxisValue(MotionEvent.AXIS_Y);
@@ -127,12 +95,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			params.leftMargin = (int) clickPosX;
 			params.topMargin = (int) clickPosY;
 			root.addView(newOne, params);
-
-			/*
-			 * // DOES NOT WORK newOne.setX(clickPosX - (newOne.getWidth() /
-			 * 2)); newOne.setY(clickPosY - (newOne.getHeight() / 2)); return
-			 * true;
-			 */
+			root.requestLayout();
 		}
 
 		return false;
@@ -142,11 +105,14 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY)
 	{
-		this.root.removeView(activeItem);
+		if (activeItem.getTag() != OVERLAYTAG)
+		{
+			this.root.removeView(activeItem);
+		}
 		Toast.makeText(context.getApplicationContext(), "fling",
 				Toast.LENGTH_LONG).show();
 
-		return false;
+		return true;
 	}
 
 	@Override
@@ -155,29 +121,101 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 
 		Log.d("OnLongpress", "is called");
 
-		if (activeItem instanceof Button)
+		if (activeItem instanceof Button && activeItem.getTag() != OVERLAYTAG)
 		{
 			isDragging = true;
 			Toast.makeText(context.getApplicationContext(),
 					"Button " + activeItem.getId() + " is longclicked",
 					Toast.LENGTH_SHORT).show();
+			root.requestLayout();
+			setOverlay();
 
-			ClipData.Item item = new ClipData.Item((String) activeItem.getTag());
-			ClipData clipData = new ClipData(
-					(CharSequence) activeItem.getTag(),
-					new String[] { ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
+			//ClipData.Item item = new ClipData.Item((String) activeItem.getTag());
+			//ClipData clipData = new ClipData(
+				//	(CharSequence) activeItem.getTag(),
+					//new String[] { ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
 
-			RelativeLayout overlay = factory.getOverlay(activeItem);
+			//RelativeLayout overlay = factory.getOverlay(activeItem);
 
-			root.addView(overlay);
+			//root.addView(overlay);
 			root.requestLayout();
 
-			Log.d("OnLongclick", String.valueOf(overlay.getWidth()));
+			//Log.d("OnLongclick", String.valueOf(overlay.getWidth()));
 
 			// activeItem.startDrag(clipData, new View.DragShadowBuilder(
 			// activeItem), null, 0);
 		}
 
+	}
+
+	private void setOverlay()
+	{
+
+		RelativeLayout.LayoutParams modified = new RelativeLayout.LayoutParams(activeItem.getLayoutParams());
+		int dragId = 1111;
+		Log.d("params left", String.valueOf(modified.leftMargin));
+		
+		//DRAG
+		Button drag = new Button(context);
+		modified.leftMargin = activeItem.getLeft();
+		modified.topMargin = activeItem.getTop();
+		modified.width = activeItem.getMeasuredWidth();
+		drag.setBackgroundResource(android.R.color.background_dark);
+		drag.setAlpha(0.5f);
+		drag.setId(dragId);
+		drag.setTag(OVERLAYTAG);
+		drag.setOnTouchListener(this);
+		root.addView(drag, modified);
+		root.requestLayout();
+		
+		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		//RIGHT
+		Button right = new Button(context);
+		right.setBackgroundResource(android.R.color.holo_orange_light);
+		right.setAlpha(0.5f);
+		modified.addRule(RelativeLayout.ALIGN_TOP, dragId);
+		modified.addRule(RelativeLayout.RIGHT_OF, dragId);
+		modified.addRule(RelativeLayout.ALIGN_BOTTOM, dragId);
+		right.setId(1112);
+		right.setTag(OVERLAYTAG);
+		root.addView(right, modified);
+		
+		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		//BOTTOM
+		Button bottom = new Button(context);
+		bottom.setBackgroundResource(android.R.color.holo_orange_light);
+		bottom.setAlpha(0.5f);
+		modified.addRule(RelativeLayout.BELOW, dragId);
+		modified.addRule(RelativeLayout.ALIGN_LEFT, dragId);
+		modified.addRule(RelativeLayout.ALIGN_RIGHT, dragId);
+		bottom.setId(1113);
+		bottom.setTag(OVERLAYTAG);
+		root.addView(bottom, modified);
+		
+		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		//LEFT
+		Button left = new Button(context);
+		left.setBackgroundResource(android.R.color.holo_orange_light);
+		left.setAlpha(0.5f);
+		modified.addRule(RelativeLayout.LEFT_OF, bottom.getId());
+		modified.addRule(RelativeLayout.ALIGN_TOP, right.getId());
+		modified.addRule(RelativeLayout.ABOVE, bottom.getId());
+		left.setId(1114);
+		left.setTag(OVERLAYTAG);
+		root.addView(left, modified);
+		
+		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		//TOP
+		Button top = new Button(context);
+		top.setBackgroundResource(android.R.color.holo_orange_light);
+		top.setAlpha(0.5f);
+		modified.addRule(RelativeLayout.ABOVE, right.getId());
+		modified.addRule(RelativeLayout.LEFT_OF, right.getId());
+		modified.addRule(RelativeLayout.RIGHT_OF, left.getId());
+		top.setTag(OVERLAYTAG);
+		root.addView(top, modified);
+		
+		root.requestLayout();
 	}
 
 	@Override
@@ -187,21 +225,19 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		Log.d("onScroll", "wurde Aufgerufen");
 		
 		
-			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) activeItem
+		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) activeItem
 					.getLayoutParams();
 
-			params.leftMargin += (int) e2.getX();
-			params.topMargin += (int) e2.getY();
+		params.leftMargin += (int) e2.getX();
+		params.topMargin += (int) e2.getY();
 
-			activeItem.setLayoutParams(params);
-			root.requestLayout();
+		activeItem.setLayoutParams(params);
+		root.requestLayout();
 		
-
-		//activeItem = null;
-		// TODO Auto-generated method stub
+		Log.d("leftmargin", String.valueOf(params.leftMargin));
 		return false;
 	}
-
+//UNUSED
 	@Override
 	public void onShowPress(MotionEvent e)
 	{
@@ -212,8 +248,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	@Override
 	public boolean onSingleTapUp(MotionEvent e)
 	{
-		isDragging = false;
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -223,8 +257,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 
 		switch (event.getAction()) {
 		case DragEvent.ACTION_DRAG_STARTED:
-			start = event;
-			isDragging = true;
 
 			break;
 		case DragEvent.ACTION_DRAG_ENTERED:
@@ -234,15 +266,10 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		case DragEvent.ACTION_DRAG_ENDED:
 			break;
 		case DragEvent.ACTION_DRAG_EXITED:
-			timeEnd.setTime(System.currentTimeMillis());
-			/*
-			 * if (isFling(start, event, timeStart, timeEnd)) {
-			 * this.root.removeView(activeItem); }
-			 */
+
 			break;
 		case DragEvent.ACTION_DROP:
 
-			timeEnd.setTime(System.currentTimeMillis());
 
 			break;
 
