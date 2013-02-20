@@ -7,6 +7,8 @@ import android.content.ClipDescription;
 import android.content.Context;
 import android.util.Log;
 import android.view.DragEvent;
+import android.view.GestureDetector;
+import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnDragListener;
@@ -18,7 +20,7 @@ import android.widget.Toast;
 import creators.ObjectFactory;
 
 public class TheBoss implements OnLongClickListener, OnDragListener,
-		OnTouchListener
+		OnTouchListener, OnGestureListener
 {
 
 	private Context context;
@@ -27,6 +29,7 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 	private RelativeLayout root;
 
 	private DragEvent start;
+	private GestureDetector detector;
 
 	private Timestamp timeStart;
 	private Timestamp timeEnd;
@@ -48,8 +51,10 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 		this.root = root;
 		timeStart = new Timestamp(0);
 		timeEnd = new Timestamp(0);
+		detector = new GestureDetector(context, this);
 		activeItem = null;
 	}
+	
 
 	@Override
 	public boolean onDrag(View root, DragEvent event)
@@ -69,10 +74,12 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 			break;
 		case DragEvent.ACTION_DRAG_EXITED:
 			timeEnd.setTime(System.currentTimeMillis());
+			/*
 			if (isFling(start, event, timeStart, timeEnd))
 			{
 				this.root.removeView(activeItem);
 			}
+			*/
 			break;
 		case DragEvent.ACTION_DROP:
 
@@ -83,12 +90,12 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 				Toast.makeText(context.getApplicationContext(),
 						"Button " + activeItem.getId() + " is not dragged",
 						Toast.LENGTH_SHORT).show();
-			} else if (isFling(start, event, timeStart, timeEnd))
+			}else if (isFling(start, event, timeStart, timeEnd))
 			{
 				// What to do if fling-gesture was identified
 				this.root.removeView(activeItem);
 
-			} else
+			} //else
 			{
 				// Drop-Action
 
@@ -171,7 +178,7 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 	@Override
 	public boolean onTouch(View v, MotionEvent event)
 	{
-		if (event.getAction() == MotionEvent.ACTION_DOWN)
+/*		if (event.getAction() == MotionEvent.ACTION_DOWN)
 		{
 
 			// holt die Koordinaten des Touch-Punktes
@@ -190,15 +197,85 @@ public class TheBoss implements OnLongClickListener, OnDragListener,
 				params.topMargin = (int) clickPosY;
 				root.addView(newOne, params);
 
-				/*
+				*//*
 				 * // DOES NOT WORK newOne.setX(clickPosX - (newOne.getWidth() /
 				 * 2)); newOne.setY(clickPosY - (newOne.getHeight() / 2));
 				 * return true;
-				 */
+				 *//*
 			}
 
 		}
-		return true;
+	*/	
+		return detector.onTouchEvent(event); //MUSS SO AUFGERUFEN WERDEN
+	}
+
+	@Override
+	public boolean onDown(MotionEvent event)
+	{
+		// TODO Auto-generated method stub
+
+		// holt die Koordinaten des Touch-Punktes
+		float clickPosX = event.getAxisValue(MotionEvent.AXIS_X);
+		float clickPosY = event.getAxisValue(MotionEvent.AXIS_Y);
+
+		//if (v instanceof RelativeLayout)
+		{
+			// erstellt den Button an den zuvor ermittelten Koordinaten
+			Button newOne = (Button) factory
+					.getElement(ObjectFactory.ID_BUTTON);
+			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) newOne
+					.getLayoutParams();
+
+			params.leftMargin = (int) clickPosX;
+			params.topMargin = (int) clickPosY;
+			root.addView(newOne, params);
+
+			/*
+			 * // DOES NOT WORK newOne.setX(clickPosX - (newOne.getWidth() /
+			 * 2)); newOne.setY(clickPosY - (newOne.getHeight() / 2));
+			 * return true;
+			 */
+		}
+		return false;
+	}
+
+	@Override
+	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+			float velocityY)
+	{
+
+            Toast.makeText(context.getApplicationContext(), "fling", Toast.LENGTH_LONG).show();
+
+		return false;
+	}
+
+	@Override
+	public void onLongPress(MotionEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
+			float distanceY)
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void onShowPress(MotionEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean onSingleTapUp(MotionEvent e)
+	{
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
