@@ -206,11 +206,10 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) activeItem
 				.getLayoutParams();
 
-		params.leftMargin = (int) ( distanceX + activeItem.getX()
-				- (activeItem.getWidth() / 2));
-		params.topMargin = (int) ( distanceY + activeItem.getY()
-				- (activeItem.getWidth() / 2));
-
+		params.leftMargin += (int) e2.getX();
+		params.topMargin += (int) e2.getY();
+		
+		activeItem.setLayoutParams(params);
 		root.requestLayout();
 	
 	isDragging = false;
