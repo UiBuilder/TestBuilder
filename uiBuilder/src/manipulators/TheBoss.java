@@ -34,7 +34,8 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	private boolean isDragging;
 	private Timestamp timeStart;
 	private Timestamp timeEnd;
-	
+	private float downX = 0;
+	private float downY = 0;
 
 	
 	/**
@@ -96,7 +97,23 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			if(activeItem instanceof Button){
 				detector.setIsLongpressEnabled(true);
 			}else detector.setIsLongpressEnabled(false);
-
+			
+			switch(event.getAction()){
+			case MotionEvent.ACTION_DOWN:
+				 downX = event.getX();
+				 downY = event.getY();
+			case MotionEvent.ACTION_MOVE:
+				float moveX = event.getX();
+				float moveY = event.getY();
+				
+				if(Math.abs(downX - moveX) >150 || Math.abs(downY - moveY)>150 ){
+					
+					
+				}
+				
+			}
+			
+			
 
 		
 		//detector.onTouchEvent(event);
@@ -184,6 +201,20 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
 			float distanceY)
 	{
+		
+
+		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) activeItem
+				.getLayoutParams();
+
+		params.leftMargin = (int) ( distanceX + activeItem.getX()
+				- (activeItem.getWidth() / 2));
+		params.topMargin = (int) ( distanceY + activeItem.getY()
+				- (activeItem.getWidth() / 2));
+
+		root.requestLayout();
+	
+	isDragging = false;
+	activeItem = null;
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -234,18 +265,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			
 			
 
-				RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) activeItem
-						.getLayoutParams();
-
-				params.leftMargin = (int) event.getX()
-						- (activeItem.getWidth() / 2);
-				params.topMargin = (int) event.getY()
-						- (activeItem.getHeight() / 2);
-
-				root.requestLayout();
-			
-			isDragging = false;
-			activeItem = null;
 			break;
 			
 		
