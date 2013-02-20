@@ -174,6 +174,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 
 		if (activeItem instanceof Button)
 		{
+			isDragging =true;
 			Toast.makeText(context.getApplicationContext(),
 					"Button " + activeItem.getId() + " is longclicked",
 					Toast.LENGTH_SHORT).show();
@@ -191,8 +192,8 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			Log.d("OnLongclick", String.valueOf(overlay.getWidth()));
 			
 
-			activeItem.startDrag(clipData, new View.DragShadowBuilder(
-					activeItem), null, 0);
+			//activeItem.startDrag(clipData, new View.DragShadowBuilder(
+				//	activeItem), null, 0);
 		}
 
 	}
@@ -202,7 +203,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			float distanceY)
 	{
 		
-
+		if(isDragging){
 		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) activeItem
 				.getLayoutParams();
 
@@ -211,8 +212,9 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		
 		activeItem.setLayoutParams(params);
 		root.requestLayout();
+		}
 	
-	isDragging = false;
+	
 	activeItem = null;
 		// TODO Auto-generated method stub
 		return false;
@@ -228,6 +230,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	@Override
 	public boolean onSingleTapUp(MotionEvent e)
 	{
+		isDragging=false;
 		// TODO Auto-generated method stub
 		return false;
 	}
