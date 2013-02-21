@@ -31,8 +31,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	private GestureDetector detector;
 	private final String OVERLAYTAG = "Overlay";
 	private final String OBJECTTAG = "Object";
-	
-	private boolean overlayActive = false;
 
 	/**
 	 * KONSTRUKTOR
@@ -56,32 +54,24 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	@Override
 	public boolean onTouch(View v, MotionEvent event)
 	{
-		if (v instanceof RelativeLayout) 
-		{
+		if (v instanceof RelativeLayout) {
 			detector.setIsLongpressEnabled(false);
 			activeItem = null;
-			dragIndicator = null;
 			removeOverlay();
 
 		}
-		if (v.getTag() == OBJECTTAG) 
-		{
+		if (v.getTag() == OBJECTTAG) {
 			detector.setIsLongpressEnabled(true);
 			dragIndicator = null;
 			removeOverlay();
-			
 			activeItem = v;
 		}
-		if (v.getTag() == OVERLAYTAG) 
-		{
+		if (v.getTag() == OVERLAYTAG) {
 			dragIndicator = v;
-			detector.setIsLongpressEnabled(false);
 		}
 
-		switch (event.getAction())
-		{
+		switch (event.getAction()) {
 		case MotionEvent.ACTION_UP:
-			root.requestLayout(); //return true;
 			break;
 
 		}
@@ -95,18 +85,23 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		float clickPosX = event.getAxisValue(MotionEvent.AXIS_X);
 		float clickPosY = event.getAxisValue(MotionEvent.AXIS_Y);
 
-		if (activeItem == null && dragIndicator == null) 
-		{
+		if (activeItem == null && dragIndicator == null) {
 			// erstellt den Button an den zuvor ermittelten Koordinaten
-			Button newOne = (Button) factory.getElement(ObjectFactory.ID_BUTTON);
-			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) newOne.getLayoutParams();
+			Button newOne = (Button) factory
+					.getElement(ObjectFactory.ID_BUTTON);
+			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) newOne
+					.getLayoutParams();
 
 			params.leftMargin = (int) clickPosX;
 			params.topMargin = (int) clickPosY;
-			
 			root.addView(newOne, params);
-			//root.requestLayout();
+			root.requestLayout();
 		}
+		if (activeItem == null) {
+			removeOverlay();
+			dragIndicator = null;
+		}
+
 		return false;
 	}
 
@@ -131,17 +126,13 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 
 		Log.d("OnLongpress", "is called");
 
-		if (activeItem.getTag() == OBJECTTAG) 
-		{
+		if (activeItem.getTag() == OBJECTTAG) {
 			Toast.makeText(context.getApplicationContext(),
 					"Button " + activeItem.getId() + " is longclicked",
 					Toast.LENGTH_SHORT).show();
 			setOverlay();
-			dragIndicator = activeItem; 
+
 			activeItem.setAlpha(0.5f);
-			root.requestLayout();
-		}
-		
 			// ClipData.Item item = new ClipData.Item((String)
 			// activeItem.getTag());
 			// ClipData clipData = new ClipData(
@@ -151,28 +142,108 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			// RelativeLayout overlay = factory.getOverlay(activeItem);
 
 			// root.addView(overlay);
-			//root.requestLayout();
+			root.requestLayout();
 
 			// Log.d("OnLongclick", String.valueOf(overlay.getWidth()));
 
 			// activeItem.startDrag(clipData, new View.DragShadowBuilder(
 			// activeItem), null, 0);
-		
+		}
 
+	}
+
+	// TEMPORÄR
+	private Button drag;
+	private Button left;
+	private Button right;
+	private Button bottom;
+	private Button top;
+
+	private void setOverlay()
+	{
+
+		RelativeLayout.LayoutParams modified = new RelativeLayout.LayoutParams(
+				activeItem.getLayoutParams());
+		int dragId = 1111;
+		Log.d("params left", String.valueOf(modified.leftMargin));
+
+		// DRAG
+		drag = new Button(context);
+		modified.leftMargin = activeItem.getLeft();
+		modified.topMargin = activeItem.getTop();
+		modified.width = activeItem.getMeasuredWidth();
+		drag.setBackgroundResource(android.R.color.background_dark);
+		drag.setAlpha(0.5f);
+		drag.setId(dragId);
+		drag.setTag(OVERLAYTAG);
+		drag.setOnTouchListener(this);
+		root.addView(drag, modified);
+		// root.requestLayout();
+
+		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT);
+		// RIGHT
+		right = new Button(context);
+		right.setBackgroundResource(android.R.color.holo_orange_light);
+		right.setAlpha(0.5f);
+		modified.addRule(RelativeLayout.ALIGN_TOP, dragId);
+		modified.addRule(RelativeLayout.RIGHT_OF, dragId);
+		modified.addRule(RelativeLayout.ALIGN_BOTTOM, dragId);
+		right.setId(1112);
+		right.setTag(OVERLAYTAG);
+		root.addView(right, modified);
+
+		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT);
+		// BOTTOM
+		bottom = new Button(context);
+		bottom.setBackgroundResource(android.R.color.holo_orange_light);
+		bottom.setAlpha(0.5f);
+		modified.addRule(RelativeLayout.BELOW, dragId);
+		modified.addRule(RelativeLayout.ALIGN_LEFT, dragId);
+		modified.addRule(RelativeLayout.ALIGN_RIGHT, dragId);
+		bottom.setId(1113);
+		bottom.setTag(OVERLAYTAG);
+		root.addView(bottom, modified);
+
+		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT);
+		// LEFT
+		left = new Button(context);
+		left.setBackgroundResource(android.R.color.holo_orange_light);
+		left.setAlpha(0.5f);
+		modified.addRule(RelativeLayout.LEFT_OF, bottom.getId());
+		modified.addRule(RelativeLayout.ALIGN_TOP, right.getId());
+		modified.addRule(RelativeLayout.ABOVE, bottom.getId());
+		left.setId(1114);
+		left.setTag(OVERLAYTAG);
+		root.addView(left, modified);
+
+		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT);
+		// TOP
+		top = new Button(context);
+		top.setBackgroundResource(android.R.color.holo_orange_light);
+		top.setAlpha(0.5f);
+		modified.addRule(RelativeLayout.ABOVE, right.getId());
+		modified.addRule(RelativeLayout.LEFT_OF, right.getId());
+		modified.addRule(RelativeLayout.RIGHT_OF, left.getId());
+		top.setTag(OVERLAYTAG);
+		root.addView(top, modified);
+
+		root.requestLayout();
 	}
 
 	@Override
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
 			float distanceY)
 	{
-		if (overlayActive && (activeItem != null)) 
-		{
+		if (activeItem != null && dragIndicator != null) {
 			Log.d("onScroll", "wurde Aufgerufen");
 			ClipData.Item item = new ClipData.Item((String) activeItem.getTag());
 			ClipData clipData = new ClipData(
 					(CharSequence) activeItem.getTag(),
 					new String[] { ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
-			
 			activeItem.startDrag(clipData, new View.DragShadowBuilder(
 					activeItem), null, 0);
 		}
@@ -207,13 +278,11 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	@Override
 	public boolean onDrag(View root, DragEvent event)
 	{
-		if (overlayActive)
-		{
-		switch (event.getAction()) 
-		{
+
+		switch (event.getAction()) {
 		case DragEvent.ACTION_DRAG_STARTED:
 			setVisibility(false);
-			//root.requestLayout();
+			root.requestLayout();
 			break;
 		case DragEvent.ACTION_DRAG_ENTERED:
 			break;
@@ -231,15 +300,14 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			params.leftMargin = (int) event.getX();
 			params.topMargin = (int) event.getY();
 			activeItem.setLayoutParams(params);
-			setVisibility(true);
-			root.requestLayout();
+			dragIndicator.setLayoutParams(params);
 
 			break;
 		case DragEvent.ACTION_DRAG_ENDED:
-			
+			root.requestLayout();
+			setVisibility(true);
 
 			break;
-		}
 		}
 		return true;
 	}
@@ -247,16 +315,16 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	private void setVisibility(boolean visible)
 	{
 
-		if (visible) {
-			//drag.setVisibility(View.VISIBLE);
+		if (visible && drag != null) {
+			drag.setVisibility(View.VISIBLE);
 			top.setVisibility(View.VISIBLE);
 			bottom.setVisibility(View.VISIBLE);
 			left.setVisibility(View.VISIBLE);
 			right.setVisibility(View.VISIBLE);
 			root.requestLayout();
-		} else
-		{
-			//drag.setVisibility(View.INVISIBLE);
+		} else if (drag != null) {
+
+			drag.setVisibility(View.INVISIBLE);
 			top.setVisibility(View.INVISIBLE);
 			bottom.setVisibility(View.INVISIBLE);
 			left.setVisibility(View.INVISIBLE);
@@ -267,6 +335,8 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 
 	private void removeOverlay()
 	{
+		
+
 			int itemCount = root.getChildCount();
 			for (int i = 0; i < itemCount; i++) {
 				if (root.getChildAt(i) != null
@@ -275,98 +345,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 				
 			}
 		}
-	}
-	
-
-	// TEMPORÄR
-	private Button drag;
-	private Button left;
-	private Button right;
-	private Button bottom;
-	private Button top;
-
-	private void setOverlay()
-	{
-		overlayActive = true;
-
-		RelativeLayout.LayoutParams modified = new RelativeLayout.LayoutParams(
-				activeItem.getLayoutParams());
-		int dragId = 1111;
-		Log.d("params left", String.valueOf(activeItem.getLeft()));
-
-		// DRAG
-		drag = new Button(context);
-		modified.leftMargin = activeItem.getLeft();
-		modified.topMargin = activeItem.getTop();
-		modified.width = activeItem.getMeasuredWidth();
-		drag.setBackgroundResource(android.R.color.background_dark);
-		drag.setAlpha(0.5f);
-		drag.setId(dragId);
-		drag.setTag(OVERLAYTAG);
-		drag.setOnTouchListener(this);
-		root.addView(drag, modified);
-		root.requestLayout();
-
-		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT);
-		// RIGHT
-		right = new Button(context);
-		right.setBackgroundResource(android.R.color.holo_orange_light);
-		right.setAlpha(0.5f);
-		modified.addRule(RelativeLayout.ALIGN_TOP, dragId);
-		modified.addRule(RelativeLayout.RIGHT_OF, dragId);
-		modified.addRule(RelativeLayout.ALIGN_BOTTOM, dragId);
-		right.setId(1112);
-		right.setTag(OVERLAYTAG);
-		root.addView(right, modified);
-		
-		root.requestLayout();
-
-		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT);
-		// BOTTOM
-		bottom = new Button(context);
-		bottom.setBackgroundResource(android.R.color.holo_orange_light);
-		bottom.setAlpha(0.5f);
-		modified.addRule(RelativeLayout.BELOW, dragId);
-		modified.addRule(RelativeLayout.ALIGN_LEFT, dragId);
-		modified.addRule(RelativeLayout.ALIGN_RIGHT, dragId);
-		bottom.setId(1113);
-		bottom.setTag(OVERLAYTAG);
-		root.addView(bottom, modified);
-		
-		root.requestLayout();
-
-		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT);
-		// LEFT
-		left = new Button(context);
-		left.setBackgroundResource(android.R.color.holo_orange_light);
-		left.setAlpha(0.5f);
-		modified.addRule(RelativeLayout.LEFT_OF, bottom.getId());
-		modified.addRule(RelativeLayout.ALIGN_TOP, right.getId());
-		modified.addRule(RelativeLayout.ABOVE, bottom.getId());
-		//modified.leftMargin = -activeItem.getLeft();
-		left.setId(1114);
-		left.setTag(OVERLAYTAG);
-		root.addView(left, modified);
-		
-		root.requestLayout();
-
-		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT);
-		// TOP
-		top = new Button(context);
-		top.setBackgroundResource(android.R.color.holo_orange_light);
-		top.setAlpha(0.5f);
-		modified.addRule(RelativeLayout.ABOVE, right.getId());
-		modified.addRule(RelativeLayout.LEFT_OF, right.getId());
-		modified.addRule(RelativeLayout.RIGHT_OF, left.getId());
-		//modified.topMargin = -activeItem.getTop();
-		top.setTag(OVERLAYTAG);
-		root.addView(top, modified);
-
-		root.requestLayout();
 	}
 
 }
