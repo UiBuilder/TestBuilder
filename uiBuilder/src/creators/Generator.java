@@ -73,7 +73,7 @@ public class Generator
 
 		return generatedB;
 	}
-
+/*
 	protected RelativeLayout newDragMenu(View inProgress)
 
 	{
@@ -143,5 +143,5 @@ public class Generator
 
 		Log.d("bottom", String.valueOf(bottom.getWidth()));
 		return overlay;
-	}
+	}*/
 }
