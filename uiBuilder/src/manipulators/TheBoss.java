@@ -14,6 +14,7 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import creators.ObjectFactory;
@@ -38,6 +39,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 
 	private boolean isDragging;
 	boolean overlayActive = false;
+	private View currentTouch;
 
 	/**
 	 * KONSTRUKTOR
@@ -50,6 +52,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		this.context = context;
 		factory = new ObjectFactory(context, this);
 		this.root = root;
+		this.root.setTag("PLAYGROUND");
 
 		detector = new GestureDetector(context, this);
 		isDragging = false;
@@ -63,98 +66,79 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 
 	/**
 	 * Erfasst alle Touch-Events, setzt ggf. Flags die den Zustand der Applikation abbilden.
+	 * return calls the GestureDetector instance for a matching event
 	 */
 	@Override
 	public boolean onTouch(View v, MotionEvent event)
 	{
-
-		if (v instanceof RelativeLayout)// Betrifft alle touch-Events die auf
-										// der leeren Arbeitsfläche stattfinden.
+		currentTouch = v;
+		
+		switch (currentTouch.getId())
 		{
-			dragIndicator = null;
-			detector.setIsLongpressEnabled(false);
-
-			if (overlayActive)// Für den Fall, dass ein Overlay existiert.
-			{
-				deleteOverlay();
-				return true;
-			}			
-			activeItem = null;
-
-		} else
-		{
-			if (v.getTag() == OVERLAYTAG) // Relikt
-			{
-				dragIndicator = v;
-				Log.d("wäre jetzt super", "fuck");
+			case de.ur.rk.uibuilder.R.id.design_area:
+				Log.d("DesignArea", "called");
+				detector.setIsLongpressEnabled(false);
+				dragIndicator = null;
 				
-			} 
-			else
-			{
-				Log.d("OnLongpressenabled", "is called");
-
-				if (overlayActive && (v != activeItem)) // Overlay wird nur dann
-														// entfernt, wenn aktiv
-														// und das Touch-Event
-														// (auch Drags) nicht
-														// über dem Aktiven
-														// Element stattfinden.
+				
+				if(overlayActive)
 				{
 					deleteOverlay();
+					return true;
+	
 				}
-				activeItem = v;
-				detector.setIsLongpressEnabled(true); //Longclics sollen weitergereicht werden.
-			}
-		}
-/*		
-		 switch (event.getAction()) 
-		 {
-		 case MotionEvent.ACTION_MOVE:
-		 
-			 switch (v.getId())
-			{
-			case ID_TOP:
-				Log.d("top indicator", "is moving");
+				activeItem = null;
+				Log.d("layout forward", "called");
 				break;
-
-			case ID_RIGHT:
-				Log.d("right indicator", "is moving");
-				Log.d("right width", String.valueOf(dragIndicator.getMeasuredWidth()));
+			
 				
-				break;
-				
-			case ID_BOTTOM:
-				Log.d("bottom indicator", "is moving");
-				break;
-				
-			case ID_LEFT:
-				Log.d("left indicator", "is moving");
+			case ID_TOP: case ID_RIGHT: case ID_BOTTOM: case ID_LEFT: case ID_CENTER:
+				detector.setIsLongpressEnabled(false);
+				dragIndicator = currentTouch;
+				Log.d("wäre jetzt super", "fuck");
 				break;
 				
 			default:
-				// FUCK OFF
+				
+				if(overlayActive && currentTouch != activeItem)
+				{
+					deleteOverlay();
+					return true;
+				}
+				activeItem = currentTouch;
+				detector.setIsLongpressEnabled(true);
 				break;
-			}
-		 
-		 break;
-		 
-		  }
-*/		 
+		}
+ 
 		Log.d("forward", "is called");
-		return detector.onTouchEvent(event); // MUSS SO AUFGERUFEN WERDEN
+		
+		 // MUSS SO AUFGERUFEN WERDEN 
+		return detector.onTouchEvent(event);
 	}
 
 	@Override
-	public boolean onDown(MotionEvent event)//Wird aufgerufen, wenn das Display berührt wird.
+	public boolean onDown(MotionEvent event)//Wird aufgerufen, wenn das zum ersten mal Display berührt wird.
 	{
 		// holt die Koordinaten des Touch-Punktes
 		float clickPosX = event.getAxisValue(MotionEvent.AXIS_X);
 		float clickPosY = event.getAxisValue(MotionEvent.AXIS_Y);
+		
+		Log.d("Ondown", "is called");
+		return createObject(clickPosX, clickPosY); /** If the Object was created the event is consumed. */
+	}
 
+	/**
+	 * Creates a Button on the specified position.
+	 * 
+	 * @param clickPosX The coordinate on the X-axis
+	 * @param clickPosY The coordinate on the Y-axis
+	 * @return <b>true</b> if the conditions for creation are met, else <b>false</b>
+	 * 
+	 */
+	private boolean createObject(float clickPosX, float clickPosY)
+	{
 		if (activeItem == null && !overlayActive)
 		{
-
-			// erstellt den Button an den zuvor ermittelten Koordinaten
 			Button newOne = (Button) factory
 					.getElement(ObjectFactory.ID_BUTTON);
 			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) newOne
@@ -164,7 +148,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			params.topMargin = (int) clickPosY;
 			root.addView(newOne, params);
 
-			//invalidate(); //Damit der neue Button Koordinaten und Maße bekommt.
 			params.leftMargin = (int) clickPosX - newOne.getMeasuredWidth() / 2;
 			params.topMargin = (int) clickPosY - newOne.getMeasuredHeight() / 2;
 			newOne.setLayoutParams(params);
@@ -173,12 +156,9 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 							+ String.valueOf(params.topMargin));
 			Log.d("onDown", String.valueOf(newOne.getWidth() / 2) + " "
 					+ String.valueOf(newOne.getMeasuredHeight() / 2));
-			//invalidate(); 
-
+			
 			return true;
 		}
-
-		Log.d("Ondown", "is called");
 		return false;
 	}
 
@@ -192,12 +172,9 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY)
 	{
-		/*if (overlayActive && activeItem != null)
-		{
-			this.root.removeView(activeItem);
-		}*/
+
 		Toast.makeText(context.getApplicationContext(), "fling",
-				Toast.LENGTH_LONG).show();
+				Toast.LENGTH_SHORT).show();
 
 		return true;
 	}
@@ -208,18 +185,13 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 
 		Log.d("OnLongpress", "is called");
 
-		if (activeItem instanceof Button && !overlayActive)//Verhindert doppelte Overlays
-		{
-			isDragging = true;
-			Toast.makeText(context.getApplicationContext(),
-					"Button " + activeItem.getId() + " is longclicked",
-					Toast.LENGTH_SHORT).show();
-			//invalidate();
-			setOverlay();
-			Log.d("measure left", String.valueOf(left.getMeasuredWidth()));
-
-			//invalidate();
-		}
+		isDragging = true;
+		Toast.makeText(context.getApplicationContext(),
+				"Button " + activeItem.getId() + " is longclicked",
+				Toast.LENGTH_SHORT).show();
+		
+		setOverlay();
+		Log.d("measure left", String.valueOf(left.getMeasuredWidth()));
 
 	}
 
@@ -322,11 +294,13 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		invalidate();
 	}
 
+	MotionEvent e;
 	@Override
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
 			float distanceY)
 	{
-		if (dragIndicator != null)//Startet ein DragEvent wenn ein Overlay existiert.
+		invalidate();
+		if (dragIndicator != null) //Startet ein DragEvent wenn ein Overlay existiert.
 		{
 			switch (dragIndicator.getId())
 			{
@@ -339,32 +313,21 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 				activeItem.startDrag(clipData, new View.DragShadowBuilder(
 						activeItem), null, 0);
 
-				
 				break;
 			
 			case ID_TOP:
 				Log.d("top indicator", "is moving");
+				
 				break;
 
 			case ID_RIGHT:
-				Log.d("right indicator", "is moving");
 				
+				float distance = e2.getX() - e1.getX();
+				
+				Log.d("right indicator", "is moving");
 				Log.d("right distance", String.valueOf(distanceX));
 				
-				
-				RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) activeItem
-						.getLayoutParams(); 
-				params.width = activeItem.getMeasuredWidth();
-				params.height = activeItem.getMeasuredHeight();
-				params.width -= Math.round(distanceX); //FRAMEWORK INVERTS VALUES!!!
-				activeItem.setLayoutParams(params);
-				
-				//invalidate();
-				params = (RelativeLayout.LayoutParams) activeItem
-						.getLayoutParams();
-				//params.width -= distanceX;
-				drag.setLayoutParams(params);
-				invalidate();
+				setParams(distance);
 				
 				break;
 				
@@ -382,6 +345,15 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			}
 		}
 		return false;
+	}
+
+	private void setParams(float distance)
+	{
+		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) activeItem.getLayoutParams(); 
+		params.width = activeItem.getMeasuredWidth() + Math.round(distance);
+		params.height = activeItem.getMeasuredHeight();
+		
+		drag.setLayoutParams(params);
 	}
 
 	// UNUSED
@@ -402,54 +374,47 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	public boolean onDrag(View root, DragEvent event)
 	{
 
-		// if (overlayActive)
+		switch (event.getAction()) 
 		{
-			switch (event.getAction()) 
-			{
-			case DragEvent.ACTION_DRAG_STARTED:
-				setOverlayVisibility(false);	//Während des Drags ist kein Overlay sichtbar.
-				//root.requestLayout();
-				return true;
-			case DragEvent.ACTION_DRAG_ENTERED:
-				break;
-			case DragEvent.ACTION_DRAG_LOCATION:
-				break;
-			case DragEvent.ACTION_DRAG_ENDED:
+		case DragEvent.ACTION_DRAG_STARTED:
+			setOverlayVisibility(false);	//Während des Drags ist kein Overlay sichtbar.
+			
+			return true;
+		case DragEvent.ACTION_DRAG_ENTERED:
+			break;
+		case DragEvent.ACTION_DRAG_LOCATION:
+			break;
+		case DragEvent.ACTION_DRAG_ENDED:
 
-				break;
-			case DragEvent.ACTION_DRAG_EXITED:
+			break;
+		case DragEvent.ACTION_DRAG_EXITED:
 
-				break;
-			case DragEvent.ACTION_DROP:
-				
-				//Positionen werden ausgelesen und zugewiesen. Objekte werden an ihre Zielposition verschoben und das Overlay bekommt neue Koordinaten. 
-				RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) activeItem
-						.getLayoutParams();
+			break;
+		case DragEvent.ACTION_DROP:
+			
+			//Positionen werden ausgelesen und zugewiesen. Objekte werden an ihre Zielposition verschoben und das Overlay bekommt neue Koordinaten. 
+			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) activeItem
+					.getLayoutParams();
 
-				params.leftMargin = (int) event.getX()
-						- activeItem.getMeasuredWidth() / 2;
-				params.topMargin = (int) event.getY()
-						- activeItem.getMeasuredHeight() / 2;
-				Log.d("getx gety", String.valueOf(params.leftMargin) + " "
-						+ String.valueOf(params.topMargin));
-				activeItem.setLayoutParams(params);
+			params.leftMargin = (int) event.getX() - activeItem.getMeasuredWidth() / 2;
+			params.topMargin = (int) event.getY() - activeItem.getMeasuredHeight() / 2;
+			Log.d("getx gety", String.valueOf(params.leftMargin) + " " + String.valueOf(params.topMargin));
+			activeItem.setLayoutParams(params);
 
-				root.requestLayout();
+			root.requestLayout();
 
-				params.width = activeItem.getMeasuredWidth();
-				params.height = activeItem.getMeasuredHeight();
-				drag.setLayoutParams(params);
+			params.width = activeItem.getMeasuredWidth();
+			params.height = activeItem.getMeasuredHeight();
+			drag.setLayoutParams(params);
 
-				root.requestLayout();
+			root.requestLayout();
 
-				setOverlayVisibility(true);//das Overlay wird wieder angezeigt, da der Drag vorbei ist. 
-				isDragging = false;
+			setOverlayVisibility(true);//das Overlay wird wieder angezeigt, da der Drag vorbei ist. 
+			isDragging = false;
 
-				return true;
-
-			}
+			return true;
 		}
-		return true;
+		return true; //EVTL FEHLERQUELLE: RETURNS ALWAYS TRUE
 	}
 	/** 
 	 * Bestimmt die Sichtbarkeit des Overlays. Das Overlay wird <b>Versteckt </b>, jedoch <b>nicht Entfernt</b>.
@@ -487,8 +452,9 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		root.removeView(bottom);
 		activeItem.setAlpha(1.0f);
 
-		//invalidate();
+		dragIndicator = null;
 		overlayActive = false;
+		isDragging = false;
 	}
 
 }

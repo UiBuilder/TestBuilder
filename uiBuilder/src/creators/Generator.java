@@ -11,7 +11,8 @@ import android.widget.TextView;
 
 public class Generator
 {
-
+	public static final String OBJECT_TAG = "isObject";
+	
 	private int idCount;
 	/** Variable zur dynamischen Vergabe laufender IDs */
 

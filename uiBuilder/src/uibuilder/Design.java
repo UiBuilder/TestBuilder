@@ -36,6 +36,7 @@ public class Design extends Activity
 	private void linkElements()
 	{
 		root = (RelativeLayout) findViewById(R.id.design_area);
+		
 
 	}
 
