@@ -44,7 +44,8 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	/**
 	 * KONSTRUKTOR
 	 * 
-	 * @param context
+	 * @param context reference to activity
+	 * @param root reference for the design area
 	 */
 	public TheBoss(Context context, RelativeLayout root)
 	{
@@ -321,12 +322,9 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 				break;
 
 			case ID_RIGHT:
+				Log.d("right indicator", "is moving");
 				
 				float distance = e2.getX() - e1.getX();
-				
-				Log.d("right indicator", "is moving");
-				Log.d("right distance", String.valueOf(distanceX));
-				
 				setParams(distance);
 				
 				break;
@@ -442,6 +440,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	/**
 	 * Entfernt das Overlay komplett. 
 	 * <b>Keine</b> Überprüfung ob Overlay vorhanden!
+	 * TODO increase robustness!
 	 */
 	private void deleteOverlay()
 	{
