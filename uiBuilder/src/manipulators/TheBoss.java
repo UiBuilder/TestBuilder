@@ -61,7 +61,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	// festzustellen.
 
 	/**
-	 * Erfasst alle Touch-Events, setzt ggf. irgendwelche Werte irgendwo hin.
+	 * Erfasst alle Touch-Events, setzt ggf. Flags die den Zustand der Applikation abbilden.
 	 */
 	@Override
 	public boolean onTouch(View v, MotionEvent event)
