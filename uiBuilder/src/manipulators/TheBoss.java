@@ -13,6 +13,7 @@ import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import creators.ObjectFactory;
@@ -121,17 +122,24 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			params.topMargin = (int) clickPosY;
 			root.addView(newOne, params);
 
-			root.requestLayout();
+			invalidate();
 			params.leftMargin = (int) clickPosX - newOne.getMeasuredWidth()/2;
 			params.topMargin = (int) clickPosY - newOne.getMeasuredHeight()/2;
 			newOne.setLayoutParams(params);
 			Log.d("onDown", String.valueOf(params.leftMargin)+" "+String.valueOf(params.topMargin));
 			Log.d("onDown", String.valueOf(newOne.getWidth()/2)+" "+String.valueOf(newOne.getMeasuredHeight()/2));
-			root.requestLayout();
+			invalidate();
+			
+			return true;
 		}
 		
 		Log.d("Ondown", "is called");
 		return false;
+	}
+
+	private void invalidate()
+	{
+		root.requestLayout();
 	}
 
 	@Override
@@ -160,21 +168,21 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			Toast.makeText(context.getApplicationContext(),
 					"Button " + activeItem.getId() + " is longclicked",
 					Toast.LENGTH_SHORT).show();
-			root.requestLayout();
+			invalidate();
 			setOverlay();
 			
 			activeItem.setAlpha(0.5f);
 
-			root.requestLayout();
+			invalidate();
 		}
 
 	}
 //TEMPORÄR
-	private Button drag;
-	private Button left;
-	private Button right;
-	private Button bottom;
-	private Button top;
+	private ImageButton drag;
+	private ImageButton left;
+	private ImageButton right;
+	private ImageButton bottom;
+	private ImageButton top;
 	
 	private void disableOverlay()
 	{
@@ -184,7 +192,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		root.removeView(top);
 		root.removeView(bottom);
 		
-		root.requestLayout();
+		invalidate();
 		overlayActive = false;
 	}
 	
@@ -197,21 +205,22 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		Log.d("params left", String.valueOf(modified.leftMargin));
 		
 		//DRAG
-		drag = new Button(context);
+		drag = new ImageButton(context);
 		modified.leftMargin = activeItem.getLeft();
 		modified.topMargin = activeItem.getTop();
 		modified.width = activeItem.getMeasuredWidth();
+		modified.height = activeItem.getMeasuredHeight();
 		drag.setBackgroundResource(android.R.color.background_dark);
 		drag.setAlpha(0.5f);
 		drag.setId(dragId);
 		drag.setTag(OVERLAYTAG);
 		drag.setOnTouchListener(this);
 		root.addView(drag, modified);
-		root.requestLayout();
+		invalidate();
 		
 		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		//RIGHT
-		right = new Button(context);
+		right = new ImageButton(context);
 		right.setBackgroundResource(android.R.color.holo_orange_light);
 		right.setAlpha(0.5f);
 		modified.addRule(RelativeLayout.ALIGN_TOP, dragId);
@@ -223,7 +232,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		
 		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		//BOTTOM
-		bottom = new Button(context);
+		bottom = new ImageButton(context);
 		bottom.setBackgroundResource(android.R.color.holo_orange_light);
 		bottom.setAlpha(0.5f);
 		modified.addRule(RelativeLayout.BELOW, dragId);
@@ -235,7 +244,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		
 		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		//LEFT
-		left = new Button(context);
+		left = new ImageButton(context);
 		left.setBackgroundResource(android.R.color.holo_orange_light);
 		left.setAlpha(0.5f);
 		modified.addRule(RelativeLayout.LEFT_OF, bottom.getId());
@@ -247,7 +256,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		
 		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		//TOP
-		top = new Button(context);
+		top = new ImageButton(context);
 		top.setBackgroundResource(android.R.color.holo_orange_light);
 		top.setAlpha(0.5f);
 		modified.addRule(RelativeLayout.ABOVE, right.getId());
@@ -256,7 +265,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		top.setTag(OVERLAYTAG);
 		root.addView(top, modified);
 		
-		root.requestLayout();
+		invalidate();
 	}
 
 	@Override
@@ -322,6 +331,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			root.requestLayout();
 			 
 			params.width = activeItem.getMeasuredWidth();
+			params.height = activeItem.getMeasuredHeight();
 			drag.setLayoutParams(params);
 			
 			root.requestLayout();
