@@ -57,7 +57,8 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		activeItem = null;
 	}
 
-	// private View dragIndicator; //war gedacht um laufende Drags
+	private View dragIndicator; //war gedacht um laufende Drags
+
 	// festzustellen.
 
 	/**
@@ -70,6 +71,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		if (v instanceof RelativeLayout)// Betrifft alle touch-Events die auf
 										// der leeren Arbeitsfläche stattfinden.
 		{
+			dragIndicator = null;
 			detector.setIsLongpressEnabled(false);
 
 			if (overlayActive)// Für den Fall, dass ein Overlay existiert.
@@ -83,8 +85,11 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		{
 			if (v.getTag() == OVERLAYTAG) // Relikt
 			{
-				// dragIndicator = v;
-			} else
+				dragIndicator = v;
+				Log.d("wäre jetzt super", "fuck");
+				
+			} 
+			else
 			{
 				Log.d("OnLongpressenabled", "is called");
 
@@ -97,18 +102,44 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 				{
 					deleteOverlay();
 				}
-				// overlayActive = false;
 				activeItem = v;
 				detector.setIsLongpressEnabled(true); //Longclics sollen weitergereicht werden.
 			}
 		}
-		/*
-		 * switch (event.getAction()) { case MotionEvent.ACTION_UP:
-		 * 
-		 * break;
-		 * 
-		 * }
-		 */
+/*		
+		 switch (event.getAction()) 
+		 {
+		 case MotionEvent.ACTION_MOVE:
+		 
+			 switch (v.getId())
+			{
+			case ID_TOP:
+				Log.d("top indicator", "is moving");
+				break;
+
+			case ID_RIGHT:
+				Log.d("right indicator", "is moving");
+				Log.d("right width", String.valueOf(dragIndicator.getMeasuredWidth()));
+				
+				break;
+				
+			case ID_BOTTOM:
+				Log.d("bottom indicator", "is moving");
+				break;
+				
+			case ID_LEFT:
+				Log.d("left indicator", "is moving");
+				break;
+				
+			default:
+				// FUCK OFF
+				break;
+			}
+		 
+		 break;
+		 
+		  }
+*/		 
 		Log.d("forward", "is called");
 		return detector.onTouchEvent(event); // MUSS SO AUFGERUFEN WERDEN
 	}
@@ -133,7 +164,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			params.topMargin = (int) clickPosY;
 			root.addView(newOne, params);
 
-			invalidate(); //Damit der neue Button Koordinaten und Maße bekommt.
+			//invalidate(); //Damit der neue Button Koordinaten und Maße bekommt.
 			params.leftMargin = (int) clickPosX - newOne.getMeasuredWidth() / 2;
 			params.topMargin = (int) clickPosY - newOne.getMeasuredHeight() / 2;
 			newOne.setLayoutParams(params);
@@ -142,7 +173,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 							+ String.valueOf(params.topMargin));
 			Log.d("onDown", String.valueOf(newOne.getWidth() / 2) + " "
 					+ String.valueOf(newOne.getMeasuredHeight() / 2));
-			invalidate(); 
+			//invalidate(); 
 
 			return true;
 		}
@@ -161,10 +192,10 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY)
 	{
-		if (overlayActive && activeItem != null)
+		/*if (overlayActive && activeItem != null)
 		{
 			this.root.removeView(activeItem);
-		}
+		}*/
 		Toast.makeText(context.getApplicationContext(), "fling",
 				Toast.LENGTH_LONG).show();
 
@@ -183,11 +214,11 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			Toast.makeText(context.getApplicationContext(),
 					"Button " + activeItem.getId() + " is longclicked",
 					Toast.LENGTH_SHORT).show();
-			invalidate();
+			//invalidate();
 			setOverlay();
+			Log.d("measure left", String.valueOf(left.getMeasuredWidth()));
 
-
-			invalidate();
+			//invalidate();
 		}
 
 	}
@@ -199,9 +230,13 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	private ImageButton bottom;
 	private ImageButton top;
 
+	private static final int ID_CENTER = (int) 78.75; // hihi
+	private static final int ID_TOP = 83;
+	private static final int ID_RIGHT = 73;
+	private static final int ID_BOTTOM = 90;
+	private static final int ID_LEFT = 69;
 	
 	
-
 	/**
 	 * Erstellt ein Overlay. Position des Overlays wird von dem derzeit aktiven
 	 * Element bestimmt. Die Flag <i>overlayActive</i> wird hier auf <b>true</b>
@@ -214,8 +249,8 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		overlayActive = true;
 		RelativeLayout.LayoutParams modified = new RelativeLayout.LayoutParams(
 				activeItem.getLayoutParams());
-		int dragId = 1111;
-		Log.d("params left", String.valueOf(modified.leftMargin));
+		
+		Log.d("params right", String.valueOf(activeItem.getRight()));
 
 		// DRAG
 		drag = new ImageButton(context);
@@ -225,7 +260,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		modified.height = activeItem.getMeasuredHeight();
 		drag.setBackgroundResource(android.R.color.background_dark);
 		drag.setAlpha(0.5f);
-		drag.setId(dragId);
+		drag.setId(ID_CENTER);
 		drag.setTag(OVERLAYTAG);
 		drag.setOnTouchListener(this);
 		root.addView(drag, modified);
@@ -237,11 +272,12 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		right = new ImageButton(context);
 		right.setBackgroundResource(android.R.color.holo_orange_light);
 		right.setAlpha(0.5f);
-		modified.addRule(RelativeLayout.ALIGN_TOP, dragId);
-		modified.addRule(RelativeLayout.RIGHT_OF, dragId);
-		modified.addRule(RelativeLayout.ALIGN_BOTTOM, dragId);
-		right.setId(1112);
+		modified.addRule(RelativeLayout.ALIGN_TOP, ID_CENTER);
+		modified.addRule(RelativeLayout.RIGHT_OF, ID_CENTER);
+		modified.addRule(RelativeLayout.ALIGN_BOTTOM, ID_CENTER);
+		right.setId(ID_RIGHT);
 		right.setTag(OVERLAYTAG);
+		right.setOnTouchListener(this);
 		root.addView(right, modified);
 
 		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
@@ -250,10 +286,10 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		bottom = new ImageButton(context);
 		bottom.setBackgroundResource(android.R.color.holo_orange_light);
 		bottom.setAlpha(0.5f);
-		modified.addRule(RelativeLayout.BELOW, dragId);
-		modified.addRule(RelativeLayout.ALIGN_LEFT, dragId);
-		modified.addRule(RelativeLayout.ALIGN_RIGHT, dragId);
-		bottom.setId(1113);
+		modified.addRule(RelativeLayout.BELOW, ID_CENTER);
+		modified.addRule(RelativeLayout.ALIGN_LEFT, ID_CENTER);
+		modified.addRule(RelativeLayout.ALIGN_RIGHT, ID_CENTER);
+		bottom.setId(ID_BOTTOM);
 		bottom.setTag(OVERLAYTAG);
 		root.addView(bottom, modified);
 
@@ -266,7 +302,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		modified.addRule(RelativeLayout.LEFT_OF, bottom.getId());
 		modified.addRule(RelativeLayout.ALIGN_TOP, right.getId());
 		modified.addRule(RelativeLayout.ABOVE, bottom.getId());
-		left.setId(1114);
+		left.setId(ID_LEFT);
 		left.setTag(OVERLAYTAG);
 		root.addView(left, modified);
 
@@ -279,6 +315,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		modified.addRule(RelativeLayout.ABOVE, right.getId());
 		modified.addRule(RelativeLayout.LEFT_OF, right.getId());
 		modified.addRule(RelativeLayout.RIGHT_OF, left.getId());
+		top.setId(ID_TOP);
 		top.setTag(OVERLAYTAG);
 		root.addView(top, modified);
 
@@ -289,16 +326,60 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
 			float distanceY)
 	{
-		if (overlayActive)//Startet ein DragEvent wenn ein Overlay existiert.
+		if (dragIndicator != null)//Startet ein DragEvent wenn ein Overlay existiert.
 		{
-			Log.d("onScroll", "wurde Aufgerufen");
-			ClipData.Item item = new ClipData.Item((String) activeItem.getTag());
-			ClipData clipData = new ClipData(
-					(CharSequence) activeItem.getTag(),
-					new String[] { ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
-			activeItem.startDrag(clipData, new View.DragShadowBuilder(
-					activeItem), null, 0);
+			switch (dragIndicator.getId())
+			{
+			case ID_CENTER:
+				Log.d("onScroll", "wurde Aufgerufen");
+				ClipData.Item item = new ClipData.Item((String) activeItem.getTag());
+				ClipData clipData = new ClipData(
+						(CharSequence) activeItem.getTag(),
+						new String[] { ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
+				activeItem.startDrag(clipData, new View.DragShadowBuilder(
+						activeItem), null, 0);
 
+				
+				break;
+			
+			case ID_TOP:
+				Log.d("top indicator", "is moving");
+				break;
+
+			case ID_RIGHT:
+				Log.d("right indicator", "is moving");
+				
+				Log.d("right distance", String.valueOf(distanceX));
+				
+				
+				RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) activeItem
+						.getLayoutParams(); 
+				params.width = activeItem.getMeasuredWidth();
+				params.height = activeItem.getMeasuredHeight();
+				params.width -= Math.round(distanceX); //FRAMEWORK INVERTS VALUES!!!
+				activeItem.setLayoutParams(params);
+				
+				//invalidate();
+				params = (RelativeLayout.LayoutParams) activeItem
+						.getLayoutParams();
+				//params.width -= distanceX;
+				drag.setLayoutParams(params);
+				invalidate();
+				
+				break;
+				
+			case ID_BOTTOM:
+				Log.d("bottom indicator", "is moving");
+				break;
+				
+			case ID_LEFT:
+				Log.d("left indicator", "is moving");
+				break;
+				
+			default:
+				// FUCK OFF
+				break;
+			}
 		}
 		return false;
 	}
@@ -323,10 +404,11 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 
 		// if (overlayActive)
 		{
-			switch (event.getAction()) {
+			switch (event.getAction()) 
+			{
 			case DragEvent.ACTION_DRAG_STARTED:
 				setOverlayVisibility(false);	//Während des Drags ist kein Overlay sichtbar.
-				root.requestLayout();
+				//root.requestLayout();
 				return true;
 			case DragEvent.ACTION_DRAG_ENTERED:
 				break;
@@ -405,7 +487,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		root.removeView(bottom);
 		activeItem.setAlpha(1.0f);
 
-		invalidate();
+		//invalidate();
 		overlayActive = false;
 	}
 
