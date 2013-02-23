@@ -321,7 +321,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			switch (dragIndicator.getId())
 			{
 			case ID_CENTER:
-				Log.d("onScroll", "wurde Aufgerufen");
 				ClipData.Item item = new ClipData.Item((String) activeItem.getTag());
 				ClipData clipData = new ClipData((CharSequence) activeItem.getTag(), new String[] { ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
 				
@@ -367,6 +366,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	 * @param start the starting point of the scaling process
 	 * @param now the actual position of the scale movement
 	 */
+	
 	private void setParams(int handleId, MotionEvent start, MotionEvent now)
 	{
 		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) activeItem.getLayoutParams();
@@ -375,7 +375,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		Log.d("left getleft", String.valueOf(left.getLeft()));
 		switch (handleId)
 		{
-		case ID_RIGHT:
+		case ID_RIGHT: //WIR BRAUCHEN EINE METHODE FÜR MAX DISTANCE BEI COLLISION
 			distance = now.getX() - start.getX();
 			params.width = activeItem.getMeasuredWidth() + Math.round(distance);
 			params.height = activeItem.getMeasuredHeight();
@@ -383,19 +383,19 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			
 		case ID_LEFT:
 			Log.d("left: axis and left width", String.valueOf(now.getAxisValue(MotionEvent.AXIS_X))+"  "+ String.valueOf(left.getWidth()));
-			
+			Log.d("try get right", String.valueOf(activeItem.getRight()));
 			distance = start.getX() - now.getX();
 			
-			if (activeItem.getLeft() - distance > 0)
+			if (activeItem.getLeft() - distance > root.getLeft() + left.getWidth())
 			{
 				params.leftMargin = activeItem.getLeft() - Math.round(distance);	
 				params.width = activeItem.getMeasuredWidth() + Math.round(distance);
 				params.height = activeItem.getMeasuredHeight();
 			}
 			else 
-			if (activeItem.getLeft() <= left.getWidth())
+			//if (activeItem.getLeft() <= left.getWidth())
 			{
-				params.leftMargin = 0;
+				params.leftMargin = left.getWidth();
 			}
 			
 			break;
@@ -409,17 +409,17 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		case ID_TOP:
 			
 			distance = start.getY() - now.getY();
-			if (activeItem.getTop() - distance > 0)
+			if (activeItem.getTop() - distance > root.getTop() + top.getHeight())
 			{
 				params.topMargin = activeItem.getTop() - Math.round(distance);
 				params.width = activeItem.getMeasuredWidth();
 				params.height = activeItem.getMeasuredHeight() + Math.round(distance);
-				
 			}
 			else
 			//if (activeItem.getTop() <= top.getTop())
 			{
-				params.topMargin = 0;
+				params.topMargin = top.getHeight();
+				
 			}
 			break;
 			
