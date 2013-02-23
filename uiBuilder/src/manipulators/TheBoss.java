@@ -282,6 +282,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		modified.addRule(RelativeLayout.ABOVE, bottom.getId());
 		left.setId(ID_LEFT);
 		left.setTag(OVERLAYTAG);
+		left.setOnTouchListener(this);
 		root.addView(left, modified);
 
 		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
@@ -290,62 +291,65 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		top = new ImageButton(context);
 		top.setBackgroundResource(android.R.color.holo_orange_light);
 		top.setAlpha(0.5f);
+		
 		modified.addRule(RelativeLayout.ABOVE, right.getId());
 		modified.addRule(RelativeLayout.LEFT_OF, right.getId());
 		modified.addRule(RelativeLayout.RIGHT_OF, left.getId());
+		
 		top.setId(ID_TOP);
 		top.setTag(OVERLAYTAG);
+		top.setOnTouchListener(this);
 		root.addView(top, modified);
 
 		invalidate();
 	}
 
-	MotionEvent e;
-	@Override
+	/**
+	 * Perform motion of the overlay resize-handles and resize the corresponding element based on the new position of the handle
+	 * movement in progress.
+	 * The distance values passed to this method are are not predictable. They alternate between positive and negative values.
+	 * We have to compute our own distance values to get a smooth movement and a nice experience
+	 * @Override 
+	 */
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
 			float distanceY)
 	{
 		invalidate();
 		if (dragIndicator != null) //Startet ein DragEvent wenn ein Overlay existiert.
 		{
-			float distance;
 			
 			switch (dragIndicator.getId())
 			{
 			case ID_CENTER:
 				Log.d("onScroll", "wurde Aufgerufen");
 				ClipData.Item item = new ClipData.Item((String) activeItem.getTag());
-				ClipData clipData = new ClipData(
-						(CharSequence) activeItem.getTag(),
-						new String[] { ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
-				activeItem.startDrag(clipData, new View.DragShadowBuilder(
-						activeItem), null, 0);
-
+				ClipData clipData = new ClipData((CharSequence) activeItem.getTag(), new String[] { ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
+				
+				activeItem.startDrag(clipData, new View.DragShadowBuilder(activeItem), null, 0);
 				break;
 			
-			case ID_TOP:
-				Log.d("top indicator", "is moving");
-				
-				break;
 
 			case ID_RIGHT:
 				Log.d("right indicator", "is moving");
-				
-				distance = e2.getX() - e1.getX();
-				setParams(distance, ID_RIGHT);
+
+				setParams(ID_RIGHT, e1, e2);
 				
 				break;
 				
 			case ID_BOTTOM:
 				Log.d("bottom indicator", "is moving");
 				
-				distance = e2.getY() - e1.getY();
-				setParams(distance, ID_BOTTOM);
+				setParams(ID_BOTTOM, e1, e2);
 				
+				break;
+				
+			case ID_TOP:
+				setParams(ID_TOP, e1, e2);
 				break;
 				
 			case ID_LEFT:
 				Log.d("left indicator", "is moving");
+				setParams(ID_LEFT, e1, e2);
 				break;
 				
 			default:
@@ -356,27 +360,42 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		return false;
 	}
 
-	private void setParams(float distance, int handleId)
+	private void setParams(int handleId, MotionEvent start, MotionEvent now)
 	{
 		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) activeItem.getLayoutParams();
+		float distance;
 		
 		switch (handleId)
 		{
 		case ID_RIGHT:
+			distance = now.getX() - start.getX();
 			params.width = activeItem.getMeasuredWidth() + Math.round(distance);
 			params.height = activeItem.getMeasuredHeight();
 			break;
 
 		case ID_BOTTOM:
+			distance = now.getY() - start.getY();
 			params.width = activeItem.getMeasuredWidth();
 			params.height = activeItem.getMeasuredHeight() + Math.round(distance);
 			break;
 			
+		case ID_TOP:
+			distance = start.getY() - now.getY();
+			params.topMargin = activeItem.getTop() - Math.round(distance);
+			params.width = activeItem.getMeasuredWidth();
+			params.height = activeItem.getMeasuredHeight() + Math.round(distance);
+			break;
+			
+		case ID_LEFT:
+			distance = start.getX() - now.getX();
+			params.leftMargin = activeItem.getLeft() - Math.round(distance);
+			params.width = activeItem.getMeasuredWidth() + Math.round(distance);
+			params.height = activeItem.getMeasuredHeight();
+			break;
+			
 		default:
 			break;
-		}
-		
-		
+		}	
 		drag.setLayoutParams(params);
 	}
 
@@ -425,13 +444,13 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			Log.d("getx gety", String.valueOf(params.leftMargin) + " " + String.valueOf(params.topMargin));
 			activeItem.setLayoutParams(params);
 
-			root.requestLayout();
-
+			invalidate();
+			
 			params.width = activeItem.getMeasuredWidth();
 			params.height = activeItem.getMeasuredHeight();
 			drag.setLayoutParams(params);
 
-			root.requestLayout();
+			invalidate();
 
 			setOverlayVisibility(true);//das Overlay wird wieder angezeigt, da der Drag vorbei ist. 
 			isDragging = false;
