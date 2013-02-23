@@ -12,7 +12,6 @@
     
     <RelativeLayout android:id="@+id/design_area"
         
-        
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />

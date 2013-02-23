@@ -14,7 +14,6 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import creators.ObjectFactory;
@@ -61,9 +60,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		activeItem = null;
 	}
 
-	private View dragIndicator; //war gedacht um laufende Drags
-
-	// festzustellen.
+	private View dragIndicator; /**@param dragIndicator the active overlay element. Either ID_LEFT, ID_TOP, ID_BOTTOM, ID_RIGHT*/
 
 	/**
 	 * Erfasst alle Touch-Events, setzt ggf. Flags die den Zustand der Applikation abbilden.
@@ -307,8 +304,11 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	/**
 	 * Perform motion of the overlay resize-handles and resize the corresponding element based on the new position of the handle
 	 * movement in progress.
-	 * The distance values passed to this method are are not predictable. They alternate between positive and negative values.
-	 * We have to compute our own distance values to get a smooth movement and a nice experience
+	 * <p>
+	 * <b>The distance values passed by the framework are are not predictable.</b> 
+	 * They alternate between positive and negative values.
+	 * </p>
+	 * The solution is to compute our own distance values to get a smooth movement and a nice experience.
 	 * @Override 
 	 */
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
@@ -359,7 +359,13 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		}
 		return false;
 	}
-
+	/**
+	 * This method resizes the item and repositions it appropriately.
+	 * 
+	 * @param handleId the handle which started the scaling
+	 * @param start the starting point of the scaling process
+	 * @param now the actual position of the scale movement
+	 */
 	private void setParams(int handleId, MotionEvent start, MotionEvent now)
 	{
 		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) activeItem.getLayoutParams();
@@ -421,26 +427,30 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		{
 		case DragEvent.ACTION_DRAG_STARTED:
 			setOverlayVisibility(false);	//Während des Drags ist kein Overlay sichtbar.
-			
 			return true;
+			
 		case DragEvent.ACTION_DRAG_ENTERED:
 			break;
+			
 		case DragEvent.ACTION_DRAG_LOCATION:
 			break;
+			
 		case DragEvent.ACTION_DRAG_ENDED:
-
 			break;
+			
 		case DragEvent.ACTION_DRAG_EXITED:
-
 			break;
+			
 		case DragEvent.ACTION_DROP:
 			
+			int dropTargetX = checkCollisionX(event);
+			int dropTargetY = checkCollisionY(event);
 			//Positionen werden ausgelesen und zugewiesen. Objekte werden an ihre Zielposition verschoben und das Overlay bekommt neue Koordinaten. 
 			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) activeItem
 					.getLayoutParams();
 
-			params.leftMargin = (int) event.getX() - activeItem.getMeasuredWidth() / 2;
-			params.topMargin = (int) event.getY() - activeItem.getMeasuredHeight() / 2;
+			params.leftMargin = dropTargetX;
+			params.topMargin = dropTargetY;
 			Log.d("getx gety", String.valueOf(params.leftMargin) + " " + String.valueOf(params.topMargin));
 			activeItem.setLayoutParams(params);
 
@@ -459,6 +469,44 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		}
 		return true; //EVTL FEHLERQUELLE: RETURNS ALWAYS TRUE
 	}
+
+	private int checkCollisionY(DragEvent event)
+	{
+		int dropTargetY;
+		int minPosY = top.getMeasuredHeight();
+		int maxPosY = root.getMeasuredHeight() - bottom.getMeasuredHeight() - activeItem.getMeasuredHeight();
+		
+		int dropPosY = (int) event.getY() - activeItem.getMeasuredHeight()/2;
+		
+		if (dropPosY > minPosY && dropPosY < maxPosY)
+		{
+			dropTargetY = dropPosY;
+		}
+		else
+		{
+			dropTargetY = (dropPosY < minPosY) ? minPosY : maxPosY;
+		}
+		return dropTargetY;
+	}
+
+	private int checkCollisionX(DragEvent event)
+	{
+		int dropTargetX;
+		int minPosX = left.getMeasuredWidth();
+		int maxPosX = root.getMeasuredWidth() - right.getMeasuredWidth() - activeItem.getMeasuredWidth();
+		
+		int dropPosX = (int) event.getX() - activeItem.getMeasuredWidth() / 2;
+		
+		if (dropPosX > minPosX && dropPosX < maxPosX)
+		{
+			dropTargetX = dropPosX;
+		}
+		else
+		{
+			dropTargetX = (dropPosX < minPosX) ? minPosX : maxPosX;
+		}
+		return dropTargetX;
+	}
 	/** 
 	 * Bestimmt die Sichtbarkeit des Overlays. Das Overlay wird <b>Versteckt </b>, jedoch <b>nicht Entfernt</b>.
 	 * @param visible legt die Sichtbarkeit des Overlays fest.
@@ -472,7 +520,8 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			bottom.setVisibility(View.VISIBLE);
 			left.setVisibility(View.VISIBLE);
 			right.setVisibility(View.VISIBLE);
-		} else
+		} 
+		else
 		{
 
 			drag.setVisibility(View.INVISIBLE);
