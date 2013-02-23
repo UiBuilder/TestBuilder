@@ -245,9 +245,11 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		right = new ImageButton(context);
 		right.setBackgroundResource(android.R.color.holo_orange_light);
 		right.setAlpha(0.5f);
+		
 		modified.addRule(RelativeLayout.ALIGN_TOP, ID_CENTER);
 		modified.addRule(RelativeLayout.RIGHT_OF, ID_CENTER);
 		modified.addRule(RelativeLayout.ALIGN_BOTTOM, ID_CENTER);
+		
 		right.setId(ID_RIGHT);
 		right.setTag(OVERLAYTAG);
 		right.setOnTouchListener(this);
@@ -259,11 +261,14 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		bottom = new ImageButton(context);
 		bottom.setBackgroundResource(android.R.color.holo_orange_light);
 		bottom.setAlpha(0.5f);
+		
 		modified.addRule(RelativeLayout.BELOW, ID_CENTER);
 		modified.addRule(RelativeLayout.ALIGN_LEFT, ID_CENTER);
 		modified.addRule(RelativeLayout.ALIGN_RIGHT, ID_CENTER);
+		
 		bottom.setId(ID_BOTTOM);
 		bottom.setTag(OVERLAYTAG);
+		bottom.setOnTouchListener(this);
 		root.addView(bottom, modified);
 
 		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
@@ -303,6 +308,8 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		invalidate();
 		if (dragIndicator != null) //Startet ein DragEvent wenn ein Overlay existiert.
 		{
+			float distance;
+			
 			switch (dragIndicator.getId())
 			{
 			case ID_CENTER:
@@ -324,13 +331,17 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			case ID_RIGHT:
 				Log.d("right indicator", "is moving");
 				
-				float distance = e2.getX() - e1.getX();
-				setParams(distance);
+				distance = e2.getX() - e1.getX();
+				setParams(distance, ID_RIGHT);
 				
 				break;
 				
 			case ID_BOTTOM:
 				Log.d("bottom indicator", "is moving");
+				
+				distance = e2.getY() - e1.getY();
+				setParams(distance, ID_BOTTOM);
+				
 				break;
 				
 			case ID_LEFT:
@@ -345,11 +356,26 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		return false;
 	}
 
-	private void setParams(float distance)
+	private void setParams(float distance, int handleId)
 	{
-		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) activeItem.getLayoutParams(); 
-		params.width = activeItem.getMeasuredWidth() + Math.round(distance);
-		params.height = activeItem.getMeasuredHeight();
+		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) activeItem.getLayoutParams();
+		
+		switch (handleId)
+		{
+		case ID_RIGHT:
+			params.width = activeItem.getMeasuredWidth() + Math.round(distance);
+			params.height = activeItem.getMeasuredHeight();
+			break;
+
+		case ID_BOTTOM:
+			params.width = activeItem.getMeasuredWidth();
+			params.height = activeItem.getMeasuredHeight() + Math.round(distance);
+			break;
+			
+		default:
+			break;
+		}
+		
 		
 		drag.setLayoutParams(params);
 	}
