@@ -348,8 +348,11 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 				
 			case ID_LEFT:
 				
+				if(activeItem.getLeft() <= left.getLeft())
+					return true;
 				Log.d("left indicator", "is moving");
 				setParams(ID_LEFT, e1, e2);
+				
 				break;
 				
 			default:
@@ -385,17 +388,18 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			Log.d("left: axis and left width", String.valueOf(now.getAxisValue(MotionEvent.AXIS_X))+"  "+ String.valueOf(left.getWidth()));
 			Log.d("try get right", String.valueOf(activeItem.getRight()));
 			distance = start.getX() - now.getX();
+
 			
 			if (activeItem.getLeft() - distance > root.getLeft() + left.getWidth())
 			{
-				params.leftMargin = activeItem.getLeft() - Math.round(distance);	
+				params.leftMargin = restrictToBounds(activeItem.getLeft() - Math.round(distance),ID_LEFT);	
 				params.width = activeItem.getMeasuredWidth() + Math.round(distance);
 				params.height = activeItem.getMeasuredHeight();
 			}
-			else 
-			//if (activeItem.getLeft() <= left.getWidth())
+		else 
+			if (activeItem.getLeft() <= left.getWidth())
 			{
-				params.leftMargin = left.getWidth();
+				Log.d("leftpos", String.valueOf(left.getLeft()));
 			}
 			
 			break;
@@ -428,7 +432,9 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		}	
 		drag.setLayoutParams(params);
 	}
-/*
+
+
+
 	private int restrictToBounds(float pointerPos, int which)
 	{
 		int maxRight;
@@ -471,7 +477,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		
 		return 0;
 	}
-*/
+
 	// UNUSED
 	@Override
 	public void onShowPress(MotionEvent e)
