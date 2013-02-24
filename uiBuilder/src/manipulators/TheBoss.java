@@ -78,17 +78,15 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 				detector.setIsLongpressEnabled(false);
 				dragIndicator = null;
 				
-				
 				if(overlayActive)
 				{
 					deleteOverlay();
 					return true;
-	
 				}
+				
 				activeItem = null;
 				Log.d("layout forward", "called");
 				break;
-			
 				
 			case ID_TOP: case ID_RIGHT: case ID_BOTTOM: case ID_LEFT: case ID_CENTER:
 				detector.setIsLongpressEnabled(false);
@@ -107,8 +105,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 				detector.setIsLongpressEnabled(true);
 				break;
 		}
- 
-		Log.d("forward", "is called");
 		
 		 // MUSS SO AUFGERUFEN WERDEN 
 		return detector.onTouchEvent(event);
@@ -137,10 +133,8 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	{
 		if (activeItem == null && !overlayActive)
 		{
-			Button newOne = (Button) factory
-					.getElement(ObjectFactory.ID_BUTTON);
-			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) newOne
-					.getLayoutParams();
+			Button newOne = (Button) factory.getElement(ObjectFactory.ID_BUTTON);
+			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) newOne.getLayoutParams();
 
 			params.leftMargin = (int) clickPosX;
 			params.topMargin = (int) clickPosY;
@@ -149,11 +143,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			params.leftMargin = (int) clickPosX - newOne.getMeasuredWidth() / 2;
 			params.topMargin = (int) clickPosY - newOne.getMeasuredHeight() / 2;
 			newOne.setLayoutParams(params);
-			Log.d("onDown",
-					String.valueOf(params.leftMargin) + " "
-							+ String.valueOf(params.topMargin));
-			Log.d("onDown", String.valueOf(newOne.getWidth() / 2) + " "
-					+ String.valueOf(newOne.getMeasuredHeight() / 2));
 			
 			return true;
 		}
@@ -170,7 +159,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY)
 	{
-
 		Toast.makeText(context.getApplicationContext(), "fling",
 				Toast.LENGTH_SHORT).show();
 
@@ -180,7 +168,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	@Override
 	public void onLongPress(MotionEvent e)
 	{
-
 		Log.d("OnLongpress", "is called");
 
 		isDragging = true;
@@ -189,8 +176,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 				Toast.LENGTH_SHORT).show();
 		
 		setOverlay();
-		Log.d("measure left", String.valueOf(left.getMeasuredWidth()));
-
 	}
 
 	// TEMPORÄR-BÄR
@@ -332,27 +317,23 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 				Log.d("right indicator", "is moving");
 
 				setParams(ID_RIGHT, e1, e2);
-				
 				break;
 				
 			case ID_BOTTOM:
 				Log.d("bottom indicator", "is moving");
 				
 				setParams(ID_BOTTOM, e1, e2);
-				
 				break;
 				
 			case ID_TOP:
+				
 				setParams(ID_TOP, e1, e2);
 				break;
 				
 			case ID_LEFT:
-				
-				if(activeItem.getLeft() <= left.getLeft())
-					return true;
 				Log.d("left indicator", "is moving");
-				setParams(ID_LEFT, e1, e2);
 				
+				setParams(ID_LEFT, e1, e2);
 				break;
 				
 			default:
@@ -378,53 +359,38 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		Log.d("left getleft", String.valueOf(left.getLeft()));
 		switch (handleId)
 		{
-		case ID_RIGHT: //WIR BRAUCHEN EINE METHODE FÜR MAX DISTANCE BEI COLLISION
+		case ID_RIGHT:
 			distance = now.getX() - start.getX();
+			distance = checkCollision(distance, ID_RIGHT);
+			Log.d("checkRight retuns", String.valueOf(1));
 			params.width = activeItem.getMeasuredWidth() + Math.round(distance);
 			params.height = activeItem.getMeasuredHeight();
 			break;
 			
 		case ID_LEFT:
-			Log.d("left: axis and left width", String.valueOf(now.getAxisValue(MotionEvent.AXIS_X))+"  "+ String.valueOf(left.getWidth()));
-			Log.d("try get right", String.valueOf(activeItem.getRight()));
 			distance = start.getX() - now.getX();
+			distance = checkCollision(distance, ID_LEFT);
 
-			
-			if (activeItem.getLeft() - distance > root.getLeft() + left.getWidth())
-			{
-				params.leftMargin = restrictToBounds(activeItem.getLeft() - Math.round(distance),ID_LEFT);	
-				params.width = activeItem.getMeasuredWidth() + Math.round(distance);
-				params.height = activeItem.getMeasuredHeight();
-			}
-		else 
-			if (activeItem.getLeft() <= left.getWidth())
-			{
-				Log.d("leftpos", String.valueOf(left.getLeft()));
-			}
-			
+			params.leftMargin = activeItem.getLeft() - Math.round(distance);
+			params.width = activeItem.getMeasuredWidth() + Math.round(distance);
+			params.height = activeItem.getMeasuredHeight();
 			break;
 
 		case ID_BOTTOM:
 			distance = now.getY() - start.getY();
+			distance = checkCollision(distance, ID_BOTTOM);
+			
 			params.width = activeItem.getMeasuredWidth();
 			params.height = activeItem.getMeasuredHeight() + Math.round(distance);
 			break;
 			
 		case ID_TOP:
-			
 			distance = start.getY() - now.getY();
-			if (activeItem.getTop() - distance > root.getTop() + top.getHeight())
-			{
-				params.topMargin = activeItem.getTop() - Math.round(distance);
-				params.width = activeItem.getMeasuredWidth();
-				params.height = activeItem.getMeasuredHeight() + Math.round(distance);
-			}
-			else
-			//if (activeItem.getTop() <= top.getTop())
-			{
-				params.topMargin = top.getHeight();
-				
-			}
+			distance = checkCollision(distance, ID_TOP);
+
+			params.topMargin = activeItem.getTop() - Math.round(distance);
+			params.width = activeItem.getMeasuredWidth();
+			params.height = activeItem.getMeasuredHeight() + Math.round(distance);		
 			break;
 			
 		default:
@@ -435,47 +401,47 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 
 
 
-	private int restrictToBounds(float pointerPos, int which)
+	private float checkCollision(float distance, int which)
 	{
-		int maxRight;
-		int	minLeft;
-		
-		int minTop;
-		int maxBottom;
-		
-		Log.d("pointerpos", String.valueOf(pointerPos));
-		
 		switch (which)
 		{
 		case ID_RIGHT:
-			maxRight = root.getMeasuredWidth() - right.getMeasuredWidth();
 			
-			return (int) ((pointerPos < maxRight) ? pointerPos : maxRight);
+			if (right.getWidth() + right.getX() + distance >= root.getLeft() + root.getWidth())
+			{
+				Log.d("checkRight retuns", String.valueOf(root.getLeft() + root.getWidth() - right.getRight()));
+				return root.getLeft() + root.getWidth() - right.getRight();
+			}
+			break;
 			
 		case ID_LEFT:
-			minLeft = root.getLeft() + left.getMeasuredWidth();
 			
-			//Log.d("minleft gets value for pointerpos",String.valueOf(pointerPos));
-			//Log.d("minleft returns", String.valueOf((pointerPos > minLeft) ? pointerPos : minLeft));
-			return (int) ((pointerPos > minLeft) ? pointerPos : minLeft);
-			
-		case ID_BOTTOM:
-			maxBottom = root.getMeasuredHeight() + root.getTop();
-			
-			return (int) ((pointerPos < maxBottom) ? pointerPos : maxBottom);
+			if (left.getLeft() - distance <= root.getLeft())
+			{
+				Log.d("checkLeft retuns", String.valueOf(Math.abs(root.getLeft() - left.getLeft())));
+				return Math.abs(root.getLeft() - left.getLeft());
+			}
+			break;
 			
 		case ID_TOP:
-			minTop = root.getTop() + top.getMeasuredHeight();
-			Log.d("mintop", String.valueOf(minTop));
 			
-			Log.d("mintop returns", String.valueOf((Math.abs(pointerPos) > minTop) ? pointerPos : minTop));
-			return (int) ((pointerPos > minTop) ? pointerPos : minTop);
-
+			if (top.getTop() - distance <= root.getTop())
+			{
+				return Math.abs(root.getTop() - top.getTop());
+			}
+			break;
+			
+		case ID_BOTTOM:
+			
+			if (bottom.getBottom() + distance >= root.getBottom())
+			{
+				return root.getTop() + root.getHeight() - bottom.getBottom();
+			}
+			
 		default:
 			break;
 		}
-		
-		return 0;
+		return distance;
 	}
 
 	// UNUSED
@@ -518,13 +484,12 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			
 			int dropTargetX = checkCollisionX(event.getX());
 			int dropTargetY = checkCollisionY(event.getY());
+			
 			//Positionen werden ausgelesen und zugewiesen. Objekte werden an ihre Zielposition verschoben und das Overlay bekommt neue Koordinaten. 
-			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) activeItem
-					.getLayoutParams();
+			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) activeItem.getLayoutParams();
 
 			params.leftMargin = dropTargetX;
 			params.topMargin = dropTargetY;
-			Log.d("getx gety", String.valueOf(params.leftMargin) + " " + String.valueOf(params.topMargin));
 			activeItem.setLayoutParams(params);
 
 			invalidate();
@@ -551,7 +516,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	{
 		int TargetY;
 		int minPosY = top.getMeasuredHeight();
-		int maxPosY = root.getMeasuredHeight() - /*bottom.getMeasuredHeight() - */activeItem.getMeasuredHeight();
+		int maxPosY = root.getMeasuredHeight() - activeItem.getMeasuredHeight();
 		
 		int dropPosY = (int) yCoord - activeItem.getMeasuredHeight()/2;
 		
@@ -631,5 +596,4 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		overlayActive = false;
 		isDragging = false;
 	}
-
 }
