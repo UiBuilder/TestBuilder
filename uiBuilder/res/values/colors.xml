@@ -2,4 +2,5 @@
 <resources>
     <color name="overlay_border">@android:color/holo_orange_light</color>
     <color name="overlay_border_drag">@android:color/background_dark</color>
+    <color name="overlay_background">@android:color/background_light</color>
 </resources>

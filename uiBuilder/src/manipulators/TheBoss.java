@@ -425,9 +425,9 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		{
 		case ID_RIGHT:
 			
-			if (activeItem.getRight() + distance + 50 >= root.getWidth())
+			if (activeItem.getRight() + distance + right.getWidth() >= root.getWidth())
 			{	
-				float overHead = (activeItem.getRight() + distance + 50 - root.getWidth());
+				float overHead = (activeItem.getRight() + distance + right.getWidth() - root.getWidth());
 				
 				return Math.round(distance - overHead);
 			}
@@ -563,8 +563,8 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	private int checkCollisionX(float xCoord)
 	{
 		int TargetX;
-		int minPosX = left.getMeasuredWidth();
-		int maxPosX = root.getMeasuredWidth() - /*right.getMeasuredWidth() - */activeItem.getMeasuredWidth();
+		int minPosX = left.getMeasuredWidth() + activeItem.getMeasuredWidth()/2;
+		int maxPosX = root.getMeasuredWidth() - activeItem.getMeasuredWidth()/2 - right.getMeasuredWidth();
 		
 		int dropPosX = (int) xCoord - activeItem.getMeasuredWidth() / 2;
 		

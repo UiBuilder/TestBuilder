@@ -11,4 +11,5 @@
 	    android:bottomLeftRadius="4dp"
 	    
 	    />
+	<solid android:color="@color/overlay_background"/>
 </shape>
