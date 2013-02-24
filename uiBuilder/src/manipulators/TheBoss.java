@@ -395,7 +395,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			distance = start.getY() - now.getY();
 			roundedDist = checkCollision(distance, ID_TOP);
 
-			params.topMargin = activeItem.getTop() - Math.round(distance);
+			params.topMargin = activeItem.getTop() - roundedDist;
 			params.width = activeItem.getMeasuredWidth();
 			params.height = activeItem.getMeasuredHeight() + roundedDist;		
 			break;
@@ -439,9 +439,9 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			
 		case ID_TOP:
 			
-			if (activeItem.getTop() - top.getWidth() - distance <= 0)
+			if (activeItem.getTop() - top.getHeight() - distance <= 0)
 			{
-				float overHead = (activeItem.getTop() - distance - top.getWidth());
+				float overHead = (activeItem.getTop() - distance - top.getHeight());
 				return Math.round(distance + overHead);
 			}
 			break;
