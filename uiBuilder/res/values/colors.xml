@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="overlay_border">@android:color/holo_orange_light</color>
+    <color name="overlay_border_drag">@android:color/background_dark</color>
+</resources>

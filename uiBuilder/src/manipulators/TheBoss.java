@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import creators.ObjectFactory;
+import de.ur.rk.uibuilder.R;
 
 /**
  * Die Boss-Klasse implementiert alle Listener und koordiniert die Erstellung
@@ -222,7 +223,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		modified.topMargin = activeItem.getTop();
 		modified.width = activeItem.getMeasuredWidth();
 		modified.height = activeItem.getMeasuredHeight();
-		drag.setBackgroundResource(android.R.color.background_dark);
+		drag.setBackgroundResource(R.drawable.overlay_center_bkd);
 		drag.setAlpha(0.5f);
 		drag.setId(ID_CENTER);
 		drag.setTag(OVERLAYTAG);
@@ -235,7 +236,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 				LayoutParams.WRAP_CONTENT);
 		// RIGHT
 		right = new ImageButton(context);
-		right.setBackgroundResource(android.R.color.holo_orange_light);
+		right.setBackgroundResource(R.drawable.overlay_right_bkd);
 		right.setAlpha(0.5f);
 		
 		right.setMinimumWidth(50);
@@ -252,7 +253,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 				LayoutParams.WRAP_CONTENT);
 		// BOTTOM
 		bottom = new ImageButton(context);
-		bottom.setBackgroundResource(android.R.color.holo_orange_light);
+		bottom.setBackgroundResource(R.drawable.overlay_bottom_bkd);
 		bottom.setAlpha(0.5f);
 		
 		bottom.setMinimumHeight(50);
@@ -269,9 +270,8 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 				LayoutParams.WRAP_CONTENT);
 		// LEFT
 		left = new ImageButton(context);
-		left.setBackgroundResource(android.R.color.holo_orange_light);
 		left.setAlpha(0.5f);
-		
+		left.setBackgroundResource(R.drawable.overlay_left_bkd);
 		left.setMinimumWidth(50);
 		modified.addRule(RelativeLayout.LEFT_OF, bottom.getId());
 		modified.addRule(RelativeLayout.ALIGN_TOP, right.getId());
@@ -285,7 +285,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 				LayoutParams.WRAP_CONTENT);
 		// TOP
 		top = new ImageButton(context);
-		top.setBackgroundResource(android.R.color.holo_orange_light);
+		top.setBackgroundResource(R.drawable.overlay_top_bkd);
 		top.setAlpha(0.5f);
 		
 		top.setMinimumHeight(50);

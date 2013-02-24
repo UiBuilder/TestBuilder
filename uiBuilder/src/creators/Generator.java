@@ -1,5 +1,6 @@
 package creators;
 
+import de.ur.rk.uibuilder.R;
 import helpers.Log;
 import manipulators.TheBoss;
 import android.content.Context;
@@ -60,6 +61,7 @@ public class Generator
 		};
 
 		generatedB.setText("Button");
+		generatedB.setBackgroundResource(R.drawable.overlay_center_bkd);
 		generatedB.setId(idCount);
 		idCount++;
 
