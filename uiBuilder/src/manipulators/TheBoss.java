@@ -228,6 +228,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		right.setBackgroundResource(android.R.color.holo_orange_light);
 		right.setAlpha(0.5f);
 		
+		right.setMinimumWidth(50);
 		modified.addRule(RelativeLayout.ALIGN_TOP, ID_CENTER);
 		modified.addRule(RelativeLayout.RIGHT_OF, ID_CENTER);
 		modified.addRule(RelativeLayout.ALIGN_BOTTOM, ID_CENTER);
@@ -244,6 +245,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		bottom.setBackgroundResource(android.R.color.holo_orange_light);
 		bottom.setAlpha(0.5f);
 		
+		bottom.setMinimumHeight(50);
 		modified.addRule(RelativeLayout.BELOW, ID_CENTER);
 		modified.addRule(RelativeLayout.ALIGN_LEFT, ID_CENTER);
 		modified.addRule(RelativeLayout.ALIGN_RIGHT, ID_CENTER);
@@ -259,6 +261,8 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		left = new ImageButton(context);
 		left.setBackgroundResource(android.R.color.holo_orange_light);
 		left.setAlpha(0.5f);
+		
+		left.setMinimumWidth(50);
 		modified.addRule(RelativeLayout.LEFT_OF, bottom.getId());
 		modified.addRule(RelativeLayout.ALIGN_TOP, right.getId());
 		modified.addRule(RelativeLayout.ABOVE, bottom.getId());
@@ -274,6 +278,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		top.setBackgroundResource(android.R.color.holo_orange_light);
 		top.setAlpha(0.5f);
 		
+		top.setMinimumHeight(50);
 		modified.addRule(RelativeLayout.ABOVE, right.getId());
 		modified.addRule(RelativeLayout.LEFT_OF, right.getId());
 		modified.addRule(RelativeLayout.RIGHT_OF, left.getId());
@@ -355,42 +360,44 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	{
 		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) activeItem.getLayoutParams();
 		float distance;
+		int roundedDist;
 		
-		Log.d("left getleft", String.valueOf(left.getLeft()));
 		switch (handleId)
 		{
 		case ID_RIGHT:
+			Log.d("start event", String.valueOf(start.getX()));
+			Log.d("now event", String.valueOf(now.getX()));
 			distance = now.getX() - start.getX();
-			distance = checkCollision(distance, ID_RIGHT);
-			Log.d("checkRight retuns", String.valueOf(1));
-			params.width = activeItem.getMeasuredWidth() + Math.round(distance);
+			roundedDist = checkCollision(distance, ID_RIGHT);
+			Log.d("right width", String.valueOf(right.getWidth()));
+			params.width = activeItem.getMeasuredWidth() + roundedDist;
 			params.height = activeItem.getMeasuredHeight();
 			break;
 			
 		case ID_LEFT:
 			distance = start.getX() - now.getX();
-			distance = checkCollision(distance, ID_LEFT);
+			roundedDist = checkCollision(distance, ID_LEFT);
 
-			params.leftMargin = activeItem.getLeft() - Math.round(distance);
-			params.width = activeItem.getMeasuredWidth() + Math.round(distance);
+			params.leftMargin = activeItem.getLeft() - roundedDist;
+			params.width = activeItem.getMeasuredWidth() + roundedDist;
 			params.height = activeItem.getMeasuredHeight();
 			break;
 
 		case ID_BOTTOM:
 			distance = now.getY() - start.getY();
-			distance = checkCollision(distance, ID_BOTTOM);
+			roundedDist = checkCollision(distance, ID_BOTTOM);
 			
 			params.width = activeItem.getMeasuredWidth();
-			params.height = activeItem.getMeasuredHeight() + Math.round(distance);
+			params.height = activeItem.getMeasuredHeight() + roundedDist;
 			break;
 			
 		case ID_TOP:
 			distance = start.getY() - now.getY();
-			distance = checkCollision(distance, ID_TOP);
+			roundedDist = checkCollision(distance, ID_TOP);
 
 			params.topMargin = activeItem.getTop() - Math.round(distance);
 			params.width = activeItem.getMeasuredWidth();
-			params.height = activeItem.getMeasuredHeight() + Math.round(distance);		
+			params.height = activeItem.getMeasuredHeight() + roundedDist;		
 			break;
 			
 		default:
@@ -401,47 +408,56 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 
 
 
-	private float checkCollision(float distance, int which)
+	private int checkCollision(float distance, int which)
 	{
 		switch (which)
 		{
 		case ID_RIGHT:
 			
-			if (right.getWidth() + right.getX() + distance >= root.getLeft() + root.getWidth())
+			if (activeItem.getRight() + distance + 50 >= root.getWidth())
 			{
-				Log.d("checkRight retuns", String.valueOf(root.getLeft() + root.getWidth() - right.getRight()));
-				return root.getLeft() + root.getWidth() - right.getRight();
+				Log.d("checkColl: right get left ist", String.valueOf(right.getLeft()));
+				Log.d("checkColl: distance ist", String.valueOf(distance));
+				Log.d("checkColl: +50 ist", String.valueOf(right.getLeft() + 50 + distance));
+				Log.d("checkColl: ROOT ist", String.valueOf(root.getWidth()));
+				Log.d("checkColl: RETURNS", String.valueOf(Math.round((right.getLeft() + 50 + distance) - root.getWidth())));
+				
+				
+				float overHead = (activeItem.getRight() + distance + 50 - root.getWidth());
+				return Math.round(distance - overHead);
 			}
 			break;
 			
 		case ID_LEFT:
 			
-			if (left.getLeft() - distance <= root.getLeft())
+			if (activeItem.getLeft() - distance - left.getWidth() <= 0)
 			{
-				Log.d("checkLeft retuns", String.valueOf(Math.abs(root.getLeft() - left.getLeft())));
-				return Math.abs(root.getLeft() - left.getLeft());
+				float overHead = (activeItem.getLeft() - distance - left.getWidth());
+				return Math.round(distance + overHead);
 			}
 			break;
 			
 		case ID_TOP:
 			
-			if (top.getTop() - distance <= root.getTop())
+			if (activeItem.getTop() - top.getWidth() - distance <= 0)
 			{
-				return Math.abs(root.getTop() - top.getTop());
+				float overHead = (activeItem.getTop() - distance - top.getWidth());
+				return Math.round(distance + overHead);
 			}
 			break;
 			
 		case ID_BOTTOM:
-			
-			if (bottom.getBottom() + distance >= root.getBottom())
+			Log.d("bottom indicator, bottom loc und abs bottom", String.valueOf(bottom.getBottom())+" "+String.valueOf(root.getHeight()));
+			if (activeItem.getBottom() + distance + bottom.getHeight() >= root.getHeight())
 			{
-				return root.getTop() + root.getHeight() - bottom.getBottom();
+				float overHead = (bottom.getBottom() + distance - root.getHeight());
+				return Math.round(distance - overHead);
 			}
 			
 		default:
 			break;
 		}
-		return distance;
+		return Math.round(distance);
 	}
 
 	// UNUSED
