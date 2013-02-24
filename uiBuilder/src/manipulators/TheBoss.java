@@ -570,13 +570,20 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		
 		if (dropPosX > minPosX && dropPosX < maxPosX)
 		{
-			TargetX = dropPosX;
+			return dropPosX;
 		}
 		else
 		{
-			TargetX = (dropPosX < minPosX) ? minPosX : maxPosX;
+			if (dropPosX < minPosX)
+			{
+				return minPosX;
+			}
+			if (dropPosX > maxPosX)
+			{
+				return maxPosX;
+			}
 		}
-		return TargetX;
+		return 0;
 	}
 	/** 
 	 * Bestimmt die Sichtbarkeit des Overlays. Das Overlay wird <b>Versteckt </b>, jedoch <b>nicht Entfernt</b>.
