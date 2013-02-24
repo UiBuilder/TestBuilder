@@ -103,6 +103,15 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 				}
 				activeItem = currentTouch;
 				detector.setIsLongpressEnabled(true);
+				
+				switch (event.getAction())
+				{
+				case MotionEvent.ACTION_MOVE:
+					break;
+
+				default:
+					break;
+				}
 				break;
 		}
 		
@@ -219,6 +228,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		drag.setTag(OVERLAYTAG);
 		drag.setOnTouchListener(this);
 		root.addView(drag, modified);
+		
 		invalidate();
 
 		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
@@ -365,11 +375,9 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		switch (handleId)
 		{
 		case ID_RIGHT:
-			Log.d("start event", String.valueOf(start.getX()));
-			Log.d("now event", String.valueOf(now.getX()));
 			distance = now.getX() - start.getX();
 			roundedDist = checkCollision(distance, ID_RIGHT);
-			Log.d("right width", String.valueOf(right.getWidth()));
+			
 			params.width = activeItem.getMeasuredWidth() + roundedDist;
 			params.height = activeItem.getMeasuredHeight();
 			break;
@@ -405,9 +413,12 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		}	
 		drag.setLayoutParams(params);
 	}
-
-
-
+/**
+ * Checks whether the current resize in progress will be larger than the workspace.
+ * @param distance the current distance moved from the origin
+ * @param which is the id of the overlay element that initiated the scale action
+ * @return either the rounded distance when the scaling was in the workspace area, or a <b>restricted to workspace</b> distance.
+ */
 	private int checkCollision(float distance, int which)
 	{
 		switch (which)
@@ -415,15 +426,9 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		case ID_RIGHT:
 			
 			if (activeItem.getRight() + distance + 50 >= root.getWidth())
-			{
-				Log.d("checkColl: right get left ist", String.valueOf(right.getLeft()));
-				Log.d("checkColl: distance ist", String.valueOf(distance));
-				Log.d("checkColl: +50 ist", String.valueOf(right.getLeft() + 50 + distance));
-				Log.d("checkColl: ROOT ist", String.valueOf(root.getWidth()));
-				Log.d("checkColl: RETURNS", String.valueOf(Math.round((right.getLeft() + 50 + distance) - root.getWidth())));
-				
-				
+			{	
 				float overHead = (activeItem.getRight() + distance + 50 - root.getWidth());
+				
 				return Math.round(distance - overHead);
 			}
 			break;
@@ -433,6 +438,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			if (activeItem.getLeft() - distance - left.getWidth() <= 0)
 			{
 				float overHead = (activeItem.getLeft() - distance - left.getWidth());
+				
 				return Math.round(distance + overHead);
 			}
 			break;
@@ -442,15 +448,17 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			if (activeItem.getTop() - top.getHeight() - distance <= 0)
 			{
 				float overHead = (activeItem.getTop() - distance - top.getHeight());
+				
 				return Math.round(distance + overHead);
 			}
 			break;
 			
 		case ID_BOTTOM:
-			Log.d("bottom indicator, bottom loc und abs bottom", String.valueOf(bottom.getBottom())+" "+String.valueOf(root.getHeight()));
+			
 			if (activeItem.getBottom() + distance + bottom.getHeight() >= root.getHeight())
 			{
 				float overHead = (bottom.getBottom() + distance - root.getHeight());
+				
 				return Math.round(distance - overHead);
 			}
 			
