@@ -536,7 +536,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	 * @param float y of event
 	 * @return calculated Y-position of the performed drop
 	 */
-	private int checkCollisionY(float yCoord)
+	private int checkCollisionY(float yCoord) //STILL NOT WORKIN; TRY CHECKCOLLX SOLUTION
 	{
 		int TargetY;
 		int minPosY = top.getMeasuredHeight();
@@ -560,30 +560,23 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	 * @param float x of event
 	 * @return calculated X-position of the performed drop
 	 */
-	private int checkCollisionX(float xCoord)
+	private int checkCollisionX(float dropPosX)
 	{
-		int TargetX;
-		int minPosX = left.getMeasuredWidth() + activeItem.getMeasuredWidth()/2;
-		int maxPosX = root.getMeasuredWidth() - activeItem.getMeasuredWidth()/2 - right.getMeasuredWidth();
+		int offsetPos = Math.round(dropPosX - activeItem.getMeasuredWidth()/2);
 		
-		int dropPosX = (int) xCoord - activeItem.getMeasuredWidth() / 2;
+		int maxPos = Math.round(root.getMeasuredWidth() - left.getMeasuredWidth() - activeItem.getMeasuredWidth());
+		int minPos = Math.round(left.getMeasuredWidth());
 		
-		if (dropPosX > minPosX && dropPosX < maxPosX)
+		if (offsetPos <= minPos)
 		{
-			return dropPosX;
+			offsetPos = minPos;
 		}
-		else
+		if (offsetPos >= maxPos)
 		{
-			if (dropPosX < minPosX)
-			{
-				return minPosX;
-			}
-			if (dropPosX > maxPosX)
-			{
-				return maxPosX;
-			}
+			offsetPos = maxPos;
 		}
-		return 0;
+		
+		return offsetPos;
 	}
 	/** 
 	 * Bestimmt die Sichtbarkeit des Overlays. Das Overlay wird <b>Versteckt </b>, jedoch <b>nicht Entfernt</b>.
