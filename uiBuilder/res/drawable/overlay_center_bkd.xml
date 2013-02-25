@@ -7,7 +7,7 @@
         
         />
 	<corners 
-
+	android:background="@drawable/overlay_center_bkd"
 	    
 	    />
 </shape>
