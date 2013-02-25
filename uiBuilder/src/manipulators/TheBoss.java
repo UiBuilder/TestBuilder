@@ -85,7 +85,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		case de.ur.rk.uibuilder.R.id.design_area:
 			Log.d("DesignArea", "called");
 			detector.setIsLongpressEnabled(false);
-
+			activeItem = null;
 			if (overlayActive)
 			{
 				Log.d("Case Design Area", "overlay active and therefore deleted");
@@ -94,7 +94,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 				return true;
 			}
 
-			activeItem = null;
+			
 			Log.d("layout forward", "called");
 			break;
 
@@ -121,6 +121,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 				deleteOverlay();
 				return true;
 			}
+			
 			activeItem = currentTouch;
 			detector.setIsLongpressEnabled(true);
 
@@ -162,7 +163,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	@Override
 	public boolean onSingleTapUp(MotionEvent e)
 	{
-		if (activeItem != null)
+		if (activeItem != null && overlayActive==false)
 		{
 			isDragging = true;
 			Toast.makeText(context.getApplicationContext(),
@@ -170,6 +171,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 					Toast.LENGTH_SHORT).show();
 
 			setOverlay();
+			detector.setIsLongpressEnabled(false);
 			return true;
 		}
 		return false;
@@ -609,7 +611,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	 */
 	private void setOverlay()
 	{
-		activeItem.setAlpha(0.5f);
+		//activeItem.setAlpha(0.5f);
 
 		overlayActive = true;
 		RelativeLayout.LayoutParams modified = new RelativeLayout.LayoutParams(
@@ -744,7 +746,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			root.removeView(right);
 			root.removeView(top);
 			root.removeView(bottom);
-			activeItem.setAlpha(1.0f);
+			//activeItem.setAlpha(1.0f);
 			
 			drag = null;
 			left = null;
