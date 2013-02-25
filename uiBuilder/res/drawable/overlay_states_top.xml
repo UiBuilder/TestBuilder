@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+       
+    <!--DO NOT USE  -->
+    
+   		
+   		<item android:state_activated="true"
+ 			android:drawable="@drawable/overlay_right_border_active"
+ 			/>
+		<item 
+          android:drawable="@drawable/overlay_right_border_normal"
+          />
+
+</selector>

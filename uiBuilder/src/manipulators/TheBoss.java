@@ -630,7 +630,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 				LayoutParams.WRAP_CONTENT);
 		// RIGHT
 		right = new ImageButton(context);
-		right.setBackgroundResource(R.drawable.overlay_right_border);
+		right.setBackgroundResource(R.drawable.overlay_states_right);
 		right.setAlpha(0.8f);
 
 		right.setMinimumWidth(context.getResources().getDimensionPixelSize(
@@ -682,7 +682,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 				LayoutParams.WRAP_CONTENT);
 		// TOP
 		top = new ImageButton(context);
-		top.setBackgroundResource(R.drawable.overlay_top_border);
+		top.setBackgroundResource(R.drawable.overlay_top_border_normal);
 		top.setAlpha(0.8f);
 
 		top.setMinimumHeight(context.getResources().getDimensionPixelSize(
