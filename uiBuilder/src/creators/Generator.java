@@ -63,7 +63,7 @@ public class Generator
 
 		generatedB.setText("Button");
 		
-		generatedB.setBackgroundResource(R.drawable.default_button_style);
+		generatedB.setBackgroundResource(R.drawable.default_button_border);
 		generatedB.setId(idCount);
 		idCount++;
 

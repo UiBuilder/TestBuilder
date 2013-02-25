@@ -85,7 +85,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		case de.ur.rk.uibuilder.R.id.design_area:
 			Log.d("DesignArea", "called");
 			detector.setIsLongpressEnabled(false);
-			dragIndicator = null;
 
 			if (overlayActive)
 			{
@@ -104,6 +103,8 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		case ID_CENTER:
 			detector.setIsLongpressEnabled(false);
 			dragIndicator = currentTouch;
+			dragIndicator.setActivated(true);
+			
 			Log.d("dragOverlay", "drag handle selected");
 			break;
 
@@ -117,13 +118,21 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			activeItem = currentTouch;
 			detector.setIsLongpressEnabled(true);
 
-			switch (event.getAction()) {
-			case MotionEvent.ACTION_MOVE:
-				break;
-
-			default:
-				break;
+			break;
+		}
+		
+		switch (event.getAction()) 
+		{
+		case MotionEvent.ACTION_UP:
+			
+			if (dragIndicator!= null)
+			{
+				Log.d("drag indikator", "drag handle disabled");
+				dragIndicator.setActivated(false);
 			}
+			break;
+
+		default:
 			break;
 		}
 
@@ -295,7 +304,8 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 
 			case ID_LEFT:
 				Log.d("left indicator", "is moving");
-
+				
+				dragIndicator.setActivated(true);
 				setParams(ID_LEFT, e1, e2);
 				break;
 
@@ -500,7 +510,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			if (activeItem instanceof Button)
 			{
 				activeItem
-						.setBackgroundResource(R.drawable.default_button_style);
+						.setBackgroundResource(R.drawable.default_button_border);
 			}
 			break;
 
@@ -607,7 +617,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		modified.topMargin = activeItem.getTop();
 		modified.width = activeItem.getMeasuredWidth();
 		modified.height = activeItem.getMeasuredHeight();
-		drag.setBackgroundResource(R.drawable.overlay_center_bkd);
+		drag.setBackgroundResource(R.drawable.overlay_center_border);
 		drag.setAlpha(0.5f);
 		drag.setId(ID_CENTER);
 		drag.setTag(OVERLAYTAG);
@@ -620,7 +630,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 				LayoutParams.WRAP_CONTENT);
 		// RIGHT
 		right = new ImageButton(context);
-		right.setBackgroundResource(R.drawable.overlay_right_bkd);
+		right.setBackgroundResource(R.drawable.overlay_right_border);
 		right.setAlpha(0.8f);
 
 		right.setMinimumWidth(context.getResources().getDimensionPixelSize(
@@ -638,7 +648,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 				LayoutParams.WRAP_CONTENT);
 		// BOTTOM
 		bottom = new ImageButton(context);
-		bottom.setBackgroundResource(R.drawable.overlay_bottom_bkd);
+		bottom.setBackgroundResource(R.drawable.overlay_bottom_border);
 		bottom.setAlpha(0.8f);
 
 		bottom.setMinimumHeight(context.getResources().getDimensionPixelSize(
@@ -657,7 +667,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		// LEFT
 		left = new ImageButton(context);
 		left.setAlpha(0.8f);
-		left.setBackgroundResource(R.drawable.overlay_left_bkd);
+		left.setBackgroundResource(R.drawable.overlay_states_left);
 		left.setMinimumWidth(context.getResources().getDimensionPixelSize(
 				R.dimen.default_overlay_handle_dimension));
 		modified.addRule(RelativeLayout.LEFT_OF, bottom.getId());
@@ -672,7 +682,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 				LayoutParams.WRAP_CONTENT);
 		// TOP
 		top = new ImageButton(context);
-		top.setBackgroundResource(R.drawable.overlay_top_bkd);
+		top.setBackgroundResource(R.drawable.overlay_top_border);
 		top.setAlpha(0.8f);
 
 		top.setMinimumHeight(context.getResources().getDimensionPixelSize(
@@ -722,7 +732,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	private void deleteOverlay()
 	{
 		if (overlayActive)
-		{
+		{			
 			root.removeView(drag);
 			root.removeView(left);
 			root.removeView(right);

@@ -6,4 +6,6 @@
 
     <dimen name="default_overlay_handle_dimension">25dp</dimen>
     
+    <dimen name="border_width_thin">1dp</dimen>
+    <dimen name="border_radius_small">4dp</dimen>
 </resources>
