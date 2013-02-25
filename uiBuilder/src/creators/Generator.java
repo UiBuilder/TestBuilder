@@ -28,6 +28,7 @@ public class Generator
 		idCount = 1;
 		context = ref;
 		manipulator = mp;
+		
 	}
 
 	/**
