@@ -179,13 +179,16 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	public void onLongPress(MotionEvent e)
 	{
 		Log.d("OnLongpress", "is called");
-
+		Log.d("OnLongpress deleted item with id", String.valueOf(activeItem.getId()));
+		root.removeView(activeItem);
+		activeItem = null;
+/*
 		isDragging = true;
 		Toast.makeText(context.getApplicationContext(),
 				"Button " + activeItem.getId() + " is longclicked",
 				Toast.LENGTH_SHORT).show();
 		
-		setOverlay();
+		setOverlay();*/
 	}
 
 	// TEMPORÄR-BÄR
@@ -479,6 +482,16 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	@Override
 	public boolean onSingleTapUp(MotionEvent e)
 	{
+		if (activeItem != null)
+		{
+			isDragging = true;
+			Toast.makeText(context.getApplicationContext(),
+					"Button " + activeItem.getId() + " selected",
+					Toast.LENGTH_SHORT).show();
+			
+			setOverlay();
+			return true;
+		}
 		return false;
 	}
 
