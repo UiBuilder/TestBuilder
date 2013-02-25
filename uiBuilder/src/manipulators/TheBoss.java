@@ -648,7 +648,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 				LayoutParams.WRAP_CONTENT);
 		// BOTTOM
 		bottom = new ImageButton(context);
-		bottom.setBackgroundResource(R.drawable.overlay_bottom_border);
+		bottom.setBackgroundResource(R.drawable.overlay_states_bottom);
 		bottom.setAlpha(0.8f);
 
 		bottom.setMinimumHeight(context.getResources().getDimensionPixelSize(
