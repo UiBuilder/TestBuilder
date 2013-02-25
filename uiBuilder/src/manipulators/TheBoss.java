@@ -130,6 +130,31 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		Log.d("Ondown", "is called");
 		return createObject(clickPosX, clickPosY); /** If the Object was created the event is consumed. */
 	}
+	
+	@Override
+	public boolean onSingleTapUp(MotionEvent e)
+	{
+		if (activeItem != null)
+		{
+			isDragging = true;
+			Toast.makeText(context.getApplicationContext(),
+					"Button " + activeItem.getId() + " selected",
+					Toast.LENGTH_SHORT).show();
+			
+			setOverlay();
+			return true;
+		}
+		return false;
+	}
+	
+	// UNUSED
+	@Override
+	public void onShowPress(MotionEvent e)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
 
 	/**
 	 * Creates a Button on the specified position.
@@ -197,119 +222,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		setOverlay();*/
 	}
 
-	// TEMPORÄR-BÄR
-	private ImageButton drag;
-	private ImageButton left;
-	private ImageButton right;
-	private ImageButton bottom;
-	private ImageButton top;
-
-	private static final int ID_CENTER = (int) 78.75; // hihi
-	private static final int ID_TOP = 83;
-	private static final int ID_RIGHT = 73;
-	private static final int ID_BOTTOM = 90;
-	private static final int ID_LEFT = 69;
-	
-	
-	/**
-	 * Erstellt ein Overlay. Position des Overlays wird von dem derzeit aktiven
-	 * Element bestimmt. Die Flag <i>overlayActive</i> wird hier auf <b>true</b>
-	 * gesetzt. Touchlistener werden gesetzt und das Overlay wird sofort angezeigt.
-	 */
-	private void setOverlay()
-	{
-		activeItem.setAlpha(0.5f);
-
-		overlayActive = true;
-		RelativeLayout.LayoutParams modified = new RelativeLayout.LayoutParams(
-				activeItem.getLayoutParams());
-		
-		Log.d("params right", String.valueOf(activeItem.getRight()));
-
-		// DRAG
-		drag = new ImageButton(context);
-		modified.leftMargin = activeItem.getLeft();
-		modified.topMargin = activeItem.getTop();
-		modified.width = activeItem.getMeasuredWidth();
-		modified.height = activeItem.getMeasuredHeight();
-		drag.setBackgroundResource(R.drawable.overlay_center_bkd);
-		drag.setAlpha(0.5f);
-		drag.setId(ID_CENTER);
-		drag.setTag(OVERLAYTAG);
-		drag.setOnTouchListener(this);
-		root.addView(drag, modified);
-		
-		invalidate();
-
-		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT);
-		// RIGHT
-		right = new ImageButton(context);
-		right.setBackgroundResource(R.drawable.overlay_right_bkd);
-		right.setAlpha(0.8f);
-		
-		right.setMinimumWidth(context.getResources().getDimensionPixelSize(R.dimen.default_overlay_handle_dimension));
-		modified.addRule(RelativeLayout.ALIGN_TOP, ID_CENTER);
-		modified.addRule(RelativeLayout.RIGHT_OF, ID_CENTER);
-		modified.addRule(RelativeLayout.ALIGN_BOTTOM, ID_CENTER);
-		
-		right.setId(ID_RIGHT);
-		right.setTag(OVERLAYTAG);
-		right.setOnTouchListener(this);
-		root.addView(right, modified);
-
-		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT);
-		// BOTTOM
-		bottom = new ImageButton(context);
-		bottom.setBackgroundResource(R.drawable.overlay_bottom_bkd);
-		bottom.setAlpha(0.8f);
-		
-		bottom.setMinimumHeight(context.getResources().getDimensionPixelSize(R.dimen.default_overlay_handle_dimension));
-		modified.addRule(RelativeLayout.BELOW, ID_CENTER);
-		modified.addRule(RelativeLayout.ALIGN_LEFT, ID_CENTER);
-		modified.addRule(RelativeLayout.ALIGN_RIGHT, ID_CENTER);
-		
-		bottom.setId(ID_BOTTOM);
-		bottom.setTag(OVERLAYTAG);
-		bottom.setOnTouchListener(this);
-		root.addView(bottom, modified);
-
-		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT);
-		// LEFT
-		left = new ImageButton(context);
-		left.setAlpha(0.8f);
-		left.setBackgroundResource(R.drawable.overlay_left_bkd);
-		left.setMinimumWidth(context.getResources().getDimensionPixelSize(R.dimen.default_overlay_handle_dimension));
-		modified.addRule(RelativeLayout.LEFT_OF, bottom.getId());
-		modified.addRule(RelativeLayout.ALIGN_TOP, right.getId());
-		modified.addRule(RelativeLayout.ABOVE, bottom.getId());
-		left.setId(ID_LEFT);
-		left.setTag(OVERLAYTAG);
-		left.setOnTouchListener(this);
-		root.addView(left, modified);
-
-		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT);
-		// TOP
-		top = new ImageButton(context);
-		top.setBackgroundResource(R.drawable.overlay_top_bkd);
-		top.setAlpha(0.8f);
-		
-		top.setMinimumHeight(context.getResources().getDimensionPixelSize(R.dimen.default_overlay_handle_dimension));
-		modified.addRule(RelativeLayout.ABOVE, right.getId());
-		modified.addRule(RelativeLayout.LEFT_OF, right.getId());
-		modified.addRule(RelativeLayout.RIGHT_OF, left.getId());
-		
-		top.setId(ID_TOP);
-		top.setTag(OVERLAYTAG);
-		top.setOnTouchListener(this);
-		root.addView(top, modified);
-
-		invalidate();
-	}
-
 	/**
 	 * Perform motion of the overlay resize-handles and resize the corresponding element based on the new position of the handle
 	 * movement in progress.
@@ -324,7 +236,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			float distanceY)
 	{
 		invalidate();
-		if (dragIndicator != null) //Startet ein DragEvent wenn ein Overlay existiert.
+		if (dragIndicator != null && activeItem != null) //Startet ein DragEvent wenn ein Overlay existiert.
 		{
 			
 			switch (dragIndicator.getId())
@@ -477,30 +389,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		return Math.round(distance);
 	}
 
-	// UNUSED
-	@Override
-	public void onShowPress(MotionEvent e)
-	{
-		// TODO Auto-generated method stub
-
-	}
-	
-	@Override
-	public boolean onSingleTapUp(MotionEvent e)
-	{
-		if (activeItem != null)
-		{
-			isDragging = true;
-			Toast.makeText(context.getApplicationContext(),
-					"Button " + activeItem.getId() + " selected",
-					Toast.LENGTH_SHORT).show();
-			
-			setOverlay();
-			return true;
-		}
-		return false;
-	}
-
 	@Override
 	public boolean onDrag(View root, DragEvent event)
 	{
@@ -625,6 +513,121 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		
 		return offsetPos;
 	}
+	
+
+	// TEMPORÄR-BÄR
+	private ImageButton drag;
+	private ImageButton left;
+	private ImageButton right;
+	private ImageButton bottom;
+	private ImageButton top;
+
+	private static final int ID_CENTER = (int) 78.75; // hihi
+	private static final int ID_TOP = 83;
+	private static final int ID_RIGHT = 73;
+	private static final int ID_BOTTOM = 90;
+	private static final int ID_LEFT = 69;
+	
+	
+	/**
+	 * Erstellt ein Overlay. Position des Overlays wird von dem derzeit aktiven
+	 * Element bestimmt. Die Flag <i>overlayActive</i> wird hier auf <b>true</b>
+	 * gesetzt. Touchlistener werden gesetzt und das Overlay wird sofort angezeigt.
+	 */
+	private void setOverlay()
+	{
+		activeItem.setAlpha(0.5f);
+
+		overlayActive = true;
+		RelativeLayout.LayoutParams modified = new RelativeLayout.LayoutParams(
+				activeItem.getLayoutParams());
+		
+		Log.d("params right", String.valueOf(activeItem.getRight()));
+
+		// DRAG
+		drag = new ImageButton(context);
+		modified.leftMargin = activeItem.getLeft();
+		modified.topMargin = activeItem.getTop();
+		modified.width = activeItem.getMeasuredWidth();
+		modified.height = activeItem.getMeasuredHeight();
+		drag.setBackgroundResource(R.drawable.overlay_center_bkd);
+		drag.setAlpha(0.5f);
+		drag.setId(ID_CENTER);
+		drag.setTag(OVERLAYTAG);
+		drag.setOnTouchListener(this);
+		root.addView(drag, modified);
+		
+		invalidate();
+
+		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT);
+		// RIGHT
+		right = new ImageButton(context);
+		right.setBackgroundResource(R.drawable.overlay_right_bkd);
+		right.setAlpha(0.8f);
+		
+		right.setMinimumWidth(context.getResources().getDimensionPixelSize(R.dimen.default_overlay_handle_dimension));
+		modified.addRule(RelativeLayout.ALIGN_TOP, ID_CENTER);
+		modified.addRule(RelativeLayout.RIGHT_OF, ID_CENTER);
+		modified.addRule(RelativeLayout.ALIGN_BOTTOM, ID_CENTER);
+		
+		right.setId(ID_RIGHT);
+		right.setTag(OVERLAYTAG);
+		right.setOnTouchListener(this);
+		root.addView(right, modified);
+
+		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT);
+		// BOTTOM
+		bottom = new ImageButton(context);
+		bottom.setBackgroundResource(R.drawable.overlay_bottom_bkd);
+		bottom.setAlpha(0.8f);
+		
+		bottom.setMinimumHeight(context.getResources().getDimensionPixelSize(R.dimen.default_overlay_handle_dimension));
+		modified.addRule(RelativeLayout.BELOW, ID_CENTER);
+		modified.addRule(RelativeLayout.ALIGN_LEFT, ID_CENTER);
+		modified.addRule(RelativeLayout.ALIGN_RIGHT, ID_CENTER);
+		
+		bottom.setId(ID_BOTTOM);
+		bottom.setTag(OVERLAYTAG);
+		bottom.setOnTouchListener(this);
+		root.addView(bottom, modified);
+
+		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT);
+		// LEFT
+		left = new ImageButton(context);
+		left.setAlpha(0.8f);
+		left.setBackgroundResource(R.drawable.overlay_left_bkd);
+		left.setMinimumWidth(context.getResources().getDimensionPixelSize(R.dimen.default_overlay_handle_dimension));
+		modified.addRule(RelativeLayout.LEFT_OF, bottom.getId());
+		modified.addRule(RelativeLayout.ALIGN_TOP, right.getId());
+		modified.addRule(RelativeLayout.ABOVE, bottom.getId());
+		left.setId(ID_LEFT);
+		left.setTag(OVERLAYTAG);
+		left.setOnTouchListener(this);
+		root.addView(left, modified);
+
+		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT);
+		// TOP
+		top = new ImageButton(context);
+		top.setBackgroundResource(R.drawable.overlay_top_bkd);
+		top.setAlpha(0.8f);
+		
+		top.setMinimumHeight(context.getResources().getDimensionPixelSize(R.dimen.default_overlay_handle_dimension));
+		modified.addRule(RelativeLayout.ABOVE, right.getId());
+		modified.addRule(RelativeLayout.LEFT_OF, right.getId());
+		modified.addRule(RelativeLayout.RIGHT_OF, left.getId());
+		
+		top.setId(ID_TOP);
+		top.setTag(OVERLAYTAG);
+		top.setOnTouchListener(this);
+		root.addView(top, modified);
+
+		invalidate();
+	}
+	
 	/** 
 	 * Bestimmt die Sichtbarkeit des Overlays. Das Overlay wird <b>Versteckt </b>, jedoch <b>nicht Entfernt</b>.
 	 * @param visible legt die Sichtbarkeit des Overlays fest.
