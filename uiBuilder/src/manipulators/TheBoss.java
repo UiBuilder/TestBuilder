@@ -536,23 +536,22 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	 * @param float y of event
 	 * @return calculated Y-position of the performed drop
 	 */
-	private int checkCollisionY(float yCoord) //STILL NOT WORKIN; TRY CHECKCOLLX SOLUTION
+	private int checkCollisionY(float dropPosY) //STILL NOT WORKIN; TRY CHECKCOLLX SOLUTION
 	{
-		int TargetY;
-		int minPosY = top.getMeasuredHeight();
-		int maxPosY = root.getMeasuredHeight() - activeItem.getMeasuredHeight();
+		int offsetPos = Math.round(dropPosY - activeItem.getMeasuredHeight()/2);
 		
-		int dropPosY = (int) yCoord - activeItem.getMeasuredHeight()/2;
+		int maxPos = Math.round(root.getMeasuredHeight() - top.getMeasuredHeight() - activeItem.getMeasuredHeight());
+		int minPos = Math.round(top.getMeasuredHeight());
 		
-		if (dropPosY >= minPosY && dropPosY <= maxPosY)
+		if (offsetPos <= minPos)
 		{
-			TargetY = dropPosY;
+			return minPos;
 		}
-		else
+		if (offsetPos >= maxPos)
 		{
-			TargetY = (dropPosY < minPosY) ? minPosY : maxPosY;
+			return maxPos;
 		}
-		return TargetY;
+		return offsetPos;
 	}
 
 	/**
@@ -569,11 +568,11 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		
 		if (offsetPos <= minPos)
 		{
-			offsetPos = minPos;
+			return minPos;
 		}
 		if (offsetPos >= maxPos)
 		{
-			offsetPos = maxPos;
+			return maxPos;
 		}
 		
 		return offsetPos;
