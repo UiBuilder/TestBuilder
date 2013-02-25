@@ -436,62 +436,64 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	public boolean onDrag(View root, DragEvent event)
 	{
 
-		switch (event.getAction()) {
-		case DragEvent.ACTION_DRAG_STARTED:
-			setOverlayVisibility(false); // Während des Drags ist kein Overlay
-											// sichtbar.
-			return true;
-
-		case DragEvent.ACTION_DRAG_ENTERED:
-			setStyle(DragEvent.ACTION_DRAG_ENTERED);
-			break;
-
-		case DragEvent.ACTION_DRAG_LOCATION:
-			break;
-
-		case DragEvent.ACTION_DRAG_ENDED:
-			setStyle(DragEvent.ACTION_DRAG_ENDED);
-			break;
-
-		case DragEvent.ACTION_DRAG_EXITED:
-			setStyle(DragEvent.ACTION_DRAG_EXITED);
-			break;
-
-		case DragEvent.ACTION_DROP:
-
-			int dropTargetX = checkCollisionX(event.getX());
-			int dropTargetY = checkCollisionY(event.getY());
-
-			// Positionen werden ausgelesen und zugewiesen. Objekte werden an
-			// ihre Zielposition verschoben und das Overlay bekommt neue
-			// Koordinaten.
-			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) activeItem
-					.getLayoutParams();
-
-			params.leftMargin = dropTargetX;
-			params.topMargin = dropTargetY;
-			activeItem.setLayoutParams(params);
-
-			invalidate();
-
-			params.width = activeItem.getMeasuredWidth();
-			params.height = activeItem.getMeasuredHeight();
-			drag.setLayoutParams(params);
-
-			invalidate();
-
-			setOverlayVisibility(true); // das Overlay wird wieder angezeigt, da
-										// der Drag vorbei ist.
-			isDragging = false;
-
-			return true;
+		switch (event.getAction()) 
+		{
+			case DragEvent.ACTION_DRAG_STARTED:
+				setOverlayVisibility(false); // Während des Drags ist kein Overlay
+												// sichtbar.
+				return true;
+	
+			case DragEvent.ACTION_DRAG_ENTERED:
+				setStyle(DragEvent.ACTION_DRAG_ENTERED);
+				break;
+	
+			case DragEvent.ACTION_DRAG_LOCATION:
+				break;
+	
+			case DragEvent.ACTION_DRAG_ENDED:
+				setStyle(DragEvent.ACTION_DRAG_ENDED);
+				break;
+	
+			case DragEvent.ACTION_DRAG_EXITED:
+				setStyle(DragEvent.ACTION_DRAG_EXITED);
+				break;
+	
+			case DragEvent.ACTION_DROP:
+	
+				int dropTargetX = checkCollisionX(event.getX());
+				int dropTargetY = checkCollisionY(event.getY());
+	
+				// Positionen werden ausgelesen und zugewiesen. Objekte werden an
+				// ihre Zielposition verschoben und das Overlay bekommt neue
+				// Koordinaten.
+				RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) activeItem
+						.getLayoutParams();
+	
+				params.leftMargin = dropTargetX;
+				params.topMargin = dropTargetY;
+				activeItem.setLayoutParams(params);
+	
+				invalidate();
+	
+				params.width = activeItem.getMeasuredWidth();
+				params.height = activeItem.getMeasuredHeight();
+				drag.setLayoutParams(params);
+	
+				invalidate();
+	
+				setOverlayVisibility(true); // das Overlay wird wieder angezeigt, da
+											// der Drag vorbei ist.
+				isDragging = false;
+	
+				return true;
 		}
 		return true; // EVTL FEHLERQUELLE: RETURNS ALWAYS TRUE
 	}
 
 	private void setStyle(int event)
 	{
-		switch (event) {
+		switch (event) 
+		{
 		case DragEvent.ACTION_DRAG_ENTERED:
 		case DragEvent.ACTION_DRAG_ENDED:
 
@@ -727,6 +729,12 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			root.removeView(top);
 			root.removeView(bottom);
 			activeItem.setAlpha(1.0f);
+			
+			drag = null;
+			left = null;
+			right = null;
+			top = null;
+			bottom = null;
 
 			dragIndicator = null;
 			overlayActive = false;
