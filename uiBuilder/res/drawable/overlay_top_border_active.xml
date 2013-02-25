@@ -3,7 +3,7 @@
     android:shape="rectangle"
     >
     <stroke android:width="@dimen/border_width_thin"
-        android:color="@color/overlay_border"
+        android:color="@color/overlay_border_active"
         
         />
 	<corners 

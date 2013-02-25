@@ -5,10 +5,10 @@
     
    		
    		<item android:state_activated="true"
- 			android:drawable="@drawable/overlay_right_border_active"
+ 			android:drawable="@drawable/overlay_top_border_active"
  			/>
 		<item 
-          android:drawable="@drawable/overlay_right_border_normal"
+          android:drawable="@drawable/overlay_top_border_normal"
           />
 
 </selector>
