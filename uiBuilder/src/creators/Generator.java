@@ -61,6 +61,7 @@ public class Generator
 		};
 
 		generatedB.setText("Button");
+		generatedB.
 		generatedB.setBackgroundResource(R.drawable.default_button_style);
 		generatedB.setId(idCount);
 		idCount++;
@@ -71,7 +72,6 @@ public class Generator
 		generatedB.setLayoutParams(params);
 		generatedB.setEnabled(true);
 		generatedB.setOnTouchListener(manipulator);
-		//generatedB.setOnLongClickListener(manipulator);
 
 		return generatedB;
 	}

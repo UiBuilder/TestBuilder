@@ -182,6 +182,12 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		Log.d("OnLongpress deleted item with id", String.valueOf(activeItem.getId()));
 		root.removeView(activeItem);
 		activeItem = null;
+		
+		/**
+		 * activeItem.createContextMenue should be called here in the future
+		 * from there we could call delete, edit caption and such
+		 */
+		
 /*
 		isDragging = true;
 		Toast.makeText(context.getApplicationContext(),
