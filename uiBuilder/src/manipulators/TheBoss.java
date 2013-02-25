@@ -92,7 +92,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			case ID_TOP: case ID_RIGHT: case ID_BOTTOM: case ID_LEFT: case ID_CENTER:
 				detector.setIsLongpressEnabled(false);
 				dragIndicator = currentTouch;
-				Log.d("wäre jetzt super", "fuck");
+				Log.d("dragOverlay", "drag handle selected");
 				break;
 				
 			default:
@@ -237,9 +237,9 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		// RIGHT
 		right = new ImageButton(context);
 		right.setBackgroundResource(R.drawable.overlay_right_bkd);
-		right.setAlpha(0.5f);
+		right.setAlpha(0.8f);
 		
-		right.setMinimumWidth(50);
+		right.setMinimumWidth(context.getResources().getDimensionPixelSize(R.dimen.default_overlay_handle_dimension));
 		modified.addRule(RelativeLayout.ALIGN_TOP, ID_CENTER);
 		modified.addRule(RelativeLayout.RIGHT_OF, ID_CENTER);
 		modified.addRule(RelativeLayout.ALIGN_BOTTOM, ID_CENTER);
@@ -254,9 +254,9 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		// BOTTOM
 		bottom = new ImageButton(context);
 		bottom.setBackgroundResource(R.drawable.overlay_bottom_bkd);
-		bottom.setAlpha(0.5f);
+		bottom.setAlpha(0.8f);
 		
-		bottom.setMinimumHeight(50);
+		bottom.setMinimumHeight(context.getResources().getDimensionPixelSize(R.dimen.default_overlay_handle_dimension));
 		modified.addRule(RelativeLayout.BELOW, ID_CENTER);
 		modified.addRule(RelativeLayout.ALIGN_LEFT, ID_CENTER);
 		modified.addRule(RelativeLayout.ALIGN_RIGHT, ID_CENTER);
@@ -270,9 +270,9 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 				LayoutParams.WRAP_CONTENT);
 		// LEFT
 		left = new ImageButton(context);
-		left.setAlpha(0.5f);
+		left.setAlpha(0.8f);
 		left.setBackgroundResource(R.drawable.overlay_left_bkd);
-		left.setMinimumWidth(50);
+		left.setMinimumWidth(context.getResources().getDimensionPixelSize(R.dimen.default_overlay_handle_dimension));
 		modified.addRule(RelativeLayout.LEFT_OF, bottom.getId());
 		modified.addRule(RelativeLayout.ALIGN_TOP, right.getId());
 		modified.addRule(RelativeLayout.ABOVE, bottom.getId());
@@ -286,9 +286,9 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		// TOP
 		top = new ImageButton(context);
 		top.setBackgroundResource(R.drawable.overlay_top_bkd);
-		top.setAlpha(0.5f);
+		top.setAlpha(0.8f);
 		
-		top.setMinimumHeight(50);
+		top.setMinimumHeight(context.getResources().getDimensionPixelSize(R.dimen.default_overlay_handle_dimension));
 		modified.addRule(RelativeLayout.ABOVE, right.getId());
 		modified.addRule(RelativeLayout.LEFT_OF, right.getId());
 		modified.addRule(RelativeLayout.RIGHT_OF, left.getId());
@@ -493,15 +493,18 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			return true;
 			
 		case DragEvent.ACTION_DRAG_ENTERED:
+			setStyle(DragEvent.ACTION_DRAG_ENTERED);
 			break;
 			
 		case DragEvent.ACTION_DRAG_LOCATION:
 			break;
 			
 		case DragEvent.ACTION_DRAG_ENDED:
+			setStyle(DragEvent.ACTION_DRAG_ENDED);
 			break;
 			
 		case DragEvent.ACTION_DRAG_EXITED:
+			setStyle(DragEvent.ACTION_DRAG_EXITED);
 			break;
 			
 		case DragEvent.ACTION_DROP:
@@ -524,19 +527,45 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 
 			invalidate();
 
-			setOverlayVisibility(true);//das Overlay wird wieder angezeigt, da der Drag vorbei ist. 
+			setOverlayVisibility(true); //das Overlay wird wieder angezeigt, da der Drag vorbei ist. 
 			isDragging = false;
 
 			return true;
 		}
 		return true; //EVTL FEHLERQUELLE: RETURNS ALWAYS TRUE
 	}
+	private void setStyle(int event)
+	{
+		switch (event)
+		{
+		case DragEvent.ACTION_DRAG_ENTERED: case DragEvent.ACTION_DRAG_ENDED:
+			
+			if (activeItem instanceof Button)
+			{
+				activeItem.setBackgroundResource(R.drawable.default_button_style);
+			}
+			break;
+			
+		case DragEvent.ACTION_DRAG_EXITED:
+			
+			if (activeItem instanceof Button)
+			{
+				activeItem.setBackgroundResource(R.drawable.element_out_of_dropzone);
+			}
+			break;
+
+		default:
+			break;
+		}
+		
+	}
+
 	/**
 	 * Checks if the target of the drop action is within view bounds
 	 * @param float y of event
 	 * @return calculated Y-position of the performed drop
 	 */
-	private int checkCollisionY(float dropPosY) //STILL NOT WORKIN; TRY CHECKCOLLX SOLUTION
+	private int checkCollisionY(float dropPosY)
 	{
 		int offsetPos = Math.round(dropPosY - activeItem.getMeasuredHeight()/2);
 		
@@ -593,7 +622,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		} 
 		else
 		{
-
 			drag.setVisibility(View.INVISIBLE);
 			top.setVisibility(View.INVISIBLE);
 			bottom.setVisibility(View.INVISIBLE);
@@ -603,20 +631,22 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	}
 	/**
 	 * Entfernt das Overlay komplett. 
-	 * <b>Keine</b> Überprüfung ob Overlay vorhanden!
-	 * TODO increase robustness!
+	 * 
 	 */
 	private void deleteOverlay()
 	{
-		root.removeView(drag);
-		root.removeView(left);
-		root.removeView(right);
-		root.removeView(top);
-		root.removeView(bottom);
-		activeItem.setAlpha(1.0f);
+		if (overlayActive)
+		{
+			root.removeView(drag);
+			root.removeView(left);
+			root.removeView(right);
+			root.removeView(top);
+			root.removeView(bottom);
+			activeItem.setAlpha(1.0f);
 
-		dragIndicator = null;
-		overlayActive = false;
-		isDragging = false;
+			dragIndicator = null;
+			overlayActive = false;
+			isDragging = false;
+		}
 	}
 }
