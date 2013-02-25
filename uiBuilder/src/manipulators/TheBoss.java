@@ -88,6 +88,8 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 
 			if (overlayActive)
 			{
+				Log.d("Case Design Area", "overlay active and therefore deleted");
+
 				deleteOverlay();
 				return true;
 			}
@@ -101,6 +103,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		case ID_BOTTOM:
 		case ID_LEFT:
 		case ID_CENTER:
+
 			detector.setIsLongpressEnabled(false);
 			dragIndicator = currentTouch;
 			dragIndicator.setActivated(true);
@@ -109,9 +112,12 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			break;
 
 		default:
+			Log.d("Default case in ontouch", "called");
 
 			if (overlayActive && currentTouch != activeItem)
 			{
+				Log.d("Default case in ontouch", "deleting overlay");
+
 				deleteOverlay();
 				return true;
 			}
