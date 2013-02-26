@@ -92,6 +92,7 @@ public class ObjectFactory
 	 */
 	public View getElement (int which)
 	{
+		
 		try
 		{
 			switch (which)

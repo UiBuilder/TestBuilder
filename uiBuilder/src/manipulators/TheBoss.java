@@ -63,8 +63,14 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 
 		activeItem = null;
 	}
+	
+	public void setObjectType(int id)
+	{
+		nextObjectId = id;
+	}
 
 	private View dragIndicator;
+	private int nextObjectId;
 
 	/**
 	 * @param dragIndicator
@@ -200,9 +206,9 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	 */
 	private boolean createObject(float clickPosX, float clickPosY)
 	{
-		if (activeItem == null && !overlayActive)
+		if (activeItem == null && !overlayActive && nextObjectId != 0)
 		{
-			TextView newOne = (TextView) factory.getElement(ObjectFactory.ID_TEXTVIEW);
+			View newOne = (View) factory.getElement(nextObjectId);
 			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) newOne.getLayoutParams();
 
 			params.leftMargin = (int) clickPosX;
