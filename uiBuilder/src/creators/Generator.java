@@ -39,6 +39,19 @@ public class Generator
 	 */
 	protected TextView newTextview()
 	{
+		TextView textView = new TextView(context);
+		textView.setBackgroundResource(R.drawable.default_button_border);
+		textView.setId(idCount);
+		idCount++;
+		
+		textView.setText(context.getResources().getString(R.string.textview_content_default));
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		
+		
+		textView.setOnTouchListener(manipulator);
+		
+		
 		return null;
 	}
 
