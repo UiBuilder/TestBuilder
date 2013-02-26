@@ -11,6 +11,6 @@
 	    android:topLeftRadius="@dimen/border_radius_small"
 	    
 	    />
-	<solid android:color="@color/transparent"
+	<solid android:color="@color/overlay_background"
 	    />
 </shape>

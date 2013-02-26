@@ -1,6 +1,5 @@
 package uibuilder;
 
-import creators.ObjectFactory;
 import manipulators.TheBoss;
 import android.app.Activity;
 import android.app.AlertDialog.Builder;
@@ -8,8 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import creators.ObjectFactory;
 import de.ur.rk.uibuilder.R;
 
 public class UiBuilderActivity extends Activity implements OnClickListener
