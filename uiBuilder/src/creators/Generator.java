@@ -72,9 +72,16 @@ public class Generator
 	{
 		ImageView imageView = new ImageView(context);
 		imageView.setBackgroundResource(R.drawable.default_button_border);
+		
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(30, 40);
+		
+		imageView.setLayoutParams(params);
+		imageView.setPadding(8, 8, 8, 8);
+		imageView.setOnTouchListener(manipulator);
+		imageView.setClickable(true);
 		imageView.setId(idCount++);
 
-		return null;
+		return imageView;
 	}
 
 	protected EditText newEditText()

@@ -66,6 +66,8 @@ public class ObjectFactory
 				
 			case ID_TEXTVIEW: return generator.newTextview();
 			
+			case ID_IMAGEVIEW: return generator.newImageView();
+			
 			//case ID_LONG_CLICK_MENU: return generator.newDragMenu();
 		
 			default: throw new NoClassDefFoundError();
