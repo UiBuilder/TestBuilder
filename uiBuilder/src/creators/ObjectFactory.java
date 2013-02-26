@@ -12,6 +12,10 @@ public class ObjectFactory
 	public static final int ID_BUTTON = 1; /** Konstante für Buttons */
 	public static final int ID_TEXTVIEW = 2; /** Konstante für TextViews */
 	public static final int ID_LONG_CLICK_MENU = 3; /** Konstante für das Kontextmenü beim Verschieben*/
+	public static final int ID_EDITTEXT = 4;
+	public static final int ID_LISTVIEW = 5;
+	public static final int ID_IMAGEVIEW = 6;
+	public static final int ID_RADIOBUTTON = 7;
 
 	
 	private Context ref;
