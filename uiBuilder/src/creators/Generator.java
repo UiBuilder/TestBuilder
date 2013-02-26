@@ -6,6 +6,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -52,9 +53,14 @@ public class Generator
 		textView.setOnTouchListener(manipulator);
 		
 		
-		return null;
+		return textView;
 	}
 	
+	
+	/**
+	 * Generate new ImageView
+	 * @return the newly generated ImageView
+	 */
 	protected ImageView newImageView()
 	{
 		ImageView imageView = new ImageView(context);
@@ -62,7 +68,14 @@ public class Generator
 		imageView.setId(idCount++);
 		
 		
+		
+		
 		return null;		
+	}
+	
+	protected EditText newEditText()
+	{
+		return null;
 	}
 
 	/**
