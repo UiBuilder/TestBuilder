@@ -3,7 +3,6 @@ package uibuilder;
 
 import manipulators.TheBoss;
 import android.app.Fragment;
-import android.app.AlertDialog.Builder;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,32 +42,6 @@ public class DesignFragment extends Fragment
 		setListeners();*/
 	}
 
-	
-
-	private void initHelpers()
-	{
-		manipulator = new TheBoss(this.getActivity().getApplicationContext(), root);
-		
-	}
-
-	private void linkElements()
-	{
-		root = (RelativeLayout) this.getActivity().findViewById(R.id.design_area);
-		
-
-	}
-
-	private void setListeners()
-	{
-		root.setOnTouchListener(manipulator);
-		root.setOnDragListener(manipulator);
-	}
-
-	protected Builder createItemChooseDialog()
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
 /*
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
