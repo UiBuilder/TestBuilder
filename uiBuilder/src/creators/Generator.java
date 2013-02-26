@@ -1,14 +1,15 @@
 package creators;
 
-import de.ur.rk.uibuilder.R;
 import helpers.Log;
 import manipulators.TheBoss;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import de.ur.rk.uibuilder.R;
 
 public class Generator
 {
@@ -41,18 +42,27 @@ public class Generator
 	{
 		TextView textView = new TextView(context);
 		textView.setBackgroundResource(R.drawable.default_button_border);
-		textView.setId(idCount);
-		idCount++;
+		textView.setId(idCount++);
 		
 		textView.setText(context.getResources().getString(R.string.textview_content_default));
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		
-		
+		textView.setLayoutParams(params);
 		textView.setOnTouchListener(manipulator);
 		
 		
 		return null;
+	}
+	
+	protected ImageView newImageView()
+	{
+		ImageView imageView = new ImageView(context);
+		imageView.setBackgroundResource(R.drawable.default_button_border);
+		imageView.setId(idCount++);
+		
+		
+		return null;		
 	}
 
 	/**
@@ -77,8 +87,7 @@ public class Generator
 		generatedB.setText("Button");
 		
 		generatedB.setBackgroundResource(R.drawable.default_button_border);
-		generatedB.setId(idCount);
-		idCount++;
+		generatedB.setId(idCount++);
 
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
