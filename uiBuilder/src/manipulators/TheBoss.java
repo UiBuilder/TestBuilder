@@ -457,8 +457,9 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		switch (event.getAction()) 
 		{
 			case DragEvent.ACTION_DRAG_STARTED:
-				setOverlayVisibility(false); // Während des Drags ist kein Overlay
-												// sichtbar.
+				setOverlayVisibility(false); // Während des Drags ist kein Overlay sichtbar.
+				//activeItem.setAlpha(0.5f);
+				
 				return true;
 	
 			case DragEvent.ACTION_DRAG_ENTERED:
@@ -470,6 +471,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	
 			case DragEvent.ACTION_DRAG_ENDED:
 				setStyle(DragEvent.ACTION_DRAG_ENDED);
+				
 				break;
 	
 			case DragEvent.ACTION_DRAG_EXITED:
@@ -746,7 +748,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			root.removeView(right);
 			root.removeView(top);
 			root.removeView(bottom);
-			//activeItem.setAlpha(1.0f);
 			
 			drag = null;
 			left = null;
