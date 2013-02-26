@@ -45,8 +45,8 @@ public class Generator
 	{
 
 		TextView textView = new TextView(context);
-		textView.setBackgroundColor(context.getResources().getColor(android.R.color.holo_red_light));
-		//textView.setBackgroundResource(R.drawable.default_button_border);
+		//textView.setBackgroundColor(context.getResources().getColor(android.R.color.holo_red_light));
+		textView.setBackgroundResource(R.drawable.default_button_border);
 		textView.setId(idCount++);
 
 		textView.setText(context.getResources().getString(R.string.textview_content_default));
