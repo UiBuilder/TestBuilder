@@ -124,6 +124,8 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			}
 
 			activeItem = currentTouch;
+			Log.d("active Item is currentTouch", "ID:"+ String.valueOf(activeItem.getId()));
+
 			detector.setIsLongpressEnabled(true);
 
 			break;
