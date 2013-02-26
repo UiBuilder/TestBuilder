@@ -11,4 +11,6 @@
 	    android:bottomRightRadius="@dimen/border_radius_small"
 	    
 	    />
+	<solid android:color="@color/transparent"
+	    />
 </shape>

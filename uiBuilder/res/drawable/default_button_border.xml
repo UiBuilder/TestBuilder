@@ -9,7 +9,6 @@
 	<corners 
 	    
 	    />
-	<solid android:color="@android:color/transparent"
-	    
+	<solid android:color="@color/transparent"
 	    />
 </shape>
