@@ -3,7 +3,6 @@ package creators;
 import helpers.Log;
 import manipulators.TheBoss;
 import android.content.Context;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
@@ -14,7 +13,8 @@ import android.widget.TextView;
 import de.ur.rk.uibuilder.R;
 
 public class Generator
-{
+{	
+	
 	public static final String OBJECT_TAG = "isObject";
 
 	private int idCount;
@@ -22,16 +22,18 @@ public class Generator
 
 	private Context context;
 	private TheBoss manipulator;
+	private ObjectFactory factory;
+
 
 	/**
 	 * Konstruktor
 	 */
-	public Generator(Context ref, TheBoss mp)
+	public Generator(Context ref, TheBoss mp, ObjectFactory fucktory)
 	{
 		idCount = 1;
 		context = ref;
 		manipulator = mp;
-
+		this.factory = fucktory;
 	}
 
 	/**
@@ -41,7 +43,6 @@ public class Generator
 	 * @return Neuer TextView
 	 */
 	protected TextView newTextview()
-
 	{
 
 		TextView textView = new TextView(context);
@@ -53,8 +54,9 @@ public class Generator
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
 		textView.setLayoutParams(params);
-		
-		textView.setPadding(8, 8, 8, 8);
+		//textView.setTag(ObjectFactory.ID_TEXTVIEW);
+		int padding = factory.PADDING_SMALL;
+		textView.setPadding(padding, padding, padding, padding);
 		textView.setFocusableInTouchMode(true);
 		textView.setEnabled(true);
 		textView.setClickable(true);
@@ -74,9 +76,11 @@ public class Generator
 		imageView.setBackgroundResource(R.drawable.default_button_border);
 		
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(30, 40);
-		
 		imageView.setLayoutParams(params);
-		imageView.setPadding(8, 8, 8, 8);
+		
+		int padding = factory.PADDING_SMALL;
+		
+		imageView.setPadding(padding, padding, padding, padding);
 		imageView.setOnTouchListener(manipulator);
 		imageView.setClickable(true);
 		imageView.setId(idCount++);

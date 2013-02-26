@@ -401,7 +401,8 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			{
 				float overHead = (activeItem.getRight() + distance
 						+ right.getWidth() - root.getWidth());
-
+				//RelativeLayout.LayoutParams pa = (RelativeLayout.LayoutParams) activeItem.getLayoutParams();
+				//pa.
 				return Math.round(distance - overHead);
 			}
 			break;
@@ -505,18 +506,12 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		case DragEvent.ACTION_DRAG_ENTERED:
 		case DragEvent.ACTION_DRAG_ENDED:
 
-			if (activeItem instanceof Button)
-			{
-				activeItem.setBackgroundResource(R.drawable.default_button_border);
-			}
+			activeItem.setBackgroundResource(R.drawable.default_button_border);
 			break;
 
 		case DragEvent.ACTION_DRAG_EXITED:
 
-			if (activeItem instanceof Button)
-			{
-				activeItem.setBackgroundResource(R.drawable.element_out_of_dropzone);
-			}
+			activeItem.setBackgroundResource(R.drawable.element_out_of_dropzone);
 			break;
 
 		default:

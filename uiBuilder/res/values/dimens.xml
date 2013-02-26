@@ -8,4 +8,27 @@
     
     <dimen name="border_width_thin">1dp</dimen>
     <dimen name="border_radius_small">4dp</dimen>
+    
+    <!-- Min Dimensions for elements -->
+    
+    <!-- button -->
+    <dimen name="button_min_width">50dp</dimen>
+    <dimen name="button_min_height">25dp</dimen>
+    
+    <!-- textview -->
+    <dimen name="textview_min_width">50dp</dimen>
+    <dimen name="textview_min_height">25dp</dimen>
+    
+    <!-- edittext -->
+    <dimen name="edittext_min_width">50dp</dimen>
+    <dimen name="edittext_min_height">25dp</dimen>
+    
+    <!-- imageview -->
+    <dimen name="imageview_min_width">50dp</dimen>
+    <dimen name="imageview_min_height">25dp</dimen>
+    
+    <!-- paddings -->
+    <dimen name="default_padding_small">5dp</dimen>
+    <dimen name="default_padding_medium">10dp</dimen>
+    <dimen name="default_padding_large">15dp</dimen>
 </resources>

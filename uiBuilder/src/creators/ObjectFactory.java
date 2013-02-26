@@ -1,7 +1,9 @@
 package creators;
 
+import de.ur.rk.uibuilder.R;
 import manipulators.TheBoss;
 import android.content.Context;
+import android.content.res.Resources;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -16,7 +18,10 @@ public class ObjectFactory
 	public static final int ID_LISTVIEW = 5;
 	public static final int ID_IMAGEVIEW = 6;
 	public static final int ID_RADIOBUTTON = 7;
-
+	
+	protected final int PADDING_SMALL, PADDING_MEDIUM, PADDING_LARGE;
+	
+	protected final int TEXTVIEW_MIN_WIDTH, TEXTVIEW_MIN_HEIGHT;
 	
 	private Context ref;
 	private Generator generator;
@@ -36,7 +41,16 @@ public class ObjectFactory
 		super();
 
 		ref = c;
-		generator = new Generator(ref, mp);
+		generator = new Generator(ref, mp, this);
+		
+		Resources res = c.getResources();
+		
+		PADDING_SMALL = res.getDimensionPixelSize(R.dimen.default_padding_small);
+		PADDING_MEDIUM = res.getDimensionPixelSize(R.dimen.default_padding_medium);
+		PADDING_LARGE = res.getDimensionPixelSize(R.dimen.default_padding_large);
+		
+		TEXTVIEW_MIN_HEIGHT = res.getDimensionPixelSize(R.dimen.textview_min_height);
+		TEXTVIEW_MIN_WIDTH = res.getDimensionPixelSize(R.dimen.textview_min_width);
 
 		measure();
 	}
@@ -48,6 +62,26 @@ public class ObjectFactory
 	{
 		displayHeight = ref.getResources().getDisplayMetrics().heightPixels;
 		displayWidth = ref.getResources().getDisplayMetrics().widthPixels;
+	}
+	
+	public boolean isResizable(View v)
+	{
+		int thisWidth = v.getWidth();
+		int thisHeight = v.getHeight();
+		
+		switch (Integer.valueOf( (String)v.getTag() ))
+		{
+		case ID_TEXTVIEW:
+			
+			if (thisWidth >= TEXTVIEW_MIN_WIDTH && thisHeight >= TEXTVIEW_MIN_HEIGHT)
+				return true;
+			break;
+
+		default:
+			break;
+		}
+		
+		return false;
 	}
 	
 	
