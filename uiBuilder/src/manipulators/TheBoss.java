@@ -15,6 +15,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import creators.ObjectFactory;
 import de.ur.rk.uibuilder.R;
@@ -199,7 +200,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	{
 		if (activeItem == null && !overlayActive)
 		{
-			Button newOne = (Button) factory.getElement(ObjectFactory.ID_BUTTON);
+			TextView newOne = (TextView) factory.getElement(ObjectFactory.ID_TEXTVIEW);
 			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) newOne.getLayoutParams();
 
 			params.leftMargin = (int) clickPosX;
