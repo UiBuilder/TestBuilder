@@ -3,6 +3,7 @@ package creators;
 import helpers.Log;
 import manipulators.TheBoss;
 import android.content.Context;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
@@ -56,7 +57,7 @@ public class Generator
 		textView.setPadding(8, 8, 8, 8);
 		textView.setFocusableInTouchMode(true);
 		textView.setEnabled(true);
-
+		textView.setClickable(true);
 		textView.setOnTouchListener(manipulator);
 
 		return textView;
