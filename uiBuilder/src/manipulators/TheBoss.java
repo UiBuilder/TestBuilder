@@ -205,44 +205,21 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	 *         <b>false</b>
 	 * 
 	 */
-	private boolean createObject(final float clickPosX, final float clickPosY)
+	private boolean createObject(float clickPosX, float clickPosY)
 	{
 		if (activeItem == null && !overlayActive && nextObjectId != 0)
 		{
-			final View newOne = (View) factory.getElement(nextObjectId);
-
-			invalidate();
-			final RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) newOne.getLayoutParams();
-			//RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-
-			params.leftMargin = (int) clickPosX;
-			params.topMargin = (int) clickPosY;
-
-			root.addView(newOne, params);
+			View newOne = (View) factory.getElement(nextObjectId);
 			
-			invalidate();
-			newOne.post(new Runnable()
-			{
-				
-				@Override
-				public void run()
-				{
-					// TODO Auto-generated method stub
-					params.leftMargin = (int) clickPosX - newOne.getMeasuredWidth() / 2;
-					params.topMargin = (int) clickPosY - newOne.getMeasuredHeight() / 2;
-			
-					newOne.setLayoutParams(params);
-				}
-			});
-
+			RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) newOne.getLayoutParams();
 			params.leftMargin = (int) clickPosX - newOne.getMeasuredWidth() / 2;
 			params.topMargin = (int) clickPosY - newOne.getMeasuredHeight() / 2;
-	
-			newOne.setLayoutParams(params);
 
+			root.addView(newOne, params);
+	
 			Log.d("Createobject applying params left", String.valueOf(params.leftMargin));
 			Log.d("Createobject applying params top", String.valueOf(params.topMargin));
-			Log.d("Createobject object width", String.valueOf(newOne.getMeasuredWidth()));
+			Log.d("Createobject object width", String.valueOf(newOne.getWidth()));
 			Log.d("Createobject object height", String.valueOf(newOne.getMeasuredHeight()));
 
 			return true;

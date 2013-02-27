@@ -111,8 +111,9 @@ public class Generator
 		xmlButton.setId(idCount++);
 
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-
+		
 		xmlButton.setLayoutParams(params);
+		xmlButton.measure(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		return xmlButton;
 		/*Button generatedB = new Button(context)
 		{
