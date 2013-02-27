@@ -24,6 +24,7 @@ public class Generator
 	private Context context;
 	private TheBoss manipulator;
 	private ObjectFactory factory;
+	private LayoutInflater inflater;
 
 	/**
 	 * Konstruktor
@@ -34,6 +35,35 @@ public class Generator
 		context = ref;
 		manipulator = mp;
 		this.factory = fucktory;
+		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	}
+	
+	protected View generate (int id)
+	{
+			View xmlView = null;
+			switch (id)
+			{
+			case ObjectFactory.ID_BUTTON:
+				xmlView = newButton();
+				break;
+				
+			case ObjectFactory.ID_TEXTVIEW:
+				xmlView = newTextview();
+				break;
+				
+			case ObjectFactory.ID_IMAGEVIEW:
+				xmlView = newImageView();
+				break;
+	
+			default:
+				throw new NoClassDefFoundError();
+			}
+			xmlView.setOnTouchListener(manipulator);
+			xmlView.setId(idCount++);
+	
+			xmlView.measure(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		
+		return xmlView;
 	}
 
 	/**
@@ -42,28 +72,14 @@ public class Generator
 	 * 
 	 * @return Neuer TextView
 	 */
-	protected TextView newTextview()
+	private TextView newTextview()
 	{
+		TextView xmlTextView = (TextView) inflater.inflate(R.layout.textview_layout, null);
 
-		TextView textView = new TextView(context);
-		//textView.setBackgroundColor(context.getResources().getColor(android.R.color.holo_red_light));
-		textView.setBackgroundResource(R.drawable.default_button_border);
-		textView.setId(idCount++);
-
-		textView.setText(context.getResources().getString(R.string.textview_content_default));
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		xmlTextView.setLayoutParams(params);
 
-		textView.setLayoutParams(params);
-		//textView.setTag(ObjectFactory.ID_TEXTVIEW);
-		int padding = factory.PADDING_SMALL;
-		textView.setPadding(padding, padding, padding, padding);
-		textView.setTextColor(context.getResources().getColor(R.color.text_dark));
-		textView.setFocusableInTouchMode(true);
-		textView.setEnabled(true);
-		textView.setClickable(true);
-		textView.setOnTouchListener(manipulator);
-
-		return textView;
+		return xmlTextView;
 	}
 
 	/**
@@ -71,7 +87,7 @@ public class Generator
 	 * 
 	 * @return the newly generated ImageView
 	 */
-	protected ImageView newImageView()
+	private ImageView newImageView()
 	{
 		ImageView imageView = new ImageView(context);
 		imageView.setBackgroundResource(R.drawable.default_button_border);
@@ -89,7 +105,7 @@ public class Generator
 		return imageView;
 	}
 
-	protected EditText newEditText()
+	private EditText newEditText()
 	{
 		return null;
 	}
@@ -100,44 +116,14 @@ public class Generator
 	 * 
 	 * @return Neuer Button
 	 */
-	protected Button newButton()
-	{
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		
+	private Button newButton()
+	{	
 		Button xmlButton = (Button) inflater.inflate(R.layout.button_layout, null);
-		
-		xmlButton.setOnTouchListener(manipulator);
-		xmlButton.setEnabled(true);
-		xmlButton.setId(idCount++);
 
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		
 		xmlButton.setLayoutParams(params);
-		xmlButton.measure(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		
 		return xmlButton;
-		/*Button generatedB = new Button(context)
-		{
-			@Override
-			public boolean performClick()
-			{
-				// TODO Auto-generated method stub
-				return // super.performClick();
-				true;
-			}
-		};
-
-		generatedB.setText("Button");
-		generatedB.setTextColor(context.getResources().getColor(R.color.text_dark));
-		generatedB.setBackgroundResource(R.drawable.default_button_border);
-		generatedB.setId(idCount++);
-
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-
-		generatedB.setLayoutParams(params);
-		generatedB.setEnabled(true);
-		generatedB.setOnTouchListener(manipulator);
-
-		return generatedB;*/
 	}
 
 }

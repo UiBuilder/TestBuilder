@@ -219,7 +219,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	
 			Log.d("Createobject applying params left", String.valueOf(params.leftMargin));
 			Log.d("Createobject applying params top", String.valueOf(params.topMargin));
-			Log.d("Createobject object width", String.valueOf(newOne.getWidth()));
+			Log.d("Createobject object width", String.valueOf(newOne.getMeasuredWidth()));
 			Log.d("Createobject object height", String.valueOf(newOne.getMeasuredHeight()));
 
 			return true;

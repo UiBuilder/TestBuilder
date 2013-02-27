@@ -97,11 +97,11 @@ public class ObjectFactory
 		{
 			switch (which)
 			{
-			case ID_BUTTON: return generator.newButton();
+			case ID_BUTTON: return generator.generate(ID_BUTTON);
 				
-			case ID_TEXTVIEW: return generator.newTextview();
+			case ID_TEXTVIEW: return generator.generate(ID_TEXTVIEW);
 			
-			case ID_IMAGEVIEW: return generator.newImageView();
+			case ID_IMAGEVIEW: return generator.generate(ID_IMAGEVIEW);
 			
 			//case ID_LONG_CLICK_MENU: return generator.newDragMenu();
 		
