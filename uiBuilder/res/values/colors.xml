@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="overlay_border">@android:color/holo_orange_light</color>
+    <color name="overlay_border">@color/text_light</color>
     <color name="overlay_border_drag">@android:color/background_dark</color>
     <color name="overlay_background">@android:color/transparent</color>
     <color name="overlay_border_active">@android:color/holo_green_light</color>
     <color name="overlay_background_active">@android:color/holo_green_light</color>
     <color name="element_out_of_dropzone">@android:color/holo_red_light</color>
-
+    
+    <color name="text_dark">@android:color/black</color>
+	<color name="text_light">@android:color/darker_gray</color>
     
 </resources>

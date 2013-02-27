@@ -117,9 +117,5 @@ public class ObjectFactory
 			return null;
 		}
 	}
-	
-	public RelativeLayout getOverlay(View v)
-	{
-		return generator.newDragMenu(v);
-	}
+
 }
