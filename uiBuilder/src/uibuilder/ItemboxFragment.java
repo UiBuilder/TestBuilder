@@ -25,8 +25,15 @@ public class ItemboxFragment extends Fragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
 	{
+		View root = inflater.inflate(R.layout.layout_itembox_fragment, container, false);
 		
-		return inflater.inflate(R.layout.layout_itembox_fragment, container, false);
+		createButton = (Button) root.findViewById(R.id.new_element_button);
+		createTextView = (Button) root.findViewById(R.id.new_element_textview);
+		createImage = (Button) root.findViewById(R.id.new_element_imageview);
+		
+		
+		
+		return root;
 	}
 
 	@Override
