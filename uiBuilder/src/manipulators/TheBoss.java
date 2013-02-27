@@ -63,7 +63,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 
 		activeItem = null;
 	}
-	
+
 	public void setObjectType(int id)
 	{
 		nextObjectId = id;
@@ -130,7 +130,8 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			}
 
 			activeItem = currentTouch;
-			Log.d("active Item is currentTouch", "ID:"+ String.valueOf(activeItem.getId()));
+			Log.d("active Item is currentTouch", "ID:"
+					+ String.valueOf(activeItem.getId()));
 
 			detector.setIsLongpressEnabled(true);
 
@@ -209,20 +210,26 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		if (activeItem == null && !overlayActive && nextObjectId != 0)
 		{
 			View newOne = (View) factory.getElement(nextObjectId);
-			
+
 			invalidate();
 			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
 			params.leftMargin = (int) clickPosX;
 			params.topMargin = (int) clickPosY;
-			
+
 			root.addView(newOne, params);
 			invalidate();
 
 			params.leftMargin = (int) clickPosX - newOne.getMeasuredWidth() / 2;
 			params.topMargin = (int) clickPosY - newOne.getMeasuredHeight() / 2;
-			newOne.setLayoutParams(params);
 			invalidate();
+
+			newOne.setLayoutParams(params);
+
+			Log.d("Createobject applying params left", String.valueOf(params.leftMargin));
+			Log.d("Createobject applying params top", String.valueOf(params.topMargin));
+			Log.d("Createobject object width", String.valueOf(newOne.getMeasuredWidth()));
+			Log.d("Createobject object height", String.valueOf(newOne.getMeasuredHeight()));
 
 			return true;
 		}
@@ -412,8 +419,9 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			{
 				float overHead = (activeItem.getRight() + distance
 						+ right.getWidth() - root.getWidth());
-				//RelativeLayout.LayoutParams pa = (RelativeLayout.LayoutParams) activeItem.getLayoutParams();
-				//pa.
+				// RelativeLayout.LayoutParams pa =
+				// (RelativeLayout.LayoutParams) activeItem.getLayoutParams();
+				// pa.
 				return Math.round(distance - overHead);
 			}
 			break;
@@ -618,7 +626,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		modified.width = activeItem.getMeasuredWidth();
 		modified.height = activeItem.getMeasuredHeight();
 		drag.setBackgroundResource(R.drawable.overlay_center_border);
-		//drag.setAlpha(0.5f);
+		// drag.setAlpha(0.5f);
 		drag.setId(ID_CENTER);
 		drag.setTag(OVERLAYTAG);
 		drag.setOnTouchListener(this);
