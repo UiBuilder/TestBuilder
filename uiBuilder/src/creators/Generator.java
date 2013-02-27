@@ -110,9 +110,9 @@ public class Generator
 		xmlButton.setEnabled(true);
 		xmlButton.setId(idCount++);
 
-		//RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
-		//xmlButton.setLayoutParams(params);
+		xmlButton.setLayoutParams(params);
 		return xmlButton;
 		/*Button generatedB = new Button(context)
 		{
