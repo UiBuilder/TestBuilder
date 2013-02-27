@@ -222,6 +222,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			params.leftMargin = (int) clickPosX - newOne.getMeasuredWidth() / 2;
 			params.topMargin = (int) clickPosY - newOne.getMeasuredHeight() / 2;
 			newOne.setLayoutParams(params);
+			invalidate();
 
 			return true;
 		}
