@@ -92,7 +92,7 @@ public class UiBuilderActivity extends Activity implements OnClickListener
 	private void linkElements()
 	{
 		root = (RelativeLayout) findViewById(R.id.design_area);
-		
+		/*
 		createButton = (Button) findViewById(R.id.new_element_button);
 		createTextView = (Button) findViewById(R.id.new_element_textview);
 		createImage = (Button) findViewById(R.id.new_element_imageview);
@@ -104,7 +104,7 @@ public class UiBuilderActivity extends Activity implements OnClickListener
 		
 		createButton.setOnClickListener(this);
 		createTextView.setOnClickListener(this);
-		createImage.setOnClickListener(this);
+		createImage.setOnClickListener(this);*/
 	}
 
 	private void setListeners()
