@@ -89,18 +89,10 @@ public class Generator
 	 */
 	private ImageView newImageView()
 	{
-		ImageView imageView = new ImageView(context);
-		imageView.setBackgroundResource(R.drawable.default_button_border);
+		ImageView imageView = (ImageView) inflater.inflate(R.layout.imageview_layout, null);
 		
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(30, 40);
 		imageView.setLayoutParams(params);
-		
-		int padding = factory.PADDING_SMALL;
-		
-		imageView.setPadding(padding, padding, padding, padding);
-		imageView.setOnTouchListener(manipulator);
-		imageView.setClickable(true);
-		imageView.setId(idCount++);
 
 		return imageView;
 	}

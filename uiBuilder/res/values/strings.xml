@@ -16,5 +16,6 @@
     
     <string name="edittext_hint_default">Enter some text</string>
     <string name="textview_content_default">Lorem Ipsum Dolor</string>
+    <string name="imageview_content_description">Generic Image</string>
 
 </resources>
