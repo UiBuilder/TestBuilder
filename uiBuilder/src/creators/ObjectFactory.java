@@ -38,7 +38,7 @@ public class ObjectFactory
 	 */
 	public ObjectFactory(Context c, TheBoss mp) 
 	{
-		super();
+		//super();
 
 		ref = c;
 		generator = new Generator(ref, mp, this);

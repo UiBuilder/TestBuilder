@@ -209,11 +209,15 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		if (activeItem == null && !overlayActive && nextObjectId != 0)
 		{
 			View newOne = (View) factory.getElement(nextObjectId);
-			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) newOne.getLayoutParams();
+			
+			invalidate();
+			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
 			params.leftMargin = (int) clickPosX;
 			params.topMargin = (int) clickPosY;
+			
 			root.addView(newOne, params);
+			invalidate();
 
 			params.leftMargin = (int) clickPosX - newOne.getMeasuredWidth() / 2;
 			params.topMargin = (int) clickPosY - newOne.getMeasuredHeight() / 2;

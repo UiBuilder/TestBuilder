@@ -3,6 +3,7 @@ package creators;
 import helpers.Log;
 import manipulators.TheBoss;
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
@@ -23,7 +24,6 @@ public class Generator
 	private Context context;
 	private TheBoss manipulator;
 	private ObjectFactory factory;
-
 
 	/**
 	 * Konstruktor
@@ -102,7 +102,19 @@ public class Generator
 	 */
 	protected Button newButton()
 	{
-		Button generatedB = new Button(context)
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		
+		Button xmlButton = (Button) inflater.inflate(R.layout.button_layout, null);
+		
+		xmlButton.setOnTouchListener(manipulator);
+		xmlButton.setEnabled(true);
+		xmlButton.setId(idCount++);
+
+		//RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+
+		//xmlButton.setLayoutParams(params);
+		return xmlButton;
+		/*Button generatedB = new Button(context)
 		{
 			@Override
 			public boolean performClick()
@@ -124,7 +136,7 @@ public class Generator
 		generatedB.setEnabled(true);
 		generatedB.setOnTouchListener(manipulator);
 
-		return generatedB;
+		return generatedB;*/
 	}
 
 }
