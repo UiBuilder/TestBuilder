@@ -128,13 +128,11 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 				deleteOverlay();
 				return true;
 			}
-
 			activeItem = currentTouch;
-			Log.d("active Item is currentTouch", "ID:"
-					+ String.valueOf(activeItem.getId()));
-
 			detector.setIsLongpressEnabled(true);
 
+			Log.d("active Item is currentTouch", "ID:"
+					+ String.valueOf(activeItem.getId()));
 			break;
 		}
 
@@ -211,17 +209,14 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		{
 			View newOne = (View) factory.getElement(nextObjectId);
 			
-			RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) newOne.getLayoutParams();
+			activeItem = newOne;
+			
+			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) newOne.getLayoutParams();
+
 			params.leftMargin = (int) clickPosX - newOne.getMeasuredWidth() / 2;
 			params.topMargin = (int) clickPosY - newOne.getMeasuredHeight() / 2;
 
 			root.addView(newOne, params);
-	
-			Log.d("Createobject applying params left", String.valueOf(params.leftMargin));
-			Log.d("Createobject applying params top", String.valueOf(params.topMargin));
-			Log.d("Createobject object width", String.valueOf(newOne.getMeasuredWidth()));
-			Log.d("Createobject object height", String.valueOf(newOne.getMeasuredHeight()));
-
 			return true;
 		}
 		return false;
@@ -237,7 +232,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY)
 	{
-		Toast.makeText(context.getApplicationContext(), "fling", Toast.LENGTH_SHORT).show();
+		Log.d("onfling", "fling detected");
 
 		return false;
 	}
@@ -246,7 +241,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	@Override
 	public void onLongPress(MotionEvent e)
 	{
-		Log.d("OnLongpress", "is called");
 		Log.d("OnLongpress deleted item with id", String.valueOf(activeItem.getId()));
 		root.removeView(activeItem);
 		activeItem = null;
@@ -254,14 +248,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		/**
 		 * activeItem.createContextMenue should be called here in the future
 		 * from there we could call delete, edit caption and such
-		 */
-
-		/*
-		 * isDragging = true; Toast.makeText(context.getApplicationContext(),
-		 * "Button " + activeItem.getId() + " is longclicked",
-		 * Toast.LENGTH_SHORT).show();
-		 * 
-		 * setOverlay();
 		 */
 	}
 
@@ -298,13 +284,11 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 				break;
 
 			case ID_RIGHT:
-				Log.d("right indicator", "is moving");
 
 				setParams(ID_RIGHT, e1, e2);
 				break;
 
 			case ID_BOTTOM:
-				Log.d("bottom indicator", "is moving");
 
 				setParams(ID_BOTTOM, e1, e2);
 				break;
@@ -315,9 +299,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 				break;
 
 			case ID_LEFT:
-				Log.d("left indicator", "is moving");
 
-				dragIndicator.setActivated(true);
 				setParams(ID_LEFT, e1, e2);
 				break;
 
@@ -359,7 +341,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		case ID_LEFT:
 			distance = start.getX() - now.getX();
 			roundedDist = checkCollision(distance, ID_LEFT);
-
+			
 			params.leftMargin = activeItem.getLeft() - roundedDist;
 			params.width = activeItem.getMeasuredWidth() + roundedDist;
 			params.height = activeItem.getMeasuredHeight();
@@ -408,11 +390,8 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 
 			if (activeItem.getRight() + distance + right.getWidth() >= root.getWidth())
 			{
-				float overHead = (activeItem.getRight() + distance
-						+ right.getWidth() - root.getWidth());
-				// RelativeLayout.LayoutParams pa =
-				// (RelativeLayout.LayoutParams) activeItem.getLayoutParams();
-				// pa.
+				float overHead = (activeItem.getRight() + distance + right.getWidth() - root.getWidth());
+
 				return Math.round(distance - overHead);
 			}
 			break;
@@ -492,16 +471,11 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			params.topMargin = dropTargetY;
 			activeItem.setLayoutParams(params);
 
-			invalidate();
-
 			params.width = activeItem.getMeasuredWidth();
 			params.height = activeItem.getMeasuredHeight();
 			drag.setLayoutParams(params);
 
-			invalidate();
-
-			setOverlayVisibility(true); // das Overlay wird wieder angezeigt, da
-										// der Drag vorbei ist.
+			setOverlayVisibility(true); // das Overlay wird wieder angezeigt, da der Drag vorbei ist.
 			isDragging = false;
 
 			return true;
@@ -538,11 +512,9 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	 */
 	private int checkCollisionY(float dropPosY)
 	{
-		int offsetPos = Math.round(dropPosY - activeItem.getMeasuredHeight()
-				/ 2);
+		int offsetPos = Math.round(dropPosY - activeItem.getMeasuredHeight()/2);
 
-		int maxPos = Math.round(root.getMeasuredHeight()
-				- top.getMeasuredHeight() - activeItem.getMeasuredHeight());
+		int maxPos = Math.round(root.getMeasuredHeight() - top.getMeasuredHeight() - activeItem.getMeasuredHeight());
 		int minPos = Math.round(top.getMeasuredHeight());
 
 		if (offsetPos <= minPos)
@@ -578,7 +550,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		{
 			return maxPos;
 		}
-
 		return offsetPos;
 	}
 
@@ -617,7 +588,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		modified.width = activeItem.getMeasuredWidth();
 		modified.height = activeItem.getMeasuredHeight();
 		drag.setBackgroundResource(R.drawable.overlay_center_border);
-		// drag.setAlpha(0.5f);
 		drag.setId(ID_CENTER);
 		drag.setTag(OVERLAYTAG);
 		drag.setOnTouchListener(this);
@@ -729,7 +699,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			root.removeView(right);
 			root.removeView(top);
 			root.removeView(bottom);
-			// activeItem.setAlpha(1.0f);
 
 			drag = null;
 			left = null;

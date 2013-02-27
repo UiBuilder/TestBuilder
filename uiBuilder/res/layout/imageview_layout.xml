@@ -6,7 +6,7 @@
     
     android:padding="@dimen/default_padding_small"
     android:background="@drawable/default_button_border"
-    android:textColor="@color/text_dark"
+
     android:focusableInTouchMode="true"
     android:enabled="true"
     android:clickable="true"

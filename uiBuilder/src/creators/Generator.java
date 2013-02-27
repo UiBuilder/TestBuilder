@@ -1,6 +1,5 @@
 package creators;
 
-import helpers.Log;
 import manipulators.TheBoss;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -18,8 +17,7 @@ public class Generator
 	
 	public static final String OBJECT_TAG = "isObject";
 
-	private int idCount;
-	/** Variable zur dynamischen Vergabe laufender IDs */
+	private int idCount; /** Variable zur dynamischen Vergabe laufender IDs */
 
 	private Context context;
 	private TheBoss manipulator;
@@ -40,37 +38,37 @@ public class Generator
 	
 	protected View generate (int id)
 	{
-			View xmlView = null;
-			switch (id)
-			{
-			case ObjectFactory.ID_BUTTON:
-				xmlView = newButton();
-				break;
-				
-			case ObjectFactory.ID_TEXTVIEW:
-				xmlView = newTextview();
-				break;
-				
-			case ObjectFactory.ID_IMAGEVIEW:
-				xmlView = newImageView();
-				break;
-	
-			default:
-				throw new NoClassDefFoundError();
-			}
-			xmlView.setOnTouchListener(manipulator);
-			xmlView.setId(idCount++);
-	
-			xmlView.measure(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		View xmlView;
+		switch (id)
+		{
+		case ObjectFactory.ID_BUTTON:
+			xmlView = newButton();
+			break;
+			
+		case ObjectFactory.ID_TEXTVIEW:
+			xmlView = newTextview();
+			break;
+			
+		case ObjectFactory.ID_IMAGEVIEW:
+			xmlView = newImageView();
+			break;
+
+		default:
+			throw new NoClassDefFoundError();
+		}
+		xmlView.setOnTouchListener(manipulator);
+		xmlView.setId(idCount++);
+
+		xmlView.measure(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		
+		//factory.setMinDimensions(xmlView);
 		return xmlView;
 	}
 
 	/**
-	 * Methode zur Generierung eines neuen TextView-Objekts. Default
-	 * Eigenschaften werden gesetzt.
+	 * Generate new TextView from xml resource
 	 * 
-	 * @return Neuer TextView
+	 * @return new TextView
 	 */
 	private TextView newTextview()
 	{
@@ -83,7 +81,7 @@ public class Generator
 	}
 
 	/**
-	 * Generate new ImageView
+	 * Generate new ImageView from xml resource
 	 * 
 	 * @return the newly generated ImageView
 	 */
@@ -91,22 +89,25 @@ public class Generator
 	{
 		ImageView imageView = (ImageView) inflater.inflate(R.layout.imageview_layout, null);
 		
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(30, 40);
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		imageView.setLayoutParams(params);
 
 		return imageView;
 	}
 
+	/**
+	 * Generate new EditText from xml resource
+	 * @return new Edittext
+	 */
 	private EditText newEditText()
 	{
 		return null;
 	}
 
 	/**
-	 * Methode zur Generierung eines neuen Button-Objekts. Default Eigenschaften
-	 * werden gesetzt.
+	 * Generate new Button from xml resource
 	 * 
-	 * @return Neuer Button
+	 * @return new Button
 	 */
 	private Button newButton()
 	{	

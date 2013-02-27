@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class ObjectFactory 
 {
@@ -19,9 +20,7 @@ public class ObjectFactory
 	public static final int ID_IMAGEVIEW = 6;
 	public static final int ID_RADIOBUTTON = 7;
 	
-	protected final int PADDING_SMALL, PADDING_MEDIUM, PADDING_LARGE;
-	
-	protected final int TEXTVIEW_MIN_WIDTH, TEXTVIEW_MIN_HEIGHT;
+	protected int TEXTVIEW_MIN_WIDTH, TEXTVIEW_MIN_HEIGHT;
 	
 	private Context ref;
 	private Generator generator;
@@ -44,13 +43,6 @@ public class ObjectFactory
 		generator = new Generator(ref, mp, this);
 		
 		Resources res = c.getResources();
-		
-		PADDING_SMALL = res.getDimensionPixelSize(R.dimen.default_padding_small);
-		PADDING_MEDIUM = res.getDimensionPixelSize(R.dimen.default_padding_medium);
-		PADDING_LARGE = res.getDimensionPixelSize(R.dimen.default_padding_large);
-		
-		TEXTVIEW_MIN_HEIGHT = res.getDimensionPixelSize(R.dimen.textview_min_height);
-		TEXTVIEW_MIN_WIDTH = res.getDimensionPixelSize(R.dimen.textview_min_width);
 
 		measure();
 	}
@@ -63,8 +55,13 @@ public class ObjectFactory
 		displayHeight = ref.getResources().getDisplayMetrics().heightPixels;
 		displayWidth = ref.getResources().getDisplayMetrics().widthPixels;
 	}
-	
-	public boolean isResizable(View v)
+	/**
+	 * TODO
+	 * @param v
+	 * @return
+	 */
+	//klappt auch nicht
+	public boolean isResizable(View v, int distance)
 	{
 		int thisWidth = v.getWidth();
 		int thisHeight = v.getHeight();
@@ -85,6 +82,46 @@ public class ObjectFactory
 	}
 	
 	
+	//GEHT SO NICHT, oder könnte klappen muss nur richtig eingesetzt werden
+	//das setzen mit set klappt, die abfrage aber nicht, WO SOLL ABGEFRAGT WERDEN?
+	//Am besten bevor neue params gesetzt werden abfragen?
+	
+	//testweise in generator.generate gesetzt, wrap content measures werden auch richtig gesetzt
+	public void setMinDimensions(View v)
+	{
+		if (v instanceof TextView)
+		{
+			TEXTVIEW_MIN_HEIGHT = v.getMeasuredHeight();
+			TEXTVIEW_MIN_WIDTH = v.getMeasuredWidth();
+			Log.d("minwidth", String.valueOf(TEXTVIEW_MIN_WIDTH));
+			Log.d("minheight", String.valueOf(TEXTVIEW_MIN_HEIGHT));
+		}
+	}
+	/*
+	public boolean getMinWidth(View v, int newWidth)
+	{
+		if (width >= TEXTVIEW_MIN_WIDTH)
+		{
+			return width;
+		}
+		if (v instanceof TextView)
+		{
+			if (newWidth >= TEXTVIEW_MIN_WIDTH)
+				return true;
+		}
+		Log.d("minwidth", "false");
+		return false;
+	}
+	
+	public int getMinHeight(int height)
+	{
+		if (height >= TEXTVIEW_MIN_HEIGHT)
+		{
+			return height;
+		}
+		return TEXTVIEW_MIN_HEIGHT;
+	}*/
+	
 	/**
 	 * 
 	 * @param which Definiert die Art des zu erzeugenden Elementes
@@ -92,28 +129,13 @@ public class ObjectFactory
 	 */
 	public View getElement (int which)
 	{
-		
 		try
 		{
-			switch (which)
-			{
-			case ID_BUTTON: return generator.generate(ID_BUTTON);
-				
-			case ID_TEXTVIEW: return generator.generate(ID_TEXTVIEW);
-			
-			case ID_IMAGEVIEW: return generator.generate(ID_IMAGEVIEW);
-			
-			//case ID_LONG_CLICK_MENU: return generator.newDragMenu();
-		
-			default: throw new NoClassDefFoundError();
-			}
+			return generator.generate(which);
 		}
 		catch (Exception e)
 		{
-
 			Log.d(LOGTAG, "Übergebene ID existiert nicht.");
-
-
 			return null;
 		}
 	}
