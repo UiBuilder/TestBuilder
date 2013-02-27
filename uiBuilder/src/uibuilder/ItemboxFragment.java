@@ -17,13 +17,12 @@ import de.ur.rk.uibuilder.R;
 public class ItemboxFragment extends Fragment implements OnClickListener, OnTouchListener
 {
 	private Button createButton, createTextView, createImage;
-	private UiBuilderActivity act;
 
+	private View layout;
 	
 	@Override
 	public void onAttach(Activity activity)
 	{
-		this.act = (UiBuilderActivity)activity;
 		super.onAttach(activity);
 	}
 
@@ -31,22 +30,27 @@ public class ItemboxFragment extends Fragment implements OnClickListener, OnTouc
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
 	{
-		View root = inflater.inflate(R.layout.layout_itembox_fragment, container, false);
+		layout = inflater.inflate(R.layout.layout_itembox_fragment, container, false);
 		
-		createButton = (Button) root.findViewById(R.id.new_element_button);
+		setupLibraryUi();
+		
+		return layout;
+	}
+
+	private void setupLibraryUi()
+	{
+		createButton = (Button) layout.findViewById(R.id.new_element_button);
 		createButton.setId(ObjectFactory.ID_BUTTON);
 		
-		createTextView = (Button) root.findViewById(R.id.new_element_textview);
+		createTextView = (Button) layout.findViewById(R.id.new_element_textview);
 		createTextView.setId(ObjectFactory.ID_TEXTVIEW);
 		
-		createImage = (Button) root.findViewById(R.id.new_element_imageview);
+		createImage = (Button) layout.findViewById(R.id.new_element_imageview);
 		createImage.setId(ObjectFactory.ID_IMAGEVIEW);
 		
 		createButton.setOnTouchListener(this);
 		createTextView.setOnTouchListener(this);
 		createImage.setOnTouchListener(this);
-		
-		return root;
 	}
 
 	@Override

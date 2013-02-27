@@ -613,7 +613,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		modified.width = activeItem.getMeasuredWidth();
 		modified.height = activeItem.getMeasuredHeight();
 		drag.setBackgroundResource(R.drawable.overlay_center_border);
-		drag.setAlpha(0.5f);
+		//drag.setAlpha(0.5f);
 		drag.setId(ID_CENTER);
 		drag.setTag(OVERLAYTAG);
 		drag.setOnTouchListener(this);
