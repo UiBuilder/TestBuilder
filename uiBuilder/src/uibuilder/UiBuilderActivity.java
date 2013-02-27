@@ -1,11 +1,12 @@
 package uibuilder;
 
+import uibuilder.ItemboxFragment.onUiElementSelectedListener;
 import android.app.Activity;
 import android.app.AlertDialog.Builder;
 import android.os.Bundle;
 import de.ur.rk.uibuilder.R;
 
-public class UiBuilderActivity extends Activity
+public class UiBuilderActivity extends Activity implements onUiElementSelectedListener
 {
 
 	private ItemboxFragment itembox;
@@ -17,11 +18,16 @@ public class UiBuilderActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_fragment_container);
 		itembox = (ItemboxFragment) getFragmentManager().findFragmentById(R.id.fragment_itembox);
-
+		ItemboxFragment.setOnUiElementSelectedListener(this);
 	}
 	
-	public void setSelectedType(int id)
+	/**
+	 * implemented Interface onUiElementSelected
+	 */
+	@Override
+	public void typeChanged(int id)
 	{
+		// TODO Auto-generated method stub
 		DesignFragment design = (DesignFragment) getFragmentManager().findFragmentById(R.id.fragment_design);
 		design.setSelection(id);
 	}

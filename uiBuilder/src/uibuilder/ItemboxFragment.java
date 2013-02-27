@@ -71,20 +71,20 @@ public class ItemboxFragment extends Fragment implements OnClickListener, OnTouc
 			switch (v.getId())
 			{
 			case ObjectFactory.ID_BUTTON:
-				act.setSelectedType(ObjectFactory.ID_BUTTON);
 				
+				listener.typeChanged(ObjectFactory.ID_BUTTON);
 				Log.d("itembox reports: set to", "Button");
 				break;
 
 			case ObjectFactory.ID_TEXTVIEW:
-				act.setSelectedType(ObjectFactory.ID_TEXTVIEW);
 				
+				listener.typeChanged(ObjectFactory.ID_TEXTVIEW);
 				Log.d("itembox reports: set to", "TextView");
 				break;
 				
 			case ObjectFactory.ID_IMAGEVIEW:
-				act.setSelectedType(ObjectFactory.ID_IMAGEVIEW);
 				
+				listener.typeChanged(ObjectFactory.ID_IMAGEVIEW);
 				Log.d("itembox reports: set to", "ImageView");
 				break;
 			default:
@@ -99,4 +99,15 @@ public class ItemboxFragment extends Fragment implements OnClickListener, OnTouc
 		return false;
 	}
 
+	public interface onUiElementSelectedListener
+	{
+		void typeChanged(int id);
+	}
+	
+	private static onUiElementSelectedListener listener; 
+	
+	public static void setOnUiElementSelectedListener (onUiElementSelectedListener listener)
+	{
+		ItemboxFragment.listener = listener;
+	}
 }
