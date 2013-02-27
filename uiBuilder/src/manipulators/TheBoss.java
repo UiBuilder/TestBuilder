@@ -218,12 +218,12 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			params.topMargin = (int) clickPosY;
 
 			root.addView(newOne, params);
+			
 			invalidate();
 
 			params.leftMargin = (int) clickPosX - newOne.getMeasuredWidth() / 2;
 			params.topMargin = (int) clickPosY - newOne.getMeasuredHeight() / 2;
-			invalidate();
-
+	
 			newOne.setLayoutParams(params);
 
 			Log.d("Createobject applying params left", String.valueOf(params.leftMargin));
