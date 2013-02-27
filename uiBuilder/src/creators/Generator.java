@@ -53,6 +53,10 @@ public class Generator
 			xmlView = newImageView();
 			break;
 
+		case ObjectFactory.ID_EDITTEXT:
+			xmlView = newEditText();
+			break;
+			
 		default:
 			throw new NoClassDefFoundError();
 		}
@@ -87,12 +91,12 @@ public class Generator
 	 */
 	private ImageView newImageView()
 	{
-		ImageView imageView = (ImageView) inflater.inflate(R.layout.imageview_layout, null);
+		ImageView xmlImageView = (ImageView) inflater.inflate(R.layout.imageview_layout, null);
 		
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		imageView.setLayoutParams(params);
+		xmlImageView.setLayoutParams(params);
 
-		return imageView;
+		return xmlImageView;
 	}
 
 	/**
@@ -101,7 +105,12 @@ public class Generator
 	 */
 	private EditText newEditText()
 	{
-		return null;
+		EditText xmlEditText = (EditText) inflater.inflate(R.layout.edittext_layout, null);
+		
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		xmlEditText.setLayoutParams(params);
+		
+		return xmlEditText;
 	}
 
 	/**

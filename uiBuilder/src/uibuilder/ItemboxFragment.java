@@ -16,7 +16,7 @@ import de.ur.rk.uibuilder.R;
 
 public class ItemboxFragment extends Fragment implements OnClickListener, OnTouchListener
 {
-	private Button createButton, createTextView, createImage;
+	private Button createButton, createTextView, createImage, createEditText;
 
 	private View layout;
 	
@@ -48,9 +48,13 @@ public class ItemboxFragment extends Fragment implements OnClickListener, OnTouc
 		createImage = (Button) layout.findViewById(R.id.new_element_imageview);
 		createImage.setId(ObjectFactory.ID_IMAGEVIEW);
 		
+		createEditText = (Button) layout.findViewById(R.id.new_element_edittext);
+		createEditText.setId(ObjectFactory.ID_EDITTEXT);
+		
 		createButton.setOnTouchListener(this);
 		createTextView.setOnTouchListener(this);
 		createImage.setOnTouchListener(this);
+		createEditText.setOnTouchListener(this);
 	}
 
 	@Override
@@ -91,6 +95,13 @@ public class ItemboxFragment extends Fragment implements OnClickListener, OnTouc
 				listener.typeChanged(ObjectFactory.ID_IMAGEVIEW);
 				Log.d("itembox reports: set to", "ImageView");
 				break;
+				
+			case ObjectFactory.ID_EDITTEXT:
+				
+				listener.typeChanged(ObjectFactory.ID_EDITTEXT);
+				Log.d("itembox reports: set to", "Edittext");
+				break;
+				
 			default:
 				break;
 			}		
