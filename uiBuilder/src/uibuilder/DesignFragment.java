@@ -16,12 +16,11 @@ public class DesignFragment extends Fragment
 	private RelativeLayout root;
 
 	private TheBoss manipulator;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
 	{
-		//super.onCreate(savedInstanceState);
-		//setContentView(R.layout.activity_layout_design);
 		View root = inflater.inflate(R.layout.layout_design_fragment,
 		        container, false);
 		this.root = (RelativeLayout) root.findViewById(R.id.design_area);
@@ -43,19 +42,7 @@ public class DesignFragment extends Fragment
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		//setContentView(R.layout.activity_layout_design);
 
-/*		linkElements();
-		initHelpers();
-		setListeners();*/
 	}
 
-/*
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.design, menu);
-		return false;
-	}*/
 }
