@@ -1,5 +1,6 @@
 package uibuilder;
 
+import creators.ObjectFactory;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -16,16 +17,13 @@ import de.ur.rk.uibuilder.R;
 public class ItemboxFragment extends Fragment implements OnClickListener, OnTouchListener
 {
 	private Button createButton, createTextView, createImage;
-	private Activity act;
-	
-	private int selection;
-	
-	private static final int BUTTON = 1, TEXTVIEW = 2, IMAGEVIEW = 3; 
+	private UiBuilderActivity act;
+
 	
 	@Override
 	public void onAttach(Activity activity)
 	{
-		this.act = activity;
+		this.act = (UiBuilderActivity)activity;
 		super.onAttach(activity);
 	}
 
@@ -36,13 +34,13 @@ public class ItemboxFragment extends Fragment implements OnClickListener, OnTouc
 		View root = inflater.inflate(R.layout.layout_itembox_fragment, container, false);
 		
 		createButton = (Button) root.findViewById(R.id.new_element_button);
-		createButton.setId(BUTTON);
+		createButton.setId(ObjectFactory.ID_BUTTON);
 		
 		createTextView = (Button) root.findViewById(R.id.new_element_textview);
-		createTextView.setId(TEXTVIEW);
+		createTextView.setId(ObjectFactory.ID_TEXTVIEW);
 		
 		createImage = (Button) root.findViewById(R.id.new_element_imageview);
-		createImage.setId(IMAGEVIEW);
+		createImage.setId(ObjectFactory.ID_IMAGEVIEW);
 		
 		createButton.setOnTouchListener(this);
 		createTextView.setOnTouchListener(this);
@@ -64,27 +62,40 @@ public class ItemboxFragment extends Fragment implements OnClickListener, OnTouc
 	}
 
 	@Override
-	public boolean onTouch(View v, MotionEvent arg1)
+	public boolean onTouch(View v, MotionEvent event)
 	{
-		switch (v.getId())
+		switch (event.getAction())
 		{
-		case BUTTON:
-			selection = BUTTON;
-			Log.d("itembox reports: set to", String.valueOf(selection));
+		case MotionEvent.ACTION_UP:
+			
+			switch (v.getId())
+			{
+			case ObjectFactory.ID_BUTTON:
+				act.setSelectedType(ObjectFactory.ID_BUTTON);
+				
+				Log.d("itembox reports: set to", "Button");
+				break;
+
+			case ObjectFactory.ID_TEXTVIEW:
+				act.setSelectedType(ObjectFactory.ID_TEXTVIEW);
+				
+				Log.d("itembox reports: set to", "TextView");
+				break;
+				
+			case ObjectFactory.ID_IMAGEVIEW:
+				act.setSelectedType(ObjectFactory.ID_IMAGEVIEW);
+				
+				Log.d("itembox reports: set to", "ImageView");
+				break;
+			default:
+				break;
+			}		
+			
 			break;
 
-		case TEXTVIEW:
-			selection = TEXTVIEW;
-			Log.d("itembox reports: set to", String.valueOf(selection));
-			break;
-			
-		case IMAGEVIEW:
-			selection = IMAGEVIEW;
-			Log.d("itembox reports: set to", String.valueOf(selection));
-			break;
 		default:
 			break;
-		}		
+		}
 		return false;
 	}
 

@@ -22,13 +22,21 @@ public class DesignFragment extends Fragment
 	{
 		//super.onCreate(savedInstanceState);
 		//setContentView(R.layout.activity_layout_design);
-		
-		
-		 
-		return inflater.inflate(R.layout.layout_design_fragment,
+		View root = inflater.inflate(R.layout.layout_design_fragment,
 		        container, false);
+		this.root = (RelativeLayout) root.findViewById(R.id.design_area);
+		
+		manipulator = new TheBoss(getActivity().getApplicationContext(), this.root);
+		
+		this.root.setOnTouchListener(manipulator);
+		this.root.setOnDragListener(manipulator);
+		return root;
 	}
-
+	
+	public void setSelection(int id)
+	{
+		manipulator.setObjectType(id);
+	}
 
 
 	@Override

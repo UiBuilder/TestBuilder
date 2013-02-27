@@ -4,20 +4,17 @@ import manipulators.TheBoss;
 import android.app.Activity;
 import android.app.AlertDialog.Builder;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import creators.ObjectFactory;
 import de.ur.rk.uibuilder.R;
 
-public class UiBuilderActivity extends Activity implements OnClickListener
+public class UiBuilderActivity extends Activity
 {
 
 	private RelativeLayout root;
 
 	private TheBoss manipulator;
-	
+	private ItemboxFragment itembox;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -25,11 +22,12 @@ public class UiBuilderActivity extends Activity implements OnClickListener
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_fragment_container);
+		itembox = (ItemboxFragment) getFragmentManager().findFragmentById(R.id.fragment_itembox);
 		
-		
+/*		
 		linkElements();	
 		initHelpers();
-		setListeners();
+		setListeners();*/
 	}
 
 	@Override
@@ -80,19 +78,19 @@ public class UiBuilderActivity extends Activity implements OnClickListener
 		// TODO Auto-generated method stub
 		super.onStop();
 	}
-	
+/*	
 
 	private void initHelpers()
 	{
 		manipulator = new TheBoss(getApplicationContext(), root);
 		
 	}
-
+*/
 	private Button createButton, createTextView, createImage;
-	private void linkElements()
+/*	private void linkElements()
 	{
 		root = (RelativeLayout) findViewById(R.id.design_area);
-		/*
+		
 		createButton = (Button) findViewById(R.id.new_element_button);
 		createTextView = (Button) findViewById(R.id.new_element_textview);
 		createImage = (Button) findViewById(R.id.new_element_imageview);
@@ -104,21 +102,21 @@ public class UiBuilderActivity extends Activity implements OnClickListener
 		
 		createButton.setOnClickListener(this);
 		createTextView.setOnClickListener(this);
-		createImage.setOnClickListener(this);*/
-	}
-
+		createImage.setOnClickListener(this);
+	}*/
+/*
 	private void setListeners()
 	{
 		root.setOnTouchListener(manipulator);
 		root.setOnDragListener(manipulator);
 	}
-
+*/
 	protected Builder createItemChooseDialog()
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+/*
 	@Override
 	public void onClick(View v)
 	{
@@ -142,5 +140,19 @@ public class UiBuilderActivity extends Activity implements OnClickListener
 		}
 		
 	}
+*/	
+	public void setSelectedType(int id)
+	{
+		DesignFragment design = (DesignFragment) getFragmentManager().findFragmentById(R.id.fragment_design);
+		design.setSelection(id);
+	}
+	
+	private int selectedType;
+	/*
+	public int getSelectedType()
+	{
+		return selectedType;
+	}
+	*/
 	
 }
