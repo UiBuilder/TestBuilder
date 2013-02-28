@@ -3,13 +3,14 @@
 	    xmlns:tools="http://schemas.android.com/tools"
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
-	    
+	    android:background="@color/text_light"
 	     >
 	    
 	    <RelativeLayout android:id="@+id/design_area"
-	        
+	        android:layout_centerInParent="true"
 	        android:layout_width="match_parent"
 	        android:layout_height="match_parent"
+	        android:background="@color/designarea_background"
 	        />
 	
 </RelativeLayout>

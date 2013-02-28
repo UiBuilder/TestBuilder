@@ -13,6 +13,7 @@
 
     android:showDividers="middle"
     android:filterTouchesWhenObscured="true"
+    style="@style/default_fontsizes"
     >
 
 </RadioGroup>

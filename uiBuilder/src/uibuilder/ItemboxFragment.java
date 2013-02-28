@@ -16,7 +16,7 @@ import de.ur.rk.uibuilder.R;
 
 public class ItemboxFragment extends Fragment implements OnClickListener, OnTouchListener
 {
-	private Button createButton, createTextView, createImage, createEditText, createRadioGroup;
+	private Button createButton, createTextView, createImage, createEditText, createRadioGroup, createSwitch;
 
 	private View layout;
 	
@@ -54,11 +54,15 @@ public class ItemboxFragment extends Fragment implements OnClickListener, OnTouc
 		createRadioGroup = (Button) layout.findViewById(R.id.new_element_radiogroup);
 		createRadioGroup.setId(ObjectFactory.ID_RADIOBUTTONS);
 		
+		createSwitch = (Button) layout.findViewById(R.id.new_element_switch);
+		createSwitch.setId(ObjectFactory.ID_SWITCH);
+		
 		createButton.setOnTouchListener(this);
 		createTextView.setOnTouchListener(this);
 		createImage.setOnTouchListener(this);
 		createEditText.setOnTouchListener(this);
 		createRadioGroup.setOnTouchListener(this);
+		createSwitch.setOnTouchListener(this);
 	}
 
 	@Override
@@ -108,10 +112,14 @@ public class ItemboxFragment extends Fragment implements OnClickListener, OnTouc
 				
 			case ObjectFactory.ID_RADIOBUTTONS:
 				
-				listener.typeChanged(ObjectFactory.ID_SWITCH);
+				listener.typeChanged(ObjectFactory.ID_RADIOBUTTONS);
 				Log.d("itembox reports: set to", "Radiogroup");
 				break;
 				
+			case ObjectFactory.ID_SWITCH:
+				
+				listener.typeChanged(ObjectFactory.ID_SWITCH);
+				Log.d("itembox reports: set to", "Switch");
 			default:
 				break;
 			}		

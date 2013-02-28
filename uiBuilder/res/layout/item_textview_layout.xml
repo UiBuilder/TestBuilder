@@ -12,4 +12,6 @@
     android:focusableInTouchMode="true"
     android:enabled="true"
     android:clickable="true"
+    
+    style="@style/default_fontsizes"
     />

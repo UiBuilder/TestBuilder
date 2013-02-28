@@ -5,16 +5,18 @@ import manipulators.TheBoss;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import de.ur.rk.uibuilder.R;
 
 public class DesignFragment extends Fragment
 {
 
-	private RelativeLayout root;
+	private RelativeLayout designArea;
 
 	private TheBoss manipulator;
 	
@@ -24,13 +26,37 @@ public class DesignFragment extends Fragment
 	{
 		View root = inflater.inflate(R.layout.layout_design_fragment,
 		        container, false);
-		this.root = (RelativeLayout) root.findViewById(R.id.design_area);
+		designArea = (RelativeLayout) root.findViewById(R.id.design_area);
 		
-		manipulator = new TheBoss(getActivity().getApplicationContext(), this.root);
+		manipulator = new TheBoss(getActivity().getApplicationContext(), designArea);
 		
-		this.root.setOnTouchListener(manipulator);
-		this.root.setOnDragListener(manipulator);
-		
+		designArea.setOnTouchListener(manipulator);
+		designArea.setOnDragListener(manipulator);
+
+		designArea.post(new Runnable()
+		{
+			
+
+			@Override
+			public void run()
+			{
+				// TODO Auto-generated method stub
+				Log.d("runn", String.valueOf(designArea.getMeasuredWidth()));
+				
+				int rootWidth = designArea.getMeasuredWidth();
+				int rootHeight = rootWidth/16*9;
+				
+				RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) designArea.getLayoutParams();
+				params.width = rootWidth;
+				params.height = rootHeight;
+				
+				designArea.setLayoutParams(params);
+				designArea.forceLayout();
+				
+				Log.d("root width post", String.valueOf(designArea.getWidth()));
+				Log.d("root height post", String.valueOf(designArea.getHeight()));
+			}
+		});
 		return root;
 	}
 	
@@ -56,10 +82,45 @@ public class DesignFragment extends Fragment
 	}
 
 	@Override
+	public void onResume()
+	{
+		// TODO Auto-generated method stub
+		super.onResume();
+	}
+
+	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 
 	}
 
+	
+	
+	
+
+	/**
+	 * Aktuelle Displaygröße ermitteln
+	 */
+	private void measure() 
+	{
+		
+		//root.measure(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		
+		int displayHeight = getResources().getDisplayMetrics().heightPixels;
+		int displayWidth = getResources().getDisplayMetrics().widthPixels;
+		
+		//int rootHeight = root.getMeasuredHeight();
+		//int rootWidth = rootHeight/16*9;
+		
+		//RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) root.getLayoutParams();
+				//params.width = rootWidth;
+		//Log.d("root on attac w", String.valueOf(root.getWidth()));
+		
+		//RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) root.getLayoutParams();
+		//params.width = rootWidth;
+		//params.height = rootHeight;
+		
+		//root.setLayoutParams(params);
+	}
 }

@@ -10,7 +10,7 @@
         android:focusableInTouchMode="true"
         
         android:text="@string/radios_caption_default"
-        android:textColor="@color/text_dark"
+
         android:layout_gravity="fill_horizontal"
-        
+        style="@style/default_fontsizes"
         />

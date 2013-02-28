@@ -1,6 +1,5 @@
 package manipulators;
 
-import uibuilder.DesignFragment;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.Context;
@@ -84,6 +83,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	@Override
 	public boolean onTouch(View v, MotionEvent event)
 	{
+
 		currentTouch = v;
 
 		switch (currentTouch.getId())
@@ -209,10 +209,13 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			
 			activeItem = newOne;
 			
+			int targetX = checkCollisionX(clickPosX);
+			int targetY	= checkCollisionY(clickPosY);
+			
 			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) newOne.getLayoutParams();
 
-			params.leftMargin = (int)checkCollisionX(clickPosX);
-			params.topMargin = (int) checkCollisionY(clickPosY);
+			params.leftMargin = snapToGrid(targetX);
+			params.topMargin = snapToGrid(targetY);
 
 			root.addView(newOne, params);
 			return true;
@@ -482,7 +485,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		return true; // EVTL FEHLERQUELLE: RETURNS ALWAYS TRUE
 	}
 	
-	static final int SNAP_GRID_INTERVAL = 40;
+	static final int SNAP_GRID_INTERVAL = 20;
 	
 	private int snapToGrid(int pos)
 	{
