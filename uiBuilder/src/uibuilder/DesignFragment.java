@@ -82,9 +82,9 @@ public class DesignFragment extends Fragment
 		
 		Log.d("root on attac w", String.valueOf(root.getMeasuredWidth()));
 		
-		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) root.getLayoutParams();
-		params.width = rootWidth;
-		params.height = rootHeight;
+		//RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) root.getLayoutParams();
+		//params.width = rootWidth;
+		//params.height = rootHeight;
 		
 		//root.setLayoutParams(params);
 	}
