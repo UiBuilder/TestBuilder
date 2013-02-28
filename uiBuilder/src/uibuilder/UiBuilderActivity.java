@@ -1,9 +1,12 @@
 package uibuilder;
 
+import helpers.Log;
 import uibuilder.ItemboxFragment.onUiElementSelectedListener;
 import android.app.Activity;
 import android.app.AlertDialog.Builder;
 import android.os.Bundle;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import de.ur.rk.uibuilder.R;
 
 public class UiBuilderActivity extends Activity implements onUiElementSelectedListener
@@ -19,6 +22,10 @@ public class UiBuilderActivity extends Activity implements onUiElementSelectedLi
 		setContentView(R.layout.layout_fragment_container);
 		itembox = (ItemboxFragment) getFragmentManager().findFragmentById(R.id.fragment_itembox);
 		ItemboxFragment.setOnUiElementSelectedListener(this);
+		
+		RelativeLayout designarea = (RelativeLayout) findViewById(R.id.design_area);
+		designarea.measure(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		Log.d("designw", String.valueOf(designarea.getMeasuredWidth()));
 	}
 	
 	/**
