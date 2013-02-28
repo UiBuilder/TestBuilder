@@ -4,6 +4,7 @@ import helpers.Log;
 import uibuilder.ItemboxFragment.onUiElementSelectedListener;
 import android.app.Activity;
 import android.app.AlertDialog.Builder;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
@@ -14,12 +15,14 @@ public class UiBuilderActivity extends Activity implements onUiElementSelectedLi
 
 	private ItemboxFragment itembox;
 	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_fragment_container);
+		
 		itembox = (ItemboxFragment) getFragmentManager().findFragmentById(R.id.fragment_itembox);
 		ItemboxFragment.setOnUiElementSelectedListener(this);
 		
