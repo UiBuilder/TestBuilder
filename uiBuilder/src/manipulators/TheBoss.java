@@ -214,8 +214,8 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			
 			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) newOne.getLayoutParams();
 
-			params.leftMargin = (int) clickPosX - newOne.getMeasuredWidth() / 2;
-			params.topMargin = (int) clickPosY - newOne.getMeasuredHeight() / 2;
+			params.leftMargin = (int)checkCollisionX(clickPosX);
+			params.topMargin = (int) checkCollisionY(clickPosY);
 
 			root.addView(newOne, params);
 			return true;
@@ -514,10 +514,11 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	 */
 	private int checkCollisionY(float dropPosY)
 	{
+		int handleHeight = (int) root.getResources().getDimension(R.dimen.default_overlay_handle_dimension);
 		int offsetPos = Math.round(dropPosY - activeItem.getMeasuredHeight()/2);
 
-		int maxPos = Math.round(root.getMeasuredHeight() - root.getResources().getDimension(R.dimen.default_overlay_handle_dimension)) - activeItem.getMeasuredHeight();
-		int minPos = Math.round(top.getMeasuredHeight());
+		int maxPos = Math.round(root.getMeasuredHeight() - handleHeight - activeItem.getMeasuredHeight());
+		int minPos = handleHeight;
 
 		if (offsetPos <= minPos)
 		{
@@ -538,11 +539,12 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	 */
 	private int checkCollisionX(float dropPosX)
 	{
+		int handleWidth = (int) root.getResources().getDimension(R.dimen.default_overlay_handle_dimension);
 		int offsetPos = Math.round(dropPosX - activeItem.getMeasuredWidth() / 2);
 
 		int maxPos = Math.round(root.getMeasuredWidth()
-				- root.getResources().getDimension(R.dimen.default_overlay_handle_dimension))- activeItem.getMeasuredWidth();
-		int minPos = Math.round(left.getMeasuredWidth());
+				- handleWidth- activeItem.getMeasuredWidth());
+		int minPos = handleWidth;
 
 		if (offsetPos <= minPos)
 		{
