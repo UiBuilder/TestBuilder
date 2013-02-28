@@ -20,6 +20,7 @@
         
         android:thumbTextPadding="@dimen/default_padding_large"
         
+        android:switchTextAppearance="@android:drawable/button_onoff_indicator_on"
         android:textColor="@color/text_dark"
         android:layout_gravity="fill_horizontal"
         
