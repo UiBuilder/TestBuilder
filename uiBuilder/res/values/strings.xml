@@ -19,5 +19,6 @@
     <string name="imageview_content_description">Generic Image</string>
     <string name="button_caption_default">Button</string>
     
-
+    <string name="radios_caption_default">Option</string>
+	
 </resources>

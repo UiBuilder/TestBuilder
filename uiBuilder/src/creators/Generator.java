@@ -76,7 +76,7 @@ public class Generator
 	 */
 	private TextView newTextview()
 	{
-		TextView xmlTextView = (TextView) inflater.inflate(R.layout.textview_layout, null);
+		TextView xmlTextView = (TextView) inflater.inflate(R.layout.item_textview_layout, null);
 
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		xmlTextView.setLayoutParams(params);
@@ -91,7 +91,7 @@ public class Generator
 	 */
 	private ImageView newImageView()
 	{
-		ImageView xmlImageView = (ImageView) inflater.inflate(R.layout.imageview_layout, null);
+		ImageView xmlImageView = (ImageView) inflater.inflate(R.layout.item_imageview_layout, null);
 		
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		xmlImageView.setLayoutParams(params);
@@ -105,7 +105,7 @@ public class Generator
 	 */
 	private EditText newEditText()
 	{
-		EditText xmlEditText = (EditText) inflater.inflate(R.layout.edittext_layout, null);
+		EditText xmlEditText = (EditText) inflater.inflate(R.layout.item_edittext_layout, null);
 		
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		xmlEditText.setLayoutParams(params);
@@ -120,7 +120,7 @@ public class Generator
 	 */
 	private Button newButton()
 	{	
-		Button xmlButton = (Button) inflater.inflate(R.layout.button_layout, null);
+		Button xmlButton = (Button) inflater.inflate(R.layout.item_button_layout, null);
 
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		xmlButton.setLayoutParams(params);
