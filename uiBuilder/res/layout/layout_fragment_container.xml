@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:baselineAligned="false"
-    android:orientation="vertical" >
+    android:orientation="horizontal" >
 
     <fragment
         android:id="@+id/fragment_itembox"
         android:name="uibuilder.ItemboxFragment"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="0.3"
         class="uibuilder.ItemboxFragment"
         tools:layout="@layout/layout_itembox_fragment" />
@@ -18,8 +18,8 @@
     <fragment
         android:id="@+id/fragment_design"
         android:name="uibuilder.DesignFragment"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="0.7"
         class="uibuilder.DesignFragment"
         tools:layout="@layout/layout_design_fragment" />
