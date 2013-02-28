@@ -1,13 +1,9 @@
 package uibuilder;
 
-import helpers.Log;
 import uibuilder.ItemboxFragment.onUiElementSelectedListener;
 import android.app.Activity;
 import android.app.AlertDialog.Builder;
-import android.app.FragmentManager;
 import android.os.Bundle;
-import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 import de.ur.rk.uibuilder.R;
 
 public class UiBuilderActivity extends Activity implements onUiElementSelectedListener
@@ -25,10 +21,6 @@ public class UiBuilderActivity extends Activity implements onUiElementSelectedLi
 		
 		itembox = (ItemboxFragment) getFragmentManager().findFragmentById(R.id.fragment_itembox);
 		ItemboxFragment.setOnUiElementSelectedListener(this);
-		
-		RelativeLayout designarea = (RelativeLayout) findViewById(R.id.design_area);
-		designarea.measure(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-		Log.d("designw", String.valueOf(designarea.getMeasuredWidth()));
 	}
 	
 	/**
@@ -82,6 +74,7 @@ public class UiBuilderActivity extends Activity implements onUiElementSelectedLi
 	{
 		// TODO Auto-generated method stub
 		super.onStart();
+		//measure();
 	}
 
 	@Override
@@ -100,4 +93,32 @@ public class UiBuilderActivity extends Activity implements onUiElementSelectedLi
 	public void test()
 	{
 	}
+	
+/*	
+	
+
+	*//**
+	 * Aktuelle Displaygröße ermitteln
+	 *//*
+	private void measure() 
+	{
+		
+		//root.measure(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		
+		int displayHeight = getResources().getDisplayMetrics().heightPixels;
+		int displayWidth = getResources().getDisplayMetrics().widthPixels;
+		
+		int rootHeight = root.getMeasuredHeight();
+		int rootWidth = rootHeight/16*9;
+		
+		//RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) root.getLayoutParams();
+				//params.width = rootWidth;
+		Log.d("root on attac w", String.valueOf(root.getWidth()));
+		
+		//RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) root.getLayoutParams();
+		//params.width = rootWidth;
+		//params.height = rootHeight;
+		
+		//root.setLayoutParams(params);
+	}*/
 }

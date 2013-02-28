@@ -1,5 +1,6 @@
 package manipulators;
 
+import uibuilder.DesignFragment;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.Context;
@@ -12,11 +13,8 @@ import android.view.View;
 import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
-import android.webkit.WebView.FindListener;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 import creators.ObjectFactory;
 import de.ur.rk.uibuilder.R;
@@ -61,7 +59,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 
 		detector = new GestureDetector(context, this);
 		isDragging = false;
-
 		activeItem = null;
 	}
 
@@ -91,7 +88,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 
 		switch (currentTouch.getId())
 		{
-		case de.ur.rk.uibuilder.R.id.design_area:
+		case R.id.design_area:
 			Log.d("DesignArea", "called");
 			detector.setIsLongpressEnabled(false);
 			activeItem = null;

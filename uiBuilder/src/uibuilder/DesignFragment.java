@@ -5,12 +5,10 @@ import manipulators.TheBoss;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 import de.ur.rk.uibuilder.R;
 
 public class DesignFragment extends Fragment
@@ -33,14 +31,13 @@ public class DesignFragment extends Fragment
 		this.root.setOnTouchListener(manipulator);
 		this.root.setOnDragListener(manipulator);
 		
-		measure();
 		return root;
 	}
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState)
 	{
-		measure();
+
 		super.onActivityCreated(savedInstanceState);
 	}
 
@@ -63,30 +60,6 @@ public class DesignFragment extends Fragment
 	{
 		super.onCreate(savedInstanceState);
 
-	}
-	
-	
-
-	/**
-	 * Aktuelle Displaygröße ermitteln
-	 */
-	private void measure() 
-	{
-		root.measure(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-		
-		int displayHeight = getResources().getDisplayMetrics().heightPixels;
-		int displayWidth = getResources().getDisplayMetrics().widthPixels;
-		
-		int rootHeight = root.getMeasuredHeight();
-		int rootWidth = rootHeight/16*9;
-		
-		Log.d("root on attac w", String.valueOf(root.getMeasuredWidth()));
-		
-		//RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) root.getLayoutParams();
-		//params.width = rootWidth;
-		//params.height = rootHeight;
-		
-		//root.setLayoutParams(params);
 	}
 
 }
