@@ -9,16 +9,21 @@
     <string-array name="design_items_to_choose">
         <item>Button</item>
         <item>List</item>
-        <item >Image</item>
-        <item >TextView</item>
-        <item >EditText</item>
+        <item>Image</item>
+        <item>TextView</item>
+        <item>EditText</item>
     </string-array>
-    
+
     <string name="edittext_hint_default">Enter some text</string>
     <string name="textview_content_default">Lorem Ipsum Dolor</string>
     <string name="imageview_content_description">Generic Image</string>
     <string name="button_caption_default">Button</string>
-    
     <string name="radios_caption_default">Option</string>
-	
+    <string name="item_edit_enter_text">Beschriftung des Objekts:</string>
+    <string name="item_edit_align_content">Ausrichtung des Inhalts</string>
+    <string name="item_edit_align_left">Links</string>
+    <string name="item_edit_align_center">Mitte</string>
+    <string name="item_edit_align_right">Rechts</string>
+    <string name="item_edit_enter_item_count">Anzahl der Elemente</string>
+
 </resources>
