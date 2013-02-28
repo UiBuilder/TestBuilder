@@ -108,7 +108,7 @@ public class ItemboxFragment extends Fragment implements OnClickListener, OnTouc
 				
 			case ObjectFactory.ID_RADIOBUTTONS:
 				
-				listener.typeChanged(ObjectFactory.ID_SWITCH);
+				listener.typeChanged(ObjectFactory.ID_RADIOBUTTONS);
 				Log.d("itembox reports: set to", "Radiogroup");
 				break;
 				
