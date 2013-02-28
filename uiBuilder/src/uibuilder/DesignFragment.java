@@ -37,6 +37,13 @@ public class DesignFragment extends Fragment
 		return root;
 	}
 	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState)
+	{
+		measure();
+		super.onActivityCreated(savedInstanceState);
+	}
+
 	public void setSelection(int id)
 	{
 		manipulator.setObjectType(id);
