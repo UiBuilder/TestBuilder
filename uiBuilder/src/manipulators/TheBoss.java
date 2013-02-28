@@ -470,8 +470,8 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			// Koordinaten.
 			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) activeItem.getLayoutParams();
 
-			params.leftMargin = dropTargetX;
-			params.topMargin = dropTargetY;
+			params.leftMargin = snapToGrid(dropTargetX);
+			params.topMargin = snapToGrid(dropTargetY);
 			activeItem.setLayoutParams(params);
 
 			params.width = activeItem.getMeasuredWidth();
@@ -483,6 +483,13 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			return true;
 		}
 		return true; // EVTL FEHLERQUELLE: RETURNS ALWAYS TRUE
+	}
+	
+	static final int SNAP_GRID_INTERVAL = 40;
+	
+	private int snapToGrid(int pos)
+	{
+		return (pos / SNAP_GRID_INTERVAL ) * SNAP_GRID_INTERVAL;
 	}
 
 	private void setStyle(int event)
