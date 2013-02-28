@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
+import android.webkit.WebView.FindListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -515,7 +516,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	{
 		int offsetPos = Math.round(dropPosY - activeItem.getMeasuredHeight()/2);
 
-		int maxPos = Math.round(root.getMeasuredHeight() - top.getMeasuredHeight() - activeItem.getMeasuredHeight());
+		int maxPos = Math.round(root.getMeasuredHeight() - root.getResources().getDimension(R.dimen.default_overlay_handle_dimension)) - activeItem.getMeasuredHeight();
 		int minPos = Math.round(top.getMeasuredHeight());
 
 		if (offsetPos <= minPos)
@@ -540,7 +541,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		int offsetPos = Math.round(dropPosX - activeItem.getMeasuredWidth() / 2);
 
 		int maxPos = Math.round(root.getMeasuredWidth()
-				- left.getMeasuredWidth() - activeItem.getMeasuredWidth());
+				- root.getResources().getDimension(R.dimen.default_overlay_handle_dimension))- activeItem.getMeasuredWidth();
 		int minPos = Math.round(left.getMeasuredWidth());
 
 		if (offsetPos <= minPos)
