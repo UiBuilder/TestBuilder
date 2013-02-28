@@ -10,4 +10,5 @@
     <color name="text_dark">@android:color/black</color>
 	<color name="text_light">@android:color/darker_gray</color>
     
+	<color name="switch_thumb_background">@android:color/white</color>
 </resources>
