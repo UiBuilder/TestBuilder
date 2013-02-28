@@ -30,32 +30,12 @@ public class DesignFragment extends Fragment
 		this.root.setOnTouchListener(manipulator);
 		this.root.setOnDragListener(manipulator);
 		
-		measure();
 		return root;
 	}
 	
 	public void setSelection(int id)
 	{
 		manipulator.setObjectType(id);
-	}
-	
-
-	/**
-	 * Aktuelle Displaygröße ermitteln
-	 */
-	private void measure() 
-	{
-		int displayHeight = getResources().getDisplayMetrics().heightPixels;
-		int displayWidth = getResources().getDisplayMetrics().widthPixels;
-		
-		int rootHeight = root.getMeasuredHeight();
-		int rootWidth = rootHeight/16*9;
-		
-		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) root.getLayoutParams();
-		params.width = rootWidth;
-		params.height = rootHeight;
-		
-		root.setLayoutParams(params);
 	}
 
 
