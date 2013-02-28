@@ -87,4 +87,7 @@ public class UiBuilderActivity extends Activity implements onUiElementSelectedLi
 		return null;
 	}
 
+	public void test()
+	{
+	}
 }

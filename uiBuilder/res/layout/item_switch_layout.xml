@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Switch xmlns:android="http://schemas.android.com/apk/res/android"
+
+        android:enabled="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        
+        android:padding="@dimen/default_padding_small"
+        
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        
+        android:textOn="on"
+        android:textOff="off"
+        android:checked="true"
+        android:text="hello"
+		android:thumb="@drawable/default_button_border"
+        
+        android:thumbTextPadding="@dimen/default_padding_large"
+        
+        android:textColor="@color/text_dark"
+        android:layout_gravity="fill_horizontal"
+        
+        
+        />

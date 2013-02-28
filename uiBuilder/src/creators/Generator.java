@@ -1,15 +1,20 @@
 package creators;
 
 import manipulators.TheBoss;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import de.ur.rk.uibuilder.R;
 
@@ -62,6 +67,10 @@ public class Generator
 			xmlView = newRadioButtons();
 			break;
 			
+		case ObjectFactory.ID_SWITCH:
+			xmlView = newSwitch();
+			break;
+			
 		default:
 			throw new NoClassDefFoundError();
 		}
@@ -73,10 +82,28 @@ public class Generator
 		//factory.setMinDimensions(xmlView);
 		return xmlView;
 	}
+	
+	private View newSwitch()
+	{
+		Switch xmlSwitch = (Switch) inflater.inflate(R.layout.item_switch_layout, null);
+	
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		xmlSwitch.setLayoutParams(params);
+		
+		return xmlSwitch;
+	}
 
 	private View newRadioButtons()
 	{
+		//askForSpecification(ObjectFactory.ID_RADIOBUTTONS);
+		
 		RadioGroup xmlRadioGroup = (RadioGroup) inflater.inflate(R.layout.item_radiogroup_layout, null);
+		
+		RadioButton xmlRadioButton = (RadioButton) inflater.inflate(R.layout.item_radiobutton_layout, null);
+		RadioButton xmlRadioButton2 = (RadioButton) inflater.inflate(R.layout.item_radiobutton_layout, null);
+		
+		xmlRadioGroup.addView(xmlRadioButton);
+		xmlRadioGroup.addView(xmlRadioButton2);
 		
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		xmlRadioGroup.setLayoutParams(params);
@@ -143,4 +170,49 @@ public class Generator
 		return xmlButton;
 	}
 
+	private void askForSpecification(int which)
+	{
+		switch (which)
+		{
+		case ObjectFactory.ID_RADIOBUTTONS:
+			
+			askForNumber().show();
+			
+			break;
+
+		default:
+			break;
+		}
+		
+	}
+
+	private AlertDialog askForNumber()
+	{
+		
+			    View npView = inflater.inflate(R.layout.dialog_numberpicker_layout, null);
+			    NumberPicker np = (NumberPicker) npView.findViewById(R.id.np);
+			    np.setMaxValue(5);
+			    np.setMinValue(1);
+			    np.setWrapSelectorWheel(false);
+			    
+			    return new AlertDialog.Builder(context.getApplicationContext())
+			        .setTitle("Number of Items")
+			        .setView(npView)
+			        .setPositiveButton("OK",
+			            new DialogInterface.OnClickListener() {
+			                public void onClick(DialogInterface dialog, int whichButton) 
+			                {
+
+			                }
+			            })
+			            .setNegativeButton("Cancel",
+			                new DialogInterface.OnClickListener() {
+			                    public void onClick(DialogInterface dialog, int whichButton) 
+			                    {
+			                    	
+			                    }
+			                })
+			            .create();
+			    
+	}
 }
