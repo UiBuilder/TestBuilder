@@ -18,7 +18,7 @@ public class ObjectFactory
 	public static final int ID_EDITTEXT = 4;
 	public static final int ID_LISTVIEW = 5;
 	public static final int ID_IMAGEVIEW = 6;
-	public static final int ID_RADIOBUTTON = 7;
+	public static final int ID_RADIOBUTTONS = 7;
 	
 	protected int TEXTVIEW_MIN_WIDTH, TEXTVIEW_MIN_HEIGHT;
 	

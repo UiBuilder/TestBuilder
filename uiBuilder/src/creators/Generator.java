@@ -8,6 +8,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import de.ur.rk.uibuilder.R;
@@ -57,6 +58,10 @@ public class Generator
 			xmlView = newEditText();
 			break;
 			
+		case ObjectFactory.ID_RADIOBUTTONS:
+			xmlView = newRadioButtons();
+			break;
+			
 		default:
 			throw new NoClassDefFoundError();
 		}
@@ -67,6 +72,16 @@ public class Generator
 		
 		//factory.setMinDimensions(xmlView);
 		return xmlView;
+	}
+
+	private View newRadioButtons()
+	{
+		RadioGroup xmlRadioGroup = (RadioGroup) inflater.inflate(R.layout.item_radiogroup_layout, null);
+		
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		xmlRadioGroup.setLayoutParams(params);
+		
+		return xmlRadioGroup;
 	}
 
 	/**

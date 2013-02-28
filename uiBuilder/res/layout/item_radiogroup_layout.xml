@@ -1,28 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
+    android:layout_height="match_parent"
+     
     android:focusable="true"
     android:focusableInTouchMode="true"
+    android:clickable="true"
     
+    android:background="@drawable/default_button_border"
+    android:padding="@dimen/default_padding_medium"
+    android:paddingRight="@dimen/default_padding_large"
+
+    android:showDividers="middle"
+    android:filterTouchesWhenObscured="true"
     >
     <RadioButton android:checked="true"
+        android:enabled="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        
+        android:clickable="false"
+        android:focusableInTouchMode="true"
+        
         android:text="@string/radios_caption_default"
+        android:textColor="@color/text_dark"
+        android:layout_gravity="fill_horizontal"
         
         />
     
     <RadioButton 
+		android:enabled="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/radios_caption_default"
+        android:textColor="@color/text_dark"
+        android:layout_gravity="fill_horizontal"
+        
+        android:clickable="false"
+            android:focusable="true"
+    android:focusableInTouchMode="true"
         />
 
     <RadioButton 
+		android:enabled="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/radios_caption_default"
+        android:textColor="@color/text_dark"
+        android:layout_gravity="fill_horizontal"
         
+        android:clickable="false"
+            android:focusable="true"
+    android:focusableInTouchMode="true"
         />
 </RadioGroup>
