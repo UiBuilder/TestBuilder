@@ -46,17 +46,9 @@ public class ObjectFactory
 		
 		Resources res = c.getResources();
 
-		measure();
+		//measure();
 	}
 
-	/**
-	 * Aktuelle Displaygröße ermitteln
-	 */
-	private void measure() 
-	{
-		displayHeight = ref.getResources().getDisplayMetrics().heightPixels;
-		displayWidth = ref.getResources().getDisplayMetrics().widthPixels;
-	}
 	/**
 	 * TODO
 	 * @param v
