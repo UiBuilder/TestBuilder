@@ -524,7 +524,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	private int snapToGrid(int pos)
 	{
 		Log.d("mod", String.valueOf(pos%SNAP_GRID_INTERVAL));
-		return pos;
+		return Math.round((float) pos / SNAP_GRID_INTERVAL) * SNAP_GRID_INTERVAL;
 	}
 
 	private void setStyle(int event)
