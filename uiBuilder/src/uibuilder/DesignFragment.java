@@ -47,7 +47,7 @@ public class DesignFragment extends Fragment
 				int rootHeight = rootWidth/16*9;
 				
 				RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) designArea.getLayoutParams();
-				params.width = rootWidth;
+				params.width = rootWidth-100;
 				params.height = rootHeight;
 				
 				designArea.setLayoutParams(params);
