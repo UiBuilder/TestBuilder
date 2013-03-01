@@ -25,10 +25,14 @@ public class UiBuilderActivity extends Activity implements onUiElementSelectedLi
 		setContentView(R.layout.layout_fragment_container);
 		fManager = getFragmentManager();
 		fTransaction = fManager.beginTransaction();
-		itembox = (ItemboxFragment) getFragmentManager().findFragmentById(R.id.fragment_itembox);
-		editbox = (EditmodeFragment) getFragmentManager().findFragmentById(R.id.fragment_editbox);
-		designbox = (DesignFragment)getFragmentManager().findFragmentById(R.id.fragment_design);
-
+		
+		itembox = new ItemboxFragment();
+		editbox = new EditmodeFragment();
+		designbox = new DesignFragment();
+		
+		fTransaction.add(R.id.fragment_sidebar, itembox);
+		fTransaction.add(R.id.fragment_design, designbox);
+		fTransaction.commit();
 		ItemboxFragment.setOnUiElementSelectedListener(this);
 
 	}
@@ -39,8 +43,7 @@ public class UiBuilderActivity extends Activity implements onUiElementSelectedLi
 	@Override
 	public void typeChanged(int id)
 	{
-		// TODO Auto-generated method stub
-		//DesignFragment design = (DesignFragment) getFragmentManager().findFragmentById(R.id.fragment_design);
+		
 		designbox.setSelection(id);
 	}
 

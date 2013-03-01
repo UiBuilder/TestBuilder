@@ -30,7 +30,7 @@ public class EditmodeFragment extends Fragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
 	{
-		layout = inflater.inflate(R.id.fragment_editbox, container, false);
+		layout = inflater.inflate(R.layout.editmode_fragment, container, false);
 		
 		return layout;
 	}
