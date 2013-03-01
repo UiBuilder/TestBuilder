@@ -31,7 +31,8 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	private Context context;
 	private View activeItem;
 	private ObjectFactory factory;
-	private RelativeLayout root;
+	private RelativeLayout root, parent;
+	
 
 	private GestureDetector detector;
 	private final String OVERLAYTAG = "Overlay";
@@ -56,6 +57,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		this.root = root;
 		this.root.setTag("PLAYGROUND");
 
+		parent = (RelativeLayout) root.getParent();
 		detector = new GestureDetector(context, this);
 		isDragging = false;
 		activeItem = null;
@@ -325,7 +327,8 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 
 	private void setParams(int handleId, MotionEvent start, MotionEvent now)
 	{
-		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) activeItem.getLayoutParams();
+		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) drag.getLayoutParams();
+		
 		float distance;
 		int roundedDist;
 
@@ -389,9 +392,9 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		{
 		case ID_RIGHT:
 
-			if (activeItem.getRight() + distance + right.getWidth() >= root.getWidth())
+			if (activeItem.getRight() + distance/* + right.getWidth()*/ >= root.getWidth() + root.getLeft())
 			{
-				float overHead = (activeItem.getRight() + distance + right.getWidth() - root.getWidth());
+				float overHead = (activeItem.getRight() + distance/* + right.getWidth()*/ - root.getWidth());
 
 				return Math.round(distance - overHead);
 			}
@@ -401,7 +404,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 
 			if (activeItem.getLeft() - distance - left.getWidth() <= 0)
 			{
-				float overHead = (activeItem.getLeft() - distance - left.getWidth());
+				float overHead = (activeItem.getLeft() - distance/* - left.getWidth()*/);
 
 				return Math.round(distance + overHead);
 			}
@@ -409,9 +412,9 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 
 		case ID_TOP:
 
-			if (activeItem.getTop() - top.getHeight() - distance <= 0)
+			if (activeItem.getTop()/* - top.getHeight()*/ - distance <= 0)
 			{
-				float overHead = (activeItem.getTop() - distance - top.getHeight());
+				float overHead = (activeItem.getTop() - distance/* - top.getHeight()*/);
 
 				return Math.round(distance + overHead);
 			}
@@ -419,9 +422,9 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 
 		case ID_BOTTOM:
 
-			if (activeItem.getBottom() + distance + bottom.getHeight() >= root.getHeight())
+			if (activeItem.getBottom() + distance/* + bottom.getHeight()*/ >= root.getHeight() + root.getTop())
 			{
-				float overHead = (bottom.getBottom() + distance - root.getHeight());
+				float overHead = (/*bottom.getBottom() + */distance - root.getHeight());
 
 				return Math.round(distance - overHead);
 			}
@@ -468,15 +471,20 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			// Positionen werden ausgelesen und zugewiesen. Objekte werden an
 			// ihre Zielposition verschoben und das Overlay bekommt neue
 			// Koordinaten.
-			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) activeItem.getLayoutParams();
+			RelativeLayout.LayoutParams activeParams = (RelativeLayout.LayoutParams) activeItem.getLayoutParams();
+			RelativeLayout.LayoutParams dragParams = (RelativeLayout.LayoutParams) drag.getLayoutParams();
+			
+			dragParams.leftMargin = snapToGrid(dropTargetX) + root.getLeft();
+			dragParams.topMargin = snapToGrid(dropTargetY) + root.getTop();
+			dragParams.width = activeItem.getMeasuredWidth();
+			dragParams.height = activeItem.getMeasuredHeight();
+			drag.setLayoutParams(dragParams);
+			
+			
+			activeParams.leftMargin = snapToGrid(dropTargetX);
+			activeParams.topMargin = snapToGrid(dropTargetY);
+			activeItem.setLayoutParams(activeParams);
 
-			params.leftMargin = snapToGrid(dropTargetX);
-			params.topMargin = snapToGrid(dropTargetY);
-			activeItem.setLayoutParams(params);
-
-			params.width = activeItem.getMeasuredWidth();
-			params.height = activeItem.getMeasuredHeight();
-			drag.setLayoutParams(params);
 
 			isDragging = false;
 
@@ -524,8 +532,8 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		int handleHeight = (int) root.getResources().getDimension(R.dimen.default_overlay_handle_dimension);
 		int offsetPos = Math.round(dropPosY - activeItem.getMeasuredHeight()/2);
 
-		int maxPos = Math.round(root.getMeasuredHeight() - handleHeight - activeItem.getMeasuredHeight());
-		int minPos = handleHeight;
+		int maxPos = Math.round(root.getMeasuredHeight()/* - handleHeight*/ - activeItem.getMeasuredHeight());
+		int minPos = 0;//handleHeight;
 
 		if (offsetPos <= minPos)
 		{
@@ -550,8 +558,8 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		int offsetPos = Math.round(dropPosX - activeItem.getMeasuredWidth() / 2);
 
 		int maxPos = Math.round(root.getMeasuredWidth()
-				- handleWidth- activeItem.getMeasuredWidth());
-		int minPos = handleWidth;
+				/*- handleWidth */- activeItem.getMeasuredWidth());
+		int minPos = 0;//handleWidth;
 
 		if (offsetPos <= minPos)
 		{
@@ -591,18 +599,18 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		RelativeLayout.LayoutParams modified = new RelativeLayout.LayoutParams(activeItem.getLayoutParams());
 
 		Log.d("params right", String.valueOf(activeItem.getRight()));
-
+		
 		// DRAG
 		drag = new ImageButton(context);
-		modified.leftMargin = activeItem.getLeft();
-		modified.topMargin = activeItem.getTop();
+		modified.leftMargin = activeItem.getLeft() + root.getLeft();
+		modified.topMargin = activeItem.getTop() + root.getTop();
 		modified.width = activeItem.getMeasuredWidth();
 		modified.height = activeItem.getMeasuredHeight();
 		drag.setBackgroundResource(R.drawable.overlay_center_border);
 		drag.setId(ID_CENTER);
 		drag.setTag(OVERLAYTAG);
 		drag.setOnTouchListener(this);
-		root.addView(drag, modified);
+		parent.addView(drag, modified);
 
 		invalidate();
 
@@ -620,7 +628,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		right.setId(ID_RIGHT);
 		right.setTag(OVERLAYTAG);
 		right.setOnTouchListener(this);
-		root.addView(right, modified);
+		parent.addView(right, modified);
 
 		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		// BOTTOM
@@ -636,7 +644,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		bottom.setId(ID_BOTTOM);
 		bottom.setTag(OVERLAYTAG);
 		bottom.setOnTouchListener(this);
-		root.addView(bottom, modified);
+		parent.addView(bottom, modified);
 
 		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		// LEFT
@@ -650,7 +658,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		left.setId(ID_LEFT);
 		left.setTag(OVERLAYTAG);
 		left.setOnTouchListener(this);
-		root.addView(left, modified);
+		parent.addView(left, modified);
 
 		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		// TOP
@@ -666,7 +674,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		top.setId(ID_TOP);
 		top.setTag(OVERLAYTAG);
 		top.setOnTouchListener(this);
-		root.addView(top, modified);
+		parent.addView(top, modified);
 
 		invalidate();
 	}
@@ -705,11 +713,11 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	{
 		if (overlayActive)
 		{
-			root.removeView(drag);
-			root.removeView(left);
-			root.removeView(right);
-			root.removeView(top);
-			root.removeView(bottom);
+			parent.removeView(drag);
+			parent.removeView(left);
+			parent.removeView(right);
+			parent.removeView(top);
+			parent.removeView(bottom);
 
 			drag = null;
 			left = null;
