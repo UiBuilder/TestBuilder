@@ -6,11 +6,14 @@ import android.app.AlertDialog.Builder;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.view.View;
 import de.ur.rk.uibuilder.R;
 
 public class UiBuilderActivity extends Activity implements onUiElementSelectedListener
 {
 
+	private static final int ITEMBOX = 0;
+	private static final int EDITBOX = 1;
 	private ItemboxFragment itembox;
 	private EditmodeFragment editbox;
 	private DesignFragment designbox;
@@ -29,12 +32,27 @@ public class UiBuilderActivity extends Activity implements onUiElementSelectedLi
 		itembox = new ItemboxFragment();
 		editbox = new EditmodeFragment();
 		designbox = new DesignFragment();
-		
-		fTransaction.add(R.id.fragment_sidebar, itembox);
+		displaySidebar(ITEMBOX);
+		//fTransaction.add(R.id.fragment_sidebar, itembox);
 		fTransaction.add(R.id.fragment_design, designbox);
-		fTransaction.commit();
+		
 		ItemboxFragment.setOnUiElementSelectedListener(this);
 
+	}
+	public void displaySidebar(int sidebarType){
+		
+		switch (sidebarType){
+		case ITEMBOX:
+			fTransaction.replace(R.id.fragment_sidebar, itembox);
+			
+			break;
+		case EDITBOX:
+			fTransaction.replace(R.id.fragment_sidebar, editbox);
+			break;
+		}
+		
+		findViewById(R.id.fragment_sidebar).setVisibility(View.VISIBLE);
+		fTransaction.commit();
 	}
 	
 	/**
