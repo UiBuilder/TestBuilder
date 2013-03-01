@@ -4,18 +4,19 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.View.OnTouchListener;
 import android.widget.LinearLayout;
 import de.ur.rk.uibuilder.R;
 
-public class EditmodeFragment extends Fragment implements OnTouchListener
+public class EditmodeFragment extends Fragment implements OnClickListener
 {
 	private View layoutView;
 	private LinearLayout layout;
 	private LayoutInflater inflater;
+	
+
 
 	@Override
 	public void onAttach(Activity activity)
@@ -41,6 +42,7 @@ public class EditmodeFragment extends Fragment implements OnTouchListener
 		adaptLayoutToContext();
 
 		layoutView = inflater.inflate(R.layout.layout_editmode_fragment, container, false);
+		layoutView.setOnClickListener(this);
 
 		return layoutView;
 	}
@@ -53,26 +55,19 @@ public class EditmodeFragment extends Fragment implements OnTouchListener
 		layout.addView(inflater.inflate(R.layout.editmode_entry_item_count, null));
 	}
 
-	@Override
-	public void onDetach()
-	{
-		// TODO Auto-generated method stub
-		super.onDetach();
-	}
+
+	
 
 	@Override
-	public boolean onTouch(View v, MotionEvent event)
+	public void onClick(View v)
 	{
-		switch (event.getAction())
-		{
-		case MotionEvent.ACTION_UP:
+		
 			switch (v.getId())
 			{
-
+			
 			}
-			break;
 
-		}
-		return false;
+		
+		
 	}
 }
