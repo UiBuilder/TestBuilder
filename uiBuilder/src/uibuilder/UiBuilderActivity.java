@@ -23,7 +23,6 @@ public class UiBuilderActivity extends Activity implements onUiElementSelectedLi
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_fragment_container);
 		fManager = getFragmentManager();
@@ -32,8 +31,7 @@ public class UiBuilderActivity extends Activity implements onUiElementSelectedLi
 		itembox = new ItemboxFragment();
 		editbox = new EditmodeFragment();
 		designbox = new DesignFragment();
-		displaySidebar(ITEMBOX);
-		//fTransaction.add(R.id.fragment_sidebar, itembox);
+		displaySidebar(EDITBOX);
 		fTransaction.add(R.id.fragment_design, designbox);
 		
 		ItemboxFragment.setOnUiElementSelectedListener(this);
