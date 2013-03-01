@@ -1,16 +1,20 @@
 package uibuilder;
 
-import de.ur.rk.uibuilder.R;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView.FindListener;
+import android.widget.LinearLayout;
+import de.ur.rk.uibuilder.R;
 
 public class EditmodeFragment extends Fragment
 {
-	private View layout;
+	private View layoutView;
+	private LinearLayout layout;
+	private LayoutInflater inflater;
 
 	@Override
 	public void onAttach(Activity activity)
@@ -30,9 +34,22 @@ public class EditmodeFragment extends Fragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
 	{
-		layout = inflater.inflate(R.layout.editmode_fragment, container, false);
-		
-		return layout;
+		this.inflater = inflater;
+		layout = (LinearLayout)getActivity().findViewById(R.id.fragment_editbox);
+		adaptLayoutToContext();
+
+		layoutView = inflater.inflate(R.layout.layout_editmode_fragment, container, false);
+		adaptLayoutToContext();
+
+		return layoutView;
+	}
+
+	private void adaptLayoutToContext()
+	{
+		View newEntry = inflater.inflate(R.layout.editmode_entry_enter_text, null);
+		layout.addView(newEntry);
+		// the layout elements should be put together here
+
 	}
 
 	@Override
