@@ -42,6 +42,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	boolean overlayActive = false;
 	private View currentTouch;
 	
+	private Grid grid;
 	static final int SNAP_GRID_INTERVAL = 25;
 
 	/**
@@ -66,7 +67,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		activeItem = null;
 		snapMode = true;
 		
-		Grid grid = new Grid(context, SNAP_GRID_INTERVAL);
+		grid = new Grid(context, SNAP_GRID_INTERVAL);
 		grid.setLayoutParams(root.getLayoutParams());
 		parent.addView(grid);
 	}
@@ -522,10 +523,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	
 	private int snapToGrid(int pos)
 	{
-		if (snapMode)
-		{
-			return (pos / SNAP_GRID_INTERVAL ) * SNAP_GRID_INTERVAL;
-		}
+		Log.d("mod", String.valueOf(pos%SNAP_GRID_INTERVAL));
 		return pos;
 	}
 
@@ -757,6 +755,18 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			dragIndicator = null;
 			overlayActive = false;
 			isDragging = false;
+		}
+	}
+	
+	private void toggleGrid()
+	{
+		if (grid.getVisibility() == View.VISIBLE)
+		{
+			grid.setVisibility(View.INVISIBLE);
+		}
+		else
+		{
+			grid.setVisibility(View.VISIBLE);
 		}
 	}
 }
