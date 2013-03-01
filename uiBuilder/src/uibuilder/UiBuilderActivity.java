@@ -12,8 +12,8 @@ import de.ur.rk.uibuilder.R;
 public class UiBuilderActivity extends Activity implements onUiElementSelectedListener
 {
 
-	private static final int ITEMBOX = 0;
-	private static final int EDITBOX = 1;
+	public static final int ITEMBOX = 0;
+	public static final int EDITBOX = 1;
 	private ItemboxFragment itembox;
 	private EditmodeFragment editbox;
 	private DesignFragment designbox;
@@ -50,6 +50,7 @@ public class UiBuilderActivity extends Activity implements onUiElementSelectedLi
 		}
 		
 		findViewById(R.id.fragment_sidebar).setVisibility(View.VISIBLE);
+		fTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 		fTransaction.commit();
 	}
 	
