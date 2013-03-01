@@ -3,17 +3,19 @@ package uibuilder;
 import uibuilder.ItemboxFragment.onUiElementSelectedListener;
 import android.app.Activity;
 import android.app.AlertDialog.Builder;
-import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 import de.ur.rk.uibuilder.R;
 
 public class UiBuilderActivity extends Activity implements onUiElementSelectedListener
 {
 
 	private ItemboxFragment itembox;
-	
+	private EditmodeFragment editbox;
+	private DesignFragment designbox;
+	private FragmentManager fManager;
+	private FragmentTransaction fTransaction;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -21,9 +23,14 @@ public class UiBuilderActivity extends Activity implements onUiElementSelectedLi
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_fragment_container);
-		
+		fManager = getFragmentManager();
+		fTransaction = fManager.beginTransaction();
 		itembox = (ItemboxFragment) getFragmentManager().findFragmentById(R.id.fragment_itembox);
+		editbox = (EditmodeFragment) getFragmentManager().findFragmentById(R.id.fragment_editbox);
+		designbox = (DesignFragment)getFragmentManager().findFragmentById(R.id.fragment_design);
+
 		ItemboxFragment.setOnUiElementSelectedListener(this);
+
 	}
 	
 	/**
@@ -33,8 +40,8 @@ public class UiBuilderActivity extends Activity implements onUiElementSelectedLi
 	public void typeChanged(int id)
 	{
 		// TODO Auto-generated method stub
-		DesignFragment design = (DesignFragment) getFragmentManager().findFragmentById(R.id.fragment_design);
-		design.setSelection(id);
+		//DesignFragment design = (DesignFragment) getFragmentManager().findFragmentById(R.id.fragment_design);
+		designbox.setSelection(id);
 	}
 
 	@Override
