@@ -1,5 +1,6 @@
 package manipulators;
 
+import helpers.Grid;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.Context;
@@ -40,6 +41,8 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	private boolean isDragging;
 	boolean overlayActive = false;
 	private View currentTouch;
+	
+	static final int SNAP_GRID_INTERVAL = 25;
 
 	/**
 	 * KONSTRUKTOR
@@ -62,6 +65,10 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		isDragging = false;
 		activeItem = null;
 		snapMode = true;
+		
+		Grid grid = new Grid(context, SNAP_GRID_INTERVAL);
+		grid.setLayoutParams(root.getLayoutParams());
+		parent.addView(grid);
 	}
 
 	public void setObjectType(int id)
@@ -512,8 +519,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		}
 		return true; // EVTL FEHLERQUELLE: RETURNS ALWAYS TRUE
 	}
-	
-	static final int SNAP_GRID_INTERVAL = 20;
 	
 	private int snapToGrid(int pos)
 	{
