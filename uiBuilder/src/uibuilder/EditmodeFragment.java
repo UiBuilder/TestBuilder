@@ -4,13 +4,14 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView.FindListener;
+import android.view.View.OnTouchListener;
 import android.widget.LinearLayout;
 import de.ur.rk.uibuilder.R;
 
-public class EditmodeFragment extends Fragment
+public class EditmodeFragment extends Fragment implements OnTouchListener
 {
 	private View layoutView;
 	private LinearLayout layout;
@@ -35,21 +36,22 @@ public class EditmodeFragment extends Fragment
 			Bundle savedInstanceState)
 	{
 		this.inflater = inflater;
-		layout = (LinearLayout)getActivity().findViewById(R.id.fragment_editbox);
+		
+		layout = (LinearLayout)getActivity().findViewById(R.id.fragment_sidebar);
 		adaptLayoutToContext();
 
 		layoutView = inflater.inflate(R.layout.layout_editmode_fragment, container, false);
-		adaptLayoutToContext();
+		
 
 		return layoutView;
 	}
 
 	private void adaptLayoutToContext()
 	{
-		View newEntry = inflater.inflate(R.layout.editmode_entry_enter_text, null);
-		layout.addView(newEntry);
-		// the layout elements should be put together here
-
+		
+		layout.addView(inflater.inflate(R.layout.editmode_entry_enter_text, null));
+		layout.addView(inflater.inflate(R.layout.editmode_entry_align_content, null));
+		layout.addView(inflater.inflate(R.layout.editmode_entry_item_count, null));
 	}
 
 	@Override
@@ -57,6 +59,13 @@ public class EditmodeFragment extends Fragment
 	{
 		// TODO Auto-generated method stub
 		super.onDetach();
+	}
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event)
+	{
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

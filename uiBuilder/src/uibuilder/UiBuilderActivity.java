@@ -31,7 +31,7 @@ public class UiBuilderActivity extends Activity implements onUiElementSelectedLi
 		itembox = new ItemboxFragment();
 		editbox = new EditmodeFragment();
 		designbox = new DesignFragment();
-		displaySidebar(ITEMBOX);
+		displaySidebar(EDITBOX);
 		fTransaction.add(R.id.fragment_design, designbox);
 		
 		ItemboxFragment.setOnUiElementSelectedListener(this);

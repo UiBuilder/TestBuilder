@@ -6,16 +6,19 @@
     android:baselineAligned="false"
     android:orientation="horizontal" >
 
-    <FrameLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:id="@+id/fragment_sidebar"
         android:visibility="gone"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="0.3"
+        
        
          />
 
     <FrameLayout
+        
         android:id="@+id/fragment_design"
         android:layout_width="0dp"
         android:layout_height="match_parent"
