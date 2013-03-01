@@ -36,19 +36,18 @@ public class EditmodeFragment extends Fragment implements OnTouchListener
 			Bundle savedInstanceState)
 	{
 		this.inflater = inflater;
-		
-		layout = (LinearLayout)getActivity().findViewById(R.id.fragment_sidebar);
+
+		layout = (LinearLayout) getActivity().findViewById(R.id.fragment_sidebar);
 		adaptLayoutToContext();
 
 		layoutView = inflater.inflate(R.layout.layout_editmode_fragment, container, false);
-		
 
 		return layoutView;
 	}
 
 	private void adaptLayoutToContext()
 	{
-		
+
 		layout.addView(inflater.inflate(R.layout.editmode_entry_enter_text, null));
 		layout.addView(inflater.inflate(R.layout.editmode_entry_align_content, null));
 		layout.addView(inflater.inflate(R.layout.editmode_entry_item_count, null));
@@ -64,8 +63,16 @@ public class EditmodeFragment extends Fragment implements OnTouchListener
 	@Override
 	public boolean onTouch(View v, MotionEvent event)
 	{
-		// TODO Auto-generated method stub
+		switch (event.getAction())
+		{
+		case MotionEvent.ACTION_UP:
+			switch (v.getId())
+			{
+
+			}
+			break;
+
+		}
 		return false;
 	}
-
 }
