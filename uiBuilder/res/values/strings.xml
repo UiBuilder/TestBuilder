@@ -6,12 +6,15 @@
     <string name="hello_world">Hello world!</string>
     <string name="design_choose_item_to_add">Choose the Item you want to add</string>
 
-    <string-array name="design_items_to_choose">
+    <string-array name="itembox_items_string_array">
         <item>Button</item>
         <item>List</item>
         <item>Image</item>
         <item>TextView</item>
         <item>EditText</item>
+        <item>Switch</item>
+        <item>RadioGroup</item>
+        <item>...</item>
     </string-array>
 
     <string name="edittext_hint_default">Enter some text</string>
@@ -25,5 +28,6 @@
     <string name="item_edit_align_center">Mitte</string>
     <string name="item_edit_align_right">Rechts</string>
     <string name="item_edit_enter_item_count">Anzahl der Elemente</string>
+    
 
 </resources>

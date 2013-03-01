@@ -13,4 +13,5 @@
 	<color name="switch_thumb_background">@android:color/white</color>
 	
 	<color name="designarea_background">@android:color/white</color>
+	<color name="designfragment_background">@android:color/darker_gray</color>
 </resources>
