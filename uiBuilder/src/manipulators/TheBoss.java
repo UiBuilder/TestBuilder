@@ -61,6 +61,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		detector = new GestureDetector(context, this);
 		isDragging = false;
 		activeItem = null;
+		snapMode = true;
 	}
 
 	public void setObjectType(int id)
@@ -70,6 +71,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 
 	private View dragIndicator;
 	private int nextObjectId;
+	private boolean snapMode;
 
 	/**
 	 * @param dragIndicator
@@ -337,42 +339,52 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		{
 		case ID_RIGHT:
 			distance = now.getX() - start.getX();
+			
 			roundedDist = checkCollision(distance, ID_RIGHT);
+			roundedDist = snapToGrid(roundedDist);
 
 			itemParams.width = dragParams.width = activeItem.getMeasuredWidth() + roundedDist;
 			itemParams.height = dragParams.height = activeItem.getMeasuredHeight();
-			
 			
 			break;
 
 		case ID_LEFT:
 			distance = start.getX() - now.getX();
+			
 			roundedDist = checkCollision(distance, ID_LEFT);
+			roundedDist = snapToGrid(roundedDist);
 			
 			dragParams.leftMargin = drag.getLeft() - roundedDist;
 			itemParams.leftMargin = activeItem.getLeft() - roundedDist;
 			
 			itemParams.width = dragParams.width = activeItem.getMeasuredWidth() + roundedDist;
 			itemParams.height = dragParams.height = activeItem.getMeasuredHeight();
+			
 			break;
 
 		case ID_BOTTOM:
 			distance = now.getY() - start.getY();
+			
 			roundedDist = checkCollision(distance, ID_BOTTOM);
+			roundedDist = snapToGrid(roundedDist);
 
 			itemParams.width = dragParams.width = activeItem.getMeasuredWidth();
 			itemParams.height = dragParams.height = activeItem.getMeasuredHeight() + roundedDist;
+			
 			break;
 
 		case ID_TOP:
 			distance = start.getY() - now.getY();
+			
 			roundedDist = checkCollision(distance, ID_TOP);
+			roundedDist = snapToGrid(roundedDist);
 
 			dragParams.topMargin = drag.getTop() - roundedDist;
 			itemParams.topMargin = activeItem.getTop() - roundedDist;
 			
 			itemParams.width = dragParams.width = activeItem.getMeasuredWidth();
 			itemParams.height = dragParams.height = activeItem.getMeasuredHeight() + roundedDist;
+			
 			break;
 
 		default:
@@ -505,7 +517,11 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	
 	private int snapToGrid(int pos)
 	{
-		return (pos / SNAP_GRID_INTERVAL ) * SNAP_GRID_INTERVAL;
+		if (snapMode)
+		{
+			return (pos / SNAP_GRID_INTERVAL ) * SNAP_GRID_INTERVAL;
+		}
+		return pos;
 	}
 
 	private void setStyle(int event)
