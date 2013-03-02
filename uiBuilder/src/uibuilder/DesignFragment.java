@@ -5,12 +5,10 @@ import manipulators.TheBoss;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 import de.ur.rk.uibuilder.R;
 
 public class DesignFragment extends Fragment

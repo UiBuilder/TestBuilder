@@ -723,7 +723,8 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 					bottom.setVisibility(View.VISIBLE);
 					left.setVisibility(View.VISIBLE);
 					right.setVisibility(View.VISIBLE);
-				} else if(drag!=null)
+				} 
+				else if (drag!=null)
 				{
 					drag.setVisibility(View.INVISIBLE);
 					top.setVisibility(View.INVISIBLE);

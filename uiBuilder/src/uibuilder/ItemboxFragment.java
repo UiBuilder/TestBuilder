@@ -1,6 +1,5 @@
 package uibuilder;
 
-import creators.ObjectFactory;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -12,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import creators.ObjectFactory;
 import de.ur.rk.uibuilder.R;
 
 public class ItemboxFragment extends Fragment implements OnClickListener, OnTouchListener
