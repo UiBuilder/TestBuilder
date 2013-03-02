@@ -470,9 +470,12 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		switch (event.getAction())
 		{
 		case DragEvent.ACTION_DRAG_STARTED:
-			setOverlayVisibility(false); // Während des Drags ist kein Overlay
-			toggleGrid();						// sichtbar.
-			return true;
+			synchronized (activeItem)
+			{
+				setOverlayVisibility(false); // Während des Drags ist kein Overlay
+				toggleGrid();						// sichtbar.
+				return true;
+			}
 
 		case DragEvent.ACTION_DRAG_ENTERED:
 			synchronized (activeItem)
@@ -489,6 +492,9 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			{
 				setStyle(DragEvent.ACTION_DRAG_ENDED);
 				setOverlayVisibility(true); // das Overlay wird wieder angezeigt, da der Drag vorbei ist.
+				
+				isDragging = false;
+				toggleGrid();
 			}
 			break;
 
@@ -519,9 +525,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 				activeParams.topMargin = snapToGrid(dropTargetY);
 				activeItem.setLayoutParams(activeParams);
 	
-	
-				isDragging = false;
-				toggleGrid();
 				return true;
 			}
 			
