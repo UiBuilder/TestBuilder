@@ -11,6 +11,10 @@ public class Grid extends View
 {
 	private Paint color;
 	private int interval;
+	private boolean showGrid;
+	
+	private int displayWidth;
+	private int displayHeight;
 	
 	@Override
 	protected void onDraw(Canvas canvas)
@@ -18,28 +22,35 @@ public class Grid extends View
 		// TODO Auto-generated method stub
 		super.onDraw(canvas);
 		
-		int width = canvas.getWidth();
-		int height = canvas.getHeight();
-		
-		int xpos = width/interval;
-		int ypos = height/interval;
-		
-		for (int x = 0; x < width; x += interval)
+		//if (showGrid)
 		{
-            canvas.drawLine(x, 0, x, height, color);
-            canvas.drawLine(0, x, width, x, color);
-        }
-		
-		int x = 0;
-		/*
-		while (x <= width)
-		{
-			canvas.drawLine(xpos +(xpos*x), 0, xpos +(xpos*x), height, color);
-            canvas.drawLine(0, (xpos*x), width, (xpos*x), color);
-		}*/
+			Log.d("grid is drawing", "cool");
+			int width = canvas.getWidth();
+			int height = canvas.getHeight();
+			
+			
+			for (int x = 0; x < width; x += interval)
+			{
+	            canvas.drawLine(x, 0, x, height, color);
+	        }
+	
+			for (int y = 0; y < height; y += interval)
+			{
+	            canvas.drawLine(0, y, width, y, color);
+			}
+		}
     }
 	
-		
+	public void showGrid(boolean on)
+	{
+		showGrid = on;
+		Log.d("GRID", String.valueOf(showGrid));
+	}
+	
+	public boolean getGridState()
+	{
+		return showGrid;
+	}
 	
 
 	public Grid(Context context, int interval)
@@ -48,6 +59,8 @@ public class Grid extends View
 		this.interval = interval;
 		color = new Paint();
 		color.setColor(context.getResources().getColor(R.color.designfragment_background));
+		
+		showGrid = false;
 	}
 
 	public Grid(Context context, AttributeSet attrs)

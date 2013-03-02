@@ -72,6 +72,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		parent.addView(grid);
 		
 		toggleGrid();
+
 		helpers.Log.d("measure designarea", String.valueOf(root.getMeasuredWidth()));
 	}
 
@@ -466,36 +467,34 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	@Override
 	public boolean onDrag(View root, DragEvent event)
 	{
+		synchronized (activeItem)
+		{
 
 		switch (event.getAction())
 		{
 		case DragEvent.ACTION_DRAG_STARTED:
-			synchronized (activeItem)
-			{
-				setOverlayVisibility(false); // Während des Drags ist kein Overlay
-				toggleGrid();						// sichtbar.
-				return true;
-			}
+			
+			setOverlayVisibility(false); // Während des Drags ist kein Overlay
+			toggleGrid();// sichtbar.
+			return true;
 
 		case DragEvent.ACTION_DRAG_ENTERED:
-			synchronized (activeItem)
-			{
-				setStyle(DragEvent.ACTION_DRAG_ENTERED);
-			}
+			
+			setStyle(DragEvent.ACTION_DRAG_ENTERED);
+			
 			break;
 
 		case DragEvent.ACTION_DRAG_LOCATION:
 			break;
 
 		case DragEvent.ACTION_DRAG_ENDED:
-			synchronized (activeItem)
-			{
-				setStyle(DragEvent.ACTION_DRAG_ENDED);
-				setOverlayVisibility(true); // das Overlay wird wieder angezeigt, da der Drag vorbei ist.
-				
-				isDragging = false;
-				toggleGrid();
-			}
+			
+			setStyle(DragEvent.ACTION_DRAG_ENDED);
+			setOverlayVisibility(true); // das Overlay wird wieder angezeigt, da der Drag vorbei ist.
+			
+			isDragging = false;
+			toggleGrid();
+			
 			break;
 
 		case DragEvent.ACTION_DRAG_EXITED:
@@ -503,38 +502,37 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			break;
 
 		case DragEvent.ACTION_DROP:
-			synchronized (activeItem)
-			{
-				int dropTargetX = checkCollisionX(event.getX());
-				int dropTargetY = checkCollisionY(event.getY());
-	
-				// Positionen werden ausgelesen und zugewiesen. Objekte werden an
-				// ihre Zielposition verschoben und das Overlay bekommt neue
-				// Koordinaten.
-				RelativeLayout.LayoutParams activeParams = (RelativeLayout.LayoutParams) activeItem.getLayoutParams();
-				RelativeLayout.LayoutParams dragParams = (RelativeLayout.LayoutParams) drag.getLayoutParams();
-				
-				dragParams.leftMargin = snapToGrid(dropTargetX) + root.getLeft();
-				dragParams.topMargin = snapToGrid(dropTargetY) + root.getTop();
-				dragParams.width = activeItem.getMeasuredWidth();
-				dragParams.height = activeItem.getMeasuredHeight();
-				drag.setLayoutParams(dragParams);
-				
-				
-				activeParams.leftMargin = snapToGrid(dropTargetX);
-				activeParams.topMargin = snapToGrid(dropTargetY);
-				activeItem.setLayoutParams(activeParams);
-	
-				return true;
+
+			int dropTargetX = checkCollisionX(event.getX());
+			int dropTargetY = checkCollisionY(event.getY());
+
+			// Positionen werden ausgelesen und zugewiesen. Objekte werden an
+			// ihre Zielposition verschoben und das Overlay bekommt neue
+			// Koordinaten.
+			RelativeLayout.LayoutParams activeParams = (RelativeLayout.LayoutParams) activeItem.getLayoutParams();
+			RelativeLayout.LayoutParams dragParams = (RelativeLayout.LayoutParams) drag.getLayoutParams();
+			
+			dragParams.leftMargin = snapToGrid(dropTargetX) + root.getLeft();
+			dragParams.topMargin = snapToGrid(dropTargetY) + root.getTop();
+			dragParams.width = activeItem.getMeasuredWidth();
+			dragParams.height = activeItem.getMeasuredHeight();
+			drag.setLayoutParams(dragParams);
+			
+			
+			activeParams.leftMargin = snapToGrid(dropTargetX);
+			activeParams.topMargin = snapToGrid(dropTargetY);
+			activeItem.setLayoutParams(activeParams);
+
+			return true;
 			}
 			
-		}
+		
 		return true; // EVTL FEHLERQUELLE: RETURNS ALWAYS TRUE
+		}
 	}
 	
 	private int snapToGrid(int pos)
 	{
-		Log.d("mod", String.valueOf(pos%SNAP_GRID_INTERVAL));
 		return Math.round((float) pos / SNAP_GRID_INTERVAL) * SNAP_GRID_INTERVAL;
 	}
 
@@ -726,34 +724,47 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	private void setOverlayVisibility(boolean visible)
 	{
 		synchronized (root)
-			{
-				if (visible && drag!=null)
+		{
+				if (drag!=null)
 				{
-					drag.setVisibility(View.VISIBLE);
-					top.setVisibility(View.VISIBLE);
-					bottom.setVisibility(View.VISIBLE);
-					left.setVisibility(View.VISIBLE);
-					right.setVisibility(View.VISIBLE);
+					setItemVisibility(drag, visible);
+					setItemVisibility(top, visible);
+					setItemVisibility(right, visible);
+					setItemVisibility(bottom, visible);
+					setItemVisibility(left, visible);
 				} 
-				else if (drag!=null)
-				{
-					drag.setVisibility(View.INVISIBLE);
-					top.setVisibility(View.INVISIBLE);
-					bottom.setVisibility(View.INVISIBLE);
-					left.setVisibility(View.INVISIBLE);
-					right.setVisibility(View.INVISIBLE);
-				}
-			}
+		}
 		
 	}
 
+	private void setItemVisibility(final View v, final boolean on)
+	{
+		v.post(new Runnable()
+		{
+			
+			@Override
+			public void run()
+			{
+				if (on)
+				{
+					v.setVisibility(View.VISIBLE);
+				}
+				else
+				{
+					v.setVisibility(View.INVISIBLE);
+				}
+				
+			}
+		});
+	}
+	
 	/**
 	 * Entfernt das Overlay komplett.
 	 * 
 	 */
 	private void deleteOverlay()
 	{
-		synchronized (root)
+		synchronized (parent)
 		{
 			if (overlayActive)
 			{
@@ -762,7 +773,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 				parent.removeView(right);
 				parent.removeView(top);
 				parent.removeView(bottom);
-
+				
 				drag = null;
 				left = null;
 				right = null;
@@ -778,15 +789,15 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	
 	private void toggleGrid()
 	{
-		synchronized (root)
+		//synchronized (grid)
 		{
-			if (grid.getVisibility() == View.VISIBLE)
+			if (grid.getVisibility() == View.INVISIBLE)
 			{
-				grid.setVisibility(View.INVISIBLE);
+				grid.setVisibility(View.VISIBLE);
 			}
 			else
 			{
-				grid.setVisibility(View.VISIBLE);
+				grid.setVisibility(View.INVISIBLE);
 			}
 		}
 		
