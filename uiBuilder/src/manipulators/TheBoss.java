@@ -532,23 +532,27 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 
 	private void setStyle(int event)
 	{
-		switch (event)
+		synchronized (root)
 		{
-		case DragEvent.ACTION_DRAG_ENTERED:
-		case DragEvent.ACTION_DRAG_ENDED:
+			
+			switch (event)
+			{
+			case DragEvent.ACTION_DRAG_ENTERED:
+			case DragEvent.ACTION_DRAG_ENDED:
 
-			activeItem.setBackgroundResource(R.drawable.default_button_border);
-			break;
+				activeItem.setBackgroundResource(R.drawable.default_button_border);
+				break;
 
-		case DragEvent.ACTION_DRAG_EXITED:
+			case DragEvent.ACTION_DRAG_EXITED:
 
-			activeItem.setBackgroundResource(R.drawable.element_out_of_dropzone);
-			break;
+				activeItem.setBackgroundResource(R.drawable.element_out_of_dropzone);
+				break;
 
-		default:
-			break;
+			default:
+				break;
+			}
+
 		}
-
 	}
 
 	/**
