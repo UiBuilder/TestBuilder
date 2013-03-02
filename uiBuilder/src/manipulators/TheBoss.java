@@ -492,7 +492,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			break;
 
 		case DragEvent.ACTION_DROP:
-			synchronized (root)
+			synchronized (activeItem)
 			{
 				int dropTargetX = checkCollisionX(event.getX());
 				int dropTargetY = checkCollisionY(event.getY());
