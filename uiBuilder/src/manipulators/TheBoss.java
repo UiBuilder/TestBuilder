@@ -532,7 +532,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 
 	private void setStyle(int event)
 	{
-		synchronized (root)
+		synchronized (activeItem)
 		{
 			
 			switch (event)
@@ -551,7 +551,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			default:
 				break;
 			}
-
 		}
 	}
 
