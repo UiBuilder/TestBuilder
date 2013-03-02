@@ -45,7 +45,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="neuer switch" />
-       >
+        
+        <Button
+            android:id="@+id/new_element_checkbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="neue checkbox" />
+        
+        <Button
+            android:id="@+id/new_element_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="neue searchbox" />
+       
     </LinearLayout>
 
 </ScrollView>

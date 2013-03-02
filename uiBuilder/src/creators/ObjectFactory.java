@@ -21,6 +21,8 @@ public class ObjectFactory
 	
 	public static final int ID_RADIOBUTTONS = 7;
 	public static final int ID_SWITCH = 8;
+	public static final int ID_CHECKBOX = 9;
+	public static final int ID_SEARCHVIEW = 10;
 	
 	protected int TEXTVIEW_MIN_WIDTH, TEXTVIEW_MIN_HEIGHT;
 	

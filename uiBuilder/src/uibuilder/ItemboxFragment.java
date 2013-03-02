@@ -16,7 +16,7 @@ import de.ur.rk.uibuilder.R;
 
 public class ItemboxFragment extends Fragment implements OnClickListener, OnTouchListener
 {
-	private Button createButton, createTextView, createImage, createEditText, createRadioGroup, createSwitch;
+	private Button createButton, createTextView, createImage, createEditText, createRadioGroup, createSwitch, createCheckbox, createSearch;
 
 	private View layout;
 	
@@ -56,12 +56,20 @@ public class ItemboxFragment extends Fragment implements OnClickListener, OnTouc
 		createSwitch = (Button) layout.findViewById(R.id.new_element_switch);
 		createSwitch.setId(ObjectFactory.ID_SWITCH);
 		
+		createCheckbox = (Button) layout.findViewById(R.id.new_element_checkbox);
+		createCheckbox.setId(ObjectFactory.ID_CHECKBOX);
+		
+		createSearch = (Button) layout.findViewById(R.id.new_element_search);
+		createSearch.setId(ObjectFactory.ID_SEARCHVIEW);
+		
 		createButton.setOnTouchListener(this);
 		createTextView.setOnTouchListener(this);
 		createImage.setOnTouchListener(this);
 		createEditText.setOnTouchListener(this);
 		createRadioGroup.setOnTouchListener(this);
 		createSwitch.setOnTouchListener(this);
+		createCheckbox.setOnTouchListener(this);
+		createSearch.setOnTouchListener(this);
 	}
 
 	@Override
@@ -119,6 +127,20 @@ public class ItemboxFragment extends Fragment implements OnClickListener, OnTouc
 				
 				listener.typeChanged(ObjectFactory.ID_SWITCH);
 				Log.d("itembox reports: set to", "Switch");
+				break;
+				
+			case ObjectFactory.ID_CHECKBOX:
+				
+				listener.typeChanged(ObjectFactory.ID_CHECKBOX);
+				Log.d("itembox reports: set to", "checkbox");
+				break;
+				
+			case ObjectFactory.ID_SEARCHVIEW:
+				
+				listener.typeChanged(ObjectFactory.ID_SEARCHVIEW);
+				Log.d("itembox reports: set to", "searchview");
+				break;
+				
 			default:
 				break;
 			}		

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/default_padding_medium"
+    android:clickable="true"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
+    >
+    <TextView android:id="@+id/checkbox_caption_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+		
+		android:gravity="center_vertical"
+        android:text="caption"
+        style="@style/default_fontsizes" 
+        />
+    
+	<CheckBox
+        android:enabled="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignBaseline="@id/checkbox_caption_field"
+        android:layout_toEndOf="@id/checkbox_caption_field"
+        
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+
+        android:checked="true"
+        
+        android:gravity="center_vertical"
+        />
+
+        </RelativeLayout>

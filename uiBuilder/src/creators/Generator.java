@@ -8,12 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.Switch;
 import android.widget.TextView;
 import de.ur.rk.uibuilder.R;
@@ -71,6 +75,14 @@ public class Generator
 			xmlView = newSwitch();
 			break;
 			
+		case ObjectFactory.ID_CHECKBOX:
+			xmlView = newCheckBox();
+			break;
+			
+		case ObjectFactory.ID_SEARCHVIEW:
+			xmlView = newSearchView();
+			break;
+			
 		default:
 			throw new NoClassDefFoundError();
 		}
@@ -83,6 +95,26 @@ public class Generator
 		return xmlView;
 	}
 	
+	private View newSearchView()
+	{
+		RelativeLayout xmlSearchView = (RelativeLayout) inflater.inflate(R.layout.item_searchview_layout, null);
+		
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		xmlSearchView.setLayoutParams(params);
+		
+		return xmlSearchView;
+	}
+
+	private View newCheckBox()
+	{
+		RelativeLayout xmlCheckBox = (RelativeLayout) inflater.inflate(R.layout.item_checkbox_layout, null);
+		
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		xmlCheckBox.setLayoutParams(params);
+		
+		return xmlCheckBox;
+	}
+
 	private View newSwitch()
 	{
 		Switch xmlSwitch = (Switch) inflater.inflate(R.layout.item_switch_layout, null);
