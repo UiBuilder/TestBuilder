@@ -32,7 +32,7 @@ public class DesignFragment extends Fragment
 		
 		designArea.setOnTouchListener(manipulator);
 		designArea.setOnDragListener(manipulator);
-
+/*
 		designArea.post(new Runnable()
 		{
 			
@@ -56,7 +56,7 @@ public class DesignFragment extends Fragment
 				Log.d("root width post", String.valueOf(designArea.getWidth()));
 				Log.d("root height post", String.valueOf(designArea.getHeight()));
 			}
-		});
+		});*/
 		return root;
 	}
 	
@@ -93,34 +93,5 @@ public class DesignFragment extends Fragment
 	{
 		super.onCreate(savedInstanceState);
 
-	}
-
-	
-	
-	
-
-	/**
-	 * Aktuelle Displaygröße ermitteln
-	 */
-	private void measure() 
-	{
-		
-		//root.measure(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-		
-		int displayHeight = getResources().getDisplayMetrics().heightPixels;
-		int displayWidth = getResources().getDisplayMetrics().widthPixels;
-		
-		//int rootHeight = root.getMeasuredHeight();
-		//int rootWidth = rootHeight/16*9;
-		
-		//RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) root.getLayoutParams();
-				//params.width = rootWidth;
-		//Log.d("root on attac w", String.valueOf(root.getWidth()));
-		
-		//RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) root.getLayoutParams();
-		//params.width = rootWidth;
-		//params.height = rootHeight;
-		
-		//root.setLayoutParams(params);
 	}
 }

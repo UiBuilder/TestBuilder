@@ -24,13 +24,21 @@ public class Grid extends View
 		int xpos = width/interval;
 		int ypos = height/interval;
 		
-		for (int x = 0; x < interval; x++)
+		for (int x = 0; x < width; x += interval)
 		{
-            canvas.drawLine(xpos +(xpos*x), 0, xpos +(xpos*x), height, color);
+            canvas.drawLine(x, 0, x, height, color);
+            canvas.drawLine(0, x, width, x, color);
+        }
+		
+		int x = 0;
+		/*
+		while (x <= width)
+		{
+			canvas.drawLine(xpos +(xpos*x), 0, xpos +(xpos*x), height, color);
             canvas.drawLine(0, (xpos*x), width, (xpos*x), color);
-        }                
+		}*/
     }
-			
+	
 		
 	
 
