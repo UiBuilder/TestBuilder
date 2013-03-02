@@ -475,14 +475,14 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			return true;
 
 		case DragEvent.ACTION_DRAG_ENTERED:
-			setStyle(DragEvent.ACTION_DRAG_ENTERED);
+			//setStyle(DragEvent.ACTION_DRAG_ENTERED);
 			break;
 
 		case DragEvent.ACTION_DRAG_LOCATION:
 			break;
 
 		case DragEvent.ACTION_DRAG_ENDED:
-			setStyle(DragEvent.ACTION_DRAG_ENDED);
+			//setStyle(DragEvent.ACTION_DRAG_ENDED);
 			setOverlayVisibility(true); // das Overlay wird wieder angezeigt, da der Drag vorbei ist.
 
 			break;
