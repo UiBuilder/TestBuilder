@@ -58,7 +58,7 @@ public class Grid extends View
 		super(context);
 		this.interval = interval;
 		color = new Paint();
-		color.setColor(context.getResources().getColor(R.color.designfragment_background));
+		color.setColor(context.getResources().getColor(R.color.designarea_grid));
 		
 		showGrid = false;
 	}
