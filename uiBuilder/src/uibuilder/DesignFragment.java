@@ -1,6 +1,7 @@
 package uibuilder;
 
 
+import helpers.Log;
 import manipulators.TheBoss;
 import android.app.Activity;
 import android.app.Fragment;
@@ -30,7 +31,7 @@ public class DesignFragment extends Fragment
 		
 		designArea.setOnTouchListener(manipulator);
 		designArea.setOnDragListener(manipulator);
-/*
+
 		designArea.post(new Runnable()
 		{
 			
@@ -54,7 +55,7 @@ public class DesignFragment extends Fragment
 				Log.d("root width post", String.valueOf(designArea.getWidth()));
 				Log.d("root height post", String.valueOf(designArea.getHeight()));
 			}
-		});*/
+		});
 		return root;
 	}
 	

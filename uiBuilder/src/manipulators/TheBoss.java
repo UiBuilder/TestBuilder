@@ -789,7 +789,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	
 	private void toggleGrid()
 	{
-		//synchronized (grid)
+		synchronized (grid)
 		{
 			if (grid.getVisibility() == View.INVISIBLE)
 			{
