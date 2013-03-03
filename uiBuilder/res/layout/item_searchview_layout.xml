@@ -1,32 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-	
-	android:clickable="true"
-    	android:focusable="true"
-    	android:focusableInTouchMode="true"
-    	android:descendantFocusability="blocksDescendants"
-    		    android:splitMotionEvents="true"
-	android:filterTouchesWhenObscured="false"
+    android:focusableInTouchMode="true"
+    android:clickable="true"
     >
     
-    <SearchView android:id="@+id/searchview"
+    
+    <SearchView
+        android:id="@+id/searchview"
 
-	    android:layout_width="wrap_content"
+	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    
+
 	    android:background="@drawable/default_button_border"
 	    android:padding="@dimen/default_padding_medium"
 	    android:paddingRight="@dimen/default_padding_large"
-	   
-	    
+
 	    android:iconifiedByDefault="false"
 	    android:queryHint="Search.."
-	    
-	    android:enabled="true"
-	    style="@style/default_fontsizes"
-    />
 
+	    android:descendantFocusability="blocksDescendants"
+	    android:splitMotionEvents="false"
+	    android:duplicateParentState="true"
+	    android:enabled="false"
+	    style="@style/default_fontsizes"
+	    
+    />
     
 </RelativeLayout>
+
+

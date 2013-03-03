@@ -1,23 +1,23 @@
 package creators;
 
+import helpers.Log;
 import manipulators.TheBoss;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
-import android.widget.SearchView;
+import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import de.ur.rk.uibuilder.R;
@@ -83,25 +83,130 @@ public class Generator
 			xmlView = newSearchView();
 			break;
 			
+		case ObjectFactory.ID_NUMBERPICKER:
+			xmlView = newNumberPicker();
+			break;
+			
+		case ObjectFactory.ID_RATINGBAR:
+			xmlView = newRatingBar();
+			break;
+			
+		case ObjectFactory.ID_SEEKBAR:
+			xmlView = newSeekBar();
+			break;
+			
 		default:
-			throw new NoClassDefFoundError();
+			//throw new NoClassDefFoundError();
+			return null; 
 		}
 		xmlView.setOnTouchListener(manipulator);
 		xmlView.setId(idCount++);
 
 		xmlView.measure(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		
+
 		//factory.setMinDimensions(xmlView);
+		Log.d("pickergenerate", "rturning picker");
 		return xmlView;
 	}
 	
+	private View newSeekBar()
+	{
+		RelativeLayout xmlSeekBarContainer = createContainer();
+		
+		SeekBar xmlSeekBar = (SeekBar) inflater.inflate(R.layout.item_seekbar_layout, null);
+		xmlSeekBar.setEnabled(false);
+		xmlSeekBar.setActivated(true);
+
+		xmlSeekBarContainer.setFilterTouchesWhenObscured(false);
+		
+		xmlSeekBar.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+		xmlSeekBarContainer.addView(xmlSeekBar);
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		xmlSeekBarContainer.setLayoutParams(params);
+		
+		return xmlSeekBarContainer;
+	}
+
+	private View newRatingBar()
+	{
+		RelativeLayout xmlRatingBarContainer = createContainer();
+		
+		RatingBar xmlRatingBar = (RatingBar) inflater.inflate(R.layout.item_ratingbar_layout, null);
+		xmlRatingBar.setEnabled(false);
+		xmlRatingBar.setActivated(true);
+		
+		xmlRatingBarContainer.setFilterTouchesWhenObscured(false);
+		
+		xmlRatingBarContainer.addView(xmlRatingBar);
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		xmlRatingBarContainer.setLayoutParams(params);
+		
+		return xmlRatingBarContainer;
+	}
+
+	private View newNumberPicker()
+	{
+		RelativeLayout xmlPickerLayout = createContainer();
+		
+		NumberPicker xmlPicker = (NumberPicker) inflater.inflate(R.layout.item_numberpicker_layout, null);
+
+		xmlPicker.setEnabled(false);
+		xmlPicker.setMaxValue(5);
+		xmlPicker.setMinValue(1);
+		xmlPicker.setWrapSelectorWheel(false);
+		xmlPicker.setValue(3);
+
+		View up = xmlPicker.getChildAt(0);
+		up.setEnabled(false);
+		up.setClickable(true);
+		up.setFocusableInTouchMode(true);
+		
+		
+		View down = xmlPicker.getChildAt(2);
+		down.setEnabled(false);
+		down.setClickable(true);
+		down.setFocusableInTouchMode(true);
+
+		
+		View middle = xmlPicker.getChildAt(1);
+		middle.setEnabled(false);
+		middle.setClickable(true);
+		middle.setFocusableInTouchMode(true);
+		middle.setPadding(0, 0, 0, 0);
+		
+		
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		
+		xmlPickerLayout.addView(xmlPicker);
+		xmlPickerLayout.setLayoutParams(params);
+		
+		return xmlPickerLayout;
+	}
+
+	private RelativeLayout createContainer()
+	{
+		RelativeLayout xmlPickerLayout = new RelativeLayout(context);
+		xmlPickerLayout.setBackgroundResource(R.drawable.default_button_border);
+		xmlPickerLayout.setClickable(true);
+		xmlPickerLayout.setFocusable(true);
+		xmlPickerLayout.setFocusableInTouchMode(true);
+		xmlPickerLayout.setEnabled(true);
+		xmlPickerLayout.setMotionEventSplittingEnabled(false);
+		xmlPickerLayout.setFilterTouchesWhenObscured(false);
+		return xmlPickerLayout;
+	}
+
 	private View newSearchView()
 	{
 		RelativeLayout xmlSearchView = (RelativeLayout) inflater.inflate(R.layout.item_searchview_layout, null);
 		
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		xmlSearchView.setLayoutParams(params);
-		
+		/*xmlSearchView.setActivated(false);
+		xmlSearchView.setClickable(false);
+		xmlSearchView.setFocusableInTouchMode(false);
+
+		*/
 		return xmlSearchView;
 	}
 
@@ -201,7 +306,7 @@ public class Generator
 		
 		return xmlButton;
 	}
-
+/*
 	private void askForSpecification(int which)
 	{
 		switch (which)
@@ -221,7 +326,7 @@ public class Generator
 	private AlertDialog askForNumber()
 	{
 		
-			    View npView = inflater.inflate(R.layout.dialog_numberpicker_layout, null);
+			    View npView = inflater.inflate(R.layout.item_numberpicker_layout, null);
 			    NumberPicker np = (NumberPicker) npView.findViewById(R.id.np);
 			    np.setMaxValue(5);
 			    np.setMinValue(1);
@@ -246,5 +351,5 @@ public class Generator
 			                })
 			            .create();
 			    
-	}
+	}*/
 }

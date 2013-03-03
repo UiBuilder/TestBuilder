@@ -6,11 +6,19 @@ import android.app.AlertDialog.Builder;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import de.ur.rk.uibuilder.R;
 
 public class UiBuilderActivity extends Activity implements onUiElementSelectedListener
 {
+
+	@Override
+	public boolean dispatchTouchEvent(MotionEvent ev)
+	{
+		// TODO Auto-generated method stub
+		return super.dispatchTouchEvent(ev);
+	}
 
 	public static final int ITEMBOX = 0;
 	public static final int EDITBOX = 1;

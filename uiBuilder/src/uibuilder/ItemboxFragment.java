@@ -16,7 +16,8 @@ import de.ur.rk.uibuilder.R;
 
 public class ItemboxFragment extends Fragment implements OnClickListener, OnTouchListener
 {
-	private Button createButton, createTextView, createImage, createEditText, createRadioGroup, createSwitch, createCheckbox, createSearch;
+	private Button createButton, createTextView, createImage, createEditText, createRadioGroup, createSwitch, createCheckbox, createSearch, createNumberPicker,
+	createRatingBar, createSeekBar;
 
 	private View layout;
 	
@@ -62,6 +63,15 @@ public class ItemboxFragment extends Fragment implements OnClickListener, OnTouc
 		createSearch = (Button) layout.findViewById(R.id.new_element_search);
 		createSearch.setId(ObjectFactory.ID_SEARCHVIEW);
 		
+		createNumberPicker = (Button) layout.findViewById(R.id.new_element_numberpick);
+		createNumberPicker.setId(ObjectFactory.ID_NUMBERPICKER);
+		
+		createRatingBar = (Button) layout.findViewById(R.id.new_element_ratingbar);
+		createRatingBar.setId(ObjectFactory.ID_RATINGBAR);
+		
+		createSeekBar = (Button) layout.findViewById(R.id.new_element_seekbar);
+		createSeekBar.setId(ObjectFactory.ID_SEEKBAR);
+		
 		createButton.setOnTouchListener(this);
 		createTextView.setOnTouchListener(this);
 		createImage.setOnTouchListener(this);
@@ -70,6 +80,9 @@ public class ItemboxFragment extends Fragment implements OnClickListener, OnTouc
 		createSwitch.setOnTouchListener(this);
 		createCheckbox.setOnTouchListener(this);
 		createSearch.setOnTouchListener(this);
+		createNumberPicker.setOnTouchListener(this);
+		createRatingBar.setOnTouchListener(this);
+		createSeekBar.setOnTouchListener(this);
 	}
 
 	@Override
@@ -139,6 +152,24 @@ public class ItemboxFragment extends Fragment implements OnClickListener, OnTouc
 				
 				listener.typeChanged(ObjectFactory.ID_SEARCHVIEW);
 				Log.d("itembox reports: set to", "searchview");
+				break;
+				
+			case ObjectFactory.ID_NUMBERPICKER:
+				
+				listener.typeChanged(ObjectFactory.ID_NUMBERPICKER);
+				Log.d("itembox reports: set to", "numberpick");
+				break;
+				
+			case ObjectFactory.ID_RATINGBAR:
+				
+				listener.typeChanged(ObjectFactory.ID_RATINGBAR);
+				Log.d("itembox reports: set to", "rating");
+				break;
+				
+			case ObjectFactory.ID_SEEKBAR:
+				
+				listener.typeChanged(ObjectFactory.ID_SEEKBAR);
+				Log.d("itembox reports: set to", "seek");
 				break;
 				
 			default:

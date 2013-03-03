@@ -1,12 +1,10 @@
 package creators;
 
-import de.ur.rk.uibuilder.R;
 import manipulators.TheBoss;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.Log;
 import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class ObjectFactory 
@@ -23,6 +21,9 @@ public class ObjectFactory
 	public static final int ID_SWITCH = 8;
 	public static final int ID_CHECKBOX = 9;
 	public static final int ID_SEARCHVIEW = 10;
+	public static final int ID_NUMBERPICKER = 11;
+	public static final int ID_RATINGBAR = 12;	
+	public static final int ID_SEEKBAR = 13;
 	
 	protected int TEXTVIEW_MIN_WIDTH, TEXTVIEW_MIN_HEIGHT;
 	
@@ -132,6 +133,7 @@ public class ObjectFactory
 		catch (Exception e)
 		{
 			Log.d(LOGTAG, "Übergebene ID existiert nicht.");
+			Log.d(LOGTAG, "id ist " + String.valueOf(which));
 			return null;
 		}
 	}
