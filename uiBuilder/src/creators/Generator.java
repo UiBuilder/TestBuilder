@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import de.ur.rk.uibuilder.R;
 
 public class Generator
@@ -95,6 +96,10 @@ public class Generator
 			xmlView = newSeekBar();
 			break;
 			
+		case ObjectFactory.ID_TIMEPICKER:
+			xmlView = newTimePicker();
+			break;
+			
 		default:
 			//throw new NoClassDefFoundError();
 			return null; 
@@ -109,6 +114,46 @@ public class Generator
 		return xmlView;
 	}
 	
+	private View newTimePicker()
+	{
+		RelativeLayout xmlTimePickerContainer = createContainer();
+		
+		TimePicker xmlTimePicker = (TimePicker) inflater.inflate(R.layout.item_timepicker_layout, null);
+		xmlTimePicker.setIs24HourView(true);
+		xmlTimePicker.setEnabled(true);
+		xmlTimePicker.setActivated(true);
+		xmlTimePicker.setFocusableInTouchMode(true);
+		
+		for (int i=0; i<xmlTimePicker.getChildCount();i++)
+		{
+			View v = xmlTimePicker.getChildAt(i);
+			v.setEnabled(false);
+			v.setClickable(true);
+			v.setActivated(false);
+			v.setFocusable(true);
+			
+			v.setFocusableInTouchMode(true);v.setOnTouchListener(new OnTouchListener()
+			{
+				
+				@Override
+				public boolean onTouch(View v, MotionEvent event)
+				{
+					Log.d("item toch", "hui");
+					return false;
+				}
+			});
+		}
+		xmlTimePicker.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		
+		xmlTimePickerContainer.addView(xmlTimePicker);
+		
+		xmlTimePickerContainer.setFilterTouchesWhenObscured(true);
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		xmlTimePickerContainer.setLayoutParams(params);
+		
+		return xmlTimePickerContainer;
+	}
+
 	private View newSeekBar()
 	{
 		RelativeLayout xmlSeekBarContainer = createContainer();
@@ -116,8 +161,6 @@ public class Generator
 		SeekBar xmlSeekBar = (SeekBar) inflater.inflate(R.layout.item_seekbar_layout, null);
 		xmlSeekBar.setEnabled(false);
 		xmlSeekBar.setActivated(true);
-
-		xmlSeekBarContainer.setFilterTouchesWhenObscured(false);
 		
 		xmlSeekBar.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 		xmlSeekBarContainer.addView(xmlSeekBar);
@@ -132,7 +175,7 @@ public class Generator
 		RelativeLayout xmlRatingBarContainer = createContainer();
 		
 		RatingBar xmlRatingBar = (RatingBar) inflater.inflate(R.layout.item_ratingbar_layout, null);
-		xmlRatingBar.setEnabled(false);
+		xmlRatingBar.setEnabled(true);
 		xmlRatingBar.setActivated(true);
 		
 		xmlRatingBarContainer.setFilterTouchesWhenObscured(false);

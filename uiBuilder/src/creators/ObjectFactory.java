@@ -10,20 +10,22 @@ import android.widget.TextView;
 public class ObjectFactory 
 {
 
-	public static final int ID_BUTTON = 1; /** Konstante für Buttons */
-	public static final int ID_TEXTVIEW = 2; /** Konstante für TextViews */
-	public static final int ID_LONG_CLICK_MENU = 3; /** Konstante für das Kontextmenü beim Verschieben*/
-	public static final int ID_EDITTEXT = 4;
-	public static final int ID_LISTVIEW = 5;
-	public static final int ID_IMAGEVIEW = 6;
+	public static final int 
+		ID_BUTTON = 1,
+		ID_TEXTVIEW = 2,
+		ID_LONG_CLICK_MENU = 3,
+		ID_EDITTEXT = 4,
+		ID_LISTVIEW = 5,
+		ID_IMAGEVIEW = 6,
+		ID_RADIOBUTTONS = 7,
+		ID_SWITCH = 8,
+		ID_CHECKBOX = 9,
+		ID_SEARCHVIEW = 10,
+		ID_NUMBERPICKER = 11,
+		ID_RATINGBAR = 12,	
+		ID_SEEKBAR = 13,
+		ID_TIMEPICKER = 14;
 	
-	public static final int ID_RADIOBUTTONS = 7;
-	public static final int ID_SWITCH = 8;
-	public static final int ID_CHECKBOX = 9;
-	public static final int ID_SEARCHVIEW = 10;
-	public static final int ID_NUMBERPICKER = 11;
-	public static final int ID_RATINGBAR = 12;	
-	public static final int ID_SEEKBAR = 13;
 	
 	protected int TEXTVIEW_MIN_WIDTH, TEXTVIEW_MIN_HEIGHT;
 	

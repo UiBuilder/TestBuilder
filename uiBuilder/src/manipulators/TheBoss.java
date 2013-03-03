@@ -43,7 +43,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	private View currentTouch;
 	
 	private Grid grid;
-	static final int SNAP_GRID_INTERVAL = 25;
+	public static final int SNAP_GRID_INTERVAL = 25;
 
 	/**
 	 * KONSTRUKTOR

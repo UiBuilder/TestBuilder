@@ -17,7 +17,7 @@ import de.ur.rk.uibuilder.R;
 public class ItemboxFragment extends Fragment implements OnClickListener, OnTouchListener
 {
 	private Button createButton, createTextView, createImage, createEditText, createRadioGroup, createSwitch, createCheckbox, createSearch, createNumberPicker,
-	createRatingBar, createSeekBar;
+	createRatingBar, createSeekBar, createTimePicker;
 
 	private View layout;
 	
@@ -72,6 +72,9 @@ public class ItemboxFragment extends Fragment implements OnClickListener, OnTouc
 		createSeekBar = (Button) layout.findViewById(R.id.new_element_seekbar);
 		createSeekBar.setId(ObjectFactory.ID_SEEKBAR);
 		
+		createTimePicker = (Button) layout.findViewById(R.id.new_element_timepicker);
+		createTimePicker.setId(ObjectFactory.ID_TIMEPICKER);
+		
 		createButton.setOnTouchListener(this);
 		createTextView.setOnTouchListener(this);
 		createImage.setOnTouchListener(this);
@@ -83,6 +86,7 @@ public class ItemboxFragment extends Fragment implements OnClickListener, OnTouc
 		createNumberPicker.setOnTouchListener(this);
 		createRatingBar.setOnTouchListener(this);
 		createSeekBar.setOnTouchListener(this);
+		createTimePicker.setOnTouchListener(this);
 	}
 
 	@Override
@@ -170,6 +174,12 @@ public class ItemboxFragment extends Fragment implements OnClickListener, OnTouc
 				
 				listener.typeChanged(ObjectFactory.ID_SEEKBAR);
 				Log.d("itembox reports: set to", "seek");
+				break;
+				
+			case ObjectFactory.ID_TIMEPICKER:
+				
+				listener.typeChanged(ObjectFactory.ID_TIMEPICKER);
+				Log.d("itembox reports: set to", "time");
 				break;
 				
 			default:

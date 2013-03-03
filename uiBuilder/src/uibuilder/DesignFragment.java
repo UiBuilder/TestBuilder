@@ -39,21 +39,31 @@ public class DesignFragment extends Fragment
 			@Override
 			public void run()
 			{
-				// TODO Auto-generated method stub
-				Log.d("runn", String.valueOf(designArea.getMeasuredWidth()));
 				
 				int rootWidth = designArea.getMeasuredWidth();
 				int rootHeight = rootWidth/16*9;
 				
+				Log.d("pre measured", String.valueOf(rootWidth));
+				Log.d("pre measured", String.valueOf(rootHeight));
+				
+				int handleSize = getResources().getDimensionPixelSize(R.dimen.default_overlay_handle_dimension);
+				int maxWidth = rootWidth - 2*handleSize;
+				int maxHeight = rootHeight - 2*handleSize;
+				
 				RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) designArea.getLayoutParams();
-				params.width = rootWidth-100;
-				params.height = rootHeight;
+				params.width = matchWithGrid(maxWidth);
+				params.height = matchWithGrid(maxHeight);
 				
 				designArea.setLayoutParams(params);
 				designArea.forceLayout();
 				
-				Log.d("root width post", String.valueOf(designArea.getWidth()));
-				Log.d("root height post", String.valueOf(designArea.getHeight()));
+				Log.d("root width post", String.valueOf(params.width));
+				Log.d("root height post", String.valueOf(params.height)); 
+			}
+
+			private int matchWithGrid(int size)
+			{ 
+				return (size / TheBoss.SNAP_GRID_INTERVAL) * TheBoss.SNAP_GRID_INTERVAL;
 			}
 		});
 		return root;
