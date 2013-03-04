@@ -1,7 +1,6 @@
 package uibuilder;
 
 
-import creators.ObjectFactory;
 import helpers.Grid;
 import helpers.Log;
 import manipulators.TheBoss;
@@ -13,17 +12,18 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.DragEvent;
 import android.view.GestureDetector;
+import android.view.GestureDetector.OnGestureListener;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.GestureDetector.OnGestureListener;
 import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+import creators.ObjectFactory;
 import de.ur.rk.uibuilder.R;
 
 public class DesignFragment extends Fragment implements OnDragListener, OnGestureListener,
@@ -272,6 +272,7 @@ OnTouchListener
 					+ activeItem.getId() + " selected", Toast.LENGTH_SHORT).show();
 
 			setOverlay();
+			listener.objectChanged(activeItem);
 			detector.setIsLongpressEnabled(false);
 			return true;
 		}
@@ -878,4 +879,16 @@ OnTouchListener
 		}
 		
 	}
+	public interface onObjectSelectedListener 
+	{
+		void objectChanged(View view);
+	}
+	
+	private static onObjectSelectedListener listener;
+	
+	public static void setOnObjectSelectedListener(onObjectSelectedListener listener)
+	{
+		DesignFragment.listener = listener;
+	}
+
 }

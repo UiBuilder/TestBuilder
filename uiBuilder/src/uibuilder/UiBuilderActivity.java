@@ -1,8 +1,10 @@
 package uibuilder;
 
+import uibuilder.DesignFragment.onObjectSelectedListener;
 import uibuilder.ItemboxFragment.onUiElementSelectedListener;
 import android.app.Activity;
 import android.app.AlertDialog.Builder;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
@@ -10,7 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import de.ur.rk.uibuilder.R;
 
-public class UiBuilderActivity extends Activity implements onUiElementSelectedListener
+public class UiBuilderActivity extends Activity implements onUiElementSelectedListener, onObjectSelectedListener
 {
 
 	@Override
@@ -39,18 +41,19 @@ public class UiBuilderActivity extends Activity implements onUiElementSelectedLi
 		itembox = new ItemboxFragment();
 		editbox = new EditmodeFragment();
 		designbox = new DesignFragment();
-		displaySidebar(ITEMBOX);
 		fTransaction.add(R.id.fragment_design, designbox);
 		
-		ItemboxFragment.setOnUiElementSelectedListener(this);
+		displaySidebar(ITEMBOX);
+		
 
+		ItemboxFragment.setOnUiElementSelectedListener(this);
+		DesignFragment.setOnObjectSelectedListener(this);
 	}
 	public void displaySidebar(int sidebarType){
 		
 		switch (sidebarType){
 		case ITEMBOX:
 			fTransaction.replace(R.id.fragment_sidebar, itembox);
-			
 			break;
 		case EDITBOX:
 			fTransaction.replace(R.id.fragment_sidebar, editbox);
@@ -59,7 +62,9 @@ public class UiBuilderActivity extends Activity implements onUiElementSelectedLi
 		
 		findViewById(R.id.fragment_sidebar).setVisibility(View.VISIBLE);
 		fTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+		
 		fTransaction.commit();
+
 	}
 	
 	/**
@@ -130,6 +135,14 @@ public class UiBuilderActivity extends Activity implements onUiElementSelectedLi
 
 	public void test()
 	{
+	}
+	@Override
+	public void objectChanged(View view)
+	{
+		//displaySidebar(EDITBOX);
+
+		editbox.adaptLayoutToContext(view);
+		
 	}
 
 }

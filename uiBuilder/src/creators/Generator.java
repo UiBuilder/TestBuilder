@@ -104,7 +104,7 @@ public class Generator
 		}
 		xmlView.setOnTouchListener(manipulator);
 		xmlView.setId(idCount++);
-
+		xmlView.setTag(id);
 		xmlView.measure(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
 		//factory.setMinDimensions(xmlView);
