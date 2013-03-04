@@ -1,17 +1,17 @@
 package uibuilder;
 
-import java.util.zip.Inflater;
-
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import de.ur.rk.uibuilder.R;
 
 public class EditmodeFragment extends Fragment implements OnClickListener
@@ -19,6 +19,9 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 	private View layoutView;
 	private LinearLayout layout;
 	private LayoutInflater inflater;
+	private Button submit, set;
+	private EditText editText;
+	private View currentView;
 
 	@Override
 	public void onAttach(Activity activity)
@@ -43,19 +46,23 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 		Log.d("Editmode Fragment", "onCreateView called");
 		this.inflater = inflater;
 		this.layoutView = inflater.inflate(R.layout.layout_editmode_fragment, container, false);
-		layoutView.setOnClickListener(this);
-		layout = (LinearLayout) layoutView;
+		//layoutView.setOnClickListener(this);
 		return layoutView;
 	}
 
 	protected void adaptLayoutToContext(View view)
 	{
 		int tag = (Integer.valueOf(view.getTag().toString()));
-
+		layout = (LinearLayout) layoutView;
+		currentView = view;
 		switch (tag)
 		{
 		case R.id.element_button:
 			layout.addView(inflater.inflate(R.layout.editmode_entry_enter_text, null));
+			submit = (Button)getActivity().findViewById(R.id.item_edit_edittext_submitbutton);
+			submit.setOnClickListener(this);
+			editText = (EditText)getActivity().findViewById(R.id.item_edit_edittext);
+			
 			break;
 		case R.id.element_checkbox:
 			layout.addView(inflater.inflate(R.layout.editmode_entry_enter_text, null));
@@ -100,6 +107,8 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 
 		switch (v.getId())
 		{
+		case R.id.item_edit_edittext_submitbutton:
+			((Button) currentView).setText(editText.getText().toString());
 
 		}
 

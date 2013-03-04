@@ -36,19 +36,20 @@ public class UiBuilderActivity extends Activity implements onUiElementSelectedLi
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_fragment_container);
 		fManager = getFragmentManager();
-		FragmentTransaction fTransaction = fManager.beginTransaction();
 		
 		itembox = new ItemboxFragment();
 		editbox = new EditmodeFragment();
 		designbox = new DesignFragment();
+		FragmentTransaction fTransaction = fManager.beginTransaction();
+
 		fTransaction.add(R.id.fragment_sidebar, editbox);
 		fTransaction.hide(editbox);
-		fTransaction.add(R.id.fragment_sidebar, itembox);
-		
-		fTransaction.add(R.id.fragment_design, designbox);
-		
-		//displaySidebar(ITEMBOX);
 		fTransaction.commit();
+		FragmentTransaction fTransaction2 = fManager.beginTransaction();
+
+		fTransaction2.add(R.id.fragment_sidebar, itembox);
+		fTransaction2.add(R.id.fragment_design, designbox);
+		fTransaction2.commit();
 		
 
 		ItemboxFragment.setOnUiElementSelectedListener(this);
@@ -61,7 +62,6 @@ public class UiBuilderActivity extends Activity implements onUiElementSelectedLi
 		switch (sidebarType){
 		case ITEMBOX:
 			Log.d("switched sideBarType", "result Itembox, replacing");
-			 fTransaction = fManager.beginTransaction();
 			fTransaction.replace(R.id.fragment_sidebar, itembox);
 			break;
 		case EDITBOX:
