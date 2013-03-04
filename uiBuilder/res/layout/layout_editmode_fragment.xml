@@ -4,5 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp" >
+    android:padding="10dp" 
+
+    >
+    
+    <include layout="@layout/editmode_entry_enter_text"
+        
+        />
+    
+    <include layout="@layout/editmode_entry_align_content"/>
+    
+    <include layout="@layout/editmode_entry_item_count"/>
 </LinearLayout>

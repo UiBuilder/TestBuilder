@@ -45,7 +45,13 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 	{
 		Log.d("Editmode Fragment", "onCreateView called");
 		this.inflater = inflater;
-		this.layoutView = inflater.inflate(R.layout.layout_editmode_fragment, container, false);
+		layoutView = inflater.inflate(R.layout.layout_editmode_fragment, container, false);
+		layout = (LinearLayout) layoutView.findViewById(R.id.fragment_editbox);
+		
+		submit = (Button)layout.findViewById(R.id.item_edit_edittext_submitbutton);
+		submit.setOnClickListener(this);
+		editText = (EditText)layoutView.findViewById(R.id.item_edit_edittext);
+		
 		//layoutView.setOnClickListener(this);
 		return layoutView;
 	}
@@ -60,10 +66,6 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 		switch (tag)
 		{
 		case R.id.element_button:
-			layout.addView(inflater.inflate(R.layout.editmode_entry_enter_text, null));
-			submit = (Button)getActivity().findViewById(R.id.item_edit_edittext_submitbutton);
-			submit.setOnClickListener(this);
-			editText = (EditText)getActivity().findViewById(R.id.item_edit_edittext);
 			
 			break;
 		case R.id.element_checkbox:
