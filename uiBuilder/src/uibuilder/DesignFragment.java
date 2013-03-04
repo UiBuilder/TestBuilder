@@ -67,15 +67,9 @@ OnTouchListener
 		View root = inflater.inflate(R.layout.layout_design_fragment,
 		        container, false);
 		designArea = (RelativeLayout) root.findViewById(R.id.design_area);
-		
-
-		//manipulator = new TheBoss(getActivity().getApplicationContext(), designArea);
-		
 
 		designArea.post(new Runnable()
 		{
-			
-
 			@Override
 			public void run()
 			{
@@ -180,58 +174,69 @@ OnTouchListener
 	public boolean onTouch(View v, MotionEvent event)
 	{
 
-		currentTouch = v;
+		int action = event.getAction() & MotionEvent.ACTION_MASK;
 
-		switch (currentTouch.getId())
+		switch (action)
 		{
-		case R.id.design_area:
-			Log.d("DesignArea", "called");
-			detector.setIsLongpressEnabled(false);
-			activeItem = null;
-			if (overlayActive)
+		case MotionEvent.ACTION_DOWN:
+			
+			currentTouch = v;
+			
+			Log.d("first down", String.valueOf(event.getPointerCount()));
+			
+			switch (currentTouch.getId())
 			{
-				Log.d("Case Design Area", "overlay active and therefore deleted");
+			case R.id.design_area:
+				Log.d("DesignArea", "called");
+				detector.setIsLongpressEnabled(false);
+				activeItem = null;
+				if (overlayActive)
+				{
+					Log.d("Case Design Area", "overlay active and therefore deleted");
 
-				deleteOverlay();
-				return true;
+					deleteOverlay();
+					return true;
+				}
+
+				Log.d("layout forward", "called");
+				break;
+
+			case ID_TOP:
+			case ID_RIGHT:
+			case ID_BOTTOM:
+			case ID_LEFT:
+			case ID_CENTER:
+
+				detector.setIsLongpressEnabled(false);
+				dragIndicator = currentTouch;
+				dragIndicator.setActivated(true);
+
+				Log.d("dragOverlay", "drag handle selected");
+				break;
+
+			default:
+				Log.d("Default case in ontouch", "called");
+
+				if (overlayActive && currentTouch != activeItem)
+				{
+					Log.d("Default case in ontouch", "deleting overlay");
+
+					deleteOverlay();
+					return true;
+				}
+				activeItem = currentTouch;
+				detector.setIsLongpressEnabled(true);
+
+				Log.d("active Item is currentTouch", "ID:"
+						+ String.valueOf(activeItem.getId()));
+				break;
 			}
-
-			Log.d("layout forward", "called");
 			break;
-
-		case ID_TOP:
-		case ID_RIGHT:
-		case ID_BOTTOM:
-		case ID_LEFT:
-		case ID_CENTER:
-
-			detector.setIsLongpressEnabled(false);
-			dragIndicator = currentTouch;
-			dragIndicator.setActivated(true);
-
-			Log.d("dragOverlay", "drag handle selected");
+			
+		case MotionEvent.ACTION_POINTER_DOWN:
+			Log.d("pointer down", String.valueOf(event.getPointerId(getIndex(event))));
 			break;
-
-		default:
-			Log.d("Default case in ontouch", "called");
-
-			if (overlayActive && currentTouch != activeItem)
-			{
-				Log.d("Default case in ontouch", "deleting overlay");
-
-				deleteOverlay();
-				return true;
-			}
-			activeItem = currentTouch;
-			detector.setIsLongpressEnabled(true);
-
-			Log.d("active Item is currentTouch", "ID:"
-					+ String.valueOf(activeItem.getId()));
-			break;
-		}
-
-		switch (event.getAction())
-		{
+		
 		case MotionEvent.ACTION_UP:
 
 			if (dragIndicator != null)
@@ -250,6 +255,11 @@ OnTouchListener
 		return detector.onTouchEvent(event);
 	}
 
+	private int getIndex(MotionEvent event) 
+	{
+		  return (event.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK) >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
+	}
+	
 	@Override
 	public boolean onDown(MotionEvent event)
 	{
@@ -364,8 +374,10 @@ OnTouchListener
 			switch (dragIndicator.getId())
 			{
 			case ID_CENTER:
-				ClipData.Item item = new ClipData.Item((String) activeItem.getTag());
-				ClipData clipData = new ClipData((CharSequence) activeItem.getTag(), new String[]
+				Integer i = (Integer)activeItem.getTag();
+				
+				ClipData.Item item = new ClipData.Item(i.toString());
+				ClipData clipData = new ClipData((CharSequence) i.toString(), new String[]
 				{ ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
 
 				activeItem.startDrag(clipData, new View.DragShadowBuilder(activeItem), null, 0);
