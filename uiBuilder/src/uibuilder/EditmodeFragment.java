@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +30,7 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
+		Log.d("Editmode Fragment", "onCreate called");
 		// TODO Auto-generated method stub
 
 
@@ -39,9 +41,9 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
 	{
-
+		Log.d("Editmode Fragment", "onCreateView called");
 		this.inflater = inflater;
-		layoutView = inflater.inflate(R.layout.layout_editmode_fragment, container, false);
+		this.layoutView = inflater.inflate(R.layout.layout_editmode_fragment, container, false);
 		layoutView.setOnClickListener(this);
 		layout = (LinearLayout)layoutView;
 		return layoutView;

@@ -80,6 +80,7 @@ public class ItemboxFragment extends Fragment implements OnClickListener, OnTouc
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
+		Log.d("Itembox Fragment", "onCreateView called");
 		super.onCreate(savedInstanceState);
 	}
 
