@@ -1,10 +1,13 @@
 package creators;
 
 import manipulators.TheBoss;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnDragListener;
+import android.view.View.OnTouchListener;
 import android.widget.TextView;
 
 public class ObjectFactory 
@@ -42,12 +45,12 @@ public class ObjectFactory
 	 * 
 	 * @param c Referenz auf die Activity
 	 */
-	public ObjectFactory(Context c, TheBoss mp) 
+	public ObjectFactory(Context c, OnTouchListener l) 
 	{
 		//super();
 
 		ref = c;
-		generator = new Generator(ref, mp, this);
+		generator = new Generator(ref, l, this);
 		
 		Resources res = c.getResources();
 

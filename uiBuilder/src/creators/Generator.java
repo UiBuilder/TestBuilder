@@ -17,6 +17,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -31,14 +32,14 @@ public class Generator
 	private int idCount; /** Variable zur dynamischen Vergabe laufender IDs */
 
 	private Context context;
-	private TheBoss manipulator;
+	private OnTouchListener manipulator;
 	private ObjectFactory factory;
 	private LayoutInflater inflater;
 
 	/**
 	 * Konstruktor
 	 */
-	public Generator(Context ref, TheBoss mp, ObjectFactory fucktory)
+	public Generator(Context ref, OnTouchListener mp, ObjectFactory fucktory)
 	{
 		idCount = 1;
 		context = ref;
@@ -120,34 +121,11 @@ public class Generator
 		
 		TimePicker xmlTimePicker = (TimePicker) inflater.inflate(R.layout.item_timepicker_layout, null);
 		xmlTimePicker.setIs24HourView(true);
-		xmlTimePicker.setEnabled(true);
-		xmlTimePicker.setActivated(true);
-		xmlTimePicker.setFocusableInTouchMode(true);
+		xmlTimePicker.setEnabled(false);
 		
-		for (int i=0; i<xmlTimePicker.getChildCount();i++)
-		{
-			View v = xmlTimePicker.getChildAt(i);
-			v.setEnabled(false);
-			v.setClickable(true);
-			v.setActivated(false);
-			v.setFocusable(true);
-			
-			v.setFocusableInTouchMode(true);v.setOnTouchListener(new OnTouchListener()
-			{
-				
-				@Override
-				public boolean onTouch(View v, MotionEvent event)
-				{
-					Log.d("item toch", "hui");
-					return false;
-				}
-			});
-		}
 		xmlTimePicker.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		
 		xmlTimePickerContainer.addView(xmlTimePicker);
 		
-		xmlTimePickerContainer.setFilterTouchesWhenObscured(true);
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		xmlTimePickerContainer.setLayoutParams(params);
 		
@@ -164,6 +142,7 @@ public class Generator
 		
 		xmlSeekBar.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 		xmlSeekBarContainer.addView(xmlSeekBar);
+		
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		xmlSeekBarContainer.setLayoutParams(params);
 		
@@ -198,25 +177,6 @@ public class Generator
 		xmlPicker.setMinValue(1);
 		xmlPicker.setWrapSelectorWheel(false);
 		xmlPicker.setValue(3);
-
-		View up = xmlPicker.getChildAt(0);
-		up.setEnabled(false);
-		up.setClickable(true);
-		up.setFocusableInTouchMode(true);
-		
-		
-		View down = xmlPicker.getChildAt(2);
-		down.setEnabled(false);
-		down.setClickable(true);
-		down.setFocusableInTouchMode(true);
-
-		
-		View middle = xmlPicker.getChildAt(1);
-		middle.setEnabled(false);
-		middle.setClickable(true);
-		middle.setFocusableInTouchMode(true);
-		middle.setPadding(0, 0, 0, 0);
-		
 		
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		
@@ -228,7 +188,18 @@ public class Generator
 
 	private RelativeLayout createContainer()
 	{
-		RelativeLayout xmlPickerLayout = new RelativeLayout(context);
+		RelativeLayout xmlPickerLayout = new RelativeLayout(context)
+		{
+
+			@Override
+			public boolean onInterceptTouchEvent(MotionEvent ev)
+			{
+				Log.d("CONTAINER", "INTERCEPTING MOTION EVENT");
+				return true;
+			}
+			
+			
+		};
 		xmlPickerLayout.setBackgroundResource(R.drawable.default_button_border);
 		xmlPickerLayout.setClickable(true);
 		xmlPickerLayout.setFocusable(true);
@@ -241,16 +212,18 @@ public class Generator
 
 	private View newSearchView()
 	{
-		RelativeLayout xmlSearchView = (RelativeLayout) inflater.inflate(R.layout.item_searchview_layout, null);
+		RelativeLayout xmlSearchViewContainer = createContainer();
+		
+		SearchView xmlSearchView = (SearchView) inflater.inflate(R.layout.item_searchview_layout, null);
 		
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		xmlSearchView.setLayoutParams(params);
-		/*xmlSearchView.setActivated(false);
-		xmlSearchView.setClickable(false);
-		xmlSearchView.setFocusableInTouchMode(false);
 
-		*/
-		return xmlSearchView;
+		xmlSearchView.setEnabled(false);
+		xmlSearchViewContainer.addView(xmlSearchView);
+		
+		xmlSearchViewContainer.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		return xmlSearchViewContainer;
 	}
 
 	private View newCheckBox()

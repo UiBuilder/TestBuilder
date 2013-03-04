@@ -45,7 +45,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	private Grid grid;
 	public static final int SNAP_GRID_INTERVAL = 25;
 
-	/**
+	/**@deprecated DESIGNFRAGMENT IS NOW BOSS
 	 * KONSTRUKTOR
 	 * 
 	 * @param context
