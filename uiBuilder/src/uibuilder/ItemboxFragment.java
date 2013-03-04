@@ -39,41 +39,29 @@ public class ItemboxFragment extends Fragment implements OnClickListener, OnTouc
 
 	private void setupLibraryUi()
 	{
-		createButton = (Button) layout.findViewById(R.id.new_element_button);
-		createButton.setId(ObjectFactory.ID_BUTTON);
+		createButton = (Button) layout.findViewById(R.id.element_button);
 		
-		createTextView = (Button) layout.findViewById(R.id.new_element_textview);
-		createTextView.setId(ObjectFactory.ID_TEXTVIEW);
+		createTextView = (Button) layout.findViewById(R.id.element_textview);
 		
-		createImage = (Button) layout.findViewById(R.id.new_element_imageview);
-		createImage.setId(ObjectFactory.ID_IMAGEVIEW);
+		createImage = (Button) layout.findViewById(R.id.element_imageview);
 		
-		createEditText = (Button) layout.findViewById(R.id.new_element_edittext);
-		createEditText.setId(ObjectFactory.ID_EDITTEXT);
+		createEditText = (Button) layout.findViewById(R.id.element_edittext);
 		
-		createRadioGroup = (Button) layout.findViewById(R.id.new_element_radiogroup);
-		createRadioGroup.setId(ObjectFactory.ID_RADIOBUTTONS);
+		createRadioGroup = (Button) layout.findViewById(R.id.element_radiogroup);
 		
-		createSwitch = (Button) layout.findViewById(R.id.new_element_switch);
-		createSwitch.setId(ObjectFactory.ID_SWITCH);
+		createSwitch = (Button) layout.findViewById(R.id.element_switch);
 		
-		createCheckbox = (Button) layout.findViewById(R.id.new_element_checkbox);
-		createCheckbox.setId(ObjectFactory.ID_CHECKBOX);
+		createCheckbox = (Button) layout.findViewById(R.id.element_checkbox);
 		
-		createSearch = (Button) layout.findViewById(R.id.new_element_search);
-		createSearch.setId(ObjectFactory.ID_SEARCHVIEW);
+		createSearch = (Button) layout.findViewById(R.id.element_search);
 		
-		createNumberPicker = (Button) layout.findViewById(R.id.new_element_numberpick);
-		createNumberPicker.setId(ObjectFactory.ID_NUMBERPICKER);
+		createNumberPicker = (Button) layout.findViewById(R.id.element_numberpick);
 		
-		createRatingBar = (Button) layout.findViewById(R.id.new_element_ratingbar);
-		createRatingBar.setId(ObjectFactory.ID_RATINGBAR);
+		createRatingBar = (Button) layout.findViewById(R.id.element_ratingbar);
 		
-		createSeekBar = (Button) layout.findViewById(R.id.new_element_seekbar);
-		createSeekBar.setId(ObjectFactory.ID_SEEKBAR);
+		createSeekBar = (Button) layout.findViewById(R.id.element_seekbar);
 		
-		createTimePicker = (Button) layout.findViewById(R.id.new_element_timepicker);
-		createTimePicker.setId(ObjectFactory.ID_TIMEPICKER);
+		createTimePicker = (Button) layout.findViewById(R.id.element_timepicker);
 		
 		createButton.setOnTouchListener(this);
 		createTextView.setOnTouchListener(this);
@@ -108,90 +96,13 @@ public class ItemboxFragment extends Fragment implements OnClickListener, OnTouc
 		{
 		case MotionEvent.ACTION_UP:
 			
-			switch (v.getId())
-			{
-			case ObjectFactory.ID_BUTTON:
-				
-				listener.typeChanged(ObjectFactory.ID_BUTTON);
-				Log.d("itembox reports: set to", "Button");
-				break;
-
-			case ObjectFactory.ID_TEXTVIEW:
-				
-				listener.typeChanged(ObjectFactory.ID_TEXTVIEW);
-				Log.d("itembox reports: set to", "TextView");
-				break;
-				
-			case ObjectFactory.ID_IMAGEVIEW:
-				
-				listener.typeChanged(ObjectFactory.ID_IMAGEVIEW);
-				Log.d("itembox reports: set to", "ImageView");
-				break;
-				
-			case ObjectFactory.ID_EDITTEXT:
-				
-				listener.typeChanged(ObjectFactory.ID_EDITTEXT);
-				Log.d("itembox reports: set to", "Edittext");
-				break;
-				
-			case ObjectFactory.ID_RADIOBUTTONS:
-				
-				listener.typeChanged(ObjectFactory.ID_RADIOBUTTONS);
-				Log.d("itembox reports: set to", "Radiogroup");
-				break;
-				
-			case ObjectFactory.ID_SWITCH:
-				
-				listener.typeChanged(ObjectFactory.ID_SWITCH);
-				Log.d("itembox reports: set to", "Switch");
-				break;
-				
-			case ObjectFactory.ID_CHECKBOX:
-				
-				listener.typeChanged(ObjectFactory.ID_CHECKBOX);
-				Log.d("itembox reports: set to", "checkbox");
-				break;
-				
-			case ObjectFactory.ID_SEARCHVIEW:
-				
-				listener.typeChanged(ObjectFactory.ID_SEARCHVIEW);
-				Log.d("itembox reports: set to", "searchview");
-				break;
-				
-			case ObjectFactory.ID_NUMBERPICKER:
-				
-				listener.typeChanged(ObjectFactory.ID_NUMBERPICKER);
-				Log.d("itembox reports: set to", "numberpick");
-				break;
-				
-			case ObjectFactory.ID_RATINGBAR:
-				
-				listener.typeChanged(ObjectFactory.ID_RATINGBAR);
-				Log.d("itembox reports: set to", "rating");
-				break;
-				
-			case ObjectFactory.ID_SEEKBAR:
-				
-				listener.typeChanged(ObjectFactory.ID_SEEKBAR);
-				Log.d("itembox reports: set to", "seek");
-				break;
-				
-			case ObjectFactory.ID_TIMEPICKER:
-				
-				listener.typeChanged(ObjectFactory.ID_TIMEPICKER);
-				Log.d("itembox reports: set to", "time");
-				break;
-				
-			default:
-				break;
-			}		
-			
+			listener.typeChanged(v.getId());	
 			break;
 
 		default:
 			break;
 		}
-		return false;
+		return true;
 	}
 
 	public interface onUiElementSelectedListener

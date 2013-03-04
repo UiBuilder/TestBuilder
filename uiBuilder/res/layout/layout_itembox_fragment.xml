@@ -11,73 +11,73 @@
         android:orientation="vertical" >
 
         <Button
-            android:id="@+id/new_element_button"
+            android:id="@+id/element_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="neuer Button" />
 
         <Button
-            android:id="@+id/new_element_textview"
+            android:id="@+id/element_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="neues Textview" />
 
         <Button
-            android:id="@+id/new_element_imageview"
+            android:id="@+id/element_imageview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="neus Bildl" />
 
         <Button
-            android:id="@+id/new_element_edittext"
+            android:id="@+id/element_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="neues Edittext" />
 
         <Button
-            android:id="@+id/new_element_radiogroup"
+            android:id="@+id/element_radiogroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="neue Radiogroup" />
         
         <Button
-            android:id="@+id/new_element_switch"
+            android:id="@+id/element_switch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="neuer switch" />
         
         <Button
-            android:id="@+id/new_element_checkbox"
+            android:id="@+id/element_checkbox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="neue checkbox" />
         
         <Button
-            android:id="@+id/new_element_search"
+            android:id="@+id/element_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="neue searchbox" />
         
         <Button
-            android:id="@+id/new_element_numberpick"
+            android:id="@+id/element_numberpick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="neuer Numberpick" />
         
         <Button
-            android:id="@+id/new_element_ratingbar"
+            android:id="@+id/element_ratingbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="neues rating" />
         
         <Button
-            android:id="@+id/new_element_seekbar"
+            android:id="@+id/element_seekbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="neue seekbar" />
         
         <Button
-            android:id="@+id/new_element_timepicker"
+            android:id="@+id/element_timepicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="neuer timepicker" />
