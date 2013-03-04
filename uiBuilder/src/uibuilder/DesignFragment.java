@@ -220,7 +220,7 @@ OnTouchListener
 					Log.d("Default case in ontouch", "deleting overlay");
 
 					deleteOverlay();
-					return true;
+				
 				}
 				activeItem = currentTouch;
 				detector.setIsLongpressEnabled(true);
