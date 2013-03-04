@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import de.ur.rk.uibuilder.R;
 
@@ -20,7 +19,7 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 	private View layoutView;
 	private LinearLayout layout;
 	private LayoutInflater inflater;
-	private Button submit, set, alignLeft, alignRight, alignCenter;
+	private Button submit, set;
 	private EditText editText;
 	private View currentView;
 
@@ -47,20 +46,7 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 		Log.d("Editmode Fragment", "onCreateView called");
 		this.inflater = inflater;
 		this.layoutView = inflater.inflate(R.layout.layout_editmode_fragment, container, false);
-		// layoutView.setOnClickListener(this);
-		submit = (Button) getActivity().findViewById(R.id.item_edit_edittext_submitbutton);
-		set = (Button) getActivity().findViewById(R.id.item_edit_itemcount_submitbutton);
-		alignCenter = (Button) getActivity().findViewById(R.id.item_edit_align_center_button);
-		alignLeft = (Button) getActivity().findViewById(R.id.item_edit_align_left_button);
-		alignRight = (Button) getActivity().findViewById(R.id.item_edit_align_right_button);
-
-		submit.setOnClickListener(this);
-		set.setOnClickListener(this);
-		alignCenter.setOnClickListener(this);
-		alignLeft.setOnClickListener(this);
-		alignRight.setOnClickListener(this);
-
-		editText = (EditText) getActivity().findViewById(R.id.item_edit_edittext);
+		//layoutView.setOnClickListener(this);
 		return layoutView;
 	}
 
@@ -68,12 +54,17 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 	{
 		int tag = (Integer.valueOf(view.getTag().toString()));
 		layout = (LinearLayout) layoutView;
+		
+		
 		currentView = view;
 		switch (tag)
 		{
 		case R.id.element_button:
 			layout.addView(inflater.inflate(R.layout.editmode_entry_enter_text, null));
-
+			submit = (Button)getActivity().findViewById(R.id.item_edit_edittext_submitbutton);
+			submit.setOnClickListener(this);
+			editText = (EditText)getActivity().findViewById(R.id.item_edit_edittext);
+			
 			break;
 		case R.id.element_checkbox:
 			layout.addView(inflater.inflate(R.layout.editmode_entry_enter_text, null));
@@ -108,6 +99,7 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 		default:
 			break;
 		}
+		
 
 	}
 
@@ -119,9 +111,7 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 		{
 		case R.id.item_edit_edittext_submitbutton:
 			((TextView) currentView).setText(editText.getText().toString());
-			break;
-		case R.id.item_edit_align_center_button:
-			break;
+
 		}
 
 	}
