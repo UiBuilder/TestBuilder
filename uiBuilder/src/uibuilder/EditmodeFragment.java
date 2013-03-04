@@ -33,7 +33,6 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 		Log.d("Editmode Fragment", "onCreate called");
 		// TODO Auto-generated method stub
 
-
 		super.onCreate(savedInstanceState);
 	}
 
@@ -45,7 +44,7 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 		this.inflater = inflater;
 		this.layoutView = inflater.inflate(R.layout.layout_editmode_fragment, container, false);
 		layoutView.setOnClickListener(this);
-		layout = (LinearLayout)layoutView;
+		layout = (LinearLayout) layoutView;
 		return layoutView;
 	}
 
@@ -56,18 +55,7 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 		switch (tag)
 		{
 		case R.id.element_button:
-			
-			layout.post(new Runnable()
-			{
-				
-				@Override
-				public void run()
-				{
-					layout.addView(inflater.inflate(R.layout.editmode_entry_enter_text, null));
-
-					
-				}
-			});
+			layout.addView(inflater.inflate(R.layout.editmode_entry_enter_text, null));
 			break;
 		case R.id.element_checkbox:
 			layout.addView(inflater.inflate(R.layout.editmode_entry_enter_text, null));
@@ -102,6 +90,7 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 		default:
 			break;
 		}
+		
 
 	}
 
