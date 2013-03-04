@@ -43,7 +43,7 @@ public class UiBuilderActivity extends Activity implements onUiElementSelectedLi
 		designbox = new DesignFragment();
 		fTransaction.add(R.id.fragment_sidebar, editbox);
 		fTransaction.hide(editbox);
-		fTransaction.replace(R.id.fragment_sidebar, itembox);
+		fTransaction.add(R.id.fragment_sidebar, itembox);
 		fTransaction.add(R.id.fragment_design, designbox);
 		
 		//displaySidebar(ITEMBOX);
@@ -143,10 +143,10 @@ public class UiBuilderActivity extends Activity implements onUiElementSelectedLi
 	@Override
 	public void objectChanged(View view)
 	{
-		displaySidebar(EDITBOX);
-		fManager.executePendingTransactions();
-
-		editbox.adaptLayoutToContext(view);
+//		displaySidebar(EDITBOX);
+//		fManager.executePendingTransactions();
+//
+//		editbox.adaptLayoutToContext(view);
 		
 	}
 
