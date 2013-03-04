@@ -63,6 +63,7 @@ public class UiBuilderActivity extends Activity implements onUiElementSelectedLi
 		case ITEMBOX:
 			Log.d("switched sideBarType", "result Itembox, replacing");
 			fTransaction.replace(R.id.fragment_sidebar, itembox);
+			fTransaction.hide(editbox);
 			break;
 		case EDITBOX:
 			Log.d("switched sideBarType", "result Editbox, replacing");

@@ -17,7 +17,7 @@ import de.ur.rk.uibuilder.R;
 public class ItemboxFragment extends Fragment implements OnClickListener, OnTouchListener
 {
 	private Button createButton, createTextView, createImage, createEditText, createRadioGroup, createSwitch, createCheckbox, createSearch, createNumberPicker,
-	createRatingBar, createSeekBar, createTimePicker;
+	createRatingBar, createSeekBar, createTimePicker, createContainer;
 
 	private View layout;
 	
@@ -63,6 +63,8 @@ public class ItemboxFragment extends Fragment implements OnClickListener, OnTouc
 		
 		createTimePicker = (Button) layout.findViewById(R.id.element_timepicker);
 		
+		createContainer = (Button) layout.findViewById(R.id.element_container);
+		
 		createButton.setOnTouchListener(this);
 		createTextView.setOnTouchListener(this);
 		createImage.setOnTouchListener(this);
@@ -75,6 +77,7 @@ public class ItemboxFragment extends Fragment implements OnClickListener, OnTouc
 		createRatingBar.setOnTouchListener(this);
 		createSeekBar.setOnTouchListener(this);
 		createTimePicker.setOnTouchListener(this);
+		createContainer.setOnTouchListener(this);
 	}
 
 	@Override

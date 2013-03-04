@@ -2,10 +2,13 @@ package creators;
 
 import helpers.Log;
 import android.content.Context;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
@@ -52,51 +55,55 @@ public class Generator
 		switch (id)
 		{
 		case R.id.element_button:
-			xmlView = newButton();
+			xmlView = buildButton();
 			break;
 			
 		case R.id.element_textview:
-			xmlView = newTextview();
+			xmlView = buildTextview();
 			break;
 			
 		case R.id.element_imageview:
-			xmlView = newImageView();
+			xmlView = buildImageView();
 			break;
 
 		case R.id.element_edittext:
-			xmlView = newEditText();
+			xmlView = buildEditText();
 			break;
 			
 		case R.id.element_radiogroup:
-			xmlView = newRadioButtons();
+			xmlView = buildRadioButtons();
 			break;
 			
 		case R.id.element_switch:
-			xmlView = newSwitch();
+			xmlView = buildSwitch();
 			break;
 			
 		case R.id.element_checkbox:
-			xmlView = newCheckBox();
+			xmlView = buildCheckBox();
 			break;
 			
 		case R.id.element_search:
-			xmlView = newSearchView();
+			xmlView = buildSearchView();
 			break;
 			
 		case R.id.element_numberpick:
-			xmlView = newNumberPicker();
+			xmlView = buildNumberPicker();
 			break;
 			
 		case R.id.element_ratingbar:
-			xmlView = newRatingBar();
+			xmlView = buildRatingBar();
 			break;
 			
 		case R.id.element_seekbar:
-			xmlView = newSeekBar();
+			xmlView = buildSeekBar();
 			break;
 			
 		case R.id.element_timepicker:
-			xmlView = newTimePicker();
+			xmlView = buildTimePicker();
+			break;
+			
+		case R.id.element_container:
+			xmlView = buildRelativeContainer();
 			break;
 			
 		default:
@@ -112,7 +119,7 @@ public class Generator
 		return xmlView;
 	}
 	
-	private View newTimePicker()
+	private View buildTimePicker()
 	{
 		RelativeLayout xmlTimePickerContainer = createContainer();
 		
@@ -133,7 +140,7 @@ public class Generator
 		return xmlTimePickerContainer;
 	}
 
-	private View newSeekBar()
+	private View buildSeekBar()
 	{
 		RelativeLayout xmlSeekBarContainer = createContainer();
 		
@@ -150,7 +157,7 @@ public class Generator
 		return xmlSeekBarContainer;
 	}
 
-	private View newRatingBar()
+	private View buildRatingBar()
 	{
 		RelativeLayout xmlRatingBarContainer = createContainer();
 		
@@ -167,7 +174,7 @@ public class Generator
 		return xmlRatingBarContainer;
 	}
 
-	private View newNumberPicker()
+	private View buildNumberPicker()
 	{
 		RelativeLayout xmlPickerLayout = createContainer();
 		
@@ -187,6 +194,52 @@ public class Generator
 		return xmlPickerLayout;
 	}
 
+	private RelativeLayout buildRelativeContainer()
+	{
+		RelativeLayout relativeLayout = createContainer();
+		relativeLayout.setOnDragListener(new OnDragListener()
+		{
+			
+			@Override
+			public boolean onDrag(View v, DragEvent event)
+			{
+			    switch (event.getAction()) 
+			    {
+			    case DragEvent.ACTION_DRAG_STARTED:
+			    // Do nothing
+			      break;
+			      
+			    case DragEvent.ACTION_DRAG_ENTERED:
+
+			      break;
+			    case DragEvent.ACTION_DRAG_EXITED:        
+
+			      break;
+			      
+			    case DragEvent.ACTION_DROP:
+			      // Dropped, reassign View to ViewGroup
+			      View view = (View) event.getLocalState();
+			      ViewGroup owner = (ViewGroup) view.getParent();
+			      owner.removeView(view);
+			      RelativeLayout container = (RelativeLayout) v;
+			      container.addView(view);
+			      
+			      break;
+			    case DragEvent.ACTION_DRAG_ENDED:
+
+			      default:
+			      break;
+			    }
+			    return true;
+			}
+		});
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(200, 200);
+		
+		relativeLayout.setLayoutParams(params);
+		return relativeLayout;
+		
+	}
+	
 	private RelativeLayout createContainer()
 	{
 		RelativeLayout xmlPickerLayout = new RelativeLayout(context)
@@ -211,7 +264,7 @@ public class Generator
 		return xmlPickerLayout;
 	}
 
-	private View newSearchView()
+	private View buildSearchView()
 	{
 		RelativeLayout xmlSearchViewContainer = createContainer();
 		
@@ -227,7 +280,7 @@ public class Generator
 		return xmlSearchViewContainer;
 	}
 
-	private View newCheckBox()
+	private View buildCheckBox()
 	{
 		RelativeLayout xmlCheckBox = (RelativeLayout) inflater.inflate(R.layout.item_checkbox_layout, null);
 		
@@ -237,7 +290,7 @@ public class Generator
 		return xmlCheckBox;
 	}
 
-	private View newSwitch()
+	private View buildSwitch()
 	{
 		Switch xmlSwitch = (Switch) inflater.inflate(R.layout.item_switch_layout, null);
 	
@@ -247,7 +300,7 @@ public class Generator
 		return xmlSwitch;
 	}
 
-	private View newRadioButtons()
+	private View buildRadioButtons()
 	{
 		//askForSpecification(ObjectFactory.ID_RADIOBUTTONS);
 		
@@ -270,7 +323,7 @@ public class Generator
 	 * 
 	 * @return new TextView
 	 */
-	private TextView newTextview()
+	private TextView buildTextview()
 	{
 		TextView xmlTextView = (TextView) inflater.inflate(R.layout.item_textview_layout, null);
 
@@ -285,7 +338,7 @@ public class Generator
 	 * 
 	 * @return the newly generated ImageView
 	 */
-	private ImageView newImageView()
+	private ImageView buildImageView()
 	{
 		ImageView xmlImageView = (ImageView) inflater.inflate(R.layout.item_imageview_layout, null);
 		
@@ -299,7 +352,7 @@ public class Generator
 	 * Generate new EditText from xml resource
 	 * @return new Edittext
 	 */
-	private EditText newEditText()
+	private EditText buildEditText()
 	{
 		EditText xmlEditText = (EditText) inflater.inflate(R.layout.item_edittext_layout, null);
 		
@@ -314,7 +367,7 @@ public class Generator
 	 * 
 	 * @return new Button
 	 */
-	private Button newButton()
+	private Button buildButton()
 	{	
 		Button xmlButton = (Button) inflater.inflate(R.layout.item_button_layout, null);
 
