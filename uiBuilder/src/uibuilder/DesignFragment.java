@@ -224,6 +224,18 @@ OnTouchListener
 				}
 				activeItem = currentTouch;
 				detector.setIsLongpressEnabled(true);
+				
+				if (overlayActive == false)
+				{
+					isDragging = true;
+					Toast.makeText(getActivity().getApplicationContext(), "Button "
+							+ activeItem.getId() + " selected", Toast.LENGTH_SHORT).show();
+
+					setOverlay();
+					listener.objectChanged(activeItem);
+					detector.setIsLongpressEnabled(false);
+					return true;
+				}
 
 				Log.d("active Item is currentTouch", "ID:"
 						+ String.valueOf(activeItem.getId()));
@@ -288,7 +300,7 @@ OnTouchListener
 	@Override
 	public boolean onSingleTapUp(MotionEvent event)
 	{
-		if (activeItem != null && overlayActive == false)
+		/*if (activeItem != null && overlayActive == false)
 		{
 			isDragging = true;
 			Toast.makeText(getActivity().getApplicationContext(), "Button "
@@ -298,7 +310,7 @@ OnTouchListener
 			listener.objectChanged(activeItem);
 			detector.setIsLongpressEnabled(false);
 			return true;
-		}
+		}*/
 		return false;
 	}
 	
@@ -346,8 +358,15 @@ OnTouchListener
 	public boolean onFling(MotionEvent arg0, MotionEvent arg1, float arg2,
 			float arg3)
 	{
-		Log.d("onfling", "fling detected");
-
+		
+		if (activeItem != null && !overlayActive)
+		{
+			designArea.removeView(activeItem);
+			activeItem = null;
+			
+			Log.d("onfling", "fling detected");
+			return true;
+		}
 		return false;
 	}
 
