@@ -1,34 +1,14 @@
 package creators;
 
-import manipulators.TheBoss;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.widget.TextView;
 
 public class ObjectFactory 
-{
-
-	public static final int 
-		ID_BUTTON = 1,
-		ID_TEXTVIEW = 2,
-		ID_LONG_CLICK_MENU = 3,
-		ID_EDITTEXT = 4,
-		ID_LISTVIEW = 5,
-		ID_IMAGEVIEW = 6,
-		ID_RADIOBUTTONS = 7,
-		ID_SWITCH = 8,
-		ID_CHECKBOX = 9,
-		ID_SEARCHVIEW = 10,
-		ID_NUMBERPICKER = 11,
-		ID_RATINGBAR = 12,	
-		ID_SEEKBAR = 13,
-		ID_TIMEPICKER = 14;
-	
+{	
 	
 	protected int TEXTVIEW_MIN_WIDTH, TEXTVIEW_MIN_HEIGHT;
 	
@@ -68,17 +48,6 @@ public class ObjectFactory
 		int thisWidth = v.getWidth();
 		int thisHeight = v.getHeight();
 		
-		switch (Integer.valueOf( (String)v.getTag() ))
-		{
-		case ID_TEXTVIEW:
-			
-			if (thisWidth >= TEXTVIEW_MIN_WIDTH && thisHeight >= TEXTVIEW_MIN_HEIGHT)
-				return true;
-			break;
-
-		default:
-			break;
-		}
 		
 		return false;
 	}

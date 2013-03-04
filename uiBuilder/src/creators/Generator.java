@@ -1,7 +1,6 @@
 package creators;
 
 import helpers.Log;
-import manipulators.TheBoss;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -11,7 +10,6 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -53,57 +51,56 @@ public class Generator
 		View xmlView;
 		switch (id)
 		{
-		case ObjectFactory.ID_BUTTON:
+		case R.id.element_button:
 			xmlView = newButton();
 			break;
 			
-		case ObjectFactory.ID_TEXTVIEW:
+		case R.id.element_textview:
 			xmlView = newTextview();
 			break;
 			
-		case ObjectFactory.ID_IMAGEVIEW:
+		case R.id.element_imageview:
 			xmlView = newImageView();
 			break;
 
-		case ObjectFactory.ID_EDITTEXT:
+		case R.id.element_edittext:
 			xmlView = newEditText();
 			break;
 			
-		case ObjectFactory.ID_RADIOBUTTONS:
+		case R.id.element_radiogroup:
 			xmlView = newRadioButtons();
 			break;
 			
-		case ObjectFactory.ID_SWITCH:
+		case R.id.element_switch:
 			xmlView = newSwitch();
 			break;
 			
-		case ObjectFactory.ID_CHECKBOX:
+		case R.id.element_checkbox:
 			xmlView = newCheckBox();
 			break;
 			
-		case ObjectFactory.ID_SEARCHVIEW:
+		case R.id.element_search:
 			xmlView = newSearchView();
 			break;
 			
-		case ObjectFactory.ID_NUMBERPICKER:
+		case R.id.element_numberpick:
 			xmlView = newNumberPicker();
 			break;
 			
-		case ObjectFactory.ID_RATINGBAR:
+		case R.id.element_ratingbar:
 			xmlView = newRatingBar();
 			break;
 			
-		case ObjectFactory.ID_SEEKBAR:
+		case R.id.element_seekbar:
 			xmlView = newSeekBar();
 			break;
 			
-		case ObjectFactory.ID_TIMEPICKER:
+		case R.id.element_timepicker:
 			xmlView = newTimePicker();
 			break;
 			
 		default:
-			//throw new NoClassDefFoundError();
-			return null; 
+			throw new NoClassDefFoundError(); 
 		}
 		xmlView.setOnTouchListener(manipulator);
 		xmlView.setId(idCount++);
