@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ImageButton xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:background="@drawable/overlay_states_top"
+    
+    android:id="@+id/overlay_top"
+	android:alpha="@dimen/overlay_alpha"
+    
+    android:clickable="true"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
+    
+    >
+    
+</ImageButton>

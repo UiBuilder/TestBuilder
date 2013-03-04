@@ -13,7 +13,6 @@
 	    android:queryHint="Search.."
 
 	    android:descendantFocusability="blocksDescendants"
-	    android:splitMotionEvents="false"
 	    
 	    style="@style/default_fontsizes"
 	    

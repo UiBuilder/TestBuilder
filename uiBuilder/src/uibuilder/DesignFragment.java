@@ -38,7 +38,7 @@ OnTouchListener
 	private Context context;
 	private View activeItem;
 	private ObjectFactory factory;
-	
+	private LayoutInflater inflater;
 
 	private GestureDetector detector;
 	private final String OVERLAYTAG = "Overlay";
@@ -62,6 +62,8 @@ OnTouchListener
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
 	{
+		this.inflater = inflater;
+		
 		View root = inflater.inflate(R.layout.layout_design_fragment,
 		        container, false);
 		designArea = (RelativeLayout) root.findViewById(R.id.design_area);
@@ -238,6 +240,7 @@ OnTouchListener
 				dragIndicator.setActivated(false);
 			}
 			break;
+
 
 		default:
 			break;
@@ -717,12 +720,12 @@ OnTouchListener
 		Log.d("params right", String.valueOf(activeItem.getRight()));
 		
 		// DRAG
-		drag = new ImageButton(context);
+		drag = (ImageButton) inflater.inflate(R.layout.overlay_drag, null);
 		modified.leftMargin = activeItem.getLeft() + designArea.getLeft();
 		modified.topMargin = activeItem.getTop() + designArea.getTop();
 		modified.width = activeItem.getMeasuredWidth();
 		modified.height = activeItem.getMeasuredHeight();
-		drag.setBackgroundResource(R.drawable.overlay_center_border);
+		//drag.setBackgroundResource(R.drawable.overlay_center_border);
 		drag.setId(ID_CENTER);
 		drag.setTag(OVERLAYTAG);
 		drag.setOnTouchListener(this);
@@ -732,10 +735,7 @@ OnTouchListener
 
 		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		// RIGHT
-		right = new ImageButton(context);
-		right.setBackgroundResource(R.drawable.overlay_states_right);
-		right.setAlpha(0.8f);
-
+		right = (ImageButton) inflater.inflate(R.layout.overlay_handle_right, null);
 		right.setMinimumWidth(context.getResources().getDimensionPixelSize(R.dimen.default_overlay_handle_dimension));
 		modified.addRule(RelativeLayout.ALIGN_TOP, ID_CENTER);
 		modified.addRule(RelativeLayout.RIGHT_OF, ID_CENTER);
@@ -748,9 +748,7 @@ OnTouchListener
 
 		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		// BOTTOM
-		bottom = new ImageButton(context);
-		bottom.setBackgroundResource(R.drawable.overlay_states_bottom);
-		bottom.setAlpha(0.8f);
+		bottom = (ImageButton) inflater.inflate(R.layout.overlay_handle_bottom, null);
 
 		bottom.setMinimumHeight(context.getResources().getDimensionPixelSize(R.dimen.default_overlay_handle_dimension));
 		modified.addRule(RelativeLayout.BELOW, ID_CENTER);
@@ -764,9 +762,8 @@ OnTouchListener
 
 		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		// LEFT
-		left = new ImageButton(context);
-		left.setAlpha(0.8f);
-		left.setBackgroundResource(R.drawable.overlay_states_left);
+		left = (ImageButton) inflater.inflate(R.layout.overlay_handle_left, null);
+
 		left.setMinimumWidth(context.getResources().getDimensionPixelSize(R.dimen.default_overlay_handle_dimension));
 		modified.addRule(RelativeLayout.LEFT_OF, bottom.getId());
 		modified.addRule(RelativeLayout.ALIGN_TOP, right.getId());
@@ -778,9 +775,7 @@ OnTouchListener
 
 		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		// TOP
-		top = new ImageButton(context);
-		top.setBackgroundResource(R.drawable.overlay_states_top);
-		top.setAlpha(0.8f);
+		top = (ImageButton) inflater.inflate(R.layout.overlay_handle_top, null);
 
 		top.setMinimumHeight(context.getResources().getDimensionPixelSize(R.dimen.default_overlay_handle_dimension));
 		modified.addRule(RelativeLayout.ABOVE, right.getId());

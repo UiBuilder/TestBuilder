@@ -6,10 +6,6 @@
     android:max="50"
     android:progress="25"
     
-    	    
-	    android:focusable="true"
-	    android:focusableInTouchMode="true"
-	    android:clickable="true"
 	    
     >
     

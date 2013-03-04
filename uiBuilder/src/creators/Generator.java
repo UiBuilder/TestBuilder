@@ -123,7 +123,11 @@ public class Generator
 		xmlTimePicker.setIs24HourView(true);
 		xmlTimePicker.setEnabled(false);
 		
-		xmlTimePicker.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		RelativeLayout.LayoutParams pickerparams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		pickerparams.addRule(RelativeLayout.CENTER_IN_PARENT, 1);
+		//pickerparams.addRule(RelativeLayout., anchor)
+		
+		xmlTimePicker.setLayoutParams(pickerparams);
 		xmlTimePickerContainer.addView(xmlTimePicker);
 		
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -156,8 +160,8 @@ public class Generator
 		RatingBar xmlRatingBar = (RatingBar) inflater.inflate(R.layout.item_ratingbar_layout, null);
 		xmlRatingBar.setEnabled(true);
 		xmlRatingBar.setActivated(true);
-		
-		xmlRatingBarContainer.setFilterTouchesWhenObscured(false);
+
+		xmlRatingBar.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 		
 		xmlRatingBarContainer.addView(xmlRatingBar);
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
