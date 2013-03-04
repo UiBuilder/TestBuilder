@@ -124,8 +124,6 @@ OnTouchListener
 		parent.addView(grid);
 		
 		toggleGrid();
-		
-
 
 		designArea.setOnTouchListener(this);
 		designArea.setOnDragListener(this);
@@ -234,7 +232,20 @@ OnTouchListener
 			break;
 			
 		case MotionEvent.ACTION_POINTER_DOWN:
+			
+			int pointerId = event.getPointerId(getIndex(event));
 			Log.d("pointer down", String.valueOf(event.getPointerId(getIndex(event))));
+			
+			if (pointerId == 1)
+			{
+				secondPointer = true;
+			}
+			
+			break;
+			
+		case MotionEvent.ACTION_POINTER_UP:
+			
+			secondPointer = false;
 			break;
 		
 		case MotionEvent.ACTION_UP:
@@ -255,6 +266,8 @@ OnTouchListener
 		return detector.onTouchEvent(event);
 	}
 
+	boolean secondPointer = false;
+	
 	private int getIndex(MotionEvent event) 
 	{
 		  return (event.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK) >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
@@ -599,6 +612,15 @@ OnTouchListener
 
 		case DragEvent.ACTION_DROP:
 
+			if (secondPointer)
+			{
+				
+			}
+			else
+			{
+				
+			}
+			
 			int dropTargetX = checkCollisionX(event.getX());
 			int dropTargetY = checkCollisionY(event.getY());
 
