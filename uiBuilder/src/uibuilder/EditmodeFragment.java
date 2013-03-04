@@ -54,7 +54,18 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 		switch (tag)
 		{
 		case R.id.element_button:
-			layout.addView(inflater.inflate(R.layout.editmode_entry_enter_text, null));
+			
+			layout.post(new Runnable()
+			{
+				
+				@Override
+				public void run()
+				{
+					layout.addView(inflater.inflate(R.layout.editmode_entry_enter_text, null));
+
+					
+				}
+			});
 			break;
 		case R.id.element_checkbox:
 			layout.addView(inflater.inflate(R.layout.editmode_entry_enter_text, null));
