@@ -52,6 +52,8 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 		submit.setOnClickListener(this);
 		editText = (EditText)layoutView.findViewById(R.id.item_edit_edittext);
 		
+		LinearLayout a = (LinearLayout) layout.findViewById(R.id.editmode_entry_align_content);
+		
 		//layoutView.setOnClickListener(this);
 		return layoutView;
 	}
