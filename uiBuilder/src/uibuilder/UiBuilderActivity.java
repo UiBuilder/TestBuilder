@@ -44,6 +44,7 @@ public class UiBuilderActivity extends Activity implements onUiElementSelectedLi
 		fTransaction.add(R.id.fragment_sidebar, editbox);
 		fTransaction.hide(editbox);
 		fTransaction.add(R.id.fragment_sidebar, itembox);
+		
 		fTransaction.add(R.id.fragment_design, designbox);
 		
 		//displaySidebar(ITEMBOX);
@@ -73,7 +74,7 @@ public class UiBuilderActivity extends Activity implements onUiElementSelectedLi
 		
 		//findViewById(R.id.fragment_sidebar).setVisibility(View.VISIBLE);
 		//fTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-		
+		fTransaction.addToBackStack(null);
 		fTransaction.commit();
 	}
 	
@@ -151,9 +152,9 @@ public class UiBuilderActivity extends Activity implements onUiElementSelectedLi
 	{
 		displaySidebar(EDITBOX);
 //		fManager.executePendingTransactions();
-		FragmentTransaction fTransaction = fManager.beginTransaction();
+		//FragmentTransaction fTransaction = fManager.beginTransaction();
 		editbox.adaptLayoutToContext(view);
-		fTransaction.commit();
+		//fTransaction.commit();
 	}
 
 }
