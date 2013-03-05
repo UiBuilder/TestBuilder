@@ -17,6 +17,13 @@ import de.ur.rk.uibuilder.R;
 
 public class EditmodeFragment extends Fragment implements OnClickListener
 {
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		// TODO FOR INTENT RESULTS
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+
 	private View layoutView;
 	private LinearLayout layout;
 	private LayoutInflater inflater;
