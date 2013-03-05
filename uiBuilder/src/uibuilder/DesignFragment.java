@@ -3,12 +3,14 @@ package uibuilder;
 
 import helpers.Grid;
 import helpers.Log;
+import manipulators.Overlay;
 import manipulators.TheBoss;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.DragEvent;
 import android.view.GestureDetector;
@@ -19,7 +21,6 @@ import android.view.View;
 import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ OnTouchListener
 
 	private RelativeLayout designArea, parent;
 	private Grid grid;
+	private Overlay overlay;
 
 	private TheBoss manipulator;
 	
@@ -44,7 +46,7 @@ OnTouchListener
 	private final String OVERLAYTAG = "Overlay";
 
 	private boolean isDragging;
-	boolean overlayActive = false;
+	//boolean overlayActive = false;
 	private View currentTouch;
 	
 	public static final int SNAP_GRID_INTERVAL = 25;
@@ -73,7 +75,15 @@ OnTouchListener
 			@Override
 			public void run()
 			{
-				
+				resizeDrawingArea(); 
+			}
+
+			/**
+			 * Resizes the designArea after the layouting process has finished,
+			 * to have access to measured dimensions
+			 */
+			private void resizeDrawingArea()
+			{
 				int rootWidth = designArea.getMeasuredWidth();
 				int rootHeight = rootWidth/16*9;
 				
@@ -92,9 +102,14 @@ OnTouchListener
 				designArea.forceLayout();
 				
 				Log.d("root width post", String.valueOf(params.width));
-				Log.d("root height post", String.valueOf(params.height)); 
+				Log.d("root height post", String.valueOf(params.height));
 			}
 
+			/**
+			 * Round the dimension to match with the given grid.
+			 * @param actual dimension of the area
+			 * @return dimension rounded to a multiple of the grid dimension
+			 */
 			private int matchWithGrid(int size)
 			{ 
 				return (size / TheBoss.SNAP_GRID_INTERVAL) * TheBoss.SNAP_GRID_INTERVAL;
@@ -124,6 +139,8 @@ OnTouchListener
 		parent.addView(grid);
 		
 		toggleGrid();
+		
+		overlay = new Overlay(designArea, this);
 
 		designArea.setOnTouchListener(this);
 		designArea.setOnDragListener(this);
@@ -188,7 +205,8 @@ OnTouchListener
 				Log.d("DesignArea", "called");
 				detector.setIsLongpressEnabled(false);
 				activeItem = null;
-				if (overlayActive)
+				
+				if (overlay.isActive())
 				{
 					Log.d("Case Design Area", "overlay active and therefore deleted");
 
@@ -199,11 +217,11 @@ OnTouchListener
 				Log.d("layout forward", "called");
 				break;
 
-			case ID_TOP:
-			case ID_RIGHT:
-			case ID_BOTTOM:
-			case ID_LEFT:
-			case ID_CENTER:
+			case R.id.overlay_top:
+			case R.id.overlay_right:
+			case R.id.overlay_bottom:
+			case R.id.overlay_left:
+			case R.id.overlay_drag:
 
 				detector.setIsLongpressEnabled(false);
 				dragIndicator = currentTouch;
@@ -215,7 +233,7 @@ OnTouchListener
 			default:
 				Log.d("Default case in ontouch", "called");
 
-				if (overlayActive && currentTouch != activeItem)
+				if (overlay.isActive() && currentTouch != activeItem)
 				{
 					Log.d("Default case in ontouch", "deleting overlay");
 
@@ -225,13 +243,13 @@ OnTouchListener
 				activeItem = currentTouch;
 				detector.setIsLongpressEnabled(true);
 				
-				if (overlayActive == false)
+				if (!overlay.isActive())
 				{
 					isDragging = true;
 					Toast.makeText(getActivity().getApplicationContext(), "Button "
 							+ activeItem.getId() + " selected", Toast.LENGTH_SHORT).show();
 
-					setOverlay();
+					overlay.generate(activeItem);
 					listener.objectChanged(activeItem);
 					detector.setIsLongpressEnabled(false);
 					return true;
@@ -297,20 +315,13 @@ OnTouchListener
 		/** If the Object was created the event is consumed. */
 	}
 
+	/**
+	 * Considered dangerous to call methods here
+	 */
 	@Override
 	public boolean onSingleTapUp(MotionEvent event)
 	{
-		/*if (activeItem != null && overlayActive == false)
-		{
-			isDragging = true;
-			Toast.makeText(getActivity().getApplicationContext(), "Button "
-					+ activeItem.getId() + " selected", Toast.LENGTH_SHORT).show();
 
-			setOverlay();
-			listener.objectChanged(activeItem);
-			detector.setIsLongpressEnabled(false);
-			return true;
-		}*/
 		return false;
 	}
 	
@@ -328,7 +339,7 @@ OnTouchListener
 	 */
 	private boolean createObject(float clickPosX, float clickPosY)
 	{
-		if (activeItem == null && !overlayActive && nextObjectId != 0)
+		if (activeItem == null && !overlay.isActive() && nextObjectId != 0)
 		{
 			View newOne = (View) factory.getElement(nextObjectId);
 			
@@ -347,7 +358,10 @@ OnTouchListener
 		}
 		return false;
 	}
-
+	
+	/**
+	 * force redraw
+	 */
 	private void invalidate()
 	{
 		designArea.requestLayout();
@@ -359,7 +373,7 @@ OnTouchListener
 			float arg3)
 	{
 		
-		if (activeItem != null && !overlayActive)
+		if (activeItem != null && !overlay.isActive())
 		{
 			designArea.removeView(activeItem);
 			activeItem = null;
@@ -405,7 +419,7 @@ OnTouchListener
 
 			switch (dragIndicator.getId())
 			{
-			case ID_CENTER:
+			case R.id.overlay_drag:
 				Integer i = (Integer)activeItem.getTag();
 				
 				ClipData.Item item = new ClipData.Item(i.toString());
@@ -415,24 +429,24 @@ OnTouchListener
 				activeItem.startDrag(clipData, new View.DragShadowBuilder(activeItem), activeItem, 0);
 				break;
 
-			case ID_RIGHT:
+			case R.id.overlay_right:
 
-				setParams(ID_RIGHT, e1, e2);
+				setParams(R.id.overlay_right, e1, e2);
 				break;
 
-			case ID_BOTTOM:
+			case R.id.overlay_bottom:
 
-				setParams(ID_BOTTOM, e1, e2);
+				setParams(R.id.overlay_bottom, e1, e2);
 				break;
 
-			case ID_TOP:
+			case R.id.overlay_top:
 
-				setParams(ID_TOP, e1, e2);
+				setParams(R.id.overlay_top, e1, e2);
 				break;
 
-			case ID_LEFT:
+			case R.id.overlay_left:
 
-				setParams(ID_LEFT, e1, e2);
+				setParams(R.id.overlay_left, e1, e2);
 				break;
 
 			default:
@@ -457,6 +471,8 @@ OnTouchListener
 
 	private void setParams(int handleId, MotionEvent start, MotionEvent now)
 	{
+		ImageButton drag = overlay.getDrag();
+		
 		RelativeLayout.LayoutParams dragParams = (RelativeLayout.LayoutParams) drag.getLayoutParams();
 		RelativeLayout.LayoutParams itemParams = (RelativeLayout.LayoutParams) activeItem.getLayoutParams();
 		
@@ -465,10 +481,10 @@ OnTouchListener
 
 		switch (handleId)
 		{
-		case ID_RIGHT:
+		case R.id.overlay_right:
 			distance = now.getX() - start.getX();
 			
-			roundedDist = checkCollision(distance, ID_RIGHT);
+			roundedDist = checkCollision(distance, R.id.overlay_right);
 			roundedDist = snapToGrid(roundedDist);
 
 			itemParams.width = dragParams.width = activeItem.getMeasuredWidth() + roundedDist;
@@ -476,10 +492,10 @@ OnTouchListener
 			
 			break;
 
-		case ID_LEFT:
+		case R.id.overlay_left:
 			distance = start.getX() - now.getX();
 			
-			roundedDist = checkCollision(distance, ID_LEFT);
+			roundedDist = checkCollision(distance, R.id.overlay_left);
 			roundedDist = snapToGrid(roundedDist);
 			
 			dragParams.leftMargin = drag.getLeft() - roundedDist;
@@ -490,10 +506,10 @@ OnTouchListener
 			
 			break;
 
-		case ID_BOTTOM:
+		case R.id.overlay_bottom:
 			distance = now.getY() - start.getY();
 			
-			roundedDist = checkCollision(distance, ID_BOTTOM);
+			roundedDist = checkCollision(distance, R.id.overlay_bottom);
 			roundedDist = snapToGrid(roundedDist);
 
 			itemParams.width = dragParams.width = activeItem.getMeasuredWidth();
@@ -501,10 +517,10 @@ OnTouchListener
 			
 			break;
 
-		case ID_TOP:
+		case R.id.overlay_top:
 			distance = start.getY() - now.getY();
 			
-			roundedDist = checkCollision(distance, ID_TOP);
+			roundedDist = checkCollision(distance, R.id.overlay_top);
 			roundedDist = snapToGrid(roundedDist);
 
 			dragParams.topMargin = drag.getTop() - roundedDist;
@@ -538,7 +554,7 @@ OnTouchListener
 	{
 		switch (which)
 		{
-		case ID_RIGHT:
+		case R.id.overlay_right:
 
 			if (activeItem.getRight() + distance >= designArea.getWidth())
 			{
@@ -548,7 +564,7 @@ OnTouchListener
 			}
 			break;
 
-		case ID_LEFT:
+		case R.id.overlay_left:
 
 			if (activeItem.getLeft() - distance <= 0)
 			{
@@ -558,7 +574,7 @@ OnTouchListener
 			}
 			break;
 
-		case ID_TOP:
+		case R.id.overlay_top:
 
 			if (activeItem.getTop() - distance <= 0)
 			{
@@ -568,7 +584,7 @@ OnTouchListener
 			}
 			break;
 
-		case ID_BOTTOM:
+		case R.id.overlay_bottom:
 
 			if (activeItem.getBottom() + distance >= designArea.getHeight())
 			{
@@ -602,7 +618,7 @@ OnTouchListener
 		{
 		case DragEvent.ACTION_DRAG_STARTED:
 			
-			setOverlayVisibility(false); // Während des Drags ist kein Overlay
+			overlay.setVisibility(false); // Während des Drags ist kein Overlay
 			toggleGrid();// sichtbar.
 			return true;
 
@@ -618,7 +634,7 @@ OnTouchListener
 		case DragEvent.ACTION_DRAG_ENDED:
 			
 			setStyle(DragEvent.ACTION_DRAG_ENDED);
-			setOverlayVisibility(true); // das Overlay wird wieder angezeigt, da der Drag vorbei ist.
+			overlay.setVisibility(true); // das Overlay wird wieder angezeigt, da der Drag vorbei ist.
 			
 			isDragging = false;
 			toggleGrid();
@@ -639,6 +655,7 @@ OnTouchListener
 			{
 				
 			}
+			ImageButton drag = overlay.getDrag();
 			
 			int dropTargetX = checkCollisionX(event.getX());
 			int dropTargetY = checkCollisionY(event.getY());
@@ -678,9 +695,14 @@ OnTouchListener
 	{
 		synchronized (activeItem)
 		{
+			//final Drawable defaultBackground;
 			
 			switch (event)
 			{
+			case DragEvent.ACTION_DRAG_STARTED:
+				
+				//defaultBackground = activeItem.getBackground();
+				break;
 			case DragEvent.ACTION_DRAG_ENTERED:
 			case DragEvent.ACTION_DRAG_ENDED:
 
@@ -745,149 +767,6 @@ OnTouchListener
 		}
 		return offsetPos;
 	}
-
-	// TEMPORÄR-BÄR
-	private ImageButton drag;
-	private ImageButton left;
-	private ImageButton right;
-	private ImageButton bottom;
-	private ImageButton top;
-
-	private static final int ID_CENTER = (int) 78.75; // hihi
-	private static final int ID_TOP = 83;
-	private static final int ID_RIGHT = 73;
-	private static final int ID_BOTTOM = 90;
-	private static final int ID_LEFT = 69;
-
-	/**
-	 * Erstellt ein Overlay. Position des Overlays wird von dem derzeit aktiven
-	 * Element bestimmt. Die Flag <i>overlayActive</i> wird hier auf <b>true</b>
-	 * gesetzt. Touchlistener werden gesetzt und das Overlay wird sofort
-	 * angezeigt.
-	 */
-	private void setOverlay()
-	{
-
-		overlayActive = true;
-		RelativeLayout.LayoutParams modified = new RelativeLayout.LayoutParams(activeItem.getLayoutParams());
-
-		Log.d("params right", String.valueOf(activeItem.getRight()));
-		
-		// DRAG
-		drag = (ImageButton) inflater.inflate(R.layout.overlay_drag, null);
-		modified.leftMargin = activeItem.getLeft() + designArea.getLeft();
-		modified.topMargin = activeItem.getTop() + designArea.getTop();
-		modified.width = activeItem.getMeasuredWidth();
-		modified.height = activeItem.getMeasuredHeight();
-		//drag.setBackgroundResource(R.drawable.overlay_center_border);
-		drag.setId(ID_CENTER);
-		drag.setTag(OVERLAYTAG);
-		drag.setOnTouchListener(this);
-		parent.addView(drag, modified);
-
-		invalidate();
-
-		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		// RIGHT
-		right = (ImageButton) inflater.inflate(R.layout.overlay_handle_right, null);
-		right.setMinimumWidth(context.getResources().getDimensionPixelSize(R.dimen.default_overlay_handle_dimension));
-		modified.addRule(RelativeLayout.ALIGN_TOP, ID_CENTER);
-		modified.addRule(RelativeLayout.RIGHT_OF, ID_CENTER);
-		modified.addRule(RelativeLayout.ALIGN_BOTTOM, ID_CENTER);
-
-		right.setId(ID_RIGHT);
-		right.setTag(OVERLAYTAG);
-		right.setOnTouchListener(this);
-		parent.addView(right, modified);
-
-		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		// BOTTOM
-		bottom = (ImageButton) inflater.inflate(R.layout.overlay_handle_bottom, null);
-
-		bottom.setMinimumHeight(context.getResources().getDimensionPixelSize(R.dimen.default_overlay_handle_dimension));
-		modified.addRule(RelativeLayout.BELOW, ID_CENTER);
-		modified.addRule(RelativeLayout.ALIGN_LEFT, ID_CENTER);
-		modified.addRule(RelativeLayout.ALIGN_RIGHT, ID_CENTER);
-
-		bottom.setId(ID_BOTTOM);
-		bottom.setTag(OVERLAYTAG);
-		bottom.setOnTouchListener(this);
-		parent.addView(bottom, modified);
-
-		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		// LEFT
-		left = (ImageButton) inflater.inflate(R.layout.overlay_handle_left, null);
-
-		left.setMinimumWidth(context.getResources().getDimensionPixelSize(R.dimen.default_overlay_handle_dimension));
-		modified.addRule(RelativeLayout.LEFT_OF, bottom.getId());
-		modified.addRule(RelativeLayout.ALIGN_TOP, right.getId());
-		modified.addRule(RelativeLayout.ABOVE, bottom.getId());
-		left.setId(ID_LEFT);
-		left.setTag(OVERLAYTAG);
-		left.setOnTouchListener(this);
-		parent.addView(left, modified);
-
-		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		// TOP
-		top = (ImageButton) inflater.inflate(R.layout.overlay_handle_top, null);
-
-		top.setMinimumHeight(context.getResources().getDimensionPixelSize(R.dimen.default_overlay_handle_dimension));
-		modified.addRule(RelativeLayout.ABOVE, right.getId());
-		modified.addRule(RelativeLayout.LEFT_OF, right.getId());
-		modified.addRule(RelativeLayout.RIGHT_OF, left.getId());
-
-		top.setId(ID_TOP);
-		top.setTag(OVERLAYTAG);
-		top.setOnTouchListener(this);
-		parent.addView(top, modified);
-
-		invalidate();
-	}
-
-	/**
-	 * Bestimmt die Sichtbarkeit des Overlays. Das Overlay wird <b>Versteckt
-	 * </b>, jedoch <b>nicht Entfernt</b>.
-	 * 
-	 * @param visible
-	 *            legt die Sichtbarkeit des Overlays fest.
-	 */
-	private void setOverlayVisibility(boolean visible)
-	{
-		synchronized (designArea)
-		{
-				if (drag!=null)
-				{
-					setItemVisibility(drag, visible);
-					setItemVisibility(top, visible);
-					setItemVisibility(right, visible);
-					setItemVisibility(bottom, visible);
-					setItemVisibility(left, visible);
-				} 
-		}
-		
-	}
-
-	private void setItemVisibility(final View v, final boolean on)
-	{
-		v.post(new Runnable()
-		{
-			
-			@Override
-			public void run()
-			{
-				if (on)
-				{
-					v.setVisibility(View.VISIBLE);
-				}
-				else
-				{
-					v.setVisibility(View.INVISIBLE);
-				}
-				
-			}
-		});
-	}
-	
 	/**
 	 * Entfernt das Overlay komplett.
 	 * 
@@ -896,27 +775,19 @@ OnTouchListener
 	{
 		synchronized (parent)
 		{
-			if (overlayActive)
+			if (overlay.isActive())
 			{
-				parent.removeView(drag);
-				parent.removeView(left);
-				parent.removeView(right);
-				parent.removeView(top);
-				parent.removeView(bottom);
-				
-				drag = null;
-				left = null;
-				right = null;
-				top = null;
-				bottom = null;
+				overlay.delete();
 
 				dragIndicator = null;
-				overlayActive = false;
 				isDragging = false;
 			}
 		}
 	}
-	
+	/**
+	 * Called before and after dragging to show and hide the grid.
+	 * 
+	 */
 	private void toggleGrid()
 	{
 		synchronized (grid)
@@ -935,6 +806,8 @@ OnTouchListener
 	public interface onObjectSelectedListener 
 	{
 		void objectChanged(View view);
+		
+		void objectSelected(boolean selected);
 	}
 	
 	private static onObjectSelectedListener listener;

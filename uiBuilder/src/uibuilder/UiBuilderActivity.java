@@ -151,11 +151,24 @@ public class UiBuilderActivity extends Activity implements onUiElementSelectedLi
 	@Override
 	public void objectChanged(View view)
 	{
-		displaySidebar(EDITBOX);
+		//displaySidebar(EDITBOX);
 //		fManager.executePendingTransactions();
 		//FragmentTransaction fTransaction = fManager.beginTransaction();
-		editbox.adaptLayoutToContext(view);
+		//editbox.adaptLayoutToContext(view);
 		//fTransaction.commit();
+	}
+	@Override
+	public void objectSelected(boolean selected)
+	{
+		// TODO Auto-generated method stub
+		if (!selected)
+		{
+			displaySidebar(ITEMBOX);
+		}
+		else
+		{
+			displaySidebar(EDITBOX);
+		}
 	}
 
 }
