@@ -2,8 +2,9 @@
 <ImageButton xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" 
-    android:background="@drawable/overlay_center_border"
+    android:background="@drawable/overlay_states_center"
     
+    android:contentDescription="@string/overlay_desc"
     android:id="@+id/overlay_drag"
     >
     

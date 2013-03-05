@@ -412,7 +412,7 @@ OnTouchListener
 				ClipData clipData = new ClipData((CharSequence) i.toString(), new String[]
 				{ ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
 
-				activeItem.startDrag(clipData, new View.DragShadowBuilder(activeItem), null, 0);
+				activeItem.startDrag(clipData, new View.DragShadowBuilder(activeItem), activeItem, 0);
 				break;
 
 			case ID_RIGHT:

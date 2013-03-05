@@ -4,6 +4,7 @@
     android:layout_height="match_parent" 
     android:background="@drawable/overlay_states_right"
     
+    android:contentDescription="@string/overlay_desc"
     android:id="@+id/overlay_right"
 	android:alpha="@dimen/overlay_alpha"
     

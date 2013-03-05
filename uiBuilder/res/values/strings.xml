@@ -5,6 +5,8 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="design_choose_item_to_add">Choose the Item you want to add</string>
+    
+    <string name="overlay_desc">Handle for manipulation</string>
 
     <string-array name="itembox_items_string_array">
         <item>Button</item>
@@ -18,11 +20,20 @@
     </string-array>
 
     <string name="edittext_hint_default">Enter some text</string>
-    <string name="textview_content_default">Lorem Ipsum Dolor</string>
-    <string name="imageview_content_description">Generic Image</string>
+    
+    
     <string name="button_caption_default">Button</string>
     <string name="radios_caption_default">Option</string>
     <string name="item_edit_enter_text">Beschriftung des Objekts:</string>
+    
+    <!-- IMAGES -->
+    <string name="item_edit_choose_camera">From Camera</string>
+    <string name="item_edit_choose_gallery">From Gallery</string>
+    <string name="imageview_content_description">Generic Image</string>
+    
+    
+    <!-- TEXTELEMENT -->
+    <string name="textview_content_default">Lorem Ipsum Dolor</string>
     <string name="item_edit_align_content">Ausrichtung des Inhalts</string>
     <string name="item_edit_align_left">Links</string>
     <string name="item_edit_align_center">Mitte</string>

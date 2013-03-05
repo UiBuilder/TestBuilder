@@ -6,6 +6,7 @@
     
     android:id="@+id/overlay_top"
 	android:alpha="@dimen/overlay_alpha"
+    android:contentDescription="@string/overlay_desc"
     
     android:clickable="true"
     android:focusableInTouchMode="true"

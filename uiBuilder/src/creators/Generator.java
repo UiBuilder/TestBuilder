@@ -13,6 +13,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -194,9 +195,12 @@ public class Generator
 		return xmlPickerLayout;
 	}
 
-	private RelativeLayout buildRelativeContainer()
+	private LinearLayout buildRelativeContainer()
 	{
-		RelativeLayout relativeLayout = createContainer();
+		LinearLayout relativeLayout = new LinearLayout(context);
+		relativeLayout.setBackgroundResource(R.drawable.default_button_border);
+		relativeLayout.setOrientation(LinearLayout.HORIZONTAL);
+		
 		relativeLayout.setOnDragListener(new OnDragListener()
 		{
 			
@@ -221,7 +225,8 @@ public class Generator
 			      View view = (View) event.getLocalState();
 			      ViewGroup owner = (ViewGroup) view.getParent();
 			      owner.removeView(view);
-			      RelativeLayout container = (RelativeLayout) v;
+			      LinearLayout container = (LinearLayout) v;
+			      view.setLayoutParams(new LinearLayout.LayoutParams (LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 			      container.addView(view);
 			      
 			      break;

@@ -15,4 +15,6 @@
     <include layout="@layout/editmode_entry_align_content"/>
     
     <include layout="@layout/editmode_entry_item_count"/>
+    
+    <include layout="@layout/editmode_entry_choose_picture"/>
 </LinearLayout>
