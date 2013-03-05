@@ -30,6 +30,7 @@
     <string name="item_edit_choose_camera">From Camera</string>
     <string name="item_edit_choose_gallery">From Gallery</string>
     <string name="imageview_content_description">Generic Image</string>
+    <string name="item_edit_choose_caption">Choose Image</string>
     
     
     <!-- TEXTELEMENT -->

@@ -26,7 +26,7 @@
 
     <include
         android:id="@+id/editmode_included_choose_picture"
-        layout="@layout/editmode_entry_item_count"
+        layout="@layout/editmode_entry_choose_picture"
         android:visibility="gone" 
         
         />

@@ -2,7 +2,7 @@ package uibuilder;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -72,6 +72,57 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 		moduleEditText.setVisibility(View.VISIBLE);
 		moduleItemCount.setVisibility(View.VISIBLE);
 		modulePicture.setVisibility(View.VISIBLE);
+		
+		setupPictureModule();
+		setupAlignModule();
+		setupEdittextModule();
+		//and so on..
+	}
+
+	private void setupEdittextModule()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void setupAlignModule()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void setupPictureModule()
+	{
+		Button takePic = (Button) layoutView.findViewById(R.id.image_choose_camera);
+		takePic.setOnClickListener(new OnClickListener()
+		{
+			
+			@Override
+			public void onClick(View v)
+			{
+				// TODO Auto-generated method stub
+				
+				Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE); 
+		           startActivityForResult(cameraIntent, 1);
+				
+			}
+		});
+		
+		Button picFromGallery = (Button) layoutView.findViewById(R.id.image_choose_gallery);
+		picFromGallery.setOnClickListener(new OnClickListener()
+		{
+			
+			@Override
+			public void onClick(View v)
+			{
+				// TODO Auto-generated method stub
+				Intent intent = new Intent();
+				intent.setType("image/*");
+				intent.setAction(Intent.ACTION_GET_CONTENT);
+				startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+			}
+		});
+		
 	}
 
 	protected void adaptLayoutToContext(View view)

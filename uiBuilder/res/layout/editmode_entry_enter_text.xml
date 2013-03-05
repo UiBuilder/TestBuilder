@@ -7,13 +7,14 @@
     android:paddingBottom="20dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
-    android:paddingTop="10dp" 
-    >
+    android:paddingTop="10dp" >
 
-    <TextView style="@style/editbox_header"
+    <TextView
         android:id="@+id/enter_text"
+        style="@style/editbox_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="@dimen/default_padding_large"
         android:text="@string/item_edit_enter_text" />
 
     <LinearLayout
