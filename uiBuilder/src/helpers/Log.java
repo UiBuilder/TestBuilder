@@ -1,10 +1,10 @@
 package helpers;
 
-public class Log 
+public class Log
 {
 	private static final boolean DEBUGMODE = true;
-	
-	public static void d (String tag, String message)
+
+	public static void d(String tag, String message)
 	{
 		if (DEBUGMODE)
 		{

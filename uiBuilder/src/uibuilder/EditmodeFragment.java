@@ -2,6 +2,7 @@ package uibuilder;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +24,9 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 	private EditText editText;
 	private View currentView;
 
+	private LinearLayout moduleAlign, modulePicture, moduleEditText,
+			moduleItemCount;
+
 	@Override
 	public void onAttach(Activity activity)
 	{
@@ -34,7 +38,6 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 	public void onCreate(Bundle savedInstanceState)
 	{
 		Log.d("Editmode Fragment", "onCreate called");
-		// TODO Auto-generated method stub
 
 		super.onCreate(savedInstanceState);
 	}
@@ -44,67 +47,108 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 			Bundle savedInstanceState)
 	{
 		Log.d("Editmode Fragment", "onCreateView called");
+
 		this.inflater = inflater;
-		layoutView = inflater.inflate(R.layout.layout_editmode_fragment, container, false);
-		layout = (LinearLayout) layoutView.findViewById(R.id.fragment_editbox);
-		
-		submit = (Button)layout.findViewById(R.id.item_edit_edittext_submitbutton);
-		submit.setOnClickListener(this);
-		editText = (EditText)layoutView.findViewById(R.id.item_edit_edittext);
-		
-		LinearLayout a = (LinearLayout) layout.findViewById(R.id.editmode_entry_align_content);
-		
-		//layoutView.setOnClickListener(this);
+		if (layoutView == null)
+		{
+			layoutView = inflater.inflate(R.layout.layout_editmode_fragment, container, false);
+
+			getModules();
+
+			return layoutView;
+		}
+
 		return layoutView;
+	}
+
+	private void getModules()
+	{
+		moduleAlign = (LinearLayout) layoutView.findViewById(R.id.editmode_included_align_content);
+		moduleEditText = (LinearLayout) layoutView.findViewById(R.id.editmode_included_text);
+		modulePicture = (LinearLayout) layoutView.findViewById(R.id.editmode_included_choose_picture);
+		moduleItemCount = (LinearLayout) layoutView.findViewById(R.id.editmode_included_item_count);
+
+		moduleAlign.setVisibility(View.VISIBLE);
+		moduleEditText.setVisibility(View.VISIBLE);
+		moduleItemCount.setVisibility(View.VISIBLE);
+		modulePicture.setVisibility(View.VISIBLE);
 	}
 
 	protected void adaptLayoutToContext(View view)
 	{
+
 		int tag = (Integer.valueOf(view.getTag().toString()));
-		layout = (LinearLayout) layoutView;
-		
-		
+
+		resetModules();
+
 		currentView = view;
 		switch (tag)
 		{
 		case R.id.element_button:
+
+			moduleEditText.setVisibility(View.VISIBLE);
+			moduleAlign.setVisibility(View.VISIBLE);
+			break;
+
+		case R.id.element_checkbox:
+
+			//moduleItemCount.setVisibility(View.VISIBLE);
+			moduleEditText.setVisibility(View.VISIBLE);
+			break;
+
+		case R.id.element_edittext:
+			
+			moduleEditText.setVisibility(View.VISIBLE);
+			moduleAlign.setVisibility(View.VISIBLE);
+			//moduleTextSize.setVisibility(View.VISIBLE);
+			break;
+			
+		case R.id.element_imageview:
+			
+			modulePicture.setVisibility(View.VISIBLE);
+			break;
+			
+		case R.id.element_numberpick:
+			//moduleNothingToEdit.setVisibility(View.VISIBLE);
 			
 			break;
-		case R.id.element_checkbox:
-			layout.addView(inflater.inflate(R.layout.editmode_entry_enter_text, null));
-			layout.addView(inflater.inflate(R.layout.editmode_entry_item_count, null));
-			break;
-		case R.id.element_edittext:
-			layout.addView(inflater.inflate(R.layout.editmode_entry_enter_text, null));
-			break;
-		case R.id.element_imageview:
-			layout.addView(inflater.inflate(R.layout.editmode_entry_align_content, null));
-			break;
-		case R.id.element_numberpick:
-			break;
 		case R.id.element_radiogroup:
-			layout.addView(inflater.inflate(R.layout.editmode_entry_enter_text, null));
-			layout.addView(inflater.inflate(R.layout.editmode_entry_item_count, null));
+			moduleEditText.setVisibility(View.VISIBLE);
+			//moduleItemCount.setVisibility(View.VISIBLE);
 			break;
 		case R.id.element_ratingbar:
-			layout.addView(inflater.inflate(R.layout.editmode_entry_item_count, null));
 			break;
 		case R.id.element_search:
+			//moduleSearch.setVisibility(View.VISIBLE); collapsed etc
 			break;
 		case R.id.element_switch:
-			layout.addView(inflater.inflate(R.layout.editmode_entry_enter_text, null));
+			moduleEditText.setVisibility(View.VISIBLE);
 			break;
 		case R.id.element_textview:
-			layout.addView(inflater.inflate(R.layout.editmode_entry_enter_text, null));
-			layout.addView(inflater.inflate(R.layout.editmode_entry_align_content, null));
+			moduleEditText.setVisibility(View.VISIBLE);
+			moduleAlign.setVisibility(View.VISIBLE);
+			//moduleTextSize.setVisibility(View.VISIBLE);
 			break;
 		case R.id.element_timepicker:
 			break;
+
 		default:
 			break;
 		}
-		
+		layoutView.invalidate();
+	}
 
+	private void resetModules()
+	{
+		moduleAlign.setVisibility(View.GONE);
+		moduleEditText.setVisibility(View.GONE);
+		moduleItemCount.setVisibility(View.GONE);
+		modulePicture.setVisibility(View.GONE);
+
+		moduleAlign.invalidate();
+		moduleEditText.invalidate();
+		moduleItemCount.invalidate();
+		modulePicture.invalidate();
 	}
 
 	@Override

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/editmode_entry_item_count"
+    android:id="@+id/editmode_module_item_count"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/designarea_background"
     android:orientation="vertical"
+    android:paddingBottom="20dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
-    android:paddingTop="10dp"
-    android:paddingBottom="20dp">
+    android:paddingTop="10dp" >
 
     <TextView
         android:id="@+id/enter_item_count"
@@ -32,6 +33,7 @@
             android:layout_height="wrap_content"
             android:text="Set" />
     </LinearLayout>
-    
 
 </LinearLayout>
+
+<!-- DEPRECATED -->

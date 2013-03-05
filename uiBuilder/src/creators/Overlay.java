@@ -11,14 +11,15 @@ import android.widget.RelativeLayout;
 class Overlay
 {
 	public final static String OVERLAYTAG = "Overlay";
-	
-	public static void getOverlay(Context context, RelativeLayout root, View activeItem, OnTouchListener listener)
+
+	public static void getOverlay(Context context, RelativeLayout root,
+			View activeItem, OnTouchListener listener)
 	{
 		RelativeLayout.LayoutParams modified = new RelativeLayout.LayoutParams(activeItem.getLayoutParams());
 		int dragId = 1111;
 		Log.d("params left", String.valueOf(modified.leftMargin));
-		
-		//DRAG
+
+		// DRAG
 		Button drag = new Button(context);
 		modified.leftMargin = activeItem.getLeft();
 		modified.topMargin = activeItem.getTop();
@@ -30,9 +31,9 @@ class Overlay
 		drag.setOnTouchListener(listener);
 		root.addView(drag, modified);
 		root.requestLayout();
-		
+
 		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		//RIGHT
+		// RIGHT
 		Button right = new Button(context);
 		right.setBackgroundResource(android.R.color.holo_orange_light);
 		right.setAlpha(0.5f);
@@ -42,9 +43,9 @@ class Overlay
 		right.setId(1112);
 		right.setTag(OVERLAYTAG);
 		root.addView(right, modified);
-		
+
 		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		//BOTTOM
+		// BOTTOM
 		Button bottom = new Button(context);
 		bottom.setBackgroundResource(android.R.color.holo_orange_light);
 		bottom.setAlpha(0.5f);
@@ -54,9 +55,9 @@ class Overlay
 		bottom.setId(1113);
 		bottom.setTag(OVERLAYTAG);
 		root.addView(bottom, modified);
-		
+
 		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		//LEFT
+		// LEFT
 		Button left = new Button(context);
 		left.setBackgroundResource(android.R.color.holo_orange_light);
 		left.setAlpha(0.5f);
@@ -66,9 +67,9 @@ class Overlay
 		left.setId(1114);
 		left.setTag(OVERLAYTAG);
 		root.addView(left, modified);
-		
+
 		modified = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		//TOP
+		// TOP
 		Button top = new Button(context);
 		top.setBackgroundResource(android.R.color.holo_orange_light);
 		top.setAlpha(0.5f);
@@ -77,8 +78,8 @@ class Overlay
 		modified.addRule(RelativeLayout.RIGHT_OF, left.getId());
 		top.setTag(OVERLAYTAG);
 		root.addView(top, modified);
-		
-		root.requestLayout(); 
+
+		root.requestLayout();
 	}
 
 }

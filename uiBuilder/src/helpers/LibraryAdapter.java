@@ -15,15 +15,15 @@ public class LibraryAdapter extends BaseAdapter
 {
 	private Context c;
 	private String[] itemDescriptions;
-	
+
 	LayoutInflater inflater;
-	
+
 	public LibraryAdapter(Context c)
 	{
 		super();
 		this.c = c;
-		
-		inflater = (LayoutInflater)c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+		inflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		itemDescriptions = c.getResources().getStringArray(R.array.itembox_items_string_array);
 	}
 
@@ -52,21 +52,19 @@ public class LibraryAdapter extends BaseAdapter
 	public View getView(int pos, View convert, ViewGroup parent)
 	{
 		View gridItem;
-		
+
 		if (convert == null)
 		{
 			gridItem = new View(c);
-			
+
 			gridItem = inflater.inflate(R.layout.layout_itembox_item, null);
-			
+
 			TextView description = (TextView) gridItem.findViewById(R.id.itembox_gridItem_text);
 			description.setText(itemDescriptions[pos]);
-			
-			
-			
+
 			return gridItem;
 		}
-		
+
 		return null;
 	}
 

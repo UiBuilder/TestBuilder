@@ -22,12 +22,11 @@ public class Overlay
 	private Context context;
 	private LayoutInflater inflater;
 	private DesignFragment designFragment;
-	
+
 	private final String OVERLAYTAG = "Overlay";
 	int dragId;
 	private boolean overlayActive;
 
-	
 	public Overlay(RelativeLayout root, DesignFragment designFragment)
 	{
 		designArea = root;
@@ -36,7 +35,7 @@ public class Overlay
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.designFragment = designFragment;
 	}
-	
+
 	public void generate(View activeItem)
 	{
 		RelativeLayout.LayoutParams modified = new RelativeLayout.LayoutParams(activeItem.getLayoutParams());
@@ -44,7 +43,7 @@ public class Overlay
 		buildDrag(activeItem, modified);
 
 		invalidate();
-		
+
 		dragId = drag.getId();
 
 		// RIGHT
@@ -62,56 +61,61 @@ public class Overlay
 		invalidate();
 		overlayActive = true;
 	}
-	
 
 	/**
 	 * Bestimmt die Sichtbarkeit des Overlays. Das Overlay wird <b>Versteckt
 	 * </b>, jedoch <b>nicht Entfernt</b>.
 	 * 
-	 * @param visibility legt die Sichtbarkeit des Overlays fest.
+	 * @param visibility
+	 *            legt die Sichtbarkeit des Overlays fest.
 	 */
 	public void setVisibility(boolean visibility)
 	{
 		synchronized (designArea)
 		{
-				if (drag!=null)
-				{
-					setItemVisibility(drag, visibility);
-					setItemVisibility(top, visibility);
-					setItemVisibility(right, visibility);
-					setItemVisibility(bottom, visibility);
-					setItemVisibility(left, visibility);
-				} 
+			if (drag != null)
+			{
+				setItemVisibility(drag, visibility);
+				setItemVisibility(top, visibility);
+				setItemVisibility(right, visibility);
+				setItemVisibility(bottom, visibility);
+				setItemVisibility(left, visibility);
+			}
 		}
-		
+
 	}
+
 	/**
-	 * This method performs his method calls via the .post a runnable approach, to avoid a "concurrentModificationException"
-	 * caused by the frameworks inner implementation of the viewtree as a hashmap.
-	 * At the very moment when this method is called, there is already an iterator iterating over the collection causing the exception.
-	 * @param v the view which should be set
-	 * @param on the visibility that v should be set to
+	 * This method performs his method calls via the .post a runnable approach,
+	 * to avoid a "concurrentModificationException" caused by the frameworks
+	 * inner implementation of the viewtree as a hashmap. At the very moment
+	 * when this method is called, there is already an iterator iterating over
+	 * the collection causing the exception.
+	 * 
+	 * @param v
+	 *            the view which should be set
+	 * @param on
+	 *            the visibility that v should be set to
 	 */
 	private void setItemVisibility(final View v, final boolean on)
 	{
 		v.post(new Runnable()
 		{
-			
+
 			@Override
 			public void run()
 			{
 				if (on)
 				{
 					v.setVisibility(View.VISIBLE);
-				}
-				else
+				} else
 				{
 					v.setVisibility(View.INVISIBLE);
 				}
 			}
 		});
 	}
-	
+
 	/**
 	 * Entfernt das Overlay komplett.
 	 * 
@@ -127,7 +131,7 @@ public class Overlay
 				parent.removeView(right);
 				parent.removeView(top);
 				parent.removeView(bottom);
-				
+
 				drag = null;
 				left = null;
 				right = null;
@@ -142,7 +146,7 @@ public class Overlay
 	private void invalidate()
 	{
 		designArea.forceLayout();
-		
+
 	}
 
 	private void buildTop(RelativeLayout.LayoutParams modified)
@@ -153,7 +157,6 @@ public class Overlay
 		modified.addRule(RelativeLayout.ABOVE, right.getId());
 		modified.addRule(RelativeLayout.LEFT_OF, right.getId());
 		modified.addRule(RelativeLayout.RIGHT_OF, left.getId());
-
 
 		top.setTag(OVERLAYTAG);
 		top.setOnTouchListener(designFragment);
@@ -210,7 +213,6 @@ public class Overlay
 		modified.topMargin = activeItem.getTop() + designArea.getTop();
 		modified.width = activeItem.getMeasuredWidth();
 		modified.height = activeItem.getMeasuredHeight();
-
 
 		drag.setTag(OVERLAYTAG);
 		drag.setOnTouchListener(designFragment);

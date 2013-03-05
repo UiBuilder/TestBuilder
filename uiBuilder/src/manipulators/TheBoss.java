@@ -33,7 +33,6 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	private View activeItem;
 	private ObjectFactory factory;
 	private RelativeLayout root, parent;
-	
 
 	private GestureDetector detector;
 	private final String OVERLAYTAG = "Overlay";
@@ -41,12 +40,12 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	private boolean isDragging;
 	boolean overlayActive = false;
 	private View currentTouch;
-	
+
 	private Grid grid;
 	public static final int SNAP_GRID_INTERVAL = 25;
 
-	/**@deprecated DESIGNFRAGMENT IS NOW BOSS
-	 * KONSTRUKTOR
+	/**
+	 * @deprecated DESIGNFRAGMENT IS NOW BOSS KONSTRUKTOR
 	 * 
 	 * @param context
 	 *            reference to activity
@@ -66,11 +65,11 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		isDragging = false;
 		activeItem = null;
 		snapMode = true;
-		
+
 		grid = new Grid(context, SNAP_GRID_INTERVAL);
 		grid.setLayoutParams(root.getLayoutParams());
 		parent.addView(grid);
-		
+
 		toggleGrid();
 
 		helpers.Log.d("measure designarea", String.valueOf(root.getMeasuredWidth()));
@@ -222,12 +221,12 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		if (activeItem == null && !overlayActive && nextObjectId != 0)
 		{
 			View newOne = (View) factory.getElement(nextObjectId);
-			
+
 			activeItem = newOne;
-			
+
 			int targetX = checkCollisionX(clickPosX);
-			int targetY	= checkCollisionY(clickPosY);
-			
+			int targetY = checkCollisionY(clickPosY);
+
 			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) newOne.getLayoutParams();
 
 			params.leftMargin = snapToGrid(targetX);
@@ -340,7 +339,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	{
 		RelativeLayout.LayoutParams dragParams = (RelativeLayout.LayoutParams) drag.getLayoutParams();
 		RelativeLayout.LayoutParams itemParams = (RelativeLayout.LayoutParams) activeItem.getLayoutParams();
-		
+
 		float distance;
 		int roundedDist;
 
@@ -348,52 +347,56 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		{
 		case ID_RIGHT:
 			distance = now.getX() - start.getX();
-			
+
 			roundedDist = checkCollision(distance, ID_RIGHT);
 			roundedDist = snapToGrid(roundedDist);
 
-			itemParams.width = dragParams.width = activeItem.getMeasuredWidth() + roundedDist;
+			itemParams.width = dragParams.width = activeItem.getMeasuredWidth()
+					+ roundedDist;
 			itemParams.height = dragParams.height = activeItem.getMeasuredHeight();
-			
+
 			break;
 
 		case ID_LEFT:
 			distance = start.getX() - now.getX();
-			
+
 			roundedDist = checkCollision(distance, ID_LEFT);
 			roundedDist = snapToGrid(roundedDist);
-			
+
 			dragParams.leftMargin = drag.getLeft() - roundedDist;
 			itemParams.leftMargin = activeItem.getLeft() - roundedDist;
-			
-			itemParams.width = dragParams.width = activeItem.getMeasuredWidth() + roundedDist;
+
+			itemParams.width = dragParams.width = activeItem.getMeasuredWidth()
+					+ roundedDist;
 			itemParams.height = dragParams.height = activeItem.getMeasuredHeight();
-			
+
 			break;
 
 		case ID_BOTTOM:
 			distance = now.getY() - start.getY();
-			
+
 			roundedDist = checkCollision(distance, ID_BOTTOM);
 			roundedDist = snapToGrid(roundedDist);
 
 			itemParams.width = dragParams.width = activeItem.getMeasuredWidth();
-			itemParams.height = dragParams.height = activeItem.getMeasuredHeight() + roundedDist;
-			
+			itemParams.height = dragParams.height = activeItem.getMeasuredHeight()
+					+ roundedDist;
+
 			break;
 
 		case ID_TOP:
 			distance = start.getY() - now.getY();
-			
+
 			roundedDist = checkCollision(distance, ID_TOP);
 			roundedDist = snapToGrid(roundedDist);
 
 			dragParams.topMargin = drag.getTop() - roundedDist;
 			itemParams.topMargin = activeItem.getTop() - roundedDist;
-			
+
 			itemParams.width = dragParams.width = activeItem.getMeasuredWidth();
-			itemParams.height = dragParams.height = activeItem.getMeasuredHeight() + roundedDist;
-			
+			itemParams.height = dragParams.height = activeItem.getMeasuredHeight()
+					+ roundedDist;
+
 			break;
 
 		default:
@@ -470,77 +473,81 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		synchronized (activeItem)
 		{
 
-		switch (event.getAction())
-		{
-		case DragEvent.ACTION_DRAG_STARTED:
-			
-			setOverlayVisibility(false); // Während des Drags ist kein Overlay
-			toggleGrid();// sichtbar.
-			return true;
+			switch (event.getAction())
+			{
+			case DragEvent.ACTION_DRAG_STARTED:
 
-		case DragEvent.ACTION_DRAG_ENTERED:
-			
-			setStyle(DragEvent.ACTION_DRAG_ENTERED);
-			
-			break;
+				setOverlayVisibility(false); // Während des Drags ist kein
+												// Overlay
+				toggleGrid();// sichtbar.
+				return true;
 
-		case DragEvent.ACTION_DRAG_LOCATION:
-			break;
+			case DragEvent.ACTION_DRAG_ENTERED:
 
-		case DragEvent.ACTION_DRAG_ENDED:
-			
-			setStyle(DragEvent.ACTION_DRAG_ENDED);
-			setOverlayVisibility(true); // das Overlay wird wieder angezeigt, da der Drag vorbei ist.
-			
-			isDragging = false;
-			toggleGrid();
-			
-			break;
+				setStyle(DragEvent.ACTION_DRAG_ENTERED);
 
-		case DragEvent.ACTION_DRAG_EXITED:
-			setStyle(DragEvent.ACTION_DRAG_EXITED);
-			break;
+				break;
 
-		case DragEvent.ACTION_DROP:
+			case DragEvent.ACTION_DRAG_LOCATION:
+				break;
 
-			int dropTargetX = checkCollisionX(event.getX());
-			int dropTargetY = checkCollisionY(event.getY());
+			case DragEvent.ACTION_DRAG_ENDED:
 
-			// Positionen werden ausgelesen und zugewiesen. Objekte werden an
-			// ihre Zielposition verschoben und das Overlay bekommt neue
-			// Koordinaten.
-			RelativeLayout.LayoutParams activeParams = (RelativeLayout.LayoutParams) activeItem.getLayoutParams();
-			RelativeLayout.LayoutParams dragParams = (RelativeLayout.LayoutParams) drag.getLayoutParams();
-			
-			dragParams.leftMargin = snapToGrid(dropTargetX) + root.getLeft();
-			dragParams.topMargin = snapToGrid(dropTargetY) + root.getTop();
-			dragParams.width = activeItem.getMeasuredWidth();
-			dragParams.height = activeItem.getMeasuredHeight();
-			drag.setLayoutParams(dragParams);
-			
-			
-			activeParams.leftMargin = snapToGrid(dropTargetX);
-			activeParams.topMargin = snapToGrid(dropTargetY);
-			activeItem.setLayoutParams(activeParams);
+				setStyle(DragEvent.ACTION_DRAG_ENDED);
+				setOverlayVisibility(true); // das Overlay wird wieder
+											// angezeigt, da der Drag vorbei
+											// ist.
 
-			return true;
+				isDragging = false;
+				toggleGrid();
+
+				break;
+
+			case DragEvent.ACTION_DRAG_EXITED:
+				setStyle(DragEvent.ACTION_DRAG_EXITED);
+				break;
+
+			case DragEvent.ACTION_DROP:
+
+				int dropTargetX = checkCollisionX(event.getX());
+				int dropTargetY = checkCollisionY(event.getY());
+
+				// Positionen werden ausgelesen und zugewiesen. Objekte werden
+				// an
+				// ihre Zielposition verschoben und das Overlay bekommt neue
+				// Koordinaten.
+				RelativeLayout.LayoutParams activeParams = (RelativeLayout.LayoutParams) activeItem.getLayoutParams();
+				RelativeLayout.LayoutParams dragParams = (RelativeLayout.LayoutParams) drag.getLayoutParams();
+
+				dragParams.leftMargin = snapToGrid(dropTargetX)
+						+ root.getLeft();
+				dragParams.topMargin = snapToGrid(dropTargetY) + root.getTop();
+				dragParams.width = activeItem.getMeasuredWidth();
+				dragParams.height = activeItem.getMeasuredHeight();
+				drag.setLayoutParams(dragParams);
+
+				activeParams.leftMargin = snapToGrid(dropTargetX);
+				activeParams.topMargin = snapToGrid(dropTargetY);
+				activeItem.setLayoutParams(activeParams);
+
+				return true;
 			}
-			
-		
-		return true; // EVTL FEHLERQUELLE: RETURNS ALWAYS TRUE
+
+			return true; // EVTL FEHLERQUELLE: RETURNS ALWAYS TRUE
 		}
 	}
-	
+
 	private int snapToGrid(int pos)
 	{
-		return Math.round((float) pos / SNAP_GRID_INTERVAL) * SNAP_GRID_INTERVAL;
+		return Math.round((float) pos / SNAP_GRID_INTERVAL)
+				* SNAP_GRID_INTERVAL;
 	}
 
 	private void setStyle(int event)
 	{
 		synchronized (activeItem)
 		{
-			
+
 			switch (event)
 			{
 			case DragEvent.ACTION_DRAG_ENTERED:
@@ -568,9 +575,11 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	 */
 	private int checkCollisionY(float dropPosY)
 	{
-		int offsetPos = Math.round(dropPosY - activeItem.getMeasuredHeight()/2);
+		int offsetPos = Math.round(dropPosY - activeItem.getMeasuredHeight()
+				/ 2);
 
-		int maxPos = Math.round(root.getMeasuredHeight() - activeItem.getMeasuredHeight());
+		int maxPos = Math.round(root.getMeasuredHeight()
+				- activeItem.getMeasuredHeight());
 		int minPos = 0;
 
 		if (offsetPos <= minPos)
@@ -594,7 +603,8 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	{
 		int offsetPos = Math.round(dropPosX - activeItem.getMeasuredWidth() / 2);
 
-		int maxPos = Math.round(root.getMeasuredWidth() - activeItem.getMeasuredWidth());
+		int maxPos = Math.round(root.getMeasuredWidth()
+				- activeItem.getMeasuredWidth());
 		int minPos = 0;
 
 		if (offsetPos <= minPos)
@@ -634,7 +644,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 		RelativeLayout.LayoutParams modified = new RelativeLayout.LayoutParams(activeItem.getLayoutParams());
 
 		Log.d("params right", String.valueOf(activeItem.getRight()));
-		
+
 		// DRAG
 		drag = new ImageButton(context);
 		modified.leftMargin = activeItem.getLeft() + root.getLeft();
@@ -725,39 +735,38 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 	{
 		synchronized (root)
 		{
-				if (drag!=null)
-				{
-					setItemVisibility(drag, visible);
-					setItemVisibility(top, visible);
-					setItemVisibility(right, visible);
-					setItemVisibility(bottom, visible);
-					setItemVisibility(left, visible);
-				} 
+			if (drag != null)
+			{
+				setItemVisibility(drag, visible);
+				setItemVisibility(top, visible);
+				setItemVisibility(right, visible);
+				setItemVisibility(bottom, visible);
+				setItemVisibility(left, visible);
+			}
 		}
-		
+
 	}
 
 	private void setItemVisibility(final View v, final boolean on)
 	{
 		v.post(new Runnable()
 		{
-			
+
 			@Override
 			public void run()
 			{
 				if (on)
 				{
 					v.setVisibility(View.VISIBLE);
-				}
-				else
+				} else
 				{
 					v.setVisibility(View.INVISIBLE);
 				}
-				
+
 			}
 		});
 	}
-	
+
 	/**
 	 * Entfernt das Overlay komplett.
 	 * 
@@ -773,7 +782,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 				parent.removeView(right);
 				parent.removeView(top);
 				parent.removeView(bottom);
-				
+
 				drag = null;
 				left = null;
 				right = null;
@@ -786,7 +795,7 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			}
 		}
 	}
-	
+
 	private void toggleGrid()
 	{
 		synchronized (grid)
@@ -794,12 +803,11 @@ public class TheBoss implements OnDragListener, OnGestureListener,
 			if (grid.getVisibility() == View.INVISIBLE)
 			{
 				grid.setVisibility(View.VISIBLE);
-			}
-			else
+			} else
 			{
 				grid.setVisibility(View.INVISIBLE);
 			}
 		}
-		
+
 	}
 }

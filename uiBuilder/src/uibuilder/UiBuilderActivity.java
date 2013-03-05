@@ -3,16 +3,18 @@ package uibuilder;
 import uibuilder.DesignFragment.onObjectSelectedListener;
 import uibuilder.ItemboxFragment.onUiElementSelectedListener;
 import android.app.Activity;
-import android.app.AlertDialog.Builder;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import de.ur.rk.uibuilder.R;
 
-public class UiBuilderActivity extends Activity implements onUiElementSelectedListener, onObjectSelectedListener
+public class UiBuilderActivity extends Activity implements
+		onUiElementSelectedListener, onObjectSelectedListener
 {
 
 	@Override
@@ -28,146 +30,100 @@ public class UiBuilderActivity extends Activity implements onUiElementSelectedLi
 	private EditmodeFragment editbox;
 	private DesignFragment designbox;
 	private FragmentManager fManager;
-	
-	
+	private ViewGroup container;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_fragment_container);
+
+		LayoutInflater inf = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+
+		container = (ViewGroup) inf.inflate(R.layout.layout_fragment_container, null);
 		fManager = getFragmentManager();
-		
+
+		setupUi();
+
+	}
+
+	/**
+	 * 
+	 */
+	private void setupUi()
+	{
 		itembox = new ItemboxFragment();
 		editbox = new EditmodeFragment();
 		designbox = new DesignFragment();
-		FragmentTransaction fTransaction = fManager.beginTransaction();
-
-		fTransaction.add(R.id.fragment_sidebar, editbox);
-		fTransaction.hide(editbox);
-		fTransaction.commit();
-		FragmentTransaction fTransaction2 = fManager.beginTransaction();
-
-		fTransaction2.add(R.id.fragment_sidebar, itembox);
-		fTransaction2.add(R.id.fragment_design, designbox);
-		fTransaction2.commit();
-		
 
 		ItemboxFragment.setOnUiElementSelectedListener(this);
 		DesignFragment.setOnObjectSelectedListener(this);
-	}
-	public void displaySidebar(int sidebarType){
-		Log.d("DisplaySidebar", "is Called");
-		FragmentTransaction fTransaction = fManager.beginTransaction();
 
-		switch (sidebarType){
+		FragmentTransaction init = fManager.beginTransaction();
+		init.add(R.id.fragment_sidebar, editbox);
+		init.add(R.id.fragment_sidebar, itembox);
+		init.add(R.id.fragment_design, designbox);
+		
+		init.hide(editbox);
+		init.commit();
+	}
+
+	public void displaySidebar(int sidebarType)
+	{
+		Log.d("DisplaySidebar", "is Called");
+		FragmentTransaction swapper = fManager.beginTransaction();
+
+		switch (sidebarType)
+		{
 		case ITEMBOX:
+
 			Log.d("switched sideBarType", "result Itembox, replacing");
-			fTransaction.replace(R.id.fragment_sidebar, itembox);
-			fTransaction.hide(editbox);
+
+			swapper.hide(editbox);
+			swapper.show(itembox);
 			break;
+
 		case EDITBOX:
 			Log.d("switched sideBarType", "result Editbox, replacing");
 
-			fTransaction.replace(R.id.fragment_sidebar, editbox);
-			fTransaction.show(editbox);
+			swapper.hide(itembox);
+			swapper.show(editbox);
+			//swapper.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
 			break;
 		}
-		
-		//findViewById(R.id.fragment_sidebar).setVisibility(View.VISIBLE);
-		//fTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-		fTransaction.addToBackStack(null);
-		fTransaction.commit();
+		swapper.addToBackStack(null);
+		swapper.commit();
 	}
-	
+
 	/**
 	 * implemented Interface onUiElementSelected
 	 */
 	@Override
 	public void typeChanged(int id)
 	{
-		
 		designbox.setSelection(id);
 	}
 
 	@Override
-	protected void onDestroy()
-	{
-		// TODO Auto-generated method stub
-		super.onDestroy();
-	}
-
-	@Override
-	protected void onPause()
-	{
-		// TODO Auto-generated method stub
-		super.onPause();
-	}
-
-	@Override
-	protected void onRestart()
-	{
-		// TODO Auto-generated method stub
-		super.onRestart();
-	}
-
-	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState)
-	{
-		// TODO Auto-generated method stub
-		super.onRestoreInstanceState(savedInstanceState);
-	}
-
-	@Override
-	protected void onResume()
-	{
-		// TODO Auto-generated method stub
-		super.onResume();
-	}
-
-	@Override
-	protected void onStart()
-	{
-		// TODO Auto-generated method stub
-		super.onStart();
-		//measure();
-	}
-
-	@Override
-	protected void onStop()
-	{
-		// TODO Auto-generated method stub
-		super.onStop();
-	}
-
-	protected Builder createItemChooseDialog()
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void test()
-	{
-	}
-	@Override
 	public void objectChanged(View view)
 	{
-		//displaySidebar(EDITBOX);
-//		fManager.executePendingTransactions();
-		//FragmentTransaction fTransaction = fManager.beginTransaction();
-		//editbox.adaptLayoutToContext(view);
-		//fTransaction.commit();
+		lastTouch = view;
 	}
+
+	private View lastTouch;
+
 	@Override
 	public void objectSelected(boolean selected)
 	{
-		// TODO Auto-generated method stub
+
 		if (!selected)
 		{
 			displaySidebar(ITEMBOX);
-		}
+		} 
 		else
 		{
 			displaySidebar(EDITBOX);
+			editbox.adaptLayoutToContext(lastTouch);
 		}
 	}
 
