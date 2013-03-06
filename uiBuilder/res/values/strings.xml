@@ -32,6 +32,8 @@
     <string name="imageview_content_description">Generic Image</string>
     <string name="item_edit_choose_caption">Choose Image</string>
     
+    <string name="album_name">uiBuilder</string>
+    
     
     <!-- TEXTELEMENT -->
     <string name="textview_content_default">Lorem Ipsum Dolor</string>
