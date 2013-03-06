@@ -255,10 +255,11 @@ public class EditmodeFragment extends Fragment
 		switch (tag)
 		{
 		case R.id.element_button:
-
 			moduleEditText.setVisibility(View.VISIBLE);
 			moduleAlign.setVisibility(View.VISIBLE);
+			moduleChangeSize.setVisibility(View.VISIBLE);
 			editText.setText(getViewText(currentView));
+			editSize.setText(String.valueOf((int)((TextView)currentView).getTextSize()));
 
 			break;
 
