@@ -35,7 +35,7 @@ public class ItemboxFragment extends Fragment implements OnClickListener,
 			Bundle savedInstanceState)
 	{
 		layout = inflater.inflate(R.layout.layout_itembox_fragment, container, false);
-
+	
 		setupLibraryUi();
 		return layout;
 	}
