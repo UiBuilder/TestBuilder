@@ -1,5 +1,10 @@
 package uibuilder;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.ActivityNotFoundException;
@@ -32,37 +37,70 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 		if (resultCode == Activity.RESULT_OK && requestCode == ImageModuleListener.CAMERA)
 		{
 			path = data.getData();
-			
+			String path2 = path.getPath();
+ 			
 			Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+
 	        
 	       ((ImageView) currentView).setImageBitmap(thumbnail);
-			//performCrop();
+		}
+		
+		if (resultCode == Activity.RESULT_OK && requestCode == ImageModuleListener.GALLERY)
+		{
+			
 		}
 		
 		
 		super.onActivityResult(requestCode, resultCode, data);
 	}
-
-	public void performCrop()
-	{
-		// TODO Auto-generated method stub
-		Intent cropIntent = new Intent("com.android.camera.action.CROP");
-
-		cropIntent.setDataAndType(path, "image/*");
-
-		//cropIntent.putExtra("crop", "true");
-
-		cropIntent.putExtra("aspectX", 0);
-		cropIntent.putExtra("aspectY", 0);
-		cropIntent.putExtra("outputX", 256);
-		cropIntent.putExtra("outputY", 256);
-		cropIntent.putExtra("return-data", false);
-		cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, path);
-		cropIntent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-		//cropIntent.putExtra("return-data", true);
-
-		startActivityForResult(cropIntent, ImageModuleListener.CROP);
+//IN PROGRESS
+	/* Photo album for this application */
+/*	private String getAlbumName() {
+		return getString(R.string.album_name);
 	}
+
+	
+	private File getAlbumDir() {
+		File storageDir = null;
+
+		if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+			
+			storageDir = mAlbumStorageDirFactory.getAlbumStorageDir(getAlbumName());
+
+			if (storageDir != null) {
+				if (! storageDir.mkdirs()) {
+					if (! storageDir.exists()){
+						Log.d("CameraSample", "failed to create directory");
+						return null;
+					}
+				}
+			}
+			
+		} else {
+			Log.v(getString(R.string.app_name), "External storage is not mounted READ/WRITE.");
+		}
+		
+		return storageDir;
+	}
+
+	private File createImageFile() throws IOException {
+		// Create an image file name
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+		String imageFileName = JPEG_FILE_PREFIX + timeStamp + "_";
+		File albumF = getAlbumDir();
+		File imageF = File.createTempFile(imageFileName, JPEG_FILE_SUFFIX, albumF);
+		return imageF;
+	}
+
+	private File setUpPhotoFile() throws IOException {
+		
+		File f = createImageFile();
+		mCurrentPhotoPath = f.getAbsolutePath();
+		
+		return f;
+	}
+	*/
+
 
 	private View layoutView;
 	private LinearLayout layout;
