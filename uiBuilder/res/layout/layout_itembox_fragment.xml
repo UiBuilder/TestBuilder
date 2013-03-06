@@ -18,42 +18,12 @@
             layout="@layout/itembox_entry_simple"
             android:id="@+id/itembox_entry_simple_container"
             />
+        
+        <include 
+            layout="@layout/itembox_entry_complex"
+            android:id="@+id/itembox_entry_complex_container"
+            />
 
-        <Button
-            android:id="@+id/element_radiogroup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="neue Radiogroup" />
-        
-        <Button
-            android:id="@+id/element_switch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="neuer switch" />
-        
-        <Button
-            android:id="@+id/element_checkbox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="neue checkbox" />
-        
-        <Button
-            android:id="@+id/element_search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="neue searchbox" />
-        
-        <Button
-            android:id="@+id/element_numberpick"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="neuer Numberpick" />
-        
-        <Button
-            android:id="@+id/element_ratingbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="neues rating" />
         
         <Button
             android:id="@+id/element_seekbar"

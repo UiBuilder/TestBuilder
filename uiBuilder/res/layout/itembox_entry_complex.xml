@@ -6,20 +6,20 @@
     android:padding="@dimen/default_padding_medium"
     >
 
-    <TextView android:id="@+id/itembox_entry_simple_title"
+    <TextView android:id="@+id/itembox_entry_complex_title"
         android:layout_width="match_parent"
     	android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:paddingTop="@dimen/default_padding_small"
         android:paddingBottom="@dimen/default_padding_small"
-        android:text="@string/itembox_simple_title"
+        android:text="@string/itembox_complex_title"
         style="@style/editbox_header"
         />
     
     <TableLayout android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/itembox_entry_simple_title"
+        android:layout_below="@id/itembox_entry_complex_title"
         
         >
         <TableRow 
@@ -30,32 +30,33 @@
 			
             >
             
-	        <Button
-	            android:id="@+id/element_button"
-	            android:layout_width="0dp"
-	            android:layout_height="match_parent"
-	            android:layout_weight="1"
-	            android:text="@string/itembox_simple_element_caption_button" 
-	            style="@style/itembox_items"
-	            />
-	        
-	        <Button
-	            android:id="@+id/element_textview"
-	            android:layout_width="0dp"
-	            android:layout_height="match_parent"
-	            android:layout_weight="1"
-	            android:text="@string/itembox_simple_element_caption_textview" 
-	            style="@style/itembox_items"
-	            />
-	        
-	         <Button
-	            android:id="@+id/element_imageview"
-	            android:layout_width="0dp"
-	            android:layout_height="match_parent"
-	            android:layout_weight="1"
-	            android:text="@string/itembox_simple_element_caption_imageview" 
-	            style="@style/itembox_items"
-	            />
+            <Button
+            android:id="@+id/element_radiogroup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/itembox_complex_element_caption_radio" 
+            style="@style/itembox_items"
+            />
+        
+       		 <Button
+            android:id="@+id/element_switch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/itembox_complex_element_caption_switch"
+            style="@style/itembox_items"
+             />
+        
+        	<Button
+            android:id="@+id/element_checkbox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/itembox_complex_element_caption_checkbox"
+            style="@style/itembox_items"
+             />
+
              
         </TableRow>
         
@@ -68,32 +69,30 @@
             >
 	       	
             <Button
-            android:id="@+id/element_edittext"
+            android:id="@+id/element_search"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/itembox_simple_element_caption_edittext" 
-            
+            android:text="@string/itembox_complex_element_caption_search" 
             style="@style/itembox_items"
             />
-            
-            <Button
-            android:id="@+id/element_container"
+        
+        	<Button
+            android:id="@+id/element_numberpick"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/itembox_simple_element_caption_container" 
+            android:text="@string/itembox_complex_element_caption_numberpick" 
             style="@style/itembox_items"
             />
-            
-            <Button
-            
+        
+        	<Button
+            android:id="@+id/element_ratingbar"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            
+            android:text="@string/itembox_complex_element_caption_ratingbar" 
             style="@style/itembox_items"
-            android:visibility="invisible"
             />
             
        	 </TableRow>

@@ -26,8 +26,20 @@
     <string name="itembox_simple_element_caption_button">Button</string>
     <string name="itembox_simple_element_caption_imageview">Image</string>
     <string name="itembox_simple_element_caption_textview">Text</string>
+    
     <string name="itembox_simple_element_caption_edittext">Edit Text</string>
     <string name="itembox_simple_element_caption_container">Container</string>
+    
+    <!-- ITEMBOX COMPLEX ELEMENTS -->
+    <string name="itembox_complex_title">Complex Elements</string>
+    <string name="itembox_complex_element_caption_radio">Radiobutton</string>
+    <string name="itembox_complex_element_caption_switch">Switch</string>
+    <string name="itembox_complex_element_caption_checkbox">Checkbox</string>
+    
+    <string name="itembox_complex_element_caption_search">Search</string>
+    <string name="itembox_complex_element_caption_numberpick">Picker</string>
+    <string name="itembox_complex_element_caption_ratingbar">Rating</string>
+    
     
     
     <string name="button_caption_default">Button</string>
