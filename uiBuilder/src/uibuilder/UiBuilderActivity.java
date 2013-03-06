@@ -48,7 +48,7 @@ public class UiBuilderActivity extends Activity implements
 	}
 
 	/**
-	 * 
+	 * Create UI-Fragment instances and set the activity as listener for changes
 	 */
 	private void setupUi()
 	{
@@ -59,6 +59,15 @@ public class UiBuilderActivity extends Activity implements
 		ItemboxFragment.setOnUiElementSelectedListener(this);
 		DesignFragment.setOnObjectSelectedListener(this);
 
+		performInitTransaction();
+	}
+
+	/**
+	 * Initial fragmenttransaction to display the fragments.
+	 * Editbox is added but hidden to guarantee access
+	 */
+	private void performInitTransaction()
+	{
 		FragmentTransaction init = fManager.beginTransaction();
 		init.add(R.id.fragment_sidebar, editbox);
 		init.add(R.id.fragment_sidebar, itembox);
@@ -68,6 +77,12 @@ public class UiBuilderActivity extends Activity implements
 		init.commit();
 	}
 
+	/**
+	 * Adapt the sidebar to create or edit mode.
+	 * Is called from the interface implementation.
+	 * @param sidebarType specifies which of the sidebars to display
+	 */
+	
 	public void displaySidebar(int sidebarType)
 	{
 		Log.d("DisplaySidebar", "is Called");
@@ -95,15 +110,22 @@ public class UiBuilderActivity extends Activity implements
 		swapper.commit();
 	}
 
-	/**
-	 * implemented Interface onUiElementSelected
+	/**Interface onUiElementSelected method
+	 * 
+	 * implemented to notify the designbox of the chosen type
+	 * of interface element.
 	 */
 	@Override
 	public void typeChanged(int id)
 	{
 		designbox.setSelection(id);
 	}
-
+	
+	/**Interface onObjectSelected method
+	 * 
+	 * sets a reference to the object in progress
+	 * @param view the selected view
+	 */
 	@Override
 	public void objectChanged(View view)
 	{
@@ -112,6 +134,10 @@ public class UiBuilderActivity extends Activity implements
 
 	private View lastTouch;
 
+	
+	/**
+	 * 
+	 */
 	@Override
 	public void objectSelected(boolean selected)
 	{

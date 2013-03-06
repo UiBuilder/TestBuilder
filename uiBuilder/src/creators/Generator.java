@@ -54,54 +54,69 @@ public class Generator
 	protected View generate(int id)
 	{
 		View xmlView;
+		RelativeLayout.LayoutParams params =
+		null;
+		
 		switch (id)
 		{
 		case R.id.element_button:
 			xmlView = buildButton();
+			params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			break;
 
 		case R.id.element_textview:
 			xmlView = buildTextview();
+			params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			break;
 
 		case R.id.element_imageview:
 			xmlView = buildImageView();
+			params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			break;
 
 		case R.id.element_edittext:
 			xmlView = buildEditText();
+			params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			break;
 
 		case R.id.element_radiogroup:
 			xmlView = buildRadioButtons();
+			params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			break;
 
 		case R.id.element_switch:
 			xmlView = buildSwitch();
+			params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			break;
 
 		case R.id.element_checkbox:
 			xmlView = buildCheckBox();
+			params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			break;
 
 		case R.id.element_search:
 			xmlView = buildSearchView();
+			params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			break;
 
 		case R.id.element_numberpick:
 			xmlView = buildNumberPicker();
+			params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			break;
 
 		case R.id.element_ratingbar:
 			xmlView = buildRatingBar();
+			params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			break;
 
 		case R.id.element_seekbar:
 			xmlView = buildSeekBar();
+			params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			break;
 
 		case R.id.element_timepicker:
 			xmlView = buildTimePicker();
+			params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			break;
 
 		case R.id.element_container:
@@ -111,6 +126,8 @@ public class Generator
 		default:
 			throw new NoClassDefFoundError();
 		}
+		
+		xmlView.setLayoutParams(params);
 		xmlView.setOnTouchListener(manipulator);
 		xmlView.setId(idCount++);
 		xmlView.setTag(id);
@@ -136,9 +153,6 @@ public class Generator
 		xmlTimePicker.setLayoutParams(pickerparams);
 		xmlTimePickerContainer.addView(xmlTimePicker);
 
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		xmlTimePickerContainer.setLayoutParams(params);
-
 		return xmlTimePickerContainer;
 	}
 
@@ -152,9 +166,6 @@ public class Generator
 
 		xmlSeekBar.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 		xmlSeekBarContainer.addView(xmlSeekBar);
-
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		xmlSeekBarContainer.setLayoutParams(params);
 
 		return xmlSeekBarContainer;
 	}
@@ -170,8 +181,6 @@ public class Generator
 		xmlRatingBar.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
 		xmlRatingBarContainer.addView(xmlRatingBar);
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		xmlRatingBarContainer.setLayoutParams(params);
 
 		return xmlRatingBarContainer;
 	}
@@ -188,10 +197,8 @@ public class Generator
 		xmlPicker.setWrapSelectorWheel(false);
 		xmlPicker.setValue(3);
 
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-
+		xmlPicker.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 		xmlPickerLayout.addView(xmlPicker);
-		xmlPickerLayout.setLayoutParams(params);
 
 		return xmlPickerLayout;
 	}
@@ -281,7 +288,6 @@ public class Generator
 		xmlSearchView.setEnabled(false);
 		xmlSearchViewContainer.addView(xmlSearchView);
 
-		xmlSearchViewContainer.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 		return xmlSearchViewContainer;
 	}
 
@@ -289,18 +295,12 @@ public class Generator
 	{
 		LinearLayout xmlCheckBox = (LinearLayout) inflater.inflate(R.layout.item_checkbox_layout, null);
 
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		xmlCheckBox.setLayoutParams(params);
-
 		return xmlCheckBox;
 	}
 
 	private View buildSwitch()
 	{
 		Switch xmlSwitch = (Switch) inflater.inflate(R.layout.item_switch_layout, null);
-
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		xmlSwitch.setLayoutParams(params);
 
 		return xmlSwitch;
 	}
@@ -314,9 +314,6 @@ public class Generator
 		RadioButton xmlRadioButton = (RadioButton) inflater.inflate(R.layout.item_radiobutton_layout, null);
 
 		//xmlRadioGroup.addView(xmlRadioButton);
-
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		xmlRadioButton.setLayoutParams(params);
 
 		return xmlRadioButton;
 	}
@@ -345,9 +342,6 @@ public class Generator
 	{
 		ImageView xmlImageView = (ImageView) inflater.inflate(R.layout.item_imageview_layout, null);
 
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		xmlImageView.setLayoutParams(params);
-
 		return xmlImageView;
 	}
 
@@ -360,9 +354,6 @@ public class Generator
 	{
 		EditText xmlEditText = (EditText) inflater.inflate(R.layout.item_edittext_layout, null);
 
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		xmlEditText.setLayoutParams(params);
-
 		return xmlEditText;
 	}
 
@@ -374,9 +365,6 @@ public class Generator
 	private Button buildButton()
 	{
 		Button xmlButton = (Button) inflater.inflate(R.layout.item_button_layout, null);
-
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		xmlButton.setLayoutParams(params);
 
 		return xmlButton;
 	}

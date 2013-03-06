@@ -101,34 +101,10 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 	private void setupPictureModule()
 	{
 		Button takePic = (Button) layoutView.findViewById(R.id.image_choose_camera);
-		takePic.setOnClickListener(new OnClickListener()
-		{
-			
-			@Override
-			public void onClick(View v)
-			{
-				// TODO Auto-generated method stub
-				
-				Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE); 
-		           startActivityForResult(cameraIntent, 1);
-				
-			}
-		});
+		takePic.setOnClickListener(new ImageModuleListener());
 		
 		Button picFromGallery = (Button) layoutView.findViewById(R.id.image_choose_gallery);
-		picFromGallery.setOnClickListener(new OnClickListener()
-		{
-			
-			@Override
-			public void onClick(View v)
-			{
-				// TODO Auto-generated method stub
-				Intent intent = new Intent();
-				intent.setType("image/*");
-				intent.setAction(Intent.ACTION_GET_CONTENT);
-				startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
-			}
-		});
+		picFromGallery.setOnClickListener(new ImageModuleListener());
 		
 	}
 
@@ -220,5 +196,56 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 
 		}
 
+	}
+	
+	private class ImageModuleListener implements OnClickListener
+	{
+
+		@Override
+		public void onClick(View v)
+		{
+			switch (v.getId())
+			{
+			case R.id.image_choose_camera:
+				Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE); 
+		        startActivityForResult(cameraIntent, 1);
+				break;
+			
+			case R.id.image_choose_gallery:
+				Intent intent = new Intent();
+				intent.setType("image/*");
+				intent.setAction(Intent.ACTION_GET_CONTENT);
+				startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+				break;
+
+			}	
+		}	
+	}
+	
+	private class EditTextModuleListener implements OnClickListener
+	{
+
+		@Override
+		public void onClick(View v)
+		{
+			switch (v.getId())
+			{
+			case R.id.item_edit_edittext_submitbutton:
+				((TextView) currentView).setText(editText.getText().toString());
+				break;
+			}		
+		}	
+	}
+	
+	private class AlignModuleListener implements OnClickListener
+	{
+
+		@Override
+		public void onClick(View v)
+		{
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 }
