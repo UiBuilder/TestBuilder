@@ -29,7 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import de.ur.rk.uibuilder.R;
 
-public class EditmodeFragment extends Fragment implements OnClickListener
+public class EditmodeFragment extends Fragment
 {
 	private Uri path;
 
@@ -185,8 +185,8 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 		moduleEditText = (LinearLayout) layoutView.findViewById(R.id.editmode_included_text);
 		modulePicture = (LinearLayout) layoutView.findViewById(R.id.editmode_included_choose_picture);
 		moduleItemCount = (LinearLayout) layoutView.findViewById(R.id.editmode_included_item_count);
-		moduleChangeSize = (LinearLayout)layoutView.findViewById(R.id.editmode_included_changesize);
-		
+		moduleChangeSize = (LinearLayout) layoutView.findViewById(R.id.editmode_included_changesize);
+
 		moduleAlign.setVisibility(View.VISIBLE);
 		moduleEditText.setVisibility(View.VISIBLE);
 		moduleItemCount.setVisibility(View.VISIBLE);
@@ -205,18 +205,18 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 	{
 		Button larger = (Button) layoutView.findViewById(R.id.item_edit_editsize_bigger);
 		Button smaller = (Button) layoutView.findViewById(R.id.item_edit_editsize_smaller);
-		editSize = (EditText)layoutView.findViewById(R.id.item_edit_editsize_field);
+		editSize = (EditText) layoutView.findViewById(R.id.item_edit_editsize_field);
 		larger.setOnClickListener(new ChangesizeModuleListener());
 		smaller.setOnClickListener(new ChangesizeModuleListener());
-		
+
 	}
 
 	private void setupEdittextModule()
 	{
-		Button submit = (Button) layoutView.findViewById(R.id.item_edit_edittext_submitbutton);;
+		Button submit = (Button) layoutView.findViewById(R.id.item_edit_edittext_submitbutton);
 
 		editText = (EditText) layoutView.findViewById(R.id.item_edit_edittext);
-		 
+
 		submit.setOnClickListener(new EditTextModuleListener());
 
 	}
@@ -256,7 +256,7 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 
 			moduleEditText.setVisibility(View.VISIBLE);
 			moduleAlign.setVisibility(View.VISIBLE);
-			editText.setText(((TextView) currentView).getText());
+			editText.setText(getViewText(currentView));
 
 			break;
 
@@ -264,7 +264,8 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 
 			// moduleItemCount.setVisibility(View.VISIBLE);
 			moduleEditText.setVisibility(View.VISIBLE);
-			editText.setText(((TextView) currentView).getText());
+
+			editText.setText(getViewText(currentView));
 
 			break;
 
@@ -288,7 +289,7 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 			break;
 		case R.id.element_radiogroup:
 			moduleEditText.setVisibility(View.VISIBLE);
-			editText.setText(((TextView) currentView).getText());
+			editText.setText(getViewText(currentView));
 
 			// moduleItemCount.setVisibility(View.VISIBLE);
 			break;
@@ -299,17 +300,16 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 			break;
 		case R.id.element_switch:
 			moduleEditText.setVisibility(View.VISIBLE);
-			editText.setText(((TextView) currentView).getText());
+			editText.setText(getViewText(currentView));
 
 			break;
 		case R.id.element_textview:
 			moduleChangeSize.setVisibility(View.VISIBLE);
 			moduleEditText.setVisibility(View.VISIBLE);
 			moduleAlign.setVisibility(View.VISIBLE);
-			editText.setText(((TextView) currentView).getText());
-			//editSize.setText((int)((TextView)currentView).getTextSize());
+			editText.setText(getViewText(currentView));
+			// editSize.setText((int)((TextView)currentView).getTextSize());
 
-			// moduleTextSize.setVisibility(View.VISIBLE);
 			break;
 		case R.id.element_timepicker:
 			break;
@@ -318,6 +318,37 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 			break;
 		}
 		layoutView.invalidate();
+	}
+
+	private CharSequence getViewText(View view)
+	{
+		if (view instanceof LinearLayout)
+		{
+			TextView textView = (TextView) ((LinearLayout) view).getChildAt(0);
+
+			return textView.getText();
+
+		}
+		return ((TextView) currentView).getText();
+
+	}
+
+	public void setViewText(String string)
+	{
+		if (currentView instanceof LinearLayout)
+		{
+			TextView textView = (TextView) ((LinearLayout) currentView).getChildAt(0);
+
+			textView.setText(string);
+
+		} else if (currentView instanceof EditText)
+		{
+			((EditText) currentView).setHint(string);
+
+		} else
+		{
+			((TextView) currentView).setText(string);
+		}
 	}
 
 	private void resetModules()
@@ -333,19 +364,6 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 		moduleItemCount.invalidate();
 		modulePicture.invalidate();
 		moduleChangeSize.invalidate();
-	}
-
-	@Override
-	public void onClick(View v)
-	{
-
-		switch (v.getId())
-		{
-		case R.id.item_edit_edittext_submitbutton:
-			((TextView) currentView).setText(editText.getText().toString());
-			break;
-
-		}
 	}
 
 	private class ImageModuleListener implements OnClickListener
@@ -417,7 +435,7 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 			switch (v.getId())
 			{
 			case R.id.item_edit_edittext_submitbutton:
-				((TextView) currentView).setText(editText.getText().toString());
+				setViewText((editText.getText().toString()));
 				break;
 			}
 		}
@@ -447,6 +465,7 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 
 		}
 	}
+
 	private class ChangesizeModuleListener implements OnClickListener
 	{
 
@@ -456,33 +475,34 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 			switch (v.getId())
 			{
 			case R.id.item_edit_editsize_bigger:
-				changeSize((TextView)currentView, 1);
+				changeSize((TextView) currentView, 1);
 				break;
 			case R.id.item_edit_editsize_smaller:
-				changeSize((TextView)currentView, -1);
+				changeSize((TextView) currentView, -1);
 				break;
-				
-			}
-			
-		}
-		
-		private void changeSize(TextView view, int sizeStep){
-			Paint p = new Paint();
-			 p = view.getPaint();
-			 
-			 Log.d("ChangeSize", "called with sizeStep = " + sizeStep);
 
-			
-			int currentSize = (int) p.getTextSize(); 
-			 Log.d("ChangeSize", "currentSize = " + currentSize);
+			}
+
+		}
+
+		private void changeSize(TextView view, int sizeStep)
+		{
+			Paint p = new Paint();
+			p = view.getPaint();
+
+			Log.d("ChangeSize", "called with sizeStep = " + sizeStep);
+
+			int currentSize = (int) p.getTextSize();
+			Log.d("ChangeSize", "currentSize = " + currentSize);
 
 			int newSize = currentSize + sizeStep;
-			 Log.d("ChangeSize", "newSize = " + newSize);
+			Log.d("ChangeSize", "newSize = " + newSize);
 
-			//p.setTextSize(newSize);
-			((TextView)currentView).setTextSize(newSize);
-			editSize.setText(String.valueOf(newSize)); 
+			// p.setTextSize(newSize);
+			((TextView) currentView).setTextSize(newSize);
+			editSize.setText(String.valueOf(newSize));
 		}
-		
+
 	}
+
 }
