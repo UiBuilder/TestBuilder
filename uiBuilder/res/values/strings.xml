@@ -21,6 +21,14 @@
 
     <string name="edittext_hint_default">Enter some text</string>
     
+    <!-- ITEMBOX SIMPLE ELEMENTS -->
+    <string name="itembox_simple_title">Simple Elements</string>
+    <string name="itembox_simple_element_caption_button">Button</string>
+    <string name="itembox_simple_element_caption_imageview">Image</string>
+    <string name="itembox_simple_element_caption_textview">Text</string>
+    <string name="itembox_simple_element_caption_edittext">Edit Text</string>
+    <string name="itembox_simple_element_caption_container">Container</string>
+    
     
     <string name="button_caption_default">Button</string>
     <string name="radios_caption_default">Option</string>

@@ -17,4 +17,6 @@
 	<color name="designfragment_background">@android:color/black</color>
 	<color name="designarea_grid">@color/text_light</color>
 	
+	<color name="superlight_grey">#E0E3E4</color>
+	
 </resources>

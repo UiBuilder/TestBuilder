@@ -8,35 +8,16 @@
     <LinearLayout
         android:id="@+id/itembox_layout	"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:isScrollContainer="true"
         android:orientation="vertical"
         
          >
-
-        <Button
-            android:id="@+id/element_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="neuer Button" />
-
-        <Button
-            android:id="@+id/element_textview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="neues Textview" />
-
-        <Button
-            android:id="@+id/element_imageview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="neus Bildl" />
-
-        <Button
-            android:id="@+id/element_edittext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="neues Edittext" />
+		
+        <include 
+            layout="@layout/itembox_entry_simple"
+            android:id="@+id/itembox_entry_simple_container"
+            />
 
         <Button
             android:id="@+id/element_radiogroup"
@@ -86,11 +67,7 @@
             android:layout_height="wrap_content"
             android:text="neuer timepicker" />
         
-        <Button
-            android:id="@+id/element_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="neuer container" />
+        
        
     </LinearLayout>
 
