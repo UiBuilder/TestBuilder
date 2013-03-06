@@ -245,13 +245,10 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 					overlay.generate(activeItem);
 
-					//listener.objectSelected(true);
-
 					detector.setIsLongpressEnabled(false);
 					return true;
 				}
-				// listener.objectSelected(true);
-				// listener.objectChanged(activeItem);
+
 				Log.d("active Item is currentTouch", "ID:"
 						+ String.valueOf(activeItem.getId()));
 				break;
