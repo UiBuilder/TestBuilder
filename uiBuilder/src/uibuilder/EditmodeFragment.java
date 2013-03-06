@@ -328,9 +328,11 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 			((TextView) currentView).setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
 			break;
 		case R.id.item_edit_align_center_button:
-			((TextView) currentView).setGravity(Gravity.NO_GRAVITY);
+			((TextView) currentView).setGravity(Gravity.CENTER);
+			break;
 		case R.id.item_edit_align_right_button:
 			((TextView) currentView).setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+			break;
 		}
 	}
 
