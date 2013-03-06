@@ -492,12 +492,11 @@ public class EditmodeFragment extends Fragment
 				break;
 
 			}
-<<<<<<< HEAD
+
 			//editListener.refreshOverlay(currentView);
 			
 
-=======
->>>>>>> branch 'master' of https://github.com/UiBuilder/TestBuilder.git
+
 		}
 		
 		private void changeSize(TextView view, int sizeStep)
