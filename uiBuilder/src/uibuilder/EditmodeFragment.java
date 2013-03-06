@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import uibuilder.ItemboxFragment.onUiElementSelectedListener;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -505,4 +507,17 @@ public class EditmodeFragment extends Fragment
 
 	}
 
+	
+	public interface onObjectEditedListener
+	{
+		void refreshOverlay(View active);
+	}
+
+	private static onObjectEditedListener editListener;
+
+	public static void setOnObjectEditListener(
+			onObjectEditedListener listener)
+	{
+		EditmodeFragment.editListener = listener;
+	}
 }

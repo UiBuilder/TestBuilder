@@ -96,6 +96,43 @@
             />
             
        	 </TableRow>
+       	 
+        <TableRow 
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+        	android:layout_height="wrap_content"
+            android:weightSum="3"
+
+            >      
+        
+        <Button
+            android:id="@+id/element_seekbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/itembox_complex_element_caption_seekbar" 
+            android:layout_weight="1"
+            style="@style/itembox_items"
+            />
+        
+        <Button
+            android:id="@+id/element_timepicker"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/itembox_complex_element_caption_timepicker" 
+            android:layout_weight="1"
+            style="@style/itembox_items"
+            />
+        
+        <Button
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            style="@style/itembox_items"
+            android:visibility="invisible"
+             />
+            
+       	 </TableRow>
         
         
     </TableLayout>

@@ -9,6 +9,6 @@
 	<corners 
 	    
 	    />
-	<solid android:color="@color/overlay_background"
+	<solid 
 	    />
 </shape>

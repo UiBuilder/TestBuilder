@@ -40,6 +40,8 @@
     <string name="itembox_complex_element_caption_numberpick">Picker</string>
     <string name="itembox_complex_element_caption_ratingbar">Rating</string>
     
+    <string name="itembox_complex_element_caption_timepicker">Time</string>
+    <string name="itembox_complex_element_caption_seekbar">Seekbar</string>
     
     
     <string name="button_caption_default">Button</string>
