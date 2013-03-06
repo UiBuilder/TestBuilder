@@ -2,6 +2,8 @@ package manipulators;
 
 import helpers.Log;
 import uibuilder.DesignFragment;
+import uibuilder.ItemboxFragment;
+import uibuilder.ItemboxFragment.onUiElementSelectedListener;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -116,7 +118,7 @@ public class Overlay
 		});
 	}
 
-	/**
+	/** 
 	 * Entfernt das Overlay komplett.
 	 * 
 	 */

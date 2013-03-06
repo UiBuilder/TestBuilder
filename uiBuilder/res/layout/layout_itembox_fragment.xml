@@ -23,19 +23,6 @@
             layout="@layout/itembox_entry_complex"
             android:id="@+id/itembox_entry_complex_container"
             />
-
-        
-        <Button
-            android:id="@+id/element_seekbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="neue seekbar" />
-        
-        <Button
-            android:id="@+id/element_timepicker"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="neuer timepicker" />
         
         
        

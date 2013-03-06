@@ -5,7 +5,7 @@
     
    		
    		<item android:state_activated="true"
- 			android:drawable="@color/overlay_border_active"
+ 			android:drawable="@drawable/default_button_border"
  			
  			/>
 		<item 
