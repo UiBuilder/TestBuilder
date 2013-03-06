@@ -178,6 +178,8 @@ public class EditmodeFragment extends Fragment
 
 		return layoutView;
 	}
+	
+	
 
 	private void getModules()
 	{
@@ -466,6 +468,7 @@ public class EditmodeFragment extends Fragment
 		}
 	}
 
+
 	private class ChangesizeModuleListener implements OnClickListener
 	{
 
@@ -482,6 +485,7 @@ public class EditmodeFragment extends Fragment
 				break;
 
 			}
+			editListener.refreshOverlay(currentView);
 			
 
 		}
@@ -506,7 +510,9 @@ public class EditmodeFragment extends Fragment
 			// p.setTextSize(newSize);
 			((TextView) currentView).setTextSize(newSize);
 			editSize.setText(String.valueOf(newSize));
+			
 		}
+
 		
 
 	}
