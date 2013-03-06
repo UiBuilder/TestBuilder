@@ -11,12 +11,11 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
-
 import android.os.Environment;
 import android.provider.MediaStore;
-
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -44,8 +43,7 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 
 			Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
 
-			
-	       ((ImageView) currentView).setImageBitmap(thumbnail);
+			((ImageView) currentView).setImageBitmap(thumbnail);
 
 		}
 
@@ -56,84 +54,80 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 		}
 
 		super.onActivityResult(requestCode, resultCode, data);
-		
-/*	case ACTION_TAKE_PHOTO_B: {
-		if (resultCode == RESULT_OK) {
-			handleBigCameraPhoto();
-		}
-		break;
-	} // ACTION_TAKE_PHOTO_B
 
-	case ACTION_TAKE_PHOTO_S: {
-		if (resultCode == RESULT_OK) {
-			handleSmallCameraPhoto(data);
-		}
-		break;
-	} // ACTION_TAKE_PHOTO_S
-*/	}
-	
+		/*
+		 * case ACTION_TAKE_PHOTO_B: { if (resultCode == RESULT_OK) {
+		 * handleBigCameraPhoto(); } break; } // ACTION_TAKE_PHOTO_B
+		 * 
+		 * case ACTION_TAKE_PHOTO_S: { if (resultCode == RESULT_OK) {
+		 * handleSmallCameraPhoto(data); } break; } // ACTION_TAKE_PHOTO_S
+		 */}
+
 	/*
-	private void handleSmallCameraPhoto(Intent intent) {
-		Bundle extras = intent.getExtras();
-		mImageBitmap = (Bitmap) extras.get("data");
-		mImageView.setImageBitmap(mImageBitmap);
-		mVideoUri = null;
-		mImageView.setVisibility(View.VISIBLE);
-		mVideoView.setVisibility(View.INVISIBLE);
-	}
+	 * private void handleSmallCameraPhoto(Intent intent) { Bundle extras =
+	 * intent.getExtras(); mImageBitmap = (Bitmap) extras.get("data");
+	 * mImageView.setImageBitmap(mImageBitmap); mVideoUri = null;
+	 * mImageView.setVisibility(View.VISIBLE);
+	 * mVideoView.setVisibility(View.INVISIBLE); }
+	 * 
+	 * private void handleBigCameraPhoto() {
+	 * 
+	 * if (mCurrentPhotoPath != null) { setPic(); galleryAddPic();
+	 * mCurrentPhotoPath = null; }
+	 * 
+	 * }
+	 */
 
-	private void handleBigCameraPhoto() {
-
-		if (mCurrentPhotoPath != null) {
-			setPic();
-			galleryAddPic();
-			mCurrentPhotoPath = null;
-		}
-
-	}*/
-	
 	private String photoPath;
 	private static final String JPEG_FILE_PREFIX = "UI_";
 	private static final String JPEG_FILE_SUFFIX = ".jpg";
 	private BaseAlbumDirFactory storageFactory = null;
 
-	private String getAlbumName() {
+	private String getAlbumName()
+	{
 		return getString(R.string.album_name);
 	}
 
-	
-	private File getAlbumDir() {
+	private File getAlbumDir()
+	{
 		File storageDir = null;
 
-		if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-			
+		if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()))
+		{
+
 			storageDir = storageFactory.getAlbumStorageDir(getAlbumName());
 
-			if (storageDir != null) {
-				if (! storageDir.mkdirs()) {
-					if (! storageDir.exists()){
+			if (storageDir != null)
+			{
+				if (!storageDir.mkdirs())
+				{
+					if (!storageDir.exists())
+					{
 						Log.d("CameraSample", "failed to create directory");
 						return null;
 					}
 				}
 			}
-			
-		} else {
+
+		} else
+		{
 			Log.v(getString(R.string.app_name), "External storage is not mounted READ/WRITE.");
 		}
-		
+
 		return storageDir;
 	}
 
-	private File setUpPhotoFile() throws IOException {
-		
+	private File setUpPhotoFile() throws IOException
+	{
+
 		File f = createImageFile();
 		photoPath = f.getAbsolutePath();
-		
+
 		return f;
 	}
-	
-	private File createImageFile() throws IOException {
+
+	private File createImageFile() throws IOException
+	{
 		// Create an image file name
 		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 		String imageFileName = JPEG_FILE_PREFIX + timeStamp + "_";
@@ -142,17 +136,14 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 		return imageF;
 	}
 
-
-
 	private View layoutView;
 	private LinearLayout layout;
 	private LayoutInflater inflater;
-	private Button submit, set, alignLeft, alignRight, alignCenter;
-	private EditText editText;
 	private View currentView;
+	private EditText editText, editSize;
 
 	private LinearLayout moduleAlign, modulePicture, moduleEditText,
-			moduleItemCount;
+			moduleItemCount, moduleChangeSize;
 
 	@Override
 	public void onAttach(Activity activity)
@@ -194,35 +185,51 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 		moduleEditText = (LinearLayout) layoutView.findViewById(R.id.editmode_included_text);
 		modulePicture = (LinearLayout) layoutView.findViewById(R.id.editmode_included_choose_picture);
 		moduleItemCount = (LinearLayout) layoutView.findViewById(R.id.editmode_included_item_count);
-
+		moduleChangeSize = (LinearLayout)layoutView.findViewById(R.id.editmode_included_changesize);
+		
 		moduleAlign.setVisibility(View.VISIBLE);
 		moduleEditText.setVisibility(View.VISIBLE);
 		moduleItemCount.setVisibility(View.VISIBLE);
 		modulePicture.setVisibility(View.VISIBLE);
+		moduleChangeSize.setVisibility(View.VISIBLE);
 
 		setupPictureModule();
 		setupAlignModule();
 		setupEdittextModule();
-		
+		setupChangesizeModule();
+
 		// and so on..
+	}
+
+	private void setupChangesizeModule()
+	{
+		Button larger = (Button) layoutView.findViewById(R.id.item_edit_editsize_bigger);
+		Button smaller = (Button) layoutView.findViewById(R.id.item_edit_editsize_smaller);
+		editSize = (EditText)layoutView.findViewById(R.id.item_edit_editsize_field);
+		larger.setOnClickListener(new ChangesizeModuleListener());
+		smaller.setOnClickListener(new ChangesizeModuleListener());
+		
 	}
 
 	private void setupEdittextModule()
 	{
+		Button submit = (Button) layoutView.findViewById(R.id.item_edit_edittext_submitbutton);;
+
 		editText = (EditText) layoutView.findViewById(R.id.item_edit_edittext);
-		submit = (Button) layoutView.findViewById(R.id.item_edit_edittext_submitbutton);
-		submit.setOnClickListener(this);
+		 
+		submit.setOnClickListener(new EditTextModuleListener());
 
 	}
 
 	private void setupAlignModule()
 	{
-		alignLeft = (Button) layoutView.findViewById(R.id.item_edit_align_left_button);
-		alignRight = (Button) layoutView.findViewById(R.id.item_edit_align_right_button);
-		alignCenter = (Button) layoutView.findViewById(R.id.item_edit_align_center_button);
-		alignLeft.setOnClickListener(this);
-		alignRight.setOnClickListener(this);
-		alignCenter.setOnClickListener(this); 
+
+		Button alignLeft = (Button) layoutView.findViewById(R.id.item_edit_align_left_button);
+		Button alignRight = (Button) layoutView.findViewById(R.id.item_edit_align_right_button);
+		Button alignCenter = (Button) layoutView.findViewById(R.id.item_edit_align_center_button);
+		alignLeft.setOnClickListener(new AlignModuleListener());
+		alignRight.setOnClickListener(new AlignModuleListener());
+		alignCenter.setOnClickListener(new AlignModuleListener());
 	}
 
 	private void setupPictureModule()
@@ -249,7 +256,7 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 
 			moduleEditText.setVisibility(View.VISIBLE);
 			moduleAlign.setVisibility(View.VISIBLE);
-			editText.setText(((Button) currentView).getText());
+			editText.setText(((TextView) currentView).getText());
 
 			break;
 
@@ -257,12 +264,16 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 
 			// moduleItemCount.setVisibility(View.VISIBLE);
 			moduleEditText.setVisibility(View.VISIBLE);
+			editText.setText(((TextView) currentView).getText());
+
 			break;
 
 		case R.id.element_edittext:
 
 			moduleEditText.setVisibility(View.VISIBLE);
 			moduleAlign.setVisibility(View.VISIBLE);
+			editText.setText(((TextView) currentView).getText());
+
 			// moduleTextSize.setVisibility(View.VISIBLE);
 			break;
 
@@ -277,6 +288,8 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 			break;
 		case R.id.element_radiogroup:
 			moduleEditText.setVisibility(View.VISIBLE);
+			editText.setText(((TextView) currentView).getText());
+
 			// moduleItemCount.setVisibility(View.VISIBLE);
 			break;
 		case R.id.element_ratingbar:
@@ -286,10 +299,16 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 			break;
 		case R.id.element_switch:
 			moduleEditText.setVisibility(View.VISIBLE);
+			editText.setText(((TextView) currentView).getText());
+
 			break;
 		case R.id.element_textview:
+			moduleChangeSize.setVisibility(View.VISIBLE);
 			moduleEditText.setVisibility(View.VISIBLE);
 			moduleAlign.setVisibility(View.VISIBLE);
+			editText.setText(((TextView) currentView).getText());
+			//editSize.setText((int)((TextView)currentView).getTextSize());
+
 			// moduleTextSize.setVisibility(View.VISIBLE);
 			break;
 		case R.id.element_timepicker:
@@ -324,15 +343,6 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 			((TextView) currentView).setText(editText.getText().toString());
 			break;
 
-		case R.id.item_edit_align_left_button:
-			((TextView) currentView).setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
-			break;
-		case R.id.item_edit_align_center_button:
-			((TextView) currentView).setGravity(Gravity.CENTER);
-			break;
-		case R.id.item_edit_align_right_button:
-			((TextView) currentView).setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
-			break;
 		}
 	}
 
@@ -349,49 +359,41 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 			{
 			case R.id.image_choose_camera:
 
-					Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+				Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 
-					
-			        //startActivityForResult(cameraIntent, CAMERA);
-			        
-			        File f = null;
-					
-					try 
-					{
-						f = setUpPhotoFile();
-						photoPath = f.getAbsolutePath();
-						cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-					} 
-					catch (IOException e) 
-					{
-						e.printStackTrace();
-						f = null;
-						photoPath = null;
-					}
-					finally
-					{
-						startActivityForResult(cameraIntent, CAMERA);
-					}
-				
-					break;
-			
-				/*
-				}
-				catch (ActivityNotFoundException e) 
-=======
+				// startActivityForResult(cameraIntent, CAMERA);
 
-					startActivityForResult(cameraIntent, CAMERA);
-				} catch (ActivityNotFoundException e)
->>>>>>> branch 'master' of https://github.com/UiBuilder/TestBuilder.git
+				File f = null;
+
+				try
 				{
-					String errorMessage = "Whoops - your device doesn't support capturing images!";
-					Toast toast = Toast.makeText(getActivity().getApplicationContext(), errorMessage, Toast.LENGTH_SHORT);
-					toast.show();
+					f = setUpPhotoFile();
+					photoPath = f.getAbsolutePath();
+					cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+				} catch (IOException e)
+				{
+					e.printStackTrace();
+					f = null;
+					photoPath = null;
+				} finally
+				{
+					startActivityForResult(cameraIntent, CAMERA);
 				}
-<<<<<<< HEAD
-				break;*/
 
+				break;
 
+			/*
+			 * } catch (ActivityNotFoundException e) =======
+			 * 
+			 * startActivityForResult(cameraIntent, CAMERA); } catch
+			 * (ActivityNotFoundException e) >>>>>>> branch 'master' of
+			 * https://github.com/UiBuilder/TestBuilder.git { String
+			 * errorMessage =
+			 * "Whoops - your device doesn't support capturing images!"; Toast
+			 * toast = Toast.makeText(getActivity().getApplicationContext(),
+			 * errorMessage, Toast.LENGTH_SHORT); toast.show(); } <<<<<<< HEAD
+			 * break;
+			 */
 
 			case R.id.image_choose_gallery:
 				Intent intent = new Intent();
@@ -425,9 +427,60 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 		@Override
 		public void onClick(View v)
 		{
-			// TODO Auto-generated method stub
+			switch (v.getId())
+			{
+			case R.id.item_edit_align_left_button:
+				((TextView) currentView).setGravity(Gravity.LEFT
+						| Gravity.CENTER_VERTICAL);
+				break;
+			case R.id.item_edit_align_center_button:
+				((TextView) currentView).setGravity(Gravity.CENTER);
+				break;
+			case R.id.item_edit_align_right_button:
+				((TextView) currentView).setGravity(Gravity.RIGHT
+						| Gravity.CENTER_VERTICAL);
+				break;
+
+			}
 
 		}
+	}
+	private class ChangesizeModuleListener implements OnClickListener
+	{
 
+		@Override
+		public void onClick(View v)
+		{
+			switch (v.getId())
+			{
+			case R.id.item_edit_editsize_bigger:
+				changeSize((TextView)currentView, 1);
+				break;
+			case R.id.item_edit_editsize_smaller:
+				changeSize((TextView)currentView, -1);
+				break;
+				
+			}
+			
+		}
+		
+		private void changeSize(TextView view, int sizeStep){
+			Paint p = new Paint();
+			 p = view.getPaint();
+			 
+			 Log.d("ChangeSize", "called with sizeStep = " + sizeStep);
+
+			
+			int currentSize = (int) p.getTextSize(); 
+			 Log.d("ChangeSize", "currentSize = " + currentSize);
+
+			int newSize = currentSize + sizeStep;
+			 Log.d("ChangeSize", "newSize = " + newSize);
+
+			//p.setTextSize(newSize);
+			((TextView)currentView).setTextSize(newSize);
+			editSize.setText(String.valueOf(newSize)); 
+		}
+		
 	}
 }

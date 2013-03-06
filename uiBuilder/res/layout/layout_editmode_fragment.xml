@@ -1,41 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragment_editbox"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_vertical"
-    android:padding="10dp"
-    android:layout_marginLeft="0dp"
-    android:background="@color/designfragment_background"
-     >
+    android:background="@color/designfragment_background" >
 
-    <include
-        android:id="@+id/editmode_included_text"
-        layout="@layout/editmode_entry_enter_text"
-        android:visibility="gone" 
-       
-        />
+    <LinearLayout
+        android:id="@+id/fragment_editbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:background="@color/designfragment_background"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="10dp" >
 
-    <include
-        android:id="@+id/editmode_included_align_content"
-        layout="@layout/editmode_entry_align_content"
-        android:visibility="gone" 
-        
-        />
+        <include
+            android:id="@+id/editmode_included_text"
+            layout="@layout/editmode_entry_enter_text"
+            android:visibility="gone" />
 
-    <include
-        android:id="@+id/editmode_included_choose_picture"
-        layout="@layout/editmode_entry_choose_picture"
-        android:visibility="gone" 
-        
-        />
+        <include
+            android:id="@+id/editmode_included_align_content"
+            layout="@layout/editmode_entry_align_content"
+            android:visibility="gone" />
 
-    <include
-        android:id="@+id/editmode_included_item_count"
-        layout="@layout/editmode_entry_item_count"
-        android:visibility="gone" 
-        
-        />
+        <include
+            android:id="@+id/editmode_included_choose_picture"
+            layout="@layout/editmode_entry_choose_picture"
+            android:visibility="gone" />
 
-</LinearLayout>
+        <include
+            android:id="@+id/editmode_included_item_count"
+            layout="@layout/editmode_entry_item_count"
+            android:visibility="gone" />
+        <include 
+            android:id="@+id/editmode_included_changesize"
+            layout="@layout/editmode_entry_text_size"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+</ScrollView>
