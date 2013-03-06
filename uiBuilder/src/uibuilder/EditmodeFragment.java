@@ -326,11 +326,13 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 		moduleEditText.setVisibility(View.GONE);
 		moduleItemCount.setVisibility(View.GONE);
 		modulePicture.setVisibility(View.GONE);
+		moduleChangeSize.setVisibility(View.GONE);
 
 		moduleAlign.invalidate();
 		moduleEditText.invalidate();
 		moduleItemCount.invalidate();
 		modulePicture.invalidate();
+		moduleChangeSize.invalidate();
 	}
 
 	@Override
