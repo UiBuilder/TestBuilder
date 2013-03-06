@@ -33,180 +33,7 @@ import de.ur.rk.uibuilder.R;
 public class EditmodeFragment extends Fragment
 {
 	private Uri path;
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data)
-	{
-/*		if (resultCode == Activity.RESULT_OK
-				&& requestCode == ImageModuleListener.CAMERA)
-		{
-			path = data.getData();
-
-			Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-
-			((ImageView) currentView).setImageBitmap(thumbnail);
-
-		}
-
-		if (resultCode == Activity.RESULT_OK
-				&& requestCode == ImageModuleListener.GALLERY)
-		{
-
-		}*/
-
-		super.onActivityResult(requestCode, resultCode, data);
-
-		switch (requestCode)
-		{
-			
-			case ImageModuleListener.CAMERA: 
-			{ 
-				if (resultCode == Activity.RESULT_OK) 
-				{
-					handleBigCameraPhoto(); 
-				} 
-				break; 
-			} // ACTION_TAKE_PHOTO_B
 	
-			case ImageModuleListener.GALLERY: 
-			{ 
-				if (resultCode == Activity.RESULT_OK) 
-				{
-					//handleSmallCameraPhoto(data); 
-					//handle gallery
-				} break; 
-			 }
-		}
-	}
-/*
-	
-	private void handleSmallCameraPhoto(Intent intent) 
-	{ 
-		Bundle extras = intent.getExtras();
-		mImageBitmap = (Bitmap) extras.get("data");
-		mImageView.setImageBitmap(mImageBitmap); 
-		//mVideoUri = null;
-		mImageView.setVisibility(View.VISIBLE);
-		mVideoView.setVisibility(View.INVISIBLE); 
-	}*/
-	 
-	private void handleBigCameraPhoto() 
-	{
-		
-		if (photoPath != null) 
-		{ 
-			setPic(); 
-			galleryAddPic();
-			photoPath = null; 
-		}
-	
-	}
-	
-	private void setPic() {
-
-		/* There isn't enough memory to open up more than a couple camera photos */
-		/* So pre-scale the target bitmap into which the file is decoded */
-
-		/* Get the size of the ImageView */
-		int targetW = ((ImageView) currentView).getWidth();
-		int targetH = ((ImageView) currentView).getHeight();
-
-		/* Get the size of the image */
-		BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-		bmOptions.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(photoPath, bmOptions);
-		int photoW = bmOptions.outWidth;
-		int photoH = bmOptions.outHeight;
-		
-		/* Figure out which way needs to be reduced less */
-		int scaleFactor = 1;
-		if ((targetW > 0) || (targetH > 0)) {
-			scaleFactor = Math.min(photoW/targetW, photoH/targetH);	
-		}
-
-		/* Set bitmap options to scale the image decode target */
-		bmOptions.inJustDecodeBounds = false;
-		bmOptions.inSampleSize = scaleFactor;
-		bmOptions.inPurgeable = true;
-
-		/* Decode the JPEG file into a Bitmap */
-		Bitmap bitmap = BitmapFactory.decodeFile(photoPath, bmOptions);
-		
-		/* Associate the Bitmap to the ImageView */
-		((ImageView) currentView).setImageBitmap(bitmap);
-		//mVideoUri = null;
-		((ImageView) currentView).setVisibility(View.VISIBLE);
-		//mVideoView.setVisibility(View.INVISIBLE);
-	}
-
-	private void galleryAddPic() 
-	{
-		    Intent mediaScanIntent = new Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE");
-			File f = new File(photoPath);
-		    Uri contentUri = Uri.fromFile(f);
-		    mediaScanIntent.setData(contentUri);
-		    getActivity().sendBroadcast(mediaScanIntent);
-	}
-	 
-
-	private String photoPath;
-	private static final String JPEG_FILE_PREFIX = "UI_";
-	private static final String JPEG_FILE_SUFFIX = ".jpg";
-	private BaseAlbumDirFactory storageFactory = null;
-
-	private String getAlbumName()
-	{
-		return getString(R.string.album_name);
-	}
-
-	private File getAlbumDir()
-	{
-		File storageDir = null;
-
-		if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()))
-		{
-
-			storageDir = storageFactory.getAlbumStorageDir(getAlbumName());
-
-			if (storageDir != null)
-			{
-				if (!storageDir.mkdirs())
-				{
-					if (!storageDir.exists())
-					{
-						Log.d("CameraSample", "failed to create directory");
-						return null;
-					}
-				}
-			}
-
-		} else
-		{
-			Log.v(getString(R.string.app_name), "External storage is not mounted READ/WRITE.");
-		}
-
-		return storageDir;
-	}
-
-	private File setUpPhotoFile() throws IOException
-	{
-
-		File f = createImageFile();
-		photoPath = f.getAbsolutePath();
-
-		return f;
-	}
-
-	private File createImageFile() throws IOException
-	{
-		// Create an image file name
-		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-		String imageFileName = JPEG_FILE_PREFIX + timeStamp + "_";
-		File albumF = getAlbumDir();
-		File imageF = File.createTempFile(imageFileName, JPEG_FILE_SUFFIX, albumF);
-		return imageF;
-	}
-
 	private View layoutView;
 	private LinearLayout layout;
 	private LayoutInflater inflater;
@@ -248,6 +75,34 @@ public class EditmodeFragment extends Fragment
 		}
 
 		return layoutView;
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		super.onActivityResult(requestCode, resultCode, data);
+
+		switch (requestCode)
+		{
+			
+			case ImageModuleListener.CAMERA: 
+			{ 
+				if (resultCode == Activity.RESULT_OK) 
+				{
+					handleBigCameraPhoto(); 
+				} 
+				break; 
+			}
+	
+			case ImageModuleListener.GALLERY: 
+			{ 
+				if (resultCode == Activity.RESULT_OK) 
+				{
+					//handleSmallCameraPhoto(data); 
+					//handle gallery
+				} break; 
+			 }
+		}
 	}
 	
 	
@@ -476,19 +331,6 @@ public class EditmodeFragment extends Fragment
 
 				break;
 
-			/*
-			 * } catch (ActivityNotFoundException e) =======
-			 * 
-			 * startActivityForResult(cameraIntent, CAMERA); } catch
-			 * (ActivityNotFoundException e) >>>>>>> branch 'master' of
-			 * https://github.com/UiBuilder/TestBuilder.git { String
-			 * errorMessage =
-			 * "Whoops - your device doesn't support capturing images!"; Toast
-			 * toast = Toast.makeText(getActivity().getApplicationContext(),
-			 * errorMessage, Toast.LENGTH_SHORT); toast.show(); } <<<<<<< HEAD
-			 * break;
-			 */
-
 			case R.id.image_choose_gallery:
 				Intent intent = new Intent();
 				intent.setType("image/*");
@@ -605,4 +447,142 @@ public class EditmodeFragment extends Fragment
 	{
 		EditmodeFragment.editListener = listener;
 	}
+	
+	
+	
+	
+	
+	
+	
+	//Photo import stuff
+	
+	private void handleBigCameraPhoto() 
+	{
+		
+		if (photoPath != null) 
+		{ 
+			setPic(); 
+			galleryAddPic();
+			photoPath = null; 
+		}
+	
+	}
+	
+/*
+	
+	private void handleSmallCameraPhoto(Intent intent) 
+	{ 
+		Bundle extras = intent.getExtras();
+		mImageBitmap = (Bitmap) extras.get("data");
+		mImageView.setImageBitmap(mImageBitmap); 
+		//mVideoUri = null;
+		mImageView.setVisibility(View.VISIBLE);
+		mVideoView.setVisibility(View.INVISIBLE); 
+	}*/
+	
+	private void setPic() {
+
+		/* There isn't enough memory to open up more than a couple camera photos */
+		/* So pre-scale the target bitmap into which the file is decoded */
+
+		/* Get the size of the ImageView */
+		int targetW = ((ImageView) currentView).getWidth();
+		int targetH = ((ImageView) currentView).getHeight();
+
+		/* Get the size of the image */
+		BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+		bmOptions.inJustDecodeBounds = true;
+		BitmapFactory.decodeFile(photoPath, bmOptions);
+		int photoW = bmOptions.outWidth;
+		int photoH = bmOptions.outHeight;
+		
+		/* Figure out which way needs to be reduced less */
+		int scaleFactor = 1;
+		if ((targetW > 0) || (targetH > 0)) {
+			scaleFactor = Math.min(photoW/targetW, photoH/targetH);	
+		}
+
+		/* Set bitmap options to scale the image decode target */
+		bmOptions.inJustDecodeBounds = false;
+		bmOptions.inSampleSize = scaleFactor;
+		bmOptions.inPurgeable = true;
+
+		/* Decode the JPEG file into a Bitmap */
+		Bitmap bitmap = BitmapFactory.decodeFile(photoPath, bmOptions);
+		
+		/* Associate the Bitmap to the ImageView */
+		((ImageView) currentView).setImageBitmap(bitmap);
+		//mVideoUri = null;
+		((ImageView) currentView).setVisibility(View.VISIBLE);
+		//mVideoView.setVisibility(View.INVISIBLE);
+	}
+
+	private void galleryAddPic() 
+	{
+		    Intent mediaScanIntent = new Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE");
+			File f = new File(photoPath);
+		    Uri contentUri = Uri.fromFile(f);
+		    mediaScanIntent.setData(contentUri);
+		    getActivity().sendBroadcast(mediaScanIntent);
+	}
+	 
+
+	private String photoPath;
+	private static final String JPEG_FILE_PREFIX = "UI_";
+	private static final String JPEG_FILE_SUFFIX = ".jpg";
+	private BaseAlbumDirFactory storageFactory = null;
+
+	private String getAlbumName()
+	{
+		return getString(R.string.album_name);
+	}
+
+	private File getAlbumDir()
+	{
+		File storageDir = null;
+
+		if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()))
+		{
+
+			storageDir = storageFactory.getAlbumStorageDir(getAlbumName());
+
+			if (storageDir != null)
+			{
+				if (!storageDir.mkdirs())
+				{
+					if (!storageDir.exists())
+					{
+						Log.d("CameraSample", "failed to create directory");
+						return null;
+					}
+				}
+			}
+
+		} else
+		{
+			Log.v(getString(R.string.app_name), "External storage is not mounted READ/WRITE.");
+		}
+
+		return storageDir;
+	}
+
+	private File setUpPhotoFile() throws IOException
+	{
+
+		File f = createImageFile();
+		photoPath = f.getAbsolutePath();
+
+		return f;
+	}
+
+	private File createImageFile() throws IOException
+	{
+		// Create an image file name
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+		String imageFileName = JPEG_FILE_PREFIX + timeStamp + "_";
+		File albumF = getAlbumDir();
+		File imageF = File.createTempFile(imageFileName, JPEG_FILE_SUFFIX, albumF);
+		return imageF;
+	}
+
 }
