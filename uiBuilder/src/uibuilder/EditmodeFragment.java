@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import uibuilder.ItemboxFragment.onUiElementSelectedListener;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -484,9 +482,14 @@ public class EditmodeFragment extends Fragment
 				break;
 
 			}
+			
 
 		}
-
+		
+		
+		
+		
+		
 		private void changeSize(TextView view, int sizeStep)
 		{
 			Paint p = new Paint();
@@ -504,6 +507,7 @@ public class EditmodeFragment extends Fragment
 			((TextView) currentView).setTextSize(newSize);
 			editSize.setText(String.valueOf(newSize));
 		}
+		
 
 	}
 
