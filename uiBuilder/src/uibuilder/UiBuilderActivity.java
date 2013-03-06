@@ -58,7 +58,7 @@ public class UiBuilderActivity extends Activity implements
 
 		ItemboxFragment.setOnUiElementSelectedListener(this);
 		DesignFragment.setOnObjectSelectedListener(this);
-
+		
 		performInitTransaction();
 	}
 

@@ -258,10 +258,7 @@ public class EditmodeFragment extends Fragment
 
 			moduleEditText.setVisibility(View.VISIBLE);
 			moduleAlign.setVisibility(View.VISIBLE);
-			moduleChangeSize.setVisibility(View.VISIBLE);
 			editText.setText(getViewText(currentView));
-			editSize.setText(String.valueOf((int)((TextView)currentView).getTextSize()));
-
 
 			break;
 
@@ -279,6 +276,7 @@ public class EditmodeFragment extends Fragment
 			moduleEditText.setVisibility(View.VISIBLE);
 			moduleAlign.setVisibility(View.VISIBLE);
 			editText.setText(((TextView) currentView).getText());
+
 			// moduleTextSize.setVisibility(View.VISIBLE);
 			break;
 
@@ -312,7 +310,7 @@ public class EditmodeFragment extends Fragment
 			moduleEditText.setVisibility(View.VISIBLE);
 			moduleAlign.setVisibility(View.VISIBLE);
 			editText.setText(getViewText(currentView));
-			editSize.setText(String.valueOf((int)((TextView)currentView).getTextSize()));
+			// editSize.setText((int)((TextView)currentView).getTextSize());
 
 			break;
 		case R.id.element_timepicker:
@@ -323,10 +321,6 @@ public class EditmodeFragment extends Fragment
 		}
 		layoutView.invalidate();
 	}
-
-
-
-	
 
 	private CharSequence getViewText(View view)
 	{
@@ -477,10 +471,11 @@ public class EditmodeFragment extends Fragment
 
 	private class ChangesizeModuleListener implements OnClickListener
 	{
-
+		
 		@Override
 		public void onClick(View v)
 		{
+			
 			switch (v.getId())
 			{
 			case R.id.item_edit_editsize_bigger:
@@ -491,14 +486,7 @@ public class EditmodeFragment extends Fragment
 				break;
 
 			}
-			//editListener.refreshOverlay(currentView);
-			
-
 		}
-		
-		
-		
-		
 		
 		private void changeSize(TextView view, int sizeStep)
 		{
@@ -518,9 +506,6 @@ public class EditmodeFragment extends Fragment
 			editSize.setText(String.valueOf(newSize));
 			
 		}
-
-		
-
 	}
 
 	
@@ -531,7 +516,7 @@ public class EditmodeFragment extends Fragment
 
 	private static onObjectEditedListener editListener;
 
-	public static void setOnObjectEditListener(
+	public static void setOnObjectEditedListener(
 			onObjectEditedListener listener)
 	{
 		EditmodeFragment.editListener = listener;

@@ -2,8 +2,8 @@ package manipulators;
 
 import helpers.Log;
 import uibuilder.DesignFragment;
-import uibuilder.ItemboxFragment;
-import uibuilder.ItemboxFragment.onUiElementSelectedListener;
+import uibuilder.EditmodeFragment;
+import uibuilder.EditmodeFragment.onObjectEditedListener;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +12,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import de.ur.rk.uibuilder.R;
 
-public class Overlay
+public class Overlay implements onObjectEditedListener
 {
 	private ImageButton drag;
 	private ImageButton right;
@@ -36,6 +36,7 @@ public class Overlay
 		context = designFragment.getActivity().getApplicationContext();
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.designFragment = designFragment;
+		EditmodeFragment.setOnObjectEditedListener(this);
 	}
 
 	public void generate(View activeItem)
@@ -229,5 +230,12 @@ public class Overlay
 	public ImageButton getDrag()
 	{
 		return drag;
+	}
+
+	@Override
+	public void refreshOverlay(View active)
+	{
+		delete();
+		generate(active);
 	}
 }
