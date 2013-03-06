@@ -7,6 +7,7 @@
     android:background="@drawable/default_button_border"
     
     android:text="@string/button_caption_default"
+    
     android:enabled="true"
     style="@style/default_fontsizes"
     />
