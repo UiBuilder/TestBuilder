@@ -258,7 +258,10 @@ public class EditmodeFragment extends Fragment
 
 			moduleEditText.setVisibility(View.VISIBLE);
 			moduleAlign.setVisibility(View.VISIBLE);
+			moduleChangeSize.setVisibility(View.VISIBLE);
 			editText.setText(getViewText(currentView));
+			editSize.setText(String.valueOf((int)((TextView)currentView).getTextSize()));
+
 
 			break;
 
@@ -276,7 +279,6 @@ public class EditmodeFragment extends Fragment
 			moduleEditText.setVisibility(View.VISIBLE);
 			moduleAlign.setVisibility(View.VISIBLE);
 			editText.setText(((TextView) currentView).getText());
-
 			// moduleTextSize.setVisibility(View.VISIBLE);
 			break;
 
@@ -310,7 +312,7 @@ public class EditmodeFragment extends Fragment
 			moduleEditText.setVisibility(View.VISIBLE);
 			moduleAlign.setVisibility(View.VISIBLE);
 			editText.setText(getViewText(currentView));
-			// editSize.setText((int)((TextView)currentView).getTextSize());
+			editSize.setText(String.valueOf((int)((TextView)currentView).getTextSize()));
 
 			break;
 		case R.id.element_timepicker:
@@ -321,6 +323,10 @@ public class EditmodeFragment extends Fragment
 		}
 		layoutView.invalidate();
 	}
+
+
+
+	
 
 	private CharSequence getViewText(View view)
 	{
@@ -486,6 +492,12 @@ public class EditmodeFragment extends Fragment
 				break;
 
 			}
+<<<<<<< HEAD
+			//editListener.refreshOverlay(currentView);
+			
+
+=======
+>>>>>>> branch 'master' of https://github.com/UiBuilder/TestBuilder.git
 		}
 		
 		private void changeSize(TextView view, int sizeStep)
