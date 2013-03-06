@@ -2,8 +2,12 @@ package uibuilder;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,17 +15,53 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import de.ur.rk.uibuilder.R;
 
 public class EditmodeFragment extends Fragment implements OnClickListener
 {
+	private Uri path;
+	
+	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
-		// TODO FOR INTENT RESULTS
+		if (resultCode == Activity.RESULT_OK && requestCode == ImageModuleListener.CAMERA)
+		{
+			path = data.getData();
+			
+			Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+	        
+	       ((ImageView) currentView).setImageBitmap(thumbnail);
+			//performCrop();
+		}
+		
+		
 		super.onActivityResult(requestCode, resultCode, data);
+	}
+
+	public void performCrop()
+	{
+		// TODO Auto-generated method stub
+		Intent cropIntent = new Intent("com.android.camera.action.CROP");
+
+		cropIntent.setDataAndType(path, "image/*");
+
+		//cropIntent.putExtra("crop", "true");
+
+		cropIntent.putExtra("aspectX", 0);
+		cropIntent.putExtra("aspectY", 0);
+		cropIntent.putExtra("outputX", 256);
+		cropIntent.putExtra("outputY", 256);
+		cropIntent.putExtra("return-data", false);
+		cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, path);
+		cropIntent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+		//cropIntent.putExtra("return-data", true);
+
+		startActivityForResult(cropIntent, ImageModuleListener.CROP);
 	}
 
 	private View layoutView;
@@ -200,22 +240,35 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 	
 	private class ImageModuleListener implements OnClickListener
 	{
-
+		static final int CAMERA = 1;
+		static final int GALLERY = 2;
+		static final int CROP = 3;
+		
 		@Override
 		public void onClick(View v)
 		{
 			switch (v.getId())
 			{
 			case R.id.image_choose_camera:
-				Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE); 
-		        startActivityForResult(cameraIntent, 1);
+				try
+				{
+					Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+					
+			        startActivityForResult(cameraIntent, CAMERA);
+				}
+				catch (ActivityNotFoundException e) 
+				{
+					String errorMessage = "Whoops - your device doesn't support capturing images!";
+				    Toast toast = Toast.makeText(getActivity().getApplicationContext(), errorMessage, Toast.LENGTH_SHORT);
+				    toast.show();
+				}
 				break;
 			
 			case R.id.image_choose_gallery:
 				Intent intent = new Intent();
 				intent.setType("image/*");
 				intent.setAction(Intent.ACTION_GET_CONTENT);
-				startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+				startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY);
 				break;
 
 			}	
