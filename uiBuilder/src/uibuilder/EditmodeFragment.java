@@ -1,22 +1,12 @@
 package uibuilder;
 
-import helpers.BaseAlbumDirFactory;
-
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-
-import android.os.Environment;
-import android.provider.MediaStore;
-
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -28,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import de.ur.rk.uibuilder.R;
 
 public class EditmodeFragment extends Fragment implements OnClickListener
@@ -41,12 +32,11 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 				&& requestCode == ImageModuleListener.CAMERA)
 		{
 			path = data.getData();
+			String path2 = path.getPath();
 
 			Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
 
-			
-	       ((ImageView) currentView).setImageBitmap(thumbnail);
-
+			((ImageView) currentView).setImageBitmap(thumbnail);
 		}
 
 		if (resultCode == Activity.RESULT_OK
@@ -58,58 +48,42 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
-	
-	private String photoPath;
-	private static final String JPEG_FILE_PREFIX = "UI_";
-	private static final String JPEG_FILE_SUFFIX = ".jpg";
-	private BaseAlbumDirFactory storageFactory = null;
-
-	private String getAlbumName() {
-		return getString(R.string.album_name);
-	}
-
-	
-	private File getAlbumDir() {
-		File storageDir = null;
-
-		if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-			
-			storageDir = storageFactory.getAlbumStorageDir(getAlbumName());
-
-			if (storageDir != null) {
-				if (! storageDir.mkdirs()) {
-					if (! storageDir.exists()){
-						Log.d("CameraSample", "failed to create directory");
-						return null;
-					}
-				}
-			}
-			
-		} else {
-			Log.v(getString(R.string.app_name), "External storage is not mounted READ/WRITE.");
-		}
-		
-		return storageDir;
-	}
-
-	private File setUpPhotoFile() throws IOException {
-		
-		File f = createImageFile();
-		photoPath = f.getAbsolutePath();
-		
-		return f;
-	}
-	
-	private File createImageFile() throws IOException {
-		// Create an image file name
-		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-		String imageFileName = JPEG_FILE_PREFIX + timeStamp + "_";
-		File albumF = getAlbumDir();
-		File imageF = File.createTempFile(imageFileName, JPEG_FILE_SUFFIX, albumF);
-		return imageF;
-	}
-
-
+	// IN PROGRESS
+	/* Photo album for this application */
+	/*
+	 * private String getAlbumName() { return getString(R.string.album_name); }
+	 * 
+	 * 
+	 * private File getAlbumDir() { File storageDir = null;
+	 * 
+	 * if
+	 * (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()))
+	 * {
+	 * 
+	 * storageDir = mAlbumStorageDirFactory.getAlbumStorageDir(getAlbumName());
+	 * 
+	 * if (storageDir != null) { if (! storageDir.mkdirs()) { if (!
+	 * storageDir.exists()){ Log.d("CameraSample",
+	 * "failed to create directory"); return null; } } }
+	 * 
+	 * } else { Log.v(getString(R.string.app_name),
+	 * "External storage is not mounted READ/WRITE."); }
+	 * 
+	 * return storageDir; }
+	 * 
+	 * private File createImageFile() throws IOException { // Create an image
+	 * file name String timeStamp = new
+	 * SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()); String
+	 * imageFileName = JPEG_FILE_PREFIX + timeStamp + "_"; File albumF =
+	 * getAlbumDir(); File imageF = File.createTempFile(imageFileName,
+	 * JPEG_FILE_SUFFIX, albumF); return imageF; }
+	 * 
+	 * private File setUpPhotoFile() throws IOException {
+	 * 
+	 * File f = createImageFile(); mCurrentPhotoPath = f.getAbsolutePath();
+	 * 
+	 * return f; }
+	 */
 
 	private View layoutView;
 	private LinearLayout layout;
@@ -216,7 +190,7 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 
 			moduleEditText.setVisibility(View.VISIBLE);
 			moduleAlign.setVisibility(View.VISIBLE);
-			editText.setText(((Button) currentView).getText());
+			editText.setText(((TextView) currentView).getText());
 
 			break;
 
@@ -230,6 +204,8 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 
 			moduleEditText.setVisibility(View.VISIBLE);
 			moduleAlign.setVisibility(View.VISIBLE);
+			editText.setText(((TextView) currentView).getText());
+
 			// moduleTextSize.setVisibility(View.VISIBLE);
 			break;
 
@@ -257,6 +233,8 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 		case R.id.element_textview:
 			moduleEditText.setVisibility(View.VISIBLE);
 			moduleAlign.setVisibility(View.VISIBLE);
+			editText.setText(((TextView) currentView).getText());
+
 			// moduleTextSize.setVisibility(View.VISIBLE);
 			break;
 		case R.id.element_timepicker:
@@ -295,9 +273,11 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 			((TextView) currentView).setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
 			break;
 		case R.id.item_edit_align_center_button:
-			((TextView) currentView).setGravity(Gravity.NO_GRAVITY);
+			((TextView) currentView).setGravity(Gravity.CENTER);
+			break;
 		case R.id.item_edit_align_right_button:
 			((TextView) currentView).setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+			break;
 		}
 	}
 
@@ -313,50 +293,18 @@ public class EditmodeFragment extends Fragment implements OnClickListener
 			switch (v.getId())
 			{
 			case R.id.image_choose_camera:
-
+				try
+				{
 					Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-
-					
-			        //startActivityForResult(cameraIntent, CAMERA);
-			        
-			        File f = null;
-					
-					try 
-					{
-						f = setUpPhotoFile();
-						photoPath = f.getAbsolutePath();
-						cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-					} 
-					catch (IOException e) 
-					{
-						e.printStackTrace();
-						f = null;
-						photoPath = null;
-					}
-					finally
-					{
-						startActivityForResult(cameraIntent, CAMERA);
-					}
-				
-					break;
-			
-				/*
-				}
-				catch (ActivityNotFoundException e) 
-=======
 
 					startActivityForResult(cameraIntent, CAMERA);
 				} catch (ActivityNotFoundException e)
->>>>>>> branch 'master' of https://github.com/UiBuilder/TestBuilder.git
 				{
 					String errorMessage = "Whoops - your device doesn't support capturing images!";
 					Toast toast = Toast.makeText(getActivity().getApplicationContext(), errorMessage, Toast.LENGTH_SHORT);
 					toast.show();
 				}
-<<<<<<< HEAD
-				break;*/
-
-
+				break;
 
 			case R.id.image_choose_gallery:
 				Intent intent = new Intent();
