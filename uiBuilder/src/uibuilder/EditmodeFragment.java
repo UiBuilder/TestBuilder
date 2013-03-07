@@ -104,46 +104,36 @@ public class EditmodeFragment extends Fragment
 			case ImageModuleListener.GALLERY: 
 			{ 
 				if (resultCode == Activity.RESULT_OK) 
-				{
-					
-					path = data.getData();
-					//handleGalleryImport();
-					Uri mImageUri = data.getData();        
-				    try {
-				    	Image = Media.getBitmap(getActivity().getContentResolver(), mImageUri);
-				        if (getOrientation(getActivity().getApplicationContext(), mImageUri) != 0) 
-				        {
-				        	Matrix matrix = new Matrix();
-				        	matrix.postRotate(getOrientation(getActivity().getApplicationContext(), mImageUri));
-				         
-				        	if (rotateImage != null)
-				        	  	rotateImage.recycle();
-				          
-				        	rotateImage = Bitmap.createBitmap(Image, 0, 0, Image.getWidth(), Image.getHeight(), matrix,true);
-				        	((ImageView) currentView).setImageBitmap(rotateImage);
-				        } 
-				        else
-				        {
-				        	
-				        	((ImageView) currentView).setImageBitmap(Image);
-				        
-				        }
-				      } 
-				    	catch (FileNotFoundException e) 
-				    	{
-				        e.printStackTrace();
-				    	} 
-				    	catch (IOException e) 
-				    	{
-				        e.printStackTrace();
-				    	}
-				    ((ImageView) currentView).invalidate();
-				  }
+				{		
+					path = data.getData(); 
+					photoPath = getPath(path);
+					handleGalleryImport();
+				 }
 				 
-			}break;
+			}
 		} 
 	}
+	/**
+	 * Approach from stackoverflow.com, but slightly modified to use the contentResolver instead
+	 * of the deprecated managedQuery.
+	 * 
+	 * @author Zelimir from "stackoverflow" 
+	 * src http://stackoverflow.com/questions/4859011/not-able-to-pick-photo-from-gallery?rq=1
+	 * @param uri
+	 * @return
+	 */
 	
+	public String getPath(Uri uri) 
+	{
+	    String[] projection = { MediaStore.Images.Media.DATA };
+	    Cursor cursor = getActivity().getContentResolver().query(uri, projection, null, null, null);
+
+	    int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+	    cursor.moveToFirst();
+	    return cursor.getString(column_index);
+	}
+	
+/*	not in use
 	private static Bitmap Image = null;
 	private static Bitmap rotateImage = null;
 	int rotation;
@@ -157,7 +147,7 @@ public class EditmodeFragment extends Fragment
 	    cursor.moveToFirst();
 	    return cursor.getInt(0);
 	  }
-	
+*/	
 	
 
 	private void getModules()
@@ -363,8 +353,6 @@ public class EditmodeFragment extends Fragment
 
 				Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 
-				// startActivityForResult(cameraIntent, CAMERA);
-
 				File f = null;
 
 				try
@@ -372,12 +360,14 @@ public class EditmodeFragment extends Fragment
 					f = setUpPhotoFile();
 					photoPath = f.getAbsolutePath();
 					cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-				} catch (IOException e)
+				} 
+				catch (IOException e)
 				{
 					e.printStackTrace();
 					f = null;
 					photoPath = null;
-				} finally
+				} 
+				finally
 				{
 					startActivityForResult(cameraIntent, CAMERA);
 				}
@@ -390,7 +380,6 @@ public class EditmodeFragment extends Fragment
 				intent.setAction(Intent.ACTION_GET_CONTENT);
 				startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY);
 				break;
-
 			}
 		}
 	}
@@ -461,7 +450,6 @@ public class EditmodeFragment extends Fragment
 				@Override
 				public void run()
 				{
-					// TODO Auto-generated method stub
 					editListener.refreshOverlay(currentView);
 				}
 			});
@@ -559,7 +547,8 @@ public class EditmodeFragment extends Fragment
 		
 		/* Figure out which way needs to be reduced less */
 		int scaleFactor = 1;
-		if ((targetW > 0) || (targetH > 0)) {
+		if ((targetW > 0) || (targetH > 0)) 
+		{
 			scaleFactor = Math.min(photoW/targetW, photoH/targetH);	
 		}
 
@@ -573,9 +562,6 @@ public class EditmodeFragment extends Fragment
 		
 		/* Associate the Bitmap to the ImageView */
 		((ImageView) currentView).setImageBitmap(bitmap);
-		//mVideoUri = null;
-		//((ImageView) currentView).setVisibility(View.VISIBLE);
-		//mVideoView.setVisibility(View.INVISIBLE);
 	}
 
 	private void galleryAddPic() 
@@ -641,6 +627,7 @@ public class EditmodeFragment extends Fragment
 		// Create an image file name
 		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 		String imageFileName = JPEG_FILE_PREFIX + timeStamp + "_";
+		
 		File albumF = getAlbumDir();
 		File imageF = File.createTempFile(imageFileName, JPEG_FILE_SUFFIX, albumF);
 		return imageF;
