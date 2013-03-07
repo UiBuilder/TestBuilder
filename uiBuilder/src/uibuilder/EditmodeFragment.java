@@ -10,7 +10,7 @@ import java.util.Date;
 import creators.Generator;
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.app.Fragment; 
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;

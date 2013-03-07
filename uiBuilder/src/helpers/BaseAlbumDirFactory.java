@@ -14,7 +14,7 @@ public final class BaseAlbumDirFactory extends AlbumStorageDirFactory {
 		return new File (
 				Environment.getExternalStorageDirectory()
 				+ CAMERA_DIR
-				+ albumName
+				+ albumName 
 		);
 	}
 }
