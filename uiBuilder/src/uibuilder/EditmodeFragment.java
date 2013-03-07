@@ -3,20 +3,27 @@ package uibuilder;
 import helpers.BaseAlbumDirFactory;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.MediaStore.Images.Media;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -98,12 +105,58 @@ public class EditmodeFragment extends Fragment
 			{ 
 				if (resultCode == Activity.RESULT_OK) 
 				{
-					//handleSmallCameraPhoto(data); 
-					//handle gallery
-				} break; 
-			 }
-		}
+					
+					path = data.getData();
+					//handleGalleryImport();
+					Uri mImageUri = data.getData();        
+				    try {
+				    	Image = Media.getBitmap(getActivity().getContentResolver(), mImageUri);
+				        if (getOrientation(getActivity().getApplicationContext(), mImageUri) != 0) 
+				        {
+				        	Matrix matrix = new Matrix();
+				        	matrix.postRotate(getOrientation(getActivity().getApplicationContext(), mImageUri));
+				         
+				        	if (rotateImage != null)
+				        	  	rotateImage.recycle();
+				          
+				        	rotateImage = Bitmap.createBitmap(Image, 0, 0, Image.getWidth(), Image.getHeight(), matrix,true);
+				        	((ImageView) currentView).setImageBitmap(rotateImage);
+				        } 
+				        else
+				        {
+				        	
+				        	((ImageView) currentView).setImageBitmap(Image);
+				        
+				        }
+				      } 
+				    	catch (FileNotFoundException e) 
+				    	{
+				        e.printStackTrace();
+				    	} 
+				    	catch (IOException e) 
+				    	{
+				        e.printStackTrace();
+				    	}
+				    ((ImageView) currentView).invalidate();
+				  }
+				 
+			}break;
+		} 
 	}
+	
+	private static Bitmap Image = null;
+	private static Bitmap rotateImage = null;
+	int rotation;
+	public int getOrientation(Context context, Uri photoUri) {
+	    Cursor cursor = getActivity().getApplicationContext().getContentResolver().query(photoUri,
+	        new String[] { MediaStore.Images.ImageColumns.ORIENTATION },null, null, null);
+	 
+	    if (cursor.getCount() != 1) {
+	      return -1;
+	    }
+	    cursor.moveToFirst();
+	    return cursor.getInt(0);
+	  }
 	
 	
 
@@ -468,6 +521,14 @@ public class EditmodeFragment extends Fragment
 	
 	}
 	
+	private void handleGalleryImport()
+	{
+		if (photoPath != null) 
+		{ 
+			setPic();
+		}
+	}
+	
 /*
 	
 	private void handleSmallCameraPhoto(Intent intent) 
@@ -513,7 +574,7 @@ public class EditmodeFragment extends Fragment
 		/* Associate the Bitmap to the ImageView */
 		((ImageView) currentView).setImageBitmap(bitmap);
 		//mVideoUri = null;
-		((ImageView) currentView).setVisibility(View.VISIBLE);
+		//((ImageView) currentView).setVisibility(View.VISIBLE);
 		//mVideoView.setVisibility(View.INVISIBLE);
 	}
 
