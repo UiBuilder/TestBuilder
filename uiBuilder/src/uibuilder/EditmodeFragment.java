@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import creators.Generator;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -210,13 +212,14 @@ public class EditmodeFragment extends Fragment
 
 	protected void adaptLayoutToContext(View view)
 	{
-
-		int tag = (Integer.valueOf(view.getTag().toString()));
+		Bundle tagBundle = (Bundle) view.getTag();
+		
+		int id = tagBundle.getInt(Generator.ID);
 
 		resetModules();
 
 		currentView = view;
-		switch (tag)
+		switch (id)
 		{
 		case R.id.element_button:
 			moduleEditText.setVisibility(View.VISIBLE);

@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+import creators.Generator;
 import creators.ObjectFactory;
 import de.ur.rk.uibuilder.R;
 
@@ -411,10 +412,12 @@ public class DesignFragment extends Fragment implements OnDragListener,
 			switch (dragIndicator.getId())
 			{
 			case R.id.overlay_drag:
-				Integer i = (Integer) activeItem.getTag();
+				
+				Bundle tagBundle = (Bundle) activeItem.getTag();
+				int id = tagBundle.getInt(Generator.ID);
 
-				ClipData.Item item = new ClipData.Item(i.toString());
-				ClipData clipData = new ClipData((CharSequence) i.toString(), new String[]
+				ClipData.Item item = new ClipData.Item(String.valueOf(id));
+				ClipData clipData = new ClipData((CharSequence) String.valueOf(id), new String[]
 				{ ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
 
 				activeItem.startDrag(clipData, new View.DragShadowBuilder(activeItem), activeItem, 0);
