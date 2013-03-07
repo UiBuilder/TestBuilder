@@ -60,13 +60,16 @@ public class Generator
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
 		gridFactor = DesignFragment.SNAP_GRID_INTERVAL;
-		res = context.getResources();
+		//res = context.getApplicationContext().getResources();
+		res = ref.getApplicationContext().getResources();
 	}
 
 	protected View generate(int id)
 	{
 		View xmlView;
 		RelativeLayout.LayoutParams params = null;
+		
+		int which = id;
 		
 		Bundle properties = null;
 		
@@ -75,14 +78,14 @@ public class Generator
 		case R.id.element_button:
 			Log.d("BUTTON", "BUILDING");
 			xmlView = buildButton();
-			properties = getBundle(id);
+			properties = getBundle(which);
 			//params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			params = new RelativeLayout.LayoutParams(properties.getInt(MINWIDTH), properties.getInt(MINHEIGHT));
 			break;
 
 		case R.id.element_textview:
 			xmlView = buildTextview();
-			properties = getBundle(id);
+			//properties = getBundle(id);
 			
 			params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			break;
@@ -146,12 +149,12 @@ public class Generator
 		}
 		
 		xmlView.setLayoutParams(params);
-		//xmlView.setTag(properties);
+		xmlView.setTag(properties);
 		xmlView.setOnTouchListener(manipulator);
 		xmlView.setId(idCount++);
 		//xmlView.setTag(id);
-		xmlView.measure(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		//xmlView.measure(properties.getInt(MINWIDTH), properties.getInt(MINHEIGHT));
+		//xmlView.measure(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		xmlView.measure(properties.getInt(MINWIDTH), properties.getInt(MINHEIGHT));
 		// factory.setMinDimensions(xmlView);
 
 		return xmlView;
@@ -166,10 +169,10 @@ public class Generator
 		switch (which)
 		{
 		case R.id.element_button:
-			
-			width = gridFactor * res.getDimensionPixelSize(R.dimen.button_factor_width);
-			height = gridFactor * res.getDimensionPixelSize(R.dimen.button_factor_height);
-			
+			Log.d("building", "bundle");
+			width = DesignFragment.SNAP_GRID_INTERVAL * res.getInteger(R.integer.button_factor_width);
+			height = DesignFragment.SNAP_GRID_INTERVAL * res.getInteger(R.integer.button_factor_height);
+			Log.d("building", "bundle done");
 			break;
 
 		case R.id.element_textview:
@@ -229,14 +232,15 @@ public class Generator
 
 			break;
 			
-			default:
-				Log.d("Bundle", " not BUILDING");
+		default:
+			Log.d("bundle ", "not built");
+			throw new NoClassDefFoundError();
 		}
 		
 		b.putInt(MINHEIGHT, height);
 		b.putInt(MINWIDTH, width);
 		b.putInt(ID, which);
-		
+		Log.d("bundle", "returning");
 		return b;
 	}
 

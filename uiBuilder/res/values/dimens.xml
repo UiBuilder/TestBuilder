@@ -15,8 +15,8 @@
     <!-- Min Dimensions for elements expressed as factors-->
     
     <!-- button -->
-    <item name="button_factor_width" format="integer" type="dimen">3</item>
-    <item name="button_factor_height" format="integer" type="dimen">2</item>
+    <item name="button_factor_width" format="integer" type="integer">3</item>
+    <item name="button_factor_height" format="integer" type="integer">2</item>
     
     <!-- textview -->
     <item name="textview_factor_width" format="integer" type="dimen">4</item>
