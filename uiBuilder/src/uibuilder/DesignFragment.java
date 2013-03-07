@@ -478,7 +478,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		case R.id.overlay_right:
 			distance = now.getX() - start.getX();
 			
-			if (checkMinWidth(dragParams, distance, itemTag, R.id.overlay_right))
+			if (checkMinSize(dragParams, distance, itemTag, R.id.overlay_right))
 			{
 				roundedDist = checkCollision(distance, R.id.overlay_right);
 				roundedDist = snapToGrid(roundedDist);
@@ -492,7 +492,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		case R.id.overlay_left:
 			distance = start.getX() - now.getX();
 			
-			if (checkMinWidth(dragParams, distance, itemTag, R.id.overlay_left))
+			if (checkMinSize(dragParams, distance, itemTag, R.id.overlay_left))
 			{
 				roundedDist = checkCollision(distance, R.id.overlay_left);
 				roundedDist = snapToGrid(roundedDist);
@@ -508,7 +508,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		case R.id.overlay_bottom:
 			distance = now.getY() - start.getY();
 
-			if (checkMinWidth(dragParams, distance, itemTag, R.id.overlay_bottom))
+			if (checkMinSize(dragParams, distance, itemTag, R.id.overlay_bottom))
 			{
 				roundedDist = checkCollision(distance, R.id.overlay_bottom);
 				roundedDist = snapToGrid(roundedDist);
@@ -521,7 +521,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		case R.id.overlay_top:
 			distance = start.getY() - now.getY();
 
-			if (checkMinWidth(dragParams, distance, itemTag, R.id.overlay_top))
+			if (checkMinSize(dragParams, distance, itemTag, R.id.overlay_top))
 			{
 				roundedDist = checkCollision(distance, R.id.overlay_top);
 				roundedDist = snapToGrid(roundedDist);
@@ -541,7 +541,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		activeItem.setLayoutParams(itemParams);
 	}
 	
-	private boolean checkMinWidth(RelativeLayout.LayoutParams params, float distance, Bundle itemTag, int which)
+	private boolean checkMinSize(RelativeLayout.LayoutParams params, float distance, Bundle itemTag, int which)
 	{
 		
 		int minWidth = itemTag.getInt(Generator.MINWIDTH);
