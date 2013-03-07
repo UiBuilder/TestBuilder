@@ -3,27 +3,21 @@ package uibuilder;
 import helpers.BaseAlbumDirFactory;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.provider.MediaStore.Images.Media;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -130,6 +124,7 @@ public class EditmodeFragment extends Fragment
 
 	    int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
 	    cursor.moveToFirst();
+	    
 	    return cursor.getString(column_index);
 	}
 	
@@ -529,7 +524,8 @@ public class EditmodeFragment extends Fragment
 		mVideoView.setVisibility(View.INVISIBLE); 
 	}*/
 	
-	private void setPic() {
+	private void setPic() 
+	{
 
 		/* There isn't enough memory to open up more than a couple camera photos */
 		/* So pre-scale the target bitmap into which the file is decoded */

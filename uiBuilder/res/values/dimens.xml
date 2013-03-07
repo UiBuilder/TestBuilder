@@ -12,23 +12,25 @@
     <dimen name="border_width_thin">1dp</dimen>
     <dimen name="border_radius_small">4dp</dimen>
     
-    <!-- Min Dimensions for elements -->
+    <!-- Min Dimensions for elements expressed as factors-->
     
     <!-- button -->
-    <dimen name="button_min_width">50dp</dimen>
-    <dimen name="button_min_height">25dp</dimen>
+    <item name="button_factor_width" format="integer" type="dimen">3</item>
+    <item name="button_factor_height" format="integer" type="dimen">2</item>
     
     <!-- textview -->
-    <dimen name="textview_min_width">50dp</dimen>
-    <dimen name="textview_min_height">25dp</dimen>
+    <item name="textview_factor_width" format="integer" type="dimen">4</item>
+    <item name="textview_factor_height" format="integer" type="dimen">2</item>
     
     <!-- edittext -->
-    <dimen name="edittext_min_width">50dp</dimen>
-    <dimen name="edittext_min_height">25dp</dimen>
+    <item name="edittext_factor_width" format="integer" type="dimen">5</item>
+    <item name="edittext_factor_height" format="integer" type="dimen">2</item>
     
     <!-- imageview -->
-    <dimen name="imageview_min_width">50dp</dimen>
-    <dimen name="imageview_min_height">25dp</dimen>
+    <item name="image_factor_width" format="integer" type="dimen">3</item>
+    <item name="image_factor_height" format="integer" type="dimen">3</item>
+    
+    
     
     <!-- paddings -->
     <dimen name="default_padding_small">5dp</dimen>

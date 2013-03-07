@@ -1,7 +1,10 @@
 package creators;
 
+import uibuilder.DesignFragment;
 import helpers.Log;
 import android.content.Context;
+import android.content.res.Resources;
+import android.os.Bundle;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -38,6 +41,12 @@ public class Generator
 	private OnTouchListener manipulator;
 	private ObjectFactory factory;
 	private LayoutInflater inflater;
+	
+	public static final String MINWIDTH = "mWidth", MINHEIGHT = "mHeight";
+	public static final String ID = "id";
+	
+	private Resources res;
+	private int gridFactor;
 
 	/**
 	 * Konstruktor
@@ -49,23 +58,32 @@ public class Generator
 		manipulator = mp;
 		this.factory = fucktory;
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		
+		gridFactor = DesignFragment.SNAP_GRID_INTERVAL;
+		res = context.getResources();
 	}
 
 	protected View generate(int id)
 	{
 		View xmlView;
-		RelativeLayout.LayoutParams params =
-		null;
+		RelativeLayout.LayoutParams params = null;
+		
+		Bundle properties = null;
 		
 		switch (id)
 		{
 		case R.id.element_button:
+			Log.d("BUTTON", "BUILDING");
 			xmlView = buildButton();
-			params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			properties = getBundle(id);
+			//params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			params = new RelativeLayout.LayoutParams(properties.getInt(MINWIDTH), properties.getInt(MINHEIGHT));
 			break;
 
 		case R.id.element_textview:
 			xmlView = buildTextview();
+			properties = getBundle(id);
+			
 			params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			break;
 
@@ -128,14 +146,98 @@ public class Generator
 		}
 		
 		xmlView.setLayoutParams(params);
+		//xmlView.setTag(properties);
 		xmlView.setOnTouchListener(manipulator);
 		xmlView.setId(idCount++);
-		xmlView.setTag(id);
+		//xmlView.setTag(id);
 		xmlView.measure(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-
+		//xmlView.measure(properties.getInt(MINWIDTH), properties.getInt(MINHEIGHT));
 		// factory.setMinDimensions(xmlView);
 
 		return xmlView;
+	}
+
+	private Bundle getBundle(int which)
+	{
+		Bundle b = new Bundle();
+		int width = 0;
+		int height = 0;
+		
+		switch (which)
+		{
+		case R.id.element_button:
+			
+			width = gridFactor * res.getDimensionPixelSize(R.dimen.button_factor_width);
+			height = gridFactor * res.getDimensionPixelSize(R.dimen.button_factor_height);
+			
+			break;
+
+		case R.id.element_textview:
+			
+			width = gridFactor * res.getDimensionPixelSize(R.dimen.textview_factor_width);
+			height = gridFactor * res.getDimensionPixelSize(R.dimen.textview_factor_height);	
+			
+			break;
+
+		case R.id.element_imageview:
+			
+			width = gridFactor * res.getDimensionPixelSize(R.dimen.image_factor_width);
+			height = gridFactor * res.getDimensionPixelSize(R.dimen.image_factor_height);
+			
+			break;
+
+		case R.id.element_edittext:
+
+			width = gridFactor * res.getDimensionPixelSize(R.dimen.edittext_factor_width);
+			height = gridFactor * res.getDimensionPixelSize(R.dimen.edittext_factor_height);
+			
+			break;
+
+		case R.id.element_radiogroup:
+
+			break;
+
+		case R.id.element_switch:
+
+			break;
+
+		case R.id.element_checkbox:
+
+			break;
+
+		case R.id.element_search:
+
+			break;
+
+		case R.id.element_numberpick:
+
+			break;
+
+		case R.id.element_ratingbar:
+
+			break;
+
+		case R.id.element_seekbar:
+
+			break;
+
+		case R.id.element_timepicker:
+
+			break;
+
+		case R.id.element_container:
+
+			break;
+			
+			default:
+				Log.d("Bundle", " not BUILDING");
+		}
+		
+		b.putInt(MINHEIGHT, height);
+		b.putInt(MINWIDTH, width);
+		b.putInt(ID, which);
+		
+		return b;
 	}
 
 	private View buildTimePicker()
@@ -326,9 +428,6 @@ public class Generator
 	private TextView buildTextview()
 	{
 		TextView xmlTextView = (TextView) inflater.inflate(R.layout.item_textview_layout, null);
-
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		xmlTextView.setLayoutParams(params);
 
 		return xmlTextView;
 	}
