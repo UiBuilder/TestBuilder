@@ -188,57 +188,57 @@ public class Generator
 
 		case R.id.element_radiogroup:
 
-			width = res.getInteger(R.integer.edittext_factor_width);
-			height = res.getInteger(R.integer.edittext_factor_height);
+			width = res.getInteger(R.integer.radio_factor_width);
+			height = res.getInteger(R.integer.radio_factor_height);
 			
 			break;
 
 		case R.id.element_switch:
 			
-			width = res.getInteger(R.integer.edittext_factor_width);
-			height = res.getInteger(R.integer.edittext_factor_height);
+			width = res.getInteger(R.integer.switch_factor_width);
+			height = res.getInteger(R.integer.switch_factor_height);
 			
 			break;
 
 		case R.id.element_checkbox:
 			
-			width = res.getInteger(R.integer.edittext_factor_width);
-			height = res.getInteger(R.integer.edittext_factor_height);
+			width = res.getInteger(R.integer.checkbox_factor_width);
+			height = res.getInteger(R.integer.checkbox_factor_height);
 
 			break;
 
 		case R.id.element_search:
 			
-			width = res.getInteger(R.integer.edittext_factor_width);
-			height = res.getInteger(R.integer.edittext_factor_height);
+			width = res.getInteger(R.integer.search_factor_width);
+			height = res.getInteger(R.integer.search_factor_height);
 
 			break;
 
 		case R.id.element_numberpick:
 			
-			width = res.getInteger(R.integer.edittext_factor_width);
-			height = res.getInteger(R.integer.edittext_factor_height);
+			width = res.getInteger(R.integer.numberpicker_factor_width);
+			height = res.getInteger(R.integer.numberpicker_factor_height);
 
 			break;
 
 		case R.id.element_ratingbar:
 			
-			width = res.getInteger(R.integer.edittext_factor_width);
-			height = res.getInteger(R.integer.edittext_factor_height);
+			width = res.getInteger(R.integer.ratingbar_factor_width);
+			height = res.getInteger(R.integer.ratingbar_factor_height);
 
 			break;
 
 		case R.id.element_seekbar:
 			
-			width = res.getInteger(R.integer.edittext_factor_width);
-			height = res.getInteger(R.integer.edittext_factor_height);
+			width = res.getInteger(R.integer.seekbar_factor_width);
+			height = res.getInteger(R.integer.seekbar_factor_height);
 
 			break;
 
 		case R.id.element_timepicker:
 			
-			width = res.getInteger(R.integer.edittext_factor_width);
-			height = res.getInteger(R.integer.edittext_factor_height);
+			width = res.getInteger(R.integer.timepicker_factor_width);
+			height = res.getInteger(R.integer.timepicker_factor_height);
 
 			break;
 
@@ -289,7 +289,10 @@ public class Generator
 		xmlSeekBar.setEnabled(false);
 		xmlSeekBar.setActivated(true);
 
-		xmlSeekBar.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+		RelativeLayout.LayoutParams seekBarParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		seekBarParams.addRule(RelativeLayout.CENTER_IN_PARENT, 1);
+		xmlSeekBar.setLayoutParams(seekBarParams);
+		
 		xmlSeekBarContainer.addView(xmlSeekBar);
 
 		return xmlSeekBarContainer;
@@ -302,11 +305,17 @@ public class Generator
 		RatingBar xmlRatingBar = (RatingBar) inflater.inflate(R.layout.item_ratingbar_layout, null);
 		xmlRatingBar.setEnabled(true);
 		xmlRatingBar.setActivated(true);
-
-		xmlRatingBar.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+		
+		RelativeLayout.LayoutParams ratingBarParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		ratingBarParams.addRule(RelativeLayout.CENTER_IN_PARENT, 1);
+		xmlRatingBar.setLayoutParams(ratingBarParams);
 
 		xmlRatingBarContainer.addView(xmlRatingBar);
-
+		
+		RelativeLayout.LayoutParams containerParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		xmlRatingBarContainer.setLayoutParams(containerParams);
+		
+		
 		return xmlRatingBarContainer;
 	}
 
@@ -322,7 +331,10 @@ public class Generator
 		xmlPicker.setWrapSelectorWheel(false);
 		xmlPicker.setValue(3);
 
-		xmlPicker.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		RelativeLayout.LayoutParams pickerParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		pickerParams.addRule(RelativeLayout.CENTER_IN_PARENT, 1);
+		
+		xmlPicker.setLayoutParams(pickerParams);
 		xmlPickerLayout.addView(xmlPicker);
 
 		return xmlPickerLayout;
@@ -407,7 +419,8 @@ public class Generator
 
 		SearchView xmlSearchView = (SearchView) inflater.inflate(R.layout.item_searchview_layout, null);
 
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		params.addRule(RelativeLayout.CENTER_IN_PARENT, 1);
 		xmlSearchView.setLayoutParams(params);
 
 		xmlSearchView.setEnabled(false);
