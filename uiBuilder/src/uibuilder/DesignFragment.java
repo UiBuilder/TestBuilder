@@ -471,61 +471,67 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 		float distance;
 		int roundedDist;
-
+		Bundle itemTag = (Bundle) activeItem.getTag();
+		
 		switch (handleId)
 		{
 		case R.id.overlay_right:
 			distance = now.getX() - start.getX();
-
-			roundedDist = checkCollision(distance, R.id.overlay_right);
-			roundedDist = snapToGrid(roundedDist);
-
-			itemParams.width = dragParams.width = activeItem.getMeasuredWidth()
-					+ roundedDist;
-			itemParams.height = dragParams.height = activeItem.getMeasuredHeight();
-
+			
+			if (checkMinWidth(dragParams, distance, itemTag, R.id.overlay_right))
+			{
+				roundedDist = checkCollision(distance, R.id.overlay_right);
+				roundedDist = snapToGrid(roundedDist);
+	
+				itemParams.width = dragParams.width = activeItem.getMeasuredWidth()
+						+ roundedDist;
+				itemParams.height = dragParams.height = activeItem.getMeasuredHeight();
+			}
 			break;
 
 		case R.id.overlay_left:
 			distance = start.getX() - now.getX();
-
-			roundedDist = checkCollision(distance, R.id.overlay_left);
-			roundedDist = snapToGrid(roundedDist);
-
-			dragParams.leftMargin = drag.getLeft() - roundedDist;
-			itemParams.leftMargin = activeItem.getLeft() - roundedDist;
-
-			itemParams.width = dragParams.width = activeItem.getMeasuredWidth()
-					+ roundedDist;
-			itemParams.height = dragParams.height = activeItem.getMeasuredHeight();
-
+			
+			if (checkMinWidth(dragParams, distance, itemTag, R.id.overlay_left))
+			{
+				roundedDist = checkCollision(distance, R.id.overlay_left);
+				roundedDist = snapToGrid(roundedDist);
+	
+				dragParams.leftMargin = drag.getLeft() - roundedDist;
+				itemParams.leftMargin = activeItem.getLeft() - roundedDist;
+	
+				itemParams.width = dragParams.width = activeItem.getMeasuredWidth() + roundedDist;
+				itemParams.height = dragParams.height = activeItem.getMeasuredHeight();
+			}
 			break;
 
 		case R.id.overlay_bottom:
 			distance = now.getY() - start.getY();
 
-			roundedDist = checkCollision(distance, R.id.overlay_bottom);
-			roundedDist = snapToGrid(roundedDist);
-
-			itemParams.width = dragParams.width = activeItem.getMeasuredWidth();
-			itemParams.height = dragParams.height = activeItem.getMeasuredHeight()
-					+ roundedDist;
-
+			if (checkMinWidth(dragParams, distance, itemTag, R.id.overlay_bottom))
+			{
+				roundedDist = checkCollision(distance, R.id.overlay_bottom);
+				roundedDist = snapToGrid(roundedDist);
+	
+				itemParams.width = dragParams.width = activeItem.getMeasuredWidth();
+				itemParams.height = dragParams.height = activeItem.getMeasuredHeight() + roundedDist;
+			}
 			break;
 
 		case R.id.overlay_top:
 			distance = start.getY() - now.getY();
 
-			roundedDist = checkCollision(distance, R.id.overlay_top);
-			roundedDist = snapToGrid(roundedDist);
-
-			dragParams.topMargin = drag.getTop() - roundedDist;
-			itemParams.topMargin = activeItem.getTop() - roundedDist;
-
-			itemParams.width = dragParams.width = activeItem.getMeasuredWidth();
-			itemParams.height = dragParams.height = activeItem.getMeasuredHeight()
-					+ roundedDist;
-
+			if (checkMinWidth(dragParams, distance, itemTag, R.id.overlay_top))
+			{
+				roundedDist = checkCollision(distance, R.id.overlay_top);
+				roundedDist = snapToGrid(roundedDist);
+	
+				dragParams.topMargin = drag.getTop() - roundedDist;
+				itemParams.topMargin = activeItem.getTop() - roundedDist;
+	
+				itemParams.width = dragParams.width = activeItem.getMeasuredWidth();
+				itemParams.height = dragParams.height = activeItem.getMeasuredHeight() + roundedDist;
+			}
 			break;
 
 		default:
@@ -534,13 +540,38 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		drag.setLayoutParams(dragParams);
 		activeItem.setLayoutParams(itemParams);
 	}
+	
+	private boolean checkMinWidth(RelativeLayout.LayoutParams params, float distance, Bundle itemTag, int which)
+	{
+		
+		int minWidth = itemTag.getInt(Generator.MINWIDTH);
+		int minHeight = itemTag.getInt(Generator.MINHEIGHT);
+		
+		switch (which)
+		{
+		case R.id.overlay_right: 
+		case R.id.overlay_left:
+			
+			return params.width >= minWidth && !(params.width + distance < minWidth);
+			
+			
+		case R.id.overlay_bottom:
+		case R.id.overlay_top:
+			
+			return params.height >= minHeight && !(params.height + distance < minHeight);
+
+		default:
+			
+		}
+		return false;
+	}
 
 	/**
 	 * Checks whether the current resize in progress will be larger than the
 	 * workspace.
 	 * 
 	 * @param distance
-	 *            the current distance moved from the origin
+	 *            the current distance moved from the origin of the movement
 	 * @param which
 	 *            is the id of the overlay element that initiated the scale
 	 *            action
