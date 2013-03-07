@@ -1,7 +1,7 @@
 package creators;
 
-import uibuilder.DesignFragment;
 import helpers.Log;
+import uibuilder.DesignFragment;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -19,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
@@ -39,7 +38,6 @@ public class Generator
 
 	private Context context;
 	private OnTouchListener manipulator;
-	private ObjectFactory factory;
 	private LayoutInflater inflater;
 	
 	public static final String MINWIDTH = "mWidth", MINHEIGHT = "mHeight";
@@ -56,11 +54,10 @@ public class Generator
 		idCount = 1;
 		context = ref;
 		manipulator = mp;
-		this.factory = fucktory;
+
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
 		gridFactor = DesignFragment.SNAP_GRID_INTERVAL;
-		//res = context.getApplicationContext().getResources();
 		res = ref.getApplicationContext().getResources();
 	}
 
@@ -68,167 +65,187 @@ public class Generator
 	{
 		View xmlView;
 		RelativeLayout.LayoutParams params = null;
-		
-		int which = id;
-		
-		Bundle properties = null;
+		Bundle properties = getBundle(id);;
 		
 		switch (id)
 		{
 		case R.id.element_button:
-			Log.d("BUTTON", "BUILDING");
 			xmlView = buildButton();
-			properties = getBundle(which);
-			//params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-			params = new RelativeLayout.LayoutParams(properties.getInt(MINWIDTH), properties.getInt(MINHEIGHT));
+
 			break;
 
 		case R.id.element_textview:
 			xmlView = buildTextview();
-			//properties = getBundle(id);
 			
-			params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			break;
 
 		case R.id.element_imageview:
 			xmlView = buildImageView();
-			params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			
 			break;
 
 		case R.id.element_edittext:
 			xmlView = buildEditText();
-			params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			
 			break;
 
 		case R.id.element_radiogroup:
 			xmlView = buildRadioButtons();
-			params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			
 			break;
 
 		case R.id.element_switch:
 			xmlView = buildSwitch();
-			params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			
 			break;
 
 		case R.id.element_checkbox:
 			xmlView = buildCheckBox();
-			params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			
 			break;
 
 		case R.id.element_search:
 			xmlView = buildSearchView();
-			params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			
 			break;
 
 		case R.id.element_numberpick:
 			xmlView = buildNumberPicker();
-			params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			
 			break;
 
 		case R.id.element_ratingbar:
 			xmlView = buildRatingBar();
-			params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			
 			break;
 
 		case R.id.element_seekbar:
 			xmlView = buildSeekBar();
-			params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			
 			break;
 
 		case R.id.element_timepicker:
 			xmlView = buildTimePicker();
-			params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			
 			break;
 
 		case R.id.element_container:
 			xmlView = buildRelativeContainer();
+			
 			break;
 
 		default:
 			throw new NoClassDefFoundError();
 		}
 		
+		params = new RelativeLayout.LayoutParams(properties.getInt(MINWIDTH), properties.getInt(MINHEIGHT));
 		xmlView.setLayoutParams(params);
+		
+		xmlView.setId(idCount++);
 		xmlView.setTag(properties);
 		xmlView.setOnTouchListener(manipulator);
-		xmlView.setId(idCount++);
-		//xmlView.setTag(id);
-		//xmlView.measure(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		
 		xmlView.measure(properties.getInt(MINWIDTH), properties.getInt(MINHEIGHT));
-		// factory.setMinDimensions(xmlView);
 
 		return xmlView;
 	}
 
 	private Bundle getBundle(int which)
 	{
-		Bundle b = new Bundle();
+		Bundle tagBundle = new Bundle();
 		int width = 0;
 		int height = 0;
 		
 		switch (which)
 		{
 		case R.id.element_button:
-			Log.d("building", "bundle");
-			width = DesignFragment.SNAP_GRID_INTERVAL * res.getInteger(R.integer.button_factor_width);
-			height = DesignFragment.SNAP_GRID_INTERVAL * res.getInteger(R.integer.button_factor_height);
-			Log.d("building", "bundle done");
+
+			width = res.getInteger(R.integer.button_factor_width);
+			height = res.getInteger(R.integer.button_factor_height);
+
 			break;
 
 		case R.id.element_textview:
 			
-			width = gridFactor * res.getDimensionPixelSize(R.dimen.textview_factor_width);
-			height = gridFactor * res.getDimensionPixelSize(R.dimen.textview_factor_height);	
+			width = res.getInteger(R.integer.textview_factor_width);
+			height = res.getInteger(R.integer.textview_factor_height);	
 			
 			break;
 
 		case R.id.element_imageview:
 			
-			width = gridFactor * res.getDimensionPixelSize(R.dimen.image_factor_width);
-			height = gridFactor * res.getDimensionPixelSize(R.dimen.image_factor_height);
+			width = res.getInteger(R.integer.image_factor_width);
+			height = res.getInteger(R.integer.image_factor_height);
 			
 			break;
 
 		case R.id.element_edittext:
 
-			width = gridFactor * res.getDimensionPixelSize(R.dimen.edittext_factor_width);
-			height = gridFactor * res.getDimensionPixelSize(R.dimen.edittext_factor_height);
+			width = res.getInteger(R.integer.edittext_factor_width);
+			height = res.getInteger(R.integer.edittext_factor_height);
 			
 			break;
 
 		case R.id.element_radiogroup:
 
+			width = res.getInteger(R.integer.edittext_factor_width);
+			height = res.getInteger(R.integer.edittext_factor_height);
+			
 			break;
 
 		case R.id.element_switch:
-
+			
+			width = res.getInteger(R.integer.edittext_factor_width);
+			height = res.getInteger(R.integer.edittext_factor_height);
+			
 			break;
 
 		case R.id.element_checkbox:
+			
+			width = res.getInteger(R.integer.edittext_factor_width);
+			height = res.getInteger(R.integer.edittext_factor_height);
 
 			break;
 
 		case R.id.element_search:
+			
+			width = res.getInteger(R.integer.edittext_factor_width);
+			height = res.getInteger(R.integer.edittext_factor_height);
 
 			break;
 
 		case R.id.element_numberpick:
+			
+			width = res.getInteger(R.integer.edittext_factor_width);
+			height = res.getInteger(R.integer.edittext_factor_height);
 
 			break;
 
 		case R.id.element_ratingbar:
+			
+			width = res.getInteger(R.integer.edittext_factor_width);
+			height = res.getInteger(R.integer.edittext_factor_height);
 
 			break;
 
 		case R.id.element_seekbar:
+			
+			width = res.getInteger(R.integer.edittext_factor_width);
+			height = res.getInteger(R.integer.edittext_factor_height);
 
 			break;
 
 		case R.id.element_timepicker:
+			
+			width = res.getInteger(R.integer.edittext_factor_width);
+			height = res.getInteger(R.integer.edittext_factor_height);
 
 			break;
 
 		case R.id.element_container:
+			
+			width = res.getInteger(R.integer.edittext_factor_width);
+			height = res.getInteger(R.integer.edittext_factor_height);
 
 			break;
 			
@@ -237,11 +254,14 @@ public class Generator
 			throw new NoClassDefFoundError();
 		}
 		
-		b.putInt(MINHEIGHT, height);
-		b.putInt(MINWIDTH, width);
-		b.putInt(ID, which);
-		Log.d("bundle", "returning");
-		return b;
+		width *= gridFactor;
+		height *= gridFactor;
+		
+		tagBundle.putInt(MINHEIGHT, height);
+		tagBundle.putInt(MINWIDTH, width);
+		tagBundle.putInt(ID, which);
+
+		return tagBundle;
 	}
 
 	private View buildTimePicker()
@@ -254,7 +274,6 @@ public class Generator
 
 		RelativeLayout.LayoutParams pickerparams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		pickerparams.addRule(RelativeLayout.CENTER_IN_PARENT, 1);
-		// pickerparams.addRule(RelativeLayout., anchor)
 
 		xmlTimePicker.setLayoutParams(pickerparams);
 		xmlTimePickerContainer.addView(xmlTimePicker);
@@ -471,34 +490,4 @@ public class Generator
 
 		return xmlButton;
 	}
-	/*
-	 * private void askForSpecification(int which) { switch (which) { case
-	 * ObjectFactory.ID_RADIOBUTTONS:
-	 * 
-	 * askForNumber().show();
-	 * 
-	 * break;
-	 * 
-	 * default: break; }
-	 * 
-	 * }
-	 * 
-	 * private AlertDialog askForNumber() {
-	 * 
-	 * View npView = inflater.inflate(R.layout.item_numberpicker_layout, null);
-	 * NumberPicker np = (NumberPicker) npView.findViewById(R.id.np);
-	 * np.setMaxValue(5); np.setMinValue(1); np.setWrapSelectorWheel(false);
-	 * 
-	 * return new AlertDialog.Builder(context.getApplicationContext())
-	 * .setTitle("Number of Items") .setView(npView) .setPositiveButton("OK",
-	 * new DialogInterface.OnClickListener() { public void
-	 * onClick(DialogInterface dialog, int whichButton) {
-	 * 
-	 * } }) .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-	 * public void onClick(DialogInterface dialog, int whichButton) {
-	 * 
-	 * } }) .create();
-	 * 
-	 * }
-	 */
 }
