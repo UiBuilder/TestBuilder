@@ -5,7 +5,6 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="design_choose_item_to_add">Choose the Item you want to add</string>
-    
     <string name="overlay_desc">Handle for manipulation</string>
 
     <string-array name="itembox_items_string_array">
@@ -16,54 +15,52 @@
         <item>EditText</item>
         <item>Switch</item>
         <item>RadioGroup</item>
-        <item>...</item>
     </string-array>
 
     <string name="edittext_hint_default">Enter some text</string>
-    
+
     <!-- ITEMBOX SIMPLE ELEMENTS -->
     <string name="itembox_simple_title">Simple Elements</string>
     <string name="itembox_simple_element_caption_button">Button</string>
     <string name="itembox_simple_element_caption_imageview">Image</string>
     <string name="itembox_simple_element_caption_textview">Text</string>
-    
     <string name="itembox_simple_element_caption_edittext">Edit Text</string>
     <string name="itembox_simple_element_caption_container">Container</string>
-    
+
     <!-- ITEMBOX COMPLEX ELEMENTS -->
     <string name="itembox_complex_title">Complex Elements</string>
     <string name="itembox_complex_element_caption_radio">Radiobutton</string>
     <string name="itembox_complex_element_caption_switch">Switch</string>
     <string name="itembox_complex_element_caption_checkbox">Checkbox</string>
-    
     <string name="itembox_complex_element_caption_search">Search</string>
     <string name="itembox_complex_element_caption_numberpick">Picker</string>
     <string name="itembox_complex_element_caption_ratingbar">Rating</string>
-    
     <string name="itembox_complex_element_caption_timepicker">Time</string>
     <string name="itembox_complex_element_caption_seekbar">Seekbar</string>
-    
-    
     <string name="button_caption_default">Button</string>
     <string name="radios_caption_default">Option</string>
     <string name="item_edit_enter_text">Beschriftung des Objekts:</string>
-    
+
     <!-- IMAGES -->
     <string name="item_edit_choose_camera">From Camera</string>
     <string name="item_edit_choose_gallery">From Gallery</string>
     <string name="imageview_content_description">Generic Image</string>
     <string name="item_edit_choose_caption">Choose Image</string>
-    
     <string name="album_name">uiBuilder</string>
-    
-    
-    <!-- TEXTELEMENT -->
+
+    <!-- EDITMODE TEXTELEMENT -->
     <string name="textview_content_default">Lorem Ipsum Dolor</string>
     <string name="item_edit_align_content">Ausrichtung des Inhalts</string>
-    <string name="item_edit_align_left">Links</string>
-    <string name="item_edit_align_center">Mitte</string>
-    <string name="item_edit_align_right">Rechts</string>
+    <string name="editmode_align_top_left">TOP LEFT</string>
+    <string name="editmode_align_top_center">TOP CENTER</string>
+    <string name="editmode_align_top_right">TOP RIGHT</string>
+    <string name="editmode_align_center_left">CENTER LEFT</string>
+    <string name="editmode_align_center_center">CENTER</string>
+    <string name="editmode_align_center_right">CENTER RIGHT</string>
+    <string name="editmode_align_bottom_left">BOTTOM LEFT</string>
+    <string name="editmode_align_bottom_center">BOTTOM CENTER</string>
+    <string name="editmode_align_bottom_right">BOTTOM RIGHT</string>
     <string name="item_edit_enter_item_count">Anzahl der Elemente</string>
-    
+  
 
 </resources>

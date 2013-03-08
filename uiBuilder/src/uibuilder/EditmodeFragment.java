@@ -7,10 +7,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import creators.Generator;
-
 import android.app.Activity;
-import android.app.Fragment; 
+import android.app.Fragment;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -20,17 +18,25 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
+import android.widget.NumberPicker.OnValueChangeListener;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
+import creators.Generator;
 import de.ur.rk.uibuilder.R;
 
 public class EditmodeFragment extends Fragment
@@ -42,6 +48,7 @@ public class EditmodeFragment extends Fragment
 	private LayoutInflater inflater;
 	private View currentView;
 	private EditText editText, editSize;
+	private NumberPicker picker;
 
 	private LinearLayout moduleAlign, modulePicture, moduleEditText,
 			moduleItemCount, moduleChangeSize;
@@ -160,42 +167,95 @@ public class EditmodeFragment extends Fragment
 		moduleChangeSize.setVisibility(View.VISIBLE);
 
 		setupPictureModule();
-		setupAlignModule();
 		setupEdittextModule();
 		setupChangesizeModule();
+		setupAlignModule();
 
 		// and so on..
 	}
 
 	private void setupChangesizeModule()
 	{
-		Button larger = (Button) layoutView.findViewById(R.id.item_edit_editsize_bigger);
-		Button smaller = (Button) layoutView.findViewById(R.id.item_edit_editsize_smaller);
-		editSize = (EditText) layoutView.findViewById(R.id.item_edit_editsize_field);
-		larger.setOnClickListener(new ChangesizeModuleListener());
-		smaller.setOnClickListener(new ChangesizeModuleListener());
+
+		picker = (NumberPicker) layoutView.findViewById(R.id.item_edit_editsize_picker);
+		picker.setOnValueChangedListener(new ChangesizeModuleListener());
+		picker.setMinValue(5);
+		picker.setMaxValue(100);
 
 	}
 
 	private void setupEdittextModule()
 	{
-		Button submit = (Button) layoutView.findViewById(R.id.item_edit_edittext_submitbutton);
 
 		editText = (EditText) layoutView.findViewById(R.id.item_edit_edittext);
-
-		submit.setOnClickListener(new EditTextModuleListener());
+		editText.addTextChangedListener(new EditTextModuleListener());
 
 	}
 
 	private void setupAlignModule()
 	{
 
-		Button alignLeft = (Button) layoutView.findViewById(R.id.item_edit_align_left_button);
-		Button alignRight = (Button) layoutView.findViewById(R.id.item_edit_align_right_button);
-		Button alignCenter = (Button) layoutView.findViewById(R.id.item_edit_align_center_button);
-		alignLeft.setOnClickListener(new AlignModuleListener());
-		alignRight.setOnClickListener(new AlignModuleListener());
-		alignCenter.setOnClickListener(new AlignModuleListener());
+		Button topLeft = (Button) layoutView.findViewById(R.id.editmode_align_top_left);
+		Button topRight = (Button) layoutView.findViewById(R.id.editmode_align_top_center);
+		Button topCenter = (Button) layoutView.findViewById(R.id.editmode_align_top_right);
+		Button centerLeft = (Button) layoutView.findViewById(R.id.editmode_align_center_left);
+		Button centerCenter = (Button) layoutView.findViewById(R.id.editmode_align_center_center);
+		Button centerRight = (Button) layoutView.findViewById(R.id.editmode_align_center_right);
+		Button bottomLeft = (Button) layoutView.findViewById(R.id.editmode_align_bottom_left);
+		Button bottomCenter = (Button) layoutView.findViewById(R.id.editmode_align_bottom_center);
+		Button bottomRight = (Button) layoutView.findViewById(R.id.editmode_align_bottom_right);
+
+		topLeft.setOnClickListener(new AlignModuleListener());
+		topCenter.setOnClickListener(new AlignModuleListener());
+		topRight.setOnClickListener(new AlignModuleListener());
+		centerLeft.setOnClickListener(new AlignModuleListener());
+		centerCenter.setOnClickListener(new AlignModuleListener());
+		centerRight.setOnClickListener(new AlignModuleListener());
+		bottomLeft.setOnClickListener(new AlignModuleListener());
+		bottomCenter.setOnClickListener(new AlignModuleListener());
+		bottomRight.setOnClickListener(new AlignModuleListener());
+
+		/*
+		 * int gravity = ((TextView) currentView).getGravity(); switch (gravity)
+		 * { case Gravity.TOP | Gravity.LEFT:
+		 * topLeft.setBackgroundColor(getResources
+		 * ().getColor(R.color.overlay_background_active)); break;
+		 * 
+		 * case Gravity.TOP | Gravity.CENTER_HORIZONTAL:
+		 * topCenter.setBackgroundColor
+		 * (getResources().getColor(R.color.overlay_background_active)); break;
+		 * 
+		 * case Gravity.TOP | Gravity.RIGHT:
+		 * topRight.setBackgroundColor(getResources
+		 * ().getColor(R.color.overlay_background_active)); break;
+		 * 
+		 * case Gravity.CENTER_VERTICAL | Gravity.LEFT:
+		 * centerLeft.setBackgroundColor
+		 * (getResources().getColor(R.color.overlay_background_active)); break;
+		 * 
+		 * case Gravity.CENTER:
+		 * centerCenter.setBackgroundColor(getResources().getColor
+		 * (R.color.overlay_background_active)); break;
+		 * 
+		 * case Gravity.CENTER_VERTICAL | Gravity.RIGHT:
+		 * centerRight.setBackgroundColor
+		 * (getResources().getColor(R.color.overlay_background_active)); break;
+		 * 
+		 * case Gravity.BOTTOM | Gravity.LEFT:
+		 * bottomLeft.setBackgroundColor(getResources
+		 * ().getColor(R.color.overlay_background_active)); break;
+		 * 
+		 * case Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL:
+		 * bottomCenter.setBackgroundColor
+		 * (getResources().getColor(R.color.overlay_background_active)); break;
+		 * 
+		 * case Gravity.BOTTOM | Gravity.RIGHT:
+		 * bottomRight.setBackgroundColor(getResources
+		 * ().getColor(R.color.overlay_background_active)); break;
+		 * 
+		 * }
+		 */
+
 	}
 
 	private void setupPictureModule()
@@ -220,11 +280,14 @@ public class EditmodeFragment extends Fragment
 		switch (id)
 		{
 		case R.id.element_button:
+
 			moduleEditText.setVisibility(View.VISIBLE);
-			moduleAlign.setVisibility(View.VISIBLE);
-			moduleChangeSize.setVisibility(View.VISIBLE);
 			editText.setText(getViewText(currentView));
-			editSize.setText(String.valueOf((int) ((TextView) currentView).getTextSize()));
+
+			// moduleAlign.setVisibility(View.VISIBLE);
+
+			moduleChangeSize.setVisibility(View.VISIBLE);
+			picker.setValue((int) ((TextView) currentView).getTextSize());
 
 			break;
 
@@ -232,7 +295,6 @@ public class EditmodeFragment extends Fragment
 
 			// moduleItemCount.setVisibility(View.VISIBLE);
 			moduleEditText.setVisibility(View.VISIBLE);
-
 			editText.setText(getViewText(currentView));
 
 			break;
@@ -240,8 +302,9 @@ public class EditmodeFragment extends Fragment
 		case R.id.element_edittext:
 
 			moduleEditText.setVisibility(View.VISIBLE);
-			moduleAlign.setVisibility(View.VISIBLE);
 			editText.setText(((TextView) currentView).getText());
+
+			moduleAlign.setVisibility(View.VISIBLE);
 
 			// moduleTextSize.setVisibility(View.VISIBLE);
 			break;
@@ -273,10 +336,12 @@ public class EditmodeFragment extends Fragment
 			break;
 		case R.id.element_textview:
 			moduleChangeSize.setVisibility(View.VISIBLE);
+			picker.setValue((int) ((TextView) currentView).getTextSize());
+
 			moduleEditText.setVisibility(View.VISIBLE);
-			moduleAlign.setVisibility(View.VISIBLE);
 			editText.setText(getViewText(currentView));
-			// editSize.setText((int)((TextView)currentView).getTextSize());
+
+			moduleAlign.setVisibility(View.VISIBLE);
 
 			break;
 		case R.id.element_timepicker:
@@ -378,18 +443,30 @@ public class EditmodeFragment extends Fragment
 		}
 	}
 
-	private class EditTextModuleListener implements OnClickListener
+	private class EditTextModuleListener implements TextWatcher
 	{
 
 		@Override
-		public void onClick(View v)
+		public void afterTextChanged(Editable s)
 		{
-			switch (v.getId())
-			{
-			case R.id.item_edit_edittext_submitbutton:
-				setViewText((editText.getText().toString()));
-				break;
-			}
+			setViewText(s.toString());
+
+		}
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after)
+		{
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before,
+				int count)
+		{
+			// TODO Auto-generated method stub
+
 		}
 	}
 
@@ -399,52 +476,56 @@ public class EditmodeFragment extends Fragment
 		@Override
 		public void onClick(View v)
 		{
+
 			switch (v.getId())
 			{
-			case R.id.item_edit_align_left_button:
+			case R.id.editmode_align_top_left:
 				((TextView) currentView).setGravity(Gravity.LEFT);
 				break;
-			case R.id.item_edit_align_center_button:
+			case R.id.editmode_align_top_center:
 				((TextView) currentView).setGravity(Gravity.CENTER_HORIZONTAL);
 				break;
-			case R.id.item_edit_align_right_button:
+			case R.id.editmode_align_top_right:
 				((TextView) currentView).setGravity(Gravity.RIGHT);
 				break;
+			case R.id.editmode_align_center_left:
+				((TextView) currentView).setGravity(Gravity.LEFT
+						| Gravity.CENTER_VERTICAL);
+
+				break;
+			case R.id.editmode_align_center_center:
+				((TextView) currentView).setGravity(Gravity.CENTER);
+
+				break;
+			case R.id.editmode_align_center_right:
+				((TextView) currentView).setGravity(Gravity.RIGHT
+						| Gravity.CENTER_VERTICAL);
+
+				break;
+			case R.id.editmode_align_bottom_left:
+				((TextView) currentView).setGravity(Gravity.LEFT
+						| Gravity.BOTTOM);
+
+				break;
+			case R.id.editmode_align_bottom_center:
+				((TextView) currentView).setGravity(Gravity.CENTER_HORIZONTAL
+						| Gravity.BOTTOM);
+
+				break;
+			case R.id.editmode_align_bottom_right:
+				((TextView) currentView).setGravity(Gravity.RIGHT
+						| Gravity.BOTTOM);
+
+				break;
 
 			}
 
 		}
+
 	}
 
-	private class ChangesizeModuleListener implements OnClickListener
+	private class ChangesizeModuleListener implements OnValueChangeListener
 	{
-
-		@Override
-		public void onClick(View v)
-		{
-
-			switch (v.getId())
-			{
-			case R.id.item_edit_editsize_bigger:
-				changeSize((TextView) currentView, 1);
-				break;
-			case R.id.item_edit_editsize_smaller:
-				changeSize((TextView) currentView, -1);
-				break;
-
-			}
-
-			currentView.invalidate();
-			currentView.post(new Runnable()
-			{
-
-				@Override
-				public void run()
-				{
-					editListener.refreshOverlay(currentView);
-				}
-			});
-		}
 
 		private void changeSize(TextView view, int sizeStep)
 		{
@@ -462,6 +543,13 @@ public class EditmodeFragment extends Fragment
 			// p.setTextSize(newSize);
 			((TextView) currentView).setTextSize(newSize);
 			editSize.setText(String.valueOf(newSize));
+
+		}
+
+		@Override
+		public void onValueChange(NumberPicker picker, int oldVal, int newVal)
+		{
+			((TextView) currentView).setTextSize(newVal);
 
 		}
 	}
