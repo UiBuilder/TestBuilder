@@ -9,6 +9,6 @@
 
 	    
 	    />
-	<solid android:color="@color/text_light"
+	<solid android:color="@color/designfragment_background"
 	    />
 </shape>
