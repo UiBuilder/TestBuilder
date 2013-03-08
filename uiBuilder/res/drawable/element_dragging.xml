@@ -9,6 +9,6 @@
 
 	    
 	    />
-	<solid android:color="@color/element_out_of_dropzone"
+	<solid android:color="@color/text_light"
 	    />
 </shape>

@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.ClipData;
 import android.content.ClipDescription;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.DragEvent;
 import android.view.GestureDetector;
@@ -183,8 +182,24 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 		switch (action)
 		{
+		case MotionEvent.ACTION_POINTER_DOWN:
+
+			int pointerId = event.getPointerId(getIndex(event));
+			Log.d("pointer down", String.valueOf(event.getPointerId(getIndex(event))));
+
+			//if (pointerId == 1)
+			{
+				secondPointer = true;
+			}
+
+			return true;
+		
 		case MotionEvent.ACTION_DOWN:
 
+			if (secondPointer)
+			{
+				return true;
+			}
 			currentTouch = v;
 
 			listener.objectChanged(currentTouch);
@@ -259,17 +274,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 			}
 			break;
 
-		case MotionEvent.ACTION_POINTER_DOWN:
-
-			int pointerId = event.getPointerId(getIndex(event));
-			Log.d("pointer down", String.valueOf(event.getPointerId(getIndex(event))));
-
-			if (pointerId == 1)
-			{
-				secondPointer = true;
-			}
-
-			break;
 
 		case MotionEvent.ACTION_POINTER_UP:
 
@@ -408,6 +412,8 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
 			float distanceY)
 	{
+		if (secondPointer) return true;
+		
 		invalidate();
 		if (dragIndicator != null && activeItem != null)
 		{
@@ -647,9 +653,10 @@ public class DesignFragment extends Fragment implements OnDragListener,
 			switch (event.getAction())
 			{
 			case DragEvent.ACTION_DRAG_STARTED:
-				overlay.setVisibility(false); // Während des Drags ist kein
-												// Overlay
+
+				overlay.setVisibility(false);
 				toggleGrid();// sichtbar.
+				setStyle(DragEvent.ACTION_DRAG_STARTED);
 				return true;
 
 			case DragEvent.ACTION_DRAG_ENTERED:
@@ -718,23 +725,35 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 	private int snapToGrid(int pos)
 	{
-		return Math.round((float) pos / SNAP_GRID_INTERVAL)
-				* SNAP_GRID_INTERVAL;
+		return Math.round((float) pos / SNAP_GRID_INTERVAL) * SNAP_GRID_INTERVAL;
 	}
 
 	private void setStyle(int event)
 	{
 		synchronized (activeItem)
 		{
-			// final Drawable defaultBackground;
 
 			switch (event)
 			{
 			case DragEvent.ACTION_DRAG_STARTED:
 
-				// defaultBackground = activeItem.getBackground();
+				activeItem.post(new Runnable()
+				{
+					
+					@Override
+					public void run()
+					{
+						// TODO Auto-generated method stub
+						activeItem.setBackgroundResource(R.drawable.element_dragging);
+					}
+				});
+				
 				break;
 			case DragEvent.ACTION_DRAG_ENTERED:
+				
+				activeItem.setBackgroundResource(R.drawable.element_dragging);
+				break;
+				
 			case DragEvent.ACTION_DRAG_ENDED:
 
 				activeItem.setBackgroundResource(R.drawable.default_button_border);
