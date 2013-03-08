@@ -470,13 +470,26 @@ public class EditmodeFragment extends Fragment
 		}
 	}
 
+	private View active;
+	
 	private class AlignModuleListener implements OnClickListener
 	{
 
 		@Override
 		public void onClick(View v)
 		{
-
+			if (v != active)
+			{
+				if (active != null)
+				{
+					active.setActivated(false);
+				}
+				
+				active = v;
+				active.setActivated(true);
+			}
+			
+			
 			switch (v.getId())
 			{
 			case R.id.editmode_align_top_left:
@@ -556,7 +569,9 @@ public class EditmodeFragment extends Fragment
 
 	public interface onObjectEditedListener
 	{
-		void refreshOverlay(View active);
+		//void refreshOverlay(View active);
+
+		void refreshOverlay(View active, int type);
 	}
 
 	private static onObjectEditedListener editListener;

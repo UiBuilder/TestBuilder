@@ -244,7 +244,10 @@ public class DesignFragment extends Fragment implements OnDragListener,
 					Toast.makeText(getActivity().getApplicationContext(), "Button "
 							+ activeItem.getId() + " selected", Toast.LENGTH_SHORT).show();
 
-					overlay.generate(activeItem);
+					Bundle itemTag = (Bundle) activeItem.getTag();
+					int scaleType = itemTag.getInt(Generator.TYPE);
+					
+					overlay.generate(activeItem, scaleType);
 
 					detector.setIsLongpressEnabled(false);
 					return true;
@@ -644,7 +647,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 			switch (event.getAction())
 			{
 			case DragEvent.ACTION_DRAG_STARTED:
-
 				overlay.setVisibility(false); // Während des Drags ist kein
 												// Overlay
 				toggleGrid();// sichtbar.

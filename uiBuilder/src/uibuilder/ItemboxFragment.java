@@ -14,13 +14,10 @@ import android.widget.Button;
 import creators.ObjectFactory;
 import de.ur.rk.uibuilder.R;
 
-public class ItemboxFragment extends Fragment implements OnClickListener,
+public class ItemboxFragment extends Fragment implements
 		OnTouchListener
 {
-	private Button createButton, createTextView, createImage, createEditText,
-			createRadioGroup, createSwitch, createCheckbox, createSearch,
-			createNumberPicker, createRatingBar, createSeekBar,
-			createTimePicker, createContainer;
+	private View active;
 
 	private View layout;
 
@@ -42,31 +39,31 @@ public class ItemboxFragment extends Fragment implements OnClickListener,
 
 	private void setupLibraryUi()
 	{
-		createButton = (Button) layout.findViewById(R.id.element_button);
+		Button createButton = (Button) layout.findViewById(R.id.element_button);
 
-		createTextView = (Button) layout.findViewById(R.id.element_textview);
+		Button createTextView = (Button) layout.findViewById(R.id.element_textview);
 
-		createImage = (Button) layout.findViewById(R.id.element_imageview);
+		Button createImage = (Button) layout.findViewById(R.id.element_imageview);
 
-		createEditText = (Button) layout.findViewById(R.id.element_edittext);
+		Button createEditText = (Button) layout.findViewById(R.id.element_edittext);
 
-		createRadioGroup = (Button) layout.findViewById(R.id.element_radiogroup);
+		Button createRadioGroup = (Button) layout.findViewById(R.id.element_radiogroup);
 
-		createSwitch = (Button) layout.findViewById(R.id.element_switch);
+		Button createSwitch = (Button) layout.findViewById(R.id.element_switch);
 
-		createCheckbox = (Button) layout.findViewById(R.id.element_checkbox);
+		Button createCheckbox = (Button) layout.findViewById(R.id.element_checkbox);
 
-		createSearch = (Button) layout.findViewById(R.id.element_search);
+		Button createSearch = (Button) layout.findViewById(R.id.element_search);
 
-		createNumberPicker = (Button) layout.findViewById(R.id.element_numberpick);
+		Button createNumberPicker = (Button) layout.findViewById(R.id.element_numberpick);
 
-		createRatingBar = (Button) layout.findViewById(R.id.element_ratingbar);
+		Button createRatingBar = (Button) layout.findViewById(R.id.element_ratingbar);
 
-		createSeekBar = (Button) layout.findViewById(R.id.element_seekbar);
+		Button createSeekBar = (Button) layout.findViewById(R.id.element_seekbar);
 
-		createTimePicker = (Button) layout.findViewById(R.id.element_timepicker);
+		Button createTimePicker = (Button) layout.findViewById(R.id.element_timepicker);
 
-		createContainer = (Button) layout.findViewById(R.id.element_container);
+		Button createContainer = (Button) layout.findViewById(R.id.element_container);
 
 		createButton.setOnTouchListener(this);
 		createTextView.setOnTouchListener(this);
@@ -91,14 +88,19 @@ public class ItemboxFragment extends Fragment implements OnClickListener,
 	}
 
 	@Override
-	public void onClick(View v)
-	{
-
-	}
-
-	@Override
 	public boolean onTouch(View v, MotionEvent event)
 	{
+		if (v != active)
+		{
+			if (active != null)
+			{
+				active.setActivated(false);
+			}
+			
+			active = v;
+			active.setActivated(true);
+		}
+		
 		switch (event.getAction())
 		{
 		case MotionEvent.ACTION_UP:
@@ -109,7 +111,7 @@ public class ItemboxFragment extends Fragment implements OnClickListener,
 		default:
 			break;
 		}
-		return true;
+		return false;
 	}
 
 	public interface onUiElementSelectedListener

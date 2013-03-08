@@ -14,6 +14,11 @@ import de.ur.rk.uibuilder.R;
 
 public class Overlay implements onObjectEditedListener
 {
+	public static final int BOTH = 0;
+	public static final int HORIZONTAL = 1;
+	public static final int VERTICAL = 2;
+	
+	
 	private ImageButton drag;
 	private ImageButton right;
 	private ImageButton bottom;
@@ -39,7 +44,7 @@ public class Overlay implements onObjectEditedListener
 		EditmodeFragment.setOnObjectEditedListener(this);
 	}
 
-	public void generate(View activeItem)
+	public void generate(View activeItem, int type)
 	{
 		RelativeLayout.LayoutParams modified = new RelativeLayout.LayoutParams(activeItem.getLayoutParams());
 
@@ -62,9 +67,25 @@ public class Overlay implements onObjectEditedListener
 		buildTop(new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 
 		invalidate();
+		
+		switch (type)
+		{
+		case HORIZONTAL:
+			bottom.setVisibility(View.INVISIBLE);
+			top.setVisibility(View.INVISIBLE);
+			
+			break;
+
+		case VERTICAL:
+			left.setVisibility(View.INVISIBLE);
+			right.setVisibility(View.INVISIBLE);
+			break;
+			
+		default:
+			break;
+		}
 		overlayActive = true;
 	}
-
 	/**
 	 * Bestimmt die Sichtbarkeit des Overlays. Das Overlay wird <b>Versteckt
 	 * </b>, jedoch <b>nicht Entfernt</b>.
@@ -233,9 +254,9 @@ public class Overlay implements onObjectEditedListener
 	}
 
 	@Override
-	public void refreshOverlay(View active)
+	public void refreshOverlay(View active, int type)
 	{
 		delete();
-		generate(active);
+		generate(active, type);
 	}
 }

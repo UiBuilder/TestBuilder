@@ -1,5 +1,6 @@
 package creators;
 
+import manipulators.Overlay;
 import helpers.Log;
 import uibuilder.DesignFragment;
 import android.content.Context;
@@ -40,8 +41,7 @@ public class Generator
 	private OnTouchListener manipulator;
 	private LayoutInflater inflater;
 	
-	public static final String MINWIDTH = "mWidth", MINHEIGHT = "mHeight";
-	public static final String ID = "id";
+	public static final String MINWIDTH = "mWidth", MINHEIGHT = "mHeight", ID = "id", TYPE = "type";
 	
 	private Resources res;
 	private int gridFactor;
@@ -155,6 +155,7 @@ public class Generator
 		Bundle tagBundle = new Bundle();
 		int width = 0;
 		int height = 0;
+		int scaleType = 0;
 		
 		switch (which)
 		{
@@ -162,13 +163,15 @@ public class Generator
 
 			width = res.getInteger(R.integer.button_factor_width);
 			height = res.getInteger(R.integer.button_factor_height);
-
+			scaleType = Overlay.BOTH;
+			
 			break;
 
 		case R.id.element_textview:
 			
 			width = res.getInteger(R.integer.textview_factor_width);
-			height = res.getInteger(R.integer.textview_factor_height);	
+			height = res.getInteger(R.integer.textview_factor_height);
+			scaleType = Overlay.BOTH;
 			
 			break;
 
@@ -176,6 +179,7 @@ public class Generator
 			
 			width = res.getInteger(R.integer.image_factor_width);
 			height = res.getInteger(R.integer.image_factor_height);
+			scaleType = Overlay.BOTH;
 			
 			break;
 
@@ -183,6 +187,7 @@ public class Generator
 
 			width = res.getInteger(R.integer.edittext_factor_width);
 			height = res.getInteger(R.integer.edittext_factor_height);
+			scaleType = Overlay.BOTH;
 			
 			break;
 
@@ -190,6 +195,7 @@ public class Generator
 
 			width = res.getInteger(R.integer.radio_factor_width);
 			height = res.getInteger(R.integer.radio_factor_height);
+			scaleType = Overlay.BOTH;
 			
 			break;
 
@@ -197,6 +203,7 @@ public class Generator
 			
 			width = res.getInteger(R.integer.switch_factor_width);
 			height = res.getInteger(R.integer.switch_factor_height);
+			scaleType = Overlay.BOTH;
 			
 			break;
 
@@ -204,6 +211,7 @@ public class Generator
 			
 			width = res.getInteger(R.integer.checkbox_factor_width);
 			height = res.getInteger(R.integer.checkbox_factor_height);
+			scaleType = Overlay.BOTH;
 
 			break;
 
@@ -211,6 +219,7 @@ public class Generator
 			
 			width = res.getInteger(R.integer.search_factor_width);
 			height = res.getInteger(R.integer.search_factor_height);
+			scaleType = Overlay.BOTH;
 
 			break;
 
@@ -218,6 +227,7 @@ public class Generator
 			
 			width = res.getInteger(R.integer.numberpicker_factor_width);
 			height = res.getInteger(R.integer.numberpicker_factor_height);
+			scaleType = Overlay.VERTICAL;
 
 			break;
 
@@ -225,13 +235,15 @@ public class Generator
 			
 			width = res.getInteger(R.integer.ratingbar_factor_width);
 			height = res.getInteger(R.integer.ratingbar_factor_height);
-
+			scaleType = Overlay.BOTH;
+			
 			break;
 
 		case R.id.element_seekbar:
 			
 			width = res.getInteger(R.integer.seekbar_factor_width);
 			height = res.getInteger(R.integer.seekbar_factor_height);
+			scaleType = Overlay.HORIZONTAL;
 
 			break;
 
@@ -239,6 +251,7 @@ public class Generator
 			
 			width = res.getInteger(R.integer.timepicker_factor_width);
 			height = res.getInteger(R.integer.timepicker_factor_height);
+			scaleType = Overlay.VERTICAL;
 
 			break;
 
@@ -246,6 +259,7 @@ public class Generator
 			
 			width = res.getInteger(R.integer.edittext_factor_width);
 			height = res.getInteger(R.integer.edittext_factor_height);
+			scaleType = Overlay.BOTH;
 
 			break;
 			
@@ -257,6 +271,7 @@ public class Generator
 		width *= gridFactor;
 		height *= gridFactor;
 		
+		tagBundle.putInt(TYPE, scaleType);
 		tagBundle.putInt(MINHEIGHT, height);
 		tagBundle.putInt(MINWIDTH, width);
 		tagBundle.putInt(ID, which);
