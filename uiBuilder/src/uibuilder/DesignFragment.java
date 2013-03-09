@@ -67,6 +67,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 			}
 
 			/**
+			 * @author funklos
 			 * Resizes the designArea after the layouting process has finished,
 			 * to have access to measured dimensions
 			 */
@@ -125,6 +126,12 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		super.onActivityCreated(savedInstanceState);
 	}
 
+	/**
+	 * called from the uibuilderactivity to set the user selection from the itembox selection.
+	 * on touch, objectrequest, this id is passed to the factory to generate the desired objecttype
+	 * 
+	 * @param id of the user selection in itembox
+	 */
 	public void setSelection(int id)
 	{
 		nextObjectId = id;
@@ -278,7 +285,9 @@ public class DesignFragment extends Fragment implements OnDragListener,
 			break;
 		}
 
-		// MUSS SO AUFGERUFEN WERDEN
+		/**
+		 * @return forward the touch event to the gesturedetector for further processing
+		 */
 		return detector.onTouchEvent(event);
 	}
 
@@ -302,7 +311,8 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	}
 
 	/**
-	 * Considered dangerous to call methods here
+	 * No method calls here because the discriminative power of this
+	 * method is too low
 	 */
 	@Override
 	public boolean onSingleTapUp(MotionEvent event)
@@ -410,6 +420,9 @@ public class DesignFragment extends Fragment implements OnDragListener,
 				Bundle tagBundle = (Bundle) activeItem.getTag();
 				int id = tagBundle.getInt(Generator.ID);
 
+				/*
+				 * Generate clipdata to provide to the dragshadowbuilder
+				 */
 				ClipData.Item item = new ClipData.Item(String.valueOf(id));
 				ClipData clipData = new ClipData((CharSequence) String.valueOf(id), new String[]
 				{ ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
@@ -447,7 +460,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 	/**
 	 * This method resizes the item and repositions it appropriately.
-	 * 
+	 * @author funklos
 	 * @param handleId
 	 *            the handle which started the scaling
 	 * @param start
@@ -460,8 +473,8 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	{
 		ImageButton drag = overlay.getDrag();
 
-		RelativeLayout.LayoutParams dragParams = (RelativeLayout.LayoutParams) drag.getLayoutParams();
-		RelativeLayout.LayoutParams itemParams = (RelativeLayout.LayoutParams) activeItem.getLayoutParams();
+		RelativeLayout.LayoutParams dragParams = (RelativeLayout.LayoutParams) drag.getLayoutParams(); //these params are essentially the same regarding 
+		RelativeLayout.LayoutParams itemParams = (RelativeLayout.LayoutParams) activeItem.getLayoutParams(); //size and position but are handled separate 
 
 		float distance;
 		int roundedDist;
@@ -535,6 +548,17 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		activeItem.setLayoutParams(itemParams);
 	}
 	
+	/**
+	 * compares the actual size to the minsizes provided by the tagbundle.
+	 * this is necessary because .getminwidth and getminheight methods are only
+	 * provided by api16 and up
+	 * @author funklos
+	 * @param params the params of the active item to compare against the min dimensions provided by the tag
+	 * @param distance the distance of the actual move event
+	 * @param itemTag tag to fetch min dimensions from
+	 * @param which discriminates resizing direction
+	 * @return true if further resizing is possible, false if the size restriction has been met
+	 */
 	private boolean checkMinSize(RelativeLayout.LayoutParams params, float distance, Bundle itemTag, int which)
 	{
 		
@@ -563,7 +587,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	/**
 	 * Checks whether the current resize in progress will be larger than the
 	 * workspace.
-	 * 
+	 * @author funklos
 	 * @param distance
 	 *            the current distance moved from the origin of the movement
 	 * @param which
@@ -637,14 +661,15 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 			switch (event.getAction())
 			{
-			case DragEvent.ACTION_DRAG_STARTED:
+			case DragEvent.ACTION_DRAG_STARTED: //hide the overlay, show grid for positioning, set style of actibe item 
+												//to indicate old position
 
 				overlay.setVisibility(false);
-				toggleGrid();// sichtbar.
+				toggleGrid();
 				setStyle(DragEvent.ACTION_DRAG_STARTED);
 				return true;
 
-			case DragEvent.ACTION_DRAG_ENTERED:
+			case DragEvent.ACTION_DRAG_ENTERED: //reset to dragging style after reenter
 
 				setStyle(DragEvent.ACTION_DRAG_ENTERED);
 
@@ -665,11 +690,11 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 				break;
 
-			case DragEvent.ACTION_DRAG_EXITED:
+			case DragEvent.ACTION_DRAG_EXITED: //indicate that the drop event will not be successful
 				setStyle(DragEvent.ACTION_DRAG_EXITED);
 				break;
 
-			case DragEvent.ACTION_DROP:
+			case DragEvent.ACTION_DROP: //check minpositions, hide grid, display overlay at new position and reposition the element at droptarget
 
 				if (secondPointer)
 				{
@@ -708,11 +733,22 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		}
 	}
 
-	private int snapToGrid(int pos)
+	
+	/**
+	 * round the provided value to meet the next gridvalue
+	 * @param value
+	 * @return
+	 */
+	private int snapToGrid(int value)
 	{
-		return Math.round((float) pos / SNAP_GRID_INTERVAL) * SNAP_GRID_INTERVAL;
+		return Math.round((float) value / SNAP_GRID_INTERVAL) * SNAP_GRID_INTERVAL;
 	}
-
+	
+	/**
+	 * sets the appropriate style to the item being dragged
+	 * @author funklos
+	 * @param event
+	 */
 	private void setStyle(int event)
 	{
 		synchronized (activeItem)
@@ -757,7 +793,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 	/**
 	 * Checks if the target of the drop action is within view bounds
-	 * 
+	 * @author funklos
 	 * @param float y of event
 	 * @return calculated Y-position of the performed drop
 	 */
@@ -783,7 +819,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 	/**
 	 * Checks if the target of the drop action is within view bounds
-	 * 
+	 * @author funklos
 	 * @param float x of event
 	 * @return calculated X-position of the performed drop
 	 */
@@ -808,7 +844,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 	/**
 	 * Entfernt das Overlay komplett.
-	 * 
+	 * @author funklos
 	 */
 	private void deleteOverlay()
 	{
@@ -826,7 +862,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 	/**
 	 * Called before and after dragging to show and hide the grid.
-	 * 
+	 * @author funklos
 	 */
 	private void toggleGrid()
 	{
@@ -843,6 +879,11 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 	}
 
+	/**
+	 * 
+	 * @author funklos
+	 *
+	 */
 	public interface onObjectSelectedListener
 	{
 		void objectChanged(View view);

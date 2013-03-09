@@ -29,6 +29,11 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import de.ur.rk.uibuilder.R;
 
+/**
+ * 
+ * @author funklos
+ *
+ */
 public class Generator
 {
 

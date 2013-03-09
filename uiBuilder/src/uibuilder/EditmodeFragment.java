@@ -75,6 +75,9 @@ public class EditmodeFragment extends Fragment
 		return layoutView;
 	}
 
+	/**
+	 * @author funklos
+	 */
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
@@ -407,6 +410,11 @@ public class EditmodeFragment extends Fragment
 		
 	}
 
+	/**
+	 * 
+	 * @author pattern: funklos
+	 *
+	 */
 	private class EditTextModuleListener implements TextWatcher
 	{
 

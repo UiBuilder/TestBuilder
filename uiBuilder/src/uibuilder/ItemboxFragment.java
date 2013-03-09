@@ -13,7 +13,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import creators.ObjectFactory;
 import de.ur.rk.uibuilder.R;
-
+/**
+ * 
+ * @author funklos
+ *
+ */
 public class ItemboxFragment extends Fragment implements
 		OnTouchListener
 {
@@ -114,6 +118,11 @@ public class ItemboxFragment extends Fragment implements
 		return false;
 	}
 
+	/**
+	 * 
+	 * @author funklos
+	 *
+	 */
 	public interface onUiElementSelectedListener
 	{
 		void typeChanged(int id);

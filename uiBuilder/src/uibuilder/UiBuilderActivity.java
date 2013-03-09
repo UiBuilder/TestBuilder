@@ -83,7 +83,7 @@ public class UiBuilderActivity extends Activity implements
 		init.add(R.id.fragment_sidebar, editbox);
 		init.add(R.id.fragment_sidebar, itembox);
 		init.add(R.id.fragment_design, designbox);
-		//init.add(R.id.fragment_sidebar, editbox);
+
 		init.hide(editbox);
 		init.hide(itembox);
 		init.setCustomAnimations(R.animator.to_left_in, R.animator.to_left_out);
@@ -102,9 +102,8 @@ public class UiBuilderActivity extends Activity implements
 	{
 		Log.d("DisplaySidebar", "is Called");
 		FragmentTransaction outSwapper = fManager.beginTransaction();
-		//FragmentTransaction inSwapper = fManager.beginTransaction();
 		outSwapper.setCustomAnimations(R.animator.to_left_in, R.animator.to_left_out);
-		//inSwapper.setCustomAnimations(R.animator.to_right_in, R.animator.to_right_out);
+		
 		switch (sidebarType)
 		{
 		case ITEMBOX:
@@ -114,22 +113,14 @@ public class UiBuilderActivity extends Activity implements
 			break;
 
 		case EDITBOX:
-			//swapper.show(editbox);
-			//swapper.hide(itembox);
+
 			Log.d("switched sideBarType", "result Editbox, replacing");
 			
-			//wapper.replace(R.id.fragment_sidebar, editbox);
 			outSwapper.show(editbox);
 			outSwapper.hide(itembox);
-			//swapper.show(editbox);
-			
-			//swapper.hide(itembox);
-			
-			//swapper.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+
 			break;
 		}
-		//outSwapper.addToBackStack(null);
-		//inSwapper.commit();
 		outSwapper.commit();
 		
 	}
@@ -143,7 +134,11 @@ public class UiBuilderActivity extends Activity implements
 	}
 	
 	
-
+	/**
+	 * switch on the selected item
+	 * action export: call imagetools to process the exporting request
+	 * @author funklos
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
@@ -163,7 +158,7 @@ public class UiBuilderActivity extends Activity implements
 	}
 
 	/**Interface onUiElementSelected method
-	 * 
+	 * @author funklos
 	 * implemented to notify the designbox of the chosen type
 	 * of interface element.
 	 */
@@ -174,7 +169,7 @@ public class UiBuilderActivity extends Activity implements
 	}
 	
 	/**Interface onObjectSelected method
-	 * 
+	 * @author funklos
 	 * sets a reference to the object in progress
 	 * @param view the selected view
 	 */
@@ -188,7 +183,8 @@ public class UiBuilderActivity extends Activity implements
 
 	
 	/**
-	 * 
+	 * Interface callback method to switch between itembox, when no item is selected,
+	 * and editbox when an item is selected
 	 */
 	@Override
 	public void objectSelected(boolean selected)

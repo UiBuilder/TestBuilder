@@ -12,6 +12,12 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import de.ur.rk.uibuilder.R;
 
+
+/**
+ * 
+ * @author funklos
+ *
+ */
 public class Overlay implements onObjectEditedListener
 {
 	public static final int BOTH = 0;

@@ -10,7 +10,16 @@
         android:id="@+id/action_export_jpeg"
         android:title="Export"
         android:icon="@android:drawable/ic_menu_gallery"
-        android:showAsAction="always" 
+        android:showAsAction="ifRoom|withText" 
 		android:titleCondensed="Export"
         />
+    
+    <item
+        android:id="@+id/action_attach_mail"
+        android:title="Attach"
+        android:icon="@android:drawable/ic_menu_send"
+        android:showAsAction="ifRoom|withText" 
+		android:titleCondensed="Attach"
+        />
+    
 </menu>

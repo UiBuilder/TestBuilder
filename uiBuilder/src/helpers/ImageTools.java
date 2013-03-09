@@ -27,6 +27,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import de.ur.rk.uibuilder.R;
 
+/**
+ * taken from @autor android developers photobyintent example, class extracted
+ * @author funklos
+ *
+ */
 public class ImageTools
 {
 	private Context c;
@@ -47,6 +52,11 @@ public class ImageTools
 		storageFactory = new BaseAlbumDirFactory();
 	}
 	
+	/**
+	 * @autor android developers photobyintent example MODIFIED by @author funklos
+	 * @param which
+	 * @return
+	 */
 	public Intent getIntent(int which)
 	{
 		switch (which)
@@ -87,7 +97,10 @@ public class ImageTools
 		
 
 	}
-	
+	/**
+	 * @autor android developers photobyintent example MODIFIED by @author funklos
+	 * @param destination
+	 */
 	public void handleBigCameraPhoto(View destination)
 	{
 
@@ -100,6 +113,11 @@ public class ImageTools
 
 	}
 
+	/**
+	 * @autor android developers photobyintent example MODIFIED by @author funklos
+	 * @param destination
+	 * @param data
+	 */
 	public void handleGalleryImport(View destination, Intent data)
 	{
 		path = data.getData();
@@ -110,7 +128,11 @@ public class ImageTools
 			setPic(destination);
 		}
 	}
-	
+	/**
+	 * @author funklos
+	 * @param root
+	 * @param cres
+	 */
 	public void requestBitmap(View root, ContentResolver cres)
 	{
 		RelativeLayout content = (RelativeLayout) root.findViewById(R.id.design_area);
@@ -164,6 +186,10 @@ public class ImageTools
 	 * cursor.getInt(0); }
 	 */
 
+	/**
+	 * @autor android developers photobyintent example MODIFIED by @author funklos
+	 * @param v the target to receive the picture
+	 */
 	private void setPic(View v)
 	{
 
@@ -223,6 +249,9 @@ public class ImageTools
 		return cursor.getString(column_index);
 	}
 	
+	/**
+	 * @autor android developers photobyintent example
+	 */
 	private void galleryAddPic()
 	{
 		Intent mediaScanIntent = new Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE");
@@ -232,12 +261,17 @@ public class ImageTools
 		c.getApplicationContext().sendBroadcast(mediaScanIntent);
 	}
 
-
+	/**
+	 * @autor android developers photobyintent example
+	 */
 	private String getAlbumName()
 	{
 		return c.getString(R.string.album_name);
 	}
 
+	/**
+	 * @autor android developers photobyintent example
+	 */
 	private File getAlbumDir()
 	{
 		File storageDir = null;
@@ -266,7 +300,10 @@ public class ImageTools
 
 		return storageDir;
 	}
-
+	
+	/**
+	 * @autor android developers photobyintent example
+	 */
 	private File setUpPhotoFile() throws IOException
 	{
 
@@ -276,6 +313,9 @@ public class ImageTools
 		return f;
 	}
 
+	/**
+	 * @autor android developers photobyintent example
+	 */
 	private File createImageFile() throws IOException
 	{
 		// Create an image file name

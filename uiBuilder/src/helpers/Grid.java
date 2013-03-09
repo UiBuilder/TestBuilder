@@ -7,6 +7,10 @@ import android.util.AttributeSet;
 import android.view.View;
 import de.ur.rk.uibuilder.R;
 
+/**
+ * @author funklos
+ *
+ */
 public class Grid extends View
 {
 	private Paint color;

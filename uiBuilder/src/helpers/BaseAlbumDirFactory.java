@@ -4,6 +4,11 @@ import java.io.File;
 
 import android.os.Environment;
 
+/**
+ * 
+ * @author android developers photobyintent example
+ *
+ */
 public final class BaseAlbumDirFactory extends AlbumStorageDirFactory {
 
 	// Standard storage location for digital camera files
