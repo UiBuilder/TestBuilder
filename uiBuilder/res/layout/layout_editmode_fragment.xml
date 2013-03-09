@@ -11,7 +11,8 @@
         android:background="@color/designfragment_background"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:animateLayoutChanges="true">
 
         <include 
             android:id="@+id/editmode_included_order"

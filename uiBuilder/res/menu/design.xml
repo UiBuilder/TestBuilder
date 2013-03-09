@@ -9,7 +9,7 @@
     <item
         android:id="@+id/action_export_jpeg"
         android:title="Export"
-        android:icon="@android:drawable/ic_menu_save"
+        android:icon="@android:drawable/ic_menu_gallery"
         android:showAsAction="always" 
 		android:titleCondensed="Export"
         />

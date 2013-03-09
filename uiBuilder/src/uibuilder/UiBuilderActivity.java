@@ -3,12 +3,10 @@ package uibuilder;
 import helpers.ImageTools;
 import uibuilder.DesignFragment.onObjectSelectedListener;
 import uibuilder.ItemboxFragment.onUiElementSelectedListener;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,7 +16,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.Toast;
 import de.ur.rk.uibuilder.R;
 
 public class UiBuilderActivity extends Activity implements
@@ -53,6 +51,9 @@ public class UiBuilderActivity extends Activity implements
 		fManager = getFragmentManager();
 		exporter = new ImageTools(getApplicationContext());
 
+		ActionBar bar = getActionBar();
+		bar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP, ActionBar.NAVIGATION_MODE_STANDARD);
+		bar.setBackgroundDrawable(getResources().getDrawable(R.color.designfragment_background));
 		setupUi();
 
 	}
@@ -152,7 +153,7 @@ public class UiBuilderActivity extends Activity implements
 			
 			exporter.requestBitmap(designbox.getView(), getContentResolver());
 		
-			
+			Toast.makeText(getApplicationContext(), "Layout has been saved to the gallery", Toast.LENGTH_SHORT).show();
 			break;
 
 		default:

@@ -11,7 +11,7 @@
         style="@style/editbox_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/default_padding_medium"
+        
         android:text="@string/item_edit_fontsize_caption" />
 
     <NumberPicker

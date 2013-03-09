@@ -83,27 +83,14 @@ public class DesignFragment extends Fragment implements OnDragListener,
 				int maxHeight = rootHeight - 2 * handleSize;
 
 				RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) designArea.getLayoutParams();
-				params.width = matchWithGrid(maxWidth);
-				params.height = matchWithGrid(maxHeight);
+				params.width = snapToGrid(maxWidth);
+				params.height = snapToGrid(maxHeight);
 
 				designArea.setLayoutParams(params);
 				designArea.forceLayout();
 
 				Log.d("root width post", String.valueOf(params.width));
 				Log.d("root height post", String.valueOf(params.height));
-			}
-
-			/**
-			 * Round the dimension to match with the given grid.
-			 * 
-			 * @param actual
-			 *            dimension of the area
-			 * @return dimension rounded to a multiple of the grid dimension
-			 */
-			private int matchWithGrid(int size)
-			{
-				return (size / TheBoss.SNAP_GRID_INTERVAL)
-						* TheBoss.SNAP_GRID_INTERVAL;
 			}
 		});
 		return root;
@@ -256,8 +243,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 				if (!overlay.isActive())
 				{
 					isDragging = true;
-					Toast.makeText(getActivity().getApplicationContext(), "Button "
-							+ activeItem.getId() + " selected", Toast.LENGTH_SHORT).show();
 
 					Bundle itemTag = (Bundle) activeItem.getTag();
 					int scaleType = itemTag.getInt(Generator.TYPE);
@@ -832,7 +817,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 			if (overlay.isActive())
 			{
 				overlay.delete();
-				//listener.objectSelected(false);
 
 				dragIndicator = null;
 				isDragging = false;
