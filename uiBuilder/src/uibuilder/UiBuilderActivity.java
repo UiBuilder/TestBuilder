@@ -72,8 +72,9 @@ public class UiBuilderActivity extends Activity implements
 		init.add(R.id.fragment_sidebar, editbox);
 		init.add(R.id.fragment_sidebar, itembox);
 		init.add(R.id.fragment_design, designbox);
-		
+		//init.add(R.id.fragment_sidebar, editbox);
 		init.hide(editbox);
+		init.setCustomAnimations(R.animator.to_left_in, R.animator.to_right_out);
 		init.commit();
 	}
 
@@ -87,22 +88,28 @@ public class UiBuilderActivity extends Activity implements
 	{
 		Log.d("DisplaySidebar", "is Called");
 		FragmentTransaction swapper = fManager.beginTransaction();
-
+		swapper.setCustomAnimations(R.animator.to_left_in, R.animator.to_right_out);
+		
 		switch (sidebarType)
 		{
 		case ITEMBOX:
 
-			Log.d("switched sideBarType", "result Itembox, replacing");
-
+			
 			swapper.hide(editbox);
 			swapper.show(itembox);
 			break;
 
 		case EDITBOX:
+			//swapper.show(editbox);
+			//swapper.hide(itembox);
 			Log.d("switched sideBarType", "result Editbox, replacing");
-
-			swapper.hide(itembox);
+			
+			//wapper.replace(R.id.fragment_sidebar, editbox);
 			swapper.show(editbox);
+			//swapper.show(editbox);
+			
+			//swapper.hide(itembox);
+			
 			//swapper.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
 			break;
 		}

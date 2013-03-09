@@ -9,7 +9,8 @@
     android:paddingBottom="20dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
-    android:paddingTop="10dp" >
+    android:paddingTop="10dp" 
+    android:layout_margin="1dp">
 
     <TextView         style="@style/editbox_header"
         android:id="@+id/image_choose"

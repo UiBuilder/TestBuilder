@@ -7,7 +7,8 @@
     android:paddingBottom="20dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
-    android:paddingTop="10dp" >
+    android:paddingTop="10dp" 
+    android:layout_margin="1dp">
 
     <TextView
         android:id="@+id/enter_text"

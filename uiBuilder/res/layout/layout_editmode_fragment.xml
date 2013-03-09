@@ -8,13 +8,12 @@
         android:id="@+id/fragment_editbox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="0dp"
         android:background="@color/designfragment_background"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:padding="10dp" >
+        android:padding="10dp">
 
-        <include
+        <include 
             android:id="@+id/editmode_included_text"
             layout="@layout/editmode_entry_enter_text"
             android:visibility="gone" />

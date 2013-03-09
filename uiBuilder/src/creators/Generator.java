@@ -454,18 +454,16 @@ public class Generator
 	private View buildSwitch()
 	{
 		Switch xmlSwitch = (Switch) inflater.inflate(R.layout.item_switch_layout, null);
+		xmlSwitch.setBackgroundResource(R.drawable.default_button_border);
 
 		return xmlSwitch;
 	}
 
 	private View buildRadioButtons()
 	{
-		// askForSpecification(ObjectFactory.ID_RADIOBUTTONS);
-
-		//RadioGroup xmlRadioGroup = (RadioGroup) inflater.inflate(R.layout.item_radiogroup_layout, null);
 
 		RadioButton xmlRadioButton = (RadioButton) inflater.inflate(R.layout.item_radiobutton_layout, null);
-
+		xmlRadioButton.setBackgroundResource(R.drawable.default_button_border);
 		//xmlRadioGroup.addView(xmlRadioButton);
 
 		return xmlRadioButton;

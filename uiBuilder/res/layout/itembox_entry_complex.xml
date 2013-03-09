@@ -10,10 +10,9 @@
         android:layout_width="match_parent"
     	android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:paddingTop="@dimen/default_padding_small"
-        android:paddingBottom="@dimen/default_padding_small"
+
         android:text="@string/itembox_complex_title"
-        style="@style/editbox_header"
+        style="@style/editbox_header_inverted"
         />
     
     <TableLayout android:orientation="vertical"
