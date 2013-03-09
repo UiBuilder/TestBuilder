@@ -1,16 +1,24 @@
 package uibuilder;
 
+import helpers.ImageTools;
 import uibuilder.DesignFragment.onObjectSelectedListener;
 import uibuilder.ItemboxFragment.onUiElementSelectedListener;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import de.ur.rk.uibuilder.R;
 
 public class UiBuilderActivity extends Activity implements
@@ -31,6 +39,7 @@ public class UiBuilderActivity extends Activity implements
 	private DesignFragment designbox;
 	private FragmentManager fManager;
 	private ViewGroup container;
+	private ImageTools exporter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -42,6 +51,7 @@ public class UiBuilderActivity extends Activity implements
 
 		container = (ViewGroup) inf.inflate(R.layout.layout_fragment_container, null);
 		fManager = getFragmentManager();
+		exporter = new ImageTools(getApplicationContext());
 
 		setupUi();
 
@@ -74,8 +84,11 @@ public class UiBuilderActivity extends Activity implements
 		init.add(R.id.fragment_design, designbox);
 		//init.add(R.id.fragment_sidebar, editbox);
 		init.hide(editbox);
-		init.setCustomAnimations(R.animator.to_left_in, R.animator.to_right_out);
+		init.hide(itembox);
+		init.setCustomAnimations(R.animator.to_left_in, R.animator.to_left_out);
 		init.commit();
+		
+		objectSelected(false);
 	}
 
 	/**
@@ -87,16 +100,16 @@ public class UiBuilderActivity extends Activity implements
 	public void displaySidebar(int sidebarType)
 	{
 		Log.d("DisplaySidebar", "is Called");
-		FragmentTransaction swapper = fManager.beginTransaction();
-		swapper.setCustomAnimations(R.animator.to_left_in, R.animator.to_right_out);
-		
+		FragmentTransaction outSwapper = fManager.beginTransaction();
+		//FragmentTransaction inSwapper = fManager.beginTransaction();
+		outSwapper.setCustomAnimations(R.animator.to_left_in, R.animator.to_left_out);
+		//inSwapper.setCustomAnimations(R.animator.to_right_in, R.animator.to_right_out);
 		switch (sidebarType)
 		{
 		case ITEMBOX:
-
 			
-			swapper.hide(editbox);
-			swapper.show(itembox);
+			outSwapper.hide(editbox);
+			outSwapper.show(itembox);
 			break;
 
 		case EDITBOX:
@@ -105,7 +118,8 @@ public class UiBuilderActivity extends Activity implements
 			Log.d("switched sideBarType", "result Editbox, replacing");
 			
 			//wapper.replace(R.id.fragment_sidebar, editbox);
-			swapper.show(editbox);
+			outSwapper.show(editbox);
+			outSwapper.hide(itembox);
 			//swapper.show(editbox);
 			
 			//swapper.hide(itembox);
@@ -113,8 +127,38 @@ public class UiBuilderActivity extends Activity implements
 			//swapper.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
 			break;
 		}
-		swapper.addToBackStack(null);
-		swapper.commit();
+		//outSwapper.addToBackStack(null);
+		//inSwapper.commit();
+		outSwapper.commit();
+		
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.design, menu);
+	    return true;
+	}
+	
+	
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+		case R.id.action_export_jpeg:
+			
+			exporter.requestBitmap(designbox.getView(), getContentResolver());
+		
+			
+			break;
+
+		default:
+			break;
+		}
+		return true;
 	}
 
 	/**Interface onUiElementSelected method
@@ -159,5 +203,6 @@ public class UiBuilderActivity extends Activity implements
 			editbox.adaptLayoutToContext(lastTouch);
 		}
 	}
+
 
 }

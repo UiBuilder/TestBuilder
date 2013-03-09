@@ -12,7 +12,7 @@
         android:layout_alignParentTop="true"
 
         android:text="@string/itembox_complex_title"
-        style="@style/editbox_header_inverted"
+        style="@style/itembox_header"
         />
     
     <TableLayout android:orientation="vertical"

@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     
-    android:id="@+id/editmode_module_choose_picture"
+    android:id="@+id/editmode_module_z_order"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     
     android:orientation="vertical"
-    style="@style/itembox"
-	>
+	style="@style/itembox">
 
     <TextView         
         style="@style/editbox_header"
         android:id="@+id/image_choose"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/item_edit_choose_caption" />
+        android:text="@string/item_edit_z_order_caption" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,18 +23,18 @@
         >
 
         <Button
-            android:id="@+id/image_choose_camera"
+            android:id="@+id/editmode_z_order_front"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="@string/item_edit_choose_camera" />
+            android:text="@string/item_edit_z_order_front" />
 
         <Button
-            android:id="@+id/image_choose_gallery"
+            android:id="@+id/editmode_z_order_back"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="@string/item_edit_choose_gallery" />
+            android:text="@string/item_edit_z_order_back" />
     </LinearLayout>
 
 </LinearLayout>

@@ -3,13 +3,10 @@
     android:id="@+id/editmode_module_align_content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/designarea_background"
+   
     android:orientation="vertical"
-    android:paddingBottom="20dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="10dp" 
-    android:layout_margin="1dp">
+    style="@style/itembox"
+    >
 
     <TextView
         android:id="@+id/align_content"
@@ -32,27 +29,27 @@
 
             <Button
                 android:id="@+id/editmode_align_top_left"
-                style="@style/itembox_items"
+                style="@style/itembox_items_inverted"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="@string/editmode_align_top_left" />
+                 />
 
             <Button
                 android:id="@+id/editmode_align_top_center"
-                style="@style/itembox_items"
+                style="@style/itembox_items_inverted"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="@string/editmode_align_top_center" />
+                 />
 
             <Button
                 android:id="@+id/editmode_align_top_right"
-                style="@style/itembox_items"
+                style="@style/itembox_items_inverted"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="@string/editmode_align_top_right" />
+                 />
         </TableRow>
 
         <TableRow
@@ -63,27 +60,27 @@
 
             <Button
                 android:id="@+id/editmode_align_center_left"
-                style="@style/itembox_items"
+                style="@style/itembox_items_inverted"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="@string/editmode_align_center_left" />
+                 />
 
             <Button
                 android:id="@+id/editmode_align_center_center"
-                style="@style/itembox_items"
+                style="@style/itembox_items_inverted"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="@string/editmode_align_center_center" />
+                 />
 
             <Button
                 android:id="@+id/editmode_align_center_right"
-                style="@style/itembox_items"
+                style="@style/itembox_items_inverted"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="@string/editmode_align_center_right" />
+                 />
         </TableRow>
 
         <TableRow
@@ -94,27 +91,27 @@
 
             <Button
                 android:id="@+id/editmode_align_bottom_left"
-                style="@style/itembox_items"
+                style="@style/itembox_items_inverted"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="@string/editmode_align_bottom_left" />
+                />
 
             <Button
                 android:id="@+id/editmode_align_bottom_center"
-                style="@style/itembox_items"
+                style="@style/itembox_items_inverted"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="@string/editmode_align_bottom_center" />
+                 />
 
             <Button
                 android:id="@+id/editmode_align_bottom_right"
-                style="@style/itembox_items"
+                style="@style/itembox_items_inverted"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="@string/editmode_align_bottom_right" />
+                />
         </TableRow>
     </TableLayout>
 

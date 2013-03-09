@@ -32,6 +32,8 @@ public class Overlay implements onObjectEditedListener
 
 	private final String OVERLAYTAG = "Overlay";
 	int dragId;
+	int typeActive;
+	
 	private boolean overlayActive;
 
 	public Overlay(RelativeLayout root, DesignFragment designFragment)
@@ -43,9 +45,16 @@ public class Overlay implements onObjectEditedListener
 		this.designFragment = designFragment;
 		EditmodeFragment.setOnObjectEditedListener(this);
 	}
-
+	
+	/**Generates a new overlay object.
+	 * 
+	 * @param activeItem the item requesting the overlay
+	 * @param type the scaletype of the item
+	 */
 	public void generate(View activeItem, int type)
 	{
+		typeActive = type;
+		
 		RelativeLayout.LayoutParams modified = new RelativeLayout.LayoutParams(activeItem.getLayoutParams());
 
 		buildDrag(activeItem, modified);
@@ -54,16 +63,9 @@ public class Overlay implements onObjectEditedListener
 
 		dragId = drag.getId();
 
-		// RIGHT
 		buildRight(new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-
-		// BOTTOM
 		buildBottom(new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-
-		// LEFT
 		buildLeft(new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-
-		// TOP
 		buildTop(new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 
 		invalidate();
@@ -99,14 +101,31 @@ public class Overlay implements onObjectEditedListener
 		{
 			if (drag != null)
 			{
-				setItemVisibility(drag, visibility);
-				setItemVisibility(top, visibility);
-				setItemVisibility(right, visibility);
-				setItemVisibility(bottom, visibility);
-				setItemVisibility(left, visibility);
+				switch (typeActive)
+				{
+				case BOTH:
+					setItemVisibility(drag, visibility);
+					setItemVisibility(top, visibility);
+					setItemVisibility(right, visibility);
+					setItemVisibility(bottom, visibility);
+					setItemVisibility(left, visibility);
+				
+					break;
+				
+				case VERTICAL:
+					setItemVisibility(top, visibility);
+					setItemVisibility(bottom, visibility);
+					
+					break;
+					
+				case HORIZONTAL:
+					setItemVisibility(left, visibility);
+					setItemVisibility(right, visibility);
+					
+					break;
+				}	
 			}
 		}
-
 	}
 
 	/**

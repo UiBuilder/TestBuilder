@@ -1,47 +1,30 @@
 package uibuilder;
 
-import helpers.BaseAlbumDirFactory;
-
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+import helpers.ImageTools;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Paint;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.NumberPicker.OnValueChangeListener;
 import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
 import creators.Generator;
 import de.ur.rk.uibuilder.R;
 
 public class EditmodeFragment extends Fragment
 {
-	private Uri path;
 
 	private View layoutView;
 	private LinearLayout layout;
@@ -49,9 +32,12 @@ public class EditmodeFragment extends Fragment
 	private View currentView;
 	private EditText editText, editSize;
 	private NumberPicker picker;
+	private ImageTools imageHandler;
+
+	private View active;
 
 	private LinearLayout moduleAlign, modulePicture, moduleEditText,
-			moduleItemCount, moduleChangeSize;
+			moduleItemCount, moduleChangeSize, moduleZorder;
 
 	@Override
 	public void onAttach(Activity activity)
@@ -64,7 +50,9 @@ public class EditmodeFragment extends Fragment
 	public void onCreate(Bundle savedInstanceState)
 	{
 		Log.d("Editmode Fragment", "onCreate called");
-		storageFactory = new BaseAlbumDirFactory();
+		
+		imageHandler = new ImageTools(getActivity());
+		
 		super.onCreate(savedInstanceState);
 	}
 
@@ -95,62 +83,24 @@ public class EditmodeFragment extends Fragment
 		switch (requestCode)
 		{
 
-		case ImageModuleListener.CAMERA:
-		{
-			if (resultCode == Activity.RESULT_OK)
+			case ImageTools.CAMERA:
 			{
-				handleBigCameraPhoto();
+				if (resultCode == Activity.RESULT_OK)
+				{
+					imageHandler.handleBigCameraPhoto(currentView);
+				}
+				break;
 			}
-			break;
-		}
-
-		case ImageModuleListener.GALLERY:
-		{
-			if (resultCode == Activity.RESULT_OK)
+	
+			case ImageTools.GALLERY:
 			{
-				path = data.getData();
-				photoPath = getPath(path);
-				handleGalleryImport();
+				if (resultCode == Activity.RESULT_OK)
+				{
+					imageHandler.handleGalleryImport(currentView, data);
+				}
 			}
-
-		}
 		}
 	}
-
-	/**
-	 * Approach from stackoverflow.com, but slightly modified to use the
-	 * contentResolver instead of the deprecated managedQuery.
-	 * 
-	 * @author Zelimir from "stackoverflow" src
-	 *         http://stackoverflow.com/questions
-	 *         /4859011/not-able-to-pick-photo-from-gallery?rq=1
-	 * @param uri
-	 * @return
-	 */
-
-	public String getPath(Uri uri)
-	{
-		String[] projection =
-		{ MediaStore.Images.Media.DATA };
-		Cursor cursor = getActivity().getContentResolver().query(uri, projection, null, null, null);
-
-		int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-		cursor.moveToFirst();
-
-		return cursor.getString(column_index);
-	}
-
-	/*
-	 * not in use private static Bitmap Image = null; private static Bitmap
-	 * rotateImage = null; int rotation; public int getOrientation(Context
-	 * context, Uri photoUri) { Cursor cursor =
-	 * getActivity().getApplicationContext
-	 * ().getContentResolver().query(photoUri, new String[] {
-	 * MediaStore.Images.ImageColumns.ORIENTATION },null, null, null);
-	 * 
-	 * if (cursor.getCount() != 1) { return -1; } cursor.moveToFirst(); return
-	 * cursor.getInt(0); }
-	 */
 
 	private void getModules()
 	{
@@ -159,19 +109,24 @@ public class EditmodeFragment extends Fragment
 		modulePicture = (LinearLayout) layoutView.findViewById(R.id.editmode_included_choose_picture);
 		moduleItemCount = (LinearLayout) layoutView.findViewById(R.id.editmode_included_item_count);
 		moduleChangeSize = (LinearLayout) layoutView.findViewById(R.id.editmode_included_changesize);
-
-		moduleAlign.setVisibility(View.VISIBLE);
-		moduleEditText.setVisibility(View.VISIBLE);
-		moduleItemCount.setVisibility(View.VISIBLE);
-		modulePicture.setVisibility(View.VISIBLE);
-		moduleChangeSize.setVisibility(View.VISIBLE);
+		moduleZorder = (LinearLayout) layoutView.findViewById(R.id.editmode_included_order);
 
 		setupPictureModule();
 		setupEdittextModule();
 		setupChangesizeModule();
 		setupAlignModule();
+		setupZorderModule();
 
 		// and so on..
+	}
+
+	private void setupZorderModule()
+	{
+		Button pullToFront = (Button) layoutView.findViewById(R.id.editmode_z_order_front);
+		Button pushToBack = (Button) layoutView.findViewById(R.id.editmode_z_order_back);
+	
+		pullToFront.setOnClickListener(new AlignModuleListener());
+		pushToBack.setOnClickListener(new ImageModuleListener());
 	}
 
 	private void setupChangesizeModule()
@@ -280,7 +235,6 @@ public class EditmodeFragment extends Fragment
 		switch (id)
 		{
 		case R.id.element_button:
-
 			moduleEditText.setVisibility(View.VISIBLE);
 			editText.setText(getViewText(currentView));
 
@@ -348,8 +302,11 @@ public class EditmodeFragment extends Fragment
 			break;
 
 		default:
+			
 			break;
 		}
+		//moduleZorder.setVisibility(View.VISIBLE);
+		
 		layoutView.invalidate();
 	}
 
@@ -391,19 +348,19 @@ public class EditmodeFragment extends Fragment
 		moduleItemCount.setVisibility(View.GONE);
 		modulePicture.setVisibility(View.GONE);
 		moduleChangeSize.setVisibility(View.GONE);
+		moduleZorder.setVisibility(View.GONE);
 
 		moduleAlign.invalidate();
 		moduleEditText.invalidate();
 		moduleItemCount.invalidate();
 		modulePicture.invalidate();
 		moduleChangeSize.invalidate();
+		moduleZorder.invalidate();
 	}
 
 	private class ImageModuleListener implements OnClickListener
 	{
-		static final int CAMERA = 1;
-		static final int GALLERY = 2;
-		static final int CROP = 3;
+		
 
 		@Override
 		public void onClick(View v)
@@ -411,36 +368,43 @@ public class EditmodeFragment extends Fragment
 			switch (v.getId())
 			{
 			case R.id.image_choose_camera:
-
-				Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-
-				File f = null;
-
-				try
-				{
-					f = setUpPhotoFile();
-					photoPath = f.getAbsolutePath();
-					cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-				} catch (IOException e)
-				{
-					e.printStackTrace();
-					f = null;
-					photoPath = null;
-				} finally
-				{
-					startActivityForResult(cameraIntent, CAMERA);
-				}
+				
+				Intent cameraIntent = imageHandler.getIntent(ImageTools.CAMERA);
+				startActivityForResult(cameraIntent, ImageTools.CAMERA);
 
 				break;
 
 			case R.id.image_choose_gallery:
-				Intent intent = new Intent();
-				intent.setType("image/*");
-				intent.setAction(Intent.ACTION_GET_CONTENT);
-				startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY);
+				
+				Intent galleryIntent = imageHandler.getIntent(ImageTools.GALLERY);
+				startActivityForResult(Intent.createChooser(galleryIntent, "Select Picture"), ImageTools.GALLERY);
 				break;
 			}
 		}
+	}
+	
+	private class ZorderModuleListener implements OnClickListener
+	{
+
+		@Override
+		public void onClick(View v)
+		{
+			switch (v.getId())
+			{
+			case R.id.editmode_z_order_back:
+				
+				break;
+				
+			case R.id.editmode_z_order_front:
+				currentView.bringToFront();
+				break;
+
+			default:
+				break;
+			}
+			
+		}
+		
 	}
 
 	private class EditTextModuleListener implements TextWatcher
@@ -469,8 +433,6 @@ public class EditmodeFragment extends Fragment
 
 		}
 	}
-
-	private View active;
 	
 	private class AlignModuleListener implements OnClickListener
 	{
@@ -569,8 +531,6 @@ public class EditmodeFragment extends Fragment
 
 	public interface onObjectEditedListener
 	{
-		//void refreshOverlay(View active);
-
 		void refreshOverlay(View active, int type);
 	}
 
@@ -579,141 +539,6 @@ public class EditmodeFragment extends Fragment
 	public static void setOnObjectEditedListener(onObjectEditedListener listener)
 	{
 		EditmodeFragment.editListener = listener;
-	}
-
-	// Photo import stuff
-
-	private void handleBigCameraPhoto()
-	{
-
-		if (photoPath != null)
-		{
-			setPic();
-			galleryAddPic();
-			photoPath = null;
-		}
-
-	}
-
-	private void handleGalleryImport()
-	{
-		if (photoPath != null)
-		{
-			setPic();
-		}
-	}
-
-	/*
-	 * 
-	 * private void handleSmallCameraPhoto(Intent intent) { Bundle extras =
-	 * intent.getExtras(); mImageBitmap = (Bitmap) extras.get("data");
-	 * mImageView.setImageBitmap(mImageBitmap); //mVideoUri = null;
-	 * mImageView.setVisibility(View.VISIBLE);
-	 * mVideoView.setVisibility(View.INVISIBLE); }
-	 */
-
-	private void setPic()
-	{
-
-		/* There isn't enough memory to open up more than a couple camera photos */
-		/* So pre-scale the target bitmap into which the file is decoded */
-
-		/* Get the size of the ImageView */
-		int targetW = ((ImageView) currentView).getWidth();
-		int targetH = ((ImageView) currentView).getHeight();
-
-		/* Get the size of the image */
-		BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-		bmOptions.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(photoPath, bmOptions);
-		int photoW = bmOptions.outWidth;
-		int photoH = bmOptions.outHeight;
-
-		/* Figure out which way needs to be reduced less */
-		int scaleFactor = 1;
-		if ((targetW > 0) || (targetH > 0))
-		{
-			scaleFactor = Math.min(photoW / targetW, photoH / targetH);
-		}
-
-		/* Set bitmap options to scale the image decode target */
-		bmOptions.inJustDecodeBounds = false;
-		bmOptions.inSampleSize = scaleFactor;
-		bmOptions.inPurgeable = true;
-
-		/* Decode the JPEG file into a Bitmap */
-		Bitmap bitmap = BitmapFactory.decodeFile(photoPath, bmOptions);
-
-		/* Associate the Bitmap to the ImageView */
-		((ImageView) currentView).setImageBitmap(bitmap);
-	}
-
-	private void galleryAddPic()
-	{
-		Intent mediaScanIntent = new Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE");
-		File f = new File(photoPath);
-		Uri contentUri = Uri.fromFile(f);
-		mediaScanIntent.setData(contentUri);
-		getActivity().sendBroadcast(mediaScanIntent);
-	}
-
-	private String photoPath;
-	private static final String JPEG_FILE_PREFIX = "UI_";
-	private static final String JPEG_FILE_SUFFIX = ".jpg";
-	private BaseAlbumDirFactory storageFactory = null;
-
-	private String getAlbumName()
-	{
-		return getString(R.string.album_name);
-	}
-
-	private File getAlbumDir()
-	{
-		File storageDir = null;
-
-		if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()))
-		{
-
-			storageDir = storageFactory.getAlbumStorageDir(getAlbumName());
-
-			if (storageDir != null)
-			{
-				if (!storageDir.mkdirs())
-				{
-					if (!storageDir.exists())
-					{
-						Log.d("CameraSample", "failed to create directory");
-						return null;
-					}
-				}
-			}
-
-		} else
-		{
-			Log.v(getString(R.string.app_name), "External storage is not mounted READ/WRITE.");
-		}
-
-		return storageDir;
-	}
-
-	private File setUpPhotoFile() throws IOException
-	{
-
-		File f = createImageFile();
-		photoPath = f.getAbsolutePath();
-
-		return f;
-	}
-
-	private File createImageFile() throws IOException
-	{
-		// Create an image file name
-		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-		String imageFileName = JPEG_FILE_PREFIX + timeStamp + "_";
-
-		File albumF = getAlbumDir();
-		File imageF = File.createTempFile(imageFileName, JPEG_FILE_SUFFIX, albumF);
-		return imageF;
 	}
 
 }

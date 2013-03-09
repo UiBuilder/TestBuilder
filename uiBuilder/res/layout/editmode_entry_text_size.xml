@@ -2,10 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/designarea_background"
+
     android:orientation="vertical"
-    android:padding="@dimen/default_padding_small"
-    android:layout_margin="1dp" >
+    style="@style/itembox">
 
     <TextView
         android:id="@+id/enter_text"
@@ -13,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/default_padding_medium"
-        android:text="@string/item_edit_enter_text" />
+        android:text="@string/item_edit_fontsize_caption" />
 
     <NumberPicker
         android:id="@+id/item_edit_editsize_picker"

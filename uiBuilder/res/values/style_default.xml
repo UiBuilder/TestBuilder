@@ -8,25 +8,39 @@
     <style name="editbox_header" parent="@style/default_fontsizes">
         <item name="android:textSize">25sp</item>
         <item name="android:textStyle">normal</item>
-        <item name="android:textColor">@android:color/primary_text_light</item>
-        <item name="android:typeface">sans</item>
+        <item name="android:typeface">sans</item>     
+    </style>
+    
+    <style name="itembox_header" parent="@style/editbox_header">
         
-        
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:paddingTop">@dimen/default_padding_medium</item>
+        <item name="android:paddingBottom">@dimen/default_padding_medium</item>
     </style>
     
     <style name="itembox_items" parent="@style/default_fontsizes">
         <item name="android:textSize">16sp</item>
         <item name="android:background">@drawable/ui_itembox_button_states</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:layout_margin">1dp</item>
+        <item name="android:layout_margin">2dp</item>
 		<item name="android:padding">0dp</item>
     </style>
     
-    <style name="editbox_header_inverted" parent="@style/itembox_items">
-        <item name="android:background">@color/superlight_grey</item>
+    
+    
+    <style name="itembox_items_inverted" parent="@style/itembox_items">
+        <item name="android:background">@drawable/ui_editbox_button_states</item>
         <item name="android:textColor">@color/text_dark</item>
         <item name="android:padding">@dimen/default_padding_small</item>
-        <item name="android:textSize">25sp</item>
+		<item name="android:layout_margin">1dp</item>
     </style>
 
+    <style name="itembox">
+        <item name="android:paddingLeft">@dimen/default_padding_small</item>
+        <item name="android:paddingRight">@dimen/default_padding_small</item>
+        <item name="android:paddingTop">@dimen/default_padding_small</item>
+        <item name="android:paddingBottom">@dimen/default_padding_large</item>
+        <item name="android:layout_margin">1dp</item>
+        <item name="android:background">@color/designarea_background</item>
+    </style>
 </resources>
