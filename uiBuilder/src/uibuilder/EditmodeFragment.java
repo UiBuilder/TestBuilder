@@ -1,5 +1,6 @@
 package uibuilder;
 
+import helpers.IconAdapter;
 import helpers.ImageTools;
 import android.app.Activity;
 import android.app.Fragment;
@@ -14,8 +15,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.NumberPicker.OnValueChangeListener;
@@ -44,7 +51,7 @@ public class EditmodeFragment extends Fragment
 	private View active;
 
 	private LinearLayout moduleAlign, modulePicture, moduleEditText,
-			moduleItemCount, moduleChangeSize, moduleZorder, moduleNothing;
+			moduleItemCount, moduleChangeSize, moduleZorder, moduleNothing, moduleIcons;
 
 	@Override
 	public void onAttach(Activity activity)
@@ -121,14 +128,43 @@ public class EditmodeFragment extends Fragment
 		moduleChangeSize = (LinearLayout) layoutView.findViewById(R.id.editmode_included_changesize);
 		moduleZorder = (LinearLayout) layoutView.findViewById(R.id.editmode_included_order);
 		moduleNothing = (LinearLayout) layoutView.findViewById(R.id.editmode_included_nothing);
+		moduleIcons = (LinearLayout) layoutView.findViewById(R.id.editmode_included_choose_icon);
 
 		setupPictureModule();
 		setupEdittextModule();
 		setupChangesizeModule();
 		setupAlignModule();
 		setupZorderModule();
-
+		setupIconModule();
 		// and so on..
+	}
+
+	private void setupIconModule()
+	{
+		
+		
+		GridView grid = (GridView) layoutView.findViewById(R.id.editmode_icon_grid);
+		
+		final IconAdapter adapter = new IconAdapter(getActivity());
+		
+		grid.setAdapter(adapter);
+		grid.setOnItemClickListener(new OnItemClickListener()
+		{
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
+					long arg3)
+			{
+				// TODO Auto-generated method stub
+				Log.d("pos", String.valueOf(pos));
+				
+				int resourceId = ((Integer) adapter.getItem(pos)).intValue();
+				Log.d("pos", String.valueOf(resourceId));
+				((ImageView)currentView).setScaleType(ScaleType.CENTER);
+				((ImageView)currentView).setImageResource(resourceId);
+			}
+		});
+		
 	}
 
 	private void setupZorderModule()
@@ -275,7 +311,7 @@ public class EditmodeFragment extends Fragment
 			break;
 
 		case R.id.element_imageview:
-
+			moduleIcons.setVisibility(View.VISIBLE);
 			modulePicture.setVisibility(View.VISIBLE);
 			break;
 
@@ -366,6 +402,7 @@ public class EditmodeFragment extends Fragment
 		moduleChangeSize.setVisibility(View.GONE);
 		moduleZorder.setVisibility(View.GONE);
 		moduleNothing.setVisibility(View.GONE);
+		moduleIcons.setVisibility(View.GONE);
 
 		moduleAlign.invalidate();
 		moduleEditText.invalidate();
@@ -373,6 +410,8 @@ public class EditmodeFragment extends Fragment
 		modulePicture.invalidate();
 		moduleChangeSize.invalidate();
 		moduleZorder.invalidate();
+		moduleNothing.invalidate();
+		moduleIcons.invalidate();
 	}
 
 	private class ImageModuleListener implements OnClickListener

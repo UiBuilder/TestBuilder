@@ -62,6 +62,9 @@
     <string name="item_edit_choose_caption">Choose Image</string>
     <string name="album_name">uiBuilder</string>
     
+    <!-- ICONS -->
+    <string name="item_edit_icon_caption">Choose Icon</string>
+    
     <!-- Z-ORDER -->
     <string name="item_edit_z_order_caption">Z-Order</string>
     <string name="item_edit_z_order_front">Foreground</string>
