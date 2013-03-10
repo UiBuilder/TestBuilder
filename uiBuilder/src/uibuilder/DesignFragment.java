@@ -753,7 +753,8 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	 */
 	private void setStyle(int event)
 	{
-		/*synchronized (activeItem)*/if (activeItem != null)
+		if (activeItem != null)
+		synchronized (activeItem)
 		{
 			
 			switch (event)
@@ -886,7 +887,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	 * @author funklos
 	 *
 	 */
-	public interface onObjectSelectedListener
+	protected interface onObjectSelectedListener
 	{
 		void objectChanged(View view);
 
@@ -897,13 +898,13 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 	private static onObjectSelectedListener listener;
 
-	public static void setOnObjectSelectedListener(
+	protected static void setOnObjectSelectedListener(
 			onObjectSelectedListener listener)
 	{
 		DesignFragment.listener = listener;
 	}
 
-	public void performDelete()
+	protected void performDelete()
 	{
 		designArea.removeView(activeItem);
 		activeItem = null;		
