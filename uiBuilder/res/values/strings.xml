@@ -18,6 +18,20 @@
     </string-array>
 
     <string name="edittext_hint_default">Enter some text</string>
+    
+    <!-- MENU ACTION -->
+    <string name="menu_action_export_gallery">Export</string>
+    <string name="menu_action_export_share">Share</string>
+    
+    <!-- INTENT TITLES -->
+    <string name="intent_title_share">Share design</string>
+    
+    <string name="intent_share_extra_subject">Fresh UI-Concept has been shared with you</string>
+    <string name="intent_share_extra_text">Check-out the attached image file!</string>
+    
+    <!-- FEEDBACK -->
+    <string name="confirmation_save_to_gallery">Your layout has been saved to the gallery</string>
+    <string name="confirmation_share_via_mail">Your layout has been shared</string>
 
     <!-- ITEMBOX SIMPLE ELEMENTS -->
     <string name="itembox_simple_title">Simple Elements</string>

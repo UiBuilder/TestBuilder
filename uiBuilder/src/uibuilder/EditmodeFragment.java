@@ -26,6 +26,13 @@ import de.ur.rk.uibuilder.R;
 public class EditmodeFragment extends Fragment
 {
 
+	@Override
+	public void onSaveInstanceState(Bundle outState)
+	{
+		// TODO Auto-generated method stub
+		super.onSaveInstanceState(outState);
+	}
+
 	private View layoutView;
 	private LinearLayout layout;
 	private LayoutInflater inflater;

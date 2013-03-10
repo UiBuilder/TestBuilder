@@ -731,7 +731,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 				return true;
 			}
 
-			return false; // EVTL FEHLERQUELLE: RETURNS ALWAYS TRUE
+			return false;
 		}
 	}
 
@@ -747,7 +747,10 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	}
 	
 	/**
-	 * sets the appropriate style to the item being dragged
+	 * sets the appropriate style to the item being dragged.
+	 * check if activeitem == null because a drop can result in a delete operation.
+	 * without syncronization the drag started and drag ended styles are sometimes not set.
+	 * 
 	 * @author funklos
 	 * @param event
 	 */
@@ -767,7 +770,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 					@Override
 					public void run()
 					{
-						// TODO Auto-generated method stub
 						activeItem.setBackgroundResource(R.drawable.element_dragging);
 					}
 				});

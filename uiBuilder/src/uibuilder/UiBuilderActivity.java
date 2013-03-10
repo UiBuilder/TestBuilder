@@ -8,6 +8,8 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -163,15 +165,40 @@ public class UiBuilderActivity extends Activity implements
 		{
 		case R.id.action_export_jpeg:
 			
-			exporter.requestBitmap(designbox.getView(), getContentResolver());
+			exporter.requestBitmap(designbox.getView(), getContentResolver(), true);
 		
-			Toast.makeText(getApplicationContext(), "Layout has been saved to the gallery", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), getString(R.string.confirmation_save_to_gallery), Toast.LENGTH_SHORT).show();
 			break;
 
+		case R.id.action_attach_mail:
+			
+			Intent mail = exporter.getIntent(ImageTools.SHARE);
+			mail.putExtra(Intent.EXTRA_STREAM, exporter.requestBitmap(designbox.getView(), getContentResolver(), true));
+
+			startActivityForResult(Intent.createChooser(mail, getString(R.string.intent_title_share)), ImageTools.SHARE);
+			break;
+			
 		default:
 			break;
 		}
 		return true;
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		if (resultCode == Activity.RESULT_OK)
+		switch (requestCode)
+		{
+
+			case ImageTools.SHARE:
+				Toast.makeText(getApplicationContext(), getString(R.string.confirmation_share_via_mail), Toast.LENGTH_SHORT).show();
+				break;
+				
+		}
 	}
 
 	/**Interface onUiElementSelected method

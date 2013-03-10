@@ -28,7 +28,8 @@ import android.widget.RelativeLayout;
 import de.ur.rk.uibuilder.R;
 
 /**
- * taken from @autor android developers photobyintent example, class extracted
+ * taken from @autor android developers photobyintent example, class extracted from activity
+ * and modified to include gallery intent to save images and mail intent to share via email
  * @author funklos
  *
  */
@@ -44,7 +45,8 @@ public class ImageTools
 	
 	public static final int CAMERA = 1;
 	public static final int GALLERY = 2;
-	public static final int CROP = 3;
+	public static final int CROP = 3; //NOT IN USE BECAUSE THIS FUNCTION IS DEVICE SPECIFIC
+	public static final int SHARE = 4;
 	
 	public ImageTools(Context c)
 	{
@@ -89,6 +91,14 @@ public class ImageTools
 			
 			return galleryIntent;
 			
+		case SHARE:
+			
+			Intent mailIntent = new Intent(Intent.ACTION_SEND);
+			mailIntent.putExtra(Intent.EXTRA_SUBJECT, c.getString(R.string.intent_share_extra_subject));
+			mailIntent.putExtra(Intent.EXTRA_TEXT, c.getString(R.string.intent_share_extra_text));
+			mailIntent.setType("image/png");
+			
+			return mailIntent;
 		default:
 			break;
 		}
@@ -133,7 +143,8 @@ public class ImageTools
 	 * @param root
 	 * @param cres
 	 */
-	public void requestBitmap(View root, ContentResolver cres)
+	private Uri tempUri;
+	public Uri requestBitmap(View root, ContentResolver cres, boolean insert)
 	{
 		RelativeLayout content = (RelativeLayout) root.findViewById(R.id.design_area);
 
@@ -141,6 +152,7 @@ public class ImageTools
 		content.draw(new Canvas(image));
 		
 		File f;
+		String photoUri = null;
 		try
 		{
 			f = setUpPhotoFile();
@@ -152,15 +164,22 @@ public class ImageTools
 			out.flush();
 			out.close();
 			
+			photoUri = MediaStore.Images.Media.insertImage(
+			         cres, photoPath, null, null);
+			
 		} catch (IOException e)
 		{
 			e.printStackTrace();
 			f = null;
 			photoPath = null;
 		}
-	
-		galleryAddPic();
+		
+		if (insert)
+			galleryAddPic();
+		
+		tempUri = Uri.parse(photoPath);
 		photoPath = null;
+		return Uri.parse(photoUri);
 	}
 
 	/*
