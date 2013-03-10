@@ -1,6 +1,7 @@
 package uibuilder;
 
 import helpers.ImageTools;
+import uibuilder.DeleteFragment.onDeleteRequestListener;
 import uibuilder.DesignFragment.onObjectSelectedListener;
 import uibuilder.ItemboxFragment.onUiElementSelectedListener;
 import android.app.ActionBar;
@@ -20,7 +21,7 @@ import android.widget.Toast;
 import de.ur.rk.uibuilder.R;
 
 public class UiBuilderActivity extends Activity implements
-		onUiElementSelectedListener, onObjectSelectedListener
+		onUiElementSelectedListener, onObjectSelectedListener, onDeleteRequestListener
 {
 
 	@Override
@@ -32,12 +33,15 @@ public class UiBuilderActivity extends Activity implements
 
 	public static final int ITEMBOX = 0;
 	public static final int EDITBOX = 1;
+	public static final int DELETEBOX = 2;
+	
 	private ItemboxFragment itembox;
 	private EditmodeFragment editbox;
 	private DesignFragment designbox;
 	private FragmentManager fManager;
 	private ViewGroup container;
 	private ImageTools exporter;
+	private DeleteFragment deletebox;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -66,9 +70,11 @@ public class UiBuilderActivity extends Activity implements
 		itembox = new ItemboxFragment();
 		editbox = new EditmodeFragment();
 		designbox = new DesignFragment();
+		deletebox = new DeleteFragment();
 
 		ItemboxFragment.setOnUiElementSelectedListener(this);
 		DesignFragment.setOnObjectSelectedListener(this);
+		DeleteFragment.onDeleteRequestListener(this);
 		
 		performInitTransaction();
 	}
@@ -80,12 +86,17 @@ public class UiBuilderActivity extends Activity implements
 	private void performInitTransaction()
 	{
 		FragmentTransaction init = fManager.beginTransaction();
+		
 		init.add(R.id.fragment_sidebar, editbox);
 		init.add(R.id.fragment_sidebar, itembox);
+		init.add(R.id.fragment_sidebar, deletebox);
 		init.add(R.id.fragment_design, designbox);
+		
 
 		init.hide(editbox);
 		init.hide(itembox);
+		init.hide(deletebox);
+		
 		init.setCustomAnimations(R.animator.to_left_in, R.animator.to_left_out);
 		init.commit();
 		
@@ -119,6 +130,12 @@ public class UiBuilderActivity extends Activity implements
 			outSwapper.show(editbox);
 			outSwapper.hide(itembox);
 
+			break;
+			
+		case DELETEBOX:
+			
+			outSwapper.hide(editbox);
+			outSwapper.show(deletebox);
 			break;
 		}
 		outSwapper.commit();
@@ -193,12 +210,29 @@ public class UiBuilderActivity extends Activity implements
 		if (!selected)
 		{
 			displaySidebar(ITEMBOX);
+			Log.d("item was deleted", "showing itembox");
 		} 
 		else
 		{
 			displaySidebar(EDITBOX);
 			editbox.adaptLayoutToContext(lastTouch);
 		}
+	}
+
+	@Override
+	public void objectDragging()
+	{
+		displaySidebar(DELETEBOX);
+	}
+	
+	/**
+	 * deletebox interface callback
+	 */
+	@Override
+	public void requestDelete()
+	{
+		// TODO Auto-generated method stub
+		designbox.performDelete();
 	}
 
 
