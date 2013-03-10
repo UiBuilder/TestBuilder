@@ -39,10 +39,18 @@
             android:id="@+id/editmode_included_item_count"
             layout="@layout/editmode_entry_item_count"
             android:visibility="gone" />
+        
         <include 
             android:id="@+id/editmode_included_changesize"
             layout="@layout/editmode_entry_text_size"
             android:visibility="gone"/>
+        
+        <include 
+            android:id="@+id/editmode_included_nothing"
+            layout="@layout/editmode_entry_nothing"
+            android:visibility="gone"
+            
+            />
     </LinearLayout>
 
 </ScrollView>

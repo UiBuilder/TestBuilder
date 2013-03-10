@@ -44,7 +44,7 @@ public class EditmodeFragment extends Fragment
 	private View active;
 
 	private LinearLayout moduleAlign, modulePicture, moduleEditText,
-			moduleItemCount, moduleChangeSize, moduleZorder;
+			moduleItemCount, moduleChangeSize, moduleZorder, moduleNothing;
 
 	@Override
 	public void onAttach(Activity activity)
@@ -120,6 +120,7 @@ public class EditmodeFragment extends Fragment
 		moduleItemCount = (LinearLayout) layoutView.findViewById(R.id.editmode_included_item_count);
 		moduleChangeSize = (LinearLayout) layoutView.findViewById(R.id.editmode_included_changesize);
 		moduleZorder = (LinearLayout) layoutView.findViewById(R.id.editmode_included_order);
+		moduleNothing = (LinearLayout) layoutView.findViewById(R.id.editmode_included_nothing);
 
 		setupPictureModule();
 		setupEdittextModule();
@@ -279,7 +280,7 @@ public class EditmodeFragment extends Fragment
 			break;
 
 		case R.id.element_numberpick:
-			// moduleNothingToEdit.setVisibility(View.VISIBLE);
+			moduleNothing.setVisibility(View.VISIBLE);
 
 			break;
 		case R.id.element_radiogroup:
@@ -289,8 +290,10 @@ public class EditmodeFragment extends Fragment
 			// moduleItemCount.setVisibility(View.VISIBLE);
 			break;
 		case R.id.element_ratingbar:
+			moduleNothing.setVisibility(View.VISIBLE);
 			break;
 		case R.id.element_search:
+			moduleNothing.setVisibility(View.VISIBLE);
 			// moduleSearch.setVisibility(View.VISIBLE); collapsed etc
 			break;
 		case R.id.element_switch:
@@ -309,8 +312,11 @@ public class EditmodeFragment extends Fragment
 
 			break;
 		case R.id.element_timepicker:
+			moduleNothing.setVisibility(View.VISIBLE);
 			break;
-
+			
+		case R.id.element_seekbar:
+			moduleNothing.setVisibility(View.VISIBLE);
 		default:
 			
 			break;
@@ -359,6 +365,7 @@ public class EditmodeFragment extends Fragment
 		modulePicture.setVisibility(View.GONE);
 		moduleChangeSize.setVisibility(View.GONE);
 		moduleZorder.setVisibility(View.GONE);
+		moduleNothing.setVisibility(View.GONE);
 
 		moduleAlign.invalidate();
 		moduleEditText.invalidate();

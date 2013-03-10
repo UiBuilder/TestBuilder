@@ -70,7 +70,9 @@
     <!-- FONTSIZE -->
     <string name="item_edit_fontsize_caption">Fontsize</string>
     
-
+	<!-- NOTHING TO EDIT -->
+	<string name="item_nothing_caption">Nothing to customize here</string>
+	
     <!-- EDITMODE TEXTELEMENT -->
     <string name="textview_content_default">Lorem Ipsum Dolor</string>
     <string name="item_edit_align_content">Ausrichtung des Inhalts</string>

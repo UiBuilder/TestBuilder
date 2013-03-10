@@ -21,7 +21,7 @@ public class DeleteFragment extends Fragment implements OnDragListener
 		View root = inflater.inflate(R.layout.layout_deletebox_fragment, container, false);
 		
 		delete = (Button) root.findViewById(R.id.deletebox_delete_area);
-		delete.setOnDragListener(this);
+		root.setOnDragListener(this);
 		
 		return root;
 	}
