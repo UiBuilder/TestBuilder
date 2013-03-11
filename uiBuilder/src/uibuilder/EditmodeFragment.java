@@ -51,6 +51,7 @@ public class EditmodeFragment extends Fragment
 	private NumberPicker picker;
 	private ImageTools imageHandler;
 	private IconAdapter adapter;
+	private IconHelper iconHelper;
 	
 	private View active;
 
@@ -147,11 +148,12 @@ public class EditmodeFragment extends Fragment
 	{
 		GridView grid = (GridView) layoutView.findViewById(R.id.editmode_icon_grid);
 		
-		IconAdapter adapter = new IconAdapter(getActivity(), IconHelper.getLowRes());
+		iconHelper = new IconHelper();
+		IconAdapter adapter = new IconAdapter(getActivity(), iconHelper.getLowRes());
 		
 		grid.setAdapter(adapter);
 		grid.setOnItemClickListener(new IconModuleListener());
-		
+		adapter.notifyDataSetChanged();
 	}
 
 	private void setupZorderModule()
@@ -412,7 +414,7 @@ public class EditmodeFragment extends Fragment
 		
 		public IconModuleListener()
 		{
-			highresRes = IconHelper.getFullRes();
+			highresRes = iconHelper.getFullRes();
 		}
 			
 		@Override

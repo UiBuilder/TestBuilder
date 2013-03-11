@@ -7,7 +7,7 @@ import de.ur.rk.uibuilder.R;
 public class IconHelper
 {
 
-	public static ArrayList<Integer> getLowRes()
+	public ArrayList<Integer> getLowRes()
 	{
 		ArrayList<Integer> iconRefs = new ArrayList<Integer>();
 		
@@ -74,7 +74,7 @@ public class IconHelper
 		return iconRefs;
 	}
 	
-	public static ArrayList<Integer> getFullRes()
+	public ArrayList<Integer> getFullRes()
 	{
 		ArrayList<Integer> iconRefs = new ArrayList<Integer>();
 		
