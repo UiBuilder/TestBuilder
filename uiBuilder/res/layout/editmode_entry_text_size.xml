@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/itembox"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
-    android:orientation="vertical"
-    style="@style/itembox">
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/enter_text"
         style="@style/editbox_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        
         android:text="@string/item_edit_fontsize_caption" />
 
     <NumberPicker
@@ -20,9 +18,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:focusable="false"
-        
-         />
-
-    
+        android:imeOptions="actionDone|flagNoFullscreen" />
 
 </LinearLayout>

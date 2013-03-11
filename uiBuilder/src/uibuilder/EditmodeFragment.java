@@ -265,7 +265,7 @@ public class EditmodeFragment extends Fragment
 
 	}
 
-	protected void adaptLayoutToContext(View view)
+	protected void adaptLayoutToContext(View view) 
 	{
 		Bundle tagBundle = (Bundle) view.getTag();
 
