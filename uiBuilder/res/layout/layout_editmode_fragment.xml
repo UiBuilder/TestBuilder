@@ -47,6 +47,12 @@
         android:id="@+id/editmode_included_star_count"
         layout="@layout/editmode_entry_stars_count"
         android:visibility="gone" />
+    
+    <include 
+        android:id="@+id/editmode_included_list_config"
+        layout="@layout/editmode_entry_choose_list_config"
+        android:visibility="gone"
+        />
 
 
 </LinearLayout>

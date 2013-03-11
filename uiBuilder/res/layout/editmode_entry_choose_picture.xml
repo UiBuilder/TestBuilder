@@ -18,7 +18,7 @@
     <TextView 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Pre-scale the image element for best quality."
+        android:hint="@string/item_edit_choose_hint"
         android:padding="@dimen/default_padding_medium"
         />
 
@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" 
         android:padding="@dimen/default_padding_large"
+        
         >
 
         <Button

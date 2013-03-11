@@ -59,22 +59,26 @@
     <string name="radios_caption_default">Option</string>
     <string name="item_edit_enter_text">Beschriftung des Objekts:</string>
 
-    <!-- IMAGES -->
+    <!-- IMAGES EDIT-->
     <string name="item_edit_choose_camera">Camera</string>
     <string name="item_edit_choose_gallery">Gallery</string>
     <string name="imageview_content_description">Generic Image</string>
     <string name="item_edit_choose_caption">Choose Image</string>
+    <string name="item_edit_choose_hint">Pre-scale the image element for best quality.</string>
     <string name="album_name">uiBuilder</string>
     
-    <!-- ICONS -->
+    <!-- LIST EDIT -->
+    <string name="item_edit_list_caption">Choose List Layout</string>
+    
+    <!-- ICONS EDIT -->
     <string name="item_edit_icon_caption">Choose Icon</string>
     
-    <!-- Z-ORDER -->
+    <!-- Z-ORDER EDIT -->
     <string name="item_edit_z_order_caption">Z-Order</string>
     <string name="item_edit_z_order_front">Foreground</string>
     <string name="item_edit_z_order_back">Background</string>
     
-    <!-- FONTSIZE -->
+    <!-- FONTSIZE EDIT-->
     <string name="item_edit_fontsize_caption">Fontsize</string>
     
 	<!-- NOTHING TO EDIT -->
