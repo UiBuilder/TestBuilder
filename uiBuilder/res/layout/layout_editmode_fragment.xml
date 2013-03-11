@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@color/designfragment_background"
+    
     android:orientation="vertical"
     android:padding="10dp" >
 
@@ -26,11 +26,6 @@
     <include
         android:id="@+id/editmode_included_choose_picture"
         layout="@layout/editmode_entry_choose_picture"
-        android:visibility="gone" />
-
-    <include
-        android:id="@+id/editmode_included_item_count"
-        layout="@layout/editmode_entry_item_count"
         android:visibility="gone" />
 
     <include

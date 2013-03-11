@@ -59,7 +59,7 @@ public class EditmodeFragment extends Fragment
 
 	private View active;
 
-	private LinearLayout moduleAlign, modulePicture, moduleEditText, moduleChangeSize, moduleZorder, moduleNothing, moduleIcons,
+	private LinearLayout moduleAlign, modulePicture, moduleEditText, moduleItemCount, moduleChangeSize, moduleZorder, moduleNothing, moduleIcons,
 			moduleStarCount;
 
 	@Override
@@ -126,6 +126,7 @@ public class EditmodeFragment extends Fragment
 		moduleAlign = (LinearLayout) layoutView.findViewById(R.id.editmode_included_align_content);
 		moduleEditText = (LinearLayout) layoutView.findViewById(R.id.editmode_included_text);
 		modulePicture = (LinearLayout) layoutView.findViewById(R.id.editmode_included_choose_picture);
+		moduleItemCount = (LinearLayout) layoutView.findViewById(R.id.editmode_included_item_count);
 		moduleChangeSize = (LinearLayout) layoutView.findViewById(R.id.editmode_included_changesize);
 		moduleZorder = (LinearLayout) layoutView.findViewById(R.id.editmode_included_order);
 		moduleNothing = (LinearLayout) layoutView.findViewById(R.id.editmode_included_nothing);
@@ -147,9 +148,6 @@ public class EditmodeFragment extends Fragment
 	{
 		starBar = (SeekBar) layoutView.findViewById(R.id.star_count_seekbar);
 		ratingBar = (SeekBar) layoutView.findViewById(R.id.star_rating_seekbar);
-		starBar.setMax(9+1);
-		ratingBar.setMax(10);
-		
 
 		starBar.setOnSeekBarChangeListener(new StarCountModuleListener());
 		ratingBar.setOnSeekBarChangeListener(new StarCountModuleListener());
@@ -328,8 +326,8 @@ public class EditmodeFragment extends Fragment
 
 			moduleStarCount.setVisibility(View.VISIBLE);
 
-			starBar.setProgress( ((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getNumStars() - 1);
-			ratingBar.setProgress((int) ((RatingBar) ((ViewGroup)currentView).getChildAt(0)).getRating());
+			starBar.setProgress((int) ((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getNumStars() - 1);
+			ratingBar.setProgress((int) ((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getRating());
 
 			break;
 		// case R.id.element_search:
@@ -397,6 +395,7 @@ public class EditmodeFragment extends Fragment
 	{
 		moduleAlign.setVisibility(View.GONE);
 		moduleEditText.setVisibility(View.GONE);
+		moduleItemCount.setVisibility(View.GONE);
 		modulePicture.setVisibility(View.GONE);
 		moduleChangeSize.setVisibility(View.GONE);
 		moduleZorder.setVisibility(View.GONE);
@@ -406,6 +405,7 @@ public class EditmodeFragment extends Fragment
 
 		moduleAlign.invalidate();
 		moduleEditText.invalidate();
+		moduleItemCount.invalidate();
 		modulePicture.invalidate();
 		moduleChangeSize.invalidate();
 		moduleZorder.invalidate();
@@ -502,16 +502,13 @@ public class EditmodeFragment extends Fragment
 		{
 			switch (seekBar.getId()) {
 			case R.id.star_count_seekbar:
-				
-				
 				((RatingBar) ((ViewGroup) currentView).getChildAt(0)).setNumStars(progress + 1);
-				//ratingBar.setMax(progress+1);
-				ratingBar.setMax((int)((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getNumStars());
+				ratingBar.setMax((int)((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getNumStars()*2);
 
 				break;
 			case R.id.star_rating_seekbar:
 
-				((RatingBar) ((ViewGroup) currentView).getChildAt(0)).setRating(progress);
+				((RatingBar) ((ViewGroup) currentView).getChildAt(0)).setRating((float)progress/2);
 				break;
 			}
 

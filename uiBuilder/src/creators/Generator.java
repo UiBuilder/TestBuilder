@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RatingBar;
@@ -109,10 +110,10 @@ public class Generator
 			
 			break;
 
-		/*case R.id.element_search:
-			xmlView = buildSearchView();
+		case R.id.element_list:
+			xmlView = buildListView();
 			
-			break;*/
+			break;
 
 		case R.id.element_numberpick:
 			xmlView = buildNumberPicker();
@@ -220,13 +221,13 @@ public class Generator
 
 			break;
 
-		/*case R.id.element_search:
+		case R.id.element_list:
 			
-			width = res.getInteger(R.integer.search_factor_width);
-			height = res.getInteger(R.integer.search_factor_height);
+			width = res.getInteger(R.integer.list_factor_width);
+			height = res.getInteger(R.integer.list_factor_height);
 			scaleType = Overlay.BOTH;
 
-			break;*/
+			break;
 
 		case R.id.element_numberpick:
 			
@@ -267,6 +268,7 @@ public class Generator
 			scaleType = Overlay.BOTH;
 
 			break;
+			
 			
 		default:
 			Log.d("bundle ", "not built");
@@ -337,6 +339,25 @@ public class Generator
 		
 		
 		return xmlRatingBarContainer;
+	}
+	
+	private View buildListView()
+	{
+		RelativeLayout container = createContainer();
+		
+		ListView xmlList = (ListView) inflater.inflate(R.layout.item_istview_layout, null);
+		
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		params.addRule(RelativeLayout.CENTER_IN_PARENT, 1);
+		
+		xmlList.setLayoutParams(params);
+
+		container.addView(xmlList);
+		
+		RelativeLayout.LayoutParams containerParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		container.setLayoutParams(containerParams);
+		
+		return container;
 	}
 
 	private View buildNumberPicker()

@@ -17,7 +17,9 @@
         <item>RadioGroup</item>
     </string-array>
 
+    <!-- DEFAULT TEXTS AND HINTS -->
     <string name="edittext_hint_default">Enter some text</string>
+    <string name="checkbox_caption_default">Caption</string>
     
     <!-- MENU ACTION -->
     <string name="menu_action_export_gallery">Export</string>
@@ -40,6 +42,7 @@
     <string name="itembox_simple_element_caption_textview">Text</string>
     <string name="itembox_simple_element_caption_edittext">Edit Text</string>
     <string name="itembox_simple_element_caption_container">Container</string>
+    
 
     <!-- ITEMBOX COMPLEX ELEMENTS -->
     <string name="itembox_complex_title">Complex Elements</string>
@@ -51,6 +54,7 @@
     <string name="itembox_complex_element_caption_ratingbar">Rating</string>
     <string name="itembox_complex_element_caption_timepicker">Time</string>
     <string name="itembox_complex_element_caption_seekbar">Seekbar</string>
+    <string name="itembox_complex_element_caption_list">List</string>
     <string name="button_caption_default">Button</string>
     <string name="radios_caption_default">Option</string>
     <string name="item_edit_enter_text">Beschriftung des Objekts:</string>

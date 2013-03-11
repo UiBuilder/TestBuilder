@@ -9,14 +9,14 @@
         android:id="@+id/star_count"
         style="@style/editbox_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/item_edit_star_count" />
+        android:layout_height="wrap_content" 
+        android:text="@string/item_edit_star_count"/>
 
     <SeekBar
         android:id="@+id/star_count_seekbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-         />
+        android:max="9" />
 
     <TextView
         android:id="@+id/rating"
@@ -29,6 +29,6 @@
         android:id="@+id/star_rating_seekbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+         />
 
 </LinearLayout>

@@ -27,8 +27,8 @@
     <item name="edittext_factor_height" format="integer" type="integer">2</item>
     
     <!-- imageview -->
-    <item name="image_factor_width" format="integer" type="integer">3</item>
-    <item name="image_factor_height" format="integer" type="integer">3</item>
+    <item name="image_factor_width" format="integer" type="integer">2</item>
+    <item name="image_factor_height" format="integer" type="integer">2</item>
     
     <!-- radio -->
     <item name="radio_factor_width" format="integer" type="integer">7</item>
@@ -59,8 +59,12 @@
     <item name="timepicker_factor_height" format="integer" type="integer">5</item>
     
     <!-- ratingbar -->
-    <item name="ratingbar_factor_width" format="integer" type="integer">2</item>
+    <item name="ratingbar_factor_width" format="integer" type="integer">10</item>
     <item name="ratingbar_factor_height" format="integer" type="integer">2</item>
+    
+    <!-- list -->
+    <item name="list_factor_width" format="integer" type="integer">8</item>
+    <item name="list_factor_height" format="integer" type="integer">8</item>
     
     <!-- paddings -->
     <dimen name="default_padding_small">5dp</dimen>

@@ -36,7 +36,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	private GestureDetector detector;
 
 
-	private boolean isDragging;
+
 	private View currentTouch;
 
 	public static final int SNAP_GRID_INTERVAL = 25;
@@ -100,7 +100,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	{
 		super.onCreate(savedInstanceState);
 
-		isDragging = false;
 		activeItem = null;
 		snapMode = true;
 		
@@ -164,24 +163,9 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 		switch (action)
 		{
-		/*case MotionEvent.ACTION_POINTER_DOWN:
-
-			int pointerId = event.getPointerId(getIndex(event));
-			Log.d("pointer down", String.valueOf(event.getPointerId(getIndex(event))));
-
-			//if (pointerId == 1)
-			{
-				secondPointer = true;
-			}
-
-			return true;*/
 		
 		case MotionEvent.ACTION_DOWN:
-/*
-			if (secondPointer)
-			{
-				return true;
-			}*/
+
 			currentTouch = v;
 
 			listener.objectChanged(currentTouch);
@@ -249,8 +233,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 				if (!overlay.isActive())
 				{
-					isDragging = true;
-
 					Bundle itemTag = (Bundle) activeItem.getTag();
 					int scaleType = itemTag.getInt(Generator.TYPE);
 					
@@ -654,7 +636,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 			{
 			case DragEvent.ACTION_DRAG_STARTED: //hide the overlay, show grid for positioning, set style of active item 
 												//to indicate old position
-				isDragging = true;
 				listener.objectDragging();
 				
 				overlay.setVisibility(false);
@@ -678,7 +659,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 												// angezeigt, da der Drag vorbei
 												// ist.
 
-				isDragging = false;
 				toggleGrid();
 				
 				if (activeItem == null)
@@ -861,7 +841,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 				overlay.delete();
 
 				dragIndicator = null;
-				isDragging = false;
 			}
 		}
 	}

@@ -165,7 +165,7 @@ public class UiBuilderActivity extends Activity implements
 		{
 		case R.id.action_export_jpeg:
 			
-			exporter.requestBitmap(designbox.getView(), getContentResolver(), true);
+			exporter.requestBitmap(designbox.getView(), getContentResolver(), false);
 		
 			Toast.makeText(getApplicationContext(), getString(R.string.confirmation_save_to_gallery), Toast.LENGTH_SHORT).show();
 			break;
@@ -173,7 +173,7 @@ public class UiBuilderActivity extends Activity implements
 		case R.id.action_attach_mail:
 			
 			Intent mail = exporter.getIntent(ImageTools.SHARE);
-			mail.putExtra(Intent.EXTRA_STREAM, exporter.requestBitmap(designbox.getView(), getContentResolver(), true));
+			mail.putExtra(Intent.EXTRA_STREAM, exporter.requestBitmap(designbox.getView(), getContentResolver(), false));
 
 			startActivityForResult(Intent.createChooser(mail, getString(R.string.intent_title_share)), ImageTools.SHARE);
 			break;

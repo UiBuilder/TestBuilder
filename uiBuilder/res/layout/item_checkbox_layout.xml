@@ -9,12 +9,12 @@
     android:background="@drawable/default_button_border"
     >
     <TextView android:id="@+id/checkbox_caption_field"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
 		android:layout_gravity="center_vertical"
 		android:gravity="center_vertical"
 		android:layout_weight="0.5"
-        android:text="caption"
+        android:text="@string/checkbox_caption_default"
         style="@style/default_fontsizes" 
         />
     
