@@ -782,7 +782,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 					{
 						activeItem.setBackgroundResource(R.drawable.default_button_border);
 					}
-				}); 
+				});  
 				break;
 
 			case DragEvent.ACTION_DRAG_EXITED:

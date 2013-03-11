@@ -8,11 +8,13 @@ import android.view.View;
 import android.view.View.OnDragListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import de.ur.rk.uibuilder.R;
 
 public class DeleteFragment extends Fragment implements OnDragListener
 {
 	private Button delete;
+	private LinearLayout container;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -20,6 +22,7 @@ public class DeleteFragment extends Fragment implements OnDragListener
 	{
 		View root = inflater.inflate(R.layout.layout_deletebox_fragment, container, false);
 		
+		this.container = (LinearLayout) root.findViewById(R.id.deletebox_container);
 		delete = (Button) root.findViewById(R.id.deletebox_delete_area);
 		root.setOnDragListener(this);
 		
@@ -36,20 +39,20 @@ public class DeleteFragment extends Fragment implements OnDragListener
 			return true;
 			
 		case DragEvent.ACTION_DRAG_ENTERED:
-			delete.setBackgroundResource(R.drawable.ui_deletebox_active_border);
-			delete.setShadowLayer(2f, 1f, 1f, R.color.element_out_of_dropzone);
+			container.setBackgroundResource(R.drawable.ui_deletebox_active_border);
+
 			return true;
 					
 		case DragEvent.ACTION_DRAG_LOCATION:
 			return true;
 			
 		case DragEvent.ACTION_DRAG_EXITED:
-			delete.setBackgroundResource(R.drawable.default_button_border);
+			container.setBackgroundResource(R.drawable.default_button_border);
 			
 			return false;
 			
 		case DragEvent.ACTION_DROP:
-			delete.setBackgroundResource(R.drawable.default_button_border);
+			container.setBackgroundResource(R.drawable.default_button_border);
 			listener.requestDelete();
 			return true;
 
