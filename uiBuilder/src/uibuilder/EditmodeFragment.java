@@ -1,6 +1,9 @@
 package uibuilder;
 
+import java.util.ArrayList;
+
 import helpers.IconAdapter;
+import helpers.IconHelper;
 import helpers.ImageTools;
 import android.app.Activity;
 import android.app.Fragment;
@@ -17,6 +20,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -25,9 +29,6 @@ import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.NumberPicker.OnValueChangeListener;
-import android.widget.RatingBar;
-import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import creators.Generator;
 import de.ur.rk.uibuilder.R;
@@ -50,13 +51,12 @@ public class EditmodeFragment extends Fragment
 	private NumberPicker picker;
 	private ImageTools imageHandler;
 	private IconAdapter adapter;
+	private IconHelper iconHelper;
 	
 	private View active;
 
 	private LinearLayout moduleAlign, modulePicture, moduleEditText,
-			moduleItemCount, moduleChangeSize, moduleZorder, moduleNothing, moduleIcons, moduleStarCount;
-
-	private SeekBar starCountBar;
+			moduleItemCount, moduleChangeSize, moduleZorder, moduleNothing, moduleIcons;
 
 	@Override
 	public void onAttach(Activity activity)
@@ -134,34 +134,26 @@ public class EditmodeFragment extends Fragment
 		moduleZorder = (LinearLayout) layoutView.findViewById(R.id.editmode_included_order);
 		moduleNothing = (LinearLayout) layoutView.findViewById(R.id.editmode_included_nothing);
 		moduleIcons = (LinearLayout) layoutView.findViewById(R.id.editmode_included_choose_icon);
-		moduleStarCount = (LinearLayout) layoutView.findViewById(R.id.editmode_included_stars_count);
-		
+
 		setupPictureModule();
 		setupEdittextModule();
 		setupChangesizeModule();
 		setupAlignModule();
 		setupZorderModule();
 		setupIconModule();
-		setupStarCountModule();
-		
 		// and so on..
-	}
-
-	private void setupStarCountModule()
-	{
-		starCountBar = (SeekBar) layoutView.findViewById(R.id.star_count_seekbar);
-		starCountBar.setOnSeekBarChangeListener(new StarCountListener());
 	}
 
 	private void setupIconModule()
 	{
 		GridView grid = (GridView) layoutView.findViewById(R.id.editmode_icon_grid);
 		
-		IconAdapter adapter = new IconAdapter(getActivity());
+		iconHelper = new IconHelper();
+		IconAdapter adapter = new IconAdapter(getActivity(), iconHelper.getLowRes());
 		
 		grid.setAdapter(adapter);
-		grid.setOnItemClickListener(new IconModuleListener(adapter));
-		
+		grid.setOnItemClickListener(new IconModuleListener());
+		adapter.notifyDataSetChanged();
 	}
 
 	private void setupZorderModule()
@@ -323,10 +315,14 @@ public class EditmodeFragment extends Fragment
 			// moduleItemCount.setVisibility(View.VISIBLE);
 			break;
 		case R.id.element_ratingbar:
+<<<<<<< HEAD
 			moduleStarCount.setVisibility(View.VISIBLE);
 			starCountBar.setProgress((int) ((RatingBar)((ViewGroup)currentView).getChildAt(0)).getRating());
 
 			
+=======
+			moduleNothing.setVisibility(View.VISIBLE);
+>>>>>>> parent of 2e12fef... starCount
 			break;
 		case R.id.element_search:
 			moduleNothing.setVisibility(View.VISIBLE);
@@ -403,8 +399,7 @@ public class EditmodeFragment extends Fragment
 		moduleZorder.setVisibility(View.GONE);
 		moduleNothing.setVisibility(View.GONE);
 		moduleIcons.setVisibility(View.GONE);
-		moduleStarCount.setVisibility(View.GONE);
-		
+
 		moduleAlign.invalidate();
 		moduleEditText.invalidate();
 		moduleItemCount.invalidate();
@@ -413,7 +408,6 @@ public class EditmodeFragment extends Fragment
 		moduleZorder.invalidate();
 		moduleNothing.invalidate();
 		moduleIcons.invalidate();
-		moduleStarCount.invalidate();
 	}
 
 	/**
@@ -423,23 +417,25 @@ public class EditmodeFragment extends Fragment
 	 */
 	private class IconModuleListener implements OnItemClickListener
 	{
-		private IconAdapter adapter;
+		ArrayList<Integer> highresRes;
 		
-		public IconModuleListener(IconAdapter adapter)
+		public IconModuleListener()
 		{
-			this.adapter = adapter;
+			highresRes = iconHelper.getFullRes();
 		}
-
+			
 		@Override
-		public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
+		public void onItemClick(AdapterView<?> parent, View arg1, int pos,
 				long arg3)
 		{
 			// TODO Auto-generated method stub
 			Log.d("pos", String.valueOf(pos));
 			
-			int resourceId = ((Integer) adapter.getItem(pos)).intValue();
+			int resourceId = (highresRes.get(pos)).intValue();
+			
 			Log.d("pos", String.valueOf(resourceId));
-			((ImageView)currentView).setScaleType(ScaleType.CENTER);
+			
+			((ImageView)currentView).setScaleType(ScaleType.FIT_CENTER);
 			((ImageView)currentView).setImageResource(resourceId);
 		}
 		
@@ -528,33 +524,6 @@ public class EditmodeFragment extends Fragment
 			// TODO Auto-generated method stub
 
 		}
-	}
-	
-	private class StarCountListener implements OnSeekBarChangeListener
-	{
-
-		@Override
-		public void onProgressChanged(SeekBar seekBar, int progress,
-				boolean fromUser)
-		{
-			((RatingBar)((ViewGroup)currentView).getChildAt(0)).setNumStars(progress);
-			
-		}
-
-		@Override
-		public void onStartTrackingTouch(SeekBar seekBar)
-		{
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void onStopTrackingTouch(SeekBar seekBar)
-		{
-			// TODO Auto-generated method stub
-			
-		}
-		
 	}
 	
 	private class AlignModuleListener implements OnClickListener
