@@ -47,7 +47,8 @@ public class EditmodeFragment extends Fragment
 	private EditText editText, editSize;
 	private NumberPicker picker;
 	private ImageTools imageHandler;
-
+	private IconAdapter adapter;
+	
 	private View active;
 
 	private LinearLayout moduleAlign, modulePicture, moduleEditText,
@@ -141,29 +142,12 @@ public class EditmodeFragment extends Fragment
 
 	private void setupIconModule()
 	{
-		
-		
 		GridView grid = (GridView) layoutView.findViewById(R.id.editmode_icon_grid);
 		
-		final IconAdapter adapter = new IconAdapter(getActivity());
+		IconAdapter adapter = new IconAdapter(getActivity());
 		
 		grid.setAdapter(adapter);
-		grid.setOnItemClickListener(new OnItemClickListener()
-		{
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
-					long arg3)
-			{
-				// TODO Auto-generated method stub
-				Log.d("pos", String.valueOf(pos));
-				
-				int resourceId = ((Integer) adapter.getItem(pos)).intValue();
-				Log.d("pos", String.valueOf(resourceId));
-				((ImageView)currentView).setScaleType(ScaleType.CENTER);
-				((ImageView)currentView).setImageResource(resourceId);
-			}
-		});
+		grid.setOnItemClickListener(new IconModuleListener(adapter));
 		
 	}
 
@@ -414,6 +398,39 @@ public class EditmodeFragment extends Fragment
 		moduleIcons.invalidate();
 	}
 
+	/**
+	 * 
+	 * @author funklos
+	 *
+	 */
+	private class IconModuleListener implements OnItemClickListener
+	{
+		private IconAdapter adapter;
+		
+		public IconModuleListener(IconAdapter adapter)
+		{
+			this.adapter = adapter;
+		}
+
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
+				long arg3)
+		{
+			// TODO Auto-generated method stub
+			Log.d("pos", String.valueOf(pos));
+			
+			int resourceId = ((Integer) adapter.getItem(pos)).intValue();
+			Log.d("pos", String.valueOf(resourceId));
+			((ImageView)currentView).setScaleType(ScaleType.CENTER);
+			((ImageView)currentView).setImageResource(resourceId);
+		}
+		
+	}
+	/**
+	 * 
+	 * @author funklos
+	 *
+	 */
 	private class ImageModuleListener implements OnClickListener
 	{
 		
