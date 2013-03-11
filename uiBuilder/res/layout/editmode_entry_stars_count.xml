@@ -16,7 +16,7 @@
         android:id="@+id/star_count_seekbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:max="9" />
+         />
 
     <TextView
         android:id="@+id/rating"
@@ -28,6 +28,7 @@
     <SeekBar
         android:id="@+id/star_rating_seekbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        />
 
 </LinearLayout>
