@@ -2,8 +2,6 @@
 <RatingBar xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:isIndicator="true"
-    android:numStars="1"
-    android:rating="10" >
+    android:isIndicator="true" >
 
 </RatingBar>

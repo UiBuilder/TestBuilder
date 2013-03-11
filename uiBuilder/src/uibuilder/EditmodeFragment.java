@@ -147,7 +147,6 @@ public class EditmodeFragment extends Fragment
 		starBar = (SeekBar) layoutView.findViewById(R.id.star_count_seekbar);
 		ratingSlider = (SeekBar) layoutView.findViewById(R.id.star_rating_seekbar);
 		starBar.setMax(9);
-		ratingSlider.setMax(10);
 		starBar.setOnSeekBarChangeListener(new StarCountModuleListener());
 		ratingSlider.setOnSeekBarChangeListener(new StarCountModuleListener());
 	}
@@ -276,6 +275,7 @@ public class EditmodeFragment extends Fragment
 		resetModules();
 
 		currentView = view;
+
 		switch (id) {
 		case R.id.element_button:
 			moduleEditText.setVisibility(View.VISIBLE);
@@ -299,7 +299,7 @@ public class EditmodeFragment extends Fragment
 		case R.id.element_edittext:
 
 			moduleEditText.setVisibility(View.VISIBLE);
-			editText.setText(((TextView) currentView).getText());
+			editText.setText(((TextView) currentView).getHint());
 
 			moduleAlign.setVisibility(View.VISIBLE);
 
@@ -326,6 +326,7 @@ public class EditmodeFragment extends Fragment
 			moduleStarCount.setVisibility(View.VISIBLE);
 
 			starBar.setProgress(((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getNumStars() - 1);
+
 			ratingSlider.setProgress((int) ((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getRating());
 
 			break;
@@ -500,11 +501,12 @@ public class EditmodeFragment extends Fragment
 			switch (seekBar.getId()) {
 			case R.id.star_count_seekbar:
 				((RatingBar) ((ViewGroup) currentView).getChildAt(0)).setNumStars(progress + 1);
-				 ratingSlider.setMax(progress+1);
-				//ratingSlider.setMax((int) ((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getNumStars());
+				ratingSlider.setMax(progress + 1);
+				// ratingSlider.setMax((int) ((RatingBar) ((ViewGroup)
+				// currentView).getChildAt(0)).getNumStars());
 				break;
 			case R.id.star_rating_seekbar:
-				Log.d("RatingSeekbar", "gotValue for progress: "+progress);
+				Log.d("RatingSeekbar", "gotValue for progress: " + progress);
 				((RatingBar) ((ViewGroup) currentView).getChildAt(0)).setRating(progress);
 				break;
 			}
