@@ -59,9 +59,8 @@ public class EditmodeFragment extends Fragment
 
 	private View active;
 
-	private LinearLayout moduleAlign, modulePicture, moduleEditText,
-			moduleItemCount, moduleChangeSize, moduleZorder, moduleNothing,
-			moduleIcons, moduleStarCount;
+	private LinearLayout moduleAlign, modulePicture, moduleEditText, moduleItemCount, moduleChangeSize, moduleZorder, moduleNothing, moduleIcons,
+			moduleStarCount;
 
 	@Override
 	public void onAttach(Activity activity)
@@ -81,15 +80,13 @@ public class EditmodeFragment extends Fragment
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState)
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		Log.d("Editmode Fragment", "onCreateView called");
 
 		this.inflater = inflater;
 		if (layoutView == null) {
-			layoutView = inflater.inflate(R.layout.layout_editmode_fragment,
-					container, false);
+			layoutView = inflater.inflate(R.layout.layout_editmode_fragment, container, false);
 
 			getModules();
 
@@ -126,24 +123,15 @@ public class EditmodeFragment extends Fragment
 
 	private void getModules()
 	{
-		moduleAlign = (LinearLayout) layoutView
-				.findViewById(R.id.editmode_included_align_content);
-		moduleEditText = (LinearLayout) layoutView
-				.findViewById(R.id.editmode_included_text);
-		modulePicture = (LinearLayout) layoutView
-				.findViewById(R.id.editmode_included_choose_picture);
-		moduleItemCount = (LinearLayout) layoutView
-				.findViewById(R.id.editmode_included_item_count);
-		moduleChangeSize = (LinearLayout) layoutView
-				.findViewById(R.id.editmode_included_changesize);
-		moduleZorder = (LinearLayout) layoutView
-				.findViewById(R.id.editmode_included_order);
-		moduleNothing = (LinearLayout) layoutView
-				.findViewById(R.id.editmode_included_nothing);
-		moduleIcons = (LinearLayout) layoutView
-				.findViewById(R.id.editmode_included_choose_icon);
-		moduleStarCount = (LinearLayout) layoutView
-				.findViewById(R.id.editmode_included_star_count);
+		moduleAlign = (LinearLayout) layoutView.findViewById(R.id.editmode_included_align_content);
+		moduleEditText = (LinearLayout) layoutView.findViewById(R.id.editmode_included_text);
+		modulePicture = (LinearLayout) layoutView.findViewById(R.id.editmode_included_choose_picture);
+		moduleItemCount = (LinearLayout) layoutView.findViewById(R.id.editmode_included_item_count);
+		moduleChangeSize = (LinearLayout) layoutView.findViewById(R.id.editmode_included_changesize);
+		moduleZorder = (LinearLayout) layoutView.findViewById(R.id.editmode_included_order);
+		moduleNothing = (LinearLayout) layoutView.findViewById(R.id.editmode_included_nothing);
+		moduleIcons = (LinearLayout) layoutView.findViewById(R.id.editmode_included_choose_icon);
+		moduleStarCount = (LinearLayout) layoutView.findViewById(R.id.editmode_included_star_count);
 
 		setupPictureModule();
 		setupEdittextModule();
@@ -164,12 +152,10 @@ public class EditmodeFragment extends Fragment
 
 	private void setupIconModule()
 	{
-		GridView grid = (GridView) layoutView
-				.findViewById(R.id.editmode_icon_grid);
+		GridView grid = (GridView) layoutView.findViewById(R.id.editmode_icon_grid);
 
 		iconHelper = new IconHelper();
-		IconAdapter adapter = new IconAdapter(getActivity(),
-				iconHelper.getLowRes());
+		IconAdapter adapter = new IconAdapter(getActivity(), iconHelper.getLowRes());
 
 		grid.setAdapter(adapter);
 		grid.setOnItemClickListener(new IconModuleListener());
@@ -178,10 +164,8 @@ public class EditmodeFragment extends Fragment
 
 	private void setupZorderModule()
 	{
-		Button pullToFront = (Button) layoutView
-				.findViewById(R.id.editmode_z_order_front);
-		Button pushToBack = (Button) layoutView
-				.findViewById(R.id.editmode_z_order_back);
+		Button pullToFront = (Button) layoutView.findViewById(R.id.editmode_z_order_front);
+		Button pushToBack = (Button) layoutView.findViewById(R.id.editmode_z_order_back);
 
 		pullToFront.setOnClickListener(new AlignModuleListener());
 		pushToBack.setOnClickListener(new ImageModuleListener());
@@ -190,8 +174,7 @@ public class EditmodeFragment extends Fragment
 	private void setupChangesizeModule()
 	{
 
-		picker = (NumberPicker) layoutView
-				.findViewById(R.id.item_edit_editsize_picker);
+		picker = (NumberPicker) layoutView.findViewById(R.id.item_edit_editsize_picker);
 		picker.setOnValueChangedListener(new ChangesizeModuleListener());
 		picker.setMinValue(5);
 		picker.setMaxValue(100);
@@ -209,24 +192,15 @@ public class EditmodeFragment extends Fragment
 	private void setupAlignModule()
 	{
 
-		Button topLeft = (Button) layoutView
-				.findViewById(R.id.editmode_align_top_left);
-		Button topRight = (Button) layoutView
-				.findViewById(R.id.editmode_align_top_center);
-		Button topCenter = (Button) layoutView
-				.findViewById(R.id.editmode_align_top_right);
-		Button centerLeft = (Button) layoutView
-				.findViewById(R.id.editmode_align_center_left);
-		Button centerCenter = (Button) layoutView
-				.findViewById(R.id.editmode_align_center_center);
-		Button centerRight = (Button) layoutView
-				.findViewById(R.id.editmode_align_center_right);
-		Button bottomLeft = (Button) layoutView
-				.findViewById(R.id.editmode_align_bottom_left);
-		Button bottomCenter = (Button) layoutView
-				.findViewById(R.id.editmode_align_bottom_center);
-		Button bottomRight = (Button) layoutView
-				.findViewById(R.id.editmode_align_bottom_right);
+		Button topLeft = (Button) layoutView.findViewById(R.id.editmode_align_top_left);
+		Button topRight = (Button) layoutView.findViewById(R.id.editmode_align_top_center);
+		Button topCenter = (Button) layoutView.findViewById(R.id.editmode_align_top_right);
+		Button centerLeft = (Button) layoutView.findViewById(R.id.editmode_align_center_left);
+		Button centerCenter = (Button) layoutView.findViewById(R.id.editmode_align_center_center);
+		Button centerRight = (Button) layoutView.findViewById(R.id.editmode_align_center_right);
+		Button bottomLeft = (Button) layoutView.findViewById(R.id.editmode_align_bottom_left);
+		Button bottomCenter = (Button) layoutView.findViewById(R.id.editmode_align_bottom_center);
+		Button bottomRight = (Button) layoutView.findViewById(R.id.editmode_align_bottom_right);
 
 		topLeft.setOnClickListener(new AlignModuleListener());
 		topCenter.setOnClickListener(new AlignModuleListener());
@@ -283,12 +257,10 @@ public class EditmodeFragment extends Fragment
 
 	private void setupPictureModule()
 	{
-		Button takePic = (Button) layoutView
-				.findViewById(R.id.image_choose_camera);
+		Button takePic = (Button) layoutView.findViewById(R.id.image_choose_camera);
 		takePic.setOnClickListener(new ImageModuleListener());
 
-		Button picFromGallery = (Button) layoutView
-				.findViewById(R.id.image_choose_gallery);
+		Button picFromGallery = (Button) layoutView.findViewById(R.id.image_choose_gallery);
 		picFromGallery.setOnClickListener(new ImageModuleListener());
 
 	}
@@ -350,9 +322,8 @@ public class EditmodeFragment extends Fragment
 		case R.id.element_ratingbar:
 
 			moduleStarCount.setVisibility(View.VISIBLE);
-			
-			starBar.setProgress((int) ((RatingBar) ((ViewGroup) currentView)
-					.getChildAt(0)).getRating());
+
+			starBar.setProgress((int) ((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getRating());
 
 			break;
 		case R.id.element_search:
@@ -404,8 +375,7 @@ public class EditmodeFragment extends Fragment
 	public void setViewText(String string)
 	{
 		if (currentView instanceof LinearLayout) {
-			TextView textView = (TextView) ((LinearLayout) currentView)
-					.getChildAt(0);
+			TextView textView = (TextView) ((LinearLayout) currentView).getChildAt(0);
 
 			textView.setText(string);
 
@@ -455,8 +425,7 @@ public class EditmodeFragment extends Fragment
 		}
 
 		@Override
-		public void onItemClick(AdapterView<?> parent, View arg1, int pos,
-				long arg3)
+		public void onItemClick(AdapterView<?> parent, View arg1, int pos, long arg3)
 		{
 			// TODO Auto-generated method stub
 			Log.d("pos", String.valueOf(pos));
@@ -492,11 +461,8 @@ public class EditmodeFragment extends Fragment
 
 			case R.id.image_choose_gallery:
 
-				Intent galleryIntent = imageHandler
-						.getIntent(ImageTools.GALLERY);
-				startActivityForResult(
-						Intent.createChooser(galleryIntent, "Select Picture"),
-						ImageTools.GALLERY);
+				Intent galleryIntent = imageHandler.getIntent(ImageTools.GALLERY);
+				startActivityForResult(Intent.createChooser(galleryIntent, "Select Picture"), ImageTools.GALLERY);
 				break;
 			}
 		}
@@ -528,11 +494,9 @@ public class EditmodeFragment extends Fragment
 	private class StarCountModuleListener implements OnSeekBarChangeListener
 	{
 		@Override
-		public void onProgressChanged(SeekBar seekBar, int progress,
-				boolean fromUser)
+		public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
 		{
-			((RatingBar) ((ViewGroup) currentView).getChildAt(0))
-					.setNumStars(progress);
+			((RatingBar) ((ViewGroup) currentView).getChildAt(0)).setNumStars(progress);
 
 		}
 
@@ -567,16 +531,14 @@ public class EditmodeFragment extends Fragment
 		}
 
 		@Override
-		public void beforeTextChanged(CharSequence s, int start, int count,
-				int after)
+		public void beforeTextChanged(CharSequence s, int start, int count, int after)
 		{
 			// TODO Auto-generated method stub
 
 		}
 
 		@Override
-		public void onTextChanged(CharSequence s, int start, int before,
-				int count)
+		public void onTextChanged(CharSequence s, int start, int before, int count)
 		{
 			// TODO Auto-generated method stub
 
@@ -609,8 +571,7 @@ public class EditmodeFragment extends Fragment
 				((TextView) currentView).setGravity(Gravity.RIGHT);
 				break;
 			case R.id.editmode_align_center_left:
-				((TextView) currentView).setGravity(Gravity.LEFT
-						| Gravity.CENTER_VERTICAL);
+				((TextView) currentView).setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
 
 				break;
 			case R.id.editmode_align_center_center:
@@ -618,23 +579,19 @@ public class EditmodeFragment extends Fragment
 
 				break;
 			case R.id.editmode_align_center_right:
-				((TextView) currentView).setGravity(Gravity.RIGHT
-						| Gravity.CENTER_VERTICAL);
+				((TextView) currentView).setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
 
 				break;
 			case R.id.editmode_align_bottom_left:
-				((TextView) currentView).setGravity(Gravity.LEFT
-						| Gravity.BOTTOM);
+				((TextView) currentView).setGravity(Gravity.LEFT | Gravity.BOTTOM);
 
 				break;
 			case R.id.editmode_align_bottom_center:
-				((TextView) currentView).setGravity(Gravity.CENTER_HORIZONTAL
-						| Gravity.BOTTOM);
+				((TextView) currentView).setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM);
 
 				break;
 			case R.id.editmode_align_bottom_right:
-				((TextView) currentView).setGravity(Gravity.RIGHT
-						| Gravity.BOTTOM);
+				((TextView) currentView).setGravity(Gravity.RIGHT | Gravity.BOTTOM);
 
 				break;
 

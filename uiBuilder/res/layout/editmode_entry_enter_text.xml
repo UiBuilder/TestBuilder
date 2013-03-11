@@ -20,6 +20,8 @@
         android:layout_height="wrap_content"
         android:hint="@string/edittext_hint_default"
         android:inputType="textAutoCorrect"
-        android:selectAllOnFocus="true" />
+        android:selectAllOnFocus="true"
+        android:imeOptions="actionDone|flagNoFullscreen"
+         />
 
 </LinearLayout>
