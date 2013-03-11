@@ -503,12 +503,12 @@ public class EditmodeFragment extends Fragment
 			switch (seekBar.getId()) {
 			case R.id.star_count_seekbar:
 				((RatingBar) ((ViewGroup) currentView).getChildAt(0)).setNumStars(progress + 1);
-				ratingBar.setMax((progress+1)*2);
+				ratingBar.setMax((int)((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getNumStars()*2);
 
 				break;
 			case R.id.star_rating_seekbar:
 
-				((RatingBar) ((ViewGroup) currentView).getChildAt(0)).setRating((float)progress/(float)2);
+				((RatingBar) ((ViewGroup) currentView).getChildAt(0)).setRating((float)progress/2);
 				break;
 			}
 
