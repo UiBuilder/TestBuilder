@@ -326,7 +326,6 @@ public class EditmodeFragment extends Fragment
 			moduleStarCount.setVisibility(View.VISIBLE);
 			starCountBar.setProgress((int) ((RatingBar)((ViewGroup)currentView).getChildAt(0)).getRating());
 
-			//starBar.setProgress((int) ((RatingBar)currentView).getRating());
 			
 			break;
 		case R.id.element_search:
