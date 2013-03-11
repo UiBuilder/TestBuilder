@@ -1,5 +1,7 @@
 package creators;
 
+import java.util.ArrayList;
+
 import manipulators.Overlay;
 import helpers.Log;
 import uibuilder.DesignFragment;
@@ -14,6 +16,7 @@ import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -354,6 +357,25 @@ public class Generator
 
 		container.addView(xmlList);
 		
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("a");
+		list.add("a");
+		list.add("a");
+		list.add("a");
+		list.add("a");
+		
+		ArrayAdapter<String>listAdapter = new ArrayAdapter<String>(context.getApplicationContext(), R.layout.item_listview_example_layout_1, list){
+
+			@Override
+			public View getView(int position, View convertView, ViewGroup parent)
+			{
+				// TODO Auto-generated method stub
+				return inflater.inflate(R.layout.item_listview_example_layout_1, null);
+			}
+			
+		};
+		xmlList.setAdapter(listAdapter);
+		
 		RelativeLayout.LayoutParams containerParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		container.setLayoutParams(containerParams);
 		
@@ -386,7 +408,7 @@ public class Generator
 		LinearLayout relativeLayout = new LinearLayout(context);
 		relativeLayout.setBackgroundResource(R.drawable.default_button_border);
 		relativeLayout.setOrientation(LinearLayout.HORIZONTAL);
-
+/*
 		relativeLayout.setOnDragListener(new OnDragListener()
 		{
 
@@ -423,7 +445,7 @@ public class Generator
 				}
 				return true;
 			}
-		});
+		});*/
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(200, 200);
 
 		relativeLayout.setLayoutParams(params);

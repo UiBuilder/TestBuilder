@@ -20,10 +20,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" 
-        android:padding="@dimen/default_padding_large"
+        
         >
 		
+        <include 
+            layout="@layout/item_listview_example_layout_1"
+            
+            />
         
+        <include 
+            layout="@layout/item_listview_example_layout_2"
+            
+            />
+        
+        <include 
+            layout="@layout/item_listview_example_layout_3"
+            
+            />
     </LinearLayout>
     
     

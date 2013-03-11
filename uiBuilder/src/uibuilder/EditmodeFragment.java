@@ -60,7 +60,7 @@ public class EditmodeFragment extends Fragment
 
 	private View active;
 
-	private LinearLayout moduleAlign, modulePicture, moduleEditText, moduleChangeSize, moduleZorder, moduleNothing, moduleIcons, moduleStarCount;
+	private LinearLayout moduleAlign, modulePicture, moduleEditText, moduleChangeSize, moduleZorder, moduleNothing, moduleIcons, moduleStarCount, moduleListConfig;
 
 	@Override
 	public void onAttach(Activity activity)
@@ -131,6 +131,7 @@ public class EditmodeFragment extends Fragment
 		moduleNothing = (LinearLayout) layoutView.findViewById(R.id.editmode_included_nothing);
 		moduleIcons = (LinearLayout) layoutView.findViewById(R.id.editmode_included_choose_icon);
 		moduleStarCount = (LinearLayout) layoutView.findViewById(R.id.editmode_included_star_count);
+		moduleListConfig = (LinearLayout) layoutView.findViewById(R.id.editmode_included_list_config);
 
 		setupPictureModule();
 		setupEdittextModule();
@@ -139,8 +140,15 @@ public class EditmodeFragment extends Fragment
 		setupZorderModule();
 		setupIconModule();
 		setupStarCountModule();
+		setupListConfigModule();
 
 		// and so on..
+	}
+
+	private void setupListConfigModule()
+	{
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void setupStarCountModule()
@@ -359,6 +367,11 @@ public class EditmodeFragment extends Fragment
 
 		case R.id.element_seekbar:
 			moduleNothing.setVisibility(View.VISIBLE);
+			break;
+			
+		case R.id.element_list:
+			moduleListConfig.setVisibility(View.VISIBLE);
+			
 		default:
 
 			break;
@@ -445,6 +458,7 @@ public class EditmodeFragment extends Fragment
 		moduleNothing.setVisibility(View.GONE);
 		moduleIcons.setVisibility(View.GONE);
 		moduleStarCount.setVisibility(View.GONE);
+		moduleListConfig.setVisibility(View.GONE);
 
 		moduleAlign.invalidate();
 		moduleEditText.invalidate();
@@ -454,6 +468,7 @@ public class EditmodeFragment extends Fragment
 		moduleNothing.invalidate();
 		moduleIcons.invalidate();
 		moduleStarCount.invalidate();
+		moduleListConfig.invalidate();
 	}
 
 	/**
@@ -473,12 +488,7 @@ public class EditmodeFragment extends Fragment
 		@Override
 		public void onItemClick(AdapterView<?> parent, View arg1, int pos, long arg3)
 		{
-			// TODO Auto-generated method stub
-			Log.d("pos", String.valueOf(pos));
-
 			int resourceId = (highresRes.get(pos)).intValue();
-
-			Log.d("pos", String.valueOf(resourceId));
 
 			((ImageView) currentView).setScaleType(ScaleType.FIT_CENTER);
 			((ImageView) currentView).setImageResource(resourceId);

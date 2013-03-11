@@ -70,6 +70,11 @@
     <!-- LIST EDIT -->
     <string name="item_edit_list_caption">Choose List Layout</string>
     
+    <!-- LIST EXAMPLE LAYOUTS -->
+    	<!-- Layout 1 -->
+	    <string name="listview_listitem_layout_1_header">Example Header</string>
+	    <string name="listview_listitem_layout_1_content">Example Content</string>
+    
     <!-- ICONS EDIT -->
     <string name="item_edit_icon_caption">Choose Icon</string>
     

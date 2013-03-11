@@ -5,6 +5,8 @@
         <item name="android:textColor">@color/text_dark</item>
     </style>
     
+    <!-- UI STYLES -->
+    
     <style name="editbox_header" parent="@style/default_fontsizes">
         <item name="android:textSize">25sp</item>
         <item name="android:textStyle">normal</item>
@@ -45,4 +47,12 @@
         <item name="android:layout_margin">1dp</item>
         <item name="android:background">@color/designarea_background</item>
     </style>
+    
+    <!-- DEFAULT LIST STYLES -->
+    <style name="list_layout_1_header" parent="@style/default_fontsizes">
+        <item name="android:textSize">25dp</item>
+        <item name="android:padding">@dimen/default_padding_large</item>
+        
+    </style>
+    
 </resources>
