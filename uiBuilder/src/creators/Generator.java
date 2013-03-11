@@ -109,10 +109,10 @@ public class Generator
 			
 			break;
 
-		case R.id.element_search:
+		/*case R.id.element_search:
 			xmlView = buildSearchView();
 			
-			break;
+			break;*/
 
 		case R.id.element_numberpick:
 			xmlView = buildNumberPicker();
@@ -220,13 +220,13 @@ public class Generator
 
 			break;
 
-		case R.id.element_search:
+		/*case R.id.element_search:
 			
 			width = res.getInteger(R.integer.search_factor_width);
 			height = res.getInteger(R.integer.search_factor_height);
 			scaleType = Overlay.BOTH;
 
-			break;
+			break;*/
 
 		case R.id.element_numberpick:
 			
@@ -443,7 +443,7 @@ public class Generator
 		params.addRule(RelativeLayout.CENTER_IN_PARENT, 1);
 		xmlSearchView.setLayoutParams(params);
 
-		xmlSearchView.setEnabled(false);
+		//xmlSearchView.setEnabled(false);
 		xmlSearchViewContainer.addView(xmlSearchView);
 
 		return xmlSearchViewContainer;
