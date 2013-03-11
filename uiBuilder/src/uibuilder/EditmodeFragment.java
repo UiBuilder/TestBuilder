@@ -56,6 +56,7 @@ public class EditmodeFragment extends Fragment
 	private IconAdapter adapter;
 	private IconHelper iconHelper;
 	private SeekBar starBar, ratingSlider;
+	private Button topLeft, topCenter, topRight, centerLeft, centerCenter, centerRight, bottomLeft, bottomCenter, bottomRight;
 
 	private View active;
 
@@ -193,15 +194,15 @@ public class EditmodeFragment extends Fragment
 	private void setupAlignModule()
 	{
 
-		Button topLeft = (Button) layoutView.findViewById(R.id.editmode_align_top_left);
-		Button topRight = (Button) layoutView.findViewById(R.id.editmode_align_top_center);
-		Button topCenter = (Button) layoutView.findViewById(R.id.editmode_align_top_right);
-		Button centerLeft = (Button) layoutView.findViewById(R.id.editmode_align_center_left);
-		Button centerCenter = (Button) layoutView.findViewById(R.id.editmode_align_center_center);
-		Button centerRight = (Button) layoutView.findViewById(R.id.editmode_align_center_right);
-		Button bottomLeft = (Button) layoutView.findViewById(R.id.editmode_align_bottom_left);
-		Button bottomCenter = (Button) layoutView.findViewById(R.id.editmode_align_bottom_center);
-		Button bottomRight = (Button) layoutView.findViewById(R.id.editmode_align_bottom_right);
+		topLeft = (Button) layoutView.findViewById(R.id.editmode_align_top_left);
+		topRight = (Button) layoutView.findViewById(R.id.editmode_align_top_center);
+		topCenter = (Button) layoutView.findViewById(R.id.editmode_align_top_right);
+		centerLeft = (Button) layoutView.findViewById(R.id.editmode_align_center_left);
+		centerCenter = (Button) layoutView.findViewById(R.id.editmode_align_center_center);
+		centerRight = (Button) layoutView.findViewById(R.id.editmode_align_center_right);
+		bottomLeft = (Button) layoutView.findViewById(R.id.editmode_align_bottom_left);
+		bottomCenter = (Button) layoutView.findViewById(R.id.editmode_align_bottom_center);
+		bottomRight = (Button) layoutView.findViewById(R.id.editmode_align_bottom_right);
 
 		topLeft.setOnClickListener(new AlignModuleListener());
 		topCenter.setOnClickListener(new AlignModuleListener());
@@ -302,6 +303,7 @@ public class EditmodeFragment extends Fragment
 			editText.setText(((TextView) currentView).getHint());
 
 			moduleAlign.setVisibility(View.VISIBLE);
+			adaptAlignButtons(currentView);
 
 			// moduleTextSize.setVisibility(View.VISIBLE);
 			break;
@@ -347,6 +349,8 @@ public class EditmodeFragment extends Fragment
 			editText.setText(getViewText(currentView));
 
 			moduleAlign.setVisibility(View.VISIBLE);
+			adaptAlignButtons(currentView);
+
 
 			break;
 		case R.id.element_timepicker:
@@ -362,6 +366,46 @@ public class EditmodeFragment extends Fragment
 		// moduleZorder.setVisibility(View.VISIBLE);
 
 		layoutView.invalidate();
+	}
+
+	private void adaptAlignButtons(View currentView2)
+	{
+		switch (((TextView) currentView).getGravity()) {
+		case Gravity.TOP | Gravity.LEFT:
+			topLeft.setActivated(true);
+			break;
+		case Gravity.TOP | Gravity.CENTER_HORIZONTAL:
+			topCenter.setActivated(true);
+
+			break;
+		case Gravity.TOP | Gravity.RIGHT:
+			topRight.setActivated(true);
+
+			break;
+		case Gravity.CENTER_VERTICAL | Gravity.LEFT:
+
+			centerLeft.setActivated(true);
+			break;
+		case Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL:
+			centerCenter.setActivated(true);
+
+			break;
+		case Gravity.CENTER_VERTICAL | Gravity.RIGHT:
+			centerRight.setActivated(true);
+
+			break;
+		case Gravity.BOTTOM | Gravity.LEFT:
+			bottomLeft.setActivated(true);
+			break;
+		case Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL:
+			bottomCenter.setActivated(true);
+
+			break;
+		case Gravity.BOTTOM | Gravity.RIGHT:
+			bottomRight.setActivated(true);
+
+			break;
+		}
 	}
 
 	private CharSequence getViewText(View view)
