@@ -349,13 +349,11 @@ public class EditmodeFragment extends Fragment
 			break;
 		case R.id.element_ratingbar:
 
-			moduleNothing.setVisibility(View.VISIBLE);
 			moduleStarCount.setVisibility(View.VISIBLE);
+			
 			starBar.setProgress((int) ((RatingBar) ((ViewGroup) currentView)
 					.getChildAt(0)).getRating());
 
-			moduleNothing.setVisibility(View.VISIBLE);
-			moduleNothing.setVisibility(View.VISIBLE);
 			break;
 		case R.id.element_search:
 			moduleNothing.setVisibility(View.VISIBLE);
