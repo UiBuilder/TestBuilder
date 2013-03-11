@@ -1,6 +1,9 @@
 package uibuilder;
 
+import java.util.ArrayList;
+
 import helpers.IconAdapter;
+import helpers.IconHelper;
 import helpers.ImageTools;
 import android.app.Activity;
 import android.app.Fragment;
@@ -144,10 +147,10 @@ public class EditmodeFragment extends Fragment
 	{
 		GridView grid = (GridView) layoutView.findViewById(R.id.editmode_icon_grid);
 		
-		IconAdapter adapter = new IconAdapter(getActivity());
+		IconAdapter adapter = new IconAdapter(getActivity(), IconHelper.getLowRes());
 		
 		grid.setAdapter(adapter);
-		grid.setOnItemClickListener(new IconModuleListener(adapter));
+		grid.setOnItemClickListener(new IconModuleListener());
 		
 	}
 
@@ -405,23 +408,25 @@ public class EditmodeFragment extends Fragment
 	 */
 	private class IconModuleListener implements OnItemClickListener
 	{
-		private IconAdapter adapter;
+		ArrayList<Integer> highresRes;
 		
-		public IconModuleListener(IconAdapter adapter)
+		public IconModuleListener()
 		{
-			this.adapter = adapter;
+			highresRes = IconHelper.getFullRes();
 		}
-
+			
 		@Override
-		public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
+		public void onItemClick(AdapterView<?> parent, View arg1, int pos,
 				long arg3)
 		{
 			// TODO Auto-generated method stub
 			Log.d("pos", String.valueOf(pos));
 			
-			int resourceId = ((Integer) adapter.getItem(pos)).intValue();
+			int resourceId = (highresRes.get(pos)).intValue();
+			
 			Log.d("pos", String.valueOf(resourceId));
-			((ImageView)currentView).setScaleType(ScaleType.CENTER);
+			
+			((ImageView)currentView).setScaleType(ScaleType.FIT_CENTER);
 			((ImageView)currentView).setImageResource(resourceId);
 		}
 		
