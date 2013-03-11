@@ -698,13 +698,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 			case DragEvent.ACTION_DROP: //check minpositions, hide grid, display overlay at new position and reposition the element at droptarget
 
-				if (secondPointer)
-				{
-
-				} else
-				{
-
-				}
 				ImageButton drag = overlay.getDrag();
 
 				int dropTargetX = checkCollisionX(event.getX());
@@ -757,9 +750,8 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	private void setStyle(int event)
 	{
 		if (activeItem != null)
-		synchronized (activeItem)
+		//synchronized (activeItem)
 		{
-			
 			switch (event)
 			{
 			case DragEvent.ACTION_DRAG_STARTED:
@@ -781,8 +773,16 @@ public class DesignFragment extends Fragment implements OnDragListener,
 				break;
 				
 			case DragEvent.ACTION_DRAG_ENDED:
-
-				activeItem.setBackgroundResource(R.drawable.default_button_border);
+			case DragEvent.ACTION_DROP:
+				activeItem.post(new Runnable()
+				{
+					
+					@Override
+					public void run()
+					{
+						activeItem.setBackgroundResource(R.drawable.default_button_border);
+					}
+				}); 
 				break;
 
 			case DragEvent.ACTION_DRAG_EXITED:
