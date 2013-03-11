@@ -55,7 +55,7 @@ public class EditmodeFragment extends Fragment
 	private ImageTools imageHandler;
 	private IconAdapter adapter;
 	private IconHelper iconHelper;
-	private SeekBar starBar;
+	private SeekBar starBar, ratingBar;
 
 	private View active;
 
@@ -147,8 +147,10 @@ public class EditmodeFragment extends Fragment
 	private void setupStarCountModule()
 	{
 		starBar = (SeekBar) layoutView.findViewById(R.id.star_count_seekbar);
-		
+		ratingBar = (SeekBar) layoutView.findViewById(R.id.star_rating_seekbar);
+
 		starBar.setOnSeekBarChangeListener(new StarCountModuleListener());
+		ratingBar.setOnSeekBarChangeListener(new StarCountModuleListener());
 	}
 
 	private void setupIconModule()
@@ -266,7 +268,7 @@ public class EditmodeFragment extends Fragment
 
 	}
 
-	protected void adaptLayoutToContext(View view) 
+	protected void adaptLayoutToContext(View view)
 	{
 		Bundle tagBundle = (Bundle) view.getTag();
 
@@ -324,13 +326,14 @@ public class EditmodeFragment extends Fragment
 
 			moduleStarCount.setVisibility(View.VISIBLE);
 
-			starBar.setProgress((int) ((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getNumStars()-1);
+			starBar.setProgress((int) ((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getNumStars() - 1);
+			ratingBar.setProgress((int) ((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getRating());
 
 			break;
-//		case R.id.element_search:
-//			moduleNothing.setVisibility(View.VISIBLE);
-//			// moduleSearch.setVisibility(View.VISIBLE); collapsed etc
-//			break;
+		// case R.id.element_search:
+		// moduleNothing.setVisibility(View.VISIBLE);
+		// // moduleSearch.setVisibility(View.VISIBLE); collapsed etc
+		// break;
 		case R.id.element_switch:
 			moduleEditText.setVisibility(View.VISIBLE);
 			editText.setText(getViewText(currentView));
@@ -497,7 +500,17 @@ public class EditmodeFragment extends Fragment
 		@Override
 		public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
 		{
-			((RatingBar) ((ViewGroup) currentView).getChildAt(0)).setNumStars(progress+1);
+			switch (seekBar.getId()) {
+			case R.id.star_count_seekbar:
+				((RatingBar) ((ViewGroup) currentView).getChildAt(0)).setNumStars(progress + 1);
+				ratingBar.setMax((progress+1)*2);
+
+				break;
+			case R.id.star_rating_seekbar:
+
+				((RatingBar) ((ViewGroup) currentView).getChildAt(0)).setRating((float)progress/(float)2);
+				break;
+			}
 
 		}
 
