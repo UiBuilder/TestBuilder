@@ -345,7 +345,7 @@ public class Generator
 	{
 		RelativeLayout container = createContainer();
 		
-		ListView xmlList = (ListView) inflater.inflate(R.layout.item_istview_layout, null);
+		ListView xmlList = (ListView) inflater.inflate(R.layout.item_listview_layout, null);
 		
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		params.addRule(RelativeLayout.CENTER_IN_PARENT, 1);

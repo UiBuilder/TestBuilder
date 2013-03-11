@@ -59,7 +59,7 @@
     <item name="timepicker_factor_height" format="integer" type="integer">5</item>
     
     <!-- ratingbar -->
-    <item name="ratingbar_factor_width" format="integer" type="integer">10</item>
+    <item name="ratingbar_factor_width" format="integer" type="integer">2</item>
     <item name="ratingbar_factor_height" format="integer" type="integer">2</item>
     
     <!-- list -->
