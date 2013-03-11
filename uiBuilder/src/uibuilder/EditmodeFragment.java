@@ -327,7 +327,7 @@ public class EditmodeFragment extends Fragment
 			moduleStarCount.setVisibility(View.VISIBLE);
 
 			starBar.setProgress((int) ((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getNumStars() - 1);
-			ratingBar.setProgress((int) ((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getRating());
+			ratingBar.setProgress(starBar.getProgress());
 
 			break;
 		// case R.id.element_search:
@@ -503,12 +503,12 @@ public class EditmodeFragment extends Fragment
 			switch (seekBar.getId()) {
 			case R.id.star_count_seekbar:
 				((RatingBar) ((ViewGroup) currentView).getChildAt(0)).setNumStars(progress + 1);
-				ratingBar.setMax((int)((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getNumStars()*2);
+				ratingBar.setMax((int)((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getNumStars());
 
 				break;
 			case R.id.star_rating_seekbar:
 
-				((RatingBar) ((ViewGroup) currentView).getChildAt(0)).setRating((float)progress/2);
+				((RatingBar) ((ViewGroup) currentView).getChildAt(0)).setRating(progress);
 				break;
 			}
 
