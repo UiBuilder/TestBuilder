@@ -55,12 +55,11 @@ public class EditmodeFragment extends Fragment
 	private ImageTools imageHandler;
 	private IconAdapter adapter;
 	private IconHelper iconHelper;
-	private SeekBar starBar, ratingBar;
+	private SeekBar starBar, ratingSlider;
 
 	private View active;
 
-	private LinearLayout moduleAlign, modulePicture, moduleEditText, moduleChangeSize, moduleZorder, moduleNothing, moduleIcons,
-			moduleStarCount;
+	private LinearLayout moduleAlign, modulePicture, moduleEditText, moduleChangeSize, moduleZorder, moduleNothing, moduleIcons, moduleStarCount;
 
 	@Override
 	public void onAttach(Activity activity)
@@ -146,13 +145,11 @@ public class EditmodeFragment extends Fragment
 	private void setupStarCountModule()
 	{
 		starBar = (SeekBar) layoutView.findViewById(R.id.star_count_seekbar);
-		ratingBar = (SeekBar) layoutView.findViewById(R.id.star_rating_seekbar);
-		starBar.setMax(9+1);
-		ratingBar.setMax(10);
-		
-
+		ratingSlider = (SeekBar) layoutView.findViewById(R.id.star_rating_seekbar);
+		starBar.setMax(9);
+		ratingSlider.setMax(10);
 		starBar.setOnSeekBarChangeListener(new StarCountModuleListener());
-		ratingBar.setOnSeekBarChangeListener(new StarCountModuleListener());
+		ratingSlider.setOnSeekBarChangeListener(new StarCountModuleListener());
 	}
 
 	private void setupIconModule()
@@ -328,9 +325,8 @@ public class EditmodeFragment extends Fragment
 
 			moduleStarCount.setVisibility(View.VISIBLE);
 
-			starBar.setProgress( ((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getNumStars() - 1);
-			ratingBar.setProgress((int) ((RatingBar) ((ViewGroup)currentView).getChildAt(0)).getRating());
-
+			starBar.setProgress(((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getNumStars() - 1);
+			ratingSlider.setProgress((int) ((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getRating());
 
 			break;
 		// case R.id.element_search:
@@ -503,17 +499,13 @@ public class EditmodeFragment extends Fragment
 		{
 			switch (seekBar.getId()) {
 			case R.id.star_count_seekbar:
-				
-				
 				((RatingBar) ((ViewGroup) currentView).getChildAt(0)).setNumStars(progress + 1);
-				//ratingBar.setMax(progress+1);
-				ratingBar.setMax((int)((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getNumStars());
-
-
+				 ratingSlider.setMax(progress+1);
+				//ratingSlider.setMax((int) ((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getNumStars());
 				break;
 			case R.id.star_rating_seekbar:
-
-				((RatingBar) ((ViewGroup) currentView).getChildAt(0)).setRating((float)progress/2);
+				Log.d("RatingSeekbar", "gotValue for progress: "+progress);
+				((RatingBar) ((ViewGroup) currentView).getChildAt(0)).setRating(progress);
 				break;
 			}
 
