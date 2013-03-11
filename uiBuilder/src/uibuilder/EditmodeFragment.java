@@ -315,14 +315,14 @@ public class EditmodeFragment extends Fragment
 			// moduleItemCount.setVisibility(View.VISIBLE);
 			break;
 		case R.id.element_ratingbar:
-<<<<<<< HEAD
-			moduleStarCount.setVisibility(View.VISIBLE);
-			starCountBar.setProgress((int) ((RatingBar)((ViewGroup)currentView).getChildAt(0)).getRating());
+
+			//moduleStarCount.setVisibility(View.VISIBLE);
+			//starCountBar.setProgress((int) ((RatingBar)((ViewGroup)currentView).getChildAt(0)).getRating());
 
 			
-=======
+
 			moduleNothing.setVisibility(View.VISIBLE);
->>>>>>> parent of 2e12fef... starCount
+			moduleNothing.setVisibility(View.VISIBLE);
 			break;
 		case R.id.element_search:
 			moduleNothing.setVisibility(View.VISIBLE);

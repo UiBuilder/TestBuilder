@@ -10,7 +10,7 @@
         style="@style/editbox_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/editmode_select_star_count" />
+        />
 
     <SeekBar
         android:id="@+id/star_count_seekbar"
