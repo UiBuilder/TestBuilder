@@ -147,6 +147,7 @@ public class EditmodeFragment extends Fragment
 	private void setupStarCountModule()
 	{
 		starBar = (SeekBar) layoutView.findViewById(R.id.star_count_seekbar);
+		
 		starBar.setOnSeekBarChangeListener(new StarCountModuleListener());
 	}
 
@@ -323,13 +324,13 @@ public class EditmodeFragment extends Fragment
 
 			moduleStarCount.setVisibility(View.VISIBLE);
 
-			starBar.setProgress((int) ((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getRating());
+			starBar.setProgress((int) ((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getNumStars()-1);
 
 			break;
-		case R.id.element_search:
-			moduleNothing.setVisibility(View.VISIBLE);
-			// moduleSearch.setVisibility(View.VISIBLE); collapsed etc
-			break;
+//		case R.id.element_search:
+//			moduleNothing.setVisibility(View.VISIBLE);
+//			// moduleSearch.setVisibility(View.VISIBLE); collapsed etc
+//			break;
 		case R.id.element_switch:
 			moduleEditText.setVisibility(View.VISIBLE);
 			editText.setText(getViewText(currentView));
@@ -496,7 +497,7 @@ public class EditmodeFragment extends Fragment
 		@Override
 		public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
 		{
-			((RatingBar) ((ViewGroup) currentView).getChildAt(0)).setNumStars(progress);
+			((RatingBar) ((ViewGroup) currentView).getChildAt(0)).setNumStars(progress+1);
 
 		}
 
