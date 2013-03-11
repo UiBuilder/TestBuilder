@@ -646,12 +646,13 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	@Override
 	public boolean onDrag(View root, DragEvent event)
 	{
+		
 		//synchronized (activeItem)
 		{
 
 			switch (event.getAction())
 			{
-			case DragEvent.ACTION_DRAG_STARTED: //hide the overlay, show grid for positioning, set style of actibe item 
+			case DragEvent.ACTION_DRAG_STARTED: //hide the overlay, show grid for positioning, set style of active item 
 												//to indicate old position
 				isDragging = true;
 				listener.objectDragging();

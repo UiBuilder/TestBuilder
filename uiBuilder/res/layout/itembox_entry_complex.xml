@@ -68,11 +68,11 @@
             >
 	       	
             <Button
-            android:id="@+id/element_search"
+            android:id="@+id/element_timepicker"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:text="@string/itembox_complex_element_caption_timepicker" 
             android:layout_weight="1"
-            android:text="@string/itembox_complex_element_caption_search" 
             style="@style/itembox_items"
             />
         
@@ -114,15 +114,6 @@
             />
         
         <Button
-            android:id="@+id/element_timepicker"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/itembox_complex_element_caption_timepicker" 
-            android:layout_weight="1"
-            style="@style/itembox_items"
-            />
-        
-        <Button
 
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -131,6 +122,14 @@
             android:visibility="invisible"
              />
             
+        <Button
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            style="@style/itembox_items"
+            android:visibility="invisible"
+             />
        	 </TableRow>
         
         
