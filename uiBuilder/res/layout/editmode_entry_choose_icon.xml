@@ -18,14 +18,13 @@
 
     <GridView 
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:verticalSpacing="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
         android:smoothScrollbar="true"
         android:isScrollContainer="true"
         android:stretchMode="columnWidth"
         android:numColumns="4"
-       	android:columnWidth="50dp"
         
         android:id="@+id/editmode_icon_grid"
         

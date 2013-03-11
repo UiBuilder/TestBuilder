@@ -89,6 +89,7 @@
     <string name="editmode_align_bottom_center">BOTTOM CENTER</string>
     <string name="editmode_align_bottom_right">BOTTOM RIGHT</string>
     <string name="item_edit_enter_item_count">Anzahl der Elemente</string>
+    <string name="editmode_select_star_count">Select Star Count</string>
   
 
 </resources>
