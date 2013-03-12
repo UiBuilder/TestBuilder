@@ -107,9 +107,7 @@ public class ObjectFactory
 	 * @param from
 	 */
 	private void checkListType(View active, int from)
-	{
-		String[] list = ref.getResources().getStringArray(R.array.listview_listitem_layout_content);
-		
+	{	
 		RelativeLayout container = (RelativeLayout) active;
 		
 		ListView listView = (ListView) container.getChildAt(0);
@@ -135,24 +133,24 @@ public class ObjectFactory
 			break;
 		}
 		
-		setAdapter(listLayout);
+		setAdapter(listView, listLayout);
 		
 	}
 
-	private void setAdapter(int listLayout)
+	private void setAdapter(ListView listView, final int listLayout)
 	{
-		// TODO Auto-generated method stub
-		ArrayAdapter<String>listAdapter = new ArrayAdapter<String>(ref.getApplicationContext(), listLayout, list)
-				{
+		String[] list = ref.getResources().getStringArray(R.array.listview_listitem_layout_content);
 
-					@Override
-					public View getView(int position, View convertView, ViewGroup parent)
-					{
-						// TODO Auto-generated method stub
-						return inflater.inflate(listLayout, null);
-					}
+		ArrayAdapter<String>listAdapter = new ArrayAdapter<String>(ref.getApplicationContext(), listLayout, list)
+		{
+
+			@Override
+			public View getView(int position, View convertView, ViewGroup parent)
+			{
+				return inflater.inflate(listLayout, null);
+			}
 					
-				};
+		};
 		listView.setAdapter(listAdapter);
 	}
 	
