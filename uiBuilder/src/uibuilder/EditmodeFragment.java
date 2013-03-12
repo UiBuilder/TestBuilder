@@ -154,10 +154,12 @@ public class EditmodeFragment extends Fragment
 		LinearLayout layoutTypeOne = (LinearLayout) layoutView.findViewById(R.id.editmode_list_included_layout_1);
 		LinearLayout layoutTypeTwo = (LinearLayout) layoutView.findViewById(R.id.editmode_list_included_layout_2);
 		LinearLayout layoutTypeThree = (LinearLayout) layoutView.findViewById(R.id.editmode_list_included_layout_3);
+		LinearLayout layoutTypeFour = (LinearLayout) layoutView.findViewById(R.id.editmode_list_included_layout_4);
 		
 		layoutTypeOne.setOnClickListener(new LayoutModuleListener());
 		layoutTypeTwo.setOnClickListener(new LayoutModuleListener());
 		layoutTypeThree.setOnClickListener(new LayoutModuleListener());
+		layoutTypeFour.setOnClickListener(new LayoutModuleListener());
 	}
 
 	private void setupStarCountModule()
@@ -503,11 +505,13 @@ public class EditmodeFragment extends Fragment
 		{
 			int id = v.getId();
 			
+			
 			switch (id)
 			{
 			case R.id.editmode_list_included_layout_1:
 			case R.id.editmode_list_included_layout_2:
 			case R.id.editmode_list_included_layout_3:
+			case R.id.editmode_list_included_layout_4:
 				editListener.prefencesChanged(currentView, id);
 				break;
 
