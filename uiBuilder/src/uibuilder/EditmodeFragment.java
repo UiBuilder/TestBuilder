@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import manipulators.Overlay;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -669,11 +670,13 @@ public class EditmodeFragment extends Fragment
 	private class AlignModuleListener implements OnClickListener
 	{
 		
+		@SuppressLint("NewApi")
 		@Override
 		public void onClick(View v)
 		{
 			clearAlignSelection();
 			v.setActivated(true);
+			
 
 //			if (v != active) {
 //				if (active != null) {
