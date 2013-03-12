@@ -151,11 +151,13 @@ public class EditmodeFragment extends Fragment
 		LinearLayout layoutTypeTwo = (LinearLayout) layoutView.findViewById(R.id.editmode_list_included_layout_2);
 		LinearLayout layoutTypeThree = (LinearLayout) layoutView.findViewById(R.id.editmode_list_included_layout_3);
 		LinearLayout layoutTypeFour = (LinearLayout) layoutView.findViewById(R.id.editmode_list_included_layout_4);
+		LinearLayout layoutTypeFive = (LinearLayout) layoutView.findViewById(R.id.editmode_list_included_layout_5);
 		
 		layoutTypeOne.setOnClickListener(new LayoutModuleListener());
 		layoutTypeTwo.setOnClickListener(new LayoutModuleListener());
 		layoutTypeThree.setOnClickListener(new LayoutModuleListener());
 		layoutTypeFour.setOnClickListener(new LayoutModuleListener());
+		layoutTypeFive.setOnClickListener(new LayoutModuleListener());
 	}
 
 	private void setupStarCountModule()

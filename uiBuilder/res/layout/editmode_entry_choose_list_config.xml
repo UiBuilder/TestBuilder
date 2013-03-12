@@ -47,6 +47,11 @@
             layout="@layout/item_listview_example_layout_4"
             
             />
+        
+        <include 
+            android:id="@+id/editmode_list_included_layout_5"
+            layout="@layout/item_listview_example_layout_5"
+            />
     </LinearLayout>
     
     
