@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-        
+   <!-- TO EXPAND ICON LIBRARY: -->
+   <!-- just put icon resources in raw folder and add the small and big version here. --> 
+   <!-- they will automatically appear in the icon library -->
+    
+    <!-- BIG icon resources -->
     <integer-array name="icons_big" >
-        <item format="integer" type="integer">@raw/ico_0000</item>
+        <item >@raw/ico_0000</item>
         <item >@raw/ico_0001</item>
         <item >@raw/ico_0002</item>
         <item >@raw/ico_0003</item>
@@ -68,6 +72,7 @@
         
     </integer-array>
     
+    <!-- SMALL icon resources -->
     <integer-array name="icons_small">
         <item >@raw/ico_small_0000</item>
         <item >@raw/ico_small_0001</item>

@@ -1,7 +1,7 @@
 package uibuilder;
 
 import helpers.IconAdapter;
-import helpers.IconHelper;
+import helpers.ResArrayImporter;
 import helpers.ImageTools;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -171,11 +171,9 @@ public class EditmodeFragment extends Fragment
 	{
 		GridView grid = (GridView) layoutView.findViewById(R.id.editmode_icon_grid);
 
-		//iconHelper = new IconHelper();
-		int[] lowResIcns = IconHelper.getRefArray(getActivity(), R.array.icons_small);
-		Log.d("int length", String.valueOf(lowResIcns.length)); 
+		int[] lowResIcns = ResArrayImporter.getRefArray(getActivity(), R.array.icons_small);
+ 
 		IconAdapter adapter = new IconAdapter(getActivity(), lowResIcns);
-
 		grid.setAdapter(adapter);
 		grid.setOnItemClickListener(new IconModuleListener());
 		adapter.notifyDataSetChanged();
@@ -527,15 +525,12 @@ public class EditmodeFragment extends Fragment
 	 * 
 	 */
 	private class IconModuleListener implements OnItemClickListener
-	{
-		//ArrayList<Integer> highresRes;
-		
+	{	
 		int[] highResIcns;
 
 		public IconModuleListener()
 		{
-			//highresRes = iconHelper.getFullRes();
-			highResIcns = IconHelper.getRefArray(getActivity(), R.array.icons_big);
+			highResIcns = ResArrayImporter.getRefArray(getActivity(), R.array.icons_big);
 		}
 
 		@Override
