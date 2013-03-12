@@ -9,7 +9,7 @@ import android.widget.TextView;
 import creators.Generator;
 import de.ur.rk.uibuilder.R;
 
-public class DisplayModeChanger 
+public class DisplayModeChanger
 {
 	public static final int CREATION = 0;
 	public static final int PRESENTATION = 1;
@@ -17,12 +17,12 @@ public class DisplayModeChanger
 	public static void setPresentationMode(View layout)
 	{
 
-		if (layout instanceof ViewGroup && layout.getTag()==null)  {
+		if (layout instanceof ViewGroup && layout.getTag() == null) {
 			int count = ((ViewGroup) layout).getChildCount();
-			
-				for (int i = 0; i < count; i++) {
-					setPresentationMode(((ViewGroup) layout).getChildAt(i));
-				
+
+			for (int i = 0; i < count; i++) {
+				setPresentationMode(((ViewGroup) layout).getChildAt(i));
+
 			}
 		} else if (layout instanceof TextView || layout instanceof LinearLayout || layout instanceof RelativeLayout) {
 			Bundle tagBundle = (Bundle) layout.getTag();
