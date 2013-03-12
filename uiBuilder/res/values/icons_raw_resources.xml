@@ -67,4 +67,71 @@
         <item >@raw/ico_0057</item>
         
     </integer-array>
+    
+    <integer-array name="icons_small">
+        <item >@raw/ico_small_0000</item>
+        <item >@raw/ico_small_0001</item>
+        <item >@raw/ico_small_0002</item>
+        <item >@raw/ico_small_0003</item>
+        <item >@raw/ico_small_0004</item>
+        <item >@raw/ico_small_0005</item>
+        <item >@raw/ico_small_0006</item>
+        <item >@raw/ico_small_0007</item>
+        <item >@raw/ico_small_0008</item>
+        <item >@raw/ico_small_0009</item>
+        
+        <item >@raw/ico_small_0010</item>
+        <item >@raw/ico_small_0011</item>
+        <item >@raw/ico_small_0012</item>
+        <item >@raw/ico_small_0013</item>
+        <item >@raw/ico_small_0014</item>
+        <item >@raw/ico_small_0015</item>
+        <item >@raw/ico_small_0016</item>
+        <item >@raw/ico_small_0017</item>
+        <item >@raw/ico_small_0018</item>
+        <item >@raw/ico_small_0019</item>
+        
+        <item >@raw/ico_small_0020</item>
+        <item >@raw/ico_small_0021</item>
+        <item >@raw/ico_small_0022</item>
+        <item >@raw/ico_small_0023</item>
+        <item >@raw/ico_small_0024</item>
+        <item >@raw/ico_small_0025</item>
+        <item >@raw/ico_small_0026</item>
+        <item >@raw/ico_small_0027</item>
+        <item >@raw/ico_small_0028</item>
+        <item >@raw/ico_small_0029</item>
+        
+        <item >@raw/ico_small_0030</item>
+        <item >@raw/ico_small_0031</item>
+        <item >@raw/ico_small_0032</item>
+        <item >@raw/ico_small_0033</item>
+        <item >@raw/ico_small_0034</item>
+        <item >@raw/ico_small_0035</item>
+        <item >@raw/ico_small_0036</item>
+        <item >@raw/ico_small_0037</item>
+        <item >@raw/ico_small_0038</item>
+        <item >@raw/ico_small_0039</item>
+        
+        <item >@raw/ico_small_0040</item>
+        <item >@raw/ico_small_0041</item>
+        <item >@raw/ico_small_0042</item>
+        <item >@raw/ico_small_0043</item>
+        <item >@raw/ico_small_0044</item>
+        <item >@raw/ico_small_0045</item>
+        <item >@raw/ico_small_0046</item>
+        <item >@raw/ico_small_0047</item>
+        <item >@raw/ico_small_0048</item>
+        <item >@raw/ico_small_0049</item>
+        
+        <item >@raw/ico_small_0050</item>
+        <item >@raw/ico_small_0051</item>
+        <item >@raw/ico_small_0052</item>
+        <item >@raw/ico_small_0053</item>
+        <item >@raw/ico_small_0054</item>
+        <item >@raw/ico_small_0055</item>
+        <item >@raw/ico_small_0056</item>
+        <item >@raw/ico_small_0057</item>
+        
+    </integer-array>
 </resources>
