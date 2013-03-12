@@ -75,7 +75,17 @@
 	    <string name="listview_listitem_layout_1_header">Example Header</string>
 	    <string name="listview_listitem_layout_1_content">Example Content</string>
 	    
-	    <!-- List Array -->
+	    <!-- List Arrays SOURCE: hipsteripsum.me -->
+	    
+	    <string-array name="listview_listitem_layout_header">
+	        <item >Typewriter meggings tofu synth</item>
+	        <item >8-bit scenester twee</item>
+	        <item >Mlkshk helvetica dreamcatcher</item>
+	        <item >VHS mixtape portland fap</item>
+	        <item >YOLO ethical disrupt</item>
+	        
+	    </string-array>
+	    
 	    <string-array name="listview_listitem_layout_content">
 	        <item >Actually lo-fi single-origin coffee, plaid pitchfork iphone hashtag fixie fap swag.</item>
 	        <item >Pop-up 90\'s hella fashion axe fixie. PBR hella biodiesel street art.</item>

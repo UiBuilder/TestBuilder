@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import de.ur.rk.uibuilder.R;
 
 public class ObjectFactory
@@ -134,15 +135,23 @@ public class ObjectFactory
 
 	private void setAdapter(ListView listView, final int listLayout)
 	{
-		String[] list = ref.getResources().getStringArray(R.array.listview_listitem_layout_content);
+		final String[] headers = ref.getResources().getStringArray(R.array.listview_listitem_layout_header);
+		final String[] contents = ref.getResources().getStringArray(R.array.listview_listitem_layout_content);
 
-		ArrayAdapter<String>listAdapter = new ArrayAdapter<String>(ref.getApplicationContext(), listLayout, list)
+		ArrayAdapter<String>listAdapter = new ArrayAdapter<String>(ref.getApplicationContext(), listLayout, headers)
 		{
 
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent)
 			{
-				return inflater.inflate(listLayout, null);
+				View layout = inflater.inflate(listLayout, null);
+				
+				TextView header = (TextView) layout.findViewById(R.id.listview_listitem_header);
+				header.setText(headers[position]);
+				
+				TextView content = (TextView) layout.findViewById(R.id.listview_listitem_content);
+				content.setText(contents[position]);
+				return layout;
 			}
 					
 		};

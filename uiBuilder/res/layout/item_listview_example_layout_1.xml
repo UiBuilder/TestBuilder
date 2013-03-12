@@ -16,7 +16,7 @@
 	        android:scaleType="centerInside"
 	        />
 		
-	    <TextView 
+	    <TextView android:id="@+id/listview_listitem_header"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        
@@ -26,7 +26,7 @@
 	        
 	        style="@style/list_layout_1_header"
 	        />
-	    <TextView 
+	    <TextView android:id="@+id/listview_listitem_content"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        
