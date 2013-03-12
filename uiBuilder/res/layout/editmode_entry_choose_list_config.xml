@@ -40,6 +40,12 @@
             layout="@layout/item_listview_example_layout_3"
             
             />
+        
+        <include 
+            android:id="@+id/editmode_list_included_layout_4"
+            layout="@layout/item_listview_example_layout_4"
+            
+            />
     </LinearLayout>
     
     

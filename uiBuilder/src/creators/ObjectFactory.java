@@ -121,7 +121,11 @@ public class ObjectFactory
 			Log.d("factory", "registered list callback");
 			listLayout = R.layout.item_listview_example_layout_3;
 			break;
-
+			
+		case R.id.editmode_list_included_layout_4:
+			listLayout = R.layout.item_listview_example_layout_4;
+			break;
+			
 		default:
 			listLayout = 0;
 			break;
