@@ -1,9 +1,9 @@
 package uibuilder;
 
-import uibuilder.EditmodeFragment.onObjectEditedListener;
 import helpers.Grid;
 import helpers.Log;
 import manipulators.Overlay;
+import uibuilder.EditmodeFragment.onObjectEditedListener;
 import android.app.Fragment;
 import android.content.ClipData;
 import android.content.ClipDescription;
@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import creators.Generator;
@@ -241,7 +242,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 					int scaleType = itemTag.getInt(Generator.TYPE);
 					
 					overlay.generate(activeItem, scaleType);
-
+					
 					detector.setIsLongpressEnabled(false);
 					return true;
 				}
