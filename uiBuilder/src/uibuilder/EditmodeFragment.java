@@ -6,6 +6,8 @@ import helpers.ImageTools;
 
 import java.util.ArrayList;
 
+import manipulators.Overlay;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -538,6 +540,7 @@ public class EditmodeFragment extends Fragment
 
 			((ImageView) currentView).setScaleType(ScaleType.FIT_CENTER);
 			((ImageView) currentView).setImageResource(resourceId);
+			
 		}
 
 	}
@@ -608,7 +611,8 @@ public class EditmodeFragment extends Fragment
 			case R.id.star_rating_seekbar:
 				Log.d("RatingSeekbar", "gotValue for progress: " + progress);
 				((RatingBar) ((ViewGroup) currentView).getChildAt(0)).setRating(progress);
-				break;
+				
+			;
 			}
 
 		}
