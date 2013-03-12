@@ -57,9 +57,6 @@ public class UiBuilderActivity extends Activity implements
 		fManager = getFragmentManager();
 		exporter = new ImageTools(getApplicationContext());
 
-		ActionBar bar = getActionBar();
-		bar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP, ActionBar.NAVIGATION_MODE_STANDARD);
-		bar.setBackgroundDrawable(getResources().getDrawable(R.color.designfragment_background));
 		setupUi();
 
 	}
@@ -69,6 +66,8 @@ public class UiBuilderActivity extends Activity implements
 	 */
 	private void setupUi()
 	{
+		setActionBarStyle();
+		
 		itembox = new ItemboxFragment();
 		editbox = new EditmodeFragment();
 		designbox = new DesignFragment();
@@ -79,6 +78,16 @@ public class UiBuilderActivity extends Activity implements
 		DeleteFragment.onDeleteRequestListener(this);
 		
 		performInitTransaction();
+	}
+
+	/**
+	 * @author funklos
+	 */
+	private void setActionBarStyle()
+	{
+		ActionBar bar = getActionBar();
+		bar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP, ActionBar.NAVIGATION_MODE_STANDARD);
+		bar.setBackgroundDrawable(getResources().getDrawable(R.color.designfragment_background));
 	}
 
 	/**
@@ -254,11 +263,12 @@ public class UiBuilderActivity extends Activity implements
 	
 	/**
 	 * deletebox interface callback
+	 * @author funklos
 	 */
 	@Override
 	public void requestDelete()
 	{
-		// TODO Auto-generated method stub
+
 		designbox.performDelete();
 	}
 

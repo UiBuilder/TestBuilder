@@ -24,16 +24,19 @@
         >
 		
         <include 
+            android:id="@+id/editmode_list_included_layout_1"
             layout="@layout/item_listview_example_layout_1"
             
             />
         
-        <include 
+        <include
+            android:id="@+id/editmode_list_included_layout_2" 
             layout="@layout/item_listview_example_layout_2"
             
             />
         
         <include 
+            android:id="@+id/editmode_list_included_layout_3"
             layout="@layout/item_listview_example_layout_3"
             
             />

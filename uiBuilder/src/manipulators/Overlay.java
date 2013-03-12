@@ -18,7 +18,7 @@ import de.ur.rk.uibuilder.R;
  * @author funklos
  *
  */
-public class Overlay implements onObjectEditedListener
+public class Overlay
 {
 	public static final int BOTH = 0;
 	public static final int HORIZONTAL = 1;
@@ -49,7 +49,7 @@ public class Overlay implements onObjectEditedListener
 		context = designFragment.getActivity().getApplicationContext();
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.designFragment = designFragment;
-		EditmodeFragment.setOnObjectEditedListener(this);
+		
 	}
 	
 	/**Generates a new overlay object.
@@ -276,12 +276,5 @@ public class Overlay implements onObjectEditedListener
 	public ImageButton getDrag()
 	{
 		return drag;
-	}
-
-	@Override
-	public void refreshOverlay(View active, int type)
-	{
-		delete();
-		generate(active, type);
 	}
 }
