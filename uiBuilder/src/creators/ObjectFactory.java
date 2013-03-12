@@ -133,7 +133,7 @@ public class ObjectFactory
 		
 	}
 
-	private void setAdapter(ListView listView, final int listLayout)
+	protected void setAdapter(ListView listView, final int listLayout)
 	{
 		final String[] headers = ref.getResources().getStringArray(R.array.listview_listitem_layout_header);
 		final String[] contents = ref.getResources().getStringArray(R.array.listview_listitem_layout_content);
