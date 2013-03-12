@@ -47,18 +47,20 @@ public class EditmodeFragment extends Fragment
 	}
 
 	private View layoutView;
+	private View currentView;
+	private View active;
+
 	private LinearLayout layout;
 	private LayoutInflater inflater;
-	private View currentView;
-	private EditText editText, editSize;
-	private NumberPicker picker;
+	
 	private ImageTools imageHandler;
 	private IconAdapter adapter;
+	
+	private EditText editText, editSize;
+	private NumberPicker picker;
 	private IconHelper iconHelper;
 	private SeekBar starBar, ratingSlider;
 	private Button topLeft, topCenter, topRight, centerLeft, centerCenter, centerRight, bottomLeft, bottomCenter, bottomRight;
-
-	private View active;
 
 	private LinearLayout moduleAlign, modulePicture, moduleEditText, moduleChangeSize, moduleZorder, moduleNothing, moduleIcons, moduleStarCount, moduleListConfig;
 
@@ -428,11 +430,17 @@ public class EditmodeFragment extends Fragment
 		}
 	}
 
-	private void clearAlignSelection()
+	protected void clearAlignSelection()
 	{
-		for (int i = 0; i< moduleAlign.getChildCount();i++){
-			moduleAlign.getChildAt(i).setActivated(false);
-		}
+		topLeft.setActivated(false);
+		topCenter.setActivated(false);
+		topRight.setActivated(false);
+		centerLeft.setActivated(false);
+		centerCenter.setActivated(false);
+		centerRight.setActivated(false);
+		bottomLeft.setActivated(false);
+		bottomCenter.setActivated(false);
+		bottomRight.setActivated(false);
 	}
 
 	private CharSequence getViewText(View view)
@@ -652,10 +660,13 @@ public class EditmodeFragment extends Fragment
 
 	private class AlignModuleListener implements OnClickListener
 	{
-
+		
 		@Override
 		public void onClick(View v)
 		{
+			clearAlignSelection();
+			v.setActivated(true);
+
 //			if (v != active) {
 //				if (active != null) {
 //					active.setActivated(false);
@@ -666,6 +677,8 @@ public class EditmodeFragment extends Fragment
 //			}
 
 			switch (v.getId()) {
+			
+			
 			case R.id.editmode_align_top_left:
 				((TextView) currentView).setGravity(Gravity.LEFT);
 				break;
