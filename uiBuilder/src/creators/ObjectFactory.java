@@ -1,13 +1,20 @@
 package creators;
 
+import java.util.ArrayList;
+
 import de.ur.rk.uibuilder.R;
 import uibuilder.DesignFragment;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnTouchListener;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class ObjectFactory
@@ -18,7 +25,7 @@ public class ObjectFactory
 
 	private int displayWidth;
 	private int displayHeight;
-	
+	private LayoutInflater inflater;
 	private View selectedView;
 
 	private static final String LOGTAG = "OBJECTFACTORY says:";
@@ -33,7 +40,7 @@ public class ObjectFactory
 	{
 		ref = c;
 		generator = new Generator(ref, l, this);
-
+		inflater = (LayoutInflater) ref.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		selectedView = active;
 	}
 
@@ -100,26 +107,49 @@ public class ObjectFactory
 	 */
 	private void checkListType(View active, int from)
 	{
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("a");
+		list.add("a");
+		list.add("a");
+		list.add("a");
+		list.add("a");
 		
+		RelativeLayout container = (RelativeLayout) active;
+		
+		ListView listView = (ListView) container.getChildAt(0);
+		final int listLayout;
 		
 		switch (from)
 		{
 		case R.id.editmode_list_included_layout_1:
-			Log.d("factory", "registered list callback");
+			listLayout = R.layout.item_listview_example_layout_1;
 			break;
 			
 		case R.id.editmode_list_included_layout_2:
-			Log.d("factory", "registered list callback");
+			listLayout = R.layout.item_listview_example_layout_2;
 			break;
 			
 		case R.id.editmode_list_included_layout_3:
 			Log.d("factory", "registered list callback");
+			listLayout = R.layout.item_listview_example_layout_3;
 			break;
 
 		default:
+			listLayout = 0;
 			break;
 		}
-		
+		ArrayAdapter<String>listAdapter = new ArrayAdapter<String>(ref.getApplicationContext(), listLayout, list)
+				{
+
+					@Override
+					public View getView(int position, View convertView, ViewGroup parent)
+					{
+						// TODO Auto-generated method stub
+						return inflater.inflate(listLayout, null);
+					}
+					
+				};
+		listView.setAdapter(listAdapter);
 	}
 	
 }

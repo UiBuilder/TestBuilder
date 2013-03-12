@@ -364,7 +364,8 @@ public class Generator
 		list.add("a");
 		list.add("a");
 		
-		ArrayAdapter<String>listAdapter = new ArrayAdapter<String>(context.getApplicationContext(), R.layout.item_listview_example_layout_1, list){
+		ArrayAdapter<String>listAdapter = new ArrayAdapter<String>(context.getApplicationContext(), R.layout.item_listview_example_layout_1, list)
+		{
 
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent)
