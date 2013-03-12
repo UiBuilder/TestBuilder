@@ -73,5 +73,6 @@
     
     <!-- textsizes -->
     <dimen name="font_size_small">14sp</dimen>
+
     
 </resources>
