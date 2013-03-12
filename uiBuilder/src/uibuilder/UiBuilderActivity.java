@@ -1,5 +1,6 @@
 package uibuilder;
 
+import helpers.DisplayModeChanger;
 import helpers.ImageTools;
 import uibuilder.DeleteFragment.onDeleteRequestListener;
 import uibuilder.DesignFragment.onObjectSelectedListener;
@@ -173,7 +174,7 @@ public class UiBuilderActivity extends Activity implements
 		switch (item.getItemId())
 		{
 		case R.id.action_export_jpeg:
-			
+			DisplayModeChanger.setPresentationMode(designbox.getView());
 			exporter.requestBitmap(designbox.getView(), getContentResolver(), false);
 		
 			Toast.makeText(getApplicationContext(), getString(R.string.confirmation_save_to_gallery), Toast.LENGTH_SHORT).show();
