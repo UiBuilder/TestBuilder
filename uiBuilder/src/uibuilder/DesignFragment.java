@@ -105,21 +105,23 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		snapMode = true;
 		
 		initHelpers();
+		setListeners();
 
 		designArea.setTag("PLAYGROUND");
-
-
-		designArea.setOnTouchListener(this);
-		designArea.setOnDragListener(this);
-		EditmodeFragment.setOnObjectEditedListener(this);
 
 		super.onActivityCreated(savedInstanceState);
 	}
 
+	private void setListeners()
+	{
+		designArea.setOnTouchListener(this);
+		designArea.setOnDragListener(this);
+		EditmodeFragment.setOnObjectEditedListener(this);
+	}
+
 	private void initHelpers()
 	{
-		// TODO Auto-generated method stub
-		factory = new ObjectFactory(getActivity().getApplicationContext(), this, activeItem);
+		factory = new ObjectFactory(getActivity().getApplicationContext(), this);
 		detector = new GestureDetector(getActivity().getApplicationContext(), this);
 		grid = new Grid(getActivity().getApplicationContext(), SNAP_GRID_INTERVAL);
 		overlay = new Overlay(designArea, this);

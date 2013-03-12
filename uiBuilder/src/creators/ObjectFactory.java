@@ -23,7 +23,6 @@ public class ObjectFactory
 	private int displayWidth;
 	private int displayHeight;
 	private LayoutInflater inflater;
-	private View selectedView;
 
 	private static final String LOGTAG = "OBJECTFACTORY says:";
 
@@ -33,12 +32,11 @@ public class ObjectFactory
 	 * @param c
 	 *            Referenz auf die Activity
 	 */
-	public ObjectFactory(Context c, OnTouchListener l, View active)
+	public ObjectFactory(Context c, OnTouchListener l)
 	{
 		ref = c;
 		generator = new Generator(ref, l, this);
 		inflater = (LayoutInflater) ref.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		selectedView = active;
 	}
 
 	/**
