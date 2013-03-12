@@ -175,7 +175,7 @@ public class UiBuilderActivity extends Activity implements
 		switch (item.getItemId())
 		{
 		case R.id.action_export_jpeg:
-			DisplayModeChanger.setPresentationMode(designbox.getView());
+			//DisplayModeChanger.setPresentationMode(designbox.getView());
 
 			exporter.requestBitmap(designbox.getView(), getContentResolver(), false);
 		
