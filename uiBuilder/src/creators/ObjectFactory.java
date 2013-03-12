@@ -51,7 +51,8 @@ public class ObjectFactory
 		try
 		{
 			return generator.generate(which);
-		} catch (Exception e)
+		} 
+		catch (Exception e)
 		{
 			Log.d(LOGTAG, "Übergebene ID existiert nicht.");
 			Log.d(LOGTAG, "id ist " + String.valueOf(which));
@@ -87,21 +88,58 @@ public class ObjectFactory
 		{
 		case R.id.element_list:
 			
-			checkListType(active, from);
+			refreshListAdapter(active, from);
 			
 			break;
+			
+		case R.id.element_grid:
+			
+			refreshGridAdapter(active, from);
 
 		default:
 			break;
 		}
 		
 	}
-	
 	/**
-	 * 
+	 * @author funklos
+	 * @param active
 	 * @param from
 	 */
-	private void checkListType(View active, int from)
+	private void refreshGridAdapter(View active, int from)
+	{
+		RelativeLayout container = (RelativeLayout) active;
+		
+		GridView gridView = (GridView) container.getChildAt(0);
+		final int gridLayout;
+		
+		switch (from)
+		{
+		case R.id.editmode_grid_included_layout_1:
+			gridLayout = R.layout.item_gridview_example_layout_1;
+			break;
+			
+		case R.id.editmode_grid_included_layout_2:
+			gridLayout = R.layout.item_gridview_example_layout_2;
+			break;
+			
+		case R.id.editmode_grid_included_layout_3:
+			gridLayout = R.layout.item_gridview_example_layout_3;
+			break;
+
+		default:
+			gridLayout = 0;
+			break;
+		}
+		
+		setAdapter(gridView, gridLayout);
+	}
+
+	/**
+	 * @author funklos
+	 * @param from
+	 */
+	private void refreshListAdapter(View active, int from)
 	{	
 		RelativeLayout container = (RelativeLayout) active;
 		
@@ -119,7 +157,6 @@ public class ObjectFactory
 			break;
 			
 		case R.id.editmode_list_included_layout_3:
-			Log.d("factory", "registered list callback");
 			listLayout = R.layout.item_listview_example_layout_3;
 			break;
 			
@@ -140,6 +177,11 @@ public class ObjectFactory
 		
 	}
 
+	/**
+	 * @author funklos
+	 * @param list
+	 * @param listLayout
+	 */
 	protected void setAdapter(View list, final int listLayout)
 	{
 		final String[] headers = ref.getResources().getStringArray(R.array.listview_listitem_layout_header);

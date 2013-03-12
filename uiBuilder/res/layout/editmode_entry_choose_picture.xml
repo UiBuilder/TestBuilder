@@ -4,46 +4,74 @@
     android:id="@+id/editmode_module_choose_picture"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    
+    android:animateLayoutChanges="true"
     android:orientation="vertical"
     style="@style/itembox"
 	>
 
-    <TextView         
-        style="@style/editbox_header"
-        android:id="@+id/image_choose"
+    <LinearLayout 
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal"
+    	android:weightSum="1"
+        >
+        
+	    <TextView
+	        android:id="@+id/image_choose"
+	        style="@style/editbox_header"
+	        android:layout_weight="0.85"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"  
+	        android:text="@string/item_edit_choose_caption" 
+	        />
+	    
+	    <include 
+	        android:layout_weight="0.15"
+	        android:layout_width="0dp"
+	        android:layout_height="40dp"
+	        android:layout_gravity="center"
+            layout="@layout/editmode_expand_button"
+            />
+        
+    </LinearLayout>
+
+    
+    <LinearLayout  android:id="@+id/expandable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/item_edit_choose_caption" />
-    <TextView 
+        android:orientation="vertical"
+        android:visibility="gone"
+        >
+        <TextView 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/item_edit_choose_hint"
         android:padding="@dimen/default_padding_large"
         />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" 
-        android:padding="@dimen/default_padding_large"
-        
-        >
-
-        <Button
-            android:id="@+id/image_choose_camera"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:text="@string/item_edit_choose_camera" />
-
-        <Button
-            android:id="@+id/image_choose_gallery"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:text="@string/item_edit_choose_gallery" />
+	        <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal" 
+	        android:padding="@dimen/default_padding_large"
+	        
+	        >
+	
+	        <Button
+	            android:id="@+id/image_choose_camera"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="0.5"
+	            android:text="@string/item_edit_choose_camera" />
+	
+	        <Button
+	            android:id="@+id/image_choose_gallery"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="0.5"
+	            android:text="@string/item_edit_choose_gallery" />
+	   		 </LinearLayout>
     </LinearLayout>
+
     
     
 

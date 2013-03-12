@@ -77,7 +77,7 @@ public class Generator
 	{
 		View xmlView;
 		RelativeLayout.LayoutParams params = null;
-		Bundle properties = getBundle(id);;
+		Bundle properties = getBundle(id);
 		
 		switch (id)
 		{
@@ -286,6 +286,8 @@ public class Generator
 			height = res.getInteger(R.integer.grid_factor_height);
 			scaleType = Overlay.BOTH;
 			
+			break;
+			
 		default:
 			Log.d("bundle ", "not built");
 			throw new NoClassDefFoundError();
@@ -312,7 +314,7 @@ public class Generator
 		
 		xmlGrid.setLayoutParams(params);
 		xmlGridContainer.addView(xmlGrid);
-		factory.setAdapter(xmlGrid, R.layout.item_listview_example_layout_1);
+		factory.setAdapter(xmlGrid, R.layout.item_gridview_example_layout_3);
 		
 		return xmlGridContainer;
 	}

@@ -4,9 +4,10 @@
     android:layout_height="match_parent" 
     android:stretchMode="columnWidth"
     android:horizontalSpacing="2dp"
-    android:numColumns="3"
+    android:verticalSpacing="2dp"
+    android:numColumns="2"
     android:gravity="center|fill"
-    
+    android:padding="@dimen/default_padding_small"
     >
     
 

@@ -908,7 +908,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	@Override
 	public void prefencesChanged(View active, int from)
 	{
-		factory.modify(active, from);
-		
+		factory.modify(active, from);	
 	}
 }

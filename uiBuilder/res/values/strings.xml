@@ -54,6 +54,8 @@
     <string name="itembox_complex_element_caption_timepicker">Time</string>
     <string name="itembox_complex_element_caption_seekbar">Seekbar</string>
     <string name="itembox_complex_element_caption_list">List</string>
+    <string name="itembox_complex_element_caption_grid">Grid</string>
+    
     <string name="button_caption_default">Button</string>
     <string name="radios_caption_default">Option</string>
     <string name="item_edit_enter_text">Beschriftung des Objekts:</string>
@@ -93,6 +95,9 @@
 	        <item >Raw denim photo booth yr next level direct trade high life. Pickled yr church-key, twee wayfarers retro flexitarian truffaut.</item>
 	        
 	    </string-array>
+	    
+	<!-- GRID -->
+	<string name="item_edit_grid_caption">Choose Grid Layout</string>
     
     <!-- ICONS EDIT -->
     <string name="item_edit_icon_caption">Choose Icon</string>

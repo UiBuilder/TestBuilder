@@ -53,6 +53,10 @@
         layout="@layout/editmode_entry_choose_list_config"
         android:visibility="gone"
         />
-
+	
+    <include 
+        android:id="@+id/editmode_included_grid_config"
+        layout="@layout/editmode_entry_choose_grid_config"
+        />
 
 </LinearLayout>

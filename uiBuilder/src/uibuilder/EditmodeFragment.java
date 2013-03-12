@@ -22,6 +22,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
@@ -44,11 +45,10 @@ public class EditmodeFragment extends Fragment
 		super.onSaveInstanceState(outState);
 	}
 
-	private View layoutView;
+	private View root;
 	private View currentView;
 	private View active;
 
-	private LinearLayout layout;
 	private LayoutInflater inflater;
 	
 	private ImageTools imageHandler;
@@ -56,11 +56,11 @@ public class EditmodeFragment extends Fragment
 	
 	private EditText editText, editSize;
 	private NumberPicker picker;
-	//private IconHelper iconHelper;
+
 	private SeekBar starBar, ratingSlider;
 	private Button topLeft, topCenter, topRight, centerLeft, centerCenter, centerRight, bottomLeft, bottomCenter, bottomRight;
 
-	private LinearLayout moduleAlign, modulePicture, moduleEditText, moduleChangeSize, moduleZorder, moduleNothing, moduleIcons, moduleStarCount, moduleListConfig;
+	private LinearLayout moduleAlign, modulePicture, moduleEditText, moduleChangeSize, moduleZorder, moduleNothing, moduleIcons, moduleStarCount, moduleListConfig, moduleGridConfig;
 
 	@Override
 	public void onAttach(Activity activity)
@@ -80,20 +80,28 @@ public class EditmodeFragment extends Fragment
 	}
 
 	@Override
+	public void onActivityCreated(Bundle savedInstanceState)
+	{
+		// TODO Auto-generated method stub
+
+		super.onActivityCreated(savedInstanceState);
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		Log.d("Editmode Fragment", "onCreateView called");
 
 		this.inflater = inflater;
-		if (layoutView == null) {
-			layoutView = inflater.inflate(R.layout.layout_editmode_fragment, container, false);
+		if (root == null) {
+			root = inflater.inflate(R.layout.layout_editmode_fragment, container, false);
 
 			getModules();
 
-			return layoutView;
+			return root;
 		}
 
-		return layoutView;
+		return root;
 	}
 
 	/**
@@ -123,16 +131,17 @@ public class EditmodeFragment extends Fragment
 
 	private void getModules()
 	{
-		moduleAlign = (LinearLayout) layoutView.findViewById(R.id.editmode_included_align_content);
-		moduleEditText = (LinearLayout) layoutView.findViewById(R.id.editmode_included_text);
-		modulePicture = (LinearLayout) layoutView.findViewById(R.id.editmode_included_choose_picture);
-		moduleChangeSize = (LinearLayout) layoutView.findViewById(R.id.editmode_included_changesize);
-		moduleZorder = (LinearLayout) layoutView.findViewById(R.id.editmode_included_order);
-		moduleNothing = (LinearLayout) layoutView.findViewById(R.id.editmode_included_nothing);
-		moduleIcons = (LinearLayout) layoutView.findViewById(R.id.editmode_included_choose_icon);
-		moduleStarCount = (LinearLayout) layoutView.findViewById(R.id.editmode_included_star_count);
-		moduleListConfig = (LinearLayout) layoutView.findViewById(R.id.editmode_included_list_config);
-
+		moduleAlign = (LinearLayout) root.findViewById(R.id.editmode_included_align_content);
+		moduleEditText = (LinearLayout) root.findViewById(R.id.editmode_included_text);
+		modulePicture = (LinearLayout) root.findViewById(R.id.editmode_included_choose_picture);
+		moduleChangeSize = (LinearLayout) root.findViewById(R.id.editmode_included_changesize);
+		moduleZorder = (LinearLayout) root.findViewById(R.id.editmode_included_order);
+		moduleNothing = (LinearLayout) root.findViewById(R.id.editmode_included_nothing);
+		moduleIcons = (LinearLayout) root.findViewById(R.id.editmode_included_choose_icon);
+		moduleStarCount = (LinearLayout) root.findViewById(R.id.editmode_included_star_count);
+		moduleListConfig = (LinearLayout) root.findViewById(R.id.editmode_included_list_config);
+		moduleGridConfig = (LinearLayout) root.findViewById(R.id.editmode_included_grid_config);
+		
 		setupPictureModule();
 		setupEdittextModule();
 		setupChangesizeModule();
@@ -141,29 +150,102 @@ public class EditmodeFragment extends Fragment
 		setupIconModule();
 		setupStarCountModule();
 		setupListConfigModule();
+		setupGridConfigModule();
+		
+		setExpansionSelector(moduleGridConfig);
+		setExpansionSelector(moduleAlign);
+		setExpansionSelector(moduleIcons);
+		setExpansionSelector(modulePicture); 
+		setExpansionSelector(moduleEditText);
+		setExpansionSelector(moduleListConfig);
 
+		root.invalidate();
 		// and so on..
+	}
+
+	private void setExpansionSelector(View module)
+	{
+		module.setVisibility(View.GONE);
+		module.invalidate();
+		ImageButton b = (ImageButton) module.findViewById(R.id.expand_selector);
+		b.setOnClickListener(new ExpansionListener((LinearLayout) module));
+		b.performClick();
+		root.requestLayout();
+		
+		//moduleGridConfig.setOnClickListener(new ExpansionListener());
+		
+		//ExpansionListener grid = new ExpansionListener(moduleGridConfig);
+		/*setExpansionSelector(moduleIcons);
+		setExpansionSelector(moduleAlign);
+		setExpansionSelector(modulePicture);
+		setExpansionSelector(moduleEditText);*/
+		
+	}
+
+	private void setupGridConfigModule()
+	{	
+		LinearLayout layoutTypeOne = (LinearLayout) root.findViewById(R.id.editmode_grid_included_layout_1);
+		LinearLayout layoutTypeTwo = (LinearLayout) root.findViewById(R.id.editmode_grid_included_layout_2);
+		LinearLayout layoutTypeThree = (LinearLayout) root.findViewById(R.id.editmode_grid_included_layout_3);
+		
+		layoutTypeOne.setOnClickListener(new GridLayoutModuleListener());
+		layoutTypeTwo.setOnClickListener(new GridLayoutModuleListener());
+		layoutTypeThree.setOnClickListener(new GridLayoutModuleListener());
+	}
+	
+	private class ExpansionListener implements OnClickListener
+	{
+		private LinearLayout module;
+		
+		public ExpansionListener(LinearLayout module)
+		{
+			// TODO Auto-generated constructor stub
+			this.module = module;
+		}
+
+		@Override
+		public void onClick(View v)
+		{
+			ImageButton toggle = (ImageButton) v;
+			View expandable = module.findViewById(R.id.expandable);
+			
+			if (!v.isActivated())
+			{
+				expandable.setVisibility(View.GONE);
+				toggle.setImageResource(R.raw.ico_small_0037);
+				toggle.setActivated(true);
+			}
+			else
+			{
+				expandable.setVisibility(View.VISIBLE);
+				toggle.setImageResource(R.raw.ico_small_0035); 
+				toggle.setActivated(false);
+			}
+			Log.d("found", "button");
+			expandable.invalidate();
+			module.requestLayout();
+		}
 	}
 
 	private void setupListConfigModule()
 	{
-		LinearLayout layoutTypeOne = (LinearLayout) layoutView.findViewById(R.id.editmode_list_included_layout_1);
-		LinearLayout layoutTypeTwo = (LinearLayout) layoutView.findViewById(R.id.editmode_list_included_layout_2);
-		LinearLayout layoutTypeThree = (LinearLayout) layoutView.findViewById(R.id.editmode_list_included_layout_3);
-		LinearLayout layoutTypeFour = (LinearLayout) layoutView.findViewById(R.id.editmode_list_included_layout_4);
-		LinearLayout layoutTypeFive = (LinearLayout) layoutView.findViewById(R.id.editmode_list_included_layout_5);
+		LinearLayout layoutTypeOne = (LinearLayout) root.findViewById(R.id.editmode_list_included_layout_1);
+		LinearLayout layoutTypeTwo = (LinearLayout) root.findViewById(R.id.editmode_list_included_layout_2);
+		LinearLayout layoutTypeThree = (LinearLayout) root.findViewById(R.id.editmode_list_included_layout_3);
+		LinearLayout layoutTypeFour = (LinearLayout) root.findViewById(R.id.editmode_list_included_layout_4);
+		LinearLayout layoutTypeFive = (LinearLayout) root.findViewById(R.id.editmode_list_included_layout_5);
 		
-		layoutTypeOne.setOnClickListener(new LayoutModuleListener());
-		layoutTypeTwo.setOnClickListener(new LayoutModuleListener());
-		layoutTypeThree.setOnClickListener(new LayoutModuleListener());
-		layoutTypeFour.setOnClickListener(new LayoutModuleListener());
-		layoutTypeFive.setOnClickListener(new LayoutModuleListener());
+		layoutTypeOne.setOnClickListener(new ListLayoutModuleListener());
+		layoutTypeTwo.setOnClickListener(new ListLayoutModuleListener());
+		layoutTypeThree.setOnClickListener(new ListLayoutModuleListener());
+		layoutTypeFour.setOnClickListener(new ListLayoutModuleListener());
+		layoutTypeFive.setOnClickListener(new ListLayoutModuleListener());
 	}
 
 	private void setupStarCountModule()
 	{
-		starBar = (SeekBar) layoutView.findViewById(R.id.star_count_seekbar);
-		ratingSlider = (SeekBar) layoutView.findViewById(R.id.star_rating_seekbar);
+		starBar = (SeekBar) root.findViewById(R.id.star_count_seekbar);
+		ratingSlider = (SeekBar) root.findViewById(R.id.star_rating_seekbar);
 		starBar.setMax(9);
 		starBar.setOnSeekBarChangeListener(new StarCountModuleListener());
 		ratingSlider.setOnSeekBarChangeListener(new StarCountModuleListener());
@@ -171,7 +253,7 @@ public class EditmodeFragment extends Fragment
 
 	private void setupIconModule()
 	{
-		GridView grid = (GridView) layoutView.findViewById(R.id.editmode_icon_grid);
+		GridView grid = (GridView) root.findViewById(R.id.editmode_icon_grid);
 
 		int[] lowResIcns = ResArrayImporter.getRefArray(getActivity(), R.array.icons_small);
  
@@ -183,8 +265,8 @@ public class EditmodeFragment extends Fragment
 
 	private void setupZorderModule()
 	{
-		Button pullToFront = (Button) layoutView.findViewById(R.id.editmode_z_order_front);
-		Button pushToBack = (Button) layoutView.findViewById(R.id.editmode_z_order_back);
+		Button pullToFront = (Button) root.findViewById(R.id.editmode_z_order_front);
+		Button pushToBack = (Button) root.findViewById(R.id.editmode_z_order_back);
 
 		pullToFront.setOnClickListener(new AlignModuleListener());
 		pushToBack.setOnClickListener(new ImageModuleListener());
@@ -192,8 +274,7 @@ public class EditmodeFragment extends Fragment
 
 	private void setupChangesizeModule()
 	{
-
-		picker = (NumberPicker) layoutView.findViewById(R.id.item_edit_editsize_picker);
+		picker = (NumberPicker) root.findViewById(R.id.item_edit_editsize_picker);
 		picker.setOnValueChangedListener(new ChangesizeModuleListener());
 		picker.setMinValue(5);
 		picker.setMaxValue(100);
@@ -202,24 +283,22 @@ public class EditmodeFragment extends Fragment
 
 	private void setupEdittextModule()
 	{
-
-		editText = (EditText) layoutView.findViewById(R.id.item_edit_edittext);
+		editText = (EditText) root.findViewById(R.id.item_edit_edittext);
 		editText.addTextChangedListener(new EditTextModuleListener());
-
 	}
 
 	private void setupAlignModule()
 	{
-
-		topLeft = (Button) layoutView.findViewById(R.id.editmode_align_top_left);
-		topRight = (Button) layoutView.findViewById(R.id.editmode_align_top_center);
-		topCenter = (Button) layoutView.findViewById(R.id.editmode_align_top_right);
-		centerLeft = (Button) layoutView.findViewById(R.id.editmode_align_center_left);
-		centerCenter = (Button) layoutView.findViewById(R.id.editmode_align_center_center);
-		centerRight = (Button) layoutView.findViewById(R.id.editmode_align_center_right);
-		bottomLeft = (Button) layoutView.findViewById(R.id.editmode_align_bottom_left);
-		bottomCenter = (Button) layoutView.findViewById(R.id.editmode_align_bottom_center);
-		bottomRight = (Button) layoutView.findViewById(R.id.editmode_align_bottom_right);
+		
+		topLeft = (Button) root.findViewById(R.id.editmode_align_top_left);
+		topRight = (Button) root.findViewById(R.id.editmode_align_top_center);
+		topCenter = (Button) root.findViewById(R.id.editmode_align_top_right);
+		centerLeft = (Button) root.findViewById(R.id.editmode_align_center_left);
+		centerCenter = (Button) root.findViewById(R.id.editmode_align_center_center);
+		centerRight = (Button) root.findViewById(R.id.editmode_align_center_right);
+		bottomLeft = (Button) root.findViewById(R.id.editmode_align_bottom_left);
+		bottomCenter = (Button) root.findViewById(R.id.editmode_align_bottom_center);
+		bottomRight = (Button) root.findViewById(R.id.editmode_align_bottom_right);
 
 		topLeft.setOnClickListener(new AlignModuleListener());
 		topCenter.setOnClickListener(new AlignModuleListener());
@@ -276,10 +355,10 @@ public class EditmodeFragment extends Fragment
 
 	private void setupPictureModule()
 	{
-		Button takePic = (Button) layoutView.findViewById(R.id.image_choose_camera);
+		Button takePic = (Button) root.findViewById(R.id.image_choose_camera);
 		takePic.setOnClickListener(new ImageModuleListener());
 
-		Button picFromGallery = (Button) layoutView.findViewById(R.id.image_choose_gallery);
+		Button picFromGallery = (Button) root.findViewById(R.id.image_choose_gallery);
 		picFromGallery.setOnClickListener(new ImageModuleListener());
 	}
 
@@ -306,8 +385,7 @@ public class EditmodeFragment extends Fragment
 			break;
 
 		case R.id.element_checkbox:
-
-			// moduleItemCount.setVisibility(View.VISIBLE);
+			
 			moduleEditText.setVisibility(View.VISIBLE);
 			editText.setText(getViewText(currentView));
 
@@ -321,7 +399,7 @@ public class EditmodeFragment extends Fragment
 			moduleAlign.setVisibility(View.VISIBLE);
 			adaptAlignButtons(currentView);
 
-			// moduleTextSize.setVisibility(View.VISIBLE);
+			//moduleTextSize.setVisibility(View.VISIBLE);
 			break;
 
 		case R.id.element_imageview:
@@ -337,7 +415,6 @@ public class EditmodeFragment extends Fragment
 			moduleEditText.setVisibility(View.VISIBLE);
 			editText.setText(getViewText(currentView));
 
-			// moduleItemCount.setVisibility(View.VISIBLE);
 			break;
 		case R.id.element_ratingbar:
 
@@ -367,7 +444,6 @@ public class EditmodeFragment extends Fragment
 			moduleAlign.setVisibility(View.VISIBLE);
 			adaptAlignButtons(currentView);
 
-
 			break;
 		case R.id.element_timepicker:
 			moduleNothing.setVisibility(View.VISIBLE);
@@ -379,6 +455,11 @@ public class EditmodeFragment extends Fragment
 			
 		case R.id.element_list:
 			moduleListConfig.setVisibility(View.VISIBLE);
+			break;
+			
+		case R.id.element_grid:
+			moduleGridConfig.setVisibility(View.VISIBLE);
+			break;
 			
 		default:
 
@@ -386,7 +467,7 @@ public class EditmodeFragment extends Fragment
 		}
 		// moduleZorder.setVisibility(View.VISIBLE);
 
-		layoutView.invalidate();
+		root.invalidate();
 	}
 
 	private void adaptAlignButtons(View currentView2)
@@ -471,6 +552,9 @@ public class EditmodeFragment extends Fragment
 		}
 	}
 
+	/**
+	 * @author funklos
+	 */
 	private void resetModules()
 	{
 		moduleAlign.setVisibility(View.GONE);
@@ -482,6 +566,7 @@ public class EditmodeFragment extends Fragment
 		moduleIcons.setVisibility(View.GONE);
 		moduleStarCount.setVisibility(View.GONE);
 		moduleListConfig.setVisibility(View.GONE);
+		moduleGridConfig.setVisibility(View.GONE);
 
 		moduleAlign.invalidate();
 		moduleEditText.invalidate();
@@ -492,15 +577,50 @@ public class EditmodeFragment extends Fragment
 		moduleIcons.invalidate();
 		moduleStarCount.invalidate();
 		moduleListConfig.invalidate();
+		moduleGridConfig.invalidate();
 	}
 	
-	private class LayoutModuleListener implements OnClickListener
+	
+	/**
+	 * 
+	 * @author funklos
+	 *
+	 */
+	private class GridLayoutModuleListener implements OnClickListener
 	{
 
 		@Override
-		public void onClick(View v)
+		public void onClick(View gridLayout)
 		{
-			int id = v.getId();
+			int id = gridLayout.getId();
+
+			switch (id)
+			{
+			case R.id.editmode_grid_included_layout_1:
+			case R.id.editmode_grid_included_layout_2:
+			case R.id.editmode_grid_included_layout_3:
+				editListener.prefencesChanged(currentView, id);
+				break;
+
+			default:
+				break;
+			}
+		}
+
+	}
+	
+	/**
+	 * 
+	 * @author funklos
+	 *
+	 */
+	private class ListLayoutModuleListener implements OnClickListener
+	{
+
+		@Override
+		public void onClick(View listLayout)
+		{
+			int id = listLayout.getId();
 			
 			
 			switch (id)
@@ -558,7 +678,8 @@ public class EditmodeFragment extends Fragment
 		@Override
 		public void onClick(View v)
 		{
-			switch (v.getId()) {
+			switch (v.getId()) 
+			{
 			case R.id.image_choose_camera:
 
 				Intent cameraIntent = imageHandler.getIntent(ImageTools.CAMERA);
@@ -633,6 +754,7 @@ public class EditmodeFragment extends Fragment
 
 		}
 	}
+
 
 	/**
 	 * 

@@ -2,26 +2,50 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    
+    android:animateLayoutChanges="true"
     android:orientation="vertical"
     style="@style/itembox">
 
-    <TextView
-        android:id="@+id/enter_text"
-        style="@style/editbox_header"
+    <LinearLayout 
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="true"        
-        android:text="@string/item_edit_enter_text" />
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal"
+    	android:weightSum="1"
+        >
+        
+	    <TextView
+	        android:id="@+id/enter_text"
+	        style="@style/editbox_header"
+	        android:layout_weight="0.85"
+	        android:layout_height="wrap_content"
+	        android:layout_width="0dp"
+	        android:focusable="true"        
+        	android:text="@string/item_edit_enter_text" />
+	    
+	    <include 
+	        android:layout_weight="0.15"
+	        android:layout_width="0dp"
+	        android:layout_height="40dp"
+	        android:layout_gravity="center"
+            layout="@layout/editmode_expand_button"
+            />
+        
+    </LinearLayout>
 
-    <EditText
-        android:id="@+id/item_edit_edittext"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/edittext_hint_default"
-        android:inputType="textAutoCorrect"
-        android:selectAllOnFocus="true"
-        android:imeOptions="actionDone|flagNoFullscreen"
-         />
-
+	<LinearLayout android:id="@+id/expandable"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical"
+	    android:visibility="gone"
+	    >
+	    <EditText
+	        android:id="@+id/item_edit_edittext"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:hint="@string/edittext_hint_default"
+	        android:inputType="textAutoCorrect"
+	        android:selectAllOnFocus="true"
+	        android:imeOptions="actionDone|flagNoFullscreen"
+	         />
+	</LinearLayout>
 </LinearLayout>
