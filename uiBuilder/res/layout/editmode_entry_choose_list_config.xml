@@ -23,6 +23,7 @@
         
         >
 		
+        <!-- Preview modules -->
         <include 
             android:id="@+id/editmode_list_included_layout_1"
             layout="@layout/item_listview_example_layout_1"
