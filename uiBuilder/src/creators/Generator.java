@@ -49,6 +49,7 @@ public class Generator
 	private Context context;
 	private OnTouchListener manipulator;
 	private LayoutInflater inflater;
+	private ObjectFactory factory;
 	
 	public static final String MINWIDTH = "mWidth", MINHEIGHT = "mHeight", ID = "id", TYPE = "type";
 	
@@ -63,7 +64,8 @@ public class Generator
 		idCount = 1;
 		context = ref;
 		manipulator = mp;
-
+		factory = fucktory;
+		
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
 		gridFactor = DesignFragment.SNAP_GRID_INTERVAL;
@@ -354,28 +356,9 @@ public class Generator
 		params.addRule(RelativeLayout.CENTER_IN_PARENT, 1);
 		
 		xmlList.setLayoutParams(params);
-
 		container.addView(xmlList);
 		
-		ArrayList<String> list = new ArrayList<String>();
-		list.add("a");
-		list.add("a");
-		list.add("a");
-		list.add("a");
-		list.add("a");
-		
-		ArrayAdapter<String>listAdapter = new ArrayAdapter<String>(context.getApplicationContext(), R.layout.item_listview_example_layout_1, list)
-		{
-
-			@Override
-			public View getView(int position, View convertView, ViewGroup parent)
-			{
-				// TODO Auto-generated method stub
-				return inflater.inflate(R.layout.item_listview_example_layout_1, null);
-			}
-			
-		};
-		xmlList.setAdapter(listAdapter);
+		factory.setAdapter(xmlList, R.layout.item_listview_example_layout_1);
 		
 		RelativeLayout.LayoutParams containerParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		container.setLayoutParams(containerParams);
