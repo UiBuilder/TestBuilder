@@ -15,10 +15,10 @@ import de.ur.rk.uibuilder.R;
 public class IconAdapter extends BaseAdapter {
     
     private Context context;
-    ArrayList<Integer> iconRefs;
+    int[] iconRefs;
     
 
-	public IconAdapter(Context context, ArrayList<Integer> iconRefs)
+	public IconAdapter(Context context, int[] iconRefs)
 	{
 		super();
 		this.context = context;
@@ -28,13 +28,13 @@ public class IconAdapter extends BaseAdapter {
 	@Override
 	public int getCount() 
 	{
-		return iconRefs.size();
+		return iconRefs.length;
 	}
 
 	@Override
 	public Object getItem(int position)
 	{
-		return iconRefs.get(position);
+		return iconRefs[position];
 	}
 	
 	@Override
@@ -60,7 +60,10 @@ public class IconAdapter extends BaseAdapter {
 				image.setScaleType(ScaleType.CENTER_INSIDE);
 				
 				Log.d("pos ist", String.valueOf(position));
-				int ref = iconRefs.get(position).intValue();
+				
+				
+				int ref = iconRefs[position];
+				
 				image.setImageResource(ref);
 				
 				image.setPadding(5, 5, 5, 5);

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
         
-    <integer-array name="icons_big">
-        <item >@raw/ico_0000</item>
+    <integer-array name="icons_big" >
+        <item format="integer" type="integer">@raw/ico_0000</item>
         <item >@raw/ico_0001</item>
         <item >@raw/ico_0002</item>
         <item >@raw/ico_0003</item>

@@ -61,7 +61,7 @@ public class EditmodeFragment extends Fragment
 	
 	private EditText editText, editSize;
 	private NumberPicker picker;
-	private IconHelper iconHelper;
+	//private IconHelper iconHelper;
 	private SeekBar starBar, ratingSlider;
 	private Button topLeft, topCenter, topRight, centerLeft, centerCenter, centerRight, bottomLeft, bottomCenter, bottomRight;
 
@@ -176,8 +176,10 @@ public class EditmodeFragment extends Fragment
 	{
 		GridView grid = (GridView) layoutView.findViewById(R.id.editmode_icon_grid);
 
-		iconHelper = new IconHelper();
-		IconAdapter adapter = new IconAdapter(getActivity(), iconHelper.getLowRes());
+		//iconHelper = new IconHelper();
+		int[] lowResIcns = getResources().getIntArray(R.array.icons_small);
+		Log.d("int length", String.valueOf(lowResIcns.length)); 
+		IconAdapter adapter = new IconAdapter(getActivity(), lowResIcns);
 
 		grid.setAdapter(adapter);
 		grid.setOnItemClickListener(new IconModuleListener());
@@ -531,17 +533,20 @@ public class EditmodeFragment extends Fragment
 	 */
 	private class IconModuleListener implements OnItemClickListener
 	{
-		ArrayList<Integer> highresRes;
+		//ArrayList<Integer> highresRes;
+		
+		int[] highResIcns;
 
 		public IconModuleListener()
 		{
-			highresRes = iconHelper.getFullRes();
+			//highresRes = iconHelper.getFullRes();
+			highResIcns = getResources().getIntArray(R.array.icons_big);
 		}
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View arg1, int pos, long arg3)
 		{
-			int resourceId = (highresRes.get(pos)).intValue();
+			int resourceId = (highResIcns[pos]);
 
 			((ImageView) currentView).setScaleType(ScaleType.FIT_CENTER);
 			((ImageView) currentView).setImageResource(resourceId);
