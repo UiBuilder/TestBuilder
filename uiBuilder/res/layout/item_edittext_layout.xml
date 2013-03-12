@@ -10,7 +10,7 @@
     
     android:hint="@string/edittext_hint_default"
     android:textColor="@color/text_dark"
-    
+    android:gravity="center_vertical|left"
     android:focusableInTouchMode="true"
     android:enabled="true"
 	android:cursorVisible="false"
