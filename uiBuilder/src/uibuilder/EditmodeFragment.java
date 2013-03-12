@@ -1,5 +1,6 @@
 package uibuilder;
 
+import helpers.DisplayModeChanger;
 import helpers.IconAdapter;
 import helpers.IconHelper;
 import helpers.ImageTools;
