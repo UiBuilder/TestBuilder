@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        
+    <integer-array name="icons_big">
+        <item >@raw/ico_0000</item>
+        <item >@raw/ico_0001</item>
+        <item >@raw/ico_0002</item>
+        <item >@raw/ico_0003</item>
+        <item >@raw/ico_0004</item>
+        <item >@raw/ico_0005</item>
+        <item >@raw/ico_0006</item>
+        <item >@raw/ico_0007</item>
+        <item >@raw/ico_0008</item>
+        <item >@raw/ico_0009</item>
+        
+        <item >@raw/ico_0010</item>
+        <item >@raw/ico_0011</item>
+        <item >@raw/ico_0012</item>
+        <item >@raw/ico_0013</item>
+        <item >@raw/ico_0014</item>
+        <item >@raw/ico_0015</item>
+        <item >@raw/ico_0016</item>
+        <item >@raw/ico_0017</item>
+        <item >@raw/ico_0018</item>
+        <item >@raw/ico_0019</item>
+        
+        <item >@raw/ico_0020</item>
+        <item >@raw/ico_0021</item>
+        <item >@raw/ico_0022</item>
+        <item >@raw/ico_0023</item>
+        <item >@raw/ico_0024</item>
+        <item >@raw/ico_0025</item>
+        <item >@raw/ico_0026</item>
+        <item >@raw/ico_0027</item>
+        <item >@raw/ico_0028</item>
+        <item >@raw/ico_0029</item>
+        
+        <item >@raw/ico_0030</item>
+        <item >@raw/ico_0031</item>
+        <item >@raw/ico_0032</item>
+        <item >@raw/ico_0033</item>
+        <item >@raw/ico_0034</item>
+        <item >@raw/ico_0035</item>
+        <item >@raw/ico_0036</item>
+        <item >@raw/ico_0037</item>
+        <item >@raw/ico_0038</item>
+        <item >@raw/ico_0039</item>
+        
+        <item >@raw/ico_0040</item>
+        <item >@raw/ico_0041</item>
+        <item >@raw/ico_0042</item>
+        <item >@raw/ico_0043</item>
+        <item >@raw/ico_0044</item>
+        <item >@raw/ico_0045</item>
+        <item >@raw/ico_0046</item>
+        <item >@raw/ico_0047</item>
+        <item >@raw/ico_0048</item>
+        <item >@raw/ico_0049</item>
+        
+        <item >@raw/ico_0050</item>
+        <item >@raw/ico_0051</item>
+        <item >@raw/ico_0052</item>
+        <item >@raw/ico_0053</item>
+        <item >@raw/ico_0054</item>
+        <item >@raw/ico_0055</item>
+        <item >@raw/ico_0056</item>
+        <item >@raw/ico_0057</item>
+        
+    </integer-array>
+</resources>
