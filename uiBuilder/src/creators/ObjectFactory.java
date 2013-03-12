@@ -1,5 +1,6 @@
 package creators;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import de.ur.rk.uibuilder.R;
@@ -107,12 +108,7 @@ public class ObjectFactory
 	 */
 	private void checkListType(View active, int from)
 	{
-		ArrayList<String> list = new ArrayList<String>();
-		list.add("a");
-		list.add("a");
-		list.add("a");
-		list.add("a");
-		list.add("a");
+		String[] list = ref.getResources().getStringArray(R.array.listview_listitem_layout_content);
 		
 		RelativeLayout container = (RelativeLayout) active;
 		
@@ -138,6 +134,14 @@ public class ObjectFactory
 			listLayout = 0;
 			break;
 		}
+		
+		setAdapter(listLayout);
+		
+	}
+
+	private void setAdapter(int listLayout)
+	{
+		// TODO Auto-generated method stub
 		ArrayAdapter<String>listAdapter = new ArrayAdapter<String>(ref.getApplicationContext(), listLayout, list)
 				{
 

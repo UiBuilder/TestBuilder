@@ -409,7 +409,7 @@ public class Generator
 		LinearLayout relativeLayout = new LinearLayout(context);
 		relativeLayout.setBackgroundResource(R.drawable.default_button_border);
 		relativeLayout.setOrientation(LinearLayout.HORIZONTAL);
-/*
+
 		relativeLayout.setOnDragListener(new OnDragListener()
 		{
 
@@ -419,26 +419,39 @@ public class Generator
 				switch (event.getAction())
 				{
 				case DragEvent.ACTION_DRAG_STARTED:
-					// Do nothing
-					break;
+					Bundle tagBundle = (Bundle) v.getTag();
+
+					int id = tagBundle.getInt(Generator.ID);
+					
+					if (id == R.id.element_container)
+					{
+						return false;
+					}
+					return true;
 
 				case DragEvent.ACTION_DRAG_ENTERED:
-
-					break;
+					
+					return true;
 				case DragEvent.ACTION_DRAG_EXITED:
 
-					break;
+					return true;
 
 				case DragEvent.ACTION_DROP:
 					// Dropped, reassign View to ViewGroup
 					View view = (View) event.getLocalState();
-					ViewGroup owner = (ViewGroup) view.getParent();
-					owner.removeView(view);
-					LinearLayout container = (LinearLayout) v;
+				      ViewGroup owner = (ViewGroup) view.getParent();
+				      owner.removeView(view);
+				      LinearLayout container = (LinearLayout) v;
+				      container.addView(view);
+					
+					
 					view.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 					container.addView(view);
 
-					break;
+					return true;
+					
+				case DragEvent.ACTION_DRAG_LOCATION:
+					return true;
 				case DragEvent.ACTION_DRAG_ENDED:
 
 				default:
@@ -446,7 +459,7 @@ public class Generator
 				}
 				return true;
 			}
-		});*/
+		});
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(200, 200);
 
 		relativeLayout.setLayoutParams(params);

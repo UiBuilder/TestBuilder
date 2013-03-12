@@ -74,6 +74,16 @@
     	<!-- Layout 1 -->
 	    <string name="listview_listitem_layout_1_header">Example Header</string>
 	    <string name="listview_listitem_layout_1_content">Example Content</string>
+	    
+	    <!-- List Array -->
+	    <string-array name="listview_listitem_layout_content">
+	        <item >Actually lo-fi single-origin coffee, plaid pitchfork iphone hashtag fixie fap swag.</item>
+	        <item >Pop-up 90\'s hella fashion axe fixie. PBR hella biodiesel street art.</item>
+	        <item >Umami trust fund gentrify messenger bag master cleanse, readymade kale chips occupy salvia +1</item>
+	        <item >Gentrify vinyl squid irony gluten-free messenger bag mcsweeney\'s. Lomo sustainable ennui actually.</item>
+	        <item >Raw denim photo booth yr next level direct trade high life. Pickled yr church-key, twee wayfarers retro flexitarian truffaut.</item>
+	        
+	    </string-array>
     
     <!-- ICONS EDIT -->
     <string name="item_edit_icon_caption">Choose Icon</string>

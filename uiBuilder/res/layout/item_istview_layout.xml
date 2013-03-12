@@ -4,6 +4,7 @@
     android:layout_height="match_parent" 
     android:scrollbars="vertical"
     android:padding="@dimen/default_padding_small"
+    android:animateLayoutChanges="true"
     >
        
 </ListView>
