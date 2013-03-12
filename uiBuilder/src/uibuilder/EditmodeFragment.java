@@ -388,6 +388,8 @@ public class EditmodeFragment extends Fragment
 
 	private void adaptAlignButtons(View currentView2)
 	{
+		clearAlignSelection();
+		
 		switch (((TextView) currentView).getGravity()) {
 		case Gravity.TOP | Gravity.LEFT:
 			topLeft.setActivated(true);
@@ -423,6 +425,13 @@ public class EditmodeFragment extends Fragment
 			bottomRight.setActivated(true);
 
 			break;
+		}
+	}
+
+	private void clearAlignSelection()
+	{
+		for (int i = 0; i< moduleAlign.getChildCount();i++){
+			moduleAlign.getChildAt(i).setActivated(false);
 		}
 	}
 
@@ -647,14 +656,14 @@ public class EditmodeFragment extends Fragment
 		@Override
 		public void onClick(View v)
 		{
-			if (v != active) {
-				if (active != null) {
-					active.setActivated(false);
-				}
-
-				active = v;
-				active.setActivated(true);
-			}
+//			if (v != active) {
+//				if (active != null) {
+//					active.setActivated(false);
+//				}
+//
+//				active = v;
+//				active.setActivated(true);
+//			}
 
 			switch (v.getId()) {
 			case R.id.editmode_align_top_left:
