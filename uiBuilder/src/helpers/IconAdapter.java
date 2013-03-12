@@ -1,9 +1,8 @@
 
 package helpers;
 
-import java.util.ArrayList;
-
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +15,14 @@ public class IconAdapter extends BaseAdapter {
     
     private Context context;
     int[] iconRefs;
-    
+
 
 	public IconAdapter(Context context, int[] iconRefs)
 	{
 		super();
 		this.context = context;
 		this.iconRefs = iconRefs;
+		
 	}
 
 	@Override
