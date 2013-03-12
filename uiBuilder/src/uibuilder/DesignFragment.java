@@ -107,7 +107,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		initHelpers();
 		setListeners();
 
-		designArea.setTag("PLAYGROUND");
+		//designArea.setTag("PLAYGROUND");
 
 		super.onActivityCreated(savedInstanceState);
 	}
