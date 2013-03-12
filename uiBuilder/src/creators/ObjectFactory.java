@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -126,6 +127,10 @@ public class ObjectFactory
 			listLayout = R.layout.item_listview_example_layout_4;
 			break;
 			
+		case R.id.editmode_list_included_layout_5:
+			listLayout = R.layout.item_listview_example_layout_5;
+			break;	
+			
 		default:
 			listLayout = 0;
 			break;
@@ -135,7 +140,7 @@ public class ObjectFactory
 		
 	}
 
-	protected void setAdapter(ListView listView, final int listLayout)
+	protected void setAdapter(View list, final int listLayout)
 	{
 		final String[] headers = ref.getResources().getStringArray(R.array.listview_listitem_layout_header);
 		final String[] contents = ref.getResources().getStringArray(R.array.listview_listitem_layout_content);
@@ -157,7 +162,15 @@ public class ObjectFactory
 			}
 					
 		};
-		listView.setAdapter(listAdapter);
+		
+		if (list instanceof ListView)
+		{
+			((ListView) list).setAdapter(listAdapter);
+		}
+		if (list instanceof GridView)
+		{
+			((GridView) list).setAdapter(listAdapter);
+		}
 	}
 	
 }

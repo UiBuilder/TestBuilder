@@ -58,6 +58,8 @@ public class ItemboxFragment extends Fragment implements
 		Button createCheckbox = (Button) layout.findViewById(R.id.element_checkbox);
 
 		Button createList = (Button) layout.findViewById(R.id.element_list);
+		
+		Button createGrid = (Button) layout.findViewById(R.id.element_grid);
 
 		Button createNumberPicker = (Button) layout.findViewById(R.id.element_numberpick);
 
@@ -82,6 +84,7 @@ public class ItemboxFragment extends Fragment implements
 		createSeekBar.setOnTouchListener(this);
 		createTimePicker.setOnTouchListener(this);
 		createContainer.setOnTouchListener(this);
+		createGrid.setOnTouchListener(this);
 	}
 
 	@Override

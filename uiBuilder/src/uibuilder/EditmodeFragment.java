@@ -281,7 +281,6 @@ public class EditmodeFragment extends Fragment
 
 		Button picFromGallery = (Button) layoutView.findViewById(R.id.image_choose_gallery);
 		picFromGallery.setOnClickListener(new ImageModuleListener());
-
 	}
 
 	protected void adaptLayoutToContext(View view)
@@ -510,6 +509,7 @@ public class EditmodeFragment extends Fragment
 			case R.id.editmode_list_included_layout_2:
 			case R.id.editmode_list_included_layout_3:
 			case R.id.editmode_list_included_layout_4:
+			case R.id.editmode_list_included_layout_5:
 				editListener.prefencesChanged(currentView, id);
 				break;
 

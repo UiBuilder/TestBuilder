@@ -124,12 +124,12 @@
              />
             
         <Button
-
+			android:id="@+id/element_grid"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             style="@style/itembox_items"
-            android:visibility="invisible"
+            android:visibility="visible"
              />
        	 </TableRow>
         

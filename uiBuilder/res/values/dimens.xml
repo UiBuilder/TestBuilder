@@ -66,6 +66,10 @@
     <item name="list_factor_width" format="integer" type="integer">8</item>
     <item name="list_factor_height" format="integer" type="integer">8</item>
     
+    <!-- grid -->
+    <item name="grid_factor_width" format="integer" type="integer">10</item>
+    <item name="grid_factor_height" format="integer" type="integer">10</item>
+    
     <!-- paddings -->
     <dimen name="default_padding_small">5dp</dimen>
     <dimen name="default_padding_medium">10dp</dimen>

@@ -19,6 +19,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -142,6 +143,11 @@ public class Generator
 
 		case R.id.element_container:
 			xmlView = buildRelativeContainer();
+			
+			break;
+			
+		case R.id.element_grid:
+			xmlView = buildGrid();
 			
 			break;
 
@@ -274,6 +280,11 @@ public class Generator
 
 			break;
 			
+		case R.id.element_grid:
+			
+			width = res.getInteger(R.integer.grid_factor_width);
+			height = res.getInteger(R.integer.grid_factor_height);
+			scaleType = Overlay.BOTH;
 			
 		default:
 			Log.d("bundle ", "not built");
@@ -291,6 +302,21 @@ public class Generator
 		return tagBundle;
 	}
 
+	private View buildGrid()
+	{
+		RelativeLayout xmlGridContainer = createContainer();
+		
+		GridView xmlGrid = (GridView) inflater.inflate(R.layout.item_gridview_layout, null);
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		params.addRule(RelativeLayout.CENTER_IN_PARENT, 1);
+		
+		xmlGrid.setLayoutParams(params);
+		xmlGridContainer.addView(xmlGrid);
+		factory.setAdapter(xmlGrid, R.layout.item_listview_example_layout_1);
+		
+		return xmlGridContainer;
+	}
+	
 	private View buildTimePicker()
 	{
 		RelativeLayout xmlTimePickerContainer = createContainer();
