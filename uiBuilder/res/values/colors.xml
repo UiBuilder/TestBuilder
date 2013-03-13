@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="overlay_border">@android:color/holo_green_light</color>
+    <color name="overlay_border">@color/superlight_grey</color>
     <color name="overlay_border_drag">@android:color/background_dark</color>
-    <color name="overlay_background">@android:color/holo_green_light</color>
-    <color name="overlay_border_active">@android:color/holo_orange_dark</color>
-    <color name="overlay_background_active">@android:color/holo_orange_dark</color>
+    <color name="overlay_background">@color/superlight_grey</color>
+    <color name="overlay_border_active">@color/fresh_aqua</color>
+    <color name="overlay_background_active">@color/fresh_aqua</color>
     
     <color name="object_background_default">@android:color/transparent</color>
+    <color name="object_background_dragging">@color/superlight_grey</color>
     <color name="object_stroke_default">@android:color/black</color>
+    
+    <color name="editbox_item_background_normal">@android:color/white</color>
+    <color name="editbox_item_background_active">@android:color/white</color>
+    <color name="editbox_item_border_normal">@android:color/darker_gray</color>
+    <color name="editbox_item_border_active">@color/fresh_aqua</color>
+    
+    <color name="itembox_item_background_normal">@android:color/white</color>
+    <color name="itembox_item_background_active">@android:color/white</color>
+    <color name="itembox_item_border_normal">@android:color/white</color>
+    <color name="itembox_item_border_active">@color/fresh_aqua</color>
     
     <color name="element_out_of_dropzone">@android:color/holo_red_light</color>
     
@@ -21,5 +32,6 @@
 	<color name="designarea_grid">@color/superlight_grey</color>
 	
 	<color name="superlight_grey">#F0F3F4</color>
+	<color name="fresh_aqua">#00e0a3</color>
 	
 </resources>

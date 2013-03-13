@@ -7,6 +7,9 @@
     android:contentDescription="@string/overlay_desc"
     android:id="@+id/overlay_right"
 	android:alpha="@dimen/overlay_alpha"
+	
+	android:scaleType="fitCenter"
+    android:src="@raw/overlay_arrow_right"
     
     android:clickable="true"
     android:focusableInTouchMode="true"

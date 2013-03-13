@@ -4,12 +4,12 @@
     <!--DO NOT USE  -->
     
    		
-   		<item android:state_activated="true"
- 			android:drawable="@drawable/default_button_border"
+   		<item android:state_pressed="true"
+ 			android:drawable="@drawable/overlay_center_active"
  			
  			/>
 		<item 
-          android:drawable="@drawable/default_button_border"
+          android:drawable="@drawable/overlay_center_normal"
           />
 
 </selector>

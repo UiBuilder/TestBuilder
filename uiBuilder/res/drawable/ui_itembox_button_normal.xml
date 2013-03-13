@@ -3,12 +3,12 @@
     android:shape="rectangle"
     >
     <stroke android:width="2dp"
-        android:color="@android:color/white"
+        android:color="@color/itembox_item_border_normal"
         />
 	<corners 
 	    
 	    />
 	<solid
-	    android:color="@android:color/white"
+	    android:color="@color/itembox_item_border_normal"
 	    />
 </shape>

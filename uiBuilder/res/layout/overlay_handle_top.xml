@@ -8,6 +8,9 @@
 	android:alpha="@dimen/overlay_alpha"
     android:contentDescription="@string/overlay_desc"
     
+    android:scaleType="fitCenter"
+    android:src="@raw/overlay_arrow_up"
+    
     android:clickable="true"
     android:focusableInTouchMode="true"
     android:focusable="true"

@@ -5,10 +5,12 @@ import uibuilder.DesignFragment;
 import uibuilder.EditmodeFragment;
 import uibuilder.EditmodeFragment.onObjectEditedListener;
 import android.content.Context;
+import android.graphics.Matrix.ScaleToFit;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageButton;
+import android.widget.ImageView.ScaleType;
 import android.widget.RelativeLayout;
 import de.ur.rk.uibuilder.R;
 
@@ -203,9 +205,11 @@ public class Overlay
 		top = (ImageButton) inflater.inflate(R.layout.overlay_handle_top, null);
 
 		top.setMinimumHeight(context.getResources().getDimensionPixelSize(R.dimen.default_overlay_handle_dimension));
+		
 		modified.addRule(RelativeLayout.ABOVE, right.getId());
 		modified.addRule(RelativeLayout.LEFT_OF, right.getId());
 		modified.addRule(RelativeLayout.RIGHT_OF, left.getId());
+		modified.height = context.getResources().getDimensionPixelSize(R.dimen.default_overlay_handle_dimension);
 
 		top.setTag(OVERLAYTAG);
 		top.setOnTouchListener(designFragment);
@@ -220,7 +224,8 @@ public class Overlay
 		modified.addRule(RelativeLayout.LEFT_OF, bottom.getId());
 		modified.addRule(RelativeLayout.ALIGN_TOP, right.getId());
 		modified.addRule(RelativeLayout.ABOVE, bottom.getId());
-
+		modified.width = context.getResources().getDimensionPixelSize(R.dimen.default_overlay_handle_dimension);
+		
 		left.setTag(OVERLAYTAG);
 		left.setOnTouchListener(designFragment);
 		parent.addView(left, modified);
@@ -234,7 +239,8 @@ public class Overlay
 		modified.addRule(RelativeLayout.BELOW, dragId);
 		modified.addRule(RelativeLayout.ALIGN_LEFT, dragId);
 		modified.addRule(RelativeLayout.ALIGN_RIGHT, dragId);
-
+		modified.height = context.getResources().getDimensionPixelSize(R.dimen.default_overlay_handle_dimension);
+		
 		bottom.setTag(OVERLAYTAG);
 		bottom.setOnTouchListener(designFragment);
 		parent.addView(bottom, modified);
@@ -247,6 +253,7 @@ public class Overlay
 		modified.addRule(RelativeLayout.ALIGN_TOP, dragId);
 		modified.addRule(RelativeLayout.RIGHT_OF, dragId);
 		modified.addRule(RelativeLayout.ALIGN_BOTTOM, dragId);
+		modified.width = context.getResources().getDimensionPixelSize(R.dimen.default_overlay_handle_dimension);
 
 		right.setTag(OVERLAYTAG);
 		right.setOnTouchListener(designFragment);
