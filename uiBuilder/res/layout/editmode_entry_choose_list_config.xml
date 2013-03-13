@@ -19,13 +19,13 @@
         <TextView         
         	style="@style/editbox_header"
         	android:id="@+id/list_choose"
-			android:layout_weight="0.85"
+			android:layout_weight="0.9"
 	        android:layout_width="0dp"
 	        android:layout_height="wrap_content" 
         	android:text="@string/item_edit_list_caption" />
         
         <include 
-			android:layout_weight="0.15"
+			android:layout_weight="0.1"
 	        android:layout_width="0dp"
 	        android:layout_height="40dp"
 	        android:layout_gravity="center"
