@@ -160,7 +160,7 @@ public class ImageTools
 			
 			FileOutputStream out = new FileOutputStream(f);
 
-			image.compress(Bitmap.CompressFormat.JPEG, 100, out);
+			image.compress(Bitmap.CompressFormat.PNG, 100, out);
 			out.flush();
 			out.close();
 			

@@ -3,12 +3,12 @@
     android:shape="rectangle"
     >
     <stroke android:width="@dimen/border_width_thin"
-        android:color="@color/overlay_border_drag"
+        android:color="@color/object_stroke_default"
         
         />
 	<corners 
 	    
 	    />
-	<solid android:color="@color/overlay_background"
+	<solid android:color="@color/object_background_default"
 	    />
 </shape>

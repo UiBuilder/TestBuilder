@@ -187,7 +187,7 @@ public class EditmodeFragment extends Fragment
 	 */
 	private void setExpansionSelector(View module)
 	{
-		module.setVisibility(View.GONE);
+
 		module.invalidate();
 		
 		ImageButton expandIndicator = (ImageButton) module.findViewById(R.id.expand_selector);
@@ -293,8 +293,8 @@ public class EditmodeFragment extends Fragment
 	private void setupAlignModule()
 	{
 		topLeft = (Button) root.findViewById(R.id.editmode_align_top_left);
-		topRight = (Button) root.findViewById(R.id.editmode_align_top_center);
-		topCenter = (Button) root.findViewById(R.id.editmode_align_top_right);
+		topCenter = (Button) root.findViewById(R.id.editmode_align_top_center);
+		topRight = (Button) root.findViewById(R.id.editmode_align_top_right);
 		centerLeft = (Button) root.findViewById(R.id.editmode_align_center_left);
 		centerCenter = (Button) root.findViewById(R.id.editmode_align_center_center);
 		centerRight = (Button) root.findViewById(R.id.editmode_align_center_right);
@@ -311,48 +311,6 @@ public class EditmodeFragment extends Fragment
 		bottomLeft.setOnClickListener(new AlignModuleListener());
 		bottomCenter.setOnClickListener(new AlignModuleListener());
 		bottomRight.setOnClickListener(new AlignModuleListener());
-
-		/*
-		 * int gravity = ((TextView) currentView).getGravity(); switch (gravity)
-		 * { case Gravity.TOP | Gravity.LEFT:
-		 * topLeft.setBackgroundColor(getResources
-		 * ().getColor(R.color.overlay_background_active)); break;
-		 * 
-		 * case Gravity.TOP | Gravity.CENTER_HORIZONTAL:
-		 * topCenter.setBackgroundColor
-		 * (getResources().getColor(R.color.overlay_background_active)); break;
-		 * 
-		 * case Gravity.TOP | Gravity.RIGHT:
-		 * topRight.setBackgroundColor(getResources
-		 * ().getColor(R.color.overlay_background_active)); break;
-		 * 
-		 * case Gravity.CENTER_VERTICAL | Gravity.LEFT:
-		 * centerLeft.setBackgroundColor
-		 * (getResources().getColor(R.color.overlay_background_active)); break;
-		 * 
-		 * case Gravity.CENTER:
-		 * centerCenter.setBackgroundColor(getResources().getColor
-		 * (R.color.overlay_background_active)); break;
-		 * 
-		 * case Gravity.CENTER_VERTICAL | Gravity.RIGHT:
-		 * centerRight.setBackgroundColor
-		 * (getResources().getColor(R.color.overlay_background_active)); break;
-		 * 
-		 * case Gravity.BOTTOM | Gravity.LEFT:
-		 * bottomLeft.setBackgroundColor(getResources
-		 * ().getColor(R.color.overlay_background_active)); break;
-		 * 
-		 * case Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL:
-		 * bottomCenter.setBackgroundColor
-		 * (getResources().getColor(R.color.overlay_background_active)); break;
-		 * 
-		 * case Gravity.BOTTOM | Gravity.RIGHT:
-		 * bottomRight.setBackgroundColor(getResources
-		 * ().getColor(R.color.overlay_background_active)); break;
-		 * 
-		 * }
-		 */
-
 	}
 
 	private void setupPictureModule()
@@ -477,36 +435,37 @@ public class EditmodeFragment extends Fragment
 		case Gravity.TOP | Gravity.LEFT:
 			topLeft.setActivated(true);
 			break;
+			
 		case Gravity.TOP | Gravity.CENTER_HORIZONTAL:
 			topCenter.setActivated(true);
-
 			break;
+			
 		case Gravity.TOP | Gravity.RIGHT:
 			topRight.setActivated(true);
-
 			break;
+			
 		case Gravity.CENTER_VERTICAL | Gravity.LEFT:
-
 			centerLeft.setActivated(true);
 			break;
+			
 		case Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL:
 			centerCenter.setActivated(true);
-
 			break;
+			
 		case Gravity.CENTER_VERTICAL | Gravity.RIGHT:
 			centerRight.setActivated(true);
-
 			break;
+			
 		case Gravity.BOTTOM | Gravity.LEFT:
 			bottomLeft.setActivated(true);
 			break;
+			
 		case Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL:
 			bottomCenter.setActivated(true);
-
 			break;
+			
 		case Gravity.BOTTOM | Gravity.RIGHT:
 			bottomRight.setActivated(true);
-
 			break;
 		}
 	}
@@ -884,7 +843,7 @@ public class EditmodeFragment extends Fragment
 		public void onValueChange(NumberPicker picker, int oldVal, int newVal)
 		{
 			((TextView) currentView).setTextSize(newVal);
-
+			currentView.invalidate();
 		}
 	}
 
@@ -922,6 +881,7 @@ public class EditmodeFragment extends Fragment
 					public void run()
 					{
 						collapse();
+						refresh();
 					}
 				});
 			}
@@ -934,11 +894,10 @@ public class EditmodeFragment extends Fragment
 					public void run()
 					{
 						expand();
+						refresh();
 					}
 				});
 			}
-			expandableView.invalidate();
-			clickedModule.requestLayout();
 		}
 
 		private void expand()
@@ -953,6 +912,12 @@ public class EditmodeFragment extends Fragment
 			expandableView.setVisibility(View.GONE);
 			indicator.setImageResource(indicatorExpanded);
 			module.setActivated(true);
+		}
+		
+		private void refresh()
+		{
+			expandableView.invalidate();
+			module.requestLayout();
 		}
 	}
 	

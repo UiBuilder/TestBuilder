@@ -66,64 +66,7 @@
 	    <string name="listview_listitem_layout_1_header">Header</string>
 	    <string name="listview_listitem_layout_1_content">Content</string>
 	    
-	        <!-- List Arrays SOURCE: hipsteripsum.me -->
 	    
-	    <string-array name="listview_listitem_layout_header">
-	        
-	        <item >Typewriter meggings tofu synth</item>
-	        <item >8-bit scenester twee</item>
-	        <item >Mlkshk helvetica dreamcatcher</item>
-	        <item >VHS mixtape portland fap</item>
-	        
-	        <item >Hashtag +1 kale chips</item>
-	        <item >Quinoa scenester ennui</item>
-	        <item >Twee occupy terry richardson</item>
-	        <item >Austin single-origin coffee</item>
-	        
-	        <item >Yr letterpress leggings</item>
-	        <item >Art party vegan four loko enim</item>
-	        <item >Wolf authentic readymade</item>
-	        <item >Craft beer ugh</item>
-	        
-	        <item >Ad keytar incididunt 3</item>
-	        <item >Chambray anim sartorial fap</item>
-	        <item >3 wolf moon seitan fanny pack</item>
-	        <item >Retro messenger bag elit</item>
-	        
-	        <item >Forage shoreditch brooklyn</item>
-	        <item >Butcher disrupt ea, fashion axe</item>
-	        <item >Aliqua nostrud nisi</item>
-	        <item >Beard consectetur tattooed</item>
-	        
-	    </string-array>
-	    
-	    <string-array name="listview_listitem_layout_content">
-	        
-	        <item >Actually lo-fi single-origin coffee, plaid pitchfork iphone hashtag fixie fap swag.</item>
-	        <item >Pop-up 90\'s hella fashion axe fixie. PBR hella biodiesel street art.</item>
-	        <item >Umami trust fund gentrify messenger bag master cleanse, readymade kale chips occupy salvia +1</item>
-	        <item >Gentrify vinyl squid irony gluten-free messenger bag mcsweeney\'s. Lomo sustainable ennui actually.</item>
-	        
-	        <item >Raw denim photo booth yr next level direct trade high life. Pickled yr church-key, twee wayfarers retro flexitarian truffaut.</item>
-	        <item >Excepteur sapiente blue bottle, lo-fi literally ut irony plaid terry richardson.</item>
-	        <item >Laboris typewriter anim wes anderson ad, irure locavore est salvia duis vero mcsweeney\'s. Small batch banjo tousled disrupt.</item>
-	        <item >Raw denim photo booth yr next level direct trade high life. Pickled yr church-key, twee wayfarers retro flexitarian truffaut.</item>
-	        
-	        <item >Brunch etsy pour-over, terry richardson 90\'s single-origin coffee culpa.</item>
-	        <item >Pitchfork ethical viral, meggings twee squid banksy reprehenderit farm-to-table trust fund.</item>
-	        <item >Quis flannel shoreditch forage, cillum food truck commodo scenester master cleanse literally.</item>
-	        <item >Pug do pinterest ex. Helvetica sint small batch flannel.</item>
-	        
-	        <item >Occupy sint adipisicing mcsweeney\'s. Wes anderson blog you probably haven\'t heard of them.</item>
-	        <item >Rushwick magna aliqua hashtag trust fund forage sunt nihil kogi, typewriter tonx accusamus pickled eiusmod.</item>
-	        <item >Portland twee craft beer dolor, direct trade fap hella cardigan helvetica. Terry richardson non plaid nostrud, bicycle rights gluten-free.</item>
-	        <item >tonx squid occupy laborum twee trade high life. Pickled yr church-key, twee wayfarers retro flexitarian truffaut.</item>
-	        
-	        <item >Raw denim marfa thundercats, portland laboris echo park synth viral. Farm-to-table cillum non artisan.</item>
-	        <item >Street art tousled brunch, ethical elit Austin art party terry richardson etsy anim brooklyn aliqua. Swag marfa pop-up, 8-bit.</item>
-	        <item >Occupy american apparel pug, nihil culpa lo-fi bicycle rights brunch.</item>
-	        <item >Salvia laboris tonx actually 90\'s. Ut mlkshk occupy, helvetica meggings odio ullamco consectetur commodo.</item>
-	    </string-array>
 	    
 	<!-- GRID -->
 	<string name="item_edit_grid_caption">Choose Grid Layout</string>

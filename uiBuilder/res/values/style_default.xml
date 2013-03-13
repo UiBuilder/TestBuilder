@@ -24,8 +24,8 @@
     <style name="itembox_items" parent="@style/default_fontsizes">
         <item name="android:textSize">16sp</item>
         <item name="android:background">@drawable/ui_itembox_button_states</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:layout_margin">2dp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:layout_margin">1dp</item>
 		<item name="android:padding">0dp</item>
     </style>
     

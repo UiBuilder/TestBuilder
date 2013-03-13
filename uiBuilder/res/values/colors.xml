@@ -2,9 +2,12 @@
 <resources>
     <color name="overlay_border">@android:color/holo_green_light</color>
     <color name="overlay_border_drag">@android:color/background_dark</color>
-    <color name="overlay_background">@android:color/transparent</color>
-    <color name="overlay_border_active">@android:color/holo_green_light</color>
-    <color name="overlay_background_active">@android:color/holo_green_light</color>
+    <color name="overlay_background">@android:color/holo_green_light</color>
+    <color name="overlay_border_active">@android:color/holo_orange_dark</color>
+    <color name="overlay_background_active">@android:color/holo_orange_dark</color>
+    
+    <color name="object_background_default">@android:color/transparent</color>
+    <color name="object_stroke_default">@android:color/black</color>
     
     <color name="element_out_of_dropzone">@android:color/holo_red_light</color>
     
@@ -15,8 +18,8 @@
 	
 	<color name="designarea_background">@android:color/white</color>
 	<color name="designfragment_background">@android:color/black</color>
-	<color name="designarea_grid">@color/text_light</color>
+	<color name="designarea_grid">@color/superlight_grey</color>
 	
-	<color name="superlight_grey">#E0E3E4</color>
+	<color name="superlight_grey">#F0F3F4</color>
 	
 </resources>
