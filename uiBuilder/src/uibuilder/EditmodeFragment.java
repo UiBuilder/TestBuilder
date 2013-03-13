@@ -60,7 +60,7 @@ public class EditmodeFragment extends Fragment
 	private SeekBar starBar, ratingSlider;
 	private Button topLeft, topCenter, topRight, centerLeft, centerCenter, centerRight, bottomLeft, bottomCenter, bottomRight;
 
-	private LinearLayout moduleAlign, modulePicture, moduleEditText, moduleChangeSize, moduleZorder, moduleNothing, moduleIcons, moduleStarCount, moduleListConfig, moduleGridConfig;
+	private LinearLayout moduleAlign, modulePicture, moduleEditText, moduleChangeSize, moduleZorder, moduleNothing, moduleIcons, moduleStarCount, moduleListConfig, moduleGridConfig, moduleGridColumns;
 
 	@Override
 	public void onAttach(Activity activity)
@@ -141,6 +141,7 @@ public class EditmodeFragment extends Fragment
 		moduleStarCount = (LinearLayout) root.findViewById(R.id.editmode_included_star_count);
 		moduleListConfig = (LinearLayout) root.findViewById(R.id.editmode_included_list_config);
 		moduleGridConfig = (LinearLayout) root.findViewById(R.id.editmode_included_grid_config);
+		moduleGridColumns = (LinearLayout) root.findViewById(R.id.editmode_included_grid_columns);
 		
 		setupPictureModule();
 		setupEdittextModule();
@@ -151,6 +152,7 @@ public class EditmodeFragment extends Fragment
 		setupStarCountModule();
 		setupListConfigModule();
 		setupGridConfigModule();
+		setupGridColumnModule();
 		
 		setExpansionSelector(moduleGridConfig);
 		setExpansionSelector(moduleAlign);
@@ -159,10 +161,12 @@ public class EditmodeFragment extends Fragment
 		setExpansionSelector(moduleEditText);
 		setExpansionSelector(moduleListConfig);
 		setExpansionSelector(moduleChangeSize);
+		setExpansionSelector(moduleGridColumns);
 
 		root.invalidate();
 		// and so on..
 	}
+
 	/**
 	 * each sublayout module has an expansion selector button
 	 * with the same id. get this button for each module and set the corresponding 
@@ -202,6 +206,19 @@ public class EditmodeFragment extends Fragment
 		layoutTypeOne.setOnClickListener(new GridLayoutModuleListener());
 		layoutTypeTwo.setOnClickListener(new GridLayoutModuleListener());
 		layoutTypeThree.setOnClickListener(new GridLayoutModuleListener());
+	}
+	/**
+	 * @author funklos
+	 */
+	private void setupGridColumnModule()
+	{
+		NumberPicker columnNumber = (NumberPicker) root.findViewById(R.id.editmode_grid_choose_number);
+		
+		columnNumber.setMaxValue(5);
+		columnNumber.setMinValue(2);
+		columnNumber.setValue(2);
+		
+		columnNumber.setOnValueChangedListener(new ColumnNumberListener());
 	}
 	
 	/**
@@ -390,7 +407,8 @@ public class EditmodeFragment extends Fragment
 
 		currentView = view;
 
-		switch (id) {
+		switch (id) 
+		{
 		case R.id.element_button:
 			moduleEditText.setVisibility(View.VISIBLE);
 			editText.setText(getViewText(currentView));
@@ -477,6 +495,7 @@ public class EditmodeFragment extends Fragment
 			
 		case R.id.element_grid:
 			moduleGridConfig.setVisibility(View.VISIBLE);
+			moduleGridColumns.setVisibility(View.VISIBLE);
 			break;
 			
 		default:
@@ -585,6 +604,7 @@ public class EditmodeFragment extends Fragment
 		moduleStarCount.setVisibility(View.GONE);
 		moduleListConfig.setVisibility(View.GONE);
 		moduleGridConfig.setVisibility(View.GONE);
+		moduleGridColumns.setVisibility(View.GONE);
 
 		moduleAlign.invalidate();
 		moduleEditText.invalidate();
@@ -596,8 +616,20 @@ public class EditmodeFragment extends Fragment
 		moduleStarCount.invalidate();
 		moduleListConfig.invalidate();
 		moduleGridConfig.invalidate();
+		moduleGridColumns.invalidate();
 	}
 	
+	
+	private class ColumnNumberListener implements OnValueChangeListener
+	{
+
+		@Override
+		public void onValueChange(NumberPicker picker, int oldVal, int newVal)
+		{
+			// TODO Auto-generated method stub
+			
+		}
+	}
 	
 	/**
 	 * 
