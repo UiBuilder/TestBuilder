@@ -32,6 +32,6 @@
 	<color name="designarea_grid">@color/superlight_grey</color>
 	
 	<color name="superlight_grey">#F0F3F4</color>
-	<color name="fresh_aqua">#00e0a3</color>
+	<color name="fresh_aqua">#aa00e0a3</color>
 	
 </resources>
