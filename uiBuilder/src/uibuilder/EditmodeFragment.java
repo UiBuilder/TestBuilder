@@ -158,30 +158,39 @@ public class EditmodeFragment extends Fragment
 		setExpansionSelector(modulePicture); 
 		setExpansionSelector(moduleEditText);
 		setExpansionSelector(moduleListConfig);
+		setExpansionSelector(moduleChangeSize);
 
 		root.invalidate();
 		// and so on..
 	}
-
+	/**
+	 * each sublayout module has an expansion selector button
+	 * with the same id. get this button for each module and set the corresponding 
+	 * listener.
+	 * a reference to the parent layout is passed to the listener to avoid final 
+	 * instances of references, which were not reliable enough when performing expansions
+	 * 
+	 * @param module the editmode module containing the button
+	 */
 	private void setExpansionSelector(View module)
 	{
 		module.setVisibility(View.GONE);
 		module.invalidate();
-		ImageButton b = (ImageButton) module.findViewById(R.id.expand_selector);
-		b.setOnClickListener(new ExpansionListener((LinearLayout) module));
-		b.performClick();
+		
+		ImageButton expandButton = (ImageButton) module.findViewById(R.id.expand_selector);
+		expandButton.setOnClickListener(new ExpansionListener((LinearLayout) module));
+		
+		/**
+		 * onclick has to be called once for the button to react.
+		 * this was the only workaround which did the job.
+		 */
+		expandButton.performClick();
 		root.requestLayout();
-		
-		//moduleGridConfig.setOnClickListener(new ExpansionListener());
-		
-		//ExpansionListener grid = new ExpansionListener(moduleGridConfig);
-		/*setExpansionSelector(moduleIcons);
-		setExpansionSelector(moduleAlign);
-		setExpansionSelector(modulePicture);
-		setExpansionSelector(moduleEditText);*/
-		
 	}
 
+	/**
+	 * @author funklos
+	 */
 	private void setupGridConfigModule()
 	{	
 		LinearLayout layoutTypeOne = (LinearLayout) root.findViewById(R.id.editmode_grid_included_layout_1);
@@ -193,36 +202,40 @@ public class EditmodeFragment extends Fragment
 		layoutTypeThree.setOnClickListener(new GridLayoutModuleListener());
 	}
 	
+	/**
+	 * in each editmode module a button
+	 * @author funklos
+	 *
+	 */
 	private class ExpansionListener implements OnClickListener
 	{
 		private LinearLayout module;
 		
 		public ExpansionListener(LinearLayout module)
 		{
-			// TODO Auto-generated constructor stub
 			this.module = module;
 		}
 
 		@Override
 		public void onClick(View v)
 		{
-			ImageButton toggle = (ImageButton) v;
-			View expandable = module.findViewById(R.id.expandable);
+			ImageButton expansionToggle = (ImageButton) v;
+			View expandableView = module.findViewById(R.id.expandable);
 			
 			if (!v.isActivated())
 			{
-				expandable.setVisibility(View.GONE);
-				toggle.setImageResource(R.raw.ico_small_0037);
-				toggle.setActivated(true);
+				expandableView.setVisibility(View.GONE);
+				expansionToggle.setImageResource(R.raw.ico_small_0037);
+				expansionToggle.setActivated(true);
 			}
 			else
 			{
-				expandable.setVisibility(View.VISIBLE);
-				toggle.setImageResource(R.raw.ico_small_0035); 
-				toggle.setActivated(false);
+				expandableView.setVisibility(View.VISIBLE);
+				expansionToggle.setImageResource(R.raw.ico_small_0035); 
+				expansionToggle.setActivated(false);
 			}
 			Log.d("found", "button");
-			expandable.invalidate();
+			expandableView.invalidate();
 			module.requestLayout();
 		}
 	}
