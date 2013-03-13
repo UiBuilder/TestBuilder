@@ -177,14 +177,16 @@ public class EditmodeFragment extends Fragment
 		module.setVisibility(View.GONE);
 		module.invalidate();
 		
-		ImageButton expandButton = (ImageButton) module.findViewById(R.id.expand_selector);
-		expandButton.setOnClickListener(new ExpansionListener((LinearLayout) module));
+		ImageButton expandIndicator = (ImageButton) module.findViewById(R.id.expand_selector);
+		
+		View toggleArea = (View) expandIndicator.getParent();
+		toggleArea.setOnClickListener(new ExpansionListener((LinearLayout) module, expandIndicator));
 		
 		/**
 		 * onclick has to be called once for the button to react.
 		 * this was the only workaround which did the job.
 		 */
-		expandButton.performClick();
+		toggleArea.performClick();
 		root.requestLayout();
 	}
 
@@ -210,31 +212,34 @@ public class EditmodeFragment extends Fragment
 	private class ExpansionListener implements OnClickListener
 	{
 		private LinearLayout module;
+		private ImageButton indicator;
 		
-		public ExpansionListener(LinearLayout module)
+		private int indicatorExpanded = R.raw.ico_small_0037;
+		private int indicatorCollapsed = R.raw.ico_small_0035;
+		
+		public ExpansionListener(LinearLayout module, ImageButton indicator)
 		{
 			this.module = module;
+			this.indicator = indicator;
 		}
 
 		@Override
-		public void onClick(View v)
+		public void onClick(View expansionToggle)
 		{
-			ImageButton expansionToggle = (ImageButton) v;
 			View expandableView = module.findViewById(R.id.expandable);
 			
-			if (!v.isActivated())
+			if (!expansionToggle.isActivated())
 			{
 				expandableView.setVisibility(View.GONE);
-				expansionToggle.setImageResource(R.raw.ico_small_0037);
+				indicator.setImageResource(indicatorExpanded);
 				expansionToggle.setActivated(true);
 			}
 			else
 			{
 				expandableView.setVisibility(View.VISIBLE);
-				expansionToggle.setImageResource(R.raw.ico_small_0035); 
+				indicator.setImageResource(indicatorCollapsed); 
 				expansionToggle.setActivated(false);
 			}
-			Log.d("found", "button");
 			expandableView.invalidate();
 			module.requestLayout();
 		}
