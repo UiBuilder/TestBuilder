@@ -4,8 +4,11 @@
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
     android:orientation="vertical"
-    style="@style/itembox">
+    style="@style/itembox"
+    >
 
+    <!-- HEADER -->
+    
     <LinearLayout 
         android:layout_width="match_parent"
     	android:layout_height="wrap_content"
@@ -31,6 +34,8 @@
             />
         
     </LinearLayout>
+    
+    <!-- EXPANDABLE CONTENT -->
 
 	<LinearLayout android:id="@+id/expandable"
 	    android:layout_width="match_parent"

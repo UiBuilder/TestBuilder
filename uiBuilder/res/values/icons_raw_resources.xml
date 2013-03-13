@@ -69,6 +69,21 @@
         <item >@raw/ico_0055</item>
         <item >@raw/ico_0056</item>
         <item >@raw/ico_0057</item>
+        <item >@raw/ico_0058</item>
+        <item >@raw/ico_0059</item>
+        
+        <item >@raw/ico_0060</item>
+        <item >@raw/ico_0061</item>
+        <item >@raw/ico_0062</item>
+        <item >@raw/ico_0063</item>
+        <item >@raw/ico_0064</item>
+        <item >@raw/ico_0065</item>
+        <item >@raw/ico_0066</item>
+        <item >@raw/ico_0067</item>
+        <item >@raw/ico_0068</item>
+        <item >@raw/ico_0069</item>
+        
+        <item >@raw/ico_0070</item>
         
     </integer-array>
     
@@ -137,6 +152,21 @@
         <item >@raw/ico_small_0055</item>
         <item >@raw/ico_small_0056</item>
         <item >@raw/ico_small_0057</item>
+        <item >@raw/ico_small_0058</item>
+        <item >@raw/ico_small_0059</item>
+        
+        <item >@raw/ico_small_0060</item>
+        <item >@raw/ico_small_0061</item>
+        <item >@raw/ico_small_0062</item>
+        <item >@raw/ico_small_0063</item>
+        <item >@raw/ico_small_0064</item>
+        <item >@raw/ico_small_0065</item>
+        <item >@raw/ico_small_0066</item>
+        <item >@raw/ico_small_0067</item>
+        <item >@raw/ico_small_0068</item>
+        <item >@raw/ico_small_0069</item>
+        
+        <item >@raw/ico_small_0070</item>
         
     </integer-array>
 </resources>

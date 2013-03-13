@@ -8,7 +8,9 @@
     android:orientation="vertical"
     style="@style/itembox"
 	>
-
+	
+	<!-- HEADER -->
+	
     <LinearLayout 
         android:layout_width="match_parent"
     	android:layout_height="wrap_content"
@@ -22,7 +24,7 @@
 			android:layout_weight="0.9"
 	        android:layout_width="0dp"
 	        android:layout_height="wrap_content" 
-        android:text="@string/item_edit_grid_caption" />
+        	android:text="@string/item_edit_grid_caption" />
         
         <include 
 			android:layout_weight="0.1"
@@ -34,7 +36,9 @@
         
     </LinearLayout>
     
-
+	
+    <!-- EXPANDABLE CONTENT -->
+    
     <LinearLayout android:id="@+id/expandable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
