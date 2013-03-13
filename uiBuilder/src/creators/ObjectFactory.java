@@ -1,6 +1,9 @@
 package creators;
 
+import helpers.ResArrayImporter;
 import uibuilder.DesignFragment;
+import uibuilder.EditmodeFragment;
+import uibuilder.EditmodeFragment.onObjectEditedListener;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,12 +13,14 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.ImageView.ScaleType;
 import de.ur.rk.uibuilder.R;
 
-public class ObjectFactory
+public class ObjectFactory implements onObjectEditedListener
 {
 
 	private Context ref;
@@ -27,6 +32,14 @@ public class ObjectFactory
 
 	private static final String LOGTAG = "OBJECTFACTORY says:";
 
+	
+	/**
+	 * Resources
+	 */
+	String[] headers;
+	String[] contents;
+	int[] highResIcns;
+	
 	/**
 	 * KONSTRUKTOR
 	 * 
@@ -38,6 +51,17 @@ public class ObjectFactory
 		ref = c;
 		generator = new Generator(ref, l, this);
 		inflater = (LayoutInflater) ref.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		EditmodeFragment.setOnObjectEditedListener(this);
+		
+		setupResources();
+	}
+
+	private void setupResources()
+	{
+		headers = ref.getResources().getStringArray(R.array.listview_listitem_layout_header);
+		contents = ref.getResources().getStringArray(R.array.listview_listitem_layout_content);
+		
+		highResIcns = ResArrayImporter.getRefArray(ref, R.array.icons_big);
 	}
 
 	/**
@@ -59,18 +83,6 @@ public class ObjectFactory
 			return null;
 		}
 	}
-
-	
-	
-	/**
-	 * round the provided value to meet the next gridvalue
-	 * @param value
-	 * @return
-	 */
-	public int snapToGrid(int value)
-	{
-		return Math.round((float) value / DesignFragment.SNAP_GRID_INTERVAL) * DesignFragment.SNAP_GRID_INTERVAL;
-	}
 	
 	/**
 	 * 
@@ -78,7 +90,8 @@ public class ObjectFactory
 	 * @param active item in progress
 	 * @param from id of requesting operation
 	 */
-	public void modify(View active, int from)
+	@Override
+	public void refreshAdapter(View active, int from)
 	{
 		Bundle tagBundle = (Bundle) active.getTag();
 
@@ -139,7 +152,7 @@ public class ObjectFactory
 	 * @author funklos
 	 * @param from
 	 */
-	private void refreshListAdapter(View active, int from)
+	public void refreshListAdapter(View active, int from)
 	{	
 		RelativeLayout container = (RelativeLayout) active;
 		
@@ -184,9 +197,6 @@ public class ObjectFactory
 	 */
 	protected void setAdapter(View list, final int listLayout)
 	{
-		final String[] headers = ref.getResources().getStringArray(R.array.listview_listitem_layout_header);
-		final String[] contents = ref.getResources().getStringArray(R.array.listview_listitem_layout_content);
-
 		ArrayAdapter<String>listAdapter = new ArrayAdapter<String>(ref.getApplicationContext(), listLayout, headers)
 		{
 
@@ -201,8 +211,7 @@ public class ObjectFactory
 				TextView content = (TextView) layout.findViewById(R.id.listview_listitem_content);
 				content.setText(contents[position]);
 				return layout;
-			}
-					
+			}			
 		};
 		
 		if (list instanceof ListView)
@@ -213,6 +222,24 @@ public class ObjectFactory
 		{
 			((GridView) list).setAdapter(listAdapter);
 		}
+	}
+
+	@Override
+	public void gridColumnsChanged(View active, int col)
+	{	
+		ViewGroup container = (ViewGroup) active;
+		
+		GridView grid = (GridView) container.getChildAt(0);
+		grid.setNumColumns(col);	
+	}
+
+	@Override
+	public void setIconResource(View active, int pos)
+	{
+		int resourceId = (highResIcns[pos]);
+
+		((ImageView) active).setScaleType(ScaleType.FIT_CENTER);
+		((ImageView) active).setImageResource(resourceId);		
 	}
 	
 }

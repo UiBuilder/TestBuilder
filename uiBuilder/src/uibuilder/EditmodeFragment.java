@@ -82,8 +82,10 @@ public class EditmodeFragment extends Fragment
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState)
 	{
-		// TODO Auto-generated method stub
-
+		getModules();
+		setupModules();
+		setExpansionSelectos();
+		
 		super.onActivityCreated(savedInstanceState);
 	}
 
@@ -93,14 +95,12 @@ public class EditmodeFragment extends Fragment
 		Log.d("Editmode Fragment", "onCreateView called");
 
 		this.inflater = inflater;
-		if (root == null) {
+		if (root == null) 
+		{
 			root = inflater.inflate(R.layout.layout_editmode_fragment, container, false);
-
-			getModules();
 
 			return root;
 		}
-
 		return root;
 	}
 
@@ -112,20 +112,22 @@ public class EditmodeFragment extends Fragment
 	{
 		super.onActivityResult(requestCode, resultCode, data);
 
-		switch (requestCode) {
-
-		case ImageTools.CAMERA: {
-			if (resultCode == Activity.RESULT_OK) {
+		switch (requestCode) 
+		{
+		case ImageTools.CAMERA: 
+		
+			if (resultCode == Activity.RESULT_OK) 
+			{
 				imageHandler.handleBigCameraPhoto(currentView);
 			}
 			break;
-		}
-
-		case ImageTools.GALLERY: {
-			if (resultCode == Activity.RESULT_OK) {
+		
+		case ImageTools.GALLERY: 
+		
+			if (resultCode == Activity.RESULT_OK) 
+			{
 				imageHandler.handleGalleryImport(currentView, data);
 			}
-		}
 		}
 	}
 
@@ -142,7 +144,12 @@ public class EditmodeFragment extends Fragment
 		moduleListConfig = (LinearLayout) root.findViewById(R.id.editmode_included_list_config);
 		moduleGridConfig = (LinearLayout) root.findViewById(R.id.editmode_included_grid_config);
 		moduleGridColumns = (LinearLayout) root.findViewById(R.id.editmode_included_grid_columns);
-		
+		// and so on..
+	}
+	
+
+	private void setupModules()
+	{
 		setupPictureModule();
 		setupEdittextModule();
 		setupChangesizeModule();
@@ -152,8 +159,11 @@ public class EditmodeFragment extends Fragment
 		setupStarCountModule();
 		setupListConfigModule();
 		setupGridConfigModule();
-		setupGridColumnModule();
-		
+		setupGridColumnModule();	
+	}
+	
+	private void setExpansionSelectos()
+	{
 		setExpansionSelector(moduleGridConfig);
 		setExpansionSelector(moduleAlign);
 		setExpansionSelector(moduleIcons);
@@ -163,8 +173,7 @@ public class EditmodeFragment extends Fragment
 		setExpansionSelector(moduleChangeSize);
 		setExpansionSelector(moduleGridColumns);
 
-		root.invalidate();
-		// and so on..
+		root.invalidate();	
 	}
 
 	/**
@@ -173,7 +182,7 @@ public class EditmodeFragment extends Fragment
 	 * listener.
 	 * a reference to the parent layout is passed to the listener to avoid final 
 	 * instances of references, which were not reliable enough when performing expansions
-	 * 
+	 * @author funklos
 	 * @param module the editmode module containing the button
 	 */
 	private void setExpansionSelector(View module)
@@ -212,56 +221,15 @@ public class EditmodeFragment extends Fragment
 	 */
 	private void setupGridColumnModule()
 	{
-		NumberPicker columnNumber = (NumberPicker) root.findViewById(R.id.editmode_grid_choose_number);
+		SeekBar columnNumber = (SeekBar) root.findViewById(R.id.editmode_grid_choose_number);
 		
-		columnNumber.setMaxValue(5);
-		columnNumber.setMinValue(2);
-		columnNumber.setValue(2);
-		
-		columnNumber.setOnValueChangedListener(new ColumnNumberListener());
+		columnNumber.setOnSeekBarChangeListener(new ColumnNumberListener());
+
 	}
-	
+
 	/**
-	 * in each editmode module a button
 	 * @author funklos
-	 *
 	 */
-	private class ExpansionListener implements OnClickListener
-	{
-		private LinearLayout module;
-		private ImageButton indicator;
-		
-		private int indicatorExpanded = R.raw.ico_small_0037;
-		private int indicatorCollapsed = R.raw.ico_small_0035;
-		
-		public ExpansionListener(LinearLayout module, ImageButton indicator)
-		{
-			this.module = module;
-			this.indicator = indicator;
-		}
-
-		@Override
-		public void onClick(View expansionToggle)
-		{
-			View expandableView = module.findViewById(R.id.expandable);
-			
-			if (!expansionToggle.isActivated())
-			{
-				expandableView.setVisibility(View.GONE);
-				indicator.setImageResource(indicatorExpanded);
-				expansionToggle.setActivated(true);
-			}
-			else
-			{
-				expandableView.setVisibility(View.VISIBLE);
-				indicator.setImageResource(indicatorCollapsed); 
-				expansionToggle.setActivated(false);
-			}
-			expandableView.invalidate();
-			module.requestLayout();
-		}
-	}
-
 	private void setupListConfigModule()
 	{
 		LinearLayout layoutTypeOne = (LinearLayout) root.findViewById(R.id.editmode_list_included_layout_1);
@@ -324,7 +292,6 @@ public class EditmodeFragment extends Fragment
 
 	private void setupAlignModule()
 	{
-		
 		topLeft = (Button) root.findViewById(R.id.editmode_align_top_left);
 		topRight = (Button) root.findViewById(R.id.editmode_align_top_center);
 		topCenter = (Button) root.findViewById(R.id.editmode_align_top_right);
@@ -399,21 +366,18 @@ public class EditmodeFragment extends Fragment
 
 	protected void adaptLayoutToContext(View view)
 	{
-		Bundle tagBundle = (Bundle) view.getTag();
-
+		currentView = view;
+		
+		Bundle tagBundle = (Bundle) currentView.getTag();
 		int id = tagBundle.getInt(Generator.ID);
 
 		resetModules();
-
-		currentView = view;
 
 		switch (id) 
 		{
 		case R.id.element_button:
 			moduleEditText.setVisibility(View.VISIBLE);
 			editText.setText(getViewText(currentView));
-
-			// moduleAlign.setVisibility(View.VISIBLE);
 
 			moduleChangeSize.setVisibility(View.VISIBLE);
 			picker.setValue((int) ((TextView) currentView).getTextSize());
@@ -435,7 +399,8 @@ public class EditmodeFragment extends Fragment
 			moduleAlign.setVisibility(View.VISIBLE);
 			adaptAlignButtons(currentView);
 
-			//moduleTextSize.setVisibility(View.VISIBLE);
+			moduleChangeSize.setVisibility(View.VISIBLE);
+			picker.setValue((int) ((TextView) currentView).getTextSize());
 			break;
 
 		case R.id.element_imageview:
@@ -461,10 +426,7 @@ public class EditmodeFragment extends Fragment
 			ratingSlider.setProgress((int) ((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getRating());
 
 			break;
-		// case R.id.element_search:
-		// moduleNothing.setVisibility(View.VISIBLE);
-		// // moduleSearch.setVisibility(View.VISIBLE); collapsed etc
-		// break;
+
 		case R.id.element_switch:
 			moduleEditText.setVisibility(View.VISIBLE);
 			editText.setText(getViewText(currentView));
@@ -507,7 +469,7 @@ public class EditmodeFragment extends Fragment
 		root.invalidate();
 	}
 
-	private void adaptAlignButtons(View currentView2)
+	private void adaptAlignButtons(View currentView2) //try to hold the references in a hashmap and ask the map to give you the button instead holding refs
 	{
 		clearAlignSelection();
 		
@@ -576,7 +538,8 @@ public class EditmodeFragment extends Fragment
 
 	public void setViewText(String string)
 	{
-		if (currentView instanceof LinearLayout) {
+		if (currentView instanceof LinearLayout) 
+		{
 			TextView textView = (TextView) ((LinearLayout) currentView).getChildAt(0);
 
 			textView.setText(string);
@@ -620,11 +583,28 @@ public class EditmodeFragment extends Fragment
 	}
 	
 	
-	private class ColumnNumberListener implements OnValueChangeListener
+	private class ColumnNumberListener implements OnSeekBarChangeListener
 	{
 
 		@Override
-		public void onValueChange(NumberPicker picker, int oldVal, int newVal)
+		public void onProgressChanged(SeekBar bar, int val, boolean arg2)
+		{
+			ViewGroup parent = (ViewGroup) bar.getParent();
+			TextView feedback = (TextView) parent.getChildAt(0);
+			feedback.setText(String.valueOf(val+2));
+			
+			editListener.gridColumnsChanged(currentView, val+2);
+		}
+
+		@Override
+		public void onStartTrackingTouch(SeekBar arg0)
+		{
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onStopTrackingTouch(SeekBar arg0)
 		{
 			// TODO Auto-generated method stub
 			
@@ -649,14 +629,13 @@ public class EditmodeFragment extends Fragment
 			case R.id.editmode_grid_included_layout_1:
 			case R.id.editmode_grid_included_layout_2:
 			case R.id.editmode_grid_included_layout_3:
-				editListener.prefencesChanged(currentView, id);
+				editListener.refreshAdapter(currentView, id);
 				break;
 
 			default:
 				break;
 			}
 		}
-
 	}
 	
 	/**
@@ -672,7 +651,6 @@ public class EditmodeFragment extends Fragment
 		{
 			int id = listLayout.getId();
 			
-			
 			switch (id)
 			{
 			case R.id.editmode_list_included_layout_1:
@@ -680,15 +658,13 @@ public class EditmodeFragment extends Fragment
 			case R.id.editmode_list_included_layout_3:
 			case R.id.editmode_list_included_layout_4:
 			case R.id.editmode_list_included_layout_5:
-				editListener.prefencesChanged(currentView, id);
+				editListener.refreshAdapter(currentView, id);
 				break;
 
 			default:
 				break;
-			}
-			
-		}
-		
+			}	
+		}	
 	}
 
 	/**
@@ -698,23 +674,12 @@ public class EditmodeFragment extends Fragment
 	 */
 	private class IconModuleListener implements OnItemClickListener
 	{	
-		int[] highResIcns;
-
-		public IconModuleListener()
-		{
-			highResIcns = ResArrayImporter.getRefArray(getActivity(), R.array.icons_big);
-		}
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View arg1, int pos, long arg3)
 		{
-			int resourceId = (highResIcns[pos]);
-
-			((ImageView) currentView).setScaleType(ScaleType.FIT_CENTER);
-			((ImageView) currentView).setImageResource(resourceId);
-			
+			editListener.setIconResource(currentView, pos);
 		}
-
 	}
 
 	/**
@@ -764,9 +729,7 @@ public class EditmodeFragment extends Fragment
 			default:
 				break;
 			}
-
 		}
-
 	}
 
 	private class StarCountModuleListener implements OnSeekBarChangeListener
@@ -784,10 +747,7 @@ public class EditmodeFragment extends Fragment
 			case R.id.star_rating_seekbar:
 				Log.d("RatingSeekbar", "gotValue for progress: " + progress);
 				((RatingBar) ((ViewGroup) currentView).getChildAt(0)).setRating(progress);
-				
-			;
 			}
-
 		}
 
 		@Override
@@ -928,11 +888,81 @@ public class EditmodeFragment extends Fragment
 		}
 	}
 
+	
+	/**
+	 * in each editmode module a button
+	 * @author funklos
+	 *
+	 */
+	private class ExpansionListener implements OnClickListener
+	{
+		private LinearLayout module;
+		private ImageButton indicator;
+		private View expandableView;
+		
+		private int indicatorExpanded = R.raw.ico_small_0037;
+		private int indicatorCollapsed = R.raw.ico_small_0035;
+		
+		public ExpansionListener(LinearLayout module, ImageButton indicator)
+		{
+			this.module = module;
+			this.indicator = indicator;
+			expandableView = this.module.findViewById(R.id.expandable);
+		}
+
+		@Override
+		public void onClick(View clickedModule)
+		{	
+			if (!clickedModule.isActivated())
+			{
+				clickedModule.post(new Runnable()
+				{
+					
+					@Override
+					public void run()
+					{
+						collapse();
+					}
+				});
+			}
+			else
+			{
+				clickedModule.post(new Runnable()
+				{
+					
+					@Override
+					public void run()
+					{
+						expand();
+					}
+				});
+			}
+			expandableView.invalidate();
+			clickedModule.requestLayout();
+		}
+
+		private void expand()
+		{
+			expandableView.setVisibility(View.VISIBLE);
+			indicator.setImageResource(indicatorCollapsed); 
+			module.setActivated(false);
+		}
+
+		private void collapse()
+		{
+			expandableView.setVisibility(View.GONE);
+			indicator.setImageResource(indicatorExpanded);
+			module.setActivated(true);
+		}
+	}
+	
 	public interface onObjectEditedListener
 	{
-		void refreshOverlay(View active, int type);
+		void refreshAdapter(View active, int id);
 		
-		void prefencesChanged(View active, int from);
+		void gridColumnsChanged(View active, int col);
+		
+		void setIconResource(View active, int pos);
 	}
 
 	private static onObjectEditedListener editListener;

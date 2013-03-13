@@ -24,7 +24,7 @@ import creators.ObjectFactory;
 import de.ur.rk.uibuilder.R;
 
 public class DesignFragment extends Fragment implements OnDragListener,
-		OnGestureListener, OnTouchListener, onObjectEditedListener
+		OnGestureListener, OnTouchListener
 {
 
 	private RelativeLayout designArea, parent;
@@ -116,7 +116,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	{
 		designArea.setOnTouchListener(this);
 		designArea.setOnDragListener(this);
-		EditmodeFragment.setOnObjectEditedListener(this);
 	}
 
 	private void initHelpers()
@@ -895,19 +894,5 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		designArea.removeView(activeItem);
 		activeItem = null;		
 		overlay.delete();
-	}
-	
-
-	@Override
-	public void refreshOverlay(View active, int type)
-	{
-		overlay.delete();
-		overlay.generate(active, type);
-	}
-
-	@Override
-	public void prefencesChanged(View active, int from)
-	{
-		factory.modify(active, from);	
 	}
 }

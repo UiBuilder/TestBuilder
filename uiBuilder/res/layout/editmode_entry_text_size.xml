@@ -49,7 +49,10 @@
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_horizontal"
 	        android:focusable="false"
-	        android:imeOptions="actionDone|flagNoFullscreen" />
+	        android:focusableInTouchMode="false"
+            android:descendantFocusability="blocksDescendants"
+	        android:imeOptions="actionDone|flagNoFullscreen"
+	         />
 	    
 	    </LinearLayout>
 
