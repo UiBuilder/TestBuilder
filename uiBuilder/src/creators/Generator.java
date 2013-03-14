@@ -174,7 +174,7 @@ public class Generator
 		int scaleType = 0;
 		int createMode = 0;
 		int presMode = 0;
-		presMode = R.drawable.presentation_mode_default_object;
+		presMode = R.drawable.presentation_default_object;
 
 		switch (which)
 		{
@@ -183,7 +183,7 @@ public class Generator
 			width = res.getInteger(R.integer.button_factor_width);
 			height = res.getInteger(R.integer.button_factor_height);
 			scaleType = Overlay.BOTH;
-			presMode = R.drawable.presentation_mode_button;
+			presMode = R.drawable.presentation_button_default;
 			
 			break;
 
@@ -208,7 +208,7 @@ public class Generator
 			width = res.getInteger(R.integer.edittext_factor_width);
 			height = res.getInteger(R.integer.edittext_factor_height);
 			scaleType = Overlay.BOTH;
-			presMode = R.drawable.presentation_mode_border_medium;
+			presMode = R.drawable.presentation_border_medium;
 			
 			break;
 
@@ -281,7 +281,7 @@ public class Generator
 			width = res.getInteger(R.integer.edittext_factor_width);
 			height = res.getInteger(R.integer.edittext_factor_height);
 			scaleType = Overlay.BOTH;
-			presMode = R.drawable.presentation_mode_border_light;
+			presMode = R.drawable.presentation_border_light;
 
 			break;
 			
@@ -301,7 +301,7 @@ public class Generator
 		width *= gridFactor;
 		height *= gridFactor;
 		createMode = R.drawable.object_background_default;
-		presMode = R.drawable.presentation_mode_default_object;
+		presMode = R.drawable.presentation_default_object;
 		
 		tagBundle.putInt(PRESENTATION_STYLE, presMode);
 		tagBundle.putInt(CREATION_STYLE, createMode);

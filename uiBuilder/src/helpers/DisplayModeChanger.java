@@ -43,7 +43,7 @@ public class DisplayModeChanger
 			case R.id.element_button:
 				if(style == R.drawable.object_background_default)
 				{
-					layout.setBackgroundResource(R.drawable.presentation_mode_button);
+					layout.setBackgroundResource(R.drawable.presentation_button_default);
 				}
 				break;
 
@@ -51,18 +51,18 @@ public class DisplayModeChanger
 
 			case R.id.element_edittext:
 				Log.d("DisplayModechanger", "Case edittext");
-				layout.setBackgroundResource(R.drawable.presentation_mode_border_medium);
+				layout.setBackgroundResource(R.drawable.presentation_border_medium);
 				break;
 
 			
 				
 			case R.id.element_container:
-				layout.setBackgroundResource(R.drawable.presentation_mode_border_light);
+				layout.setBackgroundResource(R.drawable.presentation_border_light);
 				break;
 				
 				
 			default:
-				layout.setBackgroundResource(R.drawable.presentation_mode_default_object);
+				layout.setBackgroundResource(R.drawable.presentation_default_object);
 				break;
 			}
 		}
