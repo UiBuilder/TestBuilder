@@ -3,6 +3,7 @@ package helpers;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -17,82 +18,44 @@ public class DisplayModeChanger
 	public static void setPresentationMode(View layout)
 	{
 
-		if (layout instanceof ViewGroup && layout.getTag() == null) {
+		if (layout instanceof ViewGroup && layout.getTag() == null)
+		{
 			int count = ((ViewGroup) layout).getChildCount();
 
-			for (int i = 0; i < count; i++) {
+			for (int i = 0; i < count; i++)
+			{
 				setPresentationMode(((ViewGroup) layout).getChildAt(i));
 
 			}
-		} else if (layout instanceof TextView || layout instanceof LinearLayout || layout instanceof RelativeLayout) {
+		} else if (layout instanceof TextView || layout instanceof LinearLayout
+				|| layout instanceof RelativeLayout || layout instanceof ImageView)
+		{
 			Bundle tagBundle = (Bundle) layout.getTag();
 
 			int id = tagBundle.getInt(Generator.ID);
+			Log.d("presentationMode", "startin switch with " + id);
 			switch (id)
 
 			{
 			case R.id.element_button:
-				layout.setBackgroundResource(android.R.drawable.btn_default);
-
+				layout.setBackgroundResource(R.drawable.presentation_mode_button);
 				break;
 
-			case R.id.element_checkbox:
-
-				layout.setBackgroundResource(android.R.drawable.checkbox_off_background);
-
-				break;
+			
 
 			case R.id.element_edittext:
-
-				layout.setBackgroundResource(android.R.drawable.edit_text);
-
+				Log.d("DisplayModechanger", "Case edittext");
+				layout.setBackgroundResource(R.drawable.presentation_mode_border_light);
 				break;
 
-			case R.id.element_imageview:
-
+			
+				
+			case R.id.element_container:
+				layout.setBackgroundResource(R.drawable.presentation_mode_border_light);
 				break;
-
-			case R.id.element_numberpick:
-				layout.setBackgroundResource(android.R.drawable.spinner_background);
-
-				break;
-			case R.id.element_radiogroup:
-
-				layout.setBackgroundResource(android.R.drawable.radiobutton_off_background);
-
-				break;
-			case R.id.element_ratingbar:
-				layout.setBackgroundResource(android.R.drawable.menuitem_background);
-
-				break;
-			// case R.id.element_search:
-			// moduleNothing.setVisibility(View.VISIBLE);
-			// // moduleSearch.setVisibility(View.VISIBLE); collapsed etc
-			// break;
-			case R.id.element_switch:
-
-				layout.setBackgroundResource(android.R.drawable.menuitem_background);
-
-				break;
-			case R.id.element_textview:
-				layout.setBackgroundResource(android.R.drawable.menuitem_background);
-
-				break;
-			case R.id.element_timepicker:
-				layout.setBackgroundResource(android.R.drawable.menuitem_background);
-
-				break;
-
-			case R.id.element_seekbar:
-				layout.setBackgroundResource(android.R.drawable.menuitem_background);
-
-				break;
-
-			case R.id.element_list:
-				layout.setBackgroundResource(android.R.drawable.menuitem_background);
-
+				
 			default:
-
+				layout.setBackgroundResource(R.drawable.presentation_mode_default_object);
 				break;
 			}
 		}
@@ -100,57 +63,54 @@ public class DisplayModeChanger
 
 	public static void setCreationMode(View layout)
 	{
-		if (layout instanceof ViewGroup && layout.getTag() == null) {
+		if (layout instanceof ViewGroup && layout.getTag() == null)
+		{
 			int count = ((ViewGroup) layout).getChildCount();
 
-			for (int i = 0; i < count; i++) {
+			for (int i = 0; i < count; i++)
+			{
 				setCreationMode(((ViewGroup) layout).getChildAt(i));
 
 			}
-		} else if (layout instanceof TextView || layout instanceof LinearLayout || layout instanceof RelativeLayout) {
+		} else if (layout instanceof TextView || layout instanceof LinearLayout
+				|| layout instanceof RelativeLayout || layout instanceof ImageView)
+		{
 			Bundle tagBundle = (Bundle) layout.getTag();
 
 			int id = tagBundle.getInt(Generator.ID);
 			switch (id)
 
 			{
+			case R.id.element_imageview:
+
 			case R.id.element_button:
-				
 
 			case R.id.element_checkbox:
 
-
 			case R.id.element_edittext:
 
-
-			case R.id.element_imageview:
-
-
 			case R.id.element_numberpick:
-			
+
 			case R.id.element_radiogroup:
 
 			case R.id.element_ratingbar:
-			
+
 			case R.id.element_switch:
 
 			case R.id.element_textview:
 
 			case R.id.element_timepicker:
 
-
 			case R.id.element_seekbar:
 
-
 			case R.id.element_list:
-				layout.setBackgroundResource(R.drawable.default_object_border);
 
 			default:
-
+				layout.setBackgroundResource(R.drawable.default_object_border);
 				break;
 			}
 		}
-		
+
 	}
 
 }

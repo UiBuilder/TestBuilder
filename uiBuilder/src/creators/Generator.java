@@ -562,7 +562,6 @@ public class Generator
 	private ImageView buildImageView()
 	{
 		ImageView xmlImageView = (ImageView) inflater.inflate(R.layout.item_imageview_layout, null);
-
 		return xmlImageView;
 	}
 

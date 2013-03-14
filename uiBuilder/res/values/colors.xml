@@ -36,4 +36,9 @@
 	<color name="fresh_aqua_solid">#00e0a3</color>
 	<color name="fresh_aqua">#aa00e0a3</color>
 	
+	<color name="presentation_object_border">#F2F2F2</color>
+	<color name="presentation_button_bg_color">#F0F0F0</color>
+	
+	
+	
 </resources>
