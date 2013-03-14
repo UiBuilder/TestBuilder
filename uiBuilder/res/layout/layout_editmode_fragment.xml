@@ -71,5 +71,10 @@
         layout="@layout/editmode_entry_choose_content"
         android:visibility="gone"
         />
+    
+    <include 
+        android:id="@+id/editmode_included_background_color"
+        layout="@layout/editmode_entry_set_background"
+        android:visibility="gone"/>/
 
 </LinearLayout>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    
+    android:id="@+id/editmode_module_set_background"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+   
+    android:orientation="vertical"
+    style="@style/itembox"
+    >
+
+    <!-- HEADER -->
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal"
+    	android:weightSum="1"
+        >
+        
+	    <TextView
+	        android:id="@+id/set_background_color"
+	        style="@style/editbox_header"
+	        android:layout_weight="0.9"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"  
+	        android:text="@string/item_edit_align_content" 
+	        />
+	    
+	    <include 
+	        android:layout_weight="0.1"
+	        android:layout_width="0dp"
+	        android:layout_height="40dp"
+	        android:layout_gravity="center"
+            layout="@layout/editmode_expand_button"
+            />
+        
+    </LinearLayout>
+    
+    <!-- EXPANDABLE CONTENT -->
+
+    <TableLayout android:id="@+id/expandable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/default_padding_medium"
+        android:visibility="visible"
+         >
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3" >
+
+            <Button
+                android:id="@+id/editmode_background_red"
+                style="@style/itembox_background_items"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/background_red"
+                 />
+
+            <Button
+                android:id="@+id/editmode_background_orange"
+                style="@style/itembox_background_items"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/background_orange"
+                 />
+
+            <Button
+                android:id="@+id/editmode_background_yellow"
+                style="@style/itembox_background_items"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/background_yellow"
+                 />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3" >
+
+            <Button
+                android:id="@+id/editmode_background_green_light"
+                style="@style/itembox_background_items"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/background_green_light"
+                 />
+
+            <Button
+                android:id="@+id/editmode_background_green"
+                style="@style/itembox_background_items"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/background_green"
+                 />
+
+            <Button
+                android:id="@+id/editmode_background_aqua"
+                style="@style/itembox_background_items"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/background_aqua"
+                 />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3" >
+
+            <Button
+                android:id="@+id/editmode_background_blue"
+                style="@style/itembox_background_items"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/background_blue"
+                />
+
+            <Button
+                android:id="@+id/editmode_background_grey_light"
+                style="@style/itembox_background_items"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/background_grey_light"
+                 />
+
+            <Button
+                android:id="@+id/editmode_background_grey"
+                style="@style/itembox_background_items"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/background_grey"
+                />
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>

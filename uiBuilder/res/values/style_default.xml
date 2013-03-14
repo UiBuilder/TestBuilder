@@ -37,6 +37,10 @@
         <item name="android:padding">@dimen/default_padding_medium</item>
 		<item name="android:layout_margin">0dp</item>
     </style>
+    
+    <style name="itembox_background_items" parent="@style/itembox_items_inverted">
+        <item name="android:background">@drawable/ui_background_button_states</item>
+    </style>
 
     <style name="itembox">
         <item name="android:paddingLeft">@dimen/default_padding_small</item>

@@ -59,8 +59,9 @@ public class EditmodeFragment extends Fragment
 
 	private SeekBar starBar, ratingSlider;
 	private Button topLeft, topCenter, topRight, centerLeft, centerCenter, centerRight, bottomLeft, bottomCenter, bottomRight;
-
-	private LinearLayout moduleAlign, modulePicture, moduleEditText, moduleChangeSize, moduleZorder, moduleNothing, moduleIcons, moduleStarCount, moduleListConfig, moduleGridConfig, moduleGridColumns, moduleContent;
+	private Button backgroundRed, backgroundOrange, backgroundYellow, backgroundGreenLight, backgroundGreen, backgroundAqua, backgroundBlue, backgroundGreyLight, backgroundGrey;
+	
+	private LinearLayout moduleAlign, modulePicture, moduleEditText, moduleChangeSize, moduleZorder, moduleNothing, moduleIcons, moduleStarCount, moduleListConfig, moduleGridConfig, moduleGridColumns, moduleContent, moduleBackgroundColor;
 
 	@Override
 	public void onAttach(Activity activity)
@@ -145,6 +146,7 @@ public class EditmodeFragment extends Fragment
 		moduleGridConfig = (LinearLayout) root.findViewById(R.id.editmode_included_grid_config);
 		moduleGridColumns = (LinearLayout) root.findViewById(R.id.editmode_included_grid_columns);
 		moduleContent = (LinearLayout) root.findViewById(R.id.editmode_included_grid_content);
+		moduleBackgroundColor = (LinearLayout) root.findViewById(R.id.editmode_included_background_color);
 		// and so on..
 	}
 	
@@ -162,8 +164,15 @@ public class EditmodeFragment extends Fragment
 		setupGridConfigModule();
 		setupGridColumnModule();
 		setupContentModule();
+		setupBackgroundColorModule();
 	}
 	
+
+	private void setupBackgroundColorModule()
+	{
+		// TODO Auto-generated method stub
+		
+	}
 
 	private void setExpansionSelectos()
 	{
@@ -430,11 +439,14 @@ public class EditmodeFragment extends Fragment
 			
 		case R.id.element_list:
 			moduleListConfig.setVisibility(View.VISIBLE);
+			moduleContent.setVisibility(View.VISIBLE);
 			break;
 			
 		case R.id.element_grid:
 			moduleGridConfig.setVisibility(View.VISIBLE);
 			moduleGridColumns.setVisibility(View.VISIBLE);
+			moduleContent.setVisibility(View.VISIBLE);
+
 			
 			ViewGroup container = (ViewGroup) currentView;
 			

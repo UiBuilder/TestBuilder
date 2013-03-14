@@ -39,6 +39,18 @@
 	<color name="presentation_object_border">#F2F2F2</color>
 	<color name="presentation_button_bg_color">#F0F0F0</color>
 	
+	<!-- COLOUR PALETTE FOR BACKGROUND -->
+	
+	<color name="background_red">#FF4040</color>
+	<color name="background_orange">#FF5600</color>
+	<color name="background_yellow">#FFD300</color>
+	<color name="background_green_light">#C9F600</color>
+	<color name="background_green">#228D00</color>
+	<color name="background_aqua">#009999</color>
+	<color name="background_blue">#1144AA</color>
+	<color name="background_grey_light">#BABABA</color>
+	<color name="background_grey">#505050</color>
+								
 	
 	
 </resources>
