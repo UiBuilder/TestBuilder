@@ -301,7 +301,6 @@ public class Generator
 		width *= gridFactor;
 		height *= gridFactor;
 		createMode = R.drawable.object_background_default;
-		presMode = R.drawable.presentation_default_object;
 		
 		tagBundle.putInt(PRESENTATION_STYLE, presMode);
 		tagBundle.putInt(CREATION_STYLE, createMode);
