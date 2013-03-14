@@ -14,6 +14,11 @@
         <item name="android:padding">@dimen/default_padding_small</item>
     </style>
     
+    <style name="editbox_sub" parent="@style/default_fontsizes">
+        <item name="android:textSize">18sp</item>
+        <item name="android:padding">@dimen/default_padding_medium</item>
+    </style>
+    
     <style name="itembox_header" parent="@style/editbox_header">
         
         <item name="android:textColor">@android:color/white</item>

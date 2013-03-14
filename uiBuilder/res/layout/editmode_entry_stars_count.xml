@@ -44,7 +44,7 @@
         
 	    <TextView
 	        android:id="@+id/star_count"
-	        style="@style/default_fontsizes"
+	        style="@style/editbox_sub"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:text="@string/item_edit_star_count" />
@@ -57,7 +57,7 @@
 	
 	    <TextView
 	        android:id="@+id/rating"
-	        style="@style/default_fontsizes"
+	        style="@style/editbox_sub"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:text="@string/item_edit_star_rating" />
