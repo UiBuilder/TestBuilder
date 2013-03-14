@@ -787,7 +787,6 @@ public class EditmodeFragment extends Fragment
 				bundle.putInt(Generator.CREATION_STYLE, R.drawable.object_background_grey_dark);
 				bundle.putInt(Generator.PRESENTATION_STYLE, R.drawable.presentation_object_background_grey_dark);
 
-
 				
 				break;
 				
@@ -832,7 +831,7 @@ public class EditmodeFragment extends Fragment
 				break;
 				
 			case R.id.editmode_background_grey_light:
-				currentView.setBackgroundColor(getResources().getColor(R.color.background_grey_light));
+				currentView.setBackgroundResource(R.drawable.object_background_grey_light);
 				bundle.putInt(Generator.CREATION_STYLE, R.drawable.object_background_grey_light);
 				bundle.putInt(Generator.PRESENTATION_STYLE, R.drawable.presentation_object_background_grey_light);
 
