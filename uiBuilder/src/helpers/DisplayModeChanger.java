@@ -11,9 +11,6 @@ import creators.Generator;
 
 public class DisplayModeChanger
 {
-	public static final int CREATION = 0;
-	public static final int PRESENTATION = 1;
-
 	public static void setPresentationMode(View layout)
 	{
 
