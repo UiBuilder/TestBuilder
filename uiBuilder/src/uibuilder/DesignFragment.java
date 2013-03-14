@@ -403,6 +403,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 				{ ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
 
 				activeItem.startDrag(clipData, new View.DragShadowBuilder(activeItem), activeItem, 0);
+				activeItem.startDrag(clipData, new View.DragShadowBuilder(activeItem), activeItem, 0);
 				break;
 
 			case R.id.overlay_right:
@@ -644,16 +645,16 @@ public class DesignFragment extends Fragment implements OnDragListener,
 				overlay.setVisibility(false);
 				toggleGrid();
 				setStyle(DragEvent.ACTION_DRAG_STARTED);
-				return true;
+				break;
 
 			case DragEvent.ACTION_DRAG_ENTERED: //reset to dragging style after reenter
 
 				setStyle(DragEvent.ACTION_DRAG_ENTERED);
 
-				return true;
+				break;
 
 			case DragEvent.ACTION_DRAG_LOCATION:
-				return true;
+				break;
 
 			case DragEvent.ACTION_DRAG_ENDED:
 
@@ -678,7 +679,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 			case DragEvent.ACTION_DRAG_EXITED: //indicate that the drop event will not be successful
 				setStyle(DragEvent.ACTION_DRAG_EXITED);
-				return false;
+				break;
 
 			case DragEvent.ACTION_DROP: //check minpositions, hide grid, display overlay at new position and reposition the element at droptarget
 
@@ -705,10 +706,10 @@ public class DesignFragment extends Fragment implements OnDragListener,
 				activeParams.topMargin = snapToGrid(dropTargetY);
 				activeItem.setLayoutParams(activeParams);
 
-				return true;
+				break;
 			}
 
-			return false;
+			return true;
 		}
 	}
 
