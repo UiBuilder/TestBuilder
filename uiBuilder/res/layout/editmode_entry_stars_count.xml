@@ -5,30 +5,69 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/star_count"
-        style="@style/editbox_header"
+    
+	<!-- HEADER -->
+	
+    <LinearLayout 
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:weightSum="1"
+    	android:orientation="horizontal"
+        >
+        
+        <TextView         
+        	style="@style/editbox_header"
+        	android:id="@+id/star_count_choose"
+			android:layout_weight="0.9"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content" 
+        	android:text="@string/item_edit_star_count_caption" />
+        
+        <include 
+			android:layout_weight="0.1"
+	        android:layout_width="0dp"
+	        android:layout_height="40dp"
+	        android:layout_gravity="center"
+            layout="@layout/editmode_expand_button"
+            />
+        
+    </LinearLayout>
+    
+    <!-- EXPANDABLE CONTENT -->
+        
+	<LinearLayout android:id="@+id/expandable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/item_edit_star_count" />
-
-    <SeekBar
-        android:id="@+id/star_count_seekbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-         />
-
-    <TextView
-        android:id="@+id/rating"
-        style="@style/editbox_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/item_edit_star_rating" />
-
-    <SeekBar
-        android:id="@+id/star_rating_seekbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-         />
+        android:orientation="vertical" 
+		android:visibility="gone"
+	        >
+        
+	    <TextView
+	        android:id="@+id/star_count"
+	        style="@style/default_fontsizes"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/item_edit_star_count" />
+	
+	    <SeekBar
+	        android:id="@+id/star_count_seekbar"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	         />
+	
+	    <TextView
+	        android:id="@+id/rating"
+	        style="@style/default_fontsizes"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/item_edit_star_rating" />
+	
+	    <SeekBar
+	        android:id="@+id/star_rating_seekbar"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	         />
+	    
+    </LinearLayout>
 
 </LinearLayout>

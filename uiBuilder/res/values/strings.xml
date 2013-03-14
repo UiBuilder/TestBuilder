@@ -49,7 +49,7 @@
     
     <string name="button_caption_default">Button</string>
     <string name="radios_caption_default">Option</string>
-    <string name="item_edit_enter_text">Beschriftung des Objekts:</string>
+    <string name="item_edit_enter_text">Text Content</string>
 
     <!-- IMAGES EDIT-->
     <string name="item_edit_choose_camera">Camera</string>
@@ -74,6 +74,9 @@
 	<string name="item_edit_grid_columns_caption">Number Of Columns</string>
 	<string name="item_edit_grid_content_caption">Example Content</string>
 	
+	<!-- STAR COUNT -->
+	<string name="item_edit_star_count_caption">Customize Rating</string>
+	
 	<!-- CONTENT -->
 	<string name="item_edit_content_hint">Switch the sample content.</string>
 	<string name="item_edit_content_hipster">Hipster!</string>
@@ -95,7 +98,7 @@
 	
     <!-- EDITMODE TEXTELEMENT -->
     <string name="textview_content_default">Lorem Ipsum Dolor</string>
-    <string name="item_edit_align_content">Ausrichtung des Inhalts</string>
+    <string name="item_edit_align_content">Content Alignment</string>
     <string name="editmode_align_top_left">TOP LEFT</string>
     <string name="editmode_align_top_center">TOP CENTER</string>
     <string name="editmode_align_top_right">TOP RIGHT</string>

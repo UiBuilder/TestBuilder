@@ -204,6 +204,7 @@ public class EditmodeFragment extends Fragment
 		setExpansionSelector(moduleGridColumns);
 		setExpansionSelector(moduleContent);
 		setExpansionSelector(moduleBackgroundColor);
+		setExpansionSelector(moduleStarCount);
 		
 		root.invalidate();	
 	}
@@ -256,10 +257,12 @@ public class EditmodeFragment extends Fragment
 		LinearLayout layoutTypeOne = (LinearLayout) root.findViewById(R.id.editmode_grid_included_layout_1);
 		LinearLayout layoutTypeTwo = (LinearLayout) root.findViewById(R.id.editmode_grid_included_layout_2);
 		LinearLayout layoutTypeThree = (LinearLayout) root.findViewById(R.id.editmode_grid_included_layout_3);
+		LinearLayout layoutTypeFour = (LinearLayout) root.findViewById(R.id.editmode_grid_included_layout_4);
 		
 		layoutTypeOne.setOnClickListener(new GridLayoutModuleListener());
 		layoutTypeTwo.setOnClickListener(new GridLayoutModuleListener());
 		layoutTypeThree.setOnClickListener(new GridLayoutModuleListener());
+		layoutTypeFour.setOnClickListener(new GridLayoutModuleListener());
 	}
 	/**
 	 * @author funklos
@@ -678,6 +681,7 @@ public class EditmodeFragment extends Fragment
 			case R.id.editmode_grid_included_layout_1:
 			case R.id.editmode_grid_included_layout_2:
 			case R.id.editmode_grid_included_layout_3:
+			case R.id.editmode_grid_included_layout_4:
 				editListener.refreshAdapter(currentView, id);
 				break;
 

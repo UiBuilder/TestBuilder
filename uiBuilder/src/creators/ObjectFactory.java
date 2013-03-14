@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -31,7 +32,7 @@ public class ObjectFactory implements onObjectEditedListener
 	private LayoutInflater inflater;
 
 	private static final String LOGTAG = "OBJECTFACTORY says:";
-
+	ArrayAdapter<String>listAdapter;
 	
 	/**
 	 * Resources
@@ -68,8 +69,8 @@ public class ObjectFactory implements onObjectEditedListener
 		headersHipster = ref.getResources().getStringArray(R.array.listview_listitem_layout_header_hipster);
 		contentsHipster = ref.getResources().getStringArray(R.array.listview_listitem_layout_content_hipster);
 		
-		headersBacon = ref.getResources().getStringArray(R.array.listview_listitem_layout_header_hipster);
-		contentsBacon = ref.getResources().getStringArray(R.array.listview_listitem_layout_content_hipster);
+		headersBacon = ref.getResources().getStringArray(R.array.listview_listitem_layout_header_bacon);
+		contentsBacon = ref.getResources().getStringArray(R.array.listview_listitem_layout_content_bacon);
 		
 		headersActive = headersHipster;
 		contentsActive = contentsHipster;
@@ -152,6 +153,10 @@ public class ObjectFactory implements onObjectEditedListener
 		case R.id.editmode_grid_included_layout_3:
 			gridLayout = R.layout.item_gridview_example_layout_3;
 			break;
+			
+		case R.id.editmode_grid_included_layout_4:
+			gridLayout = R.layout.item_gridview_example_layout_4;
+			break;
 
 		default:
 			gridLayout = 0;
@@ -214,7 +219,7 @@ public class ObjectFactory implements onObjectEditedListener
 	 */
 	protected void setAdapter(View list, final int listLayout)
 	{
-		ArrayAdapter<String>listAdapter = new ArrayAdapter<String>(ref.getApplicationContext(), listLayout, headersActive)
+		listAdapter = new ArrayAdapter<String>(ref.getApplicationContext(), listLayout, headersActive)
 		{
 
 			@Override
@@ -285,5 +290,6 @@ public class ObjectFactory implements onObjectEditedListener
 		default:
 			break;
 		}
+		listAdapter.notifyDataSetChanged();
 	}
 }

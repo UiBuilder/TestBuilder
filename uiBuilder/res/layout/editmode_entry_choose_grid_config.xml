@@ -68,6 +68,12 @@
 	            layout="@layout/item_gridview_example_layout_3"
 	            
 	            />
+	        
+	        <include 
+	            android:id="@+id/editmode_grid_included_layout_4"
+	            layout="@layout/item_gridview_example_layout_4"
+	            
+	            />
 	              
 	    </LinearLayout>
     

@@ -8,6 +8,7 @@
     android:numColumns="2"
     android:gravity="center|fill"
     android:padding="@dimen/default_padding_small"
+    android:animateLayoutChanges="true"
     >
     
 
