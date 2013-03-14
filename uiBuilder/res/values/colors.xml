@@ -51,15 +51,15 @@
 	<color name="background_grey_light">#BABABA</color>
 	<color name="background_grey">#505050</color>
 	
-	<color name="background_lt_red">#ec9999</color>
-	<color name="background_lt_grey_dark">#b2b1b1</color>
-	<color name="background_lt_orange">#eacfb0</color>
-	<color name="background_lt_green_light">#bce4a1</color>
-	<color name="background_lt_green">#9bd574</color>
-	<color name="background_lt_aqua">#b5eadd</color>
-	<color name="background_lt_blue">#aed8de</color>
-	<color name="background_lt_grey_light">#f1f1f1</color>
-	<color name="background_lt_grey">#d0d0d0</color>							
+	<color name="background_lt_red">#aaec9999</color>
+	<color name="background_lt_grey_dark">#aab2b1b1</color>
+	<color name="background_lt_orange">#aaeacfb0</color>
+	<color name="background_lt_green_light">#aabce4a1</color>
+	<color name="background_lt_green">#aa9bd574</color>
+	<color name="background_lt_aqua">#aab5eadd</color>
+	<color name="background_lt_blue">#aaaed8de</color>
+	<color name="background_lt_grey_light">#aaf1f1f1</color>
+	<color name="background_lt_grey">#aad0d0d0</color>							
 	
 	
 </resources>
