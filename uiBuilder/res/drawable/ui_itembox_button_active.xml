@@ -8,5 +8,8 @@
 	<corners 
 	    
 	    />
+	<solid 
+	    android:color="@color/itembox_item_background_active"
+	    />
 	
 </shape>

@@ -45,7 +45,6 @@ public class ObjectFactory implements onObjectEditedListener
 	String[] headersBacon;
 	String[] contentsBacon;
 	
-	
 	int[] highResIcns;
 	
 	/**
@@ -71,6 +70,9 @@ public class ObjectFactory implements onObjectEditedListener
 		
 		headersBacon = ref.getResources().getStringArray(R.array.listview_listitem_layout_header_hipster);
 		contentsBacon = ref.getResources().getStringArray(R.array.listview_listitem_layout_content_hipster);
+		
+		headersActive = headersHipster;
+		contentsActive = contentsHipster;
 		
 		highResIcns = ResArrayImporter.getRefArray(ref, R.array.icons_big);
 	}
@@ -269,17 +271,19 @@ public class ObjectFactory implements onObjectEditedListener
 		switch (id)
 		{
 		case R.id.content_choose_hipster:
-
+			headersActive = headersHipster;
+			contentsActive = contentsHipster;
+			Log.d("hipster", "set");
 			break;
 			
 		case R.id.content_choose_bacon:
-			
+			headersActive = headersBacon;
+			contentsActive = contentsBacon;
+			Log.d("bacon", "set");
 			break;
 
 		default:
 			break;
 		}
-		
 	}
-	
 }
