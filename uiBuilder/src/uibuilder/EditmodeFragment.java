@@ -1040,6 +1040,7 @@ public class EditmodeFragment extends Fragment
 		{	
 			if (!clickedModule.isActivated())
 			{
+				module.invalidate();
 				clickedModule.post(new Runnable()
 				{
 					
@@ -1053,6 +1054,7 @@ public class EditmodeFragment extends Fragment
 			}
 			else
 			{
+				module.invalidate();
 				clickedModule.post(new Runnable()
 				{
 					
