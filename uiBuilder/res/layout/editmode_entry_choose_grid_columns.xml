@@ -60,13 +60,17 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:gravity="center_vertical|right"
-                android:text="now: "
+                android:paddingTop="@dimen/default_padding_medium"
+                android:paddingBottom="@dimen/default_padding_medium"
+                android:text="Now: "
                 />
             
             <TextView android:id="@+id/editmode_grid_display"
 	            android:layout_height="wrap_content"
 	            android:layout_width="0dp"
 	            android:layout_weight="0.5"
+	            android:paddingTop="@dimen/default_padding_medium"
+                android:paddingBottom="@dimen/default_padding_medium"
 	            android:gravity="center_vertical|left"
 	            />
             
