@@ -44,17 +44,33 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" 
         android:gravity="center_vertical"
-        
-		android:visibility="gone"
+        android:visibility="gone"
+		
 		android:weightSum="1"
         >
-        <TextView 
+        
+        <LinearLayout 
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"
-            style="@style/editbox_header"
-            />
+            android:orientation="horizontal"
+            android:weightSum="1"
+            >
+            <TextView 
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:gravity="center_vertical|right"
+                android:text="now: "
+                />
+            
+            <TextView android:id="@+id/editmode_grid_display"
+	            android:layout_height="wrap_content"
+	            android:layout_width="0dp"
+	            android:layout_weight="0.5"
+	            android:gravity="center_vertical|left"
+	            />
+            
+        </LinearLayout>
 		
         <!-- Preview modules -->
         <SeekBar android:id="@+id/editmode_grid_choose_number"

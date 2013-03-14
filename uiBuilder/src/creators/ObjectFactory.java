@@ -181,6 +181,10 @@ public class ObjectFactory implements onObjectEditedListener
 			listLayout = R.layout.item_listview_example_layout_5;
 			break;	
 			
+		case R.id.editmode_list_included_layout_6:
+			listLayout = R.layout.item_listview_example_layout_6;
+			break;
+			
 		default:
 			listLayout = 0;
 			break;

@@ -37,45 +37,54 @@
     </LinearLayout>
 
     <!-- EXPANDABLE CONTENT -->
-
-    <LinearLayout android:id="@+id/expandable"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" 
-        android:visibility="gone"
-        >
-		
-        <!-- Preview modules -->
-        <include 
-            android:id="@+id/editmode_list_included_layout_1"
-            layout="@layout/item_listview_example_layout_1"
-            
-            />
-        
-        <include
-            android:id="@+id/editmode_list_included_layout_2" 
-            layout="@layout/item_listview_example_layout_2"
-            
-            />
-        
-        <include 
-            android:id="@+id/editmode_list_included_layout_3"
-            layout="@layout/item_listview_example_layout_3"
-            
-            />
-        
-        <include 
-            android:id="@+id/editmode_list_included_layout_4"
-            layout="@layout/item_listview_example_layout_4"
-            
-            />
-        
-        <include 
-            android:id="@+id/editmode_list_included_layout_5"
-            layout="@layout/item_listview_example_layout_5"
-            />
-    </LinearLayout>
-    
+	<ScrollView
+	    android:layout_height="match_parent"
+	    android:layout_width="match_parent"
+	    >
+	    <LinearLayout android:id="@+id/expandable"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical" 
+	        android:visibility="gone"
+	        >
+			
+	        <!-- Preview modules -->
+	        <include 
+	            android:id="@+id/editmode_list_included_layout_1"
+	            layout="@layout/item_listview_example_layout_1"
+	            
+	            />
+	        
+	        <include
+	            android:id="@+id/editmode_list_included_layout_2" 
+	            layout="@layout/item_listview_example_layout_2"
+	            
+	            />
+	        
+	        <include 
+	            android:id="@+id/editmode_list_included_layout_3"
+	            layout="@layout/item_listview_example_layout_3"
+	            
+	            />
+	        
+	        <include 
+	            android:id="@+id/editmode_list_included_layout_6"
+	            layout="@layout/item_listview_example_layout_6"
+	            
+	            />
+	        
+	        <include 
+	            android:id="@+id/editmode_list_included_layout_4"
+	            layout="@layout/item_listview_example_layout_4"
+	            
+	            />
+	        
+	        <include 
+	            android:id="@+id/editmode_list_included_layout_5"
+	            layout="@layout/item_listview_example_layout_5"
+	            />
+	    </LinearLayout>
+    </ScrollView>
     
 
 </LinearLayout>

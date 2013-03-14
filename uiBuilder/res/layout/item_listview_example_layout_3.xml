@@ -25,6 +25,7 @@
 	        android:src="@raw/ico_0048"
 	        android:background="@color/text_light"
 	        android:scaleType="centerInside"
+	        android:contentDescription="@string/imageview_content_description"
 	        />
 	    
 	    <TextView android:id="@+id/listview_listitem_content"
