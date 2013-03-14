@@ -191,17 +191,24 @@ public class UiBuilderActivity extends Activity implements
 		switch (item.getItemId())
 		{
 		case R.id.action_export_jpeg:
+			DisplayModeChanger.setPresentationMode(designbox.getView());
+
 			exporter.requestBitmap(designbox.getView(), getContentResolver(), false);
 		
 			Toast.makeText(getApplicationContext(), getString(R.string.confirmation_save_to_gallery), Toast.LENGTH_SHORT).show();
+			DisplayModeChanger.setCreationMode(designbox.getView());
+
 			break;
 
 		case R.id.action_attach_mail:
-			
+			DisplayModeChanger.setPresentationMode(designbox.getView());
+
 			Intent mail = exporter.getIntent(ImageTools.SHARE);
 			mail.putExtra(Intent.EXTRA_STREAM, exporter.requestBitmap(designbox.getView(), getContentResolver(), false));
 
 			startActivityForResult(Intent.createChooser(mail, getString(R.string.intent_title_share)), ImageTools.SHARE);
+			DisplayModeChanger.setCreationMode(designbox.getView());
+
 			break;
 			
 		default:
