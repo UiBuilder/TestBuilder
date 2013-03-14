@@ -295,7 +295,8 @@ public class UiBuilderActivity extends Activity implements
 		switch (event.getAction())
 		{
 		case MotionEvent.ACTION_DOWN:
-			designbox.deleteOverlay();			
+			designbox.deleteOverlay();	
+			displaySidebar(ITEMBOX);
 			DisplayModeChanger.setPresentationMode(designbox.getView());
 			break;
 		case MotionEvent.ACTION_UP:
