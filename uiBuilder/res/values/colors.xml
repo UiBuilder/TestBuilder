@@ -13,7 +13,7 @@
     <color name="editbox_item_background_normal">@android:color/white</color>
     <color name="editbox_item_background_active">@android:color/white</color>
     <color name="editbox_item_border_normal">@android:color/darker_gray</color>
-    <color name="editbox_item_border_active">@color/fresh_aqua</color>
+    <color name="editbox_item_border_active">@color/fresh_aqua_solid</color>
     
     <color name="itembox_item_background_normal">@android:color/white</color>
     <color name="itembox_item_background_active">@android:color/white</color>
@@ -32,6 +32,7 @@
 	<color name="designarea_grid">@color/superlight_grey</color>
 	
 	<color name="superlight_grey">#F0F3F4</color>
+	<color name="fresh_aqua_solid">#00e0a3</color>
 	<color name="fresh_aqua">#aa00e0a3</color>
 	
 </resources>
