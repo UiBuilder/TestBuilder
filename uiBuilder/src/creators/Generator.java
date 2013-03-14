@@ -50,7 +50,7 @@ public class Generator
 	private LayoutInflater inflater;
 	private ObjectFactory factory;
 	
-	public static final String MINWIDTH = "mWidth", MINHEIGHT = "mHeight", ID = "id", TYPE = "type", STYLE = "style";
+	public static final String MINWIDTH = "mWidth", MINHEIGHT = "mHeight", ID = "id", TYPE = "type", CREATION_STYLE = "create", PRESENTATION_STYLE = "pres";
 	
 	private Resources res;
 	private int gridFactor;
@@ -156,7 +156,7 @@ public class Generator
 		params = new RelativeLayout.LayoutParams(properties.getInt(MINWIDTH), properties.getInt(MINHEIGHT));
 		xmlView.setLayoutParams(params);
 		
-		xmlView.setBackgroundResource(properties.getInt(STYLE));
+		xmlView.setBackgroundResource(properties.getInt(CREATION_STYLE));
 		xmlView.setId(idCount++);
 		xmlView.setTag(properties);
 		xmlView.setOnTouchListener(manipulator);
@@ -172,7 +172,8 @@ public class Generator
 		int width = 0;
 		int height = 0;
 		int scaleType = 0;
-		int styleType = 0;
+		int create = 0;
+		int pres = 0;
 		
 		switch (which)
 		{
@@ -296,13 +297,14 @@ public class Generator
 		
 		width *= gridFactor;
 		height *= gridFactor;
-		styleType = R.drawable.default_object_border;
+		create = R.drawable.default_object_border;
 		
+		tagBundle.putInt(PRESENTATION_STYLE, pres);
 		tagBundle.putInt(TYPE, scaleType);
 		tagBundle.putInt(MINHEIGHT, height);
 		tagBundle.putInt(MINWIDTH, width);
 		tagBundle.putInt(ID, which);
-		tagBundle.putInt(STYLE, styleType);
+		tagBundle.putInt(CREATION_STYLE, create);
 
 		return tagBundle;
 	}

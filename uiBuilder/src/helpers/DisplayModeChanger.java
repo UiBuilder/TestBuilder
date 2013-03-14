@@ -34,12 +34,17 @@ public class DisplayModeChanger
 			Bundle tagBundle = (Bundle) layout.getTag();
 
 			int id = tagBundle.getInt(Generator.ID);
+			int style = tagBundle.getInt(Generator.CREATION_STYLE);
+			
 			Log.d("presentationMode", "startin switch with " + id);
 			switch (id)
 
 			{
 			case R.id.element_button:
-				layout.setBackgroundResource(R.drawable.presentation_mode_button);
+				if(style == R.drawable.default_object_border)
+				{
+					layout.setBackgroundResource(R.drawable.presentation_mode_button);
+				}
 				break;
 
 			
