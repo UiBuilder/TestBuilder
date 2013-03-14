@@ -16,7 +16,7 @@
 	    android:padding="@dimen/default_padding_large"
 	    android:text="@string/item_nothing_caption"
 	    android:gravity="center"
-	    android:background="@drawable/default_object_border"
+	    android:background="@drawable/object_background_default"
 	    
 	    style="@style/itembox_header"
 	    />

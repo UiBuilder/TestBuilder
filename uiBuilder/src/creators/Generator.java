@@ -172,9 +172,10 @@ public class Generator
 		int width = 0;
 		int height = 0;
 		int scaleType = 0;
-		int create = 0;
-		int pres = 0;
-		
+		int createMode = 0;
+		int presMode = 0;
+		presMode = R.drawable.presentation_mode_default_object;
+
 		switch (which)
 		{
 		case R.id.element_button:
@@ -182,7 +183,7 @@ public class Generator
 			width = res.getInteger(R.integer.button_factor_width);
 			height = res.getInteger(R.integer.button_factor_height);
 			scaleType = Overlay.BOTH;
-			
+			presMode = R.drawable.presentation_mode_button;
 			
 			break;
 
@@ -207,6 +208,7 @@ public class Generator
 			width = res.getInteger(R.integer.edittext_factor_width);
 			height = res.getInteger(R.integer.edittext_factor_height);
 			scaleType = Overlay.BOTH;
+			presMode = R.drawable.presentation_mode_border_medium;
 			
 			break;
 
@@ -279,6 +281,7 @@ public class Generator
 			width = res.getInteger(R.integer.edittext_factor_width);
 			height = res.getInteger(R.integer.edittext_factor_height);
 			scaleType = Overlay.BOTH;
+			presMode = R.drawable.presentation_mode_border_light;
 
 			break;
 			
@@ -297,14 +300,16 @@ public class Generator
 		
 		width *= gridFactor;
 		height *= gridFactor;
-		create = R.drawable.default_object_border;
+		createMode = R.drawable.object_background_default;
+		presMode = R.drawable.presentation_mode_default_object;
 		
-		tagBundle.putInt(PRESENTATION_STYLE, pres);
+		tagBundle.putInt(PRESENTATION_STYLE, presMode);
+		tagBundle.putInt(CREATION_STYLE, createMode);
 		tagBundle.putInt(TYPE, scaleType);
 		tagBundle.putInt(MINHEIGHT, height);
 		tagBundle.putInt(MINWIDTH, width);
 		tagBundle.putInt(ID, which);
-		tagBundle.putInt(CREATION_STYLE, create);
+		
 
 		return tagBundle;
 	}
@@ -423,7 +428,7 @@ public class Generator
 	private LinearLayout buildRelativeContainer()
 	{
 		LinearLayout relativeLayout = new LinearLayout(context);
-		relativeLayout.setBackgroundResource(R.drawable.default_object_border);
+		relativeLayout.setBackgroundResource(R.drawable.object_background_default);
 		relativeLayout.setOrientation(LinearLayout.HORIZONTAL);
 
 		relativeLayout.setOnDragListener(new OnDragListener()
@@ -496,7 +501,7 @@ public class Generator
 			}
 
 		};
-		xmlPickerLayout.setBackgroundResource(R.drawable.default_object_border);
+		xmlPickerLayout.setBackgroundResource(R.drawable.object_background_default);
 		xmlPickerLayout.setClickable(true);
 		xmlPickerLayout.setFocusable(true);
 		xmlPickerLayout.setFocusableInTouchMode(true);
@@ -532,7 +537,7 @@ public class Generator
 	private View buildSwitch()
 	{
 		Switch xmlSwitch = (Switch) inflater.inflate(R.layout.item_switch_layout, null);
-		xmlSwitch.setBackgroundResource(R.drawable.default_object_border);
+		xmlSwitch.setBackgroundResource(R.drawable.object_background_default);
 
 		return xmlSwitch;
 	}
@@ -541,7 +546,7 @@ public class Generator
 	{
 
 		RadioButton xmlRadioButton = (RadioButton) inflater.inflate(R.layout.item_radiobutton_layout, null);
-		xmlRadioButton.setBackgroundResource(R.drawable.default_object_border);
+		xmlRadioButton.setBackgroundResource(R.drawable.object_background_default);
 		//xmlRadioGroup.addView(xmlRadioButton);
 
 		return xmlRadioButton;

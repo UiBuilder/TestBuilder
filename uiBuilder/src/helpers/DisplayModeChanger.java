@@ -41,7 +41,7 @@ public class DisplayModeChanger
 
 			{
 			case R.id.element_button:
-				if(style == R.drawable.default_object_border)
+				if(style == R.drawable.object_background_default)
 				{
 					layout.setBackgroundResource(R.drawable.presentation_mode_button);
 				}
@@ -83,7 +83,7 @@ public class DisplayModeChanger
 				|| layout instanceof RelativeLayout || layout instanceof ImageView)
 		{
 			
-			layout.setBackgroundResource(R.drawable.default_object_border);
+			layout.setBackgroundResource(R.drawable.object_background_default);
 			
 //			Bundle tagBundle = (Bundle) layout.getTag();
 //
