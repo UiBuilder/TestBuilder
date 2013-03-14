@@ -2,6 +2,7 @@ package uibuilder;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +36,7 @@ public class DeleteFragment extends Fragment implements OnDragListener
 		switch (event.getAction())
 		{
 		case DragEvent.ACTION_DRAG_STARTED:
-			
+			Log.d("drag", "registerd");
 			return true;
 			
 		case DragEvent.ACTION_DRAG_ENTERED:
