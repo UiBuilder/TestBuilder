@@ -47,7 +47,7 @@
         android:visibility="visible"
          >
 
-        <TableRow
+       	<TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -59,7 +59,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/background_red"
+                android:background="@color/background_lt_red"
                  />
 
             <Button
@@ -68,17 +68,19 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/background_orange"
+                android:background="@color/background_lt_orange"
                  />
-
+   
+            
             <Button
-                android:id="@+id/editmode_background_yellow"
+                android:id="@+id/editmode_background_blue"
                 style="@style/itembox_background_items"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/background_yellow"
-                 />
+                android:background="@color/background_lt_blue"
+                />
+            
         </TableRow>
 
         <TableRow
@@ -93,7 +95,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/background_green_light"
+                android:background="@color/background_lt_green_light"
                  />
 
             <Button
@@ -102,7 +104,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/background_green"
+                android:background="@color/background_lt_green"
                  />
 
             <Button
@@ -111,7 +113,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/background_aqua"
+                android:background="@color/background_lt_aqua"
                  />
         </TableRow>
 
@@ -121,14 +123,6 @@
             android:orientation="horizontal"
             android:weightSum="3" >
 
-            <Button
-                android:id="@+id/editmode_background_blue"
-                style="@style/itembox_background_items"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/background_blue"
-                />
 
             <Button
                 android:id="@+id/editmode_background_grey_light"
@@ -136,7 +130,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/background_grey_light"
+                android:background="@color/background_lt_grey_light"
                  />
 
             <Button
@@ -145,8 +139,18 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/background_grey"
-                />
+                android:background="@color/background_lt_grey"
+                />      
+            
+            <Button
+                android:id="@+id/editmode_background_yellow"
+                style="@style/itembox_background_items"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/background_lt_grey_dark"
+                 />
+            
         </TableRow>
     </TableLayout>
 

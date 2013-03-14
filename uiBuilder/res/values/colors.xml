@@ -51,10 +51,10 @@
 	<color name="background_grey_light">#BABABA</color>
 	<color name="background_grey">#505050</color>
 	
-	<color name="background_lt_red">#ec9a9a</color>
-	<color name="background_lt_grey_dark">#b1b1b1</color>
+	<color name="background_lt_red">#ec9999</color>
+	<color name="background_lt_grey_dark">#b2b1b1</color>
 	<color name="background_lt_orange">#eacfb0</color>
-	<color name="background_lt_green_light">#eacfb0</color>
+	<color name="background_lt_green_light">#bce4a1</color>
 	<color name="background_lt_green">#9bd574</color>
 	<color name="background_lt_aqua">#b5eadd</color>
 	<color name="background_lt_blue">#aed8de</color>
