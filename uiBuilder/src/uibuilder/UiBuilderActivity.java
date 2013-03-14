@@ -10,7 +10,6 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,12 +18,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 import de.ur.rk.uibuilder.R;
 
 public class UiBuilderActivity extends Activity implements
-		onUiElementSelectedListener, onObjectSelectedListener, onDeleteRequestListener
+		onUiElementSelectedListener, onObjectSelectedListener, onDeleteRequestListener, OnTouchListener
 {
 
 	@Override
@@ -45,20 +46,25 @@ public class UiBuilderActivity extends Activity implements
 	private ViewGroup container;
 	private ImageTools exporter;
 	private DeleteFragment deletebox;
+	private DisplayModeChanger previewMode;
+	private Button previewButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
+
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.layout_fragment_container);
+		setupUi();
 
 		LayoutInflater inf = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
 
 		container = (ViewGroup) inf.inflate(R.layout.layout_fragment_container, null);
 		fManager = getFragmentManager();
 		exporter = new ImageTools(getApplicationContext());
+		performInitTransaction();
 
-		setupUi();
 
 	}
 
@@ -67,7 +73,6 @@ public class UiBuilderActivity extends Activity implements
 	 */
 	private void setupUi()
 	{
-		setActionBarStyle();
 		
 		itembox = new ItemboxFragment();
 		editbox = new EditmodeFragment();
@@ -77,8 +82,10 @@ public class UiBuilderActivity extends Activity implements
 		ItemboxFragment.setOnUiElementSelectedListener(this);
 		DesignFragment.setOnObjectSelectedListener(this);
 		DeleteFragment.onDeleteRequestListener(this);
+		setActionBarStyle();
+
+
 		
-		performInitTransaction();
 	}
 
 	/**
@@ -87,7 +94,13 @@ public class UiBuilderActivity extends Activity implements
 	private void setActionBarStyle()
 	{
 		ActionBar bar = getActionBar();
-		bar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP, ActionBar.NAVIGATION_MODE_STANDARD);
+		bar.setCustomView(R.layout.menu_item_preview);
+		
+		previewButton = (Button) bar.getCustomView().findViewById(R.id.action_preview_mode);
+		
+		previewButton.setOnTouchListener(this);
+		
+		bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_CUSTOM);
 		bar.setBackgroundDrawable(getResources().getDrawable(R.color.designfragment_background));
 	}
 
@@ -157,8 +170,12 @@ public class UiBuilderActivity extends Activity implements
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
+
+		
+		
 		MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.design, menu);
+	    inflater.inflate(R.layout.design, menu);
+	    
 	    return true;
 	}
 	
@@ -174,7 +191,6 @@ public class UiBuilderActivity extends Activity implements
 		switch (item.getItemId())
 		{
 		case R.id.action_export_jpeg:
-			DisplayModeChanger.setPresentationMode(designbox.getView());
 			exporter.requestBitmap(designbox.getView(), getContentResolver(), false);
 		
 			Toast.makeText(getApplicationContext(), getString(R.string.confirmation_save_to_gallery), Toast.LENGTH_SHORT).show();
@@ -271,6 +287,20 @@ public class UiBuilderActivity extends Activity implements
 	{
 
 		designbox.performDelete();
+	}
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event)
+	{
+		switch (event.getAction())
+		{
+		case MotionEvent.ACTION_DOWN:
+			DisplayModeChanger.setPresentationMode(designbox.getView());
+			break;
+		case MotionEvent.ACTION_UP:
+			DisplayModeChanger.setCreationMode(designbox.getView());
+		}
+		return false;
 	}
 
 

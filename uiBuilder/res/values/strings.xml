@@ -13,6 +13,7 @@
     <!-- MENU ACTION -->
     <string name="menu_action_export_gallery">Export</string>
     <string name="menu_action_export_share">Share</string>
+    <string name="menu_action_preview_mode">PREVIEW</string>
     
     <!-- INTENT TITLES -->
     <string name="intent_title_share">Share design</string>
