@@ -25,7 +25,7 @@ public class DeleteFragment extends Fragment implements OnDragListener
 		
 		this.container = (LinearLayout) root.findViewById(R.id.deletebox_container);
 		delete = (Button) root.findViewById(R.id.deletebox_delete_area);
-		root.setOnDragListener(this);
+		container.setOnDragListener(this);
 		
 		return root;
 	}
@@ -53,7 +53,7 @@ public class DeleteFragment extends Fragment implements OnDragListener
 			return false;
 			
 		case DragEvent.ACTION_DROP:
-			container.setBackgroundResource(R.drawable.object_background_default);
+			//container.setBackgroundResource(R.drawable.object_background_default);
 			listener.requestDelete();
 			return true;
 

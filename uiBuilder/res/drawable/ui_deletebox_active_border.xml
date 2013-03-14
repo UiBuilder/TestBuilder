@@ -9,6 +9,4 @@
 	<corners 
 	    
 	    />
-	<solid android:color="@color/designfragment_background"
-	    />
 </shape>
