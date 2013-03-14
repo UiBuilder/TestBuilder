@@ -9,6 +9,6 @@
 	<corners 
 	    
 	    />
-	<solid android:color="@color/object_background_default"
+	<solid android:color="@color/background_lt_grey_dark"
 	    />
 </shape> 
