@@ -143,7 +143,7 @@ public class DisplayModeChanger
 
 
 			case R.id.element_list:
-				layout.setBackgroundResource(R.drawable.default_button_border);
+				layout.setBackgroundResource(R.drawable.default_object_border);
 
 			default:
 

@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="@dimen/default_padding_medium"
-    android:background="@drawable/default_button_border"
+    android:background="@drawable/default_object_border"
     android:layout_margin="@dimen/default_padding_small"
      >
      

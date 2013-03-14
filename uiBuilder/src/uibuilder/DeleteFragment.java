@@ -47,12 +47,12 @@ public class DeleteFragment extends Fragment implements OnDragListener
 			return true;
 			
 		case DragEvent.ACTION_DRAG_EXITED:
-			container.setBackgroundResource(R.drawable.default_button_border);
+			container.setBackgroundResource(R.drawable.default_object_border);
 			
 			return false;
 			
 		case DragEvent.ACTION_DROP:
-			container.setBackgroundResource(R.drawable.default_button_border);
+			container.setBackgroundResource(R.drawable.default_object_border);
 			listener.requestDelete();
 			return true;
 

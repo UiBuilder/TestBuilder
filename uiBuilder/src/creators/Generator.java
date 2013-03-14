@@ -418,7 +418,7 @@ public class Generator
 	private LinearLayout buildRelativeContainer()
 	{
 		LinearLayout relativeLayout = new LinearLayout(context);
-		relativeLayout.setBackgroundResource(R.drawable.default_button_border);
+		relativeLayout.setBackgroundResource(R.drawable.default_object_border);
 		relativeLayout.setOrientation(LinearLayout.HORIZONTAL);
 
 		relativeLayout.setOnDragListener(new OnDragListener()
@@ -491,7 +491,7 @@ public class Generator
 			}
 
 		};
-		xmlPickerLayout.setBackgroundResource(R.drawable.default_button_border);
+		xmlPickerLayout.setBackgroundResource(R.drawable.default_object_border);
 		xmlPickerLayout.setClickable(true);
 		xmlPickerLayout.setFocusable(true);
 		xmlPickerLayout.setFocusableInTouchMode(true);
@@ -527,7 +527,7 @@ public class Generator
 	private View buildSwitch()
 	{
 		Switch xmlSwitch = (Switch) inflater.inflate(R.layout.item_switch_layout, null);
-		xmlSwitch.setBackgroundResource(R.drawable.default_button_border);
+		xmlSwitch.setBackgroundResource(R.drawable.default_object_border);
 
 		return xmlSwitch;
 	}
@@ -536,7 +536,7 @@ public class Generator
 	{
 
 		RadioButton xmlRadioButton = (RadioButton) inflater.inflate(R.layout.item_radiobutton_layout, null);
-		xmlRadioButton.setBackgroundResource(R.drawable.default_button_border);
+		xmlRadioButton.setBackgroundResource(R.drawable.default_object_border);
 		//xmlRadioGroup.addView(xmlRadioButton);
 
 		return xmlRadioButton;
