@@ -170,7 +170,25 @@ public class EditmodeFragment extends Fragment
 
 	private void setupBackgroundColorModule()
 	{
-		// TODO Auto-generated method stub
+		backgroundRed = (Button)root.findViewById(R.id.editmode_background_red);
+		backgroundOrange = (Button)root.findViewById(R.id.editmode_background_orange);
+		backgroundYellow = (Button)root.findViewById(R.id.editmode_background_yellow);
+		backgroundGreenLight = (Button)root.findViewById(R.id.editmode_background_green_light);
+		backgroundGreen = (Button)root.findViewById(R.id.editmode_background_green);
+		backgroundAqua = (Button)root.findViewById(R.id.editmode_background_aqua);
+		backgroundBlue = (Button)root.findViewById(R.id.editmode_background_blue);
+		backgroundGreyLight = (Button)root.findViewById(R.id.editmode_background_grey_light);
+		backgroundGrey = (Button)root.findViewById(R.id.editmode_background_grey);
+		
+		backgroundRed.setOnClickListener(new SetBackgroundColorModuleListener());
+		backgroundOrange.setOnClickListener(new SetBackgroundColorModuleListener());
+		backgroundYellow.setOnClickListener(new SetBackgroundColorModuleListener());
+		backgroundGreenLight.setOnClickListener(new SetBackgroundColorModuleListener());
+		backgroundGreen.setOnClickListener(new SetBackgroundColorModuleListener());
+		backgroundAqua.setOnClickListener(new SetBackgroundColorModuleListener());
+		backgroundBlue.setOnClickListener(new SetBackgroundColorModuleListener());
+		backgroundGreyLight.setOnClickListener(new SetBackgroundColorModuleListener());
+		backgroundGrey.setOnClickListener(new SetBackgroundColorModuleListener());
 		
 	}
 
@@ -185,6 +203,7 @@ public class EditmodeFragment extends Fragment
 		setExpansionSelector(moduleChangeSize);
 		setExpansionSelector(moduleGridColumns);
 		setExpansionSelector(moduleContent);
+		setExpansionSelector(moduleBackgroundColor);
 		
 		root.invalidate();	
 	}
@@ -367,6 +386,8 @@ public class EditmodeFragment extends Fragment
 
 			moduleChangeSize.setVisibility(View.VISIBLE);
 			picker.setValue((int) ((TextView) currentView).getTextSize());
+			
+			moduleBackgroundColor.setVisibility(View.VISIBLE);
 
 			break;
 
@@ -392,6 +413,7 @@ public class EditmodeFragment extends Fragment
 		case R.id.element_imageview:
 			moduleIcons.setVisibility(View.VISIBLE);
 			modulePicture.setVisibility(View.VISIBLE);
+			moduleBackgroundColor.setVisibility(View.VISIBLE);
 			break;
 
 		case R.id.element_numberpick:
@@ -427,6 +449,8 @@ public class EditmodeFragment extends Fragment
 
 			moduleAlign.setVisibility(View.VISIBLE);
 			adaptAlignButtons(currentView);
+			
+			moduleBackgroundColor.setVisibility(View.VISIBLE);
 
 			break;
 		case R.id.element_timepicker:
@@ -568,6 +592,7 @@ public class EditmodeFragment extends Fragment
 		moduleGridConfig.setVisibility(View.GONE);
 		moduleGridColumns.setVisibility(View.GONE);
 		moduleContent.setVisibility(View.GONE);
+		moduleBackgroundColor.setVisibility(View.GONE);
 
 		moduleAlign.invalidate();
 		moduleEditText.invalidate();
@@ -581,6 +606,7 @@ public class EditmodeFragment extends Fragment
 		moduleGridConfig.invalidate();
 		moduleGridColumns.invalidate();
 		moduleContent.invalidate();
+		moduleBackgroundColor.invalidate();
 	}
 	
 	/**
@@ -733,6 +759,56 @@ public class EditmodeFragment extends Fragment
 				break;
 			}
 		}
+	}
+	
+	private class SetBackgroundColorModuleListener implements OnClickListener
+	{
+
+		@Override
+		public void onClick(View v)
+		{
+			switch (v.getId())
+			{
+			case R.id.editmode_background_red:
+				currentView.setBackgroundColor(getResources().getColor(R.color.background_red));
+				break;
+				
+			case R.id.editmode_background_yellow:
+				currentView.setBackgroundColor(getResources().getColor(R.color.background_yellow));
+				break;
+				
+			case R.id.editmode_background_orange:
+				currentView.setBackgroundColor(getResources().getColor(R.color.background_orange));
+				break;
+				
+			case R.id.editmode_background_green_light:
+				currentView.setBackgroundColor(getResources().getColor(R.color.background_green_light));
+				break;
+				
+			case R.id.editmode_background_green:
+				currentView.setBackgroundColor(getResources().getColor(R.color.background_green));
+				break;
+				
+			case R.id.editmode_background_aqua:
+				currentView.setBackgroundColor(getResources().getColor(R.color.background_aqua));
+				break;
+				
+			case R.id.editmode_background_blue:
+				currentView.setBackgroundColor(getResources().getColor(R.color.background_blue));
+				break;
+				
+			case R.id.editmode_background_grey_light:
+				currentView.setBackgroundColor(getResources().getColor(R.color.background_grey_light));
+				break;
+				
+			case R.id.editmode_background_grey:
+				currentView.setBackgroundColor(getResources().getColor(R.color.background_grey));
+				break;
+				
+			}
+			
+		}
+		
 	}
 
 	private class ZorderModuleListener implements OnClickListener
