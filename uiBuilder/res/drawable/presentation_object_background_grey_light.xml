@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:shape="rectangle" 
+    >
+    <stroke android:width="@dimen/border_width_thin"
+        android:color="@android:color/transparent"
+        
+        />
+	<corners 
+	    
+	    />
+	<solid android:color="@color/background_lt_grey_light"
+	    />
+</shape> 
