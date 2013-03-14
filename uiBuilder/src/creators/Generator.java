@@ -1,12 +1,11 @@
 package creators;
 
-import java.util.ArrayList;
-
-import manipulators.Overlay;
 import helpers.Log;
+import manipulators.Overlay;
 import uibuilder.DesignFragment;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
@@ -16,7 +15,6 @@ import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -52,7 +50,7 @@ public class Generator
 	private LayoutInflater inflater;
 	private ObjectFactory factory;
 	
-	public static final String MINWIDTH = "mWidth", MINHEIGHT = "mHeight", ID = "id", TYPE = "type";
+	public static final String MINWIDTH = "mWidth", MINHEIGHT = "mHeight", ID = "id", TYPE = "type", STYLE = "style";
 	
 	private Resources res;
 	private int gridFactor;
@@ -83,7 +81,7 @@ public class Generator
 		{
 		case R.id.element_button:
 			xmlView = buildButton();
-
+			
 			break;
 
 		case R.id.element_textview:
@@ -158,6 +156,7 @@ public class Generator
 		params = new RelativeLayout.LayoutParams(properties.getInt(MINWIDTH), properties.getInt(MINHEIGHT));
 		xmlView.setLayoutParams(params);
 		
+		xmlView.setBackgroundResource(properties.getInt(STYLE));
 		xmlView.setId(idCount++);
 		xmlView.setTag(properties);
 		xmlView.setOnTouchListener(manipulator);
@@ -173,6 +172,7 @@ public class Generator
 		int width = 0;
 		int height = 0;
 		int scaleType = 0;
+		int styleType = 0;
 		
 		switch (which)
 		{
@@ -181,6 +181,7 @@ public class Generator
 			width = res.getInteger(R.integer.button_factor_width);
 			height = res.getInteger(R.integer.button_factor_height);
 			scaleType = Overlay.BOTH;
+			
 			
 			break;
 
@@ -295,11 +296,13 @@ public class Generator
 		
 		width *= gridFactor;
 		height *= gridFactor;
+		styleType = R.drawable.default_object_border;
 		
 		tagBundle.putInt(TYPE, scaleType);
 		tagBundle.putInt(MINHEIGHT, height);
 		tagBundle.putInt(MINWIDTH, width);
 		tagBundle.putInt(ID, which);
+		tagBundle.putInt(STYLE, styleType);
 
 		return tagBundle;
 	}
@@ -585,7 +588,7 @@ public class Generator
 	private Button buildButton()
 	{
 		Button xmlButton = (Button) inflater.inflate(R.layout.item_button_layout, null);
-
+		
 		return xmlButton;
 	}
 }

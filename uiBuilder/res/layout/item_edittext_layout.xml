@@ -6,7 +6,6 @@
     android:inputType="none"
     android:editable="false"
     android:padding="@dimen/default_padding_small"
-    android:background="@drawable/default_object_border"
     
     android:hint="@string/edittext_hint_default"
     android:textColor="@color/text_dark"

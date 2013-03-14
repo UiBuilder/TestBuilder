@@ -32,7 +32,7 @@ public class ObjectFactory implements onObjectEditedListener
 	private LayoutInflater inflater;
 
 	private static final String LOGTAG = "OBJECTFACTORY says:";
-	ArrayAdapter<String>listAdapter;
+	private ArrayAdapter<String>listAdapter;
 	
 	/**
 	 * Resources

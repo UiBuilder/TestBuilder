@@ -771,43 +771,63 @@ public class EditmodeFragment extends Fragment
 		@Override
 		public void onClick(View v)
 		{
+			Bundle bundle = (Bundle) currentView.getTag();
+			
 			switch (v.getId())
 			{
 			case R.id.editmode_background_red:
-				currentView.setBackgroundColor(getResources().getColor(R.color.background_red));
+				currentView.setBackgroundResource(R.drawable.object_background_red);
+				bundle.putInt(Generator.STYLE, R.drawable.object_background_red);
+				
 				break;
 				
 			case R.id.editmode_background_yellow:
-				currentView.setBackgroundColor(getResources().getColor(R.color.background_yellow));
+				currentView.setBackgroundResource(R.drawable.object_background_grey_dark);
+				bundle.putInt(Generator.STYLE, R.drawable.object_background_grey_dark);
+
 				
 				break;
 				
 			case R.id.editmode_background_orange:
-				currentView.setBackgroundColor(getResources().getColor(R.color.background_orange));
+				currentView.setBackgroundResource(R.drawable.object_background_orange);
+				bundle.putInt(Generator.STYLE, R.drawable.object_background_orange);
+
 				break;
 				
 			case R.id.editmode_background_green_light:
-				currentView.setBackgroundColor(getResources().getColor(R.color.background_green_light));
+				currentView.setBackgroundResource(R.drawable.object_background_green_light);
+				bundle.putInt(Generator.STYLE, R.drawable.object_background_green_light);
+
 				break;
 				
 			case R.id.editmode_background_green:
-				currentView.setBackgroundColor(getResources().getColor(R.color.background_green));
+				currentView.setBackgroundResource(R.drawable.object_background_green);
+				bundle.putInt(Generator.STYLE, R.drawable.object_background_green);
+
 				break;
 				
 			case R.id.editmode_background_aqua:
-				currentView.setBackgroundColor(getResources().getColor(R.color.background_aqua));
+				currentView.setBackgroundResource(R.drawable.object_background_aqua);
+				bundle.putInt(Generator.STYLE, R.drawable.object_background_aqua);
+
 				break;
 				
 			case R.id.editmode_background_blue:
-				currentView.setBackgroundColor(getResources().getColor(R.color.background_blue));
+				currentView.setBackgroundResource(R.drawable.object_background_blue);
+				bundle.putInt(Generator.STYLE, R.drawable.object_background_blue);
+
 				break;
 				
 			case R.id.editmode_background_grey_light:
 				currentView.setBackgroundColor(getResources().getColor(R.color.background_grey_light));
+				bundle.putInt(Generator.STYLE, R.drawable.object_background_grey_light);
+
 				break;
 				
 			case R.id.editmode_background_grey:
-				currentView.setBackgroundColor(getResources().getColor(R.color.background_grey));
+				currentView.setBackgroundResource(R.drawable.object_background_grey);
+				bundle.putInt(Generator.STYLE, R.drawable.object_background_grey);
+
 				break;
 				
 			}

@@ -6,7 +6,6 @@
     android:clickable="true"
     android:focusableInTouchMode="true"
     android:focusable="true"
-    android:background="@drawable/default_object_border"
     >
     <TextView android:id="@+id/checkbox_caption_field"
         android:layout_width="0dp"

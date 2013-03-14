@@ -765,7 +765,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 					@Override
 					public void run()
 					{
-						activeItem.setBackgroundResource(R.drawable.default_object_border);
+						activeItem.setBackgroundResource(((Bundle)activeItem.getTag()).getInt(Generator.STYLE));
 					}
 				});  
 				break;
