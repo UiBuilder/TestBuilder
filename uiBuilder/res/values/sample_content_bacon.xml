@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+<!-- List Arrays SOURCE: hipsteripsum.me -->
+	<string-array name="listview_listitem_layout_header_bacon">
+	        
+	        <item >Ball tip short loin doner tri-tip</item>
+	        <item >Strip steak biltong pork chop</item>
+	        <item >Shoulder capicola swine rump</item>
+	        <item >Bacon pancetta spare ribs</item>
+	        
+	        <item >Frankfurter turkey ball tip, pancetta ham</item>
+	        <item >Flank swine hamburger</item>
+	        <item >Shank tenderloin jerky ground round</item>
+	        <item >Shank venison t-bone</item>
+	        
+	        <item >Cow ball tip chuck, flank fatback shankle</item>
+	        <item >Turkey short ribs flank boudin</item>
+	        <item >Ball tip doner pork ham hock</item>
+	        <item >Short loin chuck tri-tip hamburger</item>
+	        
+	        <item >Cow pork belly flank</item>
+	        <item >Swine brisket pig boudin</item>
+	        <item >Pig strip steak brisket</item>
+	        <item >Beef venison pig</item>
+	        
+	        <item >Salami shankle meatbal</item>
+	        <item >Beef cow jowl chicken</item>
+	        <item >Bacon swine hamburger</item>
+	        <item >Pastrami ball tip beef</item>
+	        
+	    </string-array>
+	    
+	    <string-array name="listview_listitem_layout_content_bacon">
+	        
+	        <item >Shankle strip steak capicola ball tip, flank ribeye kielbasa sausage shoulder leberkas t-bone.</item>
+	        <item >Prosciutto bacon ball tip meatball swine beef ribs, shank pork loin biltong pork pork belly pork chop brisket fatback.</item>
+	        <item >Salami biltong flank, boudin turducken rump.</item>
+	        <item >Beef ribs short loin pastrami beef pork chop pork belly. Tongue ham sausage pancetta shoulder.</item>
+	        
+	        <item >Ham hock ground round tongue sausage pork loin, tri-tip bresaola turkey biltong.</item>
+	        <item >Pork belly pancetta meatloaf, strip steak rump flank hamburger bacon spare ribs cow sirloin beef ribs leberkas meatball.</item>
+	        <item >Ribeye ham short ribs, beef ribs meatloaf chuck cow drumstick meatball tongue pork chop tail shoulder pork loin doner.</item>
+	        <item >Ground round swine pork chop, spare ribs shankle pastrami meatball. Biltong ball tip beef, pork chop sausage jerky chicken.</item>
+	        
+	        <item >Ribeye pork belly ham hock tri-tip short loin, pork hamburger drumstick pork chop prosciutto chicken short ribs pastrami strip steak meatball.</item>
+	        <item >Drumstick pork sirloin andouille ball tip. Ball tip kielbasa filet mignon pork loin prosciutto.</item>
+	        <item >Frankfurter spare ribs biltong pig ground round. Capicola shoulder sirloin corned beef strip steak.</item>
+	        <item > Turducken ham brisket, ham hock beef meatball bresaola ball tip hamburger andouille sausage.</item>
+	        
+	        <item >Ham hock sirloin pig filet mignon venison sausage. Chicken cow corned beef shoulderm.</item>
+	        <item >Ribeye flank filet mignon, bacon brisket tri-tip frankfurter capicola short ribs. Drumstick turducken beef.</item>
+	        <item >Cow pork belly flank tail prosciutto biltong corned beef ground round boudin pig. Rump tri-tip.</item>
+	        <item >Leberkas andouille fatback capicola chicken tenderloin strip steak brisket beef tri-tip shoulder.</item>
+	        
+	        <item >Beef ribs short loin pastrami beef pork chop pork belly. Tongue ham sausage pancetta shoulder, fatback turducken brisket.</item>
+	        <item >Ham hock ground round tongue sausage pork loin, tri-tip bresaola turkey biltong.</item>
+	        <item >Pancetta pork belly flank, ground round venison short loin biltong shankle swine beef hamburger sirloin shank fatback tri-tip. Flank swine.</item>
+	        <item >Flank turducken shankle ham hock, jerky andouille boudin filet mignon swine pork loin kielbasa sausage pork chop drumstick tenderloin.</item>
+	    </string-array>
+</resources>

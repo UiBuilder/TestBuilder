@@ -36,8 +36,16 @@ public class ObjectFactory implements onObjectEditedListener
 	/**
 	 * Resources
 	 */
-	String[] headers;
-	String[] contents;
+	String[] headersActive;
+	String[] contentsActive;
+	
+	String[] headersHipster;
+	String[] contentsHipster;
+	
+	String[] headersBacon;
+	String[] contentsBacon;
+	
+	
 	int[] highResIcns;
 	
 	/**
@@ -58,8 +66,11 @@ public class ObjectFactory implements onObjectEditedListener
 
 	private void setupResources()
 	{
-		headers = ref.getResources().getStringArray(R.array.listview_listitem_layout_header);
-		contents = ref.getResources().getStringArray(R.array.listview_listitem_layout_content);
+		headersHipster = ref.getResources().getStringArray(R.array.listview_listitem_layout_header_hipster);
+		contentsHipster = ref.getResources().getStringArray(R.array.listview_listitem_layout_content_hipster);
+		
+		headersBacon = ref.getResources().getStringArray(R.array.listview_listitem_layout_header_hipster);
+		contentsBacon = ref.getResources().getStringArray(R.array.listview_listitem_layout_content_hipster);
 		
 		highResIcns = ResArrayImporter.getRefArray(ref, R.array.icons_big);
 	}
@@ -201,7 +212,7 @@ public class ObjectFactory implements onObjectEditedListener
 	 */
 	protected void setAdapter(View list, final int listLayout)
 	{
-		ArrayAdapter<String>listAdapter = new ArrayAdapter<String>(ref.getApplicationContext(), listLayout, headers)
+		ArrayAdapter<String>listAdapter = new ArrayAdapter<String>(ref.getApplicationContext(), listLayout, headersActive)
 		{
 
 			@Override
@@ -210,10 +221,10 @@ public class ObjectFactory implements onObjectEditedListener
 				View layout = inflater.inflate(listLayout, null);
 				
 				TextView header = (TextView) layout.findViewById(R.id.listview_listitem_header);
-				header.setText(headers[position]);
+				header.setText(headersActive[position]);
 				
 				TextView content = (TextView) layout.findViewById(R.id.listview_listitem_content);
-				content.setText(contents[position]);
+				content.setText(contentsActive[position]);
 				return layout;
 			}			
 		};
@@ -227,7 +238,10 @@ public class ObjectFactory implements onObjectEditedListener
 			((GridView) list).setAdapter(listAdapter);
 		}
 	}
-
+	
+	/**
+	 * @author funklos
+	 */
 	@Override
 	public void gridColumnsChanged(View active, int col)
 	{	
@@ -236,7 +250,10 @@ public class ObjectFactory implements onObjectEditedListener
 		GridView grid = (GridView) container.getChildAt(0);
 		grid.setNumColumns(col);	
 	}
-
+	
+	/**
+	 * @author funklos
+	 */
 	@Override
 	public void setIconResource(View active, int pos)
 	{
@@ -244,6 +261,25 @@ public class ObjectFactory implements onObjectEditedListener
 
 		((ImageView) active).setScaleType(ScaleType.FIT_CENTER);
 		((ImageView) active).setImageResource(resourceId);		
+	}
+
+	@Override
+	public void setSampleContent(int id)
+	{
+		switch (id)
+		{
+		case R.id.content_choose_hipster:
+
+			break;
+			
+		case R.id.content_choose_bacon:
+			
+			break;
+
+		default:
+			break;
+		}
+		
 	}
 	
 }

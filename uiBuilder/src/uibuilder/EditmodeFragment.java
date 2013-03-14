@@ -60,7 +60,7 @@ public class EditmodeFragment extends Fragment
 	private SeekBar starBar, ratingSlider;
 	private Button topLeft, topCenter, topRight, centerLeft, centerCenter, centerRight, bottomLeft, bottomCenter, bottomRight;
 
-	private LinearLayout moduleAlign, modulePicture, moduleEditText, moduleChangeSize, moduleZorder, moduleNothing, moduleIcons, moduleStarCount, moduleListConfig, moduleGridConfig, moduleGridColumns;
+	private LinearLayout moduleAlign, modulePicture, moduleEditText, moduleChangeSize, moduleZorder, moduleNothing, moduleIcons, moduleStarCount, moduleListConfig, moduleGridConfig, moduleGridColumns, moduleContent;
 
 	@Override
 	public void onAttach(Activity activity)
@@ -144,6 +144,7 @@ public class EditmodeFragment extends Fragment
 		moduleListConfig = (LinearLayout) root.findViewById(R.id.editmode_included_list_config);
 		moduleGridConfig = (LinearLayout) root.findViewById(R.id.editmode_included_grid_config);
 		moduleGridColumns = (LinearLayout) root.findViewById(R.id.editmode_included_grid_columns);
+		moduleContent = (LinearLayout) root.findViewById(R.id.editmode_included_grid_content);
 		// and so on..
 	}
 	
@@ -159,9 +160,11 @@ public class EditmodeFragment extends Fragment
 		setupStarCountModule();
 		setupListConfigModule();
 		setupGridConfigModule();
-		setupGridColumnModule();	
+		setupGridColumnModule();
+		setupContentModule();
 	}
 	
+
 	private void setExpansionSelectos()
 	{
 		setExpansionSelector(moduleGridConfig);
@@ -172,7 +175,8 @@ public class EditmodeFragment extends Fragment
 		setExpansionSelector(moduleListConfig);
 		setExpansionSelector(moduleChangeSize);
 		setExpansionSelector(moduleGridColumns);
-
+		setExpansionSelector(moduleContent);
+		
 		root.invalidate();	
 	}
 
@@ -203,6 +207,19 @@ public class EditmodeFragment extends Fragment
 		root.requestLayout();
 	}
 
+	/**
+	 * @author funklos
+	 */
+	private void setupContentModule()
+	{
+		Button hipster = (Button) moduleContent.findViewById(R.id.content_choose_hipster);
+		Button bacon = (Button) moduleContent.findViewById(R.id.content_choose_bacon);
+		
+		hipster.setOnClickListener(new ContentSelectedListener());
+		bacon.setOnClickListener(new ContentSelectedListener());
+		
+	}
+	
 	/**
 	 * @author funklos
 	 */
@@ -538,6 +555,7 @@ public class EditmodeFragment extends Fragment
 		moduleListConfig.setVisibility(View.GONE);
 		moduleGridConfig.setVisibility(View.GONE);
 		moduleGridColumns.setVisibility(View.GONE);
+		moduleContent.setVisibility(View.GONE);
 
 		moduleAlign.invalidate();
 		moduleEditText.invalidate();
@@ -550,8 +568,31 @@ public class EditmodeFragment extends Fragment
 		moduleListConfig.invalidate();
 		moduleGridConfig.invalidate();
 		moduleGridColumns.invalidate();
+		moduleContent.invalidate();
 	}
 	
+	/**
+	 * 
+	 * @author funklos
+	 *
+	 */
+	private class ContentSelectedListener implements OnClickListener
+	{
+
+		@Override
+		public void onClick(View v)
+		{
+			int id = v.getId();
+			
+			switch (id)
+			{
+			case R.id.content_choose_hipster:
+			case R.id.content_choose_bacon:
+				editListener.setSampleContent(id);
+			}
+			
+		}	
+	}
 	
 	private class ColumnNumberListener implements OnSeekBarChangeListener
 	{
@@ -935,6 +976,8 @@ public class EditmodeFragment extends Fragment
 	
 	public interface onObjectEditedListener
 	{
+		void setSampleContent(int id);
+		
 		void refreshAdapter(View active, int id);
 		
 		void gridColumnsChanged(View active, int col);

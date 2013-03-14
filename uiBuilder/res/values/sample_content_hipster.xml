@@ -2,7 +2,7 @@
 <resources>
     
 <!-- List Arrays SOURCE: hipsteripsum.me -->
-	<string-array name="listview_listitem_layout_header">
+	<string-array name="listview_listitem_layout_header_hipster">
 	        
 	        <item >Typewriter meggings tofu synth</item>
 	        <item >8-bit scenester twee</item>
@@ -31,7 +31,7 @@
 	        
 	    </string-array>
 	    
-	    <string-array name="listview_listitem_layout_content">
+	    <string-array name="listview_listitem_layout_content_hipster">
 	        
 	        <item >Actually lo-fi single-origin coffee, plaid pitchfork iphone hashtag fixie fap swag.</item>
 	        <item >Pop-up 90\'s hella fashion axe fixie. PBR hella biodiesel street art.</item>

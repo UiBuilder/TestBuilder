@@ -72,6 +72,12 @@
 	<!-- GRID -->
 	<string name="item_edit_grid_caption">Choose Grid Layout</string>
 	<string name="item_edit_grid_columns_caption">Number Of Columns</string>
+	<string name="item_edit_grid_content_caption">Example Content</string>
+	
+	<!-- CONTENT -->
+	<string name="item_edit_content_hint">Switch the sample content.</string>
+	<string name="item_edit_content_hipster">Hipster!</string>
+	<string name="item_edit_content_bacon">No thanks.</string>
     
     <!-- ICONS EDIT -->
     <string name="item_edit_icon_caption">Choose Icon</string>
