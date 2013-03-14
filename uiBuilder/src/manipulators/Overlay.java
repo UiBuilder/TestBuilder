@@ -38,7 +38,7 @@ public class Overlay
 	private LayoutInflater inflater;
 	private DesignFragment designFragment;
 
-	private final String OVERLAYTAG = "Overlay";
+	public final String OVERLAYTAG = "Overlay";
 	int dragId;
 	int typeActive;
 	

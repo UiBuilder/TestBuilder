@@ -835,7 +835,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	 * Entfernt das Overlay komplett.
 	 * @author funklos
 	 */
-	private void deleteOverlay()
+	public void deleteOverlay()
 	{
 		synchronized (parent)
 		{

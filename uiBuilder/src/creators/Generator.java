@@ -150,7 +150,7 @@ public class Generator
 			xmlView = buildGrid();
 			
 			break;
-
+		
 		default:
 			throw new NoClassDefFoundError();
 		}
