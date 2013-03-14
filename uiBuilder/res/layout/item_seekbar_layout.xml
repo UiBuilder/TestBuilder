@@ -4,9 +4,7 @@
     android:layout_height="wrap_content" 
     
     android:max="50"
-    android:progress="25"
-    
-	    
+    android:progress="25"   
     >
     
 

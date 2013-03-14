@@ -38,36 +38,39 @@
     
 	
     <!-- EXPANDABLE CONTENT -->
-    
-    <LinearLayout android:id="@+id/expandable"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" 
-		android:visibility="gone"
-        >
-		
-        <!-- Preview modules -->
-        <include 
-            android:id="@+id/editmode_grid_included_layout_1"
-            layout="@layout/item_gridview_example_layout_1"
-            
-            />
+    <ScrollView
+	    android:layout_height="match_parent"
+	    android:layout_width="match_parent"
+	    >
         
-        <include
-            android:id="@+id/editmode_grid_included_layout_2" 
-            layout="@layout/item_gridview_example_layout_2"
-            
-            />
-        
-        <include 
-            android:id="@+id/editmode_grid_included_layout_3"
-            layout="@layout/item_gridview_example_layout_3"
-            
-            />
-
-          
-    </LinearLayout>
+	    <LinearLayout android:id="@+id/expandable"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical" 
+			android:visibility="gone"
+	        >
+			
+	        <!-- Preview modules -->
+	        <include 
+	            android:id="@+id/editmode_grid_included_layout_1"
+	            layout="@layout/item_gridview_example_layout_1"
+	            
+	            />
+	        
+	        <include
+	            android:id="@+id/editmode_grid_included_layout_2" 
+	            layout="@layout/item_gridview_example_layout_2"
+	            
+	            />
+	        
+	        <include 
+	            android:id="@+id/editmode_grid_included_layout_3"
+	            layout="@layout/item_gridview_example_layout_3"
+	            
+	            />
+	              
+	    </LinearLayout>
     
-    
+    </ScrollView>
 
 </LinearLayout>

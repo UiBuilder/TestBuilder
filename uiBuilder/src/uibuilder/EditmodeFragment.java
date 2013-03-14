@@ -237,12 +237,14 @@ public class EditmodeFragment extends Fragment
 		LinearLayout layoutTypeThree = (LinearLayout) root.findViewById(R.id.editmode_list_included_layout_3);
 		LinearLayout layoutTypeFour = (LinearLayout) root.findViewById(R.id.editmode_list_included_layout_4);
 		LinearLayout layoutTypeFive = (LinearLayout) root.findViewById(R.id.editmode_list_included_layout_5);
+		LinearLayout layoutTypeSix = (LinearLayout) root.findViewById(R.id.editmode_list_included_layout_6);
 		
 		layoutTypeOne.setOnClickListener(new ListLayoutModuleListener());
 		layoutTypeTwo.setOnClickListener(new ListLayoutModuleListener());
 		layoutTypeThree.setOnClickListener(new ListLayoutModuleListener());
 		layoutTypeFour.setOnClickListener(new ListLayoutModuleListener());
 		layoutTypeFive.setOnClickListener(new ListLayoutModuleListener());
+		layoutTypeSix.setOnClickListener(new ListLayoutModuleListener());
 	}
 
 	private void setupStarCountModule()
@@ -416,6 +418,15 @@ public class EditmodeFragment extends Fragment
 		case R.id.element_grid:
 			moduleGridConfig.setVisibility(View.VISIBLE);
 			moduleGridColumns.setVisibility(View.VISIBLE);
+			
+			ViewGroup container = (ViewGroup) currentView;
+			
+			GridView grid = (GridView) container.getChildAt(0);
+			SeekBar bar = (SeekBar) moduleGridColumns.findViewById(R.id.editmode_grid_choose_number);
+			TextView display = (TextView) moduleGridColumns.findViewById(R.id.editmode_grid_display);
+			
+			bar.setProgress(grid.getNumColumns()-2);
+			display.setText(String.valueOf(bar.getProgress()+2));
 			break;
 			
 		default:
@@ -549,7 +560,7 @@ public class EditmodeFragment extends Fragment
 		public void onProgressChanged(SeekBar bar, int val, boolean arg2)
 		{
 			ViewGroup parent = (ViewGroup) bar.getParent();
-			TextView feedback = (TextView) parent.getChildAt(0);
+			TextView feedback = (TextView) parent.findViewById(R.id.editmode_grid_display);
 			feedback.setText(String.valueOf(val+2));
 			
 			editListener.gridColumnsChanged(currentView, val+2);
@@ -617,6 +628,7 @@ public class EditmodeFragment extends Fragment
 			case R.id.editmode_list_included_layout_3:
 			case R.id.editmode_list_included_layout_4:
 			case R.id.editmode_list_included_layout_5:
+			case R.id.editmode_list_included_layout_6:
 				editListener.refreshAdapter(currentView, id);
 				break;
 
