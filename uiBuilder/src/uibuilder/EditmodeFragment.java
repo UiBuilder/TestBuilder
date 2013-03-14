@@ -775,6 +775,7 @@ public class EditmodeFragment extends Fragment
 				
 			case R.id.editmode_background_yellow:
 				currentView.setBackgroundColor(getResources().getColor(R.color.background_yellow));
+				
 				break;
 				
 			case R.id.editmode_background_orange:
