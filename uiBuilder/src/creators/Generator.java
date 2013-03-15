@@ -126,6 +126,8 @@ public class Generator
 
 		case R.id.element_numberpick:
 			xmlView = buildNumberPicker();
+			params = new RelativeLayout.LayoutParams((int) (properties.getInt(MINWIDTH)), (int) (properties.getInt(MINHEIGHT)));
+
 			
 			break;
 
@@ -145,6 +147,8 @@ public class Generator
 
 		case R.id.element_timepicker:
 			xmlView = buildTimePicker();
+			params = new RelativeLayout.LayoutParams((int) (properties.getInt(MINWIDTH)), (int) (properties.getInt(MINHEIGHT)));
+
 			
 			break;
 /*

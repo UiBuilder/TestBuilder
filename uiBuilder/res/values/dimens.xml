@@ -48,16 +48,16 @@
     <item name="search_factor_height" format="integer" type="integer">3</item>
     
     <!-- numberpicker -->
-    <item name="numberpicker_factor_width" format="integer" type="integer">2</item>
-    <item name="numberpicker_factor_height" format="integer" type="integer">5</item>
+    <item name="numberpicker_factor_width" format="integer" type="integer">4</item>
+    <item name="numberpicker_factor_height" format="integer" type="integer">9</item>
     
     <!-- seekbar -->
     <item name="seekbar_factor_width" format="integer" type="integer">8</item>
     <item name="seekbar_factor_height" format="integer" type="integer">1</item>
     
      <!-- timepicker -->
-    <item name="timepicker_factor_width" format="integer" type="integer">7</item>
-    <item name="timepicker_factor_height" format="integer" type="integer">5</item>
+    <item name="timepicker_factor_width" format="integer" type="integer">13</item>
+    <item name="timepicker_factor_height" format="integer" type="integer">9</item>
     
     <!-- ratingbar -->
     <item name="ratingbar_factor_width" format="integer" type="integer">3</item>
