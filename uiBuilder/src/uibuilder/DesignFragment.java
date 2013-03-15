@@ -56,6 +56,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		View root = inflater.inflate(R.layout.layout_design_fragment, container, false);
 		designArea = (RelativeLayout) root.findViewById(R.id.design_area);
 		parent = (RelativeLayout) designArea.getParent();
+		
 
 		designArea.post(new Runnable()
 		{
@@ -116,6 +117,34 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	{
 		designArea.setOnTouchListener(this);
 		designArea.setOnDragListener(this);
+		parent.setOnTouchListener(new OnTouchListener()
+		{
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event)
+			{
+				switch (event.getAction())
+				{
+				case MotionEvent.ACTION_DOWN:
+					activeItem = null;
+
+					listener.objectSelected(false);
+
+					if (overlay.isActive())
+					{
+						Log.d("Case Design Area", "overlay active and therefore deleted");
+
+						deleteOverlay();
+						return true;
+					}
+					break;
+
+				default:
+					break;
+				}
+				return false;
+			}
+		});
 	}
 
 	private void initHelpers()
