@@ -107,6 +107,8 @@ public class Generator
 
 		case R.id.element_switch:
 			xmlView = buildSwitch();
+			params = new RelativeLayout.LayoutParams((properties.getInt(MINWIDTH)), (int) (properties.getInt(MINHEIGHT) * 1.5));
+
 			
 			break;
 

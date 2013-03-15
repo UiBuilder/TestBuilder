@@ -36,7 +36,7 @@
     <item name="radio_factor_height" format="integer" type="integer">2</item>
     
     <!-- switch -->
-    <item name="switch_factor_width" format="integer" type="integer">8</item>
+    <item name="switch_factor_width" format="integer" type="integer">9</item>
     <item name="switch_factor_height" format="integer" type="integer">2</item>
     
     <!-- checkbox -->
