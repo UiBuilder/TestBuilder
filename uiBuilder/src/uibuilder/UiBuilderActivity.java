@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 import de.ur.rk.uibuilder.R;
 
@@ -49,6 +50,7 @@ public class UiBuilderActivity extends Activity implements
 	private DeleteFragment deletebox;
 	private DisplayModeChanger previewMode;
 	private Button previewButton;
+	private ImageView previewIcon;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -95,9 +97,11 @@ public class UiBuilderActivity extends Activity implements
 		bar.setCustomView(R.layout.menu_item_preview);
 
 		previewButton = (Button) bar.getCustomView().findViewById(R.id.action_preview_mode);
-
+		//previewIcon = (ImageView) bar.getCustomView().findViewById(R.id.preview_icon);
+		
 		previewButton.setOnTouchListener(this);
-
+		//previewIcon.setOnTouchListener(this);
+		
 		bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME
 				| ActionBar.DISPLAY_SHOW_CUSTOM);
 		bar.setBackgroundDrawable(getResources().getDrawable(R.color.designfragment_background));
@@ -313,6 +317,7 @@ public class UiBuilderActivity extends Activity implements
 			break;
 		case MotionEvent.ACTION_UP:
 			DisplayModeChanger.setCreationMode(designbox.getView());
+			return true;
 		}
 		return false;
 	}

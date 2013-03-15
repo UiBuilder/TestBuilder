@@ -111,7 +111,7 @@
     <string name="item_edit_enter_item_count">Anzahl der Elemente</string>
     <string name="item_edit_star_count">Select number of Stars</string>
     <string name="item_edit_star_rating">Adjust rating</string>
-  
+  	<string name="item_edit_background_color">Background Color</string>
 
 
     
