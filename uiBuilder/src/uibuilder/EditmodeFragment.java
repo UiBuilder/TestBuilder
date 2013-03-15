@@ -779,7 +779,7 @@ public class EditmodeFragment extends Fragment
 				currentView.setBackgroundResource(R.drawable.object_background_red);
 				bundle.putInt(Generator.CREATION_STYLE, R.drawable.object_background_red);
 				bundle.putInt(Generator.PRESENTATION_STYLE, R.drawable.presentation_object_background_red);
-				
+				 
 				break;
 				
 			case R.id.editmode_background_yellow:
