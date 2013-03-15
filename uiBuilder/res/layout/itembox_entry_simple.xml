@@ -29,7 +29,9 @@
 			
             >
             
-	        <Button
+	        <ImageButton
+	            android:src="@raw/ui_builder_icon_seekbar"
+	            android:scaleType="centerInside"
 	            android:id="@+id/element_button"
 	            android:layout_width="0dp"
 	            android:layout_height="match_parent"

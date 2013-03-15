@@ -11,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import creators.ObjectFactory;
 import de.ur.rk.uibuilder.R;
 /**
@@ -43,7 +44,7 @@ public class ItemboxFragment extends Fragment implements
 
 	private void setupLibraryUi()
 	{
-		Button createButton = (Button) layout.findViewById(R.id.element_button);
+		ImageButton createButton = (ImageButton) layout.findViewById(R.id.element_button);
 
 		Button createTextView = (Button) layout.findViewById(R.id.element_textview);
 
