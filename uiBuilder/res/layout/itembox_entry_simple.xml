@@ -33,6 +33,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/element_button"
                 android:layout_weight="1"
+               	style="@style/itembox_items"
              	>
              	
 		        <ImageButton
@@ -43,6 +44,13 @@
 		            
 		            android:text="@string/itembox_simple_element_caption_button" 
 		            style="@style/itembox_items"
+		            />
+		        
+		        <TextView 
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:text="@string/itembox_simple_element_caption_button" 
+		            
 		            />
 		        
 	        </LinearLayout>
