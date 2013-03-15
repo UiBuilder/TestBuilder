@@ -114,6 +114,8 @@ public class Generator
 
 		case R.id.element_checkbox:
 			xmlView = buildCheckBox();
+			params = new RelativeLayout.LayoutParams((int) (properties.getInt(MINWIDTH)* 1.5), (int) (properties.getInt(MINHEIGHT)));
+
 			
 			break;
 
