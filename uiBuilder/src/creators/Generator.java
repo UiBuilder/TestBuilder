@@ -76,7 +76,7 @@ public class Generator
 		View xmlView;
 		RelativeLayout.LayoutParams params = null;
 		Bundle properties = getBundle(id);
-		params = new RelativeLayout.LayoutParams(properties.getInt(MINWIDTH), properties.getInt(MINHEIGHT));
+		params = new RelativeLayout.LayoutParams((int) (properties.getInt(MINWIDTH)* 1.5), (int) (properties.getInt(MINHEIGHT) * 1.5));
 
 		switch (id)
 		{
@@ -134,6 +134,8 @@ public class Generator
 
 		case R.id.element_seekbar:
 			xmlView = buildSeekBar();
+			params = new RelativeLayout.LayoutParams(properties.getInt(MINWIDTH), properties.getInt(MINHEIGHT) * 2);
+
 			
 			break;
 
