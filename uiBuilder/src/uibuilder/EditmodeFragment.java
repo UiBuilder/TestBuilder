@@ -430,6 +430,8 @@ public class EditmodeFragment extends Fragment
 			break;
 		case R.id.element_ratingbar:
 
+			moduleBackgroundColor.setVisibility(View.VISIBLE);
+			
 			moduleStarCount.setVisibility(View.VISIBLE);
 
 			starBar.setProgress(((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getNumStars() - 1);

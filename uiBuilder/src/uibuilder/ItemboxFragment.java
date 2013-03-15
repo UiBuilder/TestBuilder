@@ -46,31 +46,31 @@ public class ItemboxFragment extends Fragment implements
 	{
 		ImageButton createButton = (ImageButton) layout.findViewById(R.id.element_button);
 
-		Button createTextView = (Button) layout.findViewById(R.id.element_textview);
+		ImageButton createTextView = (ImageButton) layout.findViewById(R.id.element_textview);
 
-		Button createImage = (Button) layout.findViewById(R.id.element_imageview);
+		ImageButton createImage = (ImageButton) layout.findViewById(R.id.element_imageview);
 
-		Button createEditText = (Button) layout.findViewById(R.id.element_edittext);
+		ImageButton createEditText = (ImageButton) layout.findViewById(R.id.element_edittext);
 
-		Button createRadioGroup = (Button) layout.findViewById(R.id.element_radiogroup);
+		ImageButton createRadioGroup = (ImageButton) layout.findViewById(R.id.element_radiogroup);
 
-		Button createSwitch = (Button) layout.findViewById(R.id.element_switch);
+		ImageButton createSwitch = (ImageButton) layout.findViewById(R.id.element_switch);
 
-		Button createCheckbox = (Button) layout.findViewById(R.id.element_checkbox);
+		ImageButton createCheckbox = (ImageButton) layout.findViewById(R.id.element_checkbox);
 
-		Button createList = (Button) layout.findViewById(R.id.element_list);
+		ImageButton createList = (ImageButton) layout.findViewById(R.id.element_list);
 		
-		Button createGrid = (Button) layout.findViewById(R.id.element_grid);
+		ImageButton createGrid = (ImageButton) layout.findViewById(R.id.element_grid);
 
-		Button createNumberPicker = (Button) layout.findViewById(R.id.element_numberpick);
+		ImageButton createNumberPicker = (ImageButton) layout.findViewById(R.id.element_numberpick);
 
-		Button createRatingBar = (Button) layout.findViewById(R.id.element_ratingbar);
+		ImageButton createRatingBar = (ImageButton) layout.findViewById(R.id.element_ratingbar);
 
-		Button createSeekBar = (Button) layout.findViewById(R.id.element_seekbar);
+		ImageButton createSeekBar = (ImageButton) layout.findViewById(R.id.element_seekbar);
 
-		Button createTimePicker = (Button) layout.findViewById(R.id.element_timepicker);
+		ImageButton createTimePicker = (ImageButton) layout.findViewById(R.id.element_timepicker);
 
-		Button createContainer = (Button) layout.findViewById(R.id.element_container);
+		ImageButton createContainer = (ImageButton) layout.findViewById(R.id.element_container);
 
 		createButton.setOnTouchListener(this);
 		createTextView.setOnTouchListener(this);
