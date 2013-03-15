@@ -11,7 +11,7 @@ import creators.Generator;
 
 public class DisplayModeChanger
 {
-	public static void setPresentationMode(View layout)
+	public static void setDisplayMode(View layout, String displayStyle)
 	{
 
 		if (layout instanceof ViewGroup && layout.getTag() == null)
@@ -20,7 +20,7 @@ public class DisplayModeChanger
 
 			for (int i = 0; i < count; i++)
 			{
-				setPresentationMode(((ViewGroup) layout).getChildAt(i));
+				setDisplayMode(((ViewGroup) layout).getChildAt(i), displayStyle);
 
 			}
 		} else if (layout instanceof TextView || layout instanceof LinearLayout
@@ -30,36 +30,14 @@ public class DisplayModeChanger
 			Bundle tagBundle = (Bundle) layout.getTag();
 
 			int id = tagBundle.getInt(Generator.ID);
-			int presentationStyle = tagBundle.getInt(Generator.PRESENTATION_STYLE);
+			int style = tagBundle.getInt(displayStyle);
 
-			Log.d("presentationMode", "startin switch with " + id);
 
-			layout.setBackgroundResource(presentationStyle);
+			layout.setBackgroundResource(style);
 
 		}
 	}
 
-	public static void setCreationMode(View layout)
-	{
-		if (layout instanceof ViewGroup && layout.getTag() == null)
-		{
-			int count = ((ViewGroup) layout).getChildCount();
 
-			for (int i = 0; i < count; i++)
-			{
-				setCreationMode(((ViewGroup) layout).getChildAt(i));
-
-			}
-		} else if (layout instanceof TextView || layout instanceof LinearLayout
-				|| layout instanceof RelativeLayout
-				|| layout instanceof ImageView)
-		{
-			Bundle tagBundle = (Bundle) layout.getTag();
-
-			int creationStyle = tagBundle.getInt(Generator.CREATION_STYLE);
-			layout.setBackgroundResource(creationStyle);
-		}
-
-	}
 
 }

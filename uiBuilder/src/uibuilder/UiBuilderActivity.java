@@ -1,5 +1,6 @@
 package uibuilder;
 
+import creators.Generator;
 import helpers.DisplayModeChanger;
 import helpers.ImageTools;
 import uibuilder.DeleteFragment.onDeleteRequestListener;
@@ -191,7 +192,7 @@ public class UiBuilderActivity extends Activity implements
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		designbox.deleteOverlay();
-		DisplayModeChanger.setPresentationMode(designbox.getView());
+		DisplayModeChanger.setDisplayMode(designbox.getView(), Generator.PRESENTATION_STYLE);
 
 		switch (item.getItemId())
 		{
@@ -202,7 +203,7 @@ public class UiBuilderActivity extends Activity implements
 			exporter.requestBitmap(designbox.getView(), getContentResolver(), false);
 
 			Toast.makeText(getApplicationContext(), getString(R.string.confirmation_save_to_gallery), Toast.LENGTH_SHORT).show();
-			DisplayModeChanger.setCreationMode(designbox.getView());
+			DisplayModeChanger.setDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
 
 			break;
 
@@ -219,7 +220,7 @@ public class UiBuilderActivity extends Activity implements
 		default:
 			break;
 		}
-		DisplayModeChanger.setCreationMode(designbox.getView());
+		DisplayModeChanger.setDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
 		displaySidebar(ITEMBOX);
 		return true;
 	}
@@ -313,10 +314,10 @@ public class UiBuilderActivity extends Activity implements
 		case MotionEvent.ACTION_DOWN:
 			designbox.deleteOverlay();
 			displaySidebar(ITEMBOX);
-			DisplayModeChanger.setPresentationMode(designbox.getView());
+			DisplayModeChanger.setDisplayMode(designbox.getView(), Generator.PRESENTATION_STYLE);
 			break;
 		case MotionEvent.ACTION_UP:
-			DisplayModeChanger.setCreationMode(designbox.getView());
+			DisplayModeChanger.setDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
 			return true;
 		}
 		return false;
