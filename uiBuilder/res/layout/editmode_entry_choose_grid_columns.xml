@@ -62,7 +62,7 @@
                 android:gravity="center_vertical|right"
                 android:paddingTop="@dimen/default_padding_medium"
                 android:paddingBottom="@dimen/default_padding_medium"
-                android:text="Now: "
+                android:text="@string/item_edit_grid_columns_actual"
                 />
             
             <TextView android:id="@+id/editmode_grid_display"

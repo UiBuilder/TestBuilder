@@ -1056,8 +1056,8 @@ public class EditmodeFragment extends Fragment
 		{	
 			if (!clickedModule.isActivated())
 			{
-				module.invalidate();
-				clickedModule.post(new Runnable()
+				collapse();
+				/*clickedModule.post(new Runnable()
 				{
 					
 					@Override
@@ -1066,11 +1066,10 @@ public class EditmodeFragment extends Fragment
 						collapse();
 						refresh();
 					}
-				});
+				});*/
 			}
 			else
 			{
-				module.invalidate();
 				clickedModule.post(new Runnable()
 				{
 					
@@ -1078,7 +1077,6 @@ public class EditmodeFragment extends Fragment
 					public void run()
 					{
 						expand();
-						refresh();
 					}
 				});
 			}
@@ -1089,6 +1087,8 @@ public class EditmodeFragment extends Fragment
 			expandableView.setVisibility(View.VISIBLE);
 			indicator.setImageResource(indicatorCollapsed); 
 			module.setActivated(false);
+			
+			refresh();
 		}
 
 		private void collapse()
@@ -1096,12 +1096,17 @@ public class EditmodeFragment extends Fragment
 			expandableView.setVisibility(View.GONE);
 			indicator.setImageResource(indicatorExpanded);
 			module.setActivated(true);
+			
+			refresh();
 		}
 		
 		private void refresh()
 		{
 			expandableView.invalidate();
+			module.invalidate();
 			module.requestLayout();
+			expandableView.forceLayout();
+			root.forceLayout();
 		}
 	}
 	

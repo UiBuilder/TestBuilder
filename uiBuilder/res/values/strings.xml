@@ -72,6 +72,7 @@
 	<!-- GRID -->
 	<string name="item_edit_grid_caption">Choose Grid Layout</string>
 	<string name="item_edit_grid_columns_caption">Number Of Columns</string>
+	<string name="item_edit_grid_columns_actual">Now:\u0020</string>
 	<string name="item_edit_grid_content_caption">Example Content</string>
 	
 	<!-- STAR COUNT -->
