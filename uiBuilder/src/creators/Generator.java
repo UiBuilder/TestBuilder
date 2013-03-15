@@ -76,7 +76,7 @@ public class Generator
 		View xmlView;
 		RelativeLayout.LayoutParams params = null;
 		Bundle properties = getBundle(id);
-		params = new RelativeLayout.LayoutParams((int) (properties.getInt(MINWIDTH)* 1.5), (int) (properties.getInt(MINHEIGHT) * 1.5));
+		params = new RelativeLayout.LayoutParams((int) (properties.getInt(MINWIDTH)* 2), (int) (properties.getInt(MINHEIGHT) * 2));
 
 		switch (id)
 		{
@@ -107,14 +107,14 @@ public class Generator
 
 		case R.id.element_switch:
 			xmlView = buildSwitch();
-			params = new RelativeLayout.LayoutParams((properties.getInt(MINWIDTH)), (int) (properties.getInt(MINHEIGHT) * 1.5));
+			params = new RelativeLayout.LayoutParams((properties.getInt(MINWIDTH)), (int) (properties.getInt(MINHEIGHT) * 2));
 
 			
 			break;
 
 		case R.id.element_checkbox:
 			xmlView = buildCheckBox();
-			params = new RelativeLayout.LayoutParams((int) (properties.getInt(MINWIDTH)* 1.5), (int) (properties.getInt(MINHEIGHT)));
+			params = new RelativeLayout.LayoutParams((int) (properties.getInt(MINWIDTH)* 2), (int) (properties.getInt(MINHEIGHT)));
 
 			
 			break;
@@ -131,7 +131,7 @@ public class Generator
 
 		case R.id.element_ratingbar:
 			xmlView = buildRatingBar();
-			params = new RelativeLayout.LayoutParams(properties.getInt(MINWIDTH) * 5, properties.getInt(MINHEIGHT));
+			params = new RelativeLayout.LayoutParams(properties.getInt(MINWIDTH) * 6, properties.getInt(MINHEIGHT));
 
 			
 			break;

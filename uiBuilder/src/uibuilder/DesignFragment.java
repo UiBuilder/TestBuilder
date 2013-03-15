@@ -40,7 +40,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 	private View currentTouch;
 
-	public static final int SNAP_GRID_INTERVAL = 18;
+	public static final int SNAP_GRID_INTERVAL = 15;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
