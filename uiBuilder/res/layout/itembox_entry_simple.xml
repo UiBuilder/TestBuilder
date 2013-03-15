@@ -28,21 +28,21 @@
             android:weightSum="3"
 			
             >
-            <LinearLayout 
+            <LinearLayout android:id="@+id/element_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:id="@+id/element_button"
+                
                 android:layout_weight="1"
                	style="@style/itembox_items"
+               	android:orientation="vertical"
              	>
              	
 		        <ImageButton
-		            android:src="@raw/ui_builder_icon_seekbar"
+		            android:src="@raw/ui_builder_icon_button"
 		            android:scaleType="centerInside"
 		            android:layout_width="match_parent"
-		            android:layout_height="match_parent"
-		            
-		            android:text="@string/itembox_simple_element_caption_button" 
+		            android:layout_height="wrap_content"  
+		        
 		            style="@style/itembox_items"
 		            />
 		        
@@ -50,32 +50,61 @@
 		            android:layout_width="match_parent"
 		            android:layout_height="wrap_content"
 		            android:text="@string/itembox_simple_element_caption_button" 
-		            
+		            android:gravity="center_horizontal"
 		            />
 		        
 	        </LinearLayout>
+	        <LinearLayout android:id="@+id/element_textview"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+
+                android:layout_weight="1"
+               	style="@style/itembox_items"
+               	android:orientation="vertical"
+             	>
+		        <ImageButton
+		            android:src="@raw/ui_builder_icon_textfield"
+		            android:scaleType="centerInside"
+		            
+		            android:layout_width="match_parent"
+		            android:layout_height="0dp"
+		            android:layout_weight="1"
+		            style="@style/itembox_items"
+		            />
+		        <TextView 
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:text="@string/itembox_simple_element_caption_textview" 
+		            android:gravity="center_horizontal"
+		            
+		            />
+	        </LinearLayout>
 	        
-	        <ImageButton
-	            android:src="@raw/ui_builder_icon_seekbar"
-	            android:scaleType="centerInside"
-	            android:id="@+id/element_textview"
-	            android:layout_width="0dp"
-	            android:layout_height="match_parent"
-	            android:layout_weight="1"
-	            android:text="@string/itembox_simple_element_caption_textview" 
-	            style="@style/itembox_items"
-	            />
-	        
-	         <ImageButton
-	            android:src="@raw/ui_builder_icon_seekbar"
-	            android:scaleType="centerInside"
-	            android:id="@+id/element_imageview"
-	            android:layout_width="0dp"
-	            android:layout_height="match_parent"
-	            android:layout_weight="1"
-	            android:text="@string/itembox_simple_element_caption_imageview" 
-	            style="@style/itembox_items"
-	            />
+	        <LinearLayout android:id="@+id/element_imageview"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                
+                android:layout_weight="1"
+               	style="@style/itembox_items"
+               	android:orientation="vertical"
+             	>
+		         <ImageButton
+		            android:src="@raw/ui_builder_icon_image"
+		            android:scaleType="centerInside"
+		            android:layout_width="match_parent"
+		            android:layout_height="0dp"
+		            android:layout_weight="1"
+
+		            style="@style/itembox_items"
+		            />
+		         
+		         <TextView 
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content"
+			        android:text="@string/itembox_simple_element_caption_imageview" 
+			        android:gravity="center_horizontal"
+		            />
+	        </LinearLayout>
              
         </TableRow>
         
@@ -86,40 +115,34 @@
             android:weightSum="3"
 
             >
-	       	
-            <ImageButton
-            android:src="@raw/ui_builder_icon_seekbar"
-	        android:scaleType="centerInside"
-            android:id="@+id/element_edittext"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/itembox_simple_element_caption_edittext" 
-            
-            style="@style/itembox_items"
-            />
-            
-            <ImageButton
-            android:src="@raw/ui_builder_icon_seekbar"
-	        android:scaleType="centerInside"
-            android:id="@+id/element_container"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/itembox_simple_element_caption_container" 
-            style="@style/itembox_items"
-            />
-            
-            <ImageButton
-            android:src="@raw/ui_builder_icon_seekbar"
-	        android:scaleType="centerInside"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            
-            style="@style/itembox_items"
-            android:visibility="invisible"
-            />
+	        <LinearLayout android:id="@+id/element_edittext"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                
+                android:layout_weight="1"
+               	style="@style/itembox_items"
+               	android:orientation="vertical"
+             	>
+             	
+		        <ImageButton 
+		            android:src="@raw/ui_builder_icon_edittext"
+			        android:scaleType="centerInside"
+		            android:layout_width="match_parent"
+		            android:layout_height="0dp"
+					android:layout_weight="1"
+		            style="@style/itembox_items"
+		            />
+		        
+		        <TextView 
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:text="@string/itembox_simple_element_caption_edittext" 
+		            android:gravity="center_horizontal"
+		            />
+	       	</LinearLayout>
+
+
+
             
        	 </TableRow>
         

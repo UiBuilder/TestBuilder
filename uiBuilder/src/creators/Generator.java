@@ -147,12 +147,12 @@ public class Generator
 			xmlView = buildTimePicker();
 			
 			break;
-
+/*
 		case R.id.element_container:
 			xmlView = buildRelativeContainer();
 			
 			break;
-			
+			*/
 		case R.id.element_grid:
 			xmlView = buildGrid();
 			
@@ -283,7 +283,7 @@ public class Generator
 			scaleType = Overlay.VERTICAL;
 
 			break;
-
+/*
 		case R.id.element_container:
 			
 			width = res.getInteger(R.integer.edittext_factor_width);
@@ -292,7 +292,7 @@ public class Generator
 			presMode = R.drawable.presentation_border_light;
 
 			break;
-			
+			*/
 		case R.id.element_grid:
 			
 			width = res.getInteger(R.integer.grid_factor_width);
@@ -450,13 +450,13 @@ public class Generator
 					Bundle tagBundle = (Bundle) v.getTag();
 
 					int id = tagBundle.getInt(Generator.ID);
-					
+					/*
 					if (id == R.id.element_container)
 					{
 						return false;
 					}
 					return true;
-
+*/
 				case DragEvent.ACTION_DRAG_ENTERED:
 					
 					return true;

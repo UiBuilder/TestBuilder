@@ -68,7 +68,7 @@ public class ItemboxFragment extends Fragment implements
 
 		LinearLayout createTimePicker = (LinearLayout) layout.findViewById(R.id.element_timepicker);
 
-		LinearLayout createContainer = (LinearLayout) layout.findViewById(R.id.element_container);
+		//LinearLayout createContainer = (LinearLayout) layout.findViewById(R.id.element_container);
 
 		createButton.setOnTouchListener(this);
 		createTextView.setOnTouchListener(this);
@@ -82,7 +82,7 @@ public class ItemboxFragment extends Fragment implements
 		createRatingBar.setOnTouchListener(this);
 		createSeekBar.setOnTouchListener(this);
 		createTimePicker.setOnTouchListener(this);
-		createContainer.setOnTouchListener(this);
+		//createContainer.setOnTouchListener(this);
 		createGrid.setOnTouchListener(this);
 	}
 
