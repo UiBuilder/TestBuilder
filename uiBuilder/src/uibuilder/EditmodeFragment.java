@@ -504,7 +504,7 @@ public class EditmodeFragment extends Fragment
 			break;
 			
 		case Gravity.TOP | Gravity.CENTER_HORIZONTAL:
-			topCenter.setActivated(true);
+			topCenter.setActivated(true); 
 			break;
 			
 		case Gravity.TOP | Gravity.RIGHT:

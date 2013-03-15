@@ -131,7 +131,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 					listener.objectSelected(false);
 
 					if (overlay.isActive())
-					{
+					{ 
 						Log.d("Case Design Area", "overlay active and therefore deleted");
 
 						deleteOverlay();
