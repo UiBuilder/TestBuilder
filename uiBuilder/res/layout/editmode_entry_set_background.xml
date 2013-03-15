@@ -152,6 +152,16 @@
                  />
             
         </TableRow>
+        
+        <Button 
+            android:id="@+id/editmode_background_reset"
+            style ="@style/itembox_background_items"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/editmode_reset_background"
+            android:gravity="center"/>
+            "
+        
     </TableLayout>
 
 </LinearLayout>

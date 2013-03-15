@@ -59,7 +59,7 @@ public class EditmodeFragment extends Fragment
 
 	private SeekBar starBar, ratingSlider;
 	private Button topLeft, topCenter, topRight, centerLeft, centerCenter, centerRight, bottomLeft, bottomCenter, bottomRight;
-	private Button backgroundRed, backgroundOrange, backgroundYellow, backgroundGreenLight, backgroundGreen, backgroundAqua, backgroundBlue, backgroundGreyLight, backgroundGrey;
+	private Button backgroundRed, backgroundOrange, backgroundYellow, backgroundGreenLight, backgroundGreen, backgroundAqua, backgroundBlue, backgroundGreyLight, backgroundGrey, backgroundReset;
 	
 	private LinearLayout moduleAlign, modulePicture, moduleEditText, moduleChangeSize, moduleZorder, moduleNothing, moduleIcons, moduleStarCount, moduleListConfig, moduleGridConfig, moduleGridColumns, moduleContent, moduleBackgroundColor;
 
@@ -179,6 +179,7 @@ public class EditmodeFragment extends Fragment
 		backgroundBlue = (Button)root.findViewById(R.id.editmode_background_blue);
 		backgroundGreyLight = (Button)root.findViewById(R.id.editmode_background_grey_light);
 		backgroundGrey = (Button)root.findViewById(R.id.editmode_background_grey);
+		backgroundReset = (Button)root.findViewById(R.id.editmode_background_reset);
 		
 		backgroundRed.setOnClickListener(new SetBackgroundColorModuleListener());
 		backgroundOrange.setOnClickListener(new SetBackgroundColorModuleListener());
@@ -189,6 +190,7 @@ public class EditmodeFragment extends Fragment
 		backgroundBlue.setOnClickListener(new SetBackgroundColorModuleListener());
 		backgroundGreyLight.setOnClickListener(new SetBackgroundColorModuleListener());
 		backgroundGrey.setOnClickListener(new SetBackgroundColorModuleListener());
+		backgroundReset.setOnClickListener(new SetBackgroundColorModuleListener());
 		
 	}
 
@@ -848,7 +850,25 @@ public class EditmodeFragment extends Fragment
 
 				break;
 				
+			case R.id.editmode_background_reset:
+				currentView.setBackgroundResource(R.drawable.object_background_default);
+				resetBackgroundToDefault(currentView, bundle);
+								
 			}
+			
+		}
+
+		private void resetBackgroundToDefault(View currentView, Bundle bundle)
+		{
+			bundle.putInt(Generator.CREATION_STYLE,  R.drawable.object_background_default);
+			
+			switch(currentView.getId())
+			{
+			case R.id.element_button:
+				break;
+			}
+			
+			bundle.putInt(Generator.PRESENTATION_STYLE, R.drawable.presentation_default_object);
 			
 		}
 		

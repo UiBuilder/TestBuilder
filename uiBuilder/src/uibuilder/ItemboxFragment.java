@@ -7,12 +7,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
-import creators.ObjectFactory;
+import android.widget.LinearLayout;
 import de.ur.rk.uibuilder.R;
 /**
  * 
@@ -44,33 +42,33 @@ public class ItemboxFragment extends Fragment implements
 
 	private void setupLibraryUi()
 	{
-		ImageButton createButton = (ImageButton) layout.findViewById(R.id.element_button);
+		LinearLayout createButton = (LinearLayout) layout.findViewById(R.id.element_button);
 
-		ImageButton createTextView = (ImageButton) layout.findViewById(R.id.element_textview);
+		LinearLayout createTextView = (LinearLayout) layout.findViewById(R.id.element_textview);
 
-		ImageButton createImage = (ImageButton) layout.findViewById(R.id.element_imageview);
+		LinearLayout createImage = (LinearLayout) layout.findViewById(R.id.element_imageview);
 
-		ImageButton createEditText = (ImageButton) layout.findViewById(R.id.element_edittext);
+		LinearLayout createEditText = (LinearLayout) layout.findViewById(R.id.element_edittext);
 
-		ImageButton createRadioGroup = (ImageButton) layout.findViewById(R.id.element_radiogroup);
+		LinearLayout createRadioGroup = (LinearLayout) layout.findViewById(R.id.element_radiogroup);
 
-		ImageButton createSwitch = (ImageButton) layout.findViewById(R.id.element_switch);
+		LinearLayout createSwitch = (LinearLayout) layout.findViewById(R.id.element_switch);
 
-		ImageButton createCheckbox = (ImageButton) layout.findViewById(R.id.element_checkbox);
+		LinearLayout createCheckbox = (LinearLayout) layout.findViewById(R.id.element_checkbox);
 
-		ImageButton createList = (ImageButton) layout.findViewById(R.id.element_list);
+		LinearLayout createList = (LinearLayout) layout.findViewById(R.id.element_list);
 		
-		ImageButton createGrid = (ImageButton) layout.findViewById(R.id.element_grid);
+		LinearLayout createGrid = (LinearLayout) layout.findViewById(R.id.element_grid);
 
-		ImageButton createNumberPicker = (ImageButton) layout.findViewById(R.id.element_numberpick);
+		LinearLayout createNumberPicker = (LinearLayout) layout.findViewById(R.id.element_numberpick);
 
-		ImageButton createRatingBar = (ImageButton) layout.findViewById(R.id.element_ratingbar);
+		LinearLayout createRatingBar = (LinearLayout) layout.findViewById(R.id.element_ratingbar);
 
-		ImageButton createSeekBar = (ImageButton) layout.findViewById(R.id.element_seekbar);
+		LinearLayout createSeekBar = (LinearLayout) layout.findViewById(R.id.element_seekbar);
 
-		ImageButton createTimePicker = (ImageButton) layout.findViewById(R.id.element_timepicker);
+		LinearLayout createTimePicker = (LinearLayout) layout.findViewById(R.id.element_timepicker);
 
-		ImageButton createContainer = (ImageButton) layout.findViewById(R.id.element_container);
+		LinearLayout createContainer = (LinearLayout) layout.findViewById(R.id.element_container);
 
 		createButton.setOnTouchListener(this);
 		createTextView.setOnTouchListener(this);
