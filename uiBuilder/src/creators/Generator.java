@@ -76,7 +76,8 @@ public class Generator
 		View xmlView;
 		RelativeLayout.LayoutParams params = null;
 		Bundle properties = getBundle(id);
-		
+		params = new RelativeLayout.LayoutParams(properties.getInt(MINWIDTH), properties.getInt(MINHEIGHT));
+
 		switch (id)
 		{
 		case R.id.element_button:
@@ -126,6 +127,8 @@ public class Generator
 
 		case R.id.element_ratingbar:
 			xmlView = buildRatingBar();
+			params = new RelativeLayout.LayoutParams(properties.getInt(MINWIDTH) * 5, properties.getInt(MINHEIGHT));
+
 			
 			break;
 
@@ -153,7 +156,6 @@ public class Generator
 			throw new NoClassDefFoundError();
 		}
 		
-		params = new RelativeLayout.LayoutParams(properties.getInt(MINWIDTH), properties.getInt(MINHEIGHT));
 		xmlView.setLayoutParams(params);
 		
 		xmlView.setBackgroundResource(properties.getInt(CREATION_STYLE));
