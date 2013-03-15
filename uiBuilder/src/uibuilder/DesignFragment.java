@@ -73,9 +73,12 @@ public class DesignFragment extends Fragment implements OnDragListener,
 			 */
 			private void resizeDrawingArea()
 			{
-				int rootWidth = designArea.getMeasuredWidth();
-				int rootHeight = rootWidth / 16 * 9;
+				//int rootWidth = designArea.getMeasuredWidth();
+				//int rootHeight = rootWidth / 16 * 9;
 
+				int rootHeight = designArea.getHeight();
+				int rootWidth = Math.round(rootHeight/16f * 10f);
+				
 				Log.d("pre measured", String.valueOf(rootWidth));
 				Log.d("pre measured", String.valueOf(rootHeight));
 

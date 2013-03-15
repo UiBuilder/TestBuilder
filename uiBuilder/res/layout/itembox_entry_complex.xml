@@ -51,6 +51,7 @@
 		            android:layout_height="wrap_content"
 		            android:text="@string/itembox_complex_element_caption_radio" 
 		            android:gravity="center_horizontal"
+		            android:background="@color/superlight_grey"
 		            />
 		        
 	        </LinearLayout>
@@ -77,6 +78,7 @@
 		            android:layout_height="wrap_content"
 		            android:text="@string/itembox_complex_element_caption_switch"
 		            android:gravity="center_horizontal"
+		            android:background="@color/superlight_grey"
 		            />
 		        
 	        </LinearLayout>
@@ -103,6 +105,7 @@
 		            android:layout_height="wrap_content"
 		            android:text="@string/itembox_complex_element_caption_checkbox"
 		            android:gravity="center_horizontal"
+		            android:background="@color/superlight_grey"
 		            />
 		        
 	        </LinearLayout>
@@ -139,6 +142,7 @@
 		            android:layout_height="wrap_content"
 		            android:text="@string/itembox_complex_element_caption_timepicker"
 		            android:gravity="center_horizontal"
+		            android:background="@color/superlight_grey"
 		            />
 		        
 	        </LinearLayout>
@@ -165,6 +169,7 @@
 		            android:layout_height="wrap_content"
 		            android:text="@string/itembox_complex_element_caption_numberpick"
 		            android:gravity="center_horizontal"
+		            android:background="@color/superlight_grey"
 		            />
 		        
 	        </LinearLayout>
@@ -191,6 +196,7 @@
 		            android:layout_height="wrap_content"
 		            android:text="@string/itembox_complex_element_caption_ratingbar"
 		            android:gravity="center_horizontal"
+		            android:background="@color/superlight_grey"
 		            />
 		        
 	        </LinearLayout>
@@ -228,6 +234,7 @@
 		            android:layout_height="wrap_content"
 		            android:text="@string/itembox_complex_element_caption_seekbar"
 		            android:gravity="center_horizontal"
+		            android:background="@color/superlight_grey"
 		            />
 		        
 	        </LinearLayout>
@@ -254,6 +261,7 @@
 		            android:layout_height="wrap_content"
 		            android:text="@string/itembox_complex_element_caption_list"
 		            android:gravity="center_horizontal"
+		            android:background="@color/superlight_grey"
 		            />
 		        
 	        </LinearLayout>
@@ -281,6 +289,7 @@
 		            android:layout_height="wrap_content"
 		            android:text="@string/itembox_complex_element_caption_grid"
 		            android:gravity="center_horizontal"
+		            android:background="@color/superlight_grey"
 		            />
 		        
 	        </LinearLayout>

@@ -16,7 +16,7 @@
     <color name="editbox_item_border_active">@color/fresh_aqua_solid</color>
     
     <color name="itembox_item_background_normal">@android:color/white</color>
-    <color name="itembox_item_background_active">@color/superlight_grey</color>
+    <color name="itembox_item_background_active">@color/fresh_aqua</color>
     <color name="itembox_item_border_normal">@android:color/white</color>
     <color name="itembox_item_border_active">@color/fresh_aqua_solid</color>
     
