@@ -21,42 +21,92 @@
         android:layout_below="@id/itembox_entry_complex_title"
         
         >
-        <TableRow 
+       <TableRow 
             android:orientation="horizontal"
             android:layout_width="match_parent"
         	android:layout_height="wrap_content"
             android:weightSum="3"
 			
             >
-            
-            <Button
-            android:id="@+id/element_radiogroup"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/itembox_complex_element_caption_radio" 
-            style="@style/itembox_items"
-            />
+            <LinearLayout 
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                
+                android:layout_weight="1"
+               	style="@style/itembox_items"
+               	android:orientation="vertical"
+             	>
+             	
+		        <ImageButton android:id="@+id/element_radiogroup"
+		            android:src="@raw/ui_builder_icon_radios"  
+		            android:layout_width="match_parent"
+		            android:layout_height="0dp"
+		            android:layout_weight="1"
+		            
+		            style="@style/itembox_items"
+		            />
+		        
+		        <TextView 
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:text="@string/itembox_complex_element_caption_radio" 
+		            android:gravity="center_horizontal"
+		            />
+		        
+	        </LinearLayout>
+	        
+			<LinearLayout 
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                
+                android:layout_weight="1"
+               	style="@style/itembox_items"
+               	android:orientation="vertical"
+             	>
+		        <ImageButton android:id="@+id/element_switch"
+		            android:src="@raw/ui_builder_icon_switch"  
+		            android:layout_width="match_parent"
+		            android:layout_height="0dp"
+		            android:layout_weight="1"
+		            
+		            style="@style/itembox_items"
+		            />
+		        
+		        <TextView 
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:text="@string/itembox_complex_element_caption_switch"
+		            android:gravity="center_horizontal"
+		            />
+		        
+	        </LinearLayout>
         
-       		 <Button
-            android:id="@+id/element_switch"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/itembox_complex_element_caption_switch"
-            style="@style/itembox_items"
-             />
-        
-        	<Button
-            android:id="@+id/element_checkbox"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/itembox_complex_element_caption_checkbox"
-            style="@style/itembox_items"
-             />
+			<LinearLayout 
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                
+                android:layout_weight="1"
+               	style="@style/itembox_items"
+               	android:orientation="vertical"
+             	>
+		        <ImageButton android:id="@+id/element_checkbox"
+		            android:src="@raw/ui_builder_icon_checkbox"  
+		            android:layout_width="match_parent"
+		            android:layout_height="0dp"
+		            android:layout_weight="1"
+		            
+		            style="@style/itembox_items"
+		            />
+		        
+		        <TextView 
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:text="@string/itembox_complex_element_caption_checkbox"
+		            android:gravity="center_horizontal"
+		            />
+		        
+	        </LinearLayout>
 
-             
         </TableRow>
         
         <TableRow 
@@ -66,71 +116,174 @@
             android:weightSum="3"
 
             >
-	       	
-            <Button
-            android:id="@+id/element_timepicker"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/itembox_complex_element_caption_timepicker" 
-            android:layout_weight="1"
-            style="@style/itembox_items"
-            />
-        
-        	<Button
-            android:id="@+id/element_numberpick"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/itembox_complex_element_caption_numberpick" 
-            style="@style/itembox_items"
-            />
-        
-        	<Button
-            android:id="@+id/element_ratingbar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/itembox_complex_element_caption_ratingbar" 
-            style="@style/itembox_items"
-            />
+			
+            <LinearLayout 
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                
+                android:layout_weight="1"
+               	style="@style/itembox_items"
+               	android:orientation="vertical"
+             	>
+		        <ImageButton android:id="@+id/element_timepicker"
+		            android:src="@raw/ui_builder_icon_timepicker"  
+		            android:layout_width="match_parent"
+		            android:layout_height="0dp"
+		            android:layout_weight="1"
+		            
+		            style="@style/itembox_items"
+		            />
+		        
+		        <TextView 
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:text="@string/itembox_complex_element_caption_timepicker"
+		            android:gravity="center_horizontal"
+		            />
+		        
+	        </LinearLayout>
+
+        	<LinearLayout 
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                
+                android:layout_weight="1"
+               	style="@style/itembox_items"
+               	android:orientation="vertical"
+             	>
+		        <ImageButton android:id="@+id/element_numberpick"
+		            android:src="@raw/ui_builder_icon_numberpicker"  
+		            android:layout_width="match_parent"
+		            android:layout_height="0dp"
+		            android:layout_weight="1"
+		            
+		            style="@style/itembox_items"
+		            />
+		        
+		        <TextView 
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:text="@string/itembox_complex_element_caption_numberpick"
+		            android:gravity="center_horizontal"
+		            />
+		        
+	        </LinearLayout>
+
+        	<LinearLayout 
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                
+                android:layout_weight="1"
+               	style="@style/itembox_items"
+               	android:orientation="vertical"
+             	>
+		        <ImageButton android:id="@+id/element_ratingbar"
+		            android:src="@raw/ui_builder_icon_rating"  
+		            android:layout_width="match_parent"
+		            android:layout_height="0dp"
+		            android:layout_weight="1"
+		            
+		            style="@style/itembox_items"
+		            />
+		        
+		        <TextView 
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:text="@string/itembox_complex_element_caption_ratingbar"
+		            android:gravity="center_horizontal"
+		            />
+		        
+	        </LinearLayout>
+
             
        	 </TableRow>
        	 
-        <TableRow 
+       <TableRow 
             android:orientation="horizontal"
             android:layout_width="match_parent"
         	android:layout_height="wrap_content"
             android:weightSum="3"
 
-            >      
-        
-        <Button
-            android:id="@+id/element_seekbar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/itembox_complex_element_caption_seekbar" 
-            android:layout_weight="1"
-            style="@style/itembox_items"
-            />
-        
-        <Button
-			android:id="@+id/element_list"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/itembox_complex_element_caption_list"
-            style="@style/itembox_items"
+            >  
             
-             />
-            
-        <Button
-			android:id="@+id/element_grid"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/itembox_complex_element_caption_grid"
-            style="@style/itembox_items"
-             />
+            <LinearLayout 
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                
+                android:layout_weight="1"
+               	style="@style/itembox_items"
+               	android:orientation="vertical"
+             	>
+		        <ImageButton android:id="@+id/element_seekbar"
+		            android:src="@raw/ui_builder_icon_seekbar"  
+		            android:layout_width="match_parent"
+		            android:layout_height="0dp"
+		            android:layout_weight="1"
+		            
+		            style="@style/itembox_items"
+		            />
+		        
+		        <TextView 
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:text="@string/itembox_complex_element_caption_seekbar"
+		            android:gravity="center_horizontal"
+		            />
+		        
+	        </LinearLayout>
+        
+			<LinearLayout 
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                
+                android:layout_weight="1"
+               	style="@style/itembox_items"
+               	android:orientation="vertical"
+             	>
+		        <ImageButton android:id="@+id/element_list"
+		            android:src="@raw/ui_builder_icon_list"  
+		            android:layout_width="match_parent"
+		            android:layout_height="0dp"
+		            android:layout_weight="1"
+		            
+		            style="@style/itembox_items"
+		            />
+		        
+		        <TextView 
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:text="@string/itembox_complex_element_caption_list"
+		            android:gravity="center_horizontal"
+		            />
+		        
+	        </LinearLayout>
+        
+			<LinearLayout 
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                
+                android:layout_weight="1"
+               	style="@style/itembox_items"
+               	android:orientation="vertical"
+             	>
+		        <ImageButton android:id="@+id/element_grid"
+		            android:src="@raw/ui_builder_icon_grid"  
+		            android:layout_width="match_parent"
+		            android:layout_height="0dp"
+		            android:layout_weight="1"
+		            
+		            style="@style/itembox_items"
+		            />
+		        
+		        <TextView 
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:text="@string/itembox_complex_element_caption_grid"
+		            android:gravity="center_horizontal"
+		            />
+		        
+	        </LinearLayout>
+
        	 </TableRow>
         
         

@@ -42,31 +42,31 @@ public class ItemboxFragment extends Fragment implements
 
 	private void setupLibraryUi()
 	{
-		LinearLayout createButton = (LinearLayout) layout.findViewById(R.id.element_button);
+		ImageButton createButton = (ImageButton) layout.findViewById(R.id.element_button);
 
-		LinearLayout createTextView = (LinearLayout) layout.findViewById(R.id.element_textview);
+		ImageButton createTextView = (ImageButton) layout.findViewById(R.id.element_textview);
 
-		LinearLayout createImage = (LinearLayout) layout.findViewById(R.id.element_imageview);
+		ImageButton createImage = (ImageButton) layout.findViewById(R.id.element_imageview);
 
-		LinearLayout createEditText = (LinearLayout) layout.findViewById(R.id.element_edittext);
+		ImageButton createEditText = (ImageButton) layout.findViewById(R.id.element_edittext);
 
-		LinearLayout createRadioGroup = (LinearLayout) layout.findViewById(R.id.element_radiogroup);
+		ImageButton createRadioGroup = (ImageButton) layout.findViewById(R.id.element_radiogroup);
 
-		LinearLayout createSwitch = (LinearLayout) layout.findViewById(R.id.element_switch);
+		ImageButton createSwitch = (ImageButton) layout.findViewById(R.id.element_switch);
 
-		LinearLayout createCheckbox = (LinearLayout) layout.findViewById(R.id.element_checkbox);
+		ImageButton createCheckbox = (ImageButton) layout.findViewById(R.id.element_checkbox);
 
-		LinearLayout createList = (LinearLayout) layout.findViewById(R.id.element_list);
+		ImageButton createList = (ImageButton) layout.findViewById(R.id.element_list);
 		
-		LinearLayout createGrid = (LinearLayout) layout.findViewById(R.id.element_grid);
+		ImageButton createGrid = (ImageButton) layout.findViewById(R.id.element_grid);
 
-		LinearLayout createNumberPicker = (LinearLayout) layout.findViewById(R.id.element_numberpick);
+		ImageButton createNumberPicker = (ImageButton) layout.findViewById(R.id.element_numberpick);
 
-		LinearLayout createRatingBar = (LinearLayout) layout.findViewById(R.id.element_ratingbar);
+		ImageButton createRatingBar = (ImageButton) layout.findViewById(R.id.element_ratingbar);
 
-		LinearLayout createSeekBar = (LinearLayout) layout.findViewById(R.id.element_seekbar);
+		ImageButton createSeekBar = (ImageButton) layout.findViewById(R.id.element_seekbar);
 
-		LinearLayout createTimePicker = (LinearLayout) layout.findViewById(R.id.element_timepicker);
+		ImageButton createTimePicker = (ImageButton) layout.findViewById(R.id.element_timepicker);
 
 		//LinearLayout createContainer = (LinearLayout) layout.findViewById(R.id.element_container);
 

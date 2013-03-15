@@ -28,7 +28,7 @@
             android:weightSum="3"
 			
             >
-            <LinearLayout android:id="@+id/element_button"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 
@@ -37,7 +37,7 @@
                	android:orientation="vertical"
              	>
              	
-		        <ImageButton
+		        <ImageButton android:id="@+id/element_button"
 		            android:src="@raw/ui_builder_icon_button"
 		            android:scaleType="centerInside"
 		            android:layout_width="match_parent"
@@ -54,7 +54,7 @@
 		            />
 		        
 	        </LinearLayout>
-	        <LinearLayout android:id="@+id/element_textview"
+	        <LinearLayout 
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
 
@@ -62,7 +62,7 @@
                	style="@style/itembox_items"
                	android:orientation="vertical"
              	>
-		        <ImageButton
+		        <ImageButton android:id="@+id/element_textview"
 		            android:src="@raw/ui_builder_icon_textfield"
 		            android:scaleType="centerInside"
 		            
@@ -80,7 +80,7 @@
 		            />
 	        </LinearLayout>
 	        
-	        <LinearLayout android:id="@+id/element_imageview"
+	        <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 
@@ -88,7 +88,7 @@
                	style="@style/itembox_items"
                	android:orientation="vertical"
              	>
-		         <ImageButton
+		         <ImageButton android:id="@+id/element_imageview"
 		            android:src="@raw/ui_builder_icon_image"
 		            android:scaleType="centerInside"
 		            android:layout_width="match_parent"
@@ -115,7 +115,7 @@
             android:weightSum="3"
 
             >
-	        <LinearLayout android:id="@+id/element_edittext"
+	        <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 
@@ -124,7 +124,7 @@
                	android:orientation="vertical"
              	>
              	
-		        <ImageButton 
+		        <ImageButton android:id="@+id/element_edittext"
 		            android:src="@raw/ui_builder_icon_edittext"
 			        android:scaleType="centerInside"
 		            android:layout_width="match_parent"
