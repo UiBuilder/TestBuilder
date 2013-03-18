@@ -160,7 +160,7 @@
             android:layout_height="wrap_content"
             android:text="@string/editmode_reset_background"
             android:gravity="center"/>
-            "
+            
         
     </TableLayout>
 

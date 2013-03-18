@@ -13,7 +13,7 @@
     <!-- MENU ACTION -->
     <string name="menu_action_export_gallery">Export</string>
     <string name="menu_action_export_share">Share</string>
-    <string name="menu_action_preview_mode">PREVIEW</string>
+    <string name="menu_action_preview_mode">HOLD TO PREVIEW</string>
     
     <!-- INTENT TITLES -->
     <string name="intent_title_share">Share design</string>
@@ -113,7 +113,7 @@
     <string name="item_edit_star_count">Select number of Stars</string>
     <string name="item_edit_star_rating">Adjust rating</string>
   	<string name="item_edit_background_color">Background Color</string>
-  	<string name="editmode_reset_background">RESET</string>
+  	<string name="editmode_reset_background">RESET TO DEFAULT</string>
 
 
     
