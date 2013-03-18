@@ -3,300 +3,258 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/designfragment_background"
-    android:padding="@dimen/default_padding_medium"
-    >
+    android:padding="@dimen/default_padding_medium" >
 
-    <TextView android:id="@+id/itembox_entry_complex_title"
-        android:layout_width="match_parent"
-    	android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-
-        android:text="@string/itembox_complex_title"
+    <TextView
+        android:id="@+id/itembox_entry_complex_title"
         style="@style/itembox_header"
-        />
-    
-    <TableLayout android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="@string/itembox_complex_title" />
+
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/itembox_entry_complex_title"
-        android:weightSum="3"
-        >
-       <TableRow 
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-        	android:layout_height="wrap_content"
-            android:weightSum="3"
-			android:layout_weight="1"
-            >
-            <LinearLayout 
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                
-                android:layout_weight="1"
-               	style="@style/itembox_items"
-               	android:orientation="vertical"
-             	>
-             	
-		        <ImageButton android:id="@+id/element_radiogroup"
-		            android:src="@raw/ui_builder_icon_radios"  
-		            android:layout_width="match_parent"
-		            android:layout_height="0dp"
-		            android:layout_weight="1"
-		            android:scaleType="fitCenter"
-		            style="@style/itembox_items"
-		            />
-		        
-		        <TextView 
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:text="@string/itembox_complex_element_caption_radio" 
-		            android:gravity="center_horizontal"
-		            android:background="@color/superlight_grey"
-		            />
-		        
-	        </LinearLayout>
-	        
-			<LinearLayout 
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                
-                android:layout_weight="1"
-               	style="@style/itembox_items"
-               	android:orientation="vertical"
-             	>
-		        <ImageButton android:id="@+id/element_switch"
-		            android:src="@raw/ui_builder_icon_switch"  
-		            android:layout_width="match_parent"
-		            android:layout_height="0dp"
-		            android:layout_weight="1"
-		            android:scaleType="fitCenter"
-		            style="@style/itembox_items"
-		            />
-		        
-		        <TextView 
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:text="@string/itembox_complex_element_caption_switch"
-		            android:gravity="center_horizontal"
-		            android:background="@color/superlight_grey"
-		            />
-		        
-	        </LinearLayout>
-        
-			<LinearLayout 
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                
-                android:layout_weight="1"
-               	style="@style/itembox_items"
-               	android:orientation="vertical"
-             	>
-		        <ImageButton android:id="@+id/element_checkbox"
-		            android:src="@raw/ui_builder_icon_checkbox"  
-		            android:layout_width="match_parent"
-		            android:layout_height="0dp"
-		            android:layout_weight="1"
-		            android:scaleType="fitCenter"
-		            style="@style/itembox_items"
-		            />
-		        
-		        <TextView 
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:text="@string/itembox_complex_element_caption_checkbox"
-		            android:gravity="center_horizontal"
-		            android:background="@color/superlight_grey"
-		            />
-		        
-	        </LinearLayout>
+        android:orientation="vertical" >
 
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3" >
+
+            <LinearLayout
+                style="@style/itembox_items"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <ImageButton
+                    android:id="@+id/element_radiogroup"
+                    style="@style/itembox_items"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:src="@raw/ui_builder_icon_radios" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/superlight_grey"
+                    android:gravity="center_horizontal"
+                    android:text="@string/itembox_complex_element_caption_radio" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/itembox_items"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <ImageButton
+                    android:id="@+id/element_switch"
+                    style="@style/itembox_items"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:src="@raw/ui_builder_icon_switch" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/superlight_grey"
+                    android:gravity="center_horizontal"
+                    android:text="@string/itembox_complex_element_caption_switch" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/itembox_items"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <ImageButton
+                    android:id="@+id/element_checkbox"
+                    style="@style/itembox_items"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:src="@raw/ui_builder_icon_checkbox" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/superlight_grey"
+                    android:gravity="center_horizontal"
+                    android:text="@string/itembox_complex_element_caption_checkbox" />
+            </LinearLayout>
         </TableRow>
-        
-        <TableRow 
-            android:orientation="horizontal"
+
+        <TableRow
             android:layout_width="match_parent"
-        	android:layout_height="wrap_content"
-            android:weightSum="3"
-			android:layout_weight="1"
-            >
-			
-            <LinearLayout 
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                
-                android:layout_weight="1"
-               	style="@style/itembox_items"
-               	android:orientation="vertical"
-             	>
-		        <ImageButton android:id="@+id/element_timepicker"
-		            android:src="@raw/ui_builder_icon_timepicker"  
-		            android:layout_width="match_parent"
-		            android:layout_height="0dp"
-		            android:layout_weight="1"
-		            android:scaleType="fitCenter"
-		            style="@style/itembox_items"
-		            />
-		        
-		        <TextView 
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:text="@string/itembox_complex_element_caption_timepicker"
-		            android:gravity="center_horizontal"
-		            android:background="@color/superlight_grey"
-		            />
-		        
-	        </LinearLayout>
-
-        	<LinearLayout 
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                
-                android:layout_weight="1"
-               	style="@style/itembox_items"
-               	android:orientation="vertical"
-             	>
-		        <ImageButton android:id="@+id/element_numberpick"
-		            android:src="@raw/ui_builder_icon_numberpicker"  
-		            android:layout_width="match_parent"
-		            android:layout_height="0dp"
-		            android:layout_weight="1"
-		            android:scaleType="fitCenter"
-		            style="@style/itembox_items"
-		            />
-		        
-		        <TextView 
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:text="@string/itembox_complex_element_caption_numberpick"
-		            android:gravity="center_horizontal"
-		            android:background="@color/superlight_grey"
-		            />
-		        
-	        </LinearLayout>
-
-        	<LinearLayout 
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                
-                android:layout_weight="1"
-               	style="@style/itembox_items"
-               	android:orientation="vertical"
-             	>
-		        <ImageButton android:id="@+id/element_ratingbar"
-		            android:src="@raw/ui_builder_icon_rating"  
-		            android:layout_width="match_parent"
-		            android:layout_height="0dp"
-		            android:layout_weight="1"
-		            android:scaleType="fitCenter"
-		            style="@style/itembox_items"
-		            />
-		        
-		        <TextView 
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:text="@string/itembox_complex_element_caption_ratingbar"
-		            android:gravity="center_horizontal"
-		            android:background="@color/superlight_grey"
-		            />
-		        
-	        </LinearLayout>
-
-            
-       	 </TableRow>
-       	 
-       <TableRow 
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_width="match_parent"
-        	android:layout_height="wrap_content"
-            android:weightSum="3"
-			android:layout_weight="1"
-            >  
-            
-            <LinearLayout 
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                
-                android:layout_weight="1"
-               	style="@style/itembox_items"
-               	android:orientation="vertical"
-             	>
-		        <ImageButton android:id="@+id/element_seekbar"
-		            android:src="@raw/ui_builder_icon_seekbar"  
-		            android:layout_width="match_parent"
-		            android:layout_height="0dp"
-		            android:layout_weight="1"
-		            android:scaleType="fitCenter"
-		            style="@style/itembox_items"
-		            />
-		        
-		        <TextView 
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:text="@string/itembox_complex_element_caption_seekbar"
-		            android:gravity="center_horizontal"
-		            android:background="@color/superlight_grey"
-		            />
-		        
-	        </LinearLayout>
-        
-			<LinearLayout 
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                
-                android:layout_weight="1"
-               	style="@style/itembox_items"
-               	android:orientation="vertical"
-             	>
-		        <ImageButton android:id="@+id/element_list"
-		            android:src="@raw/ui_builder_icon_list"  
-		            android:layout_width="match_parent"
-		            android:layout_height="0dp"
-		            android:layout_weight="1"
-		            android:scaleType="fitCenter"
-		            style="@style/itembox_items"
-		            />
-		        
-		        <TextView 
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:text="@string/itembox_complex_element_caption_list"
-		            android:gravity="center_horizontal"
-		            android:background="@color/superlight_grey"
-		            />
-		        
-	        </LinearLayout>
-        
-			<LinearLayout 
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                
-                android:layout_weight="1"
-               	style="@style/itembox_items"
-               	android:orientation="vertical"
-             	>
-		        <ImageButton android:id="@+id/element_grid"
-		            android:src="@raw/ui_builder_icon_grid"  
-		            android:layout_width="match_parent"
-		            android:layout_height="0dp"
-		            android:layout_weight="1"
-		            android:scaleType="fitCenter"
-		    
-		            style="@style/itembox_items"
-		            />
-		        
-		        <TextView 
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:text="@string/itembox_complex_element_caption_grid"
-		            android:gravity="center_horizontal"
-		            android:background="@color/superlight_grey"
-		            />
-		        
-	        </LinearLayout>
+            android:weightSum="3" >
 
-       	 </TableRow>
-        
-        
+            <LinearLayout
+                style="@style/itembox_items"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <ImageButton
+                    android:id="@+id/element_timepicker"
+                    style="@style/itembox_items"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:src="@raw/ui_builder_icon_timepicker" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/superlight_grey"
+                    android:gravity="center_horizontal"
+                    android:text="@string/itembox_complex_element_caption_timepicker" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/itembox_items"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <ImageButton
+                    android:id="@+id/element_numberpick"
+                    style="@style/itembox_items"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:src="@raw/ui_builder_icon_numberpicker" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/superlight_grey"
+                    android:gravity="center_horizontal"
+                    android:text="@string/itembox_complex_element_caption_numberpick" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/itembox_items"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <ImageButton
+                    android:id="@+id/element_ratingbar"
+                    style="@style/itembox_items"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:src="@raw/ui_builder_icon_rating" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/superlight_grey"
+                    android:gravity="center_horizontal"
+                    android:text="@string/itembox_complex_element_caption_ratingbar" />
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3" >
+
+            <LinearLayout
+                style="@style/itembox_items"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <ImageButton
+                    android:id="@+id/element_seekbar"
+                    style="@style/itembox_items"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:src="@raw/ui_builder_icon_seekbar" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/superlight_grey"
+                    android:gravity="center_horizontal"
+                    android:text="@string/itembox_complex_element_caption_seekbar" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/itembox_items"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <ImageButton
+                    android:id="@+id/element_list"
+                    style="@style/itembox_items"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:src="@raw/ui_builder_icon_list" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/superlight_grey"
+                    android:gravity="center_horizontal"
+                    android:text="@string/itembox_complex_element_caption_list" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/itembox_items"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <ImageButton
+                    android:id="@+id/element_grid"
+                    style="@style/itembox_items"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:src="@raw/ui_builder_icon_grid" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/superlight_grey"
+                    android:gravity="center_horizontal"
+                    android:text="@string/itembox_complex_element_caption_grid" />
+            </LinearLayout>
+        </TableRow>
     </TableLayout>
 
 </RelativeLayout>

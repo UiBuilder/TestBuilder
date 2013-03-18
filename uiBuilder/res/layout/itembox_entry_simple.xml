@@ -3,153 +3,131 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/designfragment_background"
-    android:padding="@dimen/default_padding_medium"
-    >
+    android:padding="@dimen/default_padding_medium" >
 
-    <TextView android:id="@+id/itembox_entry_simple_title"
-        android:layout_width="match_parent"
-    	android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-
-        android:text="@string/itembox_simple_title"
+    <TextView
+        android:id="@+id/itembox_entry_simple_title"
         style="@style/itembox_header"
-        />
-    
-    <TableLayout android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="@string/itembox_simple_title" />
+
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/itembox_entry_simple_title"
-        
-        >
-        <TableRow 
-            android:orientation="horizontal"
+        android:orientation="vertical" >
+
+        <TableRow
             android:layout_width="match_parent"
-        	android:layout_height="wrap_content"
-            android:weightSum="3"
-			
-            >
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3" >
+
             <LinearLayout
+                style="@style/itembox_items"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                
                 android:layout_weight="1"
-               	style="@style/itembox_items"
-               	android:orientation="vertical"
-             	>
-             	
-		        <ImageButton android:id="@+id/element_button"
-		            android:src="@raw/ui_builder_icon_button"
-		            android:scaleType="centerInside"
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"  
-		        
-		            style="@style/itembox_items"
-		            />
-		        
-		        <TextView 
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:text="@string/itembox_simple_element_caption_button" 
-		            android:gravity="center_horizontal"
-		            android:background="@color/superlight_grey"
-		            />
-		        
-	        </LinearLayout>
-	        <LinearLayout 
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:orientation="vertical" >
 
-                android:layout_weight="1"
-               	style="@style/itembox_items"
-               	android:orientation="vertical"
-             	>
-		        <ImageButton android:id="@+id/element_textview"
-		            android:src="@raw/ui_builder_icon_textfield"
-		            android:scaleType="centerInside"
-		            
-		            android:layout_width="match_parent"
-		            android:layout_height="0dp"
-		            android:layout_weight="1"
-		            style="@style/itembox_items"
-		            />
-		        <TextView 
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:text="@string/itembox_simple_element_caption_textview" 
-		            android:gravity="center_horizontal"
-		            android:background="@color/superlight_grey"
-		            />
-	        </LinearLayout>
-	        
-	        <LinearLayout
+                <ImageButton
+                    android:id="@+id/element_button"
+                    style="@style/itembox_items"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:src="@raw/ui_builder_icon_button" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/superlight_grey"
+                    android:gravity="center_horizontal"
+                    android:text="@string/itembox_simple_element_caption_button" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/itembox_items"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                
                 android:layout_weight="1"
-               	style="@style/itembox_items"
-               	android:orientation="vertical"
-             	>
-		         <ImageButton android:id="@+id/element_imageview"
-		            android:src="@raw/ui_builder_icon_image"
-		            android:scaleType="centerInside"
-		            android:layout_width="match_parent"
-		            android:layout_height="0dp"
-		            android:layout_weight="1"
+                android:orientation="vertical" >
 
-		            style="@style/itembox_items"
-		            />
-		         
-		         <TextView 
-			        android:layout_width="match_parent"
-			        android:layout_height="wrap_content"
-			        android:text="@string/itembox_simple_element_caption_imageview" 
-			        android:gravity="center_horizontal"
-			        android:background="@color/superlight_grey"
-		            />
-	        </LinearLayout>
-             
+                <ImageButton
+                    android:id="@+id/element_textview"
+                    style="@style/itembox_items"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:src="@raw/ui_builder_icon_textfield" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/superlight_grey"
+                    android:gravity="center_horizontal"
+                    android:text="@string/itembox_simple_element_caption_textview" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/itembox_items"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <ImageButton
+                    android:id="@+id/element_imageview"
+                    style="@style/itembox_items"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:src="@raw/ui_builder_icon_image" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/superlight_grey"
+                    android:gravity="center_horizontal"
+                    android:text="@string/itembox_simple_element_caption_imageview" />
+            </LinearLayout>
         </TableRow>
-        
-        <TableRow 
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-        	android:layout_height="wrap_content"
-            android:weightSum="3"
 
-            >
-	        <LinearLayout
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3" >
+
+            <LinearLayout
+                style="@style/itembox_items"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                
                 android:layout_weight="1"
-               	style="@style/itembox_items"
-               	android:orientation="vertical"
-             	>
-             	
-		        <ImageButton android:id="@+id/element_edittext"
-		            android:src="@raw/ui_builder_icon_edittext"
-			        android:scaleType="centerInside"
-		            android:layout_width="match_parent"
-		            android:layout_height="0dp"
-					android:layout_weight="1"
-		            style="@style/itembox_items"
-		            />
-		        
-		        <TextView 
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:text="@string/itembox_simple_element_caption_edittext" 
-		            android:gravity="center_horizontal"
-		            android:background="@color/superlight_grey"
-		            />
-	       	</LinearLayout>
+                android:orientation="vertical" >
 
+                <ImageButton
+                    android:id="@+id/element_edittext"
+                    style="@style/itembox_items"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:src="@raw/ui_builder_icon_edittext" />
 
-
-            
-       	 </TableRow>
-        
-        
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/superlight_grey"
+                    android:gravity="center_horizontal"
+                    android:text="@string/itembox_simple_element_caption_edittext" />
+            </LinearLayout>
+        </TableRow>
     </TableLayout>
 
 </RelativeLayout>
