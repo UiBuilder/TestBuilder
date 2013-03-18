@@ -21,7 +21,7 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:orientation="horizontal"
             android:weightSum="3" >
 
@@ -36,9 +36,8 @@
                     android:id="@+id/element_button"
                     style="@style/itembox_items"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:scaleType="fitCenter"
+                    android:layout_height="40dp"
+                    android:scaleType="centerInside"
                     android:src="@raw/ui_builder_icon_button" />
 
                 <TextView
@@ -60,9 +59,8 @@
                     android:id="@+id/element_textview"
                     style="@style/itembox_items"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:scaleType="fitCenter"
+                    android:layout_height="40dp"
+                    android:scaleType="centerInside"
                     android:src="@raw/ui_builder_icon_textfield" />
 
                 <TextView
@@ -84,9 +82,8 @@
                     android:id="@+id/element_imageview"
                     style="@style/itembox_items"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:scaleType="fitCenter"
+                    android:layout_height="40dp"
+                    android:scaleType="centerInside"
                     android:src="@raw/ui_builder_icon_image" />
 
                 <TextView
@@ -100,7 +97,7 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:orientation="horizontal"
             android:weightSum="3" >
 
@@ -115,9 +112,8 @@
                     android:id="@+id/element_edittext"
                     style="@style/itembox_items"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:scaleType="fitCenter"
+                    android:layout_height="40dp"
+                    android:scaleType="centerInside"
                     android:src="@raw/ui_builder_icon_edittext" />
 
                 <TextView
