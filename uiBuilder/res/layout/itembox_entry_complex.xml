@@ -21,7 +21,7 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:orientation="horizontal"
             android:weightSum="3" >
 
@@ -36,7 +36,7 @@
                     android:id="@+id/element_radiogroup"
                     style="@style/itembox_items"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="60dp"
                     android:scaleType="centerInside"
                     android:src="@raw/ui_builder_icon_radios" />
 
@@ -59,7 +59,7 @@
                     android:id="@+id/element_switch"
                     style="@style/itembox_items"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="60dp"
                     android:scaleType="centerInside"
                     android:src="@raw/ui_builder_icon_switch" />
 
@@ -82,7 +82,7 @@
                     android:id="@+id/element_checkbox"
                     style="@style/itembox_items"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="60dp"
                     android:scaleType="centerInside"
                     android:src="@raw/ui_builder_icon_checkbox" />
 
@@ -97,7 +97,7 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:orientation="horizontal"
             android:weightSum="3" >
 
@@ -112,7 +112,7 @@
                     android:id="@+id/element_timepicker"
                     style="@style/itembox_items"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="60dp"
                     android:scaleType="centerInside"
                     android:src="@raw/ui_builder_icon_timepicker" />
 
@@ -135,7 +135,7 @@
                     android:id="@+id/element_numberpick"
                     style="@style/itembox_items"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="60dp"
                     android:scaleType="centerInside"
                     android:src="@raw/ui_builder_icon_numberpicker" />
 
@@ -158,7 +158,7 @@
                     android:id="@+id/element_ratingbar"
                     style="@style/itembox_items"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="60dp"
                     android:scaleType="centerInside"
                     android:src="@raw/ui_builder_icon_rating" />
 
@@ -173,7 +173,7 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:orientation="horizontal"
             android:weightSum="3" >
 
@@ -188,7 +188,7 @@
                     android:id="@+id/element_seekbar"
                     style="@style/itembox_items"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="60dp"
                     android:scaleType="centerInside"
                     android:src="@raw/ui_builder_icon_seekbar" />
 
@@ -211,7 +211,7 @@
                     android:id="@+id/element_list"
                     style="@style/itembox_items"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="60dp"
                     android:scaleType="centerInside"
                     android:src="@raw/ui_builder_icon_list" />
 
@@ -234,7 +234,7 @@
                     android:id="@+id/element_grid"
                     style="@style/itembox_items"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="60dp"
                     android:scaleType="centerInside"
                     android:src="@raw/ui_builder_icon_grid" />
 

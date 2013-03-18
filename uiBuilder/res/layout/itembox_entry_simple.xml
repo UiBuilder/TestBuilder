@@ -21,7 +21,7 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:orientation="horizontal"
             android:weightSum="3" >
 
@@ -36,7 +36,7 @@
                     android:id="@+id/element_button"
                     style="@style/itembox_items"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="60dp"
                     android:scaleType="centerInside"
                     android:src="@raw/ui_builder_icon_button" />
 
@@ -59,7 +59,7 @@
                     android:id="@+id/element_textview"
                     style="@style/itembox_items"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="60dp"
                     android:scaleType="centerInside"
                     android:src="@raw/ui_builder_icon_textfield" />
 
@@ -82,7 +82,7 @@
                     android:id="@+id/element_imageview"
                     style="@style/itembox_items"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="60dp"
                     android:scaleType="centerInside"
                     android:src="@raw/ui_builder_icon_image" />
 
@@ -97,7 +97,7 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:orientation="horizontal"
             android:weightSum="3" >
 
@@ -112,7 +112,7 @@
                     android:id="@+id/element_edittext"
                     style="@style/itembox_items"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="60dp"
                     android:layout_weight="1"
                     android:scaleType="centerInside"
                     android:src="@raw/ui_builder_icon_edittext" />
