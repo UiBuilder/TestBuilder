@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import de.ur.rk.uibuilder.R;
 /**
  * 

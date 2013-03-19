@@ -3,7 +3,6 @@ package uibuilder;
 import helpers.Grid;
 import helpers.Log;
 import manipulators.Overlay;
-import uibuilder.EditmodeFragment.onObjectEditedListener;
 import android.app.Fragment;
 import android.content.ClipData;
 import android.content.ClipDescription;

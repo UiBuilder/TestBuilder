@@ -5,7 +5,6 @@ import manipulators.Overlay;
 import uibuilder.DesignFragment;
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.DragEvent;
 import android.view.LayoutInflater;

@@ -1,6 +1,5 @@
 package uibuilder;
 
-import creators.Generator;
 import helpers.DisplayModeChanger;
 import helpers.ImageTools;
 import uibuilder.DeleteFragment.onDeleteRequestListener;
@@ -24,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+import creators.Generator;
 import de.ur.rk.uibuilder.R;
 
 public class UiBuilderActivity extends Activity implements

@@ -1,8 +1,8 @@
 package uibuilder;
 
 import helpers.IconAdapter;
-import helpers.ResArrayImporter;
 import helpers.ImageTools;
+import helpers.ResArrayImporter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
@@ -23,8 +23,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.NumberPicker.OnValueChangeListener;

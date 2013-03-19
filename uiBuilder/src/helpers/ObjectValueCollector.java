@@ -21,7 +21,6 @@ public class ObjectValueCollector
 			FONTSIZE = "fontSize", //PICTURE_CONTENT = "pictureContent",
 			BACKGROUND_COLOR = "backgroundColor";
 
-	private View view;
 
 	public static ContentValues getValuePack(View object)
 	{

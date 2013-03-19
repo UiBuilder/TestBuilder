@@ -1,11 +1,7 @@
 package helpers;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.content.res.TypedArray;
-
-import de.ur.rk.uibuilder.R;
 
 
 
