@@ -14,7 +14,7 @@ import de.ur.rk.uibuilder.R;
 public class ObjectValueCollector
 {
 
-	private static String ID = "id", X_POS = "xPos", Y_POS = "yPos",
+	public static String ID = "id", X_POS = "xPos", Y_POS = "yPos",
 			WIDTH = "width", HEIGHT = "height", USER_TEXT = "userText",
 			RATING = "rating", CONTENT = "content", COLUMNS_NUM = "columnsNum",
 			LAYOUT = "layout", STARS_NUM = "starsNum", ALIGNMENT = "alignment",
@@ -23,7 +23,7 @@ public class ObjectValueCollector
 
 	private View view;
 
-	private static ContentValues getValuePack(View object)
+	public static ContentValues getValuePack(View object)
 	{
 		Bundle objectBundle = (Bundle)object.getTag();
 		ContentValues valuesBundle = new ContentValues();
