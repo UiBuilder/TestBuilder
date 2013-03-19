@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -66,6 +67,7 @@ public class ObjectValueCollector
 			break;
 			
 		case R.id.element_imageview:
+			
 			break;
 			
 		case R.id.element_list:

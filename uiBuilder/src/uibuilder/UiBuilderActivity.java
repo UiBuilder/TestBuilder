@@ -34,7 +34,7 @@ public class UiBuilderActivity extends Activity implements
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev)
 	{
-		// TODO Auto-generated method stub
+		///// TODO Auto-generated method stub
 		return super.dispatchTouchEvent(ev);
 	}
 
