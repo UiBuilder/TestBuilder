@@ -269,7 +269,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 				if (!overlay.isActive())
 				{
 					Bundle itemTag = (Bundle) activeItem.getTag();
-					int scaleType = itemTag.getInt(Generator.TYPE);
+					int scaleType = itemTag.getInt(Generator.SCALETYPE);
 					
 					overlay.generate(activeItem, scaleType);
 					

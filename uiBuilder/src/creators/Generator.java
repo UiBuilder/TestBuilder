@@ -50,7 +50,7 @@ public class Generator
 	private LayoutInflater inflater;
 	private ObjectFactory factory;
 	
-	public static final String MINWIDTH = "mWidth", MINHEIGHT = "mHeight", ID = "id", TYPE = "type", CREATION_STYLE = "create", PRESENTATION_STYLE = "pres";
+	public static final String MINWIDTH = "mWidth", MINHEIGHT = "mHeight", ID = "id", SCALETYPE = "type", CREATION_STYLE = "create", PRESENTATION_STYLE = "pres";
 	
 	private Resources res;
 	private int gridFactor;
@@ -316,7 +316,7 @@ public class Generator
 		
 		tagBundle.putInt(PRESENTATION_STYLE, presMode);
 		tagBundle.putInt(CREATION_STYLE, createMode);
-		tagBundle.putInt(TYPE, scaleType);
+		tagBundle.putInt(SCALETYPE, scaleType);
 		tagBundle.putInt(MINHEIGHT, height);
 		tagBundle.putInt(MINWIDTH, width);
 		tagBundle.putInt(ID, which);
