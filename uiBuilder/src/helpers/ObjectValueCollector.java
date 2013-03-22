@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -64,6 +64,9 @@ public class ObjectValueCollector
 			break;
 			
 		case R.id.element_grid:
+			valuesBundle.put(COLUMNS_NUM, ((GridView)object).getNumColumns());
+			valuesBundle.put(CONTENT, objectBundle.getInt(Generator.EXAMPLE_CONTENT));
+			valuesBundle.put(LAYOUT, objectBundle.getInt(Generator.EXAMPLE_LAYOUT));
 			break;
 			
 		case R.id.element_imageview:
@@ -71,6 +74,8 @@ public class ObjectValueCollector
 			break;
 			
 		case R.id.element_list:
+			valuesBundle.put(CONTENT, objectBundle.getInt(Generator.EXAMPLE_CONTENT));
+			valuesBundle.put(LAYOUT, objectBundle.getInt(Generator.EXAMPLE_LAYOUT));
 			break;
 			
 		case R.id.element_numberpick:

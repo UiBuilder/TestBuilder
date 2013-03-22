@@ -49,7 +49,9 @@ public class Generator
 	private LayoutInflater inflater;
 	private ObjectFactory factory;
 	
-	public static final String MINWIDTH = "mWidth", MINHEIGHT = "mHeight", ID = "id", SCALETYPE = "type", CREATION_STYLE = "create", PRESENTATION_STYLE = "pres";
+	public static final String MINWIDTH = "mWidth", MINHEIGHT = "mHeight", ID = "id", SCALETYPE = "type", CREATION_STYLE = "create", PRESENTATION_STYLE = "pres", EXAMPLE_CONTENT = "exampleContent", EXAMPLE_LAYOUT = "exampleLayout", IMG_SRC = "imageSource";
+
+	
 	
 	private Resources res;
 	private int gridFactor;
@@ -185,6 +187,7 @@ public class Generator
 		int scaleType = 0;
 		int createMode = 0;
 		int presMode = 0;
+
 		presMode = R.drawable.presentation_default_object;
 
 		switch (which)
@@ -211,6 +214,7 @@ public class Generator
 			width = res.getInteger(R.integer.image_factor_width);
 			height = res.getInteger(R.integer.image_factor_height);
 			scaleType = Overlay.BOTH;
+			tagBundle.putInt(IMG_SRC, 0);
 			
 			break;
 
@@ -252,6 +256,8 @@ public class Generator
 			width = res.getInteger(R.integer.list_factor_width);
 			height = res.getInteger(R.integer.list_factor_height);
 			scaleType = Overlay.BOTH;
+			tagBundle.putInt(EXAMPLE_CONTENT, R.id.content_choose_hipster);
+			tagBundle.putInt(EXAMPLE_LAYOUT, R.layout.item_listview_example_layout_1);
 
 			break;
 
@@ -301,6 +307,9 @@ public class Generator
 			width = res.getInteger(R.integer.grid_factor_width);
 			height = res.getInteger(R.integer.grid_factor_height);
 			scaleType = Overlay.BOTH;
+			tagBundle.putInt(EXAMPLE_CONTENT, R.id.content_choose_bacon);
+			tagBundle.putInt(EXAMPLE_LAYOUT, R.layout.item_gridview_example_layout_3);
+			
 			
 			break;
 			

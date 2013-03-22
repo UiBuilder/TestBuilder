@@ -639,7 +639,7 @@ public class EditmodeFragment extends Fragment
 			{
 			case R.id.content_choose_hipster:
 			case R.id.content_choose_bacon:
-				editListener.setSampleContent(id);
+				editListener.setSampleContent(currentView, id);
 			}
 
 		}
@@ -1144,7 +1144,7 @@ public class EditmodeFragment extends Fragment
 
 	public interface onObjectEditedListener
 	{
-		void setSampleContent(int id);
+		void setSampleContent(View active, int id);
 
 		void refreshAdapter(View active, int id);
 

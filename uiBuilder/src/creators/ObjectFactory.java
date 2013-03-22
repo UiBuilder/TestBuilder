@@ -135,6 +135,8 @@ public class ObjectFactory implements onObjectEditedListener
 	{
 		RelativeLayout container = (RelativeLayout) active;
 		
+		Bundle bundle = (Bundle) active.getTag();
+
 		GridView gridView = (GridView) container.getChildAt(0);
 		final int gridLayout;
 		
@@ -160,7 +162,8 @@ public class ObjectFactory implements onObjectEditedListener
 			gridLayout = 0;
 			break;
 		}
-		
+		bundle.putInt(Generator.EXAMPLE_LAYOUT, from);
+
 		setAdapter(gridView, gridLayout);
 	}
 
@@ -172,6 +175,7 @@ public class ObjectFactory implements onObjectEditedListener
 	{	
 		RelativeLayout container = (RelativeLayout) active;
 		
+		Bundle bundle = (Bundle) active.getTag();
 		ListView listView = (ListView) container.getChildAt(0);
 		final int listLayout;
 		
@@ -183,22 +187,27 @@ public class ObjectFactory implements onObjectEditedListener
 			
 		case R.id.editmode_list_included_layout_2:
 			listLayout = R.layout.item_listview_example_layout_2;
+
 			break;
 			
 		case R.id.editmode_list_included_layout_3:
 			listLayout = R.layout.item_listview_example_layout_3;
+
 			break;
 			
 		case R.id.editmode_list_included_layout_4:
 			listLayout = R.layout.item_listview_example_layout_4;
+
 			break;
 			
 		case R.id.editmode_list_included_layout_5:
 			listLayout = R.layout.item_listview_example_layout_5;
+
 			break;	
 			
 		case R.id.editmode_list_included_layout_6:
 			listLayout = R.layout.item_listview_example_layout_6;
+
 			break;
 			
 		default:
@@ -206,6 +215,8 @@ public class ObjectFactory implements onObjectEditedListener
 			break;
 		}
 		
+		bundle.putInt(Generator.EXAMPLE_LAYOUT, from);
+
 		setAdapter(listView, listLayout);
 		
 	}
@@ -230,6 +241,7 @@ public class ObjectFactory implements onObjectEditedListener
 				
 				TextView content = (TextView) layout.findViewById(R.id.listview_listitem_content);
 				content.setText(contentsActive[position]);
+				
 				return layout;
 			}			
 		};
@@ -269,19 +281,24 @@ public class ObjectFactory implements onObjectEditedListener
 	}
 
 	@Override
-	public void setSampleContent(int id)
+	public void setSampleContent(View active, int id)
 	{
+		Bundle bundle = (Bundle) active.getTag();
 		switch (id)
 		{
 		case R.id.content_choose_hipster:
 			headersActive = headersHipster;
 			contentsActive = contentsHipster;
+			bundle.putInt(Generator.EXAMPLE_CONTENT, R.id.content_choose_hipster);
+
 			Log.d("hipster", "set");
 			break;
 			
 		case R.id.content_choose_bacon:
 			headersActive = headersBacon;
 			contentsActive = contentsBacon;
+			bundle.putInt(Generator.EXAMPLE_CONTENT, R.id.content_choose_bacon);
+
 			Log.d("bacon", "set");
 			break;
 
