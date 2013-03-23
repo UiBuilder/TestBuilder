@@ -4,7 +4,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="default_overlay_handle_dimension">35dp</dimen>
+    <dimen name="default_overlay_handle_dimension">45dp</dimen>
 
     
     <item name="overlay_alpha" format="float" type="dimen">0.7</item>
