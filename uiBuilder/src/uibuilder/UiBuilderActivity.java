@@ -28,19 +28,20 @@ import de.ur.rk.uibuilder.R;
 
 public class UiBuilderActivity extends Activity implements
 		onUiElementSelectedListener, onObjectSelectedListener,
-		onDeleteRequestListener, OnTouchListener
+		onDeleteRequestListener
 {
 
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev)
 	{
-		///// TODO Auto-generated method stub
+		// /// TODO Auto-generated method stub
 		return super.dispatchTouchEvent(ev);
 	}
 
 	public static final int ITEMBOX = 0;
 	public static final int EDITBOX = 1;
 	public static final int DELETEBOX = 2;
+	public static final int NOTHING = 3;
 
 	private ItemboxFragment itembox;
 	private EditmodeFragment editbox;
@@ -52,6 +53,8 @@ public class UiBuilderActivity extends Activity implements
 	private DisplayModeChanger previewMode;
 	private Button previewButton;
 	private ImageView previewIcon;
+
+	private Boolean isPreview = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -70,8 +73,6 @@ public class UiBuilderActivity extends Activity implements
 		performInitTransaction();
 
 	}
-	
-	
 
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState)
@@ -79,8 +80,6 @@ public class UiBuilderActivity extends Activity implements
 		// TODO Auto-generated method stub
 		super.onRestoreInstanceState(savedInstanceState);
 	}
-
-
 
 	/**
 	 * Create UI-Fragment instances and set the activity as listener for changes
@@ -97,7 +96,6 @@ public class UiBuilderActivity extends Activity implements
 		DesignFragment.setOnObjectSelectedListener(this);
 		DeleteFragment.onDeleteRequestListener(this);
 		setActionBarStyle();
-		
 
 	}
 
@@ -107,16 +105,17 @@ public class UiBuilderActivity extends Activity implements
 	private void setActionBarStyle()
 	{
 		ActionBar bar = getActionBar();
-		bar.setCustomView(R.layout.menu_item_preview);
+		// bar.setCustomView(R.layout.menu_item_preview);
 
-		previewButton = (Button) bar.getCustomView().findViewById(R.id.action_preview_mode);
-		//previewIcon = (ImageView) bar.getCustomView().findViewById(R.id.preview_icon);
-		
-		previewButton.setOnTouchListener(this);
-		//previewIcon.setOnTouchListener(this);
-		
-		bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME
-				| ActionBar.DISPLAY_SHOW_CUSTOM);
+		// previewButton = (Button)
+		// bar.getCustomView().findViewById(R.id.action_preview_mode);
+		// previewIcon = (ImageView)
+		// bar.getCustomView().findViewById(R.id.preview_icon);
+
+		// previewButton.setOnTouchListener(this);
+		// previewIcon.setOnTouchListener(this);
+
+		bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME);
 		bar.setBackgroundDrawable(getResources().getDrawable(R.color.designfragment_background));
 	}
 
@@ -159,6 +158,12 @@ public class UiBuilderActivity extends Activity implements
 
 		switch (sidebarType)
 		{
+		case NOTHING:
+			outSwapper.hide(itembox);
+			outSwapper.hide(editbox);
+			outSwapper.hide(deletebox);
+			break;
+
 		case ITEMBOX:
 
 			outSwapper.hide(editbox);
@@ -179,6 +184,7 @@ public class UiBuilderActivity extends Activity implements
 			outSwapper.hide(editbox);
 			outSwapper.show(deletebox);
 			break;
+
 		}
 		outSwapper.commit();
 		return true;
@@ -204,37 +210,61 @@ public class UiBuilderActivity extends Activity implements
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		designbox.deleteOverlay();
-		DisplayModeChanger.setDisplayMode(designbox.getView(), Generator.PRESENTATION_STYLE);
 
 		switch (item.getItemId())
 		{
 
 		case R.id.action_export_jpeg:
-
+			DisplayModeChanger.setDisplayMode(designbox.getView(), Generator.PRESENTATION_STYLE);
 
 			exporter.requestBitmap(designbox.getView(), getContentResolver(), false);
 
 			Toast.makeText(getApplicationContext(), getString(R.string.confirmation_save_to_gallery), Toast.LENGTH_SHORT).show();
 			DisplayModeChanger.setDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
 
+			DisplayModeChanger.setDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
+
 			break;
 
 		case R.id.action_attach_mail:
-
+			DisplayModeChanger.setDisplayMode(designbox.getView(), Generator.PRESENTATION_STYLE);
 
 			Intent mail = exporter.getIntent(ImageTools.SHARE);
 			mail.putExtra(Intent.EXTRA_STREAM, exporter.requestBitmap(designbox.getView(), getContentResolver(), false));
 
 			startActivityForResult(Intent.createChooser(mail, getString(R.string.intent_title_share)), ImageTools.SHARE);
 
+			DisplayModeChanger.setDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
+
 			break;
+
+		case R.id.action_preview:
+
+			togglePreview(item);
 
 		default:
 			break;
 		}
-		DisplayModeChanger.setDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
-		displaySidebar(ITEMBOX);
+		//displaySidebar(ITEMBOX);
 		return true;
+	}
+
+	private void togglePreview(MenuItem item)
+	{
+		if (isPreview)
+		{
+			isPreview = false;
+			DisplayModeChanger.setDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
+			displaySidebar(ITEMBOX);
+
+		} else
+		{
+			isPreview = true;
+			DisplayModeChanger.setDisplayMode(designbox.getView(), Generator.PRESENTATION_STYLE);
+			displaySidebar(NOTHING);
+
+		}
+
 	}
 
 	@Override
@@ -295,8 +325,7 @@ public class UiBuilderActivity extends Activity implements
 			{
 				displaySidebar(ITEMBOX);
 			}
-		} 
-		else
+		} else
 		{
 			displaySidebar(EDITBOX);
 			editbox.adaptLayoutToContext(lastTouch);
@@ -321,21 +350,23 @@ public class UiBuilderActivity extends Activity implements
 		designbox.performDelete();
 	}
 
-	@Override
-	public boolean onTouch(View v, MotionEvent event)
-	{
-		switch (event.getAction())
-		{
-		case MotionEvent.ACTION_DOWN:
-			designbox.deleteOverlay();
-			displaySidebar(ITEMBOX);
-			DisplayModeChanger.setDisplayMode(designbox.getView(), Generator.PRESENTATION_STYLE);
-			break;
-		case MotionEvent.ACTION_UP:
-			DisplayModeChanger.setDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
-			return true;
-		}
-		return false;
-	}
+	// @Override
+	// public boolean onTouch(View v, MotionEvent event)
+	// {
+	// switch (event.getAction())
+	// {
+	// case MotionEvent.ACTION_DOWN:
+	// designbox.deleteOverlay();
+	// displaySidebar(ITEMBOX);
+	// DisplayModeChanger.setDisplayMode(designbox.getView(),
+	// Generator.PRESENTATION_STYLE);
+	// break;
+	// case MotionEvent.ACTION_UP:
+	// DisplayModeChanger.setDisplayMode(designbox.getView(),
+	// Generator.CREATION_STYLE);
+	// return true;
+	// }
+	// return false;
+	// }
 
 }

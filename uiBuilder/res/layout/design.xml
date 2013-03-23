@@ -22,4 +22,12 @@
 		android:titleCondensed="@string/menu_action_export_share"
         />
     
+    <item
+        android:id="@+id/action_preview"
+        android:title="@string/menu_action_preview_mode"
+        android:icon="@android:drawable/ic_menu_view"
+        android:showAsAction="ifRoom|withText"
+        android:titleCondensed="@string/menu_action_preview_mode"
+        />
+    
 </menu>

@@ -10,7 +10,7 @@
         android:id="@+id/action_export_jpeg"
         android:title="@string/menu_action_export_gallery"
         android:icon="@android:drawable/ic_menu_gallery"
-        android:showAsAction="ifRoom|withText" 
+        android:showAsAction="always|withText" 
 		android:titleCondensed="@string/menu_action_export_gallery"
         />
     
@@ -18,8 +18,16 @@
         android:id="@+id/action_attach_mail"
         android:title="@string/menu_action_export_share"
         android:icon="@android:drawable/ic_menu_share"
-        android:showAsAction="ifRoom|withText" 
+        android:showAsAction="always|withText" 
 		android:titleCondensed="@string/menu_action_export_share"
+        />
+        
+    <item
+        android:id="@+id/action_preview"
+        android:title="@string/menu_action_preview_mode"
+        android:icon="@android:drawable/ic_menu_view"
+        android:showAsAction="always|withText"
+        android:titleCondensed="@string/menu_action_preview_mode"
         />
     
 </menu>
