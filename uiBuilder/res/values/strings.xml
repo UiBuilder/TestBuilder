@@ -4,6 +4,9 @@
     <string name="app_name">uiBuilder</string>
     <string name="action_settings">Settings</string>
     <string name="overlay_desc">Handle for manipulation</string>
+    
+    <!-- DROP AREA DESC -->
+    <string name="droparea_hint">Drop here to delete</string>
 
     <!-- DEFAULT TEXTS AND HINTS -->
     <string name="edittext_hint_default">Enter some text</string>

@@ -21,7 +21,8 @@
 		    android:layout_height="wrap_content"
 		    
 		    android:padding="@dimen/default_padding_large"
-		    android:text="Drop here to delete"
+		    android:text="@string/droparea_hint"
+		    android:textColor="@color/element_out_of_dropzone"
 		    
 		    android:background="@color/designfragment_background"
 		    style="@style/itembox_header"

@@ -10,6 +10,9 @@ public class ResArrayImporter
 	
 	/**
 	 * @author funklos
+	 * <em>This is a copy/paste code fragment</em>
+	 * from
+	 * @see http://www.anddev.org/xml_integer_array_resource_references_getintarray-t9268.html
 	 * For better maintenance the icon resources should be referenced via an XML integer array.
 	 * The problem:
 	 * It is not possible to declare an array of resource references in XML, if you try to, then all
