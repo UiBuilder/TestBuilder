@@ -195,7 +195,7 @@ public class UiBuilderActivity extends Activity implements
 	{
 
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.layout.design, menu);
+		inflater.inflate(R.menu.design, menu);
 
 		return true;
 	}
