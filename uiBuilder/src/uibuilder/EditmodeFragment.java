@@ -252,7 +252,7 @@ public class EditmodeFragment extends Fragment
 	private void setupContentModule()
 	{
 		Button hipster = (Button) moduleContent.findViewById(R.id.content_choose_hipster);
-		Button bacon = (Button) moduleContent.findViewById(R.id.content_choose_	bacon);
+		Button bacon = (Button) moduleContent.findViewById(R.id.content_choose_bacon);
 
 		hipster.setOnClickListener(new ContentSelectedListener());
 		bacon.setOnClickListener(new ContentSelectedListener());
