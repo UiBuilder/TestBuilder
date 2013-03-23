@@ -32,7 +32,7 @@ public class ManagerActivity extends Activity
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3)
 			{
-				// TODO Auto-generated method stub
+				// Start the UIbuilder Activity here with reference to the selected project, or empty if it's a new project
 				
 			}
 		});

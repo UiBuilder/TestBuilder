@@ -29,7 +29,6 @@ public class DisplayModeChanger
 		{
 			Bundle tagBundle = (Bundle) layout.getTag();
 
-			int id = tagBundle.getInt(Generator.ID);
 			int style = tagBundle.getInt(displayStyle);
 
 
