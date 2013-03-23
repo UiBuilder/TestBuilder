@@ -3,24 +3,22 @@
 
     <string name="app_name">uiBuilder</string>
     <string name="action_settings">Settings</string>
-    
     <string name="overlay_desc">Handle for manipulation</string>
 
     <!-- DEFAULT TEXTS AND HINTS -->
     <string name="edittext_hint_default">Enter some text</string>
     <string name="checkbox_caption_default">Caption</string>
-    
+
     <!-- MENU ACTION -->
     <string name="menu_action_export_gallery">Export</string>
     <string name="menu_action_export_share">Share</string>
     <string name="menu_action_preview_mode">HOLD TO PREVIEW</string>
-    
+
     <!-- INTENT TITLES -->
     <string name="intent_title_share">Share design</string>
-    
     <string name="intent_share_extra_subject">Fresh UI-Concept has been shared with you</string>
     <string name="intent_share_extra_text">Check-out the attached image file!</string>
-    
+
     <!-- FEEDBACK -->
     <string name="confirmation_save_to_gallery">Your layout has been saved to the gallery</string>
     <string name="confirmation_share_via_mail">Your layout has been shared</string>
@@ -32,7 +30,6 @@
     <string name="itembox_simple_element_caption_textview">Text</string>
     <string name="itembox_simple_element_caption_edittext">Edit Text</string>
     <string name="itembox_simple_element_caption_container">Container</string>
-    
 
     <!-- ITEMBOX COMPLEX ELEMENTS -->
     <string name="itembox_complex_title">Complex Elements</string>
@@ -46,57 +43,54 @@
     <string name="itembox_complex_element_caption_seekbar">Seekbar</string>
     <string name="itembox_complex_element_caption_list">List</string>
     <string name="itembox_complex_element_caption_grid">Grid</string>
-    
     <string name="button_caption_default">Button</string>
     <string name="radios_caption_default">Option</string>
     <string name="item_edit_enter_text">Text Content</string>
 
-    <!-- IMAGES EDIT-->
+    <!-- IMAGES EDIT -->
     <string name="item_edit_choose_camera">Camera</string>
     <string name="item_edit_choose_gallery">Gallery</string>
     <string name="imageview_content_description">Generic Image</string>
     <string name="item_edit_choose_caption">Choose Image</string>
     <string name="item_edit_choose_hint">Pre-scale the image element for best quality.</string>
     <string name="album_name">uiBuilder</string>
-    
+
     <!-- LIST EDIT -->
     <string name="item_edit_list_caption">Choose List Layout</string>
-    
+
     <!-- LIST EXAMPLE LAYOUTS -->
-    	<!-- Layout Content in Editmode Fragment -->
-	    <string name="listview_listitem_layout_1_header">Header</string>
-	    <string name="listview_listitem_layout_1_content">Content</string>
-	    
-	    
-	    
-	<!-- GRID -->
-	<string name="item_edit_grid_caption">Choose Grid Layout</string>
-	<string name="item_edit_grid_columns_caption">Number Of Columns</string>
-	<string name="item_edit_grid_columns_actual">Now:\u0020</string>
-	<string name="item_edit_grid_content_caption">Example Content</string>
-	
-	<!-- STAR COUNT -->
-	<string name="item_edit_star_count_caption">Customize Rating</string>
-	
-	<!-- CONTENT -->
-	<string name="item_edit_content_hint">Switch the sample content.</string>
-	<string name="item_edit_content_hipster">Hipster!</string>
-	<string name="item_edit_content_bacon">No thanks.</string>
-    
+    <!-- Layout Content in Editmode Fragment -->
+    <string name="listview_listitem_layout_1_header">Header</string>
+    <string name="listview_listitem_layout_1_content">Content</string>
+
+    <!-- GRID -->
+    <string name="item_edit_grid_caption">Choose Grid Layout</string>
+    <string name="item_edit_grid_columns_caption">Number Of Columns</string>
+    <string name="item_edit_grid_columns_actual">Now:\u0020</string>
+    <string name="item_edit_grid_content_caption">Example Content</string>
+
+    <!-- STAR COUNT -->
+    <string name="item_edit_star_count_caption">Customize Rating</string>
+
+    <!-- CONTENT -->
+    <string name="item_edit_content_hint">Switch the sample content.</string>
+    <string name="item_edit_content_hipster">Hipster!</string>
+    <string name="item_edit_content_bacon">No thanks.</string>
+
     <!-- ICONS EDIT -->
     <string name="item_edit_icon_caption">Choose Icon</string>
-    
+
     <!-- Z-ORDER EDIT -->
     <string name="item_edit_z_order_caption">Z-Order</string>
     <string name="item_edit_z_order_front">Foreground</string>
     <string name="item_edit_z_order_back">Background</string>
-    
-    <!-- FONTSIZE EDIT-->
+
+    <!-- FONTSIZE EDIT -->
     <string name="item_edit_fontsize_caption">Fontsize</string>
-    
-	<!-- NOTHING TO EDIT -->
-	<string name="item_nothing_caption">Nothing to customize here</string>
-	
+
+    <!-- NOTHING TO EDIT -->
+    <string name="item_nothing_caption">Nothing to customize here</string>
+
     <!-- EDITMODE TEXTELEMENT -->
     <string name="textview_content_default">Lorem Ipsum Dolor</string>
     <string name="item_edit_align_content">Content Alignment</string>
@@ -112,10 +106,9 @@
     <string name="item_edit_enter_item_count">Anzahl der Elemente</string>
     <string name="item_edit_star_count">Select number of Stars</string>
     <string name="item_edit_star_rating">Adjust rating</string>
-  	<string name="item_edit_background_color">Background Color</string>
-  	<string name="editmode_reset_background">RESET TO DEFAULT</string>
-
-
-    
+    <string name="item_edit_background_color">Background Color</string>
+    <string name="editmode_reset_background">RESET TO DEFAULT</string>
+    <string name="title_activity_manager">Manager</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

@@ -70,6 +70,17 @@ public class UiBuilderActivity extends Activity implements
 		performInitTransaction();
 
 	}
+	
+	
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState)
+	{
+		// TODO Auto-generated method stub
+		super.onRestoreInstanceState(savedInstanceState);
+	}
+
+
 
 	/**
 	 * Create UI-Fragment instances and set the activity as listener for changes
@@ -86,6 +97,7 @@ public class UiBuilderActivity extends Activity implements
 		DesignFragment.setOnObjectSelectedListener(this);
 		DeleteFragment.onDeleteRequestListener(this);
 		setActionBarStyle();
+		
 
 	}
 

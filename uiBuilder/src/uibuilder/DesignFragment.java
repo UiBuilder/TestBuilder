@@ -3,6 +3,7 @@ package uibuilder;
 import helpers.Grid;
 import helpers.Log;
 import manipulators.Overlay;
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.ClipData;
 import android.content.ClipDescription;
@@ -42,9 +43,41 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	public static final int SNAP_GRID_INTERVAL = 15;
 
 	@Override
+	public void onAttach(Activity activity)
+	{
+		// TODO Auto-generated method stub
+		super.onAttach(activity);
+	}
+
+
+	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
+		
 		super.onCreate(savedInstanceState);
+	}
+
+
+	@Override
+	public void onDestroy()
+	{
+		
+		super.onDestroy();
+		
+		
+	}
+
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState)
+	{
+		super.onSaveInstanceState(outState);
+		
 	}
 
 	@Override
@@ -102,7 +135,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState)
 	{
-		super.onCreate(savedInstanceState);
+		//super.onCreate(savedInstanceState);
 
 		activeItem = null;
 		snapMode = true;
