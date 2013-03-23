@@ -1086,7 +1086,7 @@ public class EditmodeFragment extends Fragment
 	{
 		private LinearLayout module;
 		private ImageButton indicator;
-
+		private LinearLayout clickableArea;
 		private View expandableView;
 
 		private int indicatorExpanded = R.raw.ico_small_0037;
@@ -1096,8 +1096,23 @@ public class EditmodeFragment extends Fragment
 		{
 			this.module = module;
 			this.indicator = indicator;
+			this.clickableArea = (LinearLayout) indicator.getParent();
+			this.expandableView = this.module.findViewById(R.id.expandable);
+			
+			setIndikatorListener();
+		}
 
-			expandableView = this.module.findViewById(R.id.expandable);
+		private void setIndikatorListener()
+		{
+			this.indicator.setOnClickListener(new OnClickListener()
+			{
+				
+				@Override
+				public void onClick(View v)
+				{
+					clickableArea.performClick();
+				}
+			});	
 		}
 
 		@Override
