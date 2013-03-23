@@ -467,7 +467,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 				{ ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
 
 				activeItem.startDrag(clipData, new View.DragShadowBuilder(activeItem), activeItem, 0);
-				activeItem.startDrag(clipData, new View.DragShadowBuilder(activeItem), activeItem, 0);
 				break;
 
 			case R.id.overlay_right:

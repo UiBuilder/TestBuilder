@@ -165,10 +165,12 @@ public class EditmodeFragment extends Fragment
 		setupZorderModule();
 		setupIconModule();
 		setupStarCountModule();
-		setupListConfigModule();
-		setupGridConfigModule();
+		
 		setupGridColumnModule();
 		setupContentModule();
+		
+		setupListConfigModule();
+		setupGridConfigModule();
 		setupBackgroundColorModule();
 	}
 
@@ -250,7 +252,7 @@ public class EditmodeFragment extends Fragment
 	private void setupContentModule()
 	{
 		Button hipster = (Button) moduleContent.findViewById(R.id.content_choose_hipster);
-		Button bacon = (Button) moduleContent.findViewById(R.id.content_choose_bacon);
+		Button bacon = (Button) moduleContent.findViewById(R.id.content_choose_	bacon);
 
 		hipster.setOnClickListener(new ContentSelectedListener());
 		bacon.setOnClickListener(new ContentSelectedListener());
@@ -645,6 +647,11 @@ public class EditmodeFragment extends Fragment
 		}
 	}
 
+	/**
+	 * 
+	 * @author funklos
+	 *
+	 */
 	private class ColumnNumberListener implements OnSeekBarChangeListener
 	{
 
@@ -1073,10 +1080,13 @@ public class EditmodeFragment extends Fragment
 	 * @author funklos
 	 * 
 	 */
+	private LinearLayout expandedBox;
+	
 	private class ExpansionListener implements OnClickListener
 	{
 		private LinearLayout module;
 		private ImageButton indicator;
+
 		private View expandableView;
 
 		private int indicatorExpanded = R.raw.ico_small_0037;
@@ -1086,6 +1096,7 @@ public class EditmodeFragment extends Fragment
 		{
 			this.module = module;
 			this.indicator = indicator;
+
 			expandableView = this.module.findViewById(R.id.expandable);
 		}
 
@@ -1102,15 +1113,21 @@ public class EditmodeFragment extends Fragment
 				 */
 			} else
 			{
+			/*
 				clickedModule.post(new Runnable()
 				{
 
 					@Override
 					public void run()
-					{
-						expand();
+					{*/
+				if (expandedBox != null)
+				{
+					LinearLayout expandedClickArea = (LinearLayout) expandedBox.findViewById(R.id.expand_selector).getParent();
+					expandedClickArea.performClick();
+				}
+				expand();/*
 					}
-				});
+				});*/ 
 			}
 		}
 
@@ -1120,6 +1137,7 @@ public class EditmodeFragment extends Fragment
 			indicator.setImageResource(indicatorCollapsed);
 			module.setActivated(false);
 
+			expandedBox = module;
 			refresh();
 		}
 
@@ -1129,6 +1147,7 @@ public class EditmodeFragment extends Fragment
 			indicator.setImageResource(indicatorExpanded);
 			module.setActivated(true);
 
+			expandedBox = null;
 			refresh();
 		}
 

@@ -291,9 +291,12 @@ public class UiBuilderActivity extends Activity implements
 
 		if (!selected)
 		{
-			displaySidebar(ITEMBOX);
-			Log.d("item was deleted", "showing itembox");
-		} else
+			if (!itembox.isVisible())
+			{
+				displaySidebar(ITEMBOX);
+			}
+		} 
+		else
 		{
 			displaySidebar(EDITBOX);
 			editbox.adaptLayoutToContext(lastTouch);
