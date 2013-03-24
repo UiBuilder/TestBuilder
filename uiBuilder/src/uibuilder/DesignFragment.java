@@ -424,7 +424,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	@Override
 	public void onLongPress(MotionEvent arg0)
 	{
-		Log.d("OnLongpress deleted item with id", String.valueOf(activeItem.getId()));
+		Log.d("OnLongpress","called" );
 
 		/**
 		 * activeItem.createContextMenue should be called here in the future
