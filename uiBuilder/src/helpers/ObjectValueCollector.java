@@ -35,7 +35,8 @@ public class ObjectValueCollector
 		int width = object.getMeasuredWidth();
 		int height = object.getMeasuredHeight();
 		
-		valuesBundle.put(ID, id);
+		valuesBundle.put(ID, tagId);
+		
 		valuesBundle.put(X_POS, xPos);
 		valuesBundle.put(Y_POS, yPos);
 		valuesBundle.put(WIDTH, width);

@@ -95,6 +95,18 @@ public class ObjectFactory implements onObjectEditedListener
 		}
 	}
 
+	public View getElement(Bundle bundle)
+	{
+		try
+		{
+			return generator.generate(bundle);
+		} catch (Exception e)
+		{
+			Log.d(LOGTAG, "Übergebene ID existiert nicht.");
+			return null;
+		}
+	}
+
 	/**
 	 * 
 	 * @author funklos
@@ -315,6 +327,6 @@ public class ObjectFactory implements onObjectEditedListener
 
 	protected void createObjectFromBundle(Bundle bundle)
 	{
-		
+
 	}
 }

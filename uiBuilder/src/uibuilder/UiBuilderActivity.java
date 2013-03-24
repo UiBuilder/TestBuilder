@@ -138,6 +138,7 @@ public class UiBuilderActivity extends Activity implements
 	protected void onStop()
 	{
 		Log.d("UIBuilderactivity", "onStop called");
+		//Save current layout here!!
 		super.onStop();
 	}
 

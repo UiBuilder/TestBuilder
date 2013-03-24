@@ -1,6 +1,7 @@
 package creators;
 
 import helpers.Log;
+import helpers.ObjectValueCollector;
 import manipulators.Overlay;
 import uibuilder.DesignFragment;
 import android.content.Context;
@@ -179,6 +180,163 @@ public class Generator
 
 		return xmlView;
 	}
+	
+	protected View generate(Bundle databaseBundle)
+	{
+		int tagID = databaseBundle.getInt(ObjectValueCollector.ID);
+		
+		Bundle properties = getBundle(tagID);
+		View xmlView;
+		RelativeLayout.LayoutParams params = null;
+		params = new RelativeLayout.LayoutParams(databaseBundle.getInt(ObjectValueCollector.WIDTH), databaseBundle.getInt(ObjectValueCollector.HEIGHT));
+
+		
+
+		switch (tagID)
+		{
+		case R.id.element_button:
+			xmlView = buildButton();
+			((Button)xmlView).setText(databaseBundle.getInt(ObjectValueCollector.USER_TEXT));
+			((Button)xmlView).setTextSize(databaseBundle.getInt(ObjectValueCollector.FONTSIZE));
+			xmlView.setBackgroundResource(databaseBundle.getInt(ObjectValueCollector.BACKGROUND_COLOR));
+			
+			properties.putInt(Generator.CREATION_STYLE, databaseBundle.getInt(ObjectValueCollector.BACKGROUND_COLOR));
+
+			
+			break;
+
+		case R.id.element_textview:
+			xmlView = buildTextview();
+			((Button)xmlView).setText(databaseBundle.getInt(ObjectValueCollector.USER_TEXT));
+			((Button)xmlView).setTextSize(databaseBundle.getInt(ObjectValueCollector.FONTSIZE));
+			xmlView.setBackgroundResource(databaseBundle.getInt(ObjectValueCollector.BACKGROUND_COLOR));
+			((TextView)xmlView).setGravity(databaseBundle.getInt(ObjectValueCollector.ALIGNMENT));
+			
+			properties.putInt(Generator.CREATION_STYLE, databaseBundle.getInt(ObjectValueCollector.BACKGROUND_COLOR));
+
+
+			
+			break;
+
+		case R.id.element_imageview:
+			xmlView = buildImageView();
+			xmlView.setBackgroundResource(R.drawable.object_background_default);
+			
+			properties.putInt(Generator.CREATION_STYLE, databaseBundle.getInt(ObjectValueCollector.BACKGROUND_COLOR));
+
+			
+			break;
+
+		case R.id.element_edittext:
+			xmlView = buildEditText();
+			xmlView.setBackgroundResource(databaseBundle.getInt(ObjectValueCollector.BACKGROUND_COLOR));
+			((TextView)xmlView).setGravity(databaseBundle.getInt(ObjectValueCollector.ALIGNMENT));
+			((Button)xmlView).setTextSize(databaseBundle.getInt(ObjectValueCollector.FONTSIZE));
+
+			
+			break;
+
+		case R.id.element_radiogroup:
+			xmlView = buildRadioButtons();
+			((TextView) ((LinearLayout)xmlView).getChildAt(0)).setText(databaseBundle.getString(ObjectValueCollector.USER_TEXT));
+
+			xmlView.setBackgroundResource(R.drawable.object_background_default);
+
+			
+			break;
+
+		case R.id.element_switch:
+			xmlView = buildSwitch();
+			((TextView) ((LinearLayout)xmlView).getChildAt(0)).setText(databaseBundle.getString(ObjectValueCollector.USER_TEXT));
+			xmlView.setBackgroundResource(R.drawable.object_background_default);
+
+
+			
+			break;
+
+		case R.id.element_checkbox:
+			xmlView = buildCheckBox();
+			((TextView) ((LinearLayout)xmlView).getChildAt(0)).setText(databaseBundle.getString(ObjectValueCollector.USER_TEXT));
+
+			xmlView.setBackgroundResource(R.drawable.object_background_default);
+
+
+			
+			break;
+
+		case R.id.element_list:
+			xmlView = buildListView();
+			
+			xmlView.setBackgroundResource(R.drawable.object_background_default);
+			factory.setAdapter(xmlView, databaseBundle.getInt(ObjectValueCollector.LAYOUT));
+			//Content is missing here
+			
+
+			
+			break;
+
+		case R.id.element_numberpick:
+			xmlView = buildNumberPicker();
+			xmlView.setBackgroundResource(R.drawable.object_background_default);
+
+
+			
+			break;
+
+		case R.id.element_ratingbar:
+			xmlView = buildRatingBar();
+			xmlView.setBackgroundResource(databaseBundle.getInt(ObjectValueCollector.BACKGROUND_COLOR));
+			((RatingBar)xmlView).setRating(databaseBundle.getInt(ObjectValueCollector.RATING));
+			((RatingBar)xmlView).setNumStars(databaseBundle.getInt(ObjectValueCollector.STARS_NUM));
+			properties.putInt(Generator.CREATION_STYLE, databaseBundle.getInt(ObjectValueCollector.BACKGROUND_COLOR));
+
+			
+			break;
+
+		case R.id.element_seekbar:
+			xmlView = buildSeekBar();
+			xmlView.setBackgroundResource(R.drawable.object_background_default);
+
+
+			
+			break;
+
+		case R.id.element_timepicker:
+			xmlView = buildTimePicker();
+			xmlView.setBackgroundResource(R.drawable.object_background_default);
+
+
+			
+			break;
+
+		case R.id.element_grid:
+			xmlView = buildGrid();
+			xmlView.setBackgroundResource(R.drawable.object_background_default);
+
+			
+			break;
+		
+		default:
+			throw new NoClassDefFoundError();
+		}
+		
+		xmlView.setLayoutParams(params);
+		
+		xmlView.setId(idCount++);
+		xmlView.setTag(databaseBundle);
+		xmlView.setX(databaseBundle.getInt(ObjectValueCollector.X_POS));
+		xmlView.setY(databaseBundle.getInt(ObjectValueCollector.Y_POS));
+
+		xmlView.setOnTouchListener(manipulator);
+		
+		xmlView.measure(databaseBundle.getInt(ObjectValueCollector.WIDTH), databaseBundle.getInt(ObjectValueCollector.HEIGHT));
+
+		return xmlView;
+	
+		
+	}
+	
+
 
 	private Bundle getBundle(int which)
 	{
