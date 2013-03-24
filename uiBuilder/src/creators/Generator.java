@@ -49,7 +49,8 @@ public class Generator
 	private LayoutInflater inflater;
 	private ObjectFactory factory;
 	
-	public static final String MINWIDTH = "mWidth", MINHEIGHT = "mHeight", ID = "id", SCALETYPE = "type", CREATION_STYLE = "create", PRESENTATION_STYLE = "pres", EXAMPLE_CONTENT = "exampleContent", EXAMPLE_LAYOUT = "exampleLayout", IMG_SRC = "imageSource";
+	public static final String MINWIDTH = "mWidth", MINHEIGHT = "mHeight", ID = "id", SCALETYPE = "type", CREATION_STYLE = "create", PRESENTATION_STYLE = "pres", EXAMPLE_CONTENT = "exampleContent", EXAMPLE_LAYOUT = "exampleLayout", IMG_SRC = "imageSource", ICN_SRC = "iconSource";
+
 
 	
 	
@@ -215,6 +216,7 @@ public class Generator
 			height = res.getInteger(R.integer.image_factor_height);
 			scaleType = Overlay.BOTH;
 			tagBundle.putInt(IMG_SRC, 0);
+			tagBundle.putInt(ICN_SRC, 0);
 			
 			break;
 

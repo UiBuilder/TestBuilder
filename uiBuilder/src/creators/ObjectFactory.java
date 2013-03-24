@@ -275,7 +275,10 @@ public class ObjectFactory implements onObjectEditedListener
 	public void setIconResource(View active, int pos)
 	{
 		int resourceId = (highResIcns[pos]);
-
+		Bundle bundle = (Bundle) active.getTag();
+		bundle.putInt(Generator.ICN_SRC, resourceId);
+		bundle.putString(Generator.IMG_SRC, null);
+		
 		((ImageView) active).setScaleType(ScaleType.FIT_CENTER);
 		((ImageView) active).setImageResource(resourceId);		
 	}

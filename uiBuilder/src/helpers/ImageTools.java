@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import creators.Generator;
+
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +16,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -42,6 +45,7 @@ public class ImageTools
 	public static final int GALLERY = 2;
 	public static final int CROP = 3; //NOT IN USE BECAUSE THIS FUNCTION IS DEVICE SPECIFIC
 	public static final int SHARE = 4;
+
 	
 	public ImageTools(Context c)
 	{
@@ -235,6 +239,11 @@ public class ImageTools
 
 		/* Decode the JPEG file into a Bitmap */
 		Bitmap bitmap = BitmapFactory.decodeFile(photoPath, bmOptions);
+		
+		/* Add the imagepath to the tagBundle */
+		Bundle tagBundle = (Bundle) v.getTag();
+		tagBundle.putString(Generator.IMG_SRC, photoPath);
+		tagBundle.putInt(Generator.ICN_SRC, 0);
 
 		/* Associate the Bitmap to the ImageView */
 		((ImageView) v).setImageBitmap(bitmap);

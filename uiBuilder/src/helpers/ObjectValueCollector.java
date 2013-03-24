@@ -19,7 +19,7 @@ public class ObjectValueCollector
 			WIDTH = "width", HEIGHT = "height", USER_TEXT = "userText",
 			RATING = "rating", CONTENT = "content", COLUMNS_NUM = "columnsNum",
 			LAYOUT = "layout", STARS_NUM = "starsNum", ALIGNMENT = "alignment",
-			FONTSIZE = "fontSize", //PICTURE_CONTENT = "pictureContent",
+			FONTSIZE = "fontSize", IMG_SRC = "imageSource", ICN_SRC = "iconSource",
 			BACKGROUND_COLOR = "backgroundColor";
 
 
@@ -70,6 +70,13 @@ public class ObjectValueCollector
 			break;
 			
 		case R.id.element_imageview:
+			if(objectBundle.getInt(Generator.ICN_SRC) == 0)
+			{
+				valuesBundle.put(IMG_SRC, objectBundle.getString(Generator.IMG_SRC));
+			}else
+			{
+				valuesBundle.put(ICN_SRC, objectBundle.getInt(Generator.ICN_SRC));
+			}
 			
 			break;
 			
