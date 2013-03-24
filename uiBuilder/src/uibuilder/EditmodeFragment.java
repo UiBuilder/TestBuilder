@@ -215,6 +215,7 @@ public class EditmodeFragment extends Fragment
 		setExpansionSelector(moduleContent);
 		setExpansionSelector(moduleBackgroundColor);
 		setExpansionSelector(moduleStarCount);
+		setExpansionSelector(moduleZorder);
 
 		root.invalidate();
 	}

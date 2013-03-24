@@ -7,34 +7,66 @@
     
     android:orientation="vertical"
 	style="@style/itembox">
-
-    <TextView         
-        style="@style/editbox_header"
-        android:id="@+id/image_choose"
+	
+    
+    <!-- HEADER -->
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:weightSum="1"
+    	android:orientation="horizontal"
+        >
+        
+        <TextView         
+        	style="@style/editbox_header"
+        	android:id="@+id/enter_text"
+			android:layout_weight="0.9"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content" 
+        	android:text="@string/item_edit_z_order_caption" />
+        
+        <include 
+			android:layout_weight="0.1"
+	        android:layout_width="0dp"
+	        android:layout_height="40dp"
+	        android:layout_gravity="center"
+            layout="@layout/editmode_expand_button"
+            />
+        
+    </LinearLayout>
+    
+    
+	<!-- EXPANDABLE CONTENT -->
+    
+    <LinearLayout android:id="@+id/expandable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/item_edit_z_order_caption" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" 
-        android:padding="@dimen/default_padding_large"
+        android:orientation="vertical" 
+		android:visibility="gone"
         >
 
-        <Button
-            android:id="@+id/editmode_z_order_front"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:text="@string/item_edit_z_order_front" />
 
-        <Button
-            android:id="@+id/editmode_z_order_back"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:text="@string/item_edit_z_order_back" />
-    </LinearLayout>
-
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal" 
+	        android:padding="@dimen/default_padding_large"
+	        >
+	
+	        <Button
+	            android:id="@+id/editmode_z_order_front"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="0.5"
+	            android:text="@string/item_edit_z_order_front" />
+	
+	        <Button
+	            android:id="@+id/editmode_z_order_back"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="0.5"
+	            android:text="@string/item_edit_z_order_back" />
+	    </LinearLayout>
+	</LinearLayout>
 </LinearLayout>
