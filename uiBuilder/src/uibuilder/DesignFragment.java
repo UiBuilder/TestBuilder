@@ -448,53 +448,56 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
 			float distanceY)
 	{
-		if (secondPointer)
-			return true;
-
-		invalidate();
-		if (dragIndicator != null && activeItem != null)
+		if (!isPreviewing)
 		{
+			if (secondPointer)
+				return true;
 
-			switch (dragIndicator.getId())
+			invalidate();
+			if (dragIndicator != null && activeItem != null)
 			{
-			case R.id.overlay_drag:
 
-				Bundle tagBundle = (Bundle) activeItem.getTag();
-				int id = tagBundle.getInt(Generator.ID);
+				switch (dragIndicator.getId())
+				{
+				case R.id.overlay_drag:
 
-				/*
-				 * Generate clipdata to provide to the dragshadowbuilder
-				 */
-				ClipData.Item item = new ClipData.Item(String.valueOf(id));
-				ClipData clipData = new ClipData((CharSequence) String.valueOf(id), new String[]
-				{ ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
+					Bundle tagBundle = (Bundle) activeItem.getTag();
+					int id = tagBundle.getInt(Generator.ID);
 
-				activeItem.startDrag(clipData, new View.DragShadowBuilder(activeItem), activeItem, 0);
-				break;
+					/*
+					 * Generate clipdata to provide to the dragshadowbuilder
+					 */
+					ClipData.Item item = new ClipData.Item(String.valueOf(id));
+					ClipData clipData = new ClipData((CharSequence) String.valueOf(id), new String[]
+					{ ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
 
-			case R.id.overlay_right:
+					activeItem.startDrag(clipData, new View.DragShadowBuilder(activeItem), activeItem, 0);
+					break;
 
-				setParams(R.id.overlay_right, e1, e2);
-				break;
+				case R.id.overlay_right:
 
-			case R.id.overlay_bottom:
+					setParams(R.id.overlay_right, e1, e2);
+					break;
 
-				setParams(R.id.overlay_bottom, e1, e2);
-				break;
+				case R.id.overlay_bottom:
 
-			case R.id.overlay_top:
+					setParams(R.id.overlay_bottom, e1, e2);
+					break;
 
-				setParams(R.id.overlay_top, e1, e2);
-				break;
+				case R.id.overlay_top:
 
-			case R.id.overlay_left:
+					setParams(R.id.overlay_top, e1, e2);
+					break;
 
-				setParams(R.id.overlay_left, e1, e2);
-				break;
+				case R.id.overlay_left:
 
-			default:
-				// FUCK OFF
-				break;
+					setParams(R.id.overlay_left, e1, e2);
+					break;
+
+				default:
+					// FUCK OFF
+					break;
+				}
 			}
 		}
 		return false;
@@ -726,88 +729,101 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	{
 
 		// synchronized (activeItem)
+		if (!isPreviewing)
 		{
-
-			switch (event.getAction())
 			{
-			case DragEvent.ACTION_DRAG_STARTED: // hide the overlay, show grid
-												// for positioning, set style of
-												// active item
-												// to indicate old position
-				listener.objectDragging();
 
-				overlay.setVisibility(false);
-				toggleGrid();
-				setStyle(DragEvent.ACTION_DRAG_STARTED);
-				break;
-
-			case DragEvent.ACTION_DRAG_ENTERED: // reset to dragging style after
-												// reenter
-
-				setStyle(DragEvent.ACTION_DRAG_ENTERED);
-
-				break;
-
-			case DragEvent.ACTION_DRAG_LOCATION:
-				break;
-
-			case DragEvent.ACTION_DRAG_ENDED:
-
-				setStyle(DragEvent.ACTION_DRAG_ENDED);
-				overlay.setVisibility(true); // das Overlay wird wieder
-												// angezeigt, da der Drag vorbei
-												// ist.
-
-				toggleGrid();
-
-				if (activeItem == null)
+				switch (event.getAction())
 				{
-					listener.objectSelected(false);
-				} else
-				{
-					listener.objectChanged(activeItem);
-					listener.objectSelected(true);
+				case DragEvent.ACTION_DRAG_STARTED: // hide the overlay, show
+													// grid
+													// for positioning, set
+													// style of
+													// active item
+													// to indicate old position
+					listener.objectDragging();
+
+					overlay.setVisibility(false);
+					toggleGrid();
+					setStyle(DragEvent.ACTION_DRAG_STARTED);
+					break;
+
+				case DragEvent.ACTION_DRAG_ENTERED: // reset to dragging style
+													// after
+													// reenter
+
+					setStyle(DragEvent.ACTION_DRAG_ENTERED);
+
+					break;
+
+				case DragEvent.ACTION_DRAG_LOCATION:
+					break;
+
+				case DragEvent.ACTION_DRAG_ENDED:
+
+					setStyle(DragEvent.ACTION_DRAG_ENDED);
+					overlay.setVisibility(true); // das Overlay wird wieder
+													// angezeigt, da der Drag
+													// vorbei
+													// ist.
+
+					toggleGrid();
+
+					if (activeItem == null)
+					{
+						listener.objectSelected(false);
+					} else
+					{
+						listener.objectChanged(activeItem);
+						listener.objectSelected(true);
+					}
+					Log.d("dragging", "ended");
+					break;
+
+				case DragEvent.ACTION_DRAG_EXITED: // indicate that the drop
+													// event
+													// will not be successful
+					setStyle(DragEvent.ACTION_DRAG_EXITED);
+					break;
+
+				case DragEvent.ACTION_DROP: // check minpositions, hide grid,
+											// display overlay at new position
+											// and
+											// reposition the element at
+											// droptarget
+
+					ImageButton drag = overlay.getDrag();
+
+					int dropTargetX = checkCollisionX(event.getX());
+					int dropTargetY = checkCollisionY(event.getY());
+
+					// Positionen werden ausgelesen und zugewiesen. Objekte
+					// werden
+					// an
+					// ihre Zielposition verschoben und das Overlay bekommt neue
+					// Koordinaten.
+					RelativeLayout.LayoutParams activeParams = (RelativeLayout.LayoutParams) activeItem.getLayoutParams();
+					RelativeLayout.LayoutParams dragParams = (RelativeLayout.LayoutParams) drag.getLayoutParams();
+
+					dragParams.leftMargin = snapToGrid(dropTargetX)
+							+ root.getLeft();
+					dragParams.topMargin = snapToGrid(dropTargetY)
+							+ root.getTop();
+					dragParams.width = activeItem.getMeasuredWidth();
+					dragParams.height = activeItem.getMeasuredHeight();
+					drag.setLayoutParams(dragParams);
+
+					activeParams.leftMargin = snapToGrid(dropTargetX);
+					activeParams.topMargin = snapToGrid(dropTargetY);
+					activeItem.setLayoutParams(activeParams);
+
+					break;
 				}
-				Log.d("dragging", "ended");
-				break;
-
-			case DragEvent.ACTION_DRAG_EXITED: // indicate that the drop event
-												// will not be successful
-				setStyle(DragEvent.ACTION_DRAG_EXITED);
-				break;
-
-			case DragEvent.ACTION_DROP: // check minpositions, hide grid,
-										// display overlay at new position and
-										// reposition the element at droptarget
-
-				ImageButton drag = overlay.getDrag();
-
-				int dropTargetX = checkCollisionX(event.getX());
-				int dropTargetY = checkCollisionY(event.getY());
-
-				// Positionen werden ausgelesen und zugewiesen. Objekte werden
-				// an
-				// ihre Zielposition verschoben und das Overlay bekommt neue
-				// Koordinaten.
-				RelativeLayout.LayoutParams activeParams = (RelativeLayout.LayoutParams) activeItem.getLayoutParams();
-				RelativeLayout.LayoutParams dragParams = (RelativeLayout.LayoutParams) drag.getLayoutParams();
-
-				dragParams.leftMargin = snapToGrid(dropTargetX)
-						+ root.getLeft();
-				dragParams.topMargin = snapToGrid(dropTargetY) + root.getTop();
-				dragParams.width = activeItem.getMeasuredWidth();
-				dragParams.height = activeItem.getMeasuredHeight();
-				drag.setLayoutParams(dragParams);
-
-				activeParams.leftMargin = snapToGrid(dropTargetX);
-				activeParams.topMargin = snapToGrid(dropTargetY);
-				activeItem.setLayoutParams(activeParams);
-
-				break;
 			}
-
-			return true;
 		}
+
+		return true;
+
 	}
 
 	/**

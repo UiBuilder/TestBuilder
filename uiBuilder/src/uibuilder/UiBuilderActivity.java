@@ -54,8 +54,9 @@ public class UiBuilderActivity extends Activity implements
 	private DisplayModeChanger previewMode;
 	private Button previewButton;
 	
-	private Drawable previewIcon;
-	
+//	private Drawable previewIcon;
+//	private Drawable editIcon;
+
 
 	private Boolean isPreview = false;
 
@@ -73,7 +74,9 @@ public class UiBuilderActivity extends Activity implements
 		container = (ViewGroup) inf.inflate(R.layout.layout_fragment_container, null);
 		fManager = getFragmentManager();
 		exporter = new ImageTools(getApplicationContext());
-		previewIcon = getResources().getDrawable(android.R.drawable.ic_menu_view);
+		//previewIcon = getResources().getDrawable(android.R.drawable.ic_menu_view);
+		//previewIcon.setColorFilter(R.color.text_light, PorterDuff.Mode.MULTIPLY);
+		//editIcon = getResources().getDrawable(android.R.drawable.ic_menu_view);
 
 		performInitTransaction();
 
@@ -258,8 +261,7 @@ public class UiBuilderActivity extends Activity implements
 		if (isPreview)
 		{
 			designbox.disableTouch(false);
-			previewIcon.setColorFilter(R.color.fresh_aqua_solid, PorterDuff.Mode.SRC_OUT);
-			item.setIcon(previewIcon);
+			//item.setIcon(previewIcon);
 			item.setTitle(R.string.menu_action_preview_mode);
 			isPreview = false;
 			DisplayModeChanger.setDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
@@ -269,8 +271,7 @@ public class UiBuilderActivity extends Activity implements
 		} else
 		{
 			designbox.disableTouch(true);
-			previewIcon.setColorFilter(R.color.fresh_aqua_solid, PorterDuff.Mode.SRC_OVER);
-			item.setIcon(previewIcon);
+			//item.setIcon(editIcon);
 
 			item.setTitle(R.string.menu_action_create_mode);
 			
