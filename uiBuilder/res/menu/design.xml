@@ -21,6 +21,7 @@
         android:id="@+id/action_attach_mail"
         android:icon="@android:drawable/ic_menu_share"
         android:showAsAction="always|withText"
+        android:checkable="true"
         android:title="@string/menu_action_export_share"
         android:titleCondensed="@string/menu_action_export_share"/>
 

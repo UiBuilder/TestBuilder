@@ -221,8 +221,8 @@ public class UiBuilderActivity extends Activity implements
 
 			Toast.makeText(getApplicationContext(), getString(R.string.confirmation_save_to_gallery), Toast.LENGTH_SHORT).show();
 			DisplayModeChanger.setDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
-
-			DisplayModeChanger.setDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
+			
+			
 
 			break;
 
@@ -239,7 +239,7 @@ public class UiBuilderActivity extends Activity implements
 			break;
 
 		case R.id.action_preview:
-
+			
 			togglePreview(item);
 
 		default:
@@ -253,15 +253,19 @@ public class UiBuilderActivity extends Activity implements
 	{
 		if (isPreview)
 		{
+			item.setChecked(false);
 			isPreview = false;
 			DisplayModeChanger.setDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
 			displaySidebar(ITEMBOX);
+			designbox.disableTouch(false);
 
 		} else
 		{
+			item.setChecked(true);
 			isPreview = true;
 			DisplayModeChanger.setDisplayMode(designbox.getView(), Generator.PRESENTATION_STYLE);
 			displaySidebar(NOTHING);
+			designbox.disableTouch(true);
 
 		}
 
