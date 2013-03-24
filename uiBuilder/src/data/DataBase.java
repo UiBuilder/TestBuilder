@@ -13,10 +13,13 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 
-public class ToDoContent extends ContentProvider
+public class DataBase extends ContentProvider
 {
-	public static final Uri CONTENT_URI = Uri.parse("content://sascha.krause.todoprovider/items");
-	private TheDataHelper dataHelper;
+	private static final String AUTHORITY = "de.ur.rk.uibuilder";
+	private static final String BASE = "screens";
+	
+	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + BASE);
+	private DataManager data;
 	
 	//prio constants
 	final static int LOW = 1;
@@ -24,27 +27,26 @@ public class ToDoContent extends ContentProvider
 	
 	//table column constants
 	public static final String KEY_ID = "_id";
-	public static final String KEY_CONTENT = "content";
+	public static final String KEY_NAME = "name";
 	public static final String KEY_DATE = "date";
-	public static final String KEY_DONE = "done";
-	public static final String KEY_IMPORTANT = "important";
 	
 	//uri match constants
 	private static final int ONE = 1;
 	private static final int ALL = 2;
 	private static final UriMatcher match;
+	
 	static 
 	{
 		match = new UriMatcher(UriMatcher.NO_MATCH);
-		match.addURI("sascha.krause.todoprovider", "items", ALL);
-		match.addURI("sascha.krause.todoprovider", "items/#", ONE);
+		match.addURI(AUTHORITY, BASE, ALL);
+		match.addURI(AUTHORITY, BASE + "/#", ONE);
 	}
 
 
 	@Override
 	public boolean onCreate()
 	{
-		dataHelper = new TheDataHelper (getContext(), TheDataHelper.DB_NAME, null, TheDataHelper.DB_VERSION);
+		data = new DataManager (getContext(), DataManager.DB_NAME, null, DataManager.DB_VERSION);
 		return true;
 	}
 	
@@ -52,7 +54,8 @@ public class ToDoContent extends ContentProvider
 	@Override
 	public int delete(Uri uri, String selection, String[] selArgs)
 	{
-		SQLiteDatabase db = dataHelper.getWritableDatabase();
+		SQLiteDatabase db = data.getWritableDatabase();
+		
 		switch (match.match(uri))
 		{
 		case ONE:
@@ -65,7 +68,7 @@ public class ToDoContent extends ContentProvider
 			selection = "1";
 		}
 		
-		int deleteCount = db.delete(TheDataHelper.DB_TABLE, selection, selArgs);
+		int deleteCount = db.delete(DataManager.DB_TABLE, selection, selArgs);
 		getContext().getContentResolver().notifyChange(uri, null);
 		return deleteCount;
 	}
@@ -87,11 +90,11 @@ public class ToDoContent extends ContentProvider
 	@Override
 	public Uri insert(Uri uri, ContentValues values)
 	{
-		SQLiteDatabase db = dataHelper.getWritableDatabase();
+		SQLiteDatabase db = data.getWritableDatabase();
 		
 		String nullColumnHack = null;
 		
-		long id = db.insert(TheDataHelper.DB_TABLE, nullColumnHack, values);
+		long id = db.insert(DataManager.DB_TABLE, nullColumnHack, values);
 		
 		if (id > -1)
 		{
@@ -109,7 +112,7 @@ public class ToDoContent extends ContentProvider
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
 			String sortOrder)
 	{
-		SQLiteDatabase db = dataHelper.getWritableDatabase();
+		SQLiteDatabase db = data.getWritableDatabase();
 		
 		String groupBy = null;
 		String having = null;
@@ -124,7 +127,7 @@ public class ToDoContent extends ContentProvider
 				query.appendWhere(KEY_ID + "=" + row);
 			default: break;
 		}
-		query.setTables(TheDataHelper.DB_TABLE);
+		query.setTables(DataManager.DB_TABLE);
 		
 		Cursor cursor = query.query(db, projection, selection, selectionArgs, groupBy, having, sortOrder);
 		
@@ -135,7 +138,7 @@ public class ToDoContent extends ContentProvider
 	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectArgs)
 	{
-		SQLiteDatabase db = dataHelper.getWritableDatabase();
+		SQLiteDatabase db = data.getWritableDatabase();
 
 		switch (match.match(uri))
 		{
@@ -145,31 +148,30 @@ public class ToDoContent extends ContentProvider
 		default: break;
 		}
 		
-		int updateCount = db.update(TheDataHelper.DB_TABLE, values, selection, selectArgs);
+		int updateCount = db.update(DataManager.DB_TABLE, values, selection, selectArgs);
 		getContext().getContentResolver().notifyChange(uri, null);
 
 		return updateCount;
 	}
 
-	private static class TheDataHelper extends SQLiteOpenHelper
+	private static class DataManager extends SQLiteOpenHelper
 	{	
-		private static final String DB_NAME = "toDoItems.db";
-		public static final String DB_TABLE = "items";
+		private static final String DB_NAME = "uibuilder.db";
+		public static final String DB_TABLE = "screens";
 		private static final int DB_VERSION = 3;
 		
-		private static final String CREATE = 
+		private static final String CREATE_SCREENS_TABLE = 
 						"create table " 
 						+ DB_TABLE + " ("
 						+ KEY_ID + " integer primary key autoincrement, " 
-						+ KEY_CONTENT + " text not null, " 
-						+ KEY_DATE + " text not null, "
-						+ KEY_DONE + " text not null, "
-						+ KEY_IMPORTANT + " integer not null);";
+						+ KEY_NAME + " text not null, " 
+						+ KEY_DATE + " text not null);"
+						;
 		
 		private static final String DROP =
 						"DROP TABLE " + DB_TABLE;
 		
-		public TheDataHelper(Context context, String name, CursorFactory factory,
+		public DataManager(Context context, String name, CursorFactory factory,
 				int version)
 		{
 			super(context, name, factory, version);
@@ -179,7 +181,7 @@ public class ToDoContent extends ContentProvider
 		@Override
 		public void onCreate(SQLiteDatabase db)
 		{
-			db.execSQL(CREATE);
+			db.execSQL(CREATE_SCREENS_TABLE);
 		}
 
 		@Override

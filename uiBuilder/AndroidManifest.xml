@@ -21,6 +21,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        
         <activity
             android:name="uibuilder.UiBuilderActivity"
             android:label="@string/app_name"
@@ -32,10 +33,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
         <activity
             android:name="uibuilder.ManagerActivity"
             android:label="@string/title_activity_manager" >
         </activity>
+        
+        <provider android:exported="false"
+            android:authorities="de.ur.rk.uibuilder"
+            android:multiprocess="true"
+            android:name="data.DataBase"
+            >
+            
+            
+        </provider>
     </application>
 
 </manifest>
