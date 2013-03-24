@@ -4,6 +4,7 @@
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
 	    android:id="@+id/design_parent"
+	    android:animateLayoutChanges="true"
 	     >
 	    
 	    <RelativeLayout android:id="@+id/design_area"
@@ -11,7 +12,7 @@
 	        android:layout_width="match_parent"
 	        android:layout_height="match_parent"
 	        android:background="@color/designarea_background"
-	        android:animateLayoutChanges="true"
+	        
 	        
 	        />
 	
