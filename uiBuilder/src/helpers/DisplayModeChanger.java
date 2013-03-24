@@ -31,12 +31,9 @@ public class DisplayModeChanger
 
 			int style = tagBundle.getInt(displayStyle);
 
-
 			layout.setBackgroundResource(style);
 
 		}
 	}
-
-
 
 }

@@ -30,22 +30,22 @@ public class ObjectFactory implements onObjectEditedListener
 	private LayoutInflater inflater;
 
 	private static final String LOGTAG = "OBJECTFACTORY says:";
-	private ArrayAdapter<String>listAdapter;
-	
+	private ArrayAdapter<String> listAdapter;
+
 	/**
 	 * Resources
 	 */
 	String[] headersActive;
 	String[] contentsActive;
-	
+
 	String[] headersHipster;
 	String[] contentsHipster;
-	
+
 	String[] headersBacon;
 	String[] contentsBacon;
-	
+
 	int[] highResIcns;
-	
+
 	/**
 	 * KONSTRUKTOR
 	 * 
@@ -58,7 +58,7 @@ public class ObjectFactory implements onObjectEditedListener
 		generator = new Generator(ref, l, this);
 		inflater = (LayoutInflater) ref.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		EditmodeFragment.setOnObjectEditedListener(this);
-		
+
 		setupResources();
 	}
 
@@ -66,13 +66,13 @@ public class ObjectFactory implements onObjectEditedListener
 	{
 		headersHipster = ref.getResources().getStringArray(R.array.listview_listitem_layout_header_hipster);
 		contentsHipster = ref.getResources().getStringArray(R.array.listview_listitem_layout_content_hipster);
-		
+
 		headersBacon = ref.getResources().getStringArray(R.array.listview_listitem_layout_header_bacon);
 		contentsBacon = ref.getResources().getStringArray(R.array.listview_listitem_layout_content_bacon);
-		
+
 		headersActive = headersHipster;
 		contentsActive = contentsHipster;
-		
+
 		highResIcns = ResArrayImporter.getRefArray(ref, R.array.icons_big);
 	}
 
@@ -87,20 +87,21 @@ public class ObjectFactory implements onObjectEditedListener
 		try
 		{
 			return generator.generate(which);
-		} 
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			Log.d(LOGTAG, "Übergebene ID existiert nicht.");
 			Log.d(LOGTAG, "id ist " + String.valueOf(which));
 			return null;
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @author funklos
-	 * @param active item in progress
-	 * @param from id of requesting operation
+	 * @param active
+	 *            item in progress
+	 * @param from
+	 *            id of requesting operation
 	 */
 	@Override
 	public void refreshAdapter(View active, int from)
@@ -108,24 +109,25 @@ public class ObjectFactory implements onObjectEditedListener
 		Bundle tagBundle = (Bundle) active.getTag();
 
 		int id = tagBundle.getInt(Generator.ID);
-		
+
 		switch (id)
 		{
 		case R.id.element_list:
-			
+
 			refreshListAdapter(active, from);
-			
+
 			break;
-			
+
 		case R.id.element_grid:
-			
+
 			refreshGridAdapter(active, from);
 
 		default:
 			break;
 		}
-		
+
 	}
+
 	/**
 	 * @author funklos
 	 * @param active
@@ -134,26 +136,26 @@ public class ObjectFactory implements onObjectEditedListener
 	private void refreshGridAdapter(View active, int from)
 	{
 		RelativeLayout container = (RelativeLayout) active;
-		
+
 		Bundle bundle = (Bundle) active.getTag();
 
 		GridView gridView = (GridView) container.getChildAt(0);
 		final int gridLayout;
-		
+
 		switch (from)
 		{
 		case R.id.editmode_grid_included_layout_1:
 			gridLayout = R.layout.item_gridview_example_layout_1;
 			break;
-			
+
 		case R.id.editmode_grid_included_layout_2:
 			gridLayout = R.layout.item_gridview_example_layout_2;
 			break;
-			
+
 		case R.id.editmode_grid_included_layout_3:
 			gridLayout = R.layout.item_gridview_example_layout_3;
 			break;
-			
+
 		case R.id.editmode_grid_included_layout_4:
 			gridLayout = R.layout.item_gridview_example_layout_4;
 			break;
@@ -172,53 +174,53 @@ public class ObjectFactory implements onObjectEditedListener
 	 * @param from
 	 */
 	public void refreshListAdapter(View active, int from)
-	{	
+	{
 		RelativeLayout container = (RelativeLayout) active;
-		
+
 		Bundle bundle = (Bundle) active.getTag();
 		ListView listView = (ListView) container.getChildAt(0);
 		final int listLayout;
-		
+
 		switch (from)
 		{
 		case R.id.editmode_list_included_layout_1:
 			listLayout = R.layout.item_listview_example_layout_1;
 			break;
-			
+
 		case R.id.editmode_list_included_layout_2:
 			listLayout = R.layout.item_listview_example_layout_2;
 
 			break;
-			
+
 		case R.id.editmode_list_included_layout_3:
 			listLayout = R.layout.item_listview_example_layout_3;
 
 			break;
-			
+
 		case R.id.editmode_list_included_layout_4:
 			listLayout = R.layout.item_listview_example_layout_4;
 
 			break;
-			
+
 		case R.id.editmode_list_included_layout_5:
 			listLayout = R.layout.item_listview_example_layout_5;
 
-			break;	
-			
+			break;
+
 		case R.id.editmode_list_included_layout_6:
 			listLayout = R.layout.item_listview_example_layout_6;
 
 			break;
-			
+
 		default:
 			listLayout = 0;
 			break;
 		}
-		
+
 		bundle.putInt(Generator.EXAMPLE_LAYOUT, from);
 
 		setAdapter(listView, listLayout);
-		
+
 	}
 
 	/**
@@ -235,17 +237,17 @@ public class ObjectFactory implements onObjectEditedListener
 			public View getView(int position, View convertView, ViewGroup parent)
 			{
 				View layout = inflater.inflate(listLayout, null);
-				
+
 				TextView header = (TextView) layout.findViewById(R.id.listview_listitem_header);
 				header.setText(headersActive[position]);
-				
+
 				TextView content = (TextView) layout.findViewById(R.id.listview_listitem_content);
 				content.setText(contentsActive[position]);
-				
+
 				return layout;
-			}			
+			}
 		};
-		
+
 		if (list instanceof ListView)
 		{
 			((ListView) list).setAdapter(listAdapter);
@@ -255,19 +257,19 @@ public class ObjectFactory implements onObjectEditedListener
 			((GridView) list).setAdapter(listAdapter);
 		}
 	}
-	
+
 	/**
 	 * @author funklos
 	 */
 	@Override
 	public void gridColumnsChanged(View active, int col)
-	{	
+	{
 		ViewGroup container = (ViewGroup) active;
-		
+
 		GridView grid = (GridView) container.getChildAt(0);
-		grid.setNumColumns(col);	
+		grid.setNumColumns(col);
 	}
-	
+
 	/**
 	 * @author funklos
 	 */
@@ -275,9 +277,12 @@ public class ObjectFactory implements onObjectEditedListener
 	public void setIconResource(View active, int pos)
 	{
 		int resourceId = (highResIcns[pos]);
+		Bundle bundle = (Bundle) active.getTag();
+		bundle.putInt(Generator.ICN_SRC, resourceId);
+		bundle.putString(Generator.IMG_SRC, null);
 
 		((ImageView) active).setScaleType(ScaleType.FIT_CENTER);
-		((ImageView) active).setImageResource(resourceId);		
+		((ImageView) active).setImageResource(resourceId);
 	}
 
 	@Override
@@ -293,7 +298,7 @@ public class ObjectFactory implements onObjectEditedListener
 
 			Log.d("hipster", "set");
 			break;
-			
+
 		case R.id.content_choose_bacon:
 			headersActive = headersBacon;
 			contentsActive = contentsBacon;
@@ -306,5 +311,10 @@ public class ObjectFactory implements onObjectEditedListener
 			break;
 		}
 		listAdapter.notifyDataSetChanged();
+	}
+
+	protected void createObjectFromBundle(Bundle bundle)
+	{
+		
 	}
 }
