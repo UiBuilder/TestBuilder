@@ -1,5 +1,7 @@
 package uibuilder;
 
+import java.util.ArrayList;
+
 import helpers.IconAdapter;
 import helpers.ImageTools;
 import helpers.ResArrayImporter;
@@ -332,8 +334,8 @@ public class EditmodeFragment extends Fragment
 		Button pullToFront = (Button) root.findViewById(R.id.editmode_z_order_front);
 		Button pushToBack = (Button) root.findViewById(R.id.editmode_z_order_back);
 
-		pullToFront.setOnClickListener(new AlignModuleListener());
-		pushToBack.setOnClickListener(new ImageModuleListener());
+		pullToFront.setOnClickListener(new ZorderModuleListener());
+		pushToBack.setOnClickListener(new ZorderModuleListener());
 	}
 
 	private void setupChangesizeModule()
@@ -474,8 +476,9 @@ public class EditmodeFragment extends Fragment
 			break;
 
 		case R.id.element_grid:
-			moduleGridConfig.setVisibility(View.VISIBLE);
 			moduleGridColumns.setVisibility(View.VISIBLE);
+			moduleGridConfig.setVisibility(View.VISIBLE);
+			//moduleGridColumns.setVisibility(View.VISIBLE);
 			moduleContent.setVisibility(View.VISIBLE);
 
 			ViewGroup container = (ViewGroup) currentView;
@@ -492,7 +495,7 @@ public class EditmodeFragment extends Fragment
 			moduleNothing.setVisibility(View.VISIBLE);
 			break;
 		}
-		// moduleZorder.setVisibility(View.VISIBLE);
+		 moduleZorder.setVisibility(View.VISIBLE);
 
 		root.invalidate();
 	}
@@ -895,14 +898,36 @@ public class EditmodeFragment extends Fragment
 		@Override
 		public void onClick(View v)
 		{
+			ViewGroup parent = (ViewGroup) currentView.getParent();
+			
+			
 			switch (v.getId())
 			{
 			case R.id.editmode_z_order_back:
-
+				parent.removeView(currentView);
+				ArrayList<View> allItems = new ArrayList<View>();
+				
+				allItems.add(currentView);
+				int number = parent.getChildCount();
+				for (int i=0; i<number; i++)
+				{
+					allItems.add(parent.getChildAt(i));
+				}
+				parent.removeAllViews();
+				
+				int nrAll = allItems.size();
+				
+				for (View child : allItems)
+				{
+					parent.addView(child);
+				}
+				parent.invalidate();
+				
 				break;
 
 			case R.id.editmode_z_order_front:
 				currentView.bringToFront();
+				parent.invalidate();
 				break;
 
 			default:
