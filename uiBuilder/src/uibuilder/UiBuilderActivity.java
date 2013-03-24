@@ -134,6 +134,13 @@ public class UiBuilderActivity extends Activity implements
 		bar.setBackgroundDrawable(getResources().getDrawable(R.color.designfragment_background));
 	}
 
+	@Override
+	protected void onStop()
+	{
+		Log.d("UIBuilderactivity", "onStop called");
+		super.onStop();
+	}
+
 	/**
 	 * Initial fragmenttransaction to display the fragments. Editbox is added
 	 * but hidden to guarantee access
