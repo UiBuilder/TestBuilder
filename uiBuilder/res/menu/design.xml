@@ -2,6 +2,8 @@
 
     <item
         android:id="@+id/action_preview"
+        android:checkable="true"
+        android:checked="false"
         android:icon="@android:drawable/ic_menu_view"
         android:showAsAction="always|withText"
         android:title="@string/menu_action_preview_mode"
@@ -21,7 +23,6 @@
         android:id="@+id/action_attach_mail"
         android:icon="@android:drawable/ic_menu_share"
         android:showAsAction="always|withText"
-        android:checkable="true"
         android:title="@string/menu_action_export_share"
         android:titleCondensed="@string/menu_action_export_share"/>
 

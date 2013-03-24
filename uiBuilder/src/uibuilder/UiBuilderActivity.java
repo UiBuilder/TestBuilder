@@ -239,7 +239,6 @@ public class UiBuilderActivity extends Activity implements
 			break;
 
 		case R.id.action_preview:
-			
 			togglePreview(item);
 
 		default:
@@ -253,15 +252,20 @@ public class UiBuilderActivity extends Activity implements
 	{
 		if (isPreview)
 		{
-			item.setChecked(false);
+			designbox.disableTouch(false);
+			item.setIcon(android.R.drawable.ic_menu_view);
+			item.setTitle(R.string.menu_action_preview_mode);
 			isPreview = false;
 			DisplayModeChanger.setDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
 			displaySidebar(ITEMBOX);
-			designbox.disableTouch(false);
+			
 
 		} else
 		{
-			item.setChecked(true);
+			designbox.disableTouch(true);
+			item.setIcon(R.raw.ic_menu_view_active);
+			item.setTitle(R.string.menu_action_create_mode);
+			
 			isPreview = true;
 			DisplayModeChanger.setDisplayMode(designbox.getView(), Generator.PRESENTATION_STYLE);
 			displaySidebar(NOTHING);
