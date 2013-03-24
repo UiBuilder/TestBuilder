@@ -10,6 +10,8 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,7 +20,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -263,7 +264,10 @@ public class UiBuilderActivity extends Activity implements
 		} else
 		{
 			designbox.disableTouch(true);
-			item.setIcon(R.raw.ic_menu_view_active);
+			Drawable icon = getResources().getDrawable(android.R.drawable.ic_menu_view);
+			icon.setColorFilter(R.color.fresh_aqua_solid, PorterDuff.Mode.ADD );
+			item.setIcon(icon);
+
 			item.setTitle(R.string.menu_action_create_mode);
 			
 			isPreview = true;
