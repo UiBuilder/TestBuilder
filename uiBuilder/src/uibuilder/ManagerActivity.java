@@ -23,6 +23,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 
 	private GridView grid;
 	private ScreenAdapter adapter;
+	public static final String DATABASE_SCREEN_ID = "screen";
 	
 	private static final int SCREENS_LOADER = 1;
 	
@@ -41,9 +42,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 			@Override
 			public void onClick(View v)
 			{
-				Intent start = new Intent(getApplicationContext(), UiBuilderActivity.class);
-				
-				startActivity(start);
+				startForNewScreen();
 			}
 		});
 		
@@ -56,14 +55,28 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		{
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3)
+			public void onItemClick(AdapterView<?> parent, View screen, int position,
+					long id)
 			{
-				// Start the UIbuilder Activity here with reference to the selected project, or empty if it's a new project
-				
+				startForEditing(screen);
 			}
 		});
 		
+	}
+	
+	private void startForNewScreen()
+	{
+		Intent start = new Intent(getApplicationContext(), UiBuilderActivity.class);
+		
+		startActivity(start);
+	}
+	
+	private void startForEditing(View screen)
+	{
+		Intent start = new Intent(getApplicationContext(), UiBuilderActivity.class);
+		start.putExtra(DATABASE_SCREEN_ID, screen.getId());
+		
+		startActivity(start);
 	}
 
 	@Override

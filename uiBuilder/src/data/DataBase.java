@@ -1,5 +1,6 @@
 package data;
 
+import helpers.ObjectValueCollector;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -16,7 +17,7 @@ import android.text.TextUtils;
 public class DataBase extends ContentProvider
 {
 	private static final String AUTHORITY = "de.ur.rk.uibuilder";
-	private static final String BASE = "screens";
+	private static final String BASE = "/screens";
 	
 	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + BASE);
 	private DataManager data;
@@ -85,6 +86,13 @@ public class DataBase extends ContentProvider
 			return "vnd.android.cursor.item/vnd.sascha.krause.toDo";
 		default: throw new IllegalArgumentException("Unsupported Uri: " + uri);
 		}
+	}
+	
+	public void createNewScreen(String name)
+	{
+		SQLiteDatabase db = data.getWritableDatabase();
+		
+		data.createNewScreen(db, name);
 	}
 
 	@Override
@@ -157,15 +165,22 @@ public class DataBase extends ContentProvider
 	private static class DataManager extends SQLiteOpenHelper
 	{	
 		private static final String DB_NAME = "uibuilder.db";
-		public static final String DB_TABLE = "screens";
-		private static final int DB_VERSION = 3;
+		public static final String DB_TABLE = "screenManager";
+		private static final int DB_VERSION = 5;
+		
+		private static final String CREATE = "create table if not exists ";
 		
 		private static final String CREATE_SCREENS_TABLE = 
-						"create table " 
+						CREATE 
 						+ DB_TABLE + " ("
 						+ KEY_ID + " integer primary key autoincrement, " 
 						+ KEY_NAME + " text not null, " 
-						+ KEY_DATE + " text not null);"
+						+ KEY_DATE + " text not null);";
+		
+		private static final String OBJECT_PROPERTIES =
+						ObjectValueCollector.ID + " integer not null"
+						+ ObjectValueCollector.X_POS + " integer not null"
+						+ ObjectValueCollector.Y_POS + " integer not null);"
 						;
 		
 		private static final String DROP =
@@ -175,7 +190,6 @@ public class DataBase extends ContentProvider
 				int version)
 		{
 			super(context, name, factory, version);
-			// TODO Auto-generated constructor stub
 		}
 
 		@Override
@@ -191,5 +205,9 @@ public class DataBase extends ContentProvider
 			onCreate(db);
 		}
 
+		public void createNewScreen(SQLiteDatabase db, String screenName)
+		{
+			db.execSQL(CREATE + screenName + " (" + KEY_ID + " integer primary key autoincrement" + OBJECT_PROPERTIES);
+		}
 	}
 }
