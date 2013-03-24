@@ -15,7 +15,7 @@ import de.ur.rk.uibuilder.R;
 public class ObjectValueCollector
 {
 
-	public static String ID = "id", X_POS = "xPos", Y_POS = "yPos",
+	public static final String ID = "id", X_POS = "xPos", Y_POS = "yPos",
 			WIDTH = "width", HEIGHT = "height", USER_TEXT = "userText",
 			RATING = "rating", CONTENT = "content", COLUMNS_NUM = "columnsNum",
 			LAYOUT = "layout", STARS_NUM = "starsNum", ALIGNMENT = "alignment",

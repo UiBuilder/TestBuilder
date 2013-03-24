@@ -74,6 +74,12 @@ public class Generator
 		res = ref.getApplicationContext().getResources();
 	}
 
+	/**
+	 * Use this method to create a View by passing an identifier of the type of view to be created
+	 * 
+	 * @param id specifies the View to be created.
+	 * @return the created View
+	 */
 	protected View generate(int id)
 	{
 		View xmlView;
@@ -181,6 +187,12 @@ public class Generator
 		return xmlView;
 	}
 	
+	/**
+	 * Use this method to generate Views from a Bundle object.
+	 * @author jonesses
+	 * @param databaseBundle: a Bundle containing every piece of data to describe a View in the layout
+	 * @return the View that the databaseBundle described
+	 */
 	protected View generate(Bundle databaseBundle)
 	{
 		int tagID = databaseBundle.getInt(ObjectValueCollector.ID);
@@ -311,6 +323,7 @@ public class Generator
 
 		case R.id.element_grid:
 			xmlView = buildGrid();
+			factory.setAdapter(xmlView, databaseBundle.getInt(ObjectValueCollector.LAYOUT));
 			xmlView.setBackgroundResource(R.drawable.object_background_default);
 
 			
@@ -323,7 +336,7 @@ public class Generator
 		xmlView.setLayoutParams(params);
 		
 		xmlView.setId(idCount++);
-		xmlView.setTag(databaseBundle);
+		xmlView.setTag(properties);
 		xmlView.setX(databaseBundle.getInt(ObjectValueCollector.X_POS));
 		xmlView.setY(databaseBundle.getInt(ObjectValueCollector.Y_POS));
 
