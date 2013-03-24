@@ -32,16 +32,16 @@ public class DataBase extends ContentProvider
 	public static final String KEY_DATE = "date";
 	
 	//uri match constants
-	private static final int ONE = 1;
-	private static final int ALL = 2;
+	private static final int SINGLE_SCREEN = 1;
+	private static final int ALL_SCREENS = 2;
 	
 	
 	private static final UriMatcher match;
 	static 
 	{
 		match = new UriMatcher(UriMatcher.NO_MATCH);
-		match.addURI(AUTHORITY, BASE, ALL);
-		match.addURI(AUTHORITY, BASE + "/#", ONE);
+		match.addURI(AUTHORITY, BASE, ALL_SCREENS);
+		match.addURI(AUTHORITY, BASE + "/#", SINGLE_SCREEN);
 	}
 
 
@@ -60,7 +60,7 @@ public class DataBase extends ContentProvider
 		
 		switch (match.match(uri))
 		{
-		case ONE:
+		case SINGLE_SCREEN:
 			String row = uri.getPathSegments().get(1);
 			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
 		default: break;
@@ -80,11 +80,11 @@ public class DataBase extends ContentProvider
 	{
 		switch (match.match(uri))
 		{
-		case ALL:
-			return "vnd.android.cursor.dir/vnd.sascha.krause.toDo";
+		case ALL_SCREENS:
+			return "vnd.android.cursor.dir/vnd.uibuilder.screens";
 		
-		case ONE:
-			return "vnd.android.cursor.item/vnd.sascha.krause.toDo";
+		case SINGLE_SCREEN:
+			return "vnd.android.cursor.item/vnd.uibuilder.content";
 		default: throw new IllegalArgumentException("Unsupported Uri: " + uri);
 		}
 	}
@@ -131,7 +131,7 @@ public class DataBase extends ContentProvider
 		
 		switch (match.match(uri))
 		{
-			case ONE:
+			case SINGLE_SCREEN:
 				String row = uri.getPathSegments().get(1);
 				query.appendWhere(KEY_ID + "=" + row);
 			default: break;
@@ -151,7 +151,7 @@ public class DataBase extends ContentProvider
 
 		switch (match.match(uri))
 		{
-		case ONE:
+		case SINGLE_SCREEN:
 			String row = uri.getPathSegments().get(1);
 			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
 		default: break;
