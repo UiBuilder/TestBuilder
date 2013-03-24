@@ -68,6 +68,13 @@ public class UiBuilderActivity extends Activity implements
 
 		setContentView(R.layout.layout_fragment_container);
 		setupUi();
+		
+		Intent intent = getIntent();
+		Bundle intentBundle = intent.getExtras();
+		if(intentBundle != null)
+		{
+			//Create the shit out of database in designbox;
+		}
 
 		LayoutInflater inf = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
 
