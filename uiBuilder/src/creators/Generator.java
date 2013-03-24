@@ -219,8 +219,8 @@ public class Generator
 
 		case R.id.element_textview:
 			xmlView = buildTextview();
-			((Button)xmlView).setText(databaseBundle.getInt(ObjectValueCollector.USER_TEXT));
-			((Button)xmlView).setTextSize(databaseBundle.getInt(ObjectValueCollector.FONTSIZE));
+			((TextView)xmlView).setText(databaseBundle.getInt(ObjectValueCollector.USER_TEXT));
+			((TextView)xmlView).setTextSize(databaseBundle.getInt(ObjectValueCollector.FONTSIZE));
 			xmlView.setBackgroundResource(databaseBundle.getInt(ObjectValueCollector.BACKGROUND_COLOR));
 			((TextView)xmlView).setGravity(databaseBundle.getInt(ObjectValueCollector.ALIGNMENT));
 			
@@ -242,8 +242,8 @@ public class Generator
 		case R.id.element_edittext:
 			xmlView = buildEditText();
 			xmlView.setBackgroundResource(databaseBundle.getInt(ObjectValueCollector.BACKGROUND_COLOR));
-			((TextView)xmlView).setGravity(databaseBundle.getInt(ObjectValueCollector.ALIGNMENT));
-			((Button)xmlView).setTextSize(databaseBundle.getInt(ObjectValueCollector.FONTSIZE));
+			((EditText)xmlView).setGravity(databaseBundle.getInt(ObjectValueCollector.ALIGNMENT));
+			((EditText)xmlView).setTextSize(databaseBundle.getInt(ObjectValueCollector.FONTSIZE));
 
 			
 			break;
