@@ -12,13 +12,7 @@ import de.ur.rk.uibuilder.R;
 
 public class ScreenAdapter extends CursorAdapter
 {
-	
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent)
-	{
-		// TODO Auto-generated method stub
-		return super.getView(position, convertView, parent);
-	}
+
 
 
 	private int titleIdx;
@@ -30,13 +24,14 @@ public class ScreenAdapter extends CursorAdapter
 	public ScreenAdapter(Context context, Cursor c, boolean autoRequery)
 	{
 		super(context, c, autoRequery);
+		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
-	public ScreenAdapter(Context context, Cursor c, int i)
+	public ScreenAdapter(Context context, Cursor c)
 	{
-		super(context, c, i);
+		super(context, c, 0);
 		
-		inflater = LayoutInflater.from(context);
+		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);;
 	}
 	
 
@@ -64,6 +59,8 @@ public class ScreenAdapter extends CursorAdapter
 	public View newView(Context con, Cursor cursor, ViewGroup root)
 	{
 		View newItem = inflater.inflate(R.layout.activity_manager_grid_item_layout, root, false);
+		
+		bindView(newItem, con, cursor);
 		
 		return newItem;	
 	}

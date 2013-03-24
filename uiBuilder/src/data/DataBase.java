@@ -34,8 +34,9 @@ public class DataBase extends ContentProvider
 	//uri match constants
 	private static final int ONE = 1;
 	private static final int ALL = 2;
-	private static final UriMatcher match;
 	
+	
+	private static final UriMatcher match;
 	static 
 	{
 		match = new UriMatcher(UriMatcher.NO_MATCH);

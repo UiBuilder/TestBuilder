@@ -2,17 +2,21 @@ package uibuilder;
 
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import data.DataBase;
 import data.ScreenAdapter;
@@ -20,7 +24,8 @@ import de.ur.rk.uibuilder.R;
 
 public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 {
-
+	private EditText screenName;
+	
 	private GridView grid;
 	private ScreenAdapter adapter;
 	public static final String DATABASE_SCREEN_ID = "screen";
@@ -36,12 +41,15 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		getLoaderManager().initLoader(SCREENS_LOADER, null, this);
 		
 		Button newScreen = (Button) findViewById(R.id.new_screen_button);
+		screenName = (EditText) findViewById(R.id.activity_manager_new_screen_name);
+		
 		newScreen.setOnClickListener(new OnClickListener()
 		{
 			
 			@Override
 			public void onClick(View v)
 			{
+				if (screenName.getText().toString() != null)
 				startForNewScreen();
 			}
 		});
@@ -64,13 +72,37 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		
 	}
 	
+	@Override
+	protected void onResume()
+	{
+		getLoaderManager().restartLoader(SCREENS_LOADER, null, this);
+		super.onResume();
+	}
+
 	private void startForNewScreen()
 	{
+		putInDatabase();
+		
 		Intent start = new Intent(getApplicationContext(), UiBuilderActivity.class);
 		
 		startActivity(start);
 	}
 	
+	private void putInDatabase()
+	{
+		ContentResolver res = getContentResolver();
+		ContentValues values = new ContentValues();
+		
+		Time time = new Time();
+		time.setToNow();
+		
+		values.put(DataBase.KEY_DATE, time.toString());
+		values.put(DataBase.KEY_NAME, screenName.getText().toString());
+		
+		res.insert(DataBase.CONTENT_URI, values);
+		getLoaderManager().restartLoader(SCREENS_LOADER, null, this);
+	}
+
 	private void startForEditing(View screen)
 	{
 		Intent start = new Intent(getApplicationContext(), UiBuilderActivity.class);
