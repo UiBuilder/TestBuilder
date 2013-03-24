@@ -3,6 +3,7 @@ package uibuilder;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -40,8 +41,9 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 			@Override
 			public void onClick(View v)
 			{
+				Intent start = new Intent(getApplicationContext(), UiBuilderActivity.class);
 				
-				
+				startActivity(start);
 			}
 		});
 		
