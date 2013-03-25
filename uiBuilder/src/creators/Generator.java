@@ -250,7 +250,7 @@ public class Generator
 
 		case R.id.element_radiogroup:
 			xmlView = buildRadioButtons();
-			((TextView) ((LinearLayout)xmlView).getChildAt(0)).setText(databaseBundle.getString(ObjectValueCollector.USER_TEXT));
+			((TextView) xmlView).setText(databaseBundle.getString(ObjectValueCollector.USER_TEXT));
 
 			xmlView.setBackgroundResource(R.drawable.object_background_default);
 
@@ -259,7 +259,7 @@ public class Generator
 
 		case R.id.element_switch:
 			xmlView = buildSwitch();
-			((TextView) ((LinearLayout)xmlView).getChildAt(0)).setText(databaseBundle.getString(ObjectValueCollector.USER_TEXT));
+			((TextView) xmlView).setText(databaseBundle.getString(ObjectValueCollector.USER_TEXT));
 			xmlView.setBackgroundResource(R.drawable.object_background_default);
 
 
@@ -324,6 +324,7 @@ public class Generator
 		case R.id.element_grid:
 			xmlView = buildGrid();
 			factory.setAdapter(xmlView, databaseBundle.getInt(ObjectValueCollector.LAYOUT));
+			((GridView)((RelativeLayout)xmlView).getChildAt(0)).setNumColumns(databaseBundle.getInt(ObjectValueCollector.COLUMNS_NUM));
 			xmlView.setBackgroundResource(R.drawable.object_background_default);
 
 			
