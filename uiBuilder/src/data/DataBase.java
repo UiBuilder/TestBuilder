@@ -114,7 +114,7 @@ public class DataBase extends ContentProvider
 		String having = null;
 		String row = null;
 		
-		sortOrder = KEY_DATE + " DESC";
+		sortOrder = null;
 		
 		SQLiteQueryBuilder query = new SQLiteQueryBuilder();
 		
@@ -129,6 +129,7 @@ public class DataBase extends ContentProvider
 				
 			case SCREENS_ALL:
 				
+				sortOrder = KEY_DATE + " DESC";
 				query.setTables(DataManager.TABLE_SCREENS);
 				break;
 				
