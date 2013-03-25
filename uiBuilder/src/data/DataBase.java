@@ -31,8 +31,20 @@ public class DataBase extends ContentProvider
 	
 	//table column constants
 	public static final String KEY_ID = "_id";
-	public static final String KEY_NAME = "name";
-	public static final String KEY_DATE = "date";
+	
+	//SCREENS TABLE
+	public static final String 
+					KEY_SCREEN_NAME = "name", 
+					KEY_SCREEN_DATE = "date";
+	
+	//OBJECTS TABLE
+	public static final String
+					KEY_OBJECTS_SCREEN = "screen",
+					KEY_OBJECTS_VIEW_ID = ObjectValueCollector.ID,
+					KEY_OBJECTS_VIEW_XPOS = ObjectValueCollector.X_POS,
+					KEY_OBJECTS_VIEW_YPOS = ObjectValueCollector.Y_POS;
+					
+					
 	
 	//uri match constants
 	private static final int SCREENS_SINGLE = 1;
@@ -129,7 +141,7 @@ public class DataBase extends ContentProvider
 				
 			case SCREENS_ALL:
 				
-				sortOrder = KEY_DATE + " DESC";
+				sortOrder = KEY_SCREEN_DATE + " DESC";
 				query.setTables(DataManager.TABLE_SCREENS);
 				break;
 				
@@ -218,38 +230,42 @@ public class DataBase extends ContentProvider
 
 	private static class DataManager extends SQLiteOpenHelper
 	{	
-		private static final String DB_NAME = "uibuilder.db";
-		public static final String TABLE_SCREENS = "screenManager";
-		public static final String TABLE_OBJECTS = "objects";
 		
-		private static final int DB_VERSION = 7;
+		public static final String 
+						DB_NAME = "uibuilder.db",
+						TABLE_SCREENS = "screenManager",
+						TABLE_OBJECTS = "objects";
+		
+		private static final int DB_VERSION = 8;
 		
 		private static final String CREATE = "create table if not exists ";
-		private static final String DROP = "DROP TABLE if exists ";
+		private static final String DROP = "DROP TABLE if exists ";	
+		
+		private static final String 
+						TEXT_NULL = " text not null ", 
+						INT_NULL = " integer not null";
 		
 		private static final String ID = KEY_ID + " integer primary key autoincrement, ";
 		
-		private static final String TEXT_NULL = " text not null ";
-		private static final String INT_NULL = " integer not null";
-		
 		
 		private static final String OBJECT_PROPERTIES =
-						ObjectValueCollector.ID + INT_NULL + ", " 
-						+ ObjectValueCollector.X_POS + INT_NULL + ", "
-						+ ObjectValueCollector.Y_POS + INT_NULL + ");"
+						KEY_OBJECTS_VIEW_ID + INT_NULL + ", " 
+						+ KEY_OBJECTS_VIEW_XPOS + INT_NULL + ", "
+						+ KEY_OBJECTS_VIEW_YPOS + INT_NULL + ");"
 						;
 		
 		private static final String CREATE_SCREENS_TABLE = 
 						CREATE 
 						+ TABLE_SCREENS + " ("
 						+ ID 
-						+ KEY_NAME + TEXT_NULL + ", "
-						+ KEY_DATE + TEXT_NULL + ");";
+						+ KEY_SCREEN_NAME + TEXT_NULL + ", "
+						+ KEY_SCREEN_DATE + TEXT_NULL + ");";
 		
 		private static final String CREATE_OBJECTS_TABLE =
 						CREATE
 						+ TABLE_OBJECTS + " ("
-						+ ID 
+						+ ID
+						+ KEY_OBJECTS_SCREEN + INT_NULL + ", "
 						+ OBJECT_PROPERTIES;
 
 		

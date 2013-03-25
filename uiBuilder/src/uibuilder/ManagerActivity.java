@@ -97,8 +97,8 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		Time time = new Time();
 		time.setToNow();
 		
-		values.put(DataBase.KEY_DATE, time.toString());
-		values.put(DataBase.KEY_NAME, screenName.getText().toString());
+		values.put(DataBase.KEY_SCREEN_DATE, time.toString());
+		values.put(DataBase.KEY_SCREEN_NAME, screenName.getText().toString());
 		
 		res.insert(DataBase.CONTENT_URI_SCREENS, values);
 		getLoaderManager().restartLoader(DataBase.SCREENS_LOADER, null, this);
@@ -123,7 +123,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args)
 	{
-		String[] projection = { DataBase.KEY_ID, DataBase.KEY_DATE, DataBase.KEY_NAME };
+		String[] projection = { DataBase.KEY_ID, DataBase.KEY_SCREEN_DATE, DataBase.KEY_SCREEN_NAME };
 	   
 	    return new CursorLoader(getApplicationContext(), DataBase.CONTENT_URI_SCREENS, null, null, null, null);
 	}
