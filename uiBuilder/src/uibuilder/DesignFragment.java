@@ -1044,7 +1044,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 		
 
-		designArea.addView(newOne);
+		designArea.addView(newOne, newOne.getLayoutParams());
 		
 		
 	}

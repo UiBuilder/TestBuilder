@@ -200,7 +200,7 @@ public class Generator
 		Bundle properties = getBundle(tagID);
 		View xmlView;
 		RelativeLayout.LayoutParams params = null;
-		params = new RelativeLayout.LayoutParams(databaseBundle.getInt(ObjectValueCollector.WIDTH), databaseBundle.getInt(ObjectValueCollector.HEIGHT));
+		params = new RelativeLayout.LayoutParams(databaseBundle.getInt(ObjectValueCollector.X_POS), databaseBundle.getInt(ObjectValueCollector.Y_POS));
 
 		
 
@@ -338,8 +338,8 @@ public class Generator
 		
 		xmlView.setId(idCount++);
 		xmlView.setTag(properties);
-		xmlView.setX(databaseBundle.getInt(ObjectValueCollector.X_POS));
-		xmlView.setY(databaseBundle.getInt(ObjectValueCollector.Y_POS));
+		//xmlView.(databaseBundle.getInt(ObjectValueCollector.X_POS));
+		//xmlView.setY(databaseBundle.getInt(ObjectValueCollector.Y_POS));
 
 		xmlView.setOnTouchListener(manipulator);
 		
