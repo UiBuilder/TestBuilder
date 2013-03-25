@@ -342,6 +342,14 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		return detector.onTouchEvent(event);
 	}
 
+	@Override
+	public void onStop()
+	{
+		Log.d("onstop designfragment", "called");
+		activeItem = null;
+		super.onStop();
+	}
+
 	boolean secondPointer = false;
 
 	private int getIndex(MotionEvent event)
