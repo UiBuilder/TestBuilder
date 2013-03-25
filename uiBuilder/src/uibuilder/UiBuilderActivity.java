@@ -1,6 +1,6 @@
 package uibuilder;
 
-import helpers.DisplayModeChanger;
+import helpers.ChildGrabber;
 import helpers.ImageTools;
 import uibuilder.DeleteFragment.onDeleteRequestListener;
 import uibuilder.DesignFragment.onObjectSelectedListener;
@@ -53,7 +53,7 @@ public class UiBuilderActivity extends Activity implements
 	private ViewGroup container;
 	private ImageTools exporter;
 	private DeleteFragment deletebox;
-	private DisplayModeChanger previewMode;
+	private ChildGrabber previewMode;
 	private Button previewButton;
 	
 //	private Drawable previewIcon;
@@ -153,8 +153,7 @@ public class UiBuilderActivity extends Activity implements
 	protected void onStop()
 	{
 		Log.d("UIBuilderactivity", "onStop called");
-		
-		designbox.getView();
+		//Save current layout here!!
 		super.onStop();
 	}
 
@@ -254,26 +253,26 @@ public class UiBuilderActivity extends Activity implements
 		{
 
 		case R.id.action_export_jpeg:
-			DisplayModeChanger.setDisplayMode(designbox.getView(), Generator.PRESENTATION_STYLE);
+			ChildGrabber.setDisplayMode(designbox.getView(), Generator.PRESENTATION_STYLE);
 
 			exporter.requestBitmap(designbox.getView(), getContentResolver(), false);
 
 			Toast.makeText(getApplicationContext(), getString(R.string.confirmation_save_to_gallery), Toast.LENGTH_SHORT).show();
-			DisplayModeChanger.setDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
+			ChildGrabber.setDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
 			
 			
 
 			break;
 
 		case R.id.action_attach_mail:
-			DisplayModeChanger.setDisplayMode(designbox.getView(), Generator.PRESENTATION_STYLE);
+			ChildGrabber.setDisplayMode(designbox.getView(), Generator.PRESENTATION_STYLE);
 
 			Intent mail = exporter.getIntent(ImageTools.SHARE);
 			mail.putExtra(Intent.EXTRA_STREAM, exporter.requestBitmap(designbox.getView(), getContentResolver(), false));
 
 			startActivityForResult(Intent.createChooser(mail, getString(R.string.intent_title_share)), ImageTools.SHARE);
 
-			DisplayModeChanger.setDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
+			ChildGrabber.setDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
 
 			break;
 
@@ -295,7 +294,7 @@ public class UiBuilderActivity extends Activity implements
 			//item.setIcon(previewIcon);
 			item.setTitle(R.string.menu_action_preview_mode);
 			isPreview = false;
-			DisplayModeChanger.setDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
+			ChildGrabber.setDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
 			displaySidebar(ITEMBOX);
 			
 
@@ -307,7 +306,7 @@ public class UiBuilderActivity extends Activity implements
 			item.setTitle(R.string.menu_action_create_mode);
 			
 			isPreview = true;
-			DisplayModeChanger.setDisplayMode(designbox.getView(), Generator.PRESENTATION_STYLE);
+			ChildGrabber.setDisplayMode(designbox.getView(), Generator.PRESENTATION_STYLE);
 			displaySidebar(NOTHING);
 			designbox.disableTouch(true);
 
@@ -414,14 +413,10 @@ public class UiBuilderActivity extends Activity implements
 	 * @author funklos
 	 */
 	@Override
-	public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor)
+	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1)
 	{
-		Log.d("cursor", "loaded");
+		// TODO Auto-generated method stub
 		
-		if(cursor.moveToFirst())
-		{
-			Log.d("cursor", "has content!"); 
-		}
 	}
 
 	/**
