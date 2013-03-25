@@ -1040,11 +1040,11 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 		
 
-		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) newOne.getLayoutParams();
+		//RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) newOne.getLayoutParams();
 
 		
 
-		designArea.addView(newOne, params);
+		designArea.addView(newOne);
 		
 		
 	}

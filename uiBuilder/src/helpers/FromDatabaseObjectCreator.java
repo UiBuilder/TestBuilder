@@ -8,7 +8,7 @@ import data.DataBase;
 public class FromDatabaseObjectCreator
 {
 	
-	public static void createObjects(Loader<Cursor> arg0, Cursor cursor)
+	public  FromDatabaseObjectCreator(Loader<Cursor> arg0, Cursor cursor)
 	{
 		
 		
