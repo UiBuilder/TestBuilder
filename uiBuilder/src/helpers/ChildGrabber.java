@@ -19,7 +19,7 @@ public class ChildGrabber
 		return childrenList;
 	}
 	
-	public static void recursiveWalkThrough(View layout)
+	private static void recursiveWalkThrough(View layout)
 	{
 
 		if (layout instanceof ViewGroup && layout.getTag() == null)
