@@ -252,44 +252,65 @@ public class DataBase extends ContentProvider
 						TABLE_SCREENS = "screenManager",
 						TABLE_OBJECTS = "objects";
 		
-		private static final int DB_VERSION = 11;
+		private static final int DB_VERSION = 12;
 		
 		private static final String CREATE = "create table if not exists ";
 		private static final String DROP = "DROP TABLE if exists ";	
 		
 		private static final String 
-						TEXT_NULL = " text not null ", 
-						INT_NULL = " integer not null";
+						TEXT_NULL = " text not null", 
+						INT_NULL = " integer not null",
+						KOMMA = ", "
+						;
 		
 		private static final String ID = KEY_ID + " integer primary key autoincrement, ";
 		
 		
-		private static final String OBJECT_PROPERTIES =
-						KEY_OBJECTS_VIEW_ID + INT_NULL + ", " 
-						+ KEY_OBJECTS_VIEW_XPOS + INT_NULL + ", "
-						+ KEY_OBJECTS_VIEW_YPOS + INT_NULL + ");"
+		private static final String OBJECT_PROPERTIES 
+						= KEY_OBJECTS_VIEW_ID + INT_NULL + KOMMA 
+						+ KEY_OBJECTS_VIEW_XPOS + INT_NULL + KOMMA
+						+ KEY_OBJECTS_VIEW_YPOS + INT_NULL + KOMMA
+						+ KEY_OBJECTS_VIEW_WIDTH + INT_NULL + KOMMA
+						+ KEY_OBJECTS_VIEW_HEIGHT + INT_NULL + KOMMA
+						
+						+ KEY_OBJECTS_VIEW_ALIGNMENT + INT_NULL + KOMMA
+						+ KEY_OBJECTS_VIEW_BACKGROUNDCLR + INT_NULL + KOMMA
+						+ KEY_OBJECTS_VIEW_COLUMNS_NUM + INT_NULL + KOMMA
+						+ KEY_OBJECTS_VIEW_CONTENT + INT_NULL + KOMMA
+						+ KEY_OBJECTS_VIEW_FONTSIZE + INT_NULL + KOMMA
+						+ KEY_OBJECTS_VIEW_ICNSRC + INT_NULL + KOMMA
+						+ KEY_OBJECTS_VIEW_IMGSRC + INT_NULL + KOMMA
+						+ KEY_OBJECTS_VIEW_LAYOUT + INT_NULL + KOMMA
+						+ KEY_OBJECTS_VIEW_RATING + INT_NULL + KOMMA
+						+ KEY_OBJECTS_VIEW_STARSNUM + INT_NULL + KOMMA
+						+ KEY_OBJECTS_VIEW_USERTEXT + INT_NULL
+						
+						
+						+ ");"
 						;
 		
-		private static final String CREATE_SCREENS_TABLE = 
-						CREATE 
+		private static final String CREATE_SCREENS_TABLE 
+						= CREATE 
 						+ TABLE_SCREENS + " ("
 						+ ID 
-						+ KEY_SCREEN_NAME + TEXT_NULL + ", "
+						+ KEY_SCREEN_NAME + TEXT_NULL + KOMMA
 						+ KEY_SCREEN_DATE + TEXT_NULL + ");";
 		
-		private static final String CREATE_OBJECTS_TABLE =
-						CREATE
+		private static final String CREATE_OBJECTS_TABLE 
+						= CREATE
 						+ TABLE_OBJECTS + " ("
 						+ ID
-						+ KEY_OBJECTS_SCREEN + INT_NULL + ", "
+						+ KEY_OBJECTS_SCREEN + INT_NULL + KOMMA
 						+ OBJECT_PROPERTIES;
 
 		
-		private static final String DROP_MAIN =
-						DROP + TABLE_SCREENS;
+		private static final String DROP_MAIN 
+						= DROP 
+						+ TABLE_SCREENS;
 		
-		private static final String DROP_OBJECTS =
-						DROP + TABLE_OBJECTS; 
+		private static final String DROP_OBJECTS 
+						= DROP 
+						+ TABLE_OBJECTS; 
 		
 		public DataManager(Context context, String name, CursorFactory factory,
 				int version)
