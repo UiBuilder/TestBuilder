@@ -15,11 +15,11 @@ public class ChildGrabber
 	
 	public static ArrayList<View> getChildren(View layout)
 	{
-		setDisplayMode(layout);
+		recursiveWalkThrough(layout);
 		return childrenList;
 	}
 	
-	public static void setDisplayMode(View layout)
+	private static void recursiveWalkThrough(View layout)
 	{
 
 		if (layout instanceof ViewGroup && layout.getTag() == null)
@@ -28,18 +28,14 @@ public class ChildGrabber
 
 			for (int i = 0; i < count; i++)
 			{
-				setDisplayMode(((ViewGroup) layout).getChildAt(i));
+				recursiveWalkThrough(((ViewGroup) layout).getChildAt(i));
 
 			}
 		} else if (layout instanceof TextView || layout instanceof LinearLayout
 				|| layout instanceof RelativeLayout
 				|| layout instanceof ImageView)
 		{
-			//Bundle tagBundle = (Bundle) layout.getTag();
 
-			//int style = tagBundle.getInt(displayStyle);
-
-			//layout.setBackgroundResource(style);
 			childrenList.add(layout);
 			
 			
