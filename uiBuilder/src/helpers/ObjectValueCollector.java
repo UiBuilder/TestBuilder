@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -59,7 +60,7 @@ public class ObjectValueCollector
 			break;
 			
 		case R.id.element_edittext:
-			valuesBundle.put(USER_TEXT, ((String)((TextView)object).getText()));
+			valuesBundle.put(USER_TEXT, (((EditText)object).getText()).toString());
 			valuesBundle.put(ALIGNMENT, ((TextView)object).getGravity());
 			valuesBundle.put(FONTSIZE, (int) ((TextView)object).getTextSize());
 			break;
