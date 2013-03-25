@@ -71,7 +71,7 @@ public class FromDatabaseObjectCreator
 
 	private static OnObjectLoadedFromDatabaseListener listener;
 
-	protected static void setOnObjectSelectedListener(
+	public static void setOnObjectCreatedFromDatabaseListener(
 			OnObjectLoadedFromDatabaseListener listener)
 	{
 		FromDatabaseObjectCreator.listener = listener;

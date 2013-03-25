@@ -1,5 +1,7 @@
 package uibuilder;
 
+import helpers.FromDatabaseObjectCreator;
+import helpers.FromDatabaseObjectCreator.OnObjectLoadedFromDatabaseListener;
 import helpers.Grid;
 import helpers.Log;
 import manipulators.Overlay;
@@ -24,7 +26,7 @@ import creators.ObjectFactory;
 import de.ur.rk.uibuilder.R;
 
 public class DesignFragment extends Fragment implements OnDragListener,
-		OnGestureListener, OnTouchListener
+		OnGestureListener, OnTouchListener, OnObjectLoadedFromDatabaseListener
 {
 
 	private RelativeLayout designArea, parent;
@@ -84,7 +86,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		View root = inflater.inflate(R.layout.layout_design_fragment, container, false);
 		designArea = (RelativeLayout) root.findViewById(R.id.design_area);
 		parent = (RelativeLayout) designArea.getParent();
-
+		FromDatabaseObjectCreator.setOnObjectCreatedFromDatabaseListener(this);
 		designArea.post(new Runnable()
 		{
 			@Override
@@ -1027,5 +1029,23 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	protected void disableTouch(boolean disable)
 	{
 		isPreviewing = disable;
+	}
+
+	@Override
+	public void objectLoaded(Bundle objectBundle)
+	{
+		View newOne = (View) factory.getElement(objectBundle);
+
+		//activeItem = newOne;
+
+		
+
+		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) newOne.getLayoutParams();
+
+		
+
+		designArea.addView(newOne, params);
+		
+		
 	}
 }
