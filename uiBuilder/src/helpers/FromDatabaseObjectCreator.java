@@ -33,7 +33,7 @@ public class FromDatabaseObjectCreator
 			int idxImageSource =  cursor.getColumnIndexOrThrow(DataBase.KEY_OBJECTS_VIEW_IMGSRC);
 			int idxIconSource =  cursor.getColumnIndexOrThrow(DataBase.KEY_OBJECTS_VIEW_ICNSRC);
 			int idxBackgroundColor =  cursor.getColumnIndexOrThrow(DataBase.KEY_OBJECTS_VIEW_BACKGROUNDCLR);
-			
+			Log.d("KEY", String.valueOf(cursor.getInt(idxKEYID)));
 			valuesBundle.putInt(ObjectValueCollector.ID, cursor.getInt(idxKEYID));
 			valuesBundle.putInt(ObjectValueCollector.TYPE, cursor.getInt(idxID));
 			valuesBundle.putInt(ObjectValueCollector.X_POS, cursor.getInt(idxXPos));
