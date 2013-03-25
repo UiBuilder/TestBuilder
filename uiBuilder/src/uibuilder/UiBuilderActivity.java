@@ -16,11 +16,13 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -172,6 +174,11 @@ public class UiBuilderActivity extends Activity implements
 		for (View view : content)
 		{
 			ContentValues tempValues = ObjectValueCollector.getValuePack(view);
+			
+			int databaseID = tempValues.getAsInteger(ObjectValueCollector.ID);
+			
+			Log.d("value of databaseID", String.valueOf(databaseID));
+			
 			int xpos = tempValues.getAsInteger(ObjectValueCollector.X_POS);
 			int ypos = tempValues.getAsInteger(ObjectValueCollector.Y_POS);
 			int id = tempValues.getAsInteger(ObjectValueCollector.TYPE);
@@ -193,9 +200,18 @@ public class UiBuilderActivity extends Activity implements
 			
 			
 			ContentResolver cres = getContentResolver();
-			cres.insert(DataBase.CONTENT_URI_OBJECTS, data);
+			
+			if (databaseID == 0)
+			{
+				cres.insert(DataBase.CONTENT_URI_OBJECTS, data);
+			}
+			else
+			{
+				Uri uri = ContentUris.withAppendedId(DataBase.CONTENT_URI_SCREENS, databaseID);
+				cres.update(uri, data, null, null);
+			}
 		}
-		content = null;
+		
 		super.onStop();
 	}
 
