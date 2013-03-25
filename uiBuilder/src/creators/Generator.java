@@ -200,7 +200,7 @@ public class Generator
 		Bundle properties = getBundle(tagID);
 		View xmlView;
 		RelativeLayout.LayoutParams params = null;
-		params = new RelativeLayout.LayoutParams(databaseBundle.getInt(ObjectValueCollector.X_POS), databaseBundle.getInt(ObjectValueCollector.Y_POS));
+		params = new RelativeLayout.LayoutParams(databaseBundle.getInt(ObjectValueCollector.WIDTH), databaseBundle.getInt(ObjectValueCollector.HEIGHT));
 
 		
 
@@ -208,7 +208,7 @@ public class Generator
 		{
 		case R.id.element_button:
 			xmlView = buildButton();
-			((Button)xmlView).setText(databaseBundle.getInt(ObjectValueCollector.USER_TEXT));
+			((Button)xmlView).setText(databaseBundle.getString(ObjectValueCollector.USER_TEXT));
 			((Button)xmlView).setTextSize(databaseBundle.getInt(ObjectValueCollector.FONTSIZE));
 			xmlView.setBackgroundResource(databaseBundle.getInt(ObjectValueCollector.BACKGROUND_COLOR));
 			
@@ -219,7 +219,7 @@ public class Generator
 
 		case R.id.element_textview:
 			xmlView = buildTextview();
-			((TextView)xmlView).setText(databaseBundle.getInt(ObjectValueCollector.USER_TEXT));
+			((TextView)xmlView).setText(databaseBundle.getString(ObjectValueCollector.USER_TEXT));
 			((TextView)xmlView).setTextSize(databaseBundle.getInt(ObjectValueCollector.FONTSIZE));
 			xmlView.setBackgroundResource(databaseBundle.getInt(ObjectValueCollector.BACKGROUND_COLOR));
 			((TextView)xmlView).setGravity(databaseBundle.getInt(ObjectValueCollector.ALIGNMENT));
@@ -333,11 +333,14 @@ public class Generator
 		default:
 			throw new NoClassDefFoundError();
 		}
-		
+		params.leftMargin = databaseBundle.getInt(ObjectValueCollector.X_POS);
+		params.topMargin = databaseBundle.getInt(ObjectValueCollector.Y_POS);
+
 		xmlView.setLayoutParams(params);
 		
 		xmlView.setId(idCount++);
 		xmlView.setTag(properties);
+		
 		//xmlView.(databaseBundle.getInt(ObjectValueCollector.X_POS));
 		//xmlView.setY(databaseBundle.getInt(ObjectValueCollector.Y_POS));
 

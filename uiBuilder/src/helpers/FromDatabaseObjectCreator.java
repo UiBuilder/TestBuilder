@@ -38,7 +38,7 @@ public class FromDatabaseObjectCreator
 			valuesBundle.putInt(ObjectValueCollector.Y_POS, cursor.getInt(idxYPos));
 			valuesBundle.putInt(ObjectValueCollector.WIDTH, cursor.getInt(idxWidth));
 			valuesBundle.putInt(ObjectValueCollector.HEIGHT, cursor.getInt(idxHeight));
-			valuesBundle.putInt(ObjectValueCollector.USER_TEXT, cursor.getInt(idxUserText));
+			valuesBundle.putString(ObjectValueCollector.USER_TEXT, cursor.getString(idxUserText));
 			valuesBundle.putInt(ObjectValueCollector.RATING, cursor.getInt(idxRating));
 			valuesBundle.putInt(ObjectValueCollector.CONTENT, cursor.getInt(idxContent));
 			valuesBundle.putInt(ObjectValueCollector.COLUMNS_NUM, cursor.getInt(idxColumnsNum));
