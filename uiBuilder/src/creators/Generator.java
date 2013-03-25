@@ -50,7 +50,7 @@ public class Generator
 	private LayoutInflater inflater;
 	private ObjectFactory factory;
 	
-	public static final String MINWIDTH = "mWidth", MINHEIGHT = "mHeight", ID = "id", SCALETYPE = "type", CREATION_STYLE = "create", PRESENTATION_STYLE = "pres", EXAMPLE_CONTENT = "exampleContent", EXAMPLE_LAYOUT = "exampleLayout", IMG_SRC = "imageSource", ICN_SRC = "iconSource";
+	public static final String MINWIDTH = "mWidth", MINHEIGHT = "mHeight", TYPE = "type", ID = "id", SCALETYPE = "type", CREATION_STYLE = "create", PRESENTATION_STYLE = "pres", EXAMPLE_CONTENT = "exampleContent", EXAMPLE_LAYOUT = "exampleLayout", IMG_SRC = "imageSource", ICN_SRC = "iconSource";
 
 
 	
@@ -201,7 +201,6 @@ public class Generator
 		View xmlView;
 		RelativeLayout.LayoutParams params = null;
 		params = new RelativeLayout.LayoutParams(databaseBundle.getInt(ObjectValueCollector.WIDTH), databaseBundle.getInt(ObjectValueCollector.HEIGHT));
-
 		
 
 		switch (tagID)
@@ -335,8 +334,10 @@ public class Generator
 		}
 		params.leftMargin = databaseBundle.getInt(ObjectValueCollector.X_POS);
 		params.topMargin = databaseBundle.getInt(ObjectValueCollector.Y_POS);
+		xmlView.setBackgroundResource(databaseBundle.getInt(ObjectValueCollector.BACKGROUND_COLOR));
 
 		xmlView.setLayoutParams(params);
+		properties.putInt(TYPE, databaseBundle.getInt(ObjectValueCollector.ID));
 		
 		xmlView.setId(idCount++);
 		xmlView.setTag(properties);
@@ -504,7 +505,7 @@ public class Generator
 		tagBundle.putInt(SCALETYPE, scaleType);
 		tagBundle.putInt(MINHEIGHT, height);
 		tagBundle.putInt(MINWIDTH, width);
-		tagBundle.putInt(ID, which);
+		tagBundle.putInt(TYPE, which);
 		
 
 		return tagBundle;
@@ -638,7 +639,7 @@ public class Generator
 				case DragEvent.ACTION_DRAG_STARTED:
 					Bundle tagBundle = (Bundle) v.getTag();
 
-					int id = tagBundle.getInt(Generator.ID);
+					int id = tagBundle.getInt(Generator.TYPE);
 					/*
 					if (id == R.id.element_container)
 					{

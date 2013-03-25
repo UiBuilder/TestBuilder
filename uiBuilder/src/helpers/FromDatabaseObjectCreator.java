@@ -16,6 +16,7 @@ public class FromDatabaseObjectCreator
 		{
 			Bundle valuesBundle = new Bundle();
 			
+			int idxKEYID = cursor.getColumnIndexOrThrow(DataBase.KEY_ID);
 			int idxID = cursor.getColumnIndexOrThrow(DataBase.KEY_OBJECTS_VIEW_TYPE);
 			int idxXPos = cursor.getColumnIndexOrThrow(DataBase.KEY_OBJECTS_VIEW_XPOS);
 			int idxYPos = cursor.getColumnIndexOrThrow(DataBase.KEY_OBJECTS_VIEW_YPOS);
@@ -33,6 +34,7 @@ public class FromDatabaseObjectCreator
 			int idxIconSource =  cursor.getColumnIndexOrThrow(DataBase.KEY_OBJECTS_VIEW_ICNSRC);
 			int idxBackgroundColor =  cursor.getColumnIndexOrThrow(DataBase.KEY_OBJECTS_VIEW_BACKGROUNDCLR);
 			
+			valuesBundle.putInt(ObjectValueCollector.ID, idxID);
 			valuesBundle.putInt(ObjectValueCollector.TYPE, cursor.getInt(idxID));
 			valuesBundle.putInt(ObjectValueCollector.X_POS, cursor.getInt(idxXPos));
 			valuesBundle.putInt(ObjectValueCollector.Y_POS, cursor.getInt(idxYPos));
@@ -46,7 +48,7 @@ public class FromDatabaseObjectCreator
 			valuesBundle.putInt(ObjectValueCollector.STARS_NUM, cursor.getInt(idxStarsNum));
 			valuesBundle.putInt(ObjectValueCollector.ALIGNMENT, cursor.getInt(idxAlignment));
 			valuesBundle.putInt(ObjectValueCollector.FONTSIZE, cursor.getInt(idxFontsize));
-			valuesBundle.putInt(ObjectValueCollector.IMG_SRC, cursor.getInt(idxImageSource));
+			valuesBundle.putString(ObjectValueCollector.IMG_SRC, cursor.getString(idxImageSource));
 			valuesBundle.putInt(ObjectValueCollector.ICN_SRC, cursor.getInt(idxIconSource));
 			valuesBundle.putInt(ObjectValueCollector.BACKGROUND_COLOR, cursor.getInt(idxBackgroundColor));
 

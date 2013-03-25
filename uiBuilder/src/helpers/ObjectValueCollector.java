@@ -36,7 +36,8 @@ public class ObjectValueCollector
 			FONTSIZE = "fontSize", 
 			IMG_SRC = "imageSource", 
 			ICN_SRC = "iconSource",
-			BACKGROUND_COLOR = "backgroundColor";
+			BACKGROUND_COLOR = "backgroundColor",
+			ID = "keyID";
 
 
 	public static ContentValues getValuePack(View object)
@@ -45,7 +46,7 @@ public class ObjectValueCollector
 		ContentValues valuesBundle = new ContentValues();
 		
 		int id = object.getId();
-		int tagId = objectBundle.getInt(Generator.ID);
+		int tagId = objectBundle.getInt(Generator.TYPE);
 		int xPos = (int) object.getX();
 		int yPos = (int) object.getY();
 		int width = object.getMeasuredWidth();

@@ -120,7 +120,7 @@ public class ObjectFactory implements onObjectEditedListener
 	{
 		Bundle tagBundle = (Bundle) active.getTag();
 
-		int id = tagBundle.getInt(Generator.ID);
+		int id = tagBundle.getInt(Generator.TYPE);
 
 		switch (id)
 		{

@@ -391,7 +391,7 @@ public class EditmodeFragment extends Fragment
 		currentView = view;
 
 		Bundle tagBundle = (Bundle) currentView.getTag();
-		int id = tagBundle.getInt(Generator.ID);
+		int id = tagBundle.getInt(Generator.TYPE);
 
 		resetModules();
 
@@ -873,7 +873,7 @@ public class EditmodeFragment extends Fragment
 			bundle.putInt(Generator.CREATION_STYLE, R.drawable.object_background_default);
 
 			
-			switch (bundle.getInt(Generator.ID))
+			switch (bundle.getInt(Generator.TYPE))
 			{
 			case R.id.element_button:
 				bundle.putInt(Generator.PRESENTATION_STYLE, R.drawable.presentation_button_default);

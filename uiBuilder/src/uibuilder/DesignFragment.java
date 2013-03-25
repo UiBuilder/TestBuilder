@@ -472,7 +472,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 				case R.id.overlay_drag:
 
 					Bundle tagBundle = (Bundle) activeItem.getTag();
-					int id = tagBundle.getInt(Generator.ID);
+					int id = tagBundle.getInt(Generator.TYPE);
 
 					/*
 					 * Generate clipdata to provide to the dragshadowbuilder
