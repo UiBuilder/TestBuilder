@@ -205,11 +205,23 @@ public class DataBase extends ContentProvider
 	{
 		SQLiteDatabase db = data.getWritableDatabase();
 		
+		int deleteCount = 0;
+		
 		switch (match.match(uri))
 		{
 		case SCREENS_SINGLE:
 			String row = uri.getPathSegments().get(1);
 			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
+			
+
+			deleteCount = db.delete(DataManager.TABLE_SCREENS, selection, selArgs);
+			break;
+			
+		case OBJECTS_ALL:
+
+			deleteCount = db.delete(DataManager.TABLE_OBJECTS, selection, selArgs);
+			break;
+			
 		default: break;
 		}
 		if (selection == null)
@@ -217,7 +229,6 @@ public class DataBase extends ContentProvider
 			selection = "1";
 		}
 		
-		int deleteCount = db.delete(DataManager.TABLE_SCREENS, selection, selArgs);
 		getContext().getContentResolver().notifyChange(uri, null);
 		return deleteCount;
 	}
