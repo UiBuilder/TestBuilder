@@ -14,15 +14,17 @@ import android.widget.TextView;
 
 public class ChildGrabber
 {
-	private static ArrayList<View> childrenList = new ArrayList<View>();
+	private ArrayList<View> childrenList;
 	
-	public static ArrayList<View> getChildren(View layout)
+	public ArrayList<View> getChildren(View layout)
 	{
+		childrenList = new ArrayList<View>();
+		
 		recursiveWalkThrough(layout);
 		return childrenList;
 	}
 	
-	private static void recursiveWalkThrough(View layout)
+	private void recursiveWalkThrough(View layout)
 	{
 
 		if (layout instanceof ViewGroup && layout.getTag() == null)

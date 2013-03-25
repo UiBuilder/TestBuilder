@@ -107,7 +107,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	private void startForEditing(View screen, long id)
 	{
 		Intent start = new Intent(getApplicationContext(), UiBuilderActivity.class);
-		start.putExtra(DATABASE_SCREEN_ID, id);
+		start.putExtra(DATABASE_SCREEN_ID, (int)id);
 		
 		startActivity(start);
 	}

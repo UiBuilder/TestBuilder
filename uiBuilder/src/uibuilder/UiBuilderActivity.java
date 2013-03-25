@@ -59,13 +59,13 @@ public class UiBuilderActivity extends Activity implements
 	private ViewGroup container;
 	private ImageTools exporter;
 	private DeleteFragment deletebox;
-	private ChildGrabber previewMode;
+	private ChildGrabber grabber;
 	private Button previewButton;
 
 	// private Drawable previewIcon;
 	// private Drawable editIcon;
 
-	private long screenId;
+	private int screenId;
 	private Boolean isPreview = false;
 
 	@Override
@@ -76,6 +76,7 @@ public class UiBuilderActivity extends Activity implements
 
 		setContentView(R.layout.layout_fragment_container);
 		setupUi();
+		grabber = new ChildGrabber();
 
 		LayoutInflater inf = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
 
@@ -100,7 +101,7 @@ public class UiBuilderActivity extends Activity implements
 
 		if (intentBundle != null)
 		{
-			screenId = intentBundle.getLong(ManagerActivity.DATABASE_SCREEN_ID);
+			screenId = intentBundle.getInt(ManagerActivity.DATABASE_SCREEN_ID);
 			Log.d("screen id is", String.valueOf(screenId));
 		}
 
@@ -165,7 +166,7 @@ public class UiBuilderActivity extends Activity implements
 		View rootDesignBox = designbox.getView();
 		
 		View designArea = rootDesignBox.findViewById(R.id.design_area);
-		ArrayList<View> content = ChildGrabber.getChildren(designArea);
+		ArrayList<View> content = grabber.getChildren(designArea);
 		
 		for (View view : content)
 		{
@@ -174,13 +175,14 @@ public class UiBuilderActivity extends Activity implements
 			int ypos = tempValues.getAsInteger(ObjectValueCollector.Y_POS);
 			int id = tempValues.getAsInteger(ObjectValueCollector.ID);
 			
+			
 			Log.d("xpos of item about to put in database", String.valueOf(xpos));
 			
 			ContentValues data = new ContentValues();
 			data.put(DataBase.KEY_OBJECTS_VIEW_ID, id);
 			data.put(DataBase.KEY_OBJECTS_VIEW_XPOS, xpos);
 			data.put(DataBase.KEY_OBJECTS_VIEW_YPOS, ypos);
-			data.put(DataBase.KEY_OBJECTS_SCREEN, (int)screenId);
+			data.put(DataBase.KEY_OBJECTS_SCREEN, screenId);
 			
 			Log.d("screenId about to put in database", String.valueOf(screenId));
 			
@@ -188,6 +190,7 @@ public class UiBuilderActivity extends Activity implements
 			ContentResolver cres = getContentResolver();
 			cres.insert(DataBase.CONTENT_URI_OBJECTS, data);
 		}
+		content = null;
 		super.onStop();
 	}
 
@@ -435,11 +438,11 @@ public class UiBuilderActivity extends Activity implements
 	{
 		// String[] projection = { DataBase.KEY_ID, DataBase.KEY_SCREEN_DATE,
 		// DataBase.KEY_SCREEN_NAME };
-		String selection = DataBase.KEY_OBJECTS_SCREEN + " = ? ";
+		String selection = DataBase.KEY_OBJECTS_SCREEN + "=" + "'" + String.valueOf(screenId) + "'";
 		String[] args = {String.valueOf((int)screenId)};
 
 		Log.d("loader", "created");
-		return new CursorLoader(getApplicationContext(), DataBase.CONTENT_URI_OBJECTS, null, selection, args, null);
+		return new CursorLoader(getApplicationContext(), DataBase.CONTENT_URI_OBJECTS, null, selection, null, null);
 	}
 
 	/**
@@ -456,7 +459,7 @@ public class UiBuilderActivity extends Activity implements
 			
 			int idx_screenId = cursor.getColumnIndexOrThrow(DataBase.KEY_OBJECTS_SCREEN);
 			
-			Log.d("database item ScreenId", String.valueOf(idx_screenId));
+			Log.d("database item ScreenId", String.valueOf(cursor.getInt(idx_screenId)));
 			
 			int xpos = cursor.getInt(idx_xpos);
 			Log.d("xpos of item in database", String.valueOf(xpos));
@@ -476,7 +479,7 @@ public class UiBuilderActivity extends Activity implements
 	private void changeDisplayMode(View designbox, String displayStyle)
 	{
 		ArrayList<View> viewList;
-		viewList = ChildGrabber.getChildren(designbox);
+		viewList = grabber.getChildren(designbox);
 
 		for (View view : viewList)
 		{
