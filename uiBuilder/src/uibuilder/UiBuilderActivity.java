@@ -4,6 +4,7 @@ import helpers.ChildGrabber;
 import helpers.FromDatabaseObjectCreator;
 import helpers.ImageTools;
 import helpers.ObjectValueCollector;
+import helpers.ToDatabaseObjectWriter;
 
 import java.util.ArrayList;
 
@@ -164,53 +165,45 @@ public class UiBuilderActivity extends Activity implements
 	@Override
 	protected void onStop()
 	{
+		
+		
+		
 		Log.d("UIBuilderactivity", "onStop called");
 		
 		View rootDesignBox = designbox.getView();
 		
 		View designArea = rootDesignBox.findViewById(R.id.design_area);
-		ArrayList<View> content = grabber.getChildren(designArea);
 		
-		for (View view : content)
-		{
-			ContentValues tempValues = ObjectValueCollector.getValuePack(view);
-			
-			int databaseID = tempValues.getAsInteger(ObjectValueCollector.ID);
-			
-			Log.d("value of databaseID", String.valueOf(databaseID));
-			
-			int xpos = tempValues.getAsInteger(ObjectValueCollector.X_POS);
-			int ypos = tempValues.getAsInteger(ObjectValueCollector.Y_POS);
-			int id = tempValues.getAsInteger(ObjectValueCollector.TYPE);
-			int width = tempValues.getAsInteger(ObjectValueCollector.WIDTH);
-			int height = tempValues.getAsInteger(ObjectValueCollector.HEIGHT);
-			
-			
-			Log.d("xpos of item about to put in database", String.valueOf(xpos));
-			
-			ContentValues data = new ContentValues();
-			data.put(DataBase.KEY_OBJECTS_VIEW_TYPE, id);
-			data.put(DataBase.KEY_OBJECTS_VIEW_XPOS, xpos);
-			data.put(DataBase.KEY_OBJECTS_VIEW_YPOS, ypos);
-			data.put(DataBase.KEY_OBJECTS_SCREEN, screenId);
-			data.put(DataBase.KEY_OBJECTS_VIEW_WIDTH, width);
-			data.put(DataBase.KEY_OBJECTS_VIEW_HEIGHT, height);
-			
-			Log.d("screenId about to put in database", String.valueOf(screenId));
-			
-			
-			ContentResolver cres = getContentResolver();
-			
-			if (databaseID == 0)
-			{
-				cres.insert(DataBase.CONTENT_URI_OBJECTS, data);
-			}
-			else
-			{
-				Uri uri = ContentUris.withAppendedId(DataBase.CONTENT_URI_OBJECTS, databaseID);
-				cres.update(uri, data, null, null);
-			}
-		}
+		ToDatabaseObjectWriter objectWriter = new ToDatabaseObjectWriter(designArea, screenId, getApplicationContext());
+		
+		
+//		for (View view : content)
+//		{
+//			ContentValues tempValues = ObjectValueCollector.getValuePack(view);
+//			
+//			int databaseID = tempValues.getAsInteger(ObjectValueCollector.ID);
+//			
+//			Log.d("value of databaseID", String.valueOf(databaseID));
+//			
+//			int xpos = tempValues.getAsInteger(ObjectValueCollector.X_POS);
+//			int ypos = tempValues.getAsInteger(ObjectValueCollector.Y_POS);
+//			int id = tempValues.getAsInteger(ObjectValueCollector.TYPE);
+//			int width = tempValues.getAsInteger(ObjectValueCollector.WIDTH);
+//			int height = tempValues.getAsInteger(ObjectValueCollector.HEIGHT);
+//			
+//			
+//			Log.d("xpos of item about to put in database", String.valueOf(xpos));
+//			
+//			ContentValues data = new ContentValues();
+//			data.put(DataBase.KEY_OBJECTS_VIEW_TYPE, id);
+//			data.put(DataBase.KEY_OBJECTS_VIEW_XPOS, xpos);
+//			data.put(DataBase.KEY_OBJECTS_VIEW_YPOS, ypos);
+//			data.put(DataBase.KEY_OBJECTS_SCREEN, screenId);
+//			data.put(DataBase.KEY_OBJECTS_VIEW_WIDTH, width);
+//			data.put(DataBase.KEY_OBJECTS_VIEW_HEIGHT, height);
+//			
+//		
+//		}
 		
 		super.onStop();
 	}

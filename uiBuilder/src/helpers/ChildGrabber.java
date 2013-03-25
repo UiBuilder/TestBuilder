@@ -21,6 +21,8 @@ public class ChildGrabber
 		childrenList = new ArrayList<View>();
 		
 		recursiveWalkThrough(layout);
+		Log.d("Childgrabber", "about to return arrayList ");
+
 		return childrenList;
 	}
 	
