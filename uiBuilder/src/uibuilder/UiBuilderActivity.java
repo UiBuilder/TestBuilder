@@ -153,7 +153,8 @@ public class UiBuilderActivity extends Activity implements
 	protected void onStop()
 	{
 		Log.d("UIBuilderactivity", "onStop called");
-		//Save current layout here!!
+		
+		designbox.getView();
 		super.onStop();
 	}
 
@@ -413,10 +414,14 @@ public class UiBuilderActivity extends Activity implements
 	 * @author funklos
 	 */
 	@Override
-	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1)
+	public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor)
 	{
-		// TODO Auto-generated method stub
+		Log.d("cursor", "loaded");
 		
+		if(cursor.moveToFirst())
+		{
+			Log.d("cursor", "has content!"); 
+		}
 	}
 
 	/**

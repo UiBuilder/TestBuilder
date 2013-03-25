@@ -1,5 +1,6 @@
 package uibuilder;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentResolver;
@@ -37,6 +38,10 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_manager);
+		
+		ActionBar bar = getActionBar();
+		bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME);
+		bar.setBackgroundDrawable(getResources().getDrawable(R.color.designfragment_background));
 		
 		getLoaderManager().initLoader(DataBase.SCREENS_LOADER, null, this);
 		
