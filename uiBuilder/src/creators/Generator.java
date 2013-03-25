@@ -339,11 +339,16 @@ public class Generator
 		xmlView.setLayoutParams(params);
 		
 		xmlView.setId(idCount++);
+		
+		properties.putInt(ID, databaseBundle.getInt(ObjectValueCollector.ID));
+		
 		xmlView.setTag(properties);
 		
 		//xmlView.(databaseBundle.getInt(ObjectValueCollector.X_POS));
 		//xmlView.setY(databaseBundle.getInt(ObjectValueCollector.Y_POS));
 
+		
+		
 		xmlView.setOnTouchListener(manipulator);
 		
 		xmlView.measure(databaseBundle.getInt(ObjectValueCollector.WIDTH), databaseBundle.getInt(ObjectValueCollector.HEIGHT));

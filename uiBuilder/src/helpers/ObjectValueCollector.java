@@ -57,6 +57,7 @@ public class ObjectValueCollector
 		valuesBundle.put(Y_POS, yPos);
 		valuesBundle.put(WIDTH, width);
 		valuesBundle.put(HEIGHT, height);
+		Log.d("ObjectValueCollector", "values put.");
 
 		switch (tagId)
 		{
@@ -64,32 +65,39 @@ public class ObjectValueCollector
 			valuesBundle.put(USER_TEXT, (String) ((Button) object).getText());
 			valuesBundle.put(FONTSIZE, (int) ((Button) object).getTextSize());
 			valuesBundle.put(BACKGROUND_COLOR, objectBundle.getInt(Generator.CREATION_STYLE));
+			Log.d("ObjectValueCollector", "put Button, with: "+(String) ((Button) object).getText()+" and Size:"+(int) ((Button) object).getTextSize());
+
 			break;
 
 		case R.id.element_checkbox:
 
 			TextView textView = (TextView) ((LinearLayout) object).getChildAt(0);
 			valuesBundle.put(USER_TEXT, (String) textView.getText());
+			Log.d("ObjectValueCollector", "put checkbox, with: "+(String) textView.getText());
 			break;
 
 		case R.id.element_radiogroup:
 			valuesBundle.put(USER_TEXT, ((RadioButton) object).getText().toString());
+			Log.d("ObjectValueCollector", "put radiogroup, with: ");
 			break;
 
 		case R.id.element_switch:
 			valuesBundle.put(USER_TEXT, ((Switch) object).getText().toString());
+			Log.d("ObjectValueCollector", "put Button, with: ");
 			break;
 
 		case R.id.element_edittext:
 			valuesBundle.put(USER_TEXT, (((EditText) object).getText()).toString());
 			valuesBundle.put(ALIGNMENT, ((TextView) object).getGravity());
 			valuesBundle.put(FONTSIZE, (int) ((TextView) object).getTextSize());
+			Log.d("ObjectValueCollector", "put Button, with: ");
 			break;
 
 		case R.id.element_grid:
 			valuesBundle.put(COLUMNS_NUM, ((GridView) ((RelativeLayout) object).getChildAt(0)).getNumColumns());
 			valuesBundle.put(CONTENT, objectBundle.getInt(Generator.EXAMPLE_CONTENT));
 			valuesBundle.put(LAYOUT, objectBundle.getInt(Generator.EXAMPLE_LAYOUT));
+			Log.d("ObjectValueCollector", "put Button, with: ");
 			break;
 
 		case R.id.element_imageview:
@@ -100,21 +108,24 @@ public class ObjectValueCollector
 			{
 				valuesBundle.put(ICN_SRC, objectBundle.getInt(Generator.ICN_SRC));
 			}
-
+			Log.d("ObjectValueCollector", "put Button, with: ");
 			break;
 
 		case R.id.element_list:
 			valuesBundle.put(CONTENT, objectBundle.getInt(Generator.EXAMPLE_CONTENT));
 			valuesBundle.put(LAYOUT, objectBundle.getInt(Generator.EXAMPLE_LAYOUT));
+			Log.d("ObjectValueCollector", "put Button, with: ");
 			break;
 
 		case R.id.element_numberpick:
+			Log.d("ObjectValueCollector", "put Button, with: ");
 			break;
 
 		case R.id.element_ratingbar:
 			valuesBundle.put(STARS_NUM, ((RatingBar) ((ViewGroup) object).getChildAt(0)).getNumStars());
 			valuesBundle.put(RATING, (int) ((RatingBar) ((ViewGroup) object).getChildAt(0)).getRating());
 			valuesBundle.put(BACKGROUND_COLOR, objectBundle.getInt(Generator.CREATION_STYLE));
+			Log.d("ObjectValueCollector", "put Button, with: ");
 			break;
 
 		case R.id.element_seekbar:
@@ -125,9 +136,11 @@ public class ObjectValueCollector
 			valuesBundle.put(ALIGNMENT, ((TextView) object).getGravity());
 			valuesBundle.put(FONTSIZE, (int) ((TextView) object).getTextSize());
 			valuesBundle.put(BACKGROUND_COLOR, objectBundle.getInt(Generator.CREATION_STYLE));
+			Log.d("ObjectValueCollector", "put Button, with: ");
 			break;
 
 		case R.id.element_timepicker:
+			Log.d("ObjectValueCollector", "put Button, with: ");
 			break;
 		}
 
