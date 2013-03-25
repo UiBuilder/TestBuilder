@@ -2,6 +2,7 @@ package uibuilder;
 
 import helpers.ChildGrabber;
 import helpers.ImageTools;
+import helpers.ObjectValueCollector;
 
 import java.util.ArrayList;
 
@@ -13,6 +14,8 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -107,7 +110,6 @@ public class UiBuilderActivity extends Activity implements
 	private void checkDb()
 	{
 		getLoaderManager().initLoader(DataBase.OBJECTS_LOADER, null, this);
-
 	}
 
 	@Override
@@ -159,7 +161,30 @@ public class UiBuilderActivity extends Activity implements
 	protected void onStop()
 	{
 		Log.d("UIBuilderactivity", "onStop called");
-		// Save current layout here!!
+		
+		View rootDesignBox = designbox.getView();
+		
+		View designArea = rootDesignBox.findViewById(R.id.design_area);
+		ArrayList<View> content = ChildGrabber.getChildren(designArea);
+		
+		for (View view : content)
+		{
+			ContentValues tempValues = ObjectValueCollector.getValuePack(view);
+			int xpos = tempValues.getAsInteger(ObjectValueCollector.X_POS);
+			int ypos = tempValues.getAsInteger(ObjectValueCollector.Y_POS);
+			int id = tempValues.getAsInteger(ObjectValueCollector.ID);
+			
+			Log.d("xpos of item about to put in database", String.valueOf(xpos));
+			
+			ContentValues data = new ContentValues();
+			data.put(DataBase.KEY_OBJECTS_VIEW_ID, id);
+			data.put(DataBase.KEY_OBJECTS_VIEW_XPOS, xpos);
+			data.put(DataBase.KEY_OBJECTS_VIEW_YPOS, ypos);
+			data.put(DataBase.KEY_OBJECTS_SCREEN, screenId);
+			
+			ContentResolver cres = getContentResolver();
+			cres.insert(DataBase.CONTENT_URI_OBJECTS, data);
+		}
 		super.onStop();
 	}
 
@@ -410,6 +435,7 @@ public class UiBuilderActivity extends Activity implements
 		String selection = DataBase.KEY_OBJECTS_SCREEN + " = "
 				+ String.valueOf(screenId);
 
+		Log.d("loader", "created");
 		return new CursorLoader(getApplicationContext(), DataBase.CONTENT_URI_OBJECTS, null, selection, null, null);
 	}
 
@@ -417,10 +443,17 @@ public class UiBuilderActivity extends Activity implements
 	 * @author funklos
 	 */
 	@Override
-	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1)
+	public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor)
 	{
-		// TODO Auto-generated method stub
-
+		Log.d("loader", "finished loading");
+		while (cursor.moveToNext())
+		{
+			Log.d("database contains", "item");
+			int idx_xpos = cursor.getColumnIndexOrThrow(DataBase.KEY_OBJECTS_VIEW_XPOS);
+			
+			int xpos = cursor.getInt(idx_xpos);
+			Log.d("xpos of item in database", String.valueOf(xpos));
+		}
 	}
 
 	/**

@@ -101,7 +101,7 @@ public class DataBase extends ContentProvider
 			break;
 			
 		case OBJECTS_ALL:
-			
+			Log.d("objects all", "about to insert");
 			id = db.insert(DataManager.TABLE_OBJECTS, nullColumnHack, values);
 			
 			if (id > -1)
