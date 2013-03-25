@@ -19,11 +19,23 @@ import de.ur.rk.uibuilder.R;
 public class ObjectValueCollector
 {
 
-	public static final String ID = "id", X_POS = "xPos", Y_POS = "yPos",
-			WIDTH = "width", HEIGHT = "height", USER_TEXT = "userText",
-			RATING = "rating", CONTENT = "content", COLUMNS_NUM = "columnsNum",
-			LAYOUT = "layout", STARS_NUM = "starsNum", ALIGNMENT = "alignment",
-			FONTSIZE = "fontSize", IMG_SRC = "imageSource", ICN_SRC = "iconSource",
+	public static final String 
+			ID = "id", 
+			X_POS = "xPos", 
+			Y_POS = "yPos",
+			WIDTH = "width", 
+			HEIGHT = "height",
+			
+			USER_TEXT = "userText",
+			RATING = "rating", 
+			CONTENT = "content", 
+			COLUMNS_NUM = "columnsNum",
+			LAYOUT = "layout", 
+			STARS_NUM = "starsNum", 
+			ALIGNMENT = "alignment",
+			FONTSIZE = "fontSize", 
+			IMG_SRC = "imageSource", 
+			ICN_SRC = "iconSource",
 			BACKGROUND_COLOR = "backgroundColor";
 
 

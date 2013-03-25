@@ -436,10 +436,7 @@ public class UiBuilderActivity extends Activity implements
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1)
 	{
-		// String[] projection = { DataBase.KEY_ID, DataBase.KEY_SCREEN_DATE,
-		// DataBase.KEY_SCREEN_NAME };
 		String selection = DataBase.KEY_OBJECTS_SCREEN + "=" + "'" + String.valueOf(screenId) + "'";
-		String[] args = {String.valueOf((int)screenId)};
 
 		Log.d("loader", "created");
 		return new CursorLoader(getApplicationContext(), DataBase.CONTENT_URI_OBJECTS, null, selection, null, null);

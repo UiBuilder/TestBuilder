@@ -42,7 +42,21 @@ public class DataBase extends ContentProvider
 					KEY_OBJECTS_SCREEN = "screen",
 					KEY_OBJECTS_VIEW_ID = ObjectValueCollector.ID,
 					KEY_OBJECTS_VIEW_XPOS = ObjectValueCollector.X_POS,
-					KEY_OBJECTS_VIEW_YPOS = ObjectValueCollector.Y_POS;
+					KEY_OBJECTS_VIEW_YPOS = ObjectValueCollector.Y_POS,
+					KEY_OBJECTS_VIEW_WIDTH = ObjectValueCollector.WIDTH,
+					KEY_OBJECTS_VIEW_HEIGHT = ObjectValueCollector.HEIGHT,
+					KEY_OBJECTS_VIEW_USERTEXT = ObjectValueCollector.USER_TEXT,
+					KEY_OBJECTS_VIEW_RATING = ObjectValueCollector.RATING,
+					KEY_OBJECTS_VIEW_CONTENT = ObjectValueCollector.CONTENT,
+					KEY_OBJECTS_VIEW_COLUMNS_NUM = ObjectValueCollector.COLUMNS_NUM,
+					KEY_OBJECTS_VIEW_LAYOUT = ObjectValueCollector.LAYOUT,
+					KEY_OBJECTS_VIEW_STARSNUM = ObjectValueCollector.STARS_NUM,
+					KEY_OBJECTS_VIEW_ALIGNMENT = ObjectValueCollector.ALIGNMENT,
+					KEY_OBJECTS_VIEW_FONTSIZE = ObjectValueCollector.FONTSIZE,
+					KEY_OBJECTS_VIEW_IMGSRC = ObjectValueCollector.IMG_SRC,
+					KEY_OBJECTS_VIEW_ICNSRC = ObjectValueCollector.ICN_SRC,
+					KEY_OBJECTS_VIEW_BACKGROUNDCLR = ObjectValueCollector.BACKGROUND_COLOR
+					;
 					
 					
 	
