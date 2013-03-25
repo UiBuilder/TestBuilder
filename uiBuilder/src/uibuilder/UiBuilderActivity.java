@@ -2,6 +2,9 @@ package uibuilder;
 
 import helpers.ChildGrabber;
 import helpers.ImageTools;
+
+import java.util.ArrayList;
+
 import uibuilder.DeleteFragment.onDeleteRequestListener;
 import uibuilder.DesignFragment.onObjectSelectedListener;
 import uibuilder.ItemboxFragment.onUiElementSelectedListener;
@@ -55,9 +58,9 @@ public class UiBuilderActivity extends Activity implements
 	private DeleteFragment deletebox;
 	private ChildGrabber previewMode;
 	private Button previewButton;
-	
-//	private Drawable previewIcon;
-//	private Drawable editIcon;
+
+	// private Drawable previewIcon;
+	// private Drawable editIcon;
 
 	private long screenId;
 	private Boolean isPreview = false;
@@ -76,9 +79,12 @@ public class UiBuilderActivity extends Activity implements
 		container = (ViewGroup) inf.inflate(R.layout.layout_fragment_container, null);
 		fManager = getFragmentManager();
 		exporter = new ImageTools(getApplicationContext());
-		//previewIcon = getResources().getDrawable(android.R.drawable.ic_menu_view);
-		//previewIcon.setColorFilter(R.color.text_light, PorterDuff.Mode.MULTIPLY);
-		//editIcon = getResources().getDrawable(android.R.drawable.ic_menu_view);
+		// previewIcon =
+		// getResources().getDrawable(android.R.drawable.ic_menu_view);
+		// previewIcon.setColorFilter(R.color.text_light,
+		// PorterDuff.Mode.MULTIPLY);
+		// editIcon =
+		// getResources().getDrawable(android.R.drawable.ic_menu_view);
 
 		performInitTransaction();
 		checkIntent();
@@ -88,20 +94,20 @@ public class UiBuilderActivity extends Activity implements
 	{
 		Intent intent = getIntent();
 		Bundle intentBundle = intent.getExtras();
-		
-		if(intentBundle != null)
+
+		if (intentBundle != null)
 		{
 			screenId = intentBundle.getLong(ManagerActivity.DATABASE_SCREEN_ID);
 			Log.d("screen id is", String.valueOf(screenId));
 		}
-		
+
 		checkDb();
 	}
 
 	private void checkDb()
 	{
 		getLoaderManager().initLoader(DataBase.OBJECTS_LOADER, null, this);
-		
+
 	}
 
 	@Override
@@ -153,7 +159,7 @@ public class UiBuilderActivity extends Activity implements
 	protected void onStop()
 	{
 		Log.d("UIBuilderactivity", "onStop called");
-		//Save current layout here!!
+		// Save current layout here!!
 		super.onStop();
 	}
 
@@ -253,26 +259,23 @@ public class UiBuilderActivity extends Activity implements
 		{
 
 		case R.id.action_export_jpeg:
-			ChildGrabber.setDisplayMode(designbox.getView(), Generator.PRESENTATION_STYLE);
+			changeDisplayMode(designbox.getView(), Generator.PRESENTATION_STYLE);
 
 			exporter.requestBitmap(designbox.getView(), getContentResolver(), false);
 
 			Toast.makeText(getApplicationContext(), getString(R.string.confirmation_save_to_gallery), Toast.LENGTH_SHORT).show();
-			ChildGrabber.setDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
-			
-			
+			changeDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
 
 			break;
 
 		case R.id.action_attach_mail:
-			ChildGrabber.setDisplayMode(designbox.getView(), Generator.PRESENTATION_STYLE);
+			changeDisplayMode(designbox.getView(), Generator.PRESENTATION_STYLE);
 
 			Intent mail = exporter.getIntent(ImageTools.SHARE);
 			mail.putExtra(Intent.EXTRA_STREAM, exporter.requestBitmap(designbox.getView(), getContentResolver(), false));
 
 			startActivityForResult(Intent.createChooser(mail, getString(R.string.intent_title_share)), ImageTools.SHARE);
-
-			ChildGrabber.setDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
+			changeDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
 
 			break;
 
@@ -282,7 +285,7 @@ public class UiBuilderActivity extends Activity implements
 		default:
 			break;
 		}
-		//displaySidebar(ITEMBOX);
+		// displaySidebar(ITEMBOX);
 		return true;
 	}
 
@@ -291,22 +294,21 @@ public class UiBuilderActivity extends Activity implements
 		if (isPreview)
 		{
 			designbox.disableTouch(false);
-			//item.setIcon(previewIcon);
+			// item.setIcon(previewIcon);
 			item.setTitle(R.string.menu_action_preview_mode);
 			isPreview = false;
-			ChildGrabber.setDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
+			changeDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
 			displaySidebar(ITEMBOX);
-			
 
 		} else
 		{
 			designbox.disableTouch(true);
-			//item.setIcon(editIcon);
+			// item.setIcon(editIcon);
 
 			item.setTitle(R.string.menu_action_create_mode);
-			
+
 			isPreview = true;
-			ChildGrabber.setDisplayMode(designbox.getView(), Generator.PRESENTATION_STYLE);
+			changeDisplayMode(designbox.getView(), Generator.PRESENTATION_STYLE);
 			displaySidebar(NOTHING);
 			designbox.disableTouch(true);
 
@@ -403,12 +405,14 @@ public class UiBuilderActivity extends Activity implements
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1)
 	{
-		//String[] projection = { DataBase.KEY_ID, DataBase.KEY_SCREEN_DATE, DataBase.KEY_SCREEN_NAME };
-		String selection = DataBase.KEY_OBJECTS_SCREEN + " = " + String.valueOf(screenId);
-		   
-	    return new CursorLoader(getApplicationContext(), DataBase.CONTENT_URI_OBJECTS, null, selection, null, null);
+		// String[] projection = { DataBase.KEY_ID, DataBase.KEY_SCREEN_DATE,
+		// DataBase.KEY_SCREEN_NAME };
+		String selection = DataBase.KEY_OBJECTS_SCREEN + " = "
+				+ String.valueOf(screenId);
+
+		return new CursorLoader(getApplicationContext(), DataBase.CONTENT_URI_OBJECTS, null, selection, null, null);
 	}
-	
+
 	/**
 	 * @author funklos
 	 */
@@ -416,7 +420,7 @@ public class UiBuilderActivity extends Activity implements
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1)
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	/**
@@ -426,7 +430,22 @@ public class UiBuilderActivity extends Activity implements
 	public void onLoaderReset(Loader<Cursor> arg0)
 	{
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	private void changeDisplayMode(View designbox, String displayStyle)
+	{
+		ArrayList<View> viewList;
+		viewList = ChildGrabber.getChildren(designbox);
+
+		for (int i = 0; i < viewList.size(); i++)
+		{
+			Bundle tagBundle = (Bundle) viewList.get(i).getTag();
+			int style = tagBundle.getInt(displayStyle);
+			viewList.get(i).setBackgroundResource(style);
+
+		}
+
 	}
 
 	// @Override
