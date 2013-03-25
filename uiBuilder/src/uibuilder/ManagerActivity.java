@@ -3,11 +3,13 @@ package uibuilder;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.util.Log;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -71,6 +74,20 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 			}
 		});
 		
+		grid.setOnItemLongClickListener(new OnItemLongClickListener()
+		{
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+					int arg2, long id)
+			{
+				ContentResolver cres = getContentResolver();
+				
+				Uri uri = ContentUris.withAppendedId(DataBase.CONTENT_URI_SCREENS, id);
+				cres.delete(uri, null, null);
+				return true;
+			}
+		});
 	}
 	
 	@Override
