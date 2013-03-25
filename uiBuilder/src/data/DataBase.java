@@ -19,6 +19,7 @@ public class DataBase extends ContentProvider
 {
 	public static final int SCREENS_LOADER = 1;
 	public static final int OBJECTS_LOADER = 2;
+	public static final int SCREEN_TERMINATOR = 3;
 	
 	private static final String AUTHORITY = "de.ur.rk.uibuilder";
 	private static final String SCREENS_URI = "screens";
@@ -205,11 +206,24 @@ public class DataBase extends ContentProvider
 	{
 		SQLiteDatabase db = data.getWritableDatabase();
 		
+		String row;
+		int deleteCount = 0;
+		
 		switch (match.match(uri))
 		{
 		case SCREENS_SINGLE:
-			String row = uri.getPathSegments().get(1);
+			row = uri.getPathSegments().get(1);
 			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
+			
+			deleteCount = db.delete(DataManager.TABLE_SCREENS, selection, selArgs);
+			break;
+			
+		case OBJECTS_SINGLE:
+			row = uri.getPathSegments().get(1);
+			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
+			
+			deleteCount = db.delete(DataManager.TABLE_OBJECTS, selection, selArgs);
+			break;
 		default: break;
 		}
 		if (selection == null)
@@ -217,7 +231,7 @@ public class DataBase extends ContentProvider
 			selection = "1";
 		}
 		
-		int deleteCount = db.delete(DataManager.TABLE_SCREENS, selection, selArgs);
+
 		getContext().getContentResolver().notifyChange(uri, null);
 		return deleteCount;
 	}
