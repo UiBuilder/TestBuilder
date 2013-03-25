@@ -13,18 +13,18 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 
 public class DataBase extends ContentProvider
 {
 	private static final String AUTHORITY = "de.ur.rk.uibuilder";
-	private static final String BASE = "/screens";
+	private static final String SCREENS_URI = "screens";
+	private static final String OBJECTS_URI = "objects";
 	
-	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + BASE);
+	public static final Uri CONTENT_URI_SCREENS = Uri.parse("content://" + AUTHORITY + "/" + SCREENS_URI);
+	public static final Uri CONTENT_URI_OBJECTS = Uri.parse("content://" + AUTHORITY + "/" + OBJECTS_URI);
+	
 	private DataManager data;
-	
-	//prio constants
-	final static int LOW = 1;
-	final static int HIGH = 2;
 	
 	//table column constants
 	public static final String KEY_ID = "_id";
@@ -32,16 +32,23 @@ public class DataBase extends ContentProvider
 	public static final String KEY_DATE = "date";
 	
 	//uri match constants
-	private static final int SINGLE_SCREEN = 1;
-	private static final int ALL_SCREENS = 2;
+	private static final int SCREENS_SINGLE = 1;
+	private static final int SCREENS_ALL = 2;
+	
+	private static final int OBJECTS_SINGLE = 3;
+	private static final int OBJECTS_ALL = 4;
 	
 	
 	private static final UriMatcher match;
 	static 
 	{
 		match = new UriMatcher(UriMatcher.NO_MATCH);
-		match.addURI(AUTHORITY, BASE, ALL_SCREENS);
-		match.addURI(AUTHORITY, BASE + "/#", SINGLE_SCREEN);
+		
+		match.addURI(AUTHORITY, SCREENS_URI, SCREENS_ALL);
+		match.addURI(AUTHORITY, SCREENS_URI + "/#", SCREENS_SINGLE);
+		
+		match.addURI(AUTHORITY, OBJECTS_URI, OBJECTS_ALL);
+		match.addURI(AUTHORITY, OBJECTS_URI + "/#", OBJECTS_SINGLE);
 	}
 
 
@@ -52,68 +59,45 @@ public class DataBase extends ContentProvider
 		return true;
 	}
 	
-	
-	@Override
-	public int delete(Uri uri, String selection, String[] selArgs)
-	{
-		SQLiteDatabase db = data.getWritableDatabase();
-		
-		switch (match.match(uri))
-		{
-		case SINGLE_SCREEN:
-			String row = uri.getPathSegments().get(1);
-			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
-		default: break;
-		}
-		if (selection == null)
-		{
-			selection = "1";
-		}
-		
-		int deleteCount = db.delete(DataManager.DB_TABLE, selection, selArgs);
-		getContext().getContentResolver().notifyChange(uri, null);
-		return deleteCount;
-	}
 
-	@Override
-	public String getType(Uri uri)
-	{
-		switch (match.match(uri))
-		{
-		case ALL_SCREENS:
-			return "vnd.android.cursor.dir/vnd.uibuilder.screens";
-		
-		case SINGLE_SCREEN:
-			return "vnd.android.cursor.item/vnd.uibuilder.content";
-		default: throw new IllegalArgumentException("Unsupported Uri: " + uri);
-		}
-	}
-	
-	public void createNewScreen(String name)
-	{
-		SQLiteDatabase db = data.getWritableDatabase();
-		
-		data.createNewScreen(db, name);
-	}
 
 	@Override
 	public Uri insert(Uri uri, ContentValues values)
 	{
 		SQLiteDatabase db = data.getWritableDatabase();
-		
 		String nullColumnHack = null;
 		
-		long id = db.insert(DataManager.DB_TABLE, nullColumnHack, values);
+		Log.d("insert", String.valueOf(match.match(uri)));
+		Log.d("insert", uri.toString());
+		long id;
+		Uri inserted = null;
 		
-		if (id > -1)
+		switch (match.match(uri))
 		{
-			Uri inserted = ContentUris.withAppendedId(CONTENT_URI, id);
-			getContext().getContentResolver().notifyChange(inserted, null);
+		case SCREENS_ALL:
 			
-			return inserted;
+			id = db.insert(DataManager.TABLE_SCREENS, nullColumnHack, values);
+			
+			if (id > -1)
+			{
+				inserted = ContentUris.withAppendedId(CONTENT_URI_SCREENS, id);
+				getContext().getContentResolver().notifyChange(inserted, null);
+			}
+			break;
+			
+		case OBJECTS_ALL:
+			
+			id = db.insert(DataManager.TABLE_OBJECTS, nullColumnHack, values);
+			
+			if (id > -1)
+			{
+				inserted = ContentUris.withAppendedId(CONTENT_URI_OBJECTS, id);
+				getContext().getContentResolver().notifyChange(inserted, null);
+			}
+			break;
 		}
-		else
-		return null;
+		Log.d("inserted", inserted.toString());
+		return inserted;
 	}
 
 
@@ -125,18 +109,39 @@ public class DataBase extends ContentProvider
 		
 		String groupBy = null;
 		String having = null;
+		String row = null;
+		
 		sortOrder = KEY_DATE + " DESC";
 		
 		SQLiteQueryBuilder query = new SQLiteQueryBuilder();
 		
 		switch (match.match(uri))
 		{
-			case SINGLE_SCREEN:
-				String row = uri.getPathSegments().get(1);
+			case SCREENS_SINGLE:
+				row = uri.getPathSegments().get(1);
 				query.appendWhere(KEY_ID + "=" + row);
-			default: break;
+				
+				query.setTables(DataManager.TABLE_SCREENS);
+				break;
+				
+			case SCREENS_ALL:
+				
+				query.setTables(DataManager.TABLE_SCREENS);
+				break;
+				
+			case OBJECTS_SINGLE:
+				
+				row = uri.getPathSegments().get(1);
+				query.appendWhere(KEY_ID + "=" + row);
+				
+				query.setTables(DataManager.TABLE_OBJECTS);
+				break;
+				
+			case OBJECTS_ALL:
+				
+				query.setTables(DataManager.TABLE_OBJECTS);
+				break;
 		}
-		query.setTables(DataManager.DB_TABLE);
 		
 		Cursor cursor = query.query(db, projection, selection, selectionArgs, groupBy, having, sortOrder);
 		
@@ -151,41 +156,104 @@ public class DataBase extends ContentProvider
 
 		switch (match.match(uri))
 		{
-		case SINGLE_SCREEN:
+		case SCREENS_SINGLE:
 			String row = uri.getPathSegments().get(1);
 			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
 		default: break;
 		}
 		
-		int updateCount = db.update(DataManager.DB_TABLE, values, selection, selectArgs);
+		int updateCount = db.update(DataManager.TABLE_SCREENS, values, selection, selectArgs);
 		getContext().getContentResolver().notifyChange(uri, null);
 
 		return updateCount;
 	}
+	
+	@Override
+	public int delete(Uri uri, String selection, String[] selArgs)
+	{
+		SQLiteDatabase db = data.getWritableDatabase();
+		
+		switch (match.match(uri))
+		{
+		case SCREENS_SINGLE:
+			String row = uri.getPathSegments().get(1);
+			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
+		default: break;
+		}
+		if (selection == null)
+		{
+			selection = "1";
+		}
+		
+		int deleteCount = db.delete(DataManager.TABLE_SCREENS, selection, selArgs);
+		getContext().getContentResolver().notifyChange(uri, null);
+		return deleteCount;
+	}
+
+	@Override
+	public String getType(Uri uri)
+	{
+		switch (match.match(uri))
+		{
+		case SCREENS_ALL:
+			return "vnd.android.cursor.dir/vnd.uibuilder.screens";
+		
+		case SCREENS_SINGLE:
+			return "vnd.android.cursor.item/vnd.uibuilder.screens";
+			
+		case OBJECTS_ALL:
+			return "vnd.android.cursor.dir/vnd.uibuilder.objects";
+			
+		case OBJECTS_SINGLE:
+			return "vnd.android.cursor.item/vnd.uibuilder.objects";
+			
+		default: throw new IllegalArgumentException("Unsupported Uri: " + uri);
+		}
+	}
+
 
 	private static class DataManager extends SQLiteOpenHelper
 	{	
 		private static final String DB_NAME = "uibuilder.db";
-		public static final String DB_TABLE = "screenManager";
-		private static final int DB_VERSION = 5;
+		public static final String TABLE_SCREENS = "screenManager";
+		public static final String TABLE_OBJECTS = "objects";
+		
+		private static final int DB_VERSION = 7;
 		
 		private static final String CREATE = "create table if not exists ";
+		private static final String DROP = "DROP TABLE if exists ";
+		
+		private static final String ID = KEY_ID + " integer primary key autoincrement, ";
+		
+		private static final String TEXT_NULL = " text not null ";
+		private static final String INT_NULL = " integer not null";
+		
+		
+		private static final String OBJECT_PROPERTIES =
+						ObjectValueCollector.ID + INT_NULL + ", " 
+						+ ObjectValueCollector.X_POS + INT_NULL + ", "
+						+ ObjectValueCollector.Y_POS + INT_NULL + ");"
+						;
 		
 		private static final String CREATE_SCREENS_TABLE = 
 						CREATE 
-						+ DB_TABLE + " ("
-						+ KEY_ID + " integer primary key autoincrement, " 
-						+ KEY_NAME + " text not null, " 
-						+ KEY_DATE + " text not null);";
+						+ TABLE_SCREENS + " ("
+						+ ID 
+						+ KEY_NAME + TEXT_NULL + ", "
+						+ KEY_DATE + TEXT_NULL + ");";
 		
-		private static final String OBJECT_PROPERTIES =
-						ObjectValueCollector.ID + " integer not null"
-						+ ObjectValueCollector.X_POS + " integer not null"
-						+ ObjectValueCollector.Y_POS + " integer not null);"
-						;
+		private static final String CREATE_OBJECTS_TABLE =
+						CREATE
+						+ TABLE_OBJECTS + " ("
+						+ ID 
+						+ OBJECT_PROPERTIES;
+
 		
-		private static final String DROP =
-						"DROP TABLE " + DB_TABLE;
+		private static final String DROP_MAIN =
+						DROP + TABLE_SCREENS;
+		
+		private static final String DROP_OBJECTS =
+						DROP + TABLE_OBJECTS; 
 		
 		public DataManager(Context context, String name, CursorFactory factory,
 				int version)
@@ -197,18 +265,16 @@ public class DataBase extends ContentProvider
 		public void onCreate(SQLiteDatabase db)
 		{
 			db.execSQL(CREATE_SCREENS_TABLE);
+			db.execSQL(CREATE_OBJECTS_TABLE);
 		}
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
 		{
-			db.execSQL(DROP);
+			db.execSQL(DROP_MAIN);
+			db.execSQL(DROP_OBJECTS);
+			
 			onCreate(db);
-		}
-
-		public void createNewScreen(SQLiteDatabase db, String screenName)
-		{
-			db.execSQL(CREATE + screenName + " (" + KEY_ID + " integer primary key autoincrement" + OBJECT_PROPERTIES);
 		}
 	}
 }

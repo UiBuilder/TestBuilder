@@ -10,6 +10,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -66,7 +67,8 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 			public void onItemClick(AdapterView<?> parent, View screen, int position,
 					long id)
 			{
-				startForEditing(screen);
+				Log.d("itemid", String.valueOf(id));
+				startForEditing(screen, id);
 			}
 		});
 		
@@ -99,14 +101,14 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		values.put(DataBase.KEY_DATE, time.toString());
 		values.put(DataBase.KEY_NAME, screenName.getText().toString());
 		
-		res.insert(DataBase.CONTENT_URI, values);
+		res.insert(DataBase.CONTENT_URI_SCREENS, values);
 		getLoaderManager().restartLoader(SCREENS_LOADER, null, this);
 	}
 
-	private void startForEditing(View screen)
+	private void startForEditing(View screen, long id)
 	{
 		Intent start = new Intent(getApplicationContext(), UiBuilderActivity.class);
-		start.putExtra(DATABASE_SCREEN_ID, screen.getId());
+		start.putExtra(DATABASE_SCREEN_ID, id);
 		
 		startActivity(start);
 	}
@@ -124,7 +126,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	{
 		String[] projection = { DataBase.KEY_ID, DataBase.KEY_DATE, DataBase.KEY_NAME };
 	   
-	    return new CursorLoader(getApplicationContext(), DataBase.CONTENT_URI, projection, null, null, null);
+	    return new CursorLoader(getApplicationContext(), DataBase.CONTENT_URI_SCREENS, projection, null, null, null);
 	}
 
 	@Override
