@@ -1,5 +1,6 @@
 package uibuilder;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentResolver;
@@ -45,6 +46,11 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		
 		Button newScreen = (Button) findViewById(R.id.new_screen_button);
 		screenName = (EditText) findViewById(R.id.activity_manager_new_screen_name);
+		
+		ActionBar bar = getActionBar();
+
+		bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME);
+		bar.setBackgroundDrawable(getResources().getDrawable(R.color.designfragment_background));
 		
 		newScreen.setOnClickListener(new OnClickListener()
 		{
@@ -106,7 +112,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		
 		Intent start = new Intent(getApplicationContext(), UiBuilderActivity.class);
 		
-		startActivity(start);
+		//startActivity(start);
 	}
 	
 	private void putInDatabase()
