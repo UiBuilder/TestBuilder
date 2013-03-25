@@ -83,6 +83,7 @@ public class DataBase extends ContentProvider
 		String nullColumnHack = null;
 		
 		Log.d("insert", String.valueOf(match.match(uri)));
+		Log.d("inserted screenId",String.valueOf(values.getAsLong(DataBase.KEY_OBJECTS_SCREEN)));
 		Log.d("insert", uri.toString());
 		long id;
 		Uri inserted = null;
@@ -154,6 +155,7 @@ public class DataBase extends ContentProvider
 				break;
 				
 			case OBJECTS_ALL:
+				
 				
 				query.setTables(DataManager.TABLE_OBJECTS);
 				break;
@@ -236,7 +238,7 @@ public class DataBase extends ContentProvider
 						TABLE_SCREENS = "screenManager",
 						TABLE_OBJECTS = "objects";
 		
-		private static final int DB_VERSION = 9;
+		private static final int DB_VERSION = 10;
 		
 		private static final String CREATE = "create table if not exists ";
 		private static final String DROP = "DROP TABLE if exists ";	

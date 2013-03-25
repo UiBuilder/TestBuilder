@@ -180,7 +180,9 @@ public class UiBuilderActivity extends Activity implements
 			data.put(DataBase.KEY_OBJECTS_VIEW_ID, id);
 			data.put(DataBase.KEY_OBJECTS_VIEW_XPOS, xpos);
 			data.put(DataBase.KEY_OBJECTS_VIEW_YPOS, ypos);
-			data.put(DataBase.KEY_OBJECTS_SCREEN, screenId);
+			data.put(DataBase.KEY_OBJECTS_SCREEN, (int)screenId);
+			
+			Log.d("screenId about to put in database", String.valueOf(screenId));
 			
 			ContentResolver cres = getContentResolver();
 			cres.insert(DataBase.CONTENT_URI_OBJECTS, data);
@@ -432,11 +434,11 @@ public class UiBuilderActivity extends Activity implements
 	{
 		// String[] projection = { DataBase.KEY_ID, DataBase.KEY_SCREEN_DATE,
 		// DataBase.KEY_SCREEN_NAME };
-		String selection = DataBase.KEY_OBJECTS_SCREEN + " = "
-				+ String.valueOf(screenId);
+		String selection = DataBase.KEY_OBJECTS_SCREEN + " = ? ";
+		String[] args = {String.valueOf((int)screenId)};
 
 		Log.d("loader", "created");
-		return new CursorLoader(getApplicationContext(), DataBase.CONTENT_URI_OBJECTS, null, selection, null, null);
+		return new CursorLoader(getApplicationContext(), DataBase.CONTENT_URI_OBJECTS, null, selection, args, null);
 	}
 
 	/**
@@ -450,6 +452,10 @@ public class UiBuilderActivity extends Activity implements
 		{
 			Log.d("database contains", "item");
 			int idx_xpos = cursor.getColumnIndexOrThrow(DataBase.KEY_OBJECTS_VIEW_XPOS);
+			
+			int idx_screenId = cursor.getColumnIndexOrThrow(DataBase.KEY_OBJECTS_SCREEN);
+			
+			Log.d("database item ScreenId", String.valueOf(idx_screenId));
 			
 			int xpos = cursor.getInt(idx_xpos);
 			Log.d("xpos of item in database", String.valueOf(xpos));
