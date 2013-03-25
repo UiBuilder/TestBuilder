@@ -1,7 +1,6 @@
 package uibuilder;
 
 import helpers.ChildGrabber;
-import helpers.FromDatabaseObjectCreator;
 import helpers.ImageTools;
 import helpers.ObjectValueCollector;
 
@@ -174,13 +173,13 @@ public class UiBuilderActivity extends Activity implements
 			ContentValues tempValues = ObjectValueCollector.getValuePack(view);
 			int xpos = tempValues.getAsInteger(ObjectValueCollector.X_POS);
 			int ypos = tempValues.getAsInteger(ObjectValueCollector.Y_POS);
-			int id = tempValues.getAsInteger(ObjectValueCollector.ID);
+			int id = tempValues.getAsInteger(ObjectValueCollector.TYPE);
 			
 			
 			Log.d("xpos of item about to put in database", String.valueOf(xpos));
 			
 			ContentValues data = new ContentValues();
-			data.put(DataBase.KEY_OBJECTS_VIEW_ID, id);
+			data.put(DataBase.KEY_OBJECTS_VIEW_TYPE, id);
 			data.put(DataBase.KEY_OBJECTS_VIEW_XPOS, xpos);
 			data.put(DataBase.KEY_OBJECTS_VIEW_YPOS, ypos);
 			data.put(DataBase.KEY_OBJECTS_SCREEN, screenId);
@@ -449,22 +448,19 @@ public class UiBuilderActivity extends Activity implements
 	@Override
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor)
 	{
-		
-		FromDatabaseObjectCreator.createObjects(arg0, cursor);
-		
-//		Log.d("loader", "finished loading");
-//		while (cursor.moveToNext())
-//		{
-//			Log.d("database contains", "item");
-//			int idx_xpos = cursor.getColumnIndexOrThrow(DataBase.KEY_OBJECTS_VIEW_XPOS);
-//			
-//			int idx_screenId = cursor.getColumnIndexOrThrow(DataBase.KEY_OBJECTS_SCREEN);
-//			
-//			Log.d("database item ScreenId", String.valueOf(cursor.getInt(idx_screenId)));
-//			
-//			int xpos = cursor.getInt(idx_xpos);
-//			Log.d("xpos of item in database", String.valueOf(xpos));
-//		}
+		Log.d("loader", "finished loading");
+		while (cursor.moveToNext())
+		{
+			Log.d("database contains", "item");
+			int idx_xpos = cursor.getColumnIndexOrThrow(DataBase.KEY_OBJECTS_VIEW_XPOS);
+			
+			int idx_screenId = cursor.getColumnIndexOrThrow(DataBase.KEY_OBJECTS_SCREEN);
+			
+			Log.d("database item ScreenId", String.valueOf(cursor.getInt(idx_screenId)));
+			
+			int xpos = cursor.getInt(idx_xpos);
+			Log.d("xpos of item in database", String.valueOf(xpos));
+		}
 	}
 
 	/**

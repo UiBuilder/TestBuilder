@@ -19,7 +19,6 @@ public class DataBase extends ContentProvider
 {
 	public static final int SCREENS_LOADER = 1;
 	public static final int OBJECTS_LOADER = 2;
-	public static final int SCREEN_TERMINATOR = 3;
 	
 	private static final String AUTHORITY = "de.ur.rk.uibuilder";
 	private static final String SCREENS_URI = "screens";
@@ -41,7 +40,7 @@ public class DataBase extends ContentProvider
 	//OBJECTS TABLE
 	public static final String
 					KEY_OBJECTS_SCREEN = "screen",
-					KEY_OBJECTS_VIEW_ID = ObjectValueCollector.ID,
+					KEY_OBJECTS_VIEW_TYPE = ObjectValueCollector.TYPE,
 					KEY_OBJECTS_VIEW_XPOS = ObjectValueCollector.X_POS,
 					KEY_OBJECTS_VIEW_YPOS = ObjectValueCollector.Y_POS,
 					KEY_OBJECTS_VIEW_WIDTH = ObjectValueCollector.WIDTH,
@@ -206,24 +205,11 @@ public class DataBase extends ContentProvider
 	{
 		SQLiteDatabase db = data.getWritableDatabase();
 		
-		String row;
-		int deleteCount = 0;
-		
 		switch (match.match(uri))
 		{
 		case SCREENS_SINGLE:
-			row = uri.getPathSegments().get(1);
+			String row = uri.getPathSegments().get(1);
 			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
-			
-			deleteCount = db.delete(DataManager.TABLE_SCREENS, selection, selArgs);
-			break;
-			
-		case OBJECTS_SINGLE:
-			row = uri.getPathSegments().get(1);
-			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
-			
-			deleteCount = db.delete(DataManager.TABLE_OBJECTS, selection, selArgs);
-			break;
 		default: break;
 		}
 		if (selection == null)
@@ -231,7 +217,7 @@ public class DataBase extends ContentProvider
 			selection = "1";
 		}
 		
-
+		int deleteCount = db.delete(DataManager.TABLE_SCREENS, selection, selArgs);
 		getContext().getContentResolver().notifyChange(uri, null);
 		return deleteCount;
 	}
@@ -266,44 +252,65 @@ public class DataBase extends ContentProvider
 						TABLE_SCREENS = "screenManager",
 						TABLE_OBJECTS = "objects";
 		
-		private static final int DB_VERSION = 11;
+		private static final int DB_VERSION = 12;
 		
 		private static final String CREATE = "create table if not exists ";
 		private static final String DROP = "DROP TABLE if exists ";	
 		
 		private static final String 
-						TEXT_NULL = " text not null ", 
-						INT_NULL = " integer not null";
+						TEXT_NULL = " text not null", 
+						INT_NULL = " integer not null",
+						INT = " integer",
+						KOMMA = ", "
+						;
 		
 		private static final String ID = KEY_ID + " integer primary key autoincrement, ";
 		
 		
-		private static final String OBJECT_PROPERTIES =
-						KEY_OBJECTS_VIEW_ID + INT_NULL + ", " 
-						+ KEY_OBJECTS_VIEW_XPOS + INT_NULL + ", "
-						+ KEY_OBJECTS_VIEW_YPOS + INT_NULL + ");"
+		private static final String OBJECT_PROPERTIES 
+						= KEY_OBJECTS_VIEW_TYPE + INT_NULL + KOMMA 
+						+ KEY_OBJECTS_VIEW_XPOS + INT_NULL + KOMMA
+						+ KEY_OBJECTS_VIEW_YPOS + INT_NULL + KOMMA
+						+ KEY_OBJECTS_VIEW_WIDTH + INT_NULL + KOMMA
+						+ KEY_OBJECTS_VIEW_HEIGHT + INT_NULL + KOMMA
+						
+						+ KEY_OBJECTS_VIEW_ALIGNMENT + INT + KOMMA
+						+ KEY_OBJECTS_VIEW_BACKGROUNDCLR + INT + KOMMA
+						+ KEY_OBJECTS_VIEW_COLUMNS_NUM + INT + KOMMA
+						+ KEY_OBJECTS_VIEW_CONTENT + INT + KOMMA
+						+ KEY_OBJECTS_VIEW_FONTSIZE + INT + KOMMA
+						+ KEY_OBJECTS_VIEW_ICNSRC + INT + KOMMA
+						+ KEY_OBJECTS_VIEW_IMGSRC + INT + KOMMA
+						+ KEY_OBJECTS_VIEW_LAYOUT + INT + KOMMA
+						+ KEY_OBJECTS_VIEW_RATING + INT + KOMMA
+						+ KEY_OBJECTS_VIEW_STARSNUM + INT + KOMMA
+						+ KEY_OBJECTS_VIEW_USERTEXT + INT
+						
+						+ ");"
 						;
 		
-		private static final String CREATE_SCREENS_TABLE = 
-						CREATE 
+		private static final String CREATE_SCREENS_TABLE 
+						= CREATE 
 						+ TABLE_SCREENS + " ("
 						+ ID 
-						+ KEY_SCREEN_NAME + TEXT_NULL + ", "
+						+ KEY_SCREEN_NAME + TEXT_NULL + KOMMA
 						+ KEY_SCREEN_DATE + TEXT_NULL + ");";
 		
-		private static final String CREATE_OBJECTS_TABLE =
-						CREATE
+		private static final String CREATE_OBJECTS_TABLE 
+						= CREATE
 						+ TABLE_OBJECTS + " ("
 						+ ID
-						+ KEY_OBJECTS_SCREEN + INT_NULL + ", "
+						+ KEY_OBJECTS_SCREEN + INT_NULL + KOMMA
 						+ OBJECT_PROPERTIES;
 
 		
-		private static final String DROP_MAIN =
-						DROP + TABLE_SCREENS;
+		private static final String DROP_MAIN 
+						= DROP 
+						+ TABLE_SCREENS;
 		
-		private static final String DROP_OBJECTS =
-						DROP + TABLE_OBJECTS; 
+		private static final String DROP_OBJECTS 
+						= DROP 
+						+ TABLE_OBJECTS; 
 		
 		public DataManager(Context context, String name, CursorFactory factory,
 				int version)

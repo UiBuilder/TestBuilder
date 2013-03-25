@@ -20,7 +20,7 @@ public class ObjectValueCollector
 {
 
 	public static final String 
-			ID = "id", 
+			TYPE = "id", 
 			X_POS = "xPos", 
 			Y_POS = "yPos",
 			WIDTH = "width", 
@@ -51,7 +51,7 @@ public class ObjectValueCollector
 		int width = object.getMeasuredWidth();
 		int height = object.getMeasuredHeight();
 		
-		valuesBundle.put(ID, tagId);
+		valuesBundle.put(TYPE, tagId);
 		
 		valuesBundle.put(X_POS, xPos);
 		valuesBundle.put(Y_POS, yPos);

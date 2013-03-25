@@ -2,7 +2,6 @@ package uibuilder;
 
 import helpers.Grid;
 import helpers.Log;
-import helpers.FromDatabaseObjectCreator.OnObjectLoadedFromDatabaseListener;
 import manipulators.Overlay;
 import android.app.Activity;
 import android.app.Fragment;
@@ -25,7 +24,7 @@ import creators.ObjectFactory;
 import de.ur.rk.uibuilder.R;
 
 public class DesignFragment extends Fragment implements OnDragListener,
-		OnGestureListener, OnTouchListener, OnObjectLoadedFromDatabaseListener
+		OnGestureListener, OnTouchListener
 {
 
 	private RelativeLayout designArea, parent;
@@ -1028,23 +1027,5 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	protected void disableTouch(boolean disable)
 	{
 		isPreviewing = disable;
-	}
-
-	@Override
-	public void objectLoaded(Bundle objectBundle)
-	{
-		View newOne = (View) factory.getElement(objectBundle);
-
-		//activeItem = newOne;
-
-		
-
-		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) newOne.getLayoutParams();
-
-		
-
-		designArea.addView(newOne, params);
-		
-		
 	}
 }

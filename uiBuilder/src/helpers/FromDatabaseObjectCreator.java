@@ -16,7 +16,7 @@ public class FromDatabaseObjectCreator
 		{
 			Bundle valuesBundle = new Bundle();
 			
-			int idxID = cursor.getColumnIndexOrThrow(DataBase.KEY_OBJECTS_VIEW_ID);
+			int idxID = cursor.getColumnIndexOrThrow(DataBase.KEY_OBJECTS_VIEW_TYPE);
 			int idxXPos = cursor.getColumnIndexOrThrow(DataBase.KEY_OBJECTS_VIEW_XPOS);
 			int idxYPos = cursor.getColumnIndexOrThrow(DataBase.KEY_OBJECTS_VIEW_YPOS);
 			int idxWidth = cursor.getColumnIndexOrThrow(DataBase.KEY_OBJECTS_VIEW_WIDTH);
@@ -33,7 +33,7 @@ public class FromDatabaseObjectCreator
 			int idxIconSource =  cursor.getColumnIndexOrThrow(DataBase.KEY_OBJECTS_VIEW_ICNSRC);
 			int idxBackgroundColor =  cursor.getColumnIndexOrThrow(DataBase.KEY_OBJECTS_VIEW_BACKGROUNDCLR);
 			
-			valuesBundle.putInt(ObjectValueCollector.ID, cursor.getInt(idxID));
+			valuesBundle.putInt(ObjectValueCollector.TYPE, cursor.getInt(idxID));
 			valuesBundle.putInt(ObjectValueCollector.X_POS, cursor.getInt(idxXPos));
 			valuesBundle.putInt(ObjectValueCollector.Y_POS, cursor.getInt(idxYPos));
 			valuesBundle.putInt(ObjectValueCollector.WIDTH, cursor.getInt(idxWidth));

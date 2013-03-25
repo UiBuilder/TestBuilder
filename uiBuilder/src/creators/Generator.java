@@ -195,7 +195,7 @@ public class Generator
 	 */
 	protected View generate(Bundle databaseBundle)
 	{
-		int tagID = databaseBundle.getInt(ObjectValueCollector.ID);
+		int tagID = databaseBundle.getInt(ObjectValueCollector.TYPE);
 		
 		Bundle properties = getBundle(tagID);
 		View xmlView;

@@ -1,11 +1,10 @@
 package uibuilder;
 
+import java.util.ArrayList;
+
 import helpers.IconAdapter;
 import helpers.ImageTools;
 import helpers.ResArrayImporter;
-
-import java.util.ArrayList;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
@@ -1220,7 +1219,5 @@ public class EditmodeFragment extends Fragment
 	{
 		EditmodeFragment.editListener = listener;
 	}
-
-
 
 }

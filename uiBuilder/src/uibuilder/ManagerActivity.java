@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -71,18 +70,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 				startForEditing(screen, id);
 			}
 		});
-		grid.setOnItemLongClickListener(new OnItemLongClickListener()
-		{
-
-			@Override
-			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-					int arg2, long id)
-			{
-				
-				return false;
-			}
-			
-		});
+		
 	}
 	
 	@Override
@@ -98,7 +86,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		
 		Intent start = new Intent(getApplicationContext(), UiBuilderActivity.class);
 		
-		//startActivity(start);
+		startActivity(start);
 	}
 	
 	private void putInDatabase()
@@ -135,19 +123,9 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args)
 	{
-		switch (id)
-		{
-		case DataBase.SCREENS_LOADER:
-			String[] projection = { DataBase.KEY_ID, DataBase.KEY_SCREEN_DATE, DataBase.KEY_SCREEN_NAME };
-			   
-		    return new CursorLoader(getApplicationContext(), DataBase.CONTENT_URI_SCREENS, null, null, null, null);
-		    
-		case DataBase.SCREEN_TERMINATOR:
-			break;
-			
-		}
-		return null;
-		
+		String[] projection = { DataBase.KEY_ID, DataBase.KEY_SCREEN_DATE, DataBase.KEY_SCREEN_NAME };
+	   
+	    return new CursorLoader(getApplicationContext(), DataBase.CONTENT_URI_SCREENS, null, null, null, null);
 	}
 
 	@Override
