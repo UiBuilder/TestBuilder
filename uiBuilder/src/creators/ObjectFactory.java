@@ -100,7 +100,7 @@ public class ObjectFactory implements onObjectEditedListener
 //		try
 //		{
 			return generator.generate(bundle);
-//		} catch (Exception e)
+//		} catch (Exception e)  
 //		{
 //			Log.d(LOGTAG, "Übergebene ID existiert nicht.");
 //			return null;
