@@ -186,15 +186,28 @@ public class DataBase extends ContentProvider
 	{
 		SQLiteDatabase db = data.getWritableDatabase();
 
+		String row;
+		int updateCount = 0;
+		
 		switch (match.match(uri))
 		{
 		case SCREENS_SINGLE:
-			String row = uri.getPathSegments().get(1);
+			row = uri.getPathSegments().get(1);
 			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
+			
+			updateCount = db.update(DataManager.TABLE_SCREENS, values, selection, selectArgs);
+			break;
+			
+		case OBJECTS_SINGLE:
+			row = uri.getPathSegments().get(1);
+			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
+			
+			updateCount = db.update(DataManager.TABLE_OBJECTS, values, selection, selectArgs);
+			break;
+			
 		default: break;
 		}
 		
-		int updateCount = db.update(DataManager.TABLE_SCREENS, values, selection, selectArgs);
 		getContext().getContentResolver().notifyChange(uri, null);
 
 		return updateCount;
@@ -220,6 +233,7 @@ public class DataBase extends ContentProvider
 		case OBJECTS_ALL:
 
 			deleteCount = db.delete(DataManager.TABLE_OBJECTS, selection, selArgs);
+			Log.d("objects deleted:", String.valueOf(deleteCount));
 			break;
 			
 		default: break;
