@@ -207,7 +207,7 @@ public class UiBuilderActivity extends Activity implements
 			}
 			else
 			{
-				Uri uri = ContentUris.withAppendedId(DataBase.CONTENT_URI_SCREENS, databaseID);
+				Uri uri = ContentUris.withAppendedId(DataBase.CONTENT_URI_OBJECTS, databaseID);
 				cres.update(uri, data, null, null);
 			}
 		}
