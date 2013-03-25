@@ -2,6 +2,9 @@ package helpers;
 
 import java.util.ArrayList;
 
+import creators.Generator;
+
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -37,6 +40,10 @@ public class ChildGrabber
 		{
 			
 			childrenList.add(layout);
+			
+			//THIS IS FOR LOGGING ONLY!
+			Bundle bundle = (Bundle) layout.getTag();
+			Log.d("Childgrabber", "added to ArrayList: "+ bundle.getInt(Generator.ID));
 			
 			
 
