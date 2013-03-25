@@ -45,15 +45,15 @@ public class ObjectValueCollector
 		Bundle objectBundle = (Bundle)object.getTag();
 		ContentValues valuesBundle = new ContentValues();
 		
-		int id = object.getId();
+		int id = objectBundle.getInt(Generator.ID);
 		int tagId = objectBundle.getInt(Generator.TYPE);
 		int xPos = (int) object.getX();
 		int yPos = (int) object.getY();
 		int width = object.getMeasuredWidth();
 		int height = object.getMeasuredHeight();
 		
+		valuesBundle.put(ID, id);
 		valuesBundle.put(TYPE, tagId);
-		
 		valuesBundle.put(X_POS, xPos);
 		valuesBundle.put(Y_POS, yPos);
 		valuesBundle.put(WIDTH, width);
