@@ -8,7 +8,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import creators.Generator;
 import de.ur.rk.uibuilder.R;
@@ -53,10 +56,17 @@ public class ObjectValueCollector
 			break;
 			
 		case R.id.element_checkbox:
-		case R.id.element_radiogroup:
-		case R.id.element_switch:
+		
 			TextView textView = (TextView) ((LinearLayout) object).getChildAt(0);
 			valuesBundle.put(USER_TEXT, (String) textView.getText());
+			break;
+			
+		case R.id.element_radiogroup:
+			valuesBundle.put(USER_TEXT, ((RadioButton) object).getText().toString());
+			break;
+			
+		case R.id.element_switch:
+			valuesBundle.put(USER_TEXT, ((Switch) object).getText().toString());
 			break;
 			
 		case R.id.element_edittext:
@@ -66,7 +76,7 @@ public class ObjectValueCollector
 			break;
 			
 		case R.id.element_grid:
-			valuesBundle.put(COLUMNS_NUM, ((GridView)object).getNumColumns());
+			valuesBundle.put(COLUMNS_NUM, ((GridView)((RelativeLayout)object).getChildAt(0)).getNumColumns());
 			valuesBundle.put(CONTENT, objectBundle.getInt(Generator.EXAMPLE_CONTENT));
 			valuesBundle.put(LAYOUT, objectBundle.getInt(Generator.EXAMPLE_LAYOUT));
 			break;

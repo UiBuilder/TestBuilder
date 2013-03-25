@@ -182,6 +182,7 @@ public class UiBuilderActivity extends Activity implements
 			data.put(DataBase.KEY_OBJECTS_VIEW_YPOS, ypos);
 			data.put(DataBase.KEY_OBJECTS_SCREEN, screenId);
 			
+			
 			ContentResolver cres = getContentResolver();
 			cres.insert(DataBase.CONTENT_URI_OBJECTS, data);
 		}
@@ -471,11 +472,11 @@ public class UiBuilderActivity extends Activity implements
 		ArrayList<View> viewList;
 		viewList = ChildGrabber.getChildren(designbox);
 
-		for (int i = 0; i < viewList.size(); i++)
+		for (View view : viewList)
 		{
-			Bundle tagBundle = (Bundle) viewList.get(i).getTag();
+			Bundle tagBundle = (Bundle) view.getTag();
 			int style = tagBundle.getInt(displayStyle);
-			viewList.get(i).setBackgroundResource(style);
+			view.setBackgroundResource(style);
 
 		}
 
