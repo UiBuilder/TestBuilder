@@ -263,7 +263,7 @@ public class DataBase extends ContentProvider
 						TABLE_SCREENS = "screenManager",
 						TABLE_OBJECTS = "objects";
 		
-		private static final int DB_VERSION = 13;
+		private static final int DB_VERSION = 14;
 		
 		private static final String CREATE = "create table if not exists ";
 		private static final String DROP = "DROP TABLE if exists ";	
@@ -271,6 +271,7 @@ public class DataBase extends ContentProvider
 		private static final String 
 						TEXT_NULL = " text not null", 
 						INT_NULL = " integer not null",
+						TEXT = " text",
 						INT = " integer",
 						KOMMA = ", "
 						;
@@ -291,11 +292,11 @@ public class DataBase extends ContentProvider
 						+ KEY_OBJECTS_VIEW_CONTENT + INT + KOMMA
 						+ KEY_OBJECTS_VIEW_FONTSIZE + INT + KOMMA
 						+ KEY_OBJECTS_VIEW_ICNSRC + INT + KOMMA
-						+ KEY_OBJECTS_VIEW_IMGSRC + INT + KOMMA
+						+ KEY_OBJECTS_VIEW_IMGSRC + TEXT + KOMMA
 						+ KEY_OBJECTS_VIEW_LAYOUT + INT + KOMMA
 						+ KEY_OBJECTS_VIEW_RATING + INT + KOMMA
 						+ KEY_OBJECTS_VIEW_STARSNUM + INT + KOMMA
-						+ KEY_OBJECTS_VIEW_USERTEXT + INT
+						+ KEY_OBJECTS_VIEW_USERTEXT + TEXT
 						
 						+ ");"
 						;
