@@ -40,7 +40,7 @@ public class DataBase extends ContentProvider
 	//OBJECTS TABLE
 	public static final String
 					KEY_OBJECTS_SCREEN = "screen",
-					KEY_OBJECTS_VIEW_ID = ObjectValueCollector.ID,
+					KEY_OBJECTS_VIEW_TYPE = ObjectValueCollector.TYPE,
 					KEY_OBJECTS_VIEW_XPOS = ObjectValueCollector.X_POS,
 					KEY_OBJECTS_VIEW_YPOS = ObjectValueCollector.Y_POS,
 					KEY_OBJECTS_VIEW_WIDTH = ObjectValueCollector.WIDTH,
@@ -260,6 +260,7 @@ public class DataBase extends ContentProvider
 		private static final String 
 						TEXT_NULL = " text not null", 
 						INT_NULL = " integer not null",
+						INT = " integer",
 						KOMMA = ", "
 						;
 		
@@ -267,24 +268,23 @@ public class DataBase extends ContentProvider
 		
 		
 		private static final String OBJECT_PROPERTIES 
-						= KEY_OBJECTS_VIEW_ID + INT_NULL + KOMMA 
+						= KEY_OBJECTS_VIEW_TYPE + INT_NULL + KOMMA 
 						+ KEY_OBJECTS_VIEW_XPOS + INT_NULL + KOMMA
 						+ KEY_OBJECTS_VIEW_YPOS + INT_NULL + KOMMA
 						+ KEY_OBJECTS_VIEW_WIDTH + INT_NULL + KOMMA
 						+ KEY_OBJECTS_VIEW_HEIGHT + INT_NULL + KOMMA
 						
-						+ KEY_OBJECTS_VIEW_ALIGNMENT + INT_NULL + KOMMA
-						+ KEY_OBJECTS_VIEW_BACKGROUNDCLR + INT_NULL + KOMMA
-						+ KEY_OBJECTS_VIEW_COLUMNS_NUM + INT_NULL + KOMMA
-						+ KEY_OBJECTS_VIEW_CONTENT + INT_NULL + KOMMA
-						+ KEY_OBJECTS_VIEW_FONTSIZE + INT_NULL + KOMMA
-						+ KEY_OBJECTS_VIEW_ICNSRC + INT_NULL + KOMMA
-						+ KEY_OBJECTS_VIEW_IMGSRC + INT_NULL + KOMMA
-						+ KEY_OBJECTS_VIEW_LAYOUT + INT_NULL + KOMMA
-						+ KEY_OBJECTS_VIEW_RATING + INT_NULL + KOMMA
-						+ KEY_OBJECTS_VIEW_STARSNUM + INT_NULL + KOMMA
-						+ KEY_OBJECTS_VIEW_USERTEXT + INT_NULL
-						
+						+ KEY_OBJECTS_VIEW_ALIGNMENT + INT + KOMMA
+						+ KEY_OBJECTS_VIEW_BACKGROUNDCLR + INT + KOMMA
+						+ KEY_OBJECTS_VIEW_COLUMNS_NUM + INT + KOMMA
+						+ KEY_OBJECTS_VIEW_CONTENT + INT + KOMMA
+						+ KEY_OBJECTS_VIEW_FONTSIZE + INT + KOMMA
+						+ KEY_OBJECTS_VIEW_ICNSRC + INT + KOMMA
+						+ KEY_OBJECTS_VIEW_IMGSRC + INT + KOMMA
+						+ KEY_OBJECTS_VIEW_LAYOUT + INT + KOMMA
+						+ KEY_OBJECTS_VIEW_RATING + INT + KOMMA
+						+ KEY_OBJECTS_VIEW_STARSNUM + INT + KOMMA
+						+ KEY_OBJECTS_VIEW_USERTEXT + INT
 						
 						+ ");"
 						;

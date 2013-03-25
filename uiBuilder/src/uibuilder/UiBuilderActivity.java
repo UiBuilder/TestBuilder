@@ -173,13 +173,13 @@ public class UiBuilderActivity extends Activity implements
 			ContentValues tempValues = ObjectValueCollector.getValuePack(view);
 			int xpos = tempValues.getAsInteger(ObjectValueCollector.X_POS);
 			int ypos = tempValues.getAsInteger(ObjectValueCollector.Y_POS);
-			int id = tempValues.getAsInteger(ObjectValueCollector.ID);
+			int id = tempValues.getAsInteger(ObjectValueCollector.TYPE);
 			
 			
 			Log.d("xpos of item about to put in database", String.valueOf(xpos));
 			
 			ContentValues data = new ContentValues();
-			data.put(DataBase.KEY_OBJECTS_VIEW_ID, id);
+			data.put(DataBase.KEY_OBJECTS_VIEW_TYPE, id);
 			data.put(DataBase.KEY_OBJECTS_VIEW_XPOS, xpos);
 			data.put(DataBase.KEY_OBJECTS_VIEW_YPOS, ypos);
 			data.put(DataBase.KEY_OBJECTS_SCREEN, screenId);
