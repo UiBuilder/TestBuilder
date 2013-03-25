@@ -174,6 +174,8 @@ public class UiBuilderActivity extends Activity implements
 			int xpos = tempValues.getAsInteger(ObjectValueCollector.X_POS);
 			int ypos = tempValues.getAsInteger(ObjectValueCollector.Y_POS);
 			int id = tempValues.getAsInteger(ObjectValueCollector.TYPE);
+			int width = tempValues.getAsInteger(ObjectValueCollector.WIDTH);
+			int height = tempValues.getAsInteger(ObjectValueCollector.HEIGHT);
 			
 			
 			Log.d("xpos of item about to put in database", String.valueOf(xpos));
@@ -183,6 +185,8 @@ public class UiBuilderActivity extends Activity implements
 			data.put(DataBase.KEY_OBJECTS_VIEW_XPOS, xpos);
 			data.put(DataBase.KEY_OBJECTS_VIEW_YPOS, ypos);
 			data.put(DataBase.KEY_OBJECTS_SCREEN, screenId);
+			data.put(DataBase.KEY_OBJECTS_VIEW_WIDTH, width);
+			data.put(DataBase.KEY_OBJECTS_VIEW_HEIGHT, height);
 			
 			Log.d("screenId about to put in database", String.valueOf(screenId));
 			
