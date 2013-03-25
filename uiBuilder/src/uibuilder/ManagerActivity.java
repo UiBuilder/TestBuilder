@@ -31,7 +31,6 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	private ScreenAdapter adapter;
 	public static final String DATABASE_SCREEN_ID = "screen";
 	
-	private static final int SCREENS_LOADER = 1;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -39,7 +38,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_manager);
 		
-		getLoaderManager().initLoader(SCREENS_LOADER, null, this);
+		getLoaderManager().initLoader(DataBase.SCREENS_LOADER, null, this);
 		
 		Button newScreen = (Button) findViewById(R.id.new_screen_button);
 		screenName = (EditText) findViewById(R.id.activity_manager_new_screen_name);
@@ -77,7 +76,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	@Override
 	protected void onResume()
 	{
-		getLoaderManager().restartLoader(SCREENS_LOADER, null, this);
+		getLoaderManager().restartLoader(DataBase.SCREENS_LOADER, null, this);
 		super.onResume();
 	}
 
@@ -102,7 +101,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		values.put(DataBase.KEY_NAME, screenName.getText().toString());
 		
 		res.insert(DataBase.CONTENT_URI_SCREENS, values);
-		getLoaderManager().restartLoader(SCREENS_LOADER, null, this);
+		getLoaderManager().restartLoader(DataBase.SCREENS_LOADER, null, this);
 	}
 
 	private void startForEditing(View screen, long id)
@@ -126,7 +125,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	{
 		String[] projection = { DataBase.KEY_ID, DataBase.KEY_DATE, DataBase.KEY_NAME };
 	   
-	    return new CursorLoader(getApplicationContext(), DataBase.CONTENT_URI_SCREENS, projection, null, null, null);
+	    return new CursorLoader(getApplicationContext(), DataBase.CONTENT_URI_SCREENS, null, null, null, null);
 	}
 
 	@Override

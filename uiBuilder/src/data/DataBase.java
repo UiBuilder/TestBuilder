@@ -17,6 +17,9 @@ import android.util.Log;
 
 public class DataBase extends ContentProvider
 {
+	public static final int SCREENS_LOADER = 1;
+	public static final int OBJECTS_LOADER = 2;
+	
 	private static final String AUTHORITY = "de.ur.rk.uibuilder";
 	private static final String SCREENS_URI = "screens";
 	private static final String OBJECTS_URI = "objects";

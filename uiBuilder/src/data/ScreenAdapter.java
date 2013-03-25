@@ -13,8 +13,6 @@ import de.ur.rk.uibuilder.R;
 public class ScreenAdapter extends CursorAdapter
 {
 
-
-
 	private int titleIdx;
 	private int dateIdx;
 	private int idIdx;

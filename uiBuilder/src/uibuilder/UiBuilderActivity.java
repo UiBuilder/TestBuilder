@@ -9,9 +9,11 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.LoaderManager.LoaderCallbacks;
+import android.content.CursorLoader;
 import android.content.Intent;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
+import android.content.Loader;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,14 +24,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
 import creators.Generator;
+import data.DataBase;
 import de.ur.rk.uibuilder.R;
 
 public class UiBuilderActivity extends Activity implements
 		onUiElementSelectedListener, onObjectSelectedListener,
-		onDeleteRequestListener
+		onDeleteRequestListener, LoaderCallbacks<Cursor>
 {
 
 	@Override
@@ -57,7 +59,7 @@ public class UiBuilderActivity extends Activity implements
 //	private Drawable previewIcon;
 //	private Drawable editIcon;
 
-
+	private long screenId;
 	private Boolean isPreview = false;
 
 	@Override
@@ -68,13 +70,6 @@ public class UiBuilderActivity extends Activity implements
 
 		setContentView(R.layout.layout_fragment_container);
 		setupUi();
-		
-		Intent intent = getIntent();
-		Bundle intentBundle = intent.getExtras();
-		if(intentBundle != null)
-		{
-			//Create the shit out of database in designbox;
-		}
 
 		LayoutInflater inf = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
 
@@ -86,7 +81,27 @@ public class UiBuilderActivity extends Activity implements
 		//editIcon = getResources().getDrawable(android.R.drawable.ic_menu_view);
 
 		performInitTransaction();
+		checkIntent();
+	}
 
+	private void checkIntent()
+	{
+		Intent intent = getIntent();
+		Bundle intentBundle = intent.getExtras();
+		
+		if(intentBundle != null)
+		{
+			screenId = intentBundle.getLong(ManagerActivity.DATABASE_SCREEN_ID);
+			Log.d("screen id is", String.valueOf(screenId));
+		}
+		
+		checkDb();
+	}
+
+	private void checkDb()
+	{
+		getLoaderManager().initLoader(DataBase.OBJECTS_LOADER, null, this);
+		
 	}
 
 	@Override
@@ -380,6 +395,37 @@ public class UiBuilderActivity extends Activity implements
 	{
 
 		designbox.performDelete();
+	}
+
+	/**
+	 * @author funklos
+	 */
+	@Override
+	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1)
+	{
+		String[] projection = { DataBase.KEY_ID, DataBase.KEY_DATE, DataBase.KEY_NAME };
+		   
+	    return new CursorLoader(getApplicationContext(), DataBase.CONTENT_URI_OBJECTS, null, null, null, null);
+	}
+	
+	/**
+	 * @author funklos
+	 */
+	@Override
+	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
+	 * @author funklos
+	 */
+	@Override
+	public void onLoaderReset(Loader<Cursor> arg0)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 
 	// @Override
