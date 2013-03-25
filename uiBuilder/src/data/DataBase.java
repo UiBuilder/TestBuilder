@@ -218,12 +218,13 @@ public class DataBase extends ContentProvider
 	{
 		SQLiteDatabase db = data.getWritableDatabase();
 		
+		String row;
 		int deleteCount = 0;
 		
 		switch (match.match(uri))
 		{
 		case SCREENS_SINGLE:
-			String row = uri.getPathSegments().get(1);
+			row = uri.getPathSegments().get(1);
 			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
 			
 
@@ -234,6 +235,14 @@ public class DataBase extends ContentProvider
 
 			deleteCount = db.delete(DataManager.TABLE_OBJECTS, selection, selArgs);
 			Log.d("objects deleted:", String.valueOf(deleteCount));
+			break;
+			
+		case OBJECTS_SINGLE:
+			row = uri.getPathSegments().get(1);
+			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
+
+			Log.d("deleting", String.valueOf(row));
+			deleteCount = db.delete(DataManager.TABLE_OBJECTS, selection, selArgs);
 			break;
 			
 		default: break;

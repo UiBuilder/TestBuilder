@@ -9,6 +9,9 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.ClipData;
 import android.content.ClipDescription;
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.DragEvent;
 import android.view.GestureDetector;
@@ -23,6 +26,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import creators.Generator;
 import creators.ObjectFactory;
+import data.DataBase;
 import de.ur.rk.uibuilder.R;
 
 public class DesignFragment extends Fragment implements OnDragListener,
@@ -1022,6 +1026,16 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	protected void performDelete()
 	{
 		designArea.removeView(activeItem);
+		
+		ContentResolver cres = getActivity().getContentResolver();
+		
+		Bundle b = (Bundle) activeItem.getTag();
+		
+		int id = b.getInt(Generator.ID);
+		Uri uri = ContentUris.withAppendedId(DataBase.CONTENT_URI_OBJECTS, id);
+		
+		cres.delete(uri, null, null);
+		
 		activeItem = null;
 		overlay.delete();
 	}
