@@ -3,13 +3,12 @@ package helpers;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.view.View;
 import data.DataBase;
 
 public class FromDatabaseObjectCreator
 {
 	
-	public FromDatabaseObjectCreator(Loader<Cursor> arg0, Cursor cursor)
+	public static void createObjects(Loader<Cursor> arg0, Cursor cursor)
 	{
 		
 		

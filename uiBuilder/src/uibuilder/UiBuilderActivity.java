@@ -450,7 +450,7 @@ public class UiBuilderActivity extends Activity implements
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor)
 	{
 		
-		FromDatabaseObjectCreator objectCreator = new FromDatabaseObjectCreator(arg0, cursor);
+		FromDatabaseObjectCreator.createObjects(arg0, cursor);
 		
 //		Log.d("loader", "finished loading");
 //		while (cursor.moveToNext())
