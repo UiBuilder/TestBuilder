@@ -337,7 +337,6 @@ public class Generator
 		xmlView.setBackgroundResource(databaseBundle.getInt(ObjectValueCollector.BACKGROUND_COLOR));
 
 		xmlView.setLayoutParams(params);
-		properties.putInt(TYPE, databaseBundle.getInt(ObjectValueCollector.ID));
 		
 		xmlView.setId(idCount++);
 		xmlView.setTag(properties);
