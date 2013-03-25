@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 public class ChildGrabber
 {
-	static ArrayList<View> childrenList = new ArrayList<View>();
+	private static ArrayList<View> childrenList = new ArrayList<View>();
 	
 	public static ArrayList<View> getChildren(View layout)
 	{
@@ -35,7 +35,7 @@ public class ChildGrabber
 				|| layout instanceof RelativeLayout
 				|| layout instanceof ImageView)
 		{
-
+			
 			childrenList.add(layout);
 			
 			
