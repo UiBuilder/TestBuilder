@@ -15,6 +15,12 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
+/**
+ * ContentProvider SKELETON from
+ * @see WROX - Professional Android 4 Application Development, Reto Meier
+ * @author funklos
+ *
+ */
 public class DataBase extends ContentProvider
 {
 	public static final int SCREENS_LOADER = 1;
