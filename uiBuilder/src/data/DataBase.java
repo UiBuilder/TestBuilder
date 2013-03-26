@@ -41,7 +41,9 @@ public class DataBase extends ContentProvider
 	//SCREENS TABLE
 	public static final String 
 					KEY_SCREEN_NAME = "name", 
-					KEY_SCREEN_DATE = "date";
+					KEY_SCREEN_DATE = "date",
+					KEY_SCREEN_PREVIEW = "preview"
+					;
 	
 	//OBJECTS TABLE
 	public static final String
@@ -292,7 +294,7 @@ public class DataBase extends ContentProvider
 						TABLE_SCREENS = "screenManager",
 						TABLE_OBJECTS = "objects";
 		
-		private static final int DB_VERSION = 14;
+		private static final int DB_VERSION = 18;
 		
 		private static final String CREATE = "create table if not exists ";
 		private static final String DROP = "DROP TABLE if exists ";	
@@ -335,7 +337,10 @@ public class DataBase extends ContentProvider
 						+ TABLE_SCREENS + " ("
 						+ ID 
 						+ KEY_SCREEN_NAME + TEXT_NULL + KOMMA
-						+ KEY_SCREEN_DATE + TEXT_NULL + ");";
+						+ KEY_SCREEN_DATE + TEXT_NULL + KOMMA
+						+ KEY_SCREEN_PREVIEW + TEXT
+						
+						+ ");";
 		
 		private static final String CREATE_OBJECTS_TABLE 
 						= CREATE

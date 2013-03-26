@@ -162,6 +162,29 @@ public class UiBuilderActivity extends Activity implements
 		bar.setBackgroundDrawable(getResources().getDrawable(R.color.designfragment_background));
 	}
 
+
+	@Override
+	public void onBackPressed()
+	{
+		
+		//super.onBackPressed();
+		
+		Intent returnIntent = new Intent();
+		
+		//as a preview
+		changeDisplayMode(designbox.getView(), Generator.PRESENTATION_STYLE);
+
+		Uri imageUri = exporter.requestBitmap(designbox.getView(), getContentResolver(), false);
+
+		changeDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
+		
+		returnIntent.putExtra(ManagerActivity.RESULT_SCREEN_ID, screenId);
+		returnIntent.putExtra(ManagerActivity.RESULT_IMAGE_PATH,imageUri.toString());
+		
+		setResult(RESULT_OK, returnIntent);     
+		finish();
+	}
+	
 	@Override
 	protected void onStop()
 	{
@@ -207,6 +230,7 @@ public class UiBuilderActivity extends Activity implements
 		
 		super.onStop();
 	}
+
 
 	/**
 	 * Initial fragmenttransaction to display the fragments. Editbox is added

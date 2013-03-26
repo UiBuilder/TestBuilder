@@ -3,6 +3,7 @@ package data;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,9 +48,14 @@ public class ScreenAdapter extends CursorAdapter
 		String date = cursor.getString(dateIdx);
 		int id = cursor.getInt(idIdx);
 		
+		Time creation = new Time();
+		creation.parse3339(date);
+		String creationS = creation.format("%d.%m.%Y %H:%M");
+		
+		
 		view.setId(id);
 		titleView.setText(title);
-		dateView.setText(date);
+		dateView.setText(creationS);
 	}
 
 

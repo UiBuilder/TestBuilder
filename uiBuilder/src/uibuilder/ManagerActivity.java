@@ -1,5 +1,8 @@
 package uibuilder;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -29,7 +32,12 @@ import de.ur.rk.uibuilder.R;
 
 public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 {
+	public static final int REQUEST_SCREEN = 0x00;
+	public static final String RESULT_SCREEN_ID = "edited_screen";
+	public static final String RESULT_IMAGE_PATH = "image_path";
+	
 	private EditText screenName;
+	private Button newScreen;
 	
 	private GridView grid;
 	private ScreenAdapter adapter;
@@ -42,16 +50,21 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_manager);
 		
-		getLoaderManager().initLoader(DataBase.SCREENS_LOADER, null, this);
 		
-		Button newScreen = (Button) findViewById(R.id.new_screen_button);
-		screenName = (EditText) findViewById(R.id.activity_manager_new_screen_name);
+		setupUi();
 		
-		ActionBar bar = getActionBar();
+		setupActionBar();
+		
+		setupDatabaseConnection();
+		
+		setupInteraction();
+	}
 
-		bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME);
-		bar.setBackgroundDrawable(getResources().getDrawable(R.color.designfragment_background));
-		
+	/**
+	 * 
+	 */
+	private void setupInteraction()
+	{
 		newScreen.setOnClickListener(new OnClickListener()
 		{
 			
@@ -63,10 +76,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 			}
 		});
 		
-		adapter = new ScreenAdapter(getApplicationContext(), null, true);
-
-		grid = (GridView)findViewById(R.id.manager_activity_project_grid);
-		grid.setAdapter(adapter);
+		
 		
 		grid.setOnItemClickListener(new OnItemClickListener()
 		{
@@ -87,16 +97,57 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
 					int arg2, long id)
 			{
-				ContentResolver cres = getContentResolver();
-				
-				Uri uri = ContentUris.withAppendedId(DataBase.CONTENT_URI_SCREENS, id);
-				cres.delete(uri, null, null);
-				
-				String selection = DataBase.KEY_OBJECTS_SCREEN + "=" + "'" + String.valueOf(id) + "'";
-				cres.delete(DataBase.CONTENT_URI_OBJECTS, selection, null);
+				deleteScreen(id);
 				return true;
 			}
+
+			/**
+			 * @param id
+			 */
+			private void deleteScreen(long id)
+			{
+				ContentResolver cres = getContentResolver();
+				
+				//delete the screen in screens table
+				Uri uri = ContentUris.withAppendedId(DataBase.CONTENT_URI_SCREENS, id);
+				cres.delete(uri, null, null);
+				//delete corresponding objects in objects table
+				String selection = DataBase.KEY_OBJECTS_SCREEN + "=" + "'" + String.valueOf(id) + "'";
+				cres.delete(DataBase.CONTENT_URI_OBJECTS, selection, null);
+			}
 		});
+	}
+
+	/**
+	 * 
+	 */
+	private void setupDatabaseConnection()
+	{
+		getLoaderManager().initLoader(DataBase.SCREENS_LOADER, null, this);
+		adapter = new ScreenAdapter(getApplicationContext(), null, true);
+
+		grid.setAdapter(adapter);
+	}
+
+	/**
+	 * 
+	 */
+	private void setupUi()
+	{
+		newScreen = (Button) findViewById(R.id.new_screen_button);
+		screenName = (EditText) findViewById(R.id.activity_manager_new_screen_name);
+		grid = (GridView)findViewById(R.id.manager_activity_project_grid);
+	}
+
+	/**
+	 * 
+	 */
+	private void setupActionBar()
+	{
+		ActionBar bar = getActionBar();
+
+		bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME);
+		bar.setBackgroundDrawable(getResources().getDrawable(R.color.designfragment_background));
 	}
 	
 	@Override
@@ -110,7 +161,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	{
 		putInDatabase();
 		
-		Intent start = new Intent(getApplicationContext(), UiBuilderActivity.class);
+		//Intent start = new Intent(getApplicationContext(), UiBuilderActivity.class);
 		
 		//startActivity(start);
 	}
@@ -121,9 +172,15 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		ContentValues values = new ContentValues();
 		
 		Time time = new Time();
+		String tz = Time.getCurrentTimezone();
+		time.switchTimezone(tz);
 		time.setToNow();
 		
-		values.put(DataBase.KEY_SCREEN_DATE, time.toString());
+		String dt;
+	    Calendar cal = Calendar.getInstance();
+	    
+		
+		values.put(DataBase.KEY_SCREEN_DATE, time.format3339(false));
 		values.put(DataBase.KEY_SCREEN_NAME, screenName.getText().toString());
 		
 		res.insert(DataBase.CONTENT_URI_SCREENS, values);
@@ -135,7 +192,26 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		Intent start = new Intent(getApplicationContext(), UiBuilderActivity.class);
 		start.putExtra(DATABASE_SCREEN_ID, (int)id);
 		
-		startActivity(start);
+		startActivityForResult(start, REQUEST_SCREEN);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		if (resultCode == RESULT_OK && requestCode == REQUEST_SCREEN)
+		{
+			Log.d("returning to manager", "with result ok");
+			
+			Uri imagePath = Uri.parse(data.getStringExtra(RESULT_IMAGE_PATH));
+			int id = data.getIntExtra(RESULT_SCREEN_ID, -1);
+			
+			if (id != -1)
+			{
+				ContentValues image = new ContentValues();
+				image.put(DataBase., value)
+			}
+		}
+		
 	}
 
 	@Override
@@ -146,11 +222,13 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		return true;
 	}
 
+	
+	/**
+	 * Async database query
+	 */
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args)
-	{
-		String[] projection = { DataBase.KEY_ID, DataBase.KEY_SCREEN_DATE, DataBase.KEY_SCREEN_NAME };
-	   
+	{  
 	    return new CursorLoader(getApplicationContext(), DataBase.CONTENT_URI_SCREENS, null, null, null, null);
 	}
 
