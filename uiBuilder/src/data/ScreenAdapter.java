@@ -66,8 +66,11 @@ public class ScreenAdapter extends CursorAdapter
 		creation.parse3339(date);
 		String creationS = creation.format("%d.%m.%Y %H:%M");
 		
+		if (previewPath != null)
+		{
 		Log.d("preview path", previewPath);
 		ImageTools.setPic(preView, previewPath);
+		}
 		view.setId(id);
 		titleView.setText(title);
 		dateView.setText(creationS);
