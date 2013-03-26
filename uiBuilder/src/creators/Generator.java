@@ -355,7 +355,7 @@ public class Generator
 		
 		xmlView.setId(idCount++);
 		
-		properties.putInt(ObjectValues.DATABASE_ID, databaseBundle.getInt(DataBase.KEY_ID));
+		properties.putInt(ObjectValues.DATABASE_ID, databaseBundle.getInt(ObjectValues.DATABASE_ID));
 		
 		xmlView.setTag(properties);
 		
