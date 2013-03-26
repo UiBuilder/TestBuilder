@@ -109,7 +109,7 @@ public class ObjectValueCollector
 
 		case R.id.element_ratingbar:
 			valuesBundle.put(ObjectValues.STARS_NUM, ((RatingBar) ((ViewGroup) object).getChildAt(0)).getNumStars());
-			valuesBundle.put(ObjectValues.RATING, (int) ((RatingBar) ((ViewGroup) object).getChildAt(0)).getRating());
+			valuesBundle.put(ObjectValues.RATING, (int) Math.round(((RatingBar) ((ViewGroup) object).getChildAt(0)).getRating()));
 			valuesBundle.put(ObjectValues.BACKGROUND_EDIT, objectBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 			Log.d("ObjectValueCollector", "put ratingbar, with: ");
 			break;

@@ -316,6 +316,8 @@ public class EditmodeFragment extends Fragment
 		ratingSlider = (SeekBar) root.findViewById(R.id.star_rating_seekbar);
 		starBar.setMax(9);
 		starBar.setOnSeekBarChangeListener(new StarCountModuleListener());
+		ratingSlider.setMax(10);
+
 		ratingSlider.setOnSeekBarChangeListener(new StarCountModuleListener());
 	}
 
@@ -447,11 +449,11 @@ public class EditmodeFragment extends Fragment
 			moduleBackgroundColor.setVisibility(View.VISIBLE);
 
 			moduleStarCount.setVisibility(View.VISIBLE);
-
-			starBar.setProgress(((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getNumStars() - 1);
-
 			ratingSlider.setProgress((int)(((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getRating()));
 
+			starBar.setProgress(((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getNumStars()-1);
+
+//			ratingSlider.setProgress(5);
 			break;
 
 		case R.id.element_switch:
@@ -952,14 +954,17 @@ public class EditmodeFragment extends Fragment
 			switch (seekBar.getId())
 			{
 			case R.id.star_count_seekbar:
-				((RatingBar) ((ViewGroup) currentView).getChildAt(0)).setNumStars(progress + 1);
-				ratingSlider.setMax(progress + 1);
+				((RatingBar) ((ViewGroup) currentView).getChildAt(0)).setNumStars(progress +1);
+				ratingSlider.setMax(progress +1);
 				// ratingSlider.setMax((int) ((RatingBar) ((ViewGroup)
 				// currentView).getChildAt(0)).getNumStars());
+				Log.d("StarcountSeekbar", "gotValue for progress: " + progress +1);
 				break;
+				
 			case R.id.star_rating_seekbar:
 				Log.d("RatingSeekbar", "gotValue for progress: " + progress);
 				((RatingBar) ((ViewGroup) currentView).getChildAt(0)).setRating(progress);
+				break;
 			}
 		}
 
