@@ -163,6 +163,7 @@ public class ImageTools
 			out.flush();
 			out.close();
 			
+			//HUNDLING
 			photoUri = MediaStore.Images.Media.insertImage(
 			         cres, photoPath, null, null);
 			
@@ -210,7 +211,11 @@ public class ImageTools
 	 */
 	private void setPic(View v)
 	{
+		setPic(v, photoPath);
+	}
 
+	public static void setPic(View v, String path)
+	{
 		/* There isn't enough memory to open up more than a couple camera photos */
 		/* So pre-scale the target bitmap into which the file is decoded */
 
@@ -221,7 +226,7 @@ public class ImageTools
 		/* Get the size of the image */
 		BitmapFactory.Options bmOptions = new BitmapFactory.Options();
 		bmOptions.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(photoPath, bmOptions);
+		BitmapFactory.decodeFile(path, bmOptions);
 		int photoW = bmOptions.outWidth;
 		int photoH = bmOptions.outHeight;
 
@@ -238,17 +243,16 @@ public class ImageTools
 		bmOptions.inPurgeable = true;
 
 		/* Decode the JPEG file into a Bitmap */
-		Bitmap bitmap = BitmapFactory.decodeFile(photoPath, bmOptions);
+		Bitmap bitmap = BitmapFactory.decodeFile(path, bmOptions);
 		
 		/* Add the imagepath to the tagBundle */
 		Bundle tagBundle = (Bundle) v.getTag();
-		tagBundle.putString(Generator.IMG_SRC, photoPath);
+		tagBundle.putString(Generator.IMG_SRC, path);
 		tagBundle.putInt(Generator.ICN_SRC, 0);
 
 		/* Associate the Bitmap to the ImageView */
 		((ImageView) v).setImageBitmap(bitmap);
 	}
-
 
 	/**
 	 * Approach from stackoverflow.com, but slightly modified to use the
