@@ -15,6 +15,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -62,6 +63,8 @@ public class UiBuilderActivity extends Activity implements
 	private DeleteFragment deletebox;
 	private ChildGrabber grabber;
 	private Button previewButton;
+	private LoaderManager manager;
+	private boolean loaded = false;
 
 	// private Drawable previewIcon;
 	// private Drawable editIcon;
@@ -111,7 +114,11 @@ public class UiBuilderActivity extends Activity implements
 
 	private void checkDb()
 	{
-		getLoaderManager().initLoader(DataBase.OBJECTS_LOADER, null, this);
+		manager = getLoaderManager();
+		
+		manager.initLoader(DataBase.OBJECTS_LOADER, null, this);
+		Loader<Object> loader = manager.getLoader(DataBase.OBJECTS_LOADER);
+		
 	}
 
 	@Override
@@ -145,15 +152,6 @@ public class UiBuilderActivity extends Activity implements
 	private void setActionBarStyle()
 	{
 		ActionBar bar = getActionBar();
-		// bar.setCustomView(R.layout.menu_item_preview);
-
-		// previewButton = (Button)
-		// bar.getCustomView().findViewById(R.id.action_preview_mode);
-		// previewIcon = (ImageView)
-		// bar.getCustomView().findViewById(R.id.preview_icon);
-
-		// previewButton.setOnTouchListener(this);
-		// previewIcon.setOnTouchListener(this);
 
 		bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME);
 		bar.setBackgroundDrawable(getResources().getDrawable(R.color.designfragment_background));
@@ -186,44 +184,13 @@ public class UiBuilderActivity extends Activity implements
 	protected void onStop()
 	{
 		
-		
-		
 		Log.d("UIBuilderactivity", "onStop called");
 		
 		View rootDesignBox = designbox.getView();
 		
 		View designArea = rootDesignBox.findViewById(R.id.design_area);
 		
-		ToDatabaseObjectWriter objectWriter = new ToDatabaseObjectWriter(designArea, screenId, getApplicationContext());
-		
-		
-//		for (View view : content)
-//		{
-//			ContentValues tempValues = ObjectValueCollector.getValuePack(view);
-//			
-//			int databaseID = tempValues.getAsInteger(ObjectValueCollector.ID);
-//			
-//			Log.d("value of databaseID", String.valueOf(databaseID));
-//			
-//			int xpos = tempValues.getAsInteger(ObjectValueCollector.X_POS);
-//			int ypos = tempValues.getAsInteger(ObjectValueCollector.Y_POS);
-//			int id = tempValues.getAsInteger(ObjectValueCollector.TYPE);
-//			int width = tempValues.getAsInteger(ObjectValueCollector.WIDTH);
-//			int height = tempValues.getAsInteger(ObjectValueCollector.HEIGHT);
-//			
-//			
-//			Log.d("xpos of item about to put in database", String.valueOf(xpos));
-//			
-//			ContentValues data = new ContentValues();
-//			data.put(DataBase.KEY_OBJECTS_VIEW_TYPE, id);
-//			data.put(DataBase.KEY_OBJECTS_VIEW_XPOS, xpos);
-//			data.put(DataBase.KEY_OBJECTS_VIEW_YPOS, ypos);
-//			data.put(DataBase.KEY_OBJECTS_SCREEN, screenId);
-//			data.put(DataBase.KEY_OBJECTS_VIEW_WIDTH, width);
-//			data.put(DataBase.KEY_OBJECTS_VIEW_HEIGHT, height);
-//			
-//		
-//		}
+		ToDatabaseObjectWriter objectWriter = new ToDatabaseObjectWriter(designArea, screenId, getApplicationContext());		
 		
 		super.onStop();
 	}
@@ -483,23 +450,12 @@ public class UiBuilderActivity extends Activity implements
 	 */
 	@Override
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor)
-	{
-		
-		FromDatabaseObjectCreator creator = new FromDatabaseObjectCreator(arg0, cursor);
-
-//		Log.d("loader", "finished loading");
-//		while (cursor.moveToNext())
-//		{
-//			Log.d("database contains", "item");
-//			int idx_xpos = cursor.getColumnIndexOrThrow(DataBase.KEY_OBJECTS_VIEW_XPOS);
-//			
-//			int idx_screenId = cursor.getColumnIndexOrThrow(DataBase.KEY_OBJECTS_SCREEN);
-//			
-//			Log.d("database item ScreenId", String.valueOf(cursor.getInt(idx_screenId)));
-//			
-//			int xpos = cursor.getInt(idx_xpos);
-//			Log.d("xpos of item in database", String.valueOf(xpos));
-//		}
+	{	
+		if (!loaded)
+		{
+			FromDatabaseObjectCreator creator = new FromDatabaseObjectCreator(arg0, cursor);
+			loaded = true;
+		}
 	}
 
 	/**
