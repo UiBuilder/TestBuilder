@@ -37,8 +37,8 @@ public class ToDatabaseObjectWriter
 			ContentValues tempValues = ObjectValueCollector.getValuePack(view);
 			tempValues.put(DataBase.KEY_OBJECTS_SCREEN, screenId);
 
-			int databaseID = tempValues.getAsInteger(DataBase.KEY_ID);
-			tempValues.remove(DataBase.KEY_ID);
+			int databaseID = tempValues.getAsInteger(ObjectValues.DATABASE_ID);
+			tempValues.remove(ObjectValues.DATABASE_ID);
 			
 
 			ContentResolver cres = context.getContentResolver();
