@@ -11,13 +11,9 @@ package helpers;
 public class ObjectValues
 {
 	public static final String 
-	/**
-	 * The ID of the row in the database
-	 */
+
 			DATABASE_ID = "databaseId", 
-			/**
-			 * The type of object (ex. Button or ListView)
-			 */
+		
 			TYPE = "type", 
 			X_POS = "xPos", 
 			Y_POS = "yPos",
@@ -27,7 +23,6 @@ public class ObjectValues
 			MINHEIGHT = "minHeight",
 			
 			SCALETYPE = "scaleType",
-
 			USER_TEXT = "userText", 
 			RATING = "rating", 
 			COLUMNS_NUM = "columnsNum", 
