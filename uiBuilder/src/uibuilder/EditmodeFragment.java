@@ -862,6 +862,7 @@ public class EditmodeFragment extends Fragment
 
 			case R.id.editmode_background_reset:
 				currentView.setBackgroundResource(R.drawable.object_background_default);
+
 				resetBackgroundToDefault(bundle);
 
 			}
@@ -876,14 +877,17 @@ public class EditmodeFragment extends Fragment
 			switch (bundle.getInt(Generator.TYPE))
 			{
 			case R.id.element_button:
+				bundle.putInt(Generator.CREATION_STYLE, R.drawable.object_background_default_button);
 				bundle.putInt(Generator.PRESENTATION_STYLE, R.drawable.presentation_button_default);
 				break;
 
 			case R.id.element_edittext:
+				bundle.putInt(Generator.CREATION_STYLE, R.drawable.object_background_default_edittext);
 				bundle.putInt(Generator.PRESENTATION_STYLE, R.drawable.presentation_border_medium);
 				break;
 
 			default:
+				bundle.putInt(Generator.CREATION_STYLE, R.drawable.object_background_default);
 				bundle.putInt(Generator.PRESENTATION_STYLE, R.drawable.presentation_default_object);
 				break;
 				

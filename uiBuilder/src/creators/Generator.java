@@ -202,7 +202,8 @@ public class Generator
 		View xmlView;
 		RelativeLayout.LayoutParams params = null;
 		params = new RelativeLayout.LayoutParams(databaseBundle.getInt(ObjectValueCollector.WIDTH), databaseBundle.getInt(ObjectValueCollector.HEIGHT));
-		
+		properties.putInt(Generator.PRESENTATION_STYLE, databaseBundle.getInt(ObjectValueCollector.BACKGROUND_PRES));
+
 
 		switch (tagID)
 		{
@@ -298,8 +299,8 @@ public class Generator
 		case R.id.element_ratingbar:
 			xmlView = buildRatingBar();
 			xmlView.setBackgroundResource(databaseBundle.getInt(ObjectValueCollector.BACKGROUND_COLOR));
-			((RatingBar)xmlView).setRating(databaseBundle.getInt(ObjectValueCollector.RATING));
-			((RatingBar)xmlView).setNumStars(databaseBundle.getInt(ObjectValueCollector.STARS_NUM));
+			((RatingBar)((RelativeLayout)xmlView).getChildAt(0)).setRating(databaseBundle.getInt(ObjectValueCollector.RATING));
+			((RatingBar)((RelativeLayout)xmlView).getChildAt(0)).setNumStars(databaseBundle.getInt(ObjectValueCollector.STARS_NUM));
 			properties.putInt(Generator.CREATION_STYLE, databaseBundle.getInt(ObjectValueCollector.BACKGROUND_COLOR));
 
 			
@@ -331,6 +332,7 @@ public class Generator
 			break;
 		
 		default:
+			
 			throw new NoClassDefFoundError();
 		}
 		params.leftMargin = databaseBundle.getInt(ObjectValueCollector.X_POS);
@@ -371,6 +373,7 @@ public class Generator
 		int presMode = 0;
 
 		presMode = R.drawable.presentation_default_object;
+		createMode = R.drawable.object_background_default;
 
 		switch (which)
 		{
@@ -379,6 +382,7 @@ public class Generator
 			width = res.getInteger(R.integer.button_factor_width);
 			height = res.getInteger(R.integer.button_factor_height);
 			scaleType = Overlay.BOTH;
+			createMode = R.drawable.object_background_default_button;
 			presMode = R.drawable.presentation_button_default;
 			
 			break;
@@ -406,6 +410,7 @@ public class Generator
 			width = res.getInteger(R.integer.edittext_factor_width);
 			height = res.getInteger(R.integer.edittext_factor_height);
 			scaleType = Overlay.BOTH;
+			createMode = R.drawable.object_background_default_edittext;
 			presMode = R.drawable.presentation_border_medium;
 			
 			break;
@@ -503,7 +508,6 @@ public class Generator
 		
 		width *= gridFactor;
 		height *= gridFactor;
-		createMode = R.drawable.object_background_default;
 		
 		tagBundle.putInt(PRESENTATION_STYLE, presMode);
 		tagBundle.putInt(CREATION_STYLE, createMode);

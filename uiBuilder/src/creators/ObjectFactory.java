@@ -97,14 +97,14 @@ public class ObjectFactory implements onObjectEditedListener
 
 	public View getElement(Bundle bundle)
 	{
-//		try
-//		{
+		try
+		{
 			return generator.generate(bundle);
-//		} catch (Exception e)  
-//		{
-//			Log.d(LOGTAG, "Übergebene ID existiert nicht.");
-//			return null;
-//		}
+		} catch (Exception e)  
+		{
+			Log.d(LOGTAG, "Übergebene ID existiert nicht.");
+			return null;
+		}
 	}
 
 	/**
