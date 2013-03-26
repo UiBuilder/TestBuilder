@@ -578,17 +578,17 @@ public class EditmodeFragment extends Fragment
 
 	public void setViewText(String string)
 	{
-		if (currentView instanceof LinearLayout)
+		if (currentView instanceof LinearLayout && currentView !=null)
 		{
 			TextView textView = (TextView) ((LinearLayout) currentView).getChildAt(0);
 
 			textView.setText(string);
 
-		} else if (currentView instanceof EditText)
+		} else if (currentView instanceof EditText&& currentView !=null)
 		{
 			((EditText) currentView).setHint(string);
 
-		} else
+		} else if(currentView !=null)
 		{
 			((TextView) currentView).setText(string);
 		}

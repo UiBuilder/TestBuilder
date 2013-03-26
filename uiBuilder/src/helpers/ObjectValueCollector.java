@@ -14,13 +14,14 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import creators.Generator;
+import data.DataBase;
 import de.ur.rk.uibuilder.R;
 
 public class ObjectValueCollector
 {
 
 	public static final String 
-			ID = "keyID", 
+			
 			TYPE = "id", 
 			X_POS = "xPos",
 			Y_POS = "yPos",
@@ -51,7 +52,7 @@ public class ObjectValueCollector
 		int width = object.getMeasuredWidth();
 		int height = object.getMeasuredHeight();
 
-		valuesBundle.put(ID, id);
+		valuesBundle.put(DataBase.KEY_ID, id);
 		valuesBundle.put(TYPE, tagId);
 		valuesBundle.put(X_POS, xPos);
 		valuesBundle.put(Y_POS, yPos);

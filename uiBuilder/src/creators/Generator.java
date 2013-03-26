@@ -30,6 +30,7 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import data.DataBase;
 import de.ur.rk.uibuilder.R;
 
 /**
@@ -340,7 +341,7 @@ public class Generator
 		
 		xmlView.setId(idCount++);
 		
-		properties.putInt(ID, databaseBundle.getInt(ObjectValueCollector.ID));
+		properties.putInt(ID, databaseBundle.getInt(DataBase.KEY_ID));
 		
 		xmlView.setTag(properties);
 		
