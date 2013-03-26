@@ -167,7 +167,7 @@ public class UiBuilderActivity extends Activity implements
 		//as a preview
 		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_PRES);
 
-		Uri imageUri = exporter.requestBitmap(designbox.getView(), getContentResolver(), false);
+		Uri imageUri = exporter.requestBitmap(designbox.getView(), getContentResolver(), false, true, screenId);
 
 		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_EDIT);
 		
@@ -291,7 +291,7 @@ public class UiBuilderActivity extends Activity implements
 		case R.id.action_export_jpeg:
 			changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_PRES);
 
-			exporter.requestBitmap(designbox.getView(), getContentResolver(), false);
+			exporter.requestBitmap(designbox.getView(), getContentResolver(), false, false, 0);
 
 			Toast.makeText(getApplicationContext(), getString(R.string.confirmation_save_to_gallery), Toast.LENGTH_SHORT).show();
 			changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_EDIT);
@@ -302,7 +302,7 @@ public class UiBuilderActivity extends Activity implements
 			changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_PRES);
 
 			Intent mail = exporter.getIntent(ImageTools.SHARE);
-			mail.putExtra(Intent.EXTRA_STREAM, exporter.requestBitmap(designbox.getView(), getContentResolver(), false));
+			mail.putExtra(Intent.EXTRA_STREAM, exporter.requestBitmap(designbox.getView(), getContentResolver(), false, false, 0));
 
 			startActivityForResult(Intent.createChooser(mail, getString(R.string.intent_title_share)), ImageTools.SHARE);
 			changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_EDIT);

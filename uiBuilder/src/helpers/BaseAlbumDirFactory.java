@@ -13,6 +13,7 @@ public final class BaseAlbumDirFactory extends AlbumStorageDirFactory {
 
 	// Standard storage location for digital camera files
 	private static final String CAMERA_DIR = "/dcim/";
+	private static final String PREVIEW_DIR = "/uiBuilder/";
 
 	@Override
 	public File getAlbumStorageDir(String albumName) {
@@ -20,6 +21,14 @@ public final class BaseAlbumDirFactory extends AlbumStorageDirFactory {
 				Environment.getExternalStorageDirectory()
 				+ CAMERA_DIR
 				+ albumName 
+		);
+	}
+	
+	public File getPreviewStorageDir(String previews) {
+		return new File (
+				Environment.getExternalStorageDirectory()
+				+ PREVIEW_DIR
+				+ previews 
 		);
 	}
 }

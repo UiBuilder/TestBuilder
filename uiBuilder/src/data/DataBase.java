@@ -218,9 +218,9 @@ public class DataBase extends ContentProvider
 				break;
 				
 			case PREVIEWS_SINGLE:
-				
-				row = uri.getPathSegments().get(1);
-				query.appendWhere(KEY_ID + "=" + row);
+				Log.d("previews single","query image");
+				String associated = uri.getPathSegments().get(1);
+				query.appendWhere(KEY_PREVIEWS_ASSOCIATED + "=" + associated);
 				
 				query.setTables(DataManager.TABLE_PREVIEWS);
 				break;
@@ -357,7 +357,7 @@ public class DataBase extends ContentProvider
 						;
 		
 		
-		private static final int DB_VERSION = 22;
+		private static final int DB_VERSION = 24;
 		
 		private static final String CREATE = "create table if not exists ";
 		private static final String DROP = "DROP TABLE if exists ";	
@@ -395,7 +395,7 @@ public class DataBase extends ContentProvider
 		
 		private static final String PREVIEWS_PROPERTIES
 						= KEY_PREVIEWS_PATH + TEXT_NULL + KOMMA
-						+ KEY_PREVIEWS_ASSOCIATED + INT_NULL + KOMMA
+						+ KEY_PREVIEWS_ASSOCIATED + INT_NULL
 						;
 		
 		//CREATE COMMANDS

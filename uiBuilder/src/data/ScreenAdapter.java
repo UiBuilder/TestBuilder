@@ -2,6 +2,7 @@ package data;
 
 
 import helpers.ImageTools;
+import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -71,34 +72,41 @@ public class ScreenAdapter extends CursorAdapter
 
 		try 
 		{	
-			Uri previewPath = Uri.parse(cursor.getString(previewIdx));
-			Log.d("corresponding image", previewPath.toString());
+			//Uri imagePath = Uri.parse(cursor.getString(previewIdx));
+			//Log.d("corresponding image", previewPath.toString());
 			
 	        // Attempt to fetch asset filename for image
-	        String[] projection = { MediaStore.Images.Media.DATA };
-	        photoCursor = context.getContentResolver().query( previewPath, 
-	                                                    projection, null, null, null );
-	        Log.d("query succeeded", "true");
+	        String[] projection = { DataBase.KEY_PREVIEWS_ASSOCIATED };
+			
+			Uri image = ContentUris.withAppendedId(DataBase.CONTENT_URI_PREVIEWS, id);
+			
+	        photoCursor = context.getContentResolver().query(image, null, null, null, null );
+	        
+	        Log.d("cursor contains", String.valueOf(photoCursor.getCount()));
 	        if ( photoCursor != null && photoCursor.getCount() == 1 ) 
 	        {
 	            photoCursor.moveToFirst();
-	            photoFilePath = photoCursor.getString(
-	                photoCursor.getColumnIndex(MediaStore.Images.Media.DATA) );
+	            Log.d("query succeeded", "true");
+	            int pathIdx = cursor.getColumnIndexOrThrow(DataBase.KEY_PREVIEWS_PATH);
+	            
+	            photoFilePath = photoCursor.getString(pathIdx);
 
 	            // Load image from path
 	            //return BitmapFactory.decodeFile( photoFilePath, null );
-	            Log.d("photpath", photoFilePath);
-	            if (previewPath != null)
+	            
+	            if (photoFilePath != null)
 	    		{
-	    			Log.d("preview path", previewPath.toString());
+	            	Log.d("photopath", photoFilePath);
+	    			
 	    			ImageTools.setPic(preView, photoFilePath);
 	    		}
 	        }
 	        else
 	        {
+	        	Log.d("photocursor", "set default");
 	        	preView.setImageDrawable(context.getResources().getDrawable(R.drawable.manager_blank_screen));
 	        }
-	        Log.d("photocursor", "constraints not met");
+	        
 	    } 
 		catch (Exception e) 
 		{

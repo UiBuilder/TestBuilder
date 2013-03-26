@@ -2,13 +2,13 @@ package helpers;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import creators.Generator;
-
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import data.DataBase;
 import de.ur.rk.uibuilder.R;
 
 /**
@@ -36,6 +37,7 @@ public class ImageTools
 	private Context c;
 	
 	private Uri path;
+	private int screenId;
 	private String photoPath;
 	private static final String JPEG_FILE_PREFIX = "UI_";
 	private static final String JPEG_FILE_SUFFIX = ".jpg";
@@ -70,7 +72,7 @@ public class ImageTools
 
 			try
 			{
-				f = setUpPhotoFile();
+				f = setUpPhotoFile(ALBUM);
 				photoPath = f.getAbsolutePath();
 				cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
 			} catch (IOException e)
@@ -143,7 +145,7 @@ public class ImageTools
 	 * @param cres
 	 */
 	private Uri tempUri;
-	public Uri requestBitmap(View root, ContentResolver cres, boolean insert)
+	public Uri requestBitmap(View root, ContentResolver cres, boolean insert, boolean intern, int screenId)
 	{
 		RelativeLayout content = (RelativeLayout) root.findViewById(R.id.design_area);
 
@@ -152,26 +154,69 @@ public class ImageTools
 		
 		File f;
 		String photoUri = null;
-		try
+		
+		if (intern == false)
 		{
-			f = setUpPhotoFile();
-			photoPath = f.getAbsolutePath();
 			
-			FileOutputStream out = new FileOutputStream(f);
+			try
+			{
+				f = setUpPhotoFile(ALBUM);
+				photoPath = f.getAbsolutePath();
+				
+				FileOutputStream out = new FileOutputStream(f);
+	
+				image.compress(Bitmap.CompressFormat.PNG, 100, out);
+				out.flush();
+				out.close();
+				
+				//HUNDLING
+				photoUri = MediaStore.Images.Media.insertImage(
+				         cres, photoPath, null, null);
+				
+				
+			} catch (IOException e)
+			{
+				e.printStackTrace();
+				f = null;
+				photoPath = null;
+			}
+		}
+		else
+		{	
+			
+			try
+			{
+				this.screenId = screenId;
+				
+				f = setUpPhotoFile(PREVIEW);
+				photoPath = f.getAbsolutePath();
+				
+				FileOutputStream fos = new FileOutputStream(f);
+				//FileOutputStream fos;
+				
+				fos = new FileOutputStream(f);
+				photoPath = f.getAbsolutePath();
 
-			image.compress(Bitmap.CompressFormat.PNG, 100, out);
-			out.flush();
-			out.close();
-			
-			//HUNDLING
-			photoUri = MediaStore.Images.Media.insertImage(
-			         cres, photoPath, null, null);
-			
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-			f = null;
-			photoPath = null;
+				image.compress(Bitmap.CompressFormat.PNG, 100, fos);
+				fos.flush();
+				fos.close();
+				
+				ContentValues values = new ContentValues();
+				values.put(DataBase.KEY_PREVIEWS_PATH, photoPath);
+				values.put(DataBase.KEY_PREVIEWS_ASSOCIATED, screenId);
+				
+				Uri screenUri = cres.insert(DataBase.CONTENT_URI_PREVIEWS, values);
+				Log.d("photopath ist", photoPath);
+				Log.d("screenuri ist", screenUri.toString());
+				photoPath = null;
+				
+				return screenUri;
+				
+			} catch (Exception e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
 		}
 		
 		if (insert)
@@ -181,29 +226,6 @@ public class ImageTools
 		photoPath = null;
 		return Uri.parse(photoUri);
 	}
-
-	/*
-	 * 
-	 * private void handleSmallCameraPhoto(Intent intent) { Bundle extras =
-	 * intent.getExtras(); mImageBitmap = (Bitmap) extras.get("data");
-	 * mImageView.setImageBitmap(mImageBitmap); //mVideoUri = null;
-	 * mImageView.setVisibility(View.VISIBLE);
-	 * mVideoView.setVisibility(View.INVISIBLE); }
-	 */
-	
-
-
-	/*
-	 * not in use private static Bitmap Image = null; private static Bitmap
-	 * rotateImage = null; int rotation; public int getOrientation(Context
-	 * context, Uri photoUri) { Cursor cursor =
-	 * getActivity().getApplicationContext
-	 * ().getContentResolver().query(photoUri, new String[] {
-	 * MediaStore.Images.ImageColumns.ORIENTATION },null, null, null);
-	 * 
-	 * if (cursor.getCount() != 1) { return -1; } cursor.moveToFirst(); return
-	 * cursor.getInt(0); }
-	 */
 
 	/**
 	 * @autor android developers photobyintent example MODIFIED by @author funklos
@@ -301,18 +323,34 @@ public class ImageTools
 	{
 		return c.getString(R.string.album_name);
 	}
+	
+	private String getPreviewFolder()
+	{
+		return "previews";
+	}
 
 	/**
 	 * @autor android developers photobyintent example
 	 */
-	private File getAlbumDir()
+	private static final int ALBUM = 0x00, PREVIEW = 0x01;
+	
+	
+	private File getAlbumDir(int which)
 	{
 		File storageDir = null;
-
+		
 		if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()))
 		{
+			switch (which)
+			{
+			case ALBUM:
+				storageDir = storageFactory.getAlbumStorageDir(getAlbumName());
+				break;
 
-			storageDir = storageFactory.getAlbumStorageDir(getAlbumName());
+			case PREVIEW:
+				storageDir = storageFactory.getPreviewStorageDir(getPreviewFolder());
+			}
+			
 
 			if (storageDir != null)
 			{
@@ -337,10 +375,10 @@ public class ImageTools
 	/**
 	 * @autor android developers photobyintent example
 	 */
-	private File setUpPhotoFile() throws IOException
+	private File setUpPhotoFile(int which) throws IOException
 	{
 
-		File f = createImageFile();
+		File f = createImageFile(which);
 		photoPath = f.getAbsolutePath();
 
 		return f;
@@ -349,15 +387,29 @@ public class ImageTools
 	/**
 	 * @autor android developers photobyintent example
 	 */
-	private File createImageFile() throws IOException
+	private File createImageFile(int which) throws IOException
 	{
-		// Create an image file name
-		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-		String imageFileName = JPEG_FILE_PREFIX + timeStamp + "_";
+		String imageFileName = "";
+		
+		switch (which)
+		{
+		case ALBUM:
+			String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+			imageFileName = JPEG_FILE_PREFIX + timeStamp + "_";
+			break;
 
-		File albumF = getAlbumDir();
-		File imageF = File.createTempFile(imageFileName, JPEG_FILE_SUFFIX, albumF);
-		return imageF;
+		case PREVIEW:
+			imageFileName = JPEG_FILE_PREFIX + screenId;
+
+		}
+
+		File albumF = getAlbumDir(which);
+		//FileWriter f = new FileWriter(albumF.getAbsolutePath() + imageFileName + JPEG_FILE_SUFFIX);
+		File f = new File(albumF, imageFileName + JPEG_FILE_SUFFIX);
+		
+		//File imageF = File.createTempFile(imageFileName, JPEG_FILE_SUFFIX, albumF);
+		return f;
 	}
+
 
 }
