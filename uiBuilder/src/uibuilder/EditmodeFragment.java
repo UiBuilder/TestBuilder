@@ -345,7 +345,7 @@ public class EditmodeFragment extends Fragment
 		picker = (NumberPicker) root.findViewById(R.id.item_edit_editsize_picker);
 		picker.setOnValueChangedListener(new ChangesizeModuleListener());
 		picker.setMinValue(5);
-		picker.setMaxValue(100);
+		picker.setMaxValue(130);
 
 	}
 
@@ -367,15 +367,17 @@ public class EditmodeFragment extends Fragment
 		bottomCenter = (Button) root.findViewById(R.id.editmode_align_bottom_center);
 		bottomRight = (Button) root.findViewById(R.id.editmode_align_bottom_right);
 
-		topLeft.setOnClickListener(new AlignModuleListener());
-		topCenter.setOnClickListener(new AlignModuleListener());
-		topRight.setOnClickListener(new AlignModuleListener());
-		centerLeft.setOnClickListener(new AlignModuleListener());
-		centerCenter.setOnClickListener(new AlignModuleListener());
-		centerRight.setOnClickListener(new AlignModuleListener());
-		bottomLeft.setOnClickListener(new AlignModuleListener());
-		bottomCenter.setOnClickListener(new AlignModuleListener());
-		bottomRight.setOnClickListener(new AlignModuleListener());
+		AlignModuleListener alignListener = new AlignModuleListener();
+		
+		topLeft.setOnClickListener(alignListener);
+		topCenter.setOnClickListener(alignListener);
+		topRight.setOnClickListener(alignListener);
+		centerLeft.setOnClickListener(alignListener);
+		centerCenter.setOnClickListener(alignListener);
+		centerRight.setOnClickListener(alignListener);
+		bottomLeft.setOnClickListener(alignListener);
+		bottomCenter.setOnClickListener(alignListener);
+		bottomRight.setOnClickListener(alignListener);
 	}
 
 	private void setupPictureModule()
@@ -448,7 +450,7 @@ public class EditmodeFragment extends Fragment
 
 			starBar.setProgress(((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getNumStars() - 1);
 
-			ratingSlider.setProgress((int) ((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getRating());
+			ratingSlider.setProgress((int)(((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getRating()));
 
 			break;
 
@@ -480,7 +482,6 @@ public class EditmodeFragment extends Fragment
 		case R.id.element_grid:
 			moduleGridColumns.setVisibility(View.VISIBLE);
 			moduleGridConfig.setVisibility(View.VISIBLE);
-			//moduleGridColumns.setVisibility(View.VISIBLE);
 			moduleContent.setVisibility(View.VISIBLE);
 
 			ViewGroup container = (ViewGroup) currentView;

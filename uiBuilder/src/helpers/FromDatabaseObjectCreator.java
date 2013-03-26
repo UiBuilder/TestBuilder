@@ -60,7 +60,11 @@ public class FromDatabaseObjectCreator
 
 		}
 	}
-
+/**
+ * @deprecated
+ * @param int1
+ * @return
+ */
 	private int getPresColour(int int1)
 	{
 		int presColor;
