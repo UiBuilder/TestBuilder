@@ -1,7 +1,6 @@
 package uibuilder;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -175,16 +174,14 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		String tz = Time.getCurrentTimezone();
 		time.switchTimezone(tz);
 		time.setToNow();
-		
-		String dt;
-	    Calendar cal = Calendar.getInstance();
+
 	    
-		
+		values.put(DataBase.KEY_SCREEN_PREVIEW, 0);
 		values.put(DataBase.KEY_SCREEN_DATE, time.format3339(false));
 		values.put(DataBase.KEY_SCREEN_NAME, screenName.getText().toString());
 		
 		res.insert(DataBase.CONTENT_URI_SCREENS, values);
-		adapter.notifyDataSetChanged();
+		//adapter.notifyDataSetChanged();
 		//getLoaderManager().restartLoader(DataBase.SCREENS_LOADER, null, this);
 	}
 

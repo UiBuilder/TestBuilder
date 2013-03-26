@@ -23,7 +23,7 @@ public class ScreenAdapter extends CursorAdapter
 	private int dateIdx;
 	private int idIdx;
 	private int previewIdx;
-	private Context context;
+
 	
 	private ImageTools imageTools;
 	private LayoutInflater inflater;
@@ -33,7 +33,6 @@ public class ScreenAdapter extends CursorAdapter
 		super(context, c, autoRequery);
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		imageTools = new ImageTools(context);
-		this.context = context;
 	}
 
 	/**
@@ -67,8 +66,7 @@ public class ScreenAdapter extends CursorAdapter
 		
 		Log.d("binding view for screen id", String.valueOf(id));
 		
-		Cursor photoCursor =
-		null;
+		Cursor photoCursor = null;
 		String photoFilePath;
 
 		try 
@@ -80,29 +78,36 @@ public class ScreenAdapter extends CursorAdapter
 	        String[] projection = { MediaStore.Images.Media.DATA };
 	        photoCursor = context.getContentResolver().query( previewPath, 
 	                                                    projection, null, null, null );
-
-	        if ( photoCursor != null && photoCursor.getCount() == 1 ) {
+	        Log.d("query succeeded", "true");
+	        if ( photoCursor != null && photoCursor.getCount() == 1 ) 
+	        {
 	            photoCursor.moveToFirst();
 	            photoFilePath = photoCursor.getString(
 	                photoCursor.getColumnIndex(MediaStore.Images.Media.DATA) );
 
 	            // Load image from path
 	            //return BitmapFactory.decodeFile( photoFilePath, null );
-	            
+	            Log.d("photpath", photoFilePath);
 	            if (previewPath != null)
 	    		{
 	    			Log.d("preview path", previewPath.toString());
 	    			ImageTools.setPic(preView, photoFilePath);
 	    		}
 	        }
+	        else
+	        {
+	        	preView.setImageDrawable(context.getResources().getDrawable(R.drawable.manager_blank_screen));
+	        }
+	        Log.d("photocursor", "constraints not met");
 	    } 
 		catch (Exception e) 
 		{
-			// TODO: handle exception
-		}
-		
-		finally {
-	        if ( photoCursor != null ) {
+			Log.d("preview image NOT SET", e.getMessage());
+		}	
+		finally 
+		{
+	        if ( photoCursor != null ) 
+	        {
 	            photoCursor.close();
 	        }
 	    }

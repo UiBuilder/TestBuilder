@@ -33,7 +33,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
-import creators.Generator;
 import data.DataBase;
 import de.ur.rk.uibuilder.R;
 
@@ -64,7 +63,7 @@ public class UiBuilderActivity extends Activity implements
 	private ChildGrabber grabber;
 	private Button previewButton;
 	private LoaderManager manager;
-	private boolean loaded = false;
+
 
 	// private Drawable previewIcon;
 	// private Drawable editIcon;
@@ -449,12 +448,18 @@ public class UiBuilderActivity extends Activity implements
 	 * @author funklos
 	 */
 	@Override
-	public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor)
+	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor)
 	{	
-		if (!loaded)
+		int loaderId = loader.getId();
+		
+		switch (loaderId)
 		{
-			FromDatabaseObjectCreator creator = new FromDatabaseObjectCreator(arg0, cursor);
-			loaded = true;
+		case DataBase.OBJECTS_LOADER:
+			FromDatabaseObjectCreator creator = new FromDatabaseObjectCreator(cursor);
+			
+			manager.destroyLoader(loaderId);
+			manager = null;
+			break;
 		}
 	}
 

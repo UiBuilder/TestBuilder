@@ -9,7 +9,7 @@ import de.ur.rk.uibuilder.R;
 public class FromDatabaseObjectCreator
 {
 
-	public FromDatabaseObjectCreator(Loader<Cursor> arg0, Cursor cursor)
+	public FromDatabaseObjectCreator(Cursor cursor)
 	{
 
 		while (cursor.moveToNext())
