@@ -518,7 +518,7 @@ public class UiBuilderActivity extends Activity implements
 	private void changeDisplayMode(View designbox, String displayStyle)
 	{
 		ArrayList<View> viewList;
-		viewList = grabber.getChildren(designbox);
+		viewList = grabber.getChildren(designbox.findViewById(R.id.design_area));
 
 		for (View view : viewList)
 		{
