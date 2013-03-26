@@ -7,7 +7,7 @@
 
     <ImageView
         android:id="@+id/activity_manager_griditem_layout_image"
-        android:minHeight="100dp"
+        android:minHeight="300dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
          />

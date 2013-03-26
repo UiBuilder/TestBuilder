@@ -5,6 +5,7 @@ import helpers.ImageTools;
 import android.content.Context;
 import android.database.Cursor;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +66,7 @@ public class ScreenAdapter extends CursorAdapter
 		creation.parse3339(date);
 		String creationS = creation.format("%d.%m.%Y %H:%M");
 		
+		Log.d("preview path", previewPath);
 		ImageTools.setPic(preView, previewPath);
 		view.setId(id);
 		titleView.setText(title);

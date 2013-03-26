@@ -212,6 +212,11 @@ public class ImageTools
 	private void setPic(View v)
 	{
 		setPic(v, photoPath);
+		/* Add the imagepath to the tagBundle */
+		
+		Bundle tagBundle = (Bundle) v.getTag();
+		tagBundle.putString(Generator.IMG_SRC, photoPath);
+		tagBundle.putInt(Generator.ICN_SRC, 0);
 	}
 
 	public static void setPic(View v, String path)
@@ -248,10 +253,7 @@ public class ImageTools
 			/* Decode the JPEG file into a Bitmap */
 			Bitmap bitmap = BitmapFactory.decodeFile(path, bmOptions);
 			
-			/* Add the imagepath to the tagBundle */
-			Bundle tagBundle = (Bundle) v.getTag();
-			tagBundle.putString(Generator.IMG_SRC, path);
-			tagBundle.putInt(Generator.ICN_SRC, 0);
+			
 	
 			/* Associate the Bitmap to the ImageView */
 			((ImageView) v).setImageBitmap(bitmap);

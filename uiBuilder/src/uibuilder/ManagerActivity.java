@@ -214,6 +214,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 				Uri imageUpdate = ContentUris.withAppendedId(DataBase.CONTENT_URI_SCREENS, id);
 				
 				res.update(imageUpdate, image, null, null);
+				
 				getLoaderManager().restartLoader(DataBase.SCREENS_LOADER, null, this);
 				Log.d("image preview", "updated");
 			}
