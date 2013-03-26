@@ -4,7 +4,6 @@ package data;
 import helpers.ImageTools;
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;

@@ -3,7 +3,6 @@ package uibuilder;
 import helpers.ChildGrabber;
 import helpers.FromDatabaseObjectCreator;
 import helpers.ImageTools;
-import helpers.ObjectValueCollector;
 import helpers.ToDatabaseObjectWriter;
 
 import java.util.ArrayList;
@@ -16,9 +15,6 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.LoaderManager.LoaderCallbacks;
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;

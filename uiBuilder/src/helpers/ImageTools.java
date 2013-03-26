@@ -220,38 +220,42 @@ public class ImageTools
 		/* So pre-scale the target bitmap into which the file is decoded */
 
 		/* Get the size of the ImageView */
-		int targetW = ((ImageView) v).getWidth();
-		int targetH = ((ImageView) v).getHeight();
-
-		/* Get the size of the image */
-		BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-		bmOptions.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(path, bmOptions);
-		int photoW = bmOptions.outWidth;
-		int photoH = bmOptions.outHeight;
-
-		/* Figure out which way needs to be reduced less */
-		int scaleFactor = 1;
-		if ((targetW > 0) || (targetH > 0))
-		{
-			scaleFactor = Math.min(photoW / targetW, photoH / targetH);
-		}
-
-		/* Set bitmap options to scale the image decode target */
-		bmOptions.inJustDecodeBounds = false;
-		bmOptions.inSampleSize = scaleFactor;
-		bmOptions.inPurgeable = true;
-
-		/* Decode the JPEG file into a Bitmap */
-		Bitmap bitmap = BitmapFactory.decodeFile(path, bmOptions);
 		
-		/* Add the imagepath to the tagBundle */
-		Bundle tagBundle = (Bundle) v.getTag();
-		tagBundle.putString(Generator.IMG_SRC, path);
-		tagBundle.putInt(Generator.ICN_SRC, 0);
-
-		/* Associate the Bitmap to the ImageView */
-		((ImageView) v).setImageBitmap(bitmap);
+		if (path != null)
+		{
+			int targetW = ((ImageView) v).getWidth();
+			int targetH = ((ImageView) v).getHeight();
+	
+			/* Get the size of the image */
+			BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+			bmOptions.inJustDecodeBounds = true;
+			BitmapFactory.decodeFile(path, bmOptions);
+			int photoW = bmOptions.outWidth;
+			int photoH = bmOptions.outHeight;
+	
+			/* Figure out which way needs to be reduced less */
+			int scaleFactor = 1;
+			if ((targetW > 0) || (targetH > 0))
+			{
+				scaleFactor = Math.min(photoW / targetW, photoH / targetH);
+			}
+	
+			/* Set bitmap options to scale the image decode target */
+			bmOptions.inJustDecodeBounds = false;
+			bmOptions.inSampleSize = scaleFactor;
+			bmOptions.inPurgeable = true;
+	
+			/* Decode the JPEG file into a Bitmap */
+			Bitmap bitmap = BitmapFactory.decodeFile(path, bmOptions);
+			
+			/* Add the imagepath to the tagBundle */
+			Bundle tagBundle = (Bundle) v.getTag();
+			tagBundle.putString(Generator.IMG_SRC, path);
+			tagBundle.putInt(Generator.ICN_SRC, 0);
+	
+			/* Associate the Bitmap to the ImageView */
+			((ImageView) v).setImageBitmap(bitmap);
+		}
 	}
 
 	/**

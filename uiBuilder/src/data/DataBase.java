@@ -294,7 +294,7 @@ public class DataBase extends ContentProvider
 						TABLE_SCREENS = "screenManager",
 						TABLE_OBJECTS = "objects";
 		
-		private static final int DB_VERSION = 18;
+		private static final int DB_VERSION = 19;
 		
 		private static final String CREATE = "create table if not exists ";
 		private static final String DROP = "DROP TABLE if exists ";	
