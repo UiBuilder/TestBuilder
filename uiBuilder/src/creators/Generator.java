@@ -1,7 +1,7 @@
 package creators;
 
+import helpers.ImageTools;
 import helpers.Log;
-import helpers.ObjectValueCollector;
 import helpers.ObjectValues;
 import manipulators.Overlay;
 import uibuilder.DesignFragment;
@@ -31,7 +31,6 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import data.DataBase;
 import de.ur.rk.uibuilder.R;
 
 /**
@@ -231,7 +230,7 @@ public class Generator
 		case R.id.element_imageview:
 			xmlView = buildImageView();
 			xmlView.setBackgroundResource(R.drawable.object_background_default);
-			
+			insertImageToView(properties,databaseBundle, xmlView);
 			properties.putInt(ObjectValues.BACKGROUND_EDIT, databaseBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 
 			
@@ -359,6 +358,27 @@ public class Generator
 	}
 	
 
+
+	private void insertImageToView(Bundle properties, Bundle databaseBundle, View xmlView)
+	{
+		
+		
+		String imgSrc = databaseBundle.getString(ObjectValues.IMG_SRC);
+		int icnSrc = databaseBundle.getInt(ObjectValues.ICN_SRC);
+		
+		if(icnSrc == 0)
+		{
+			ImageTools.setPic(xmlView, imgSrc);
+			properties.putString(ObjectValues.IMG_SRC, imgSrc);
+		}
+		else
+		{
+			((ImageView)xmlView).setImageResource(icnSrc);
+			
+			properties.putInt(ObjectValues.ICN_SRC, icnSrc);
+		}
+		
+	}
 
 	private Bundle getBundle(int which)
 	{
