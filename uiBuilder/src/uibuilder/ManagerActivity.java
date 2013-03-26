@@ -202,13 +202,20 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		{
 			Log.d("returning to manager", "with result ok");
 			
-			Uri imagePath = Uri.parse(data.getStringExtra(RESULT_IMAGE_PATH));
+			String imagePath = data.getStringExtra(RESULT_IMAGE_PATH);
 			int id = data.getIntExtra(RESULT_SCREEN_ID, -1);
 			
 			if (id != -1)
 			{
 				ContentValues image = new ContentValues();
-				image.put(DataBase., value)
+				image.put(DataBase.KEY_SCREEN_PREVIEW, imagePath);
+				
+				ContentResolver res = getContentResolver();
+				Uri imageUpdate = ContentUris.withAppendedId(DataBase.CONTENT_URI_SCREENS, id);
+				
+				res.update(imageUpdate, image, null, null);
+				getLoaderManager().restartLoader(DataBase.SCREENS_LOADER, null, this);
+				Log.d("image preview", "updated");
 			}
 		}
 		
