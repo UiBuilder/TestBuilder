@@ -4,6 +4,8 @@ package data;
 import helpers.ImageTools;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +23,7 @@ public class ScreenAdapter extends CursorAdapter
 	private int dateIdx;
 	private int idIdx;
 	private int previewIdx;
+	private Context context;
 	
 	private ImageTools imageTools;
 	private LayoutInflater inflater;
@@ -30,6 +33,7 @@ public class ScreenAdapter extends CursorAdapter
 		super(context, c, autoRequery);
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		imageTools = new ImageTools(context);
+		this.context = context;
 	}
 
 	/**
@@ -60,18 +64,55 @@ public class ScreenAdapter extends CursorAdapter
 		String title = cursor.getString(titleIdx);
 		String date = cursor.getString(dateIdx);
 		int id = cursor.getInt(idIdx);
-		String previewPath = cursor.getString(previewIdx);
+		
+		Log.d("binding view for screen id", String.valueOf(id));
+		
+		Cursor photoCursor =
+		null;
+		String photoFilePath;
+
+		try 
+		{	
+			Uri previewPath = Uri.parse(cursor.getString(previewIdx));
+			Log.d("corresponding image", previewPath.toString());
+			
+	        // Attempt to fetch asset filename for image
+	        String[] projection = { MediaStore.Images.Media.DATA };
+	        photoCursor = context.getContentResolver().query( previewPath, 
+	                                                    projection, null, null, null );
+
+	        if ( photoCursor != null && photoCursor.getCount() == 1 ) {
+	            photoCursor.moveToFirst();
+	            photoFilePath = photoCursor.getString(
+	                photoCursor.getColumnIndex(MediaStore.Images.Media.DATA) );
+
+	            // Load image from path
+	            //return BitmapFactory.decodeFile( photoFilePath, null );
+	            
+	            if (previewPath != null)
+	    		{
+	    			Log.d("preview path", previewPath.toString());
+	    			ImageTools.setPic(preView, photoFilePath);
+	    		}
+	        }
+	    } 
+		catch (Exception e) 
+		{
+			// TODO: handle exception
+		}
+		
+		finally {
+	        if ( photoCursor != null ) {
+	            photoCursor.close();
+	        }
+	    }
 		
 		Time creation = new Time();
 		creation.parse3339(date);
 		String creationS = creation.format("%d.%m.%Y %H:%M");
 		
-		if (previewPath != null)
-		{
-		Log.d("preview path", previewPath);
-		ImageTools.setPic(preView, previewPath);
-		}
-		view.setId(id);
+		
+		//view.setId(id);
 		titleView.setText(title);
 		dateView.setText(creationS);
 	}
@@ -80,10 +121,12 @@ public class ScreenAdapter extends CursorAdapter
 	@Override
 	public View newView(Context con, Cursor cursor, ViewGroup root)
 	{
-		View newItem = inflater.inflate(R.layout.activity_manager_grid_item_layout, root, false);
+		View view = inflater.inflate(R.layout.activity_manager_grid_item_layout, root, false);
+		Log.d("new view for grid", "called");
+		//bindView(newItem, con, cursor);
 		
-		bindView(newItem, con, cursor);
+
 		
-		return newItem;	
+		return view;	
 	}
 }

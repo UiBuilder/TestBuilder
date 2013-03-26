@@ -184,7 +184,8 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		values.put(DataBase.KEY_SCREEN_NAME, screenName.getText().toString());
 		
 		res.insert(DataBase.CONTENT_URI_SCREENS, values);
-		getLoaderManager().restartLoader(DataBase.SCREENS_LOADER, null, this);
+		adapter.notifyDataSetChanged();
+		//getLoaderManager().restartLoader(DataBase.SCREENS_LOADER, null, this);
 	}
 
 	private void startForEditing(View screen, long id)
@@ -215,8 +216,9 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 				
 				res.update(imageUpdate, image, null, null);
 				
-				getLoaderManager().restartLoader(DataBase.SCREENS_LOADER, null, this);
+				//getLoaderManager().restartLoader(DataBase.SCREENS_LOADER, null, this);
 				Log.d("image preview", "updated");
+				adapter.notifyDataSetChanged();
 			}
 		}
 		

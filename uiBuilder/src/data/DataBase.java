@@ -104,8 +104,8 @@ public class DataBase extends ContentProvider
 		SQLiteDatabase db = data.getWritableDatabase();
 		String nullColumnHack = null;
 		
-		Log.d("insert", String.valueOf(match.match(uri)));
-		Log.d("inserted screenId",String.valueOf(values.getAsLong(DataBase.KEY_OBJECTS_SCREEN)));
+		Log.d("insert as", String.valueOf(match.match(uri)));
+		
 		Log.d("insert", uri.toString());
 		long id;
 		Uri inserted = null;
@@ -124,7 +124,10 @@ public class DataBase extends ContentProvider
 			break;
 			
 		case OBJECTS_ALL:
+			
 			Log.d("objects all", "about to insert");
+			Log.d("inserted screenId",String.valueOf(values.getAsLong(DataBase.KEY_OBJECTS_SCREEN)));
+			
 			id = db.insert(DataManager.TABLE_OBJECTS, nullColumnHack, values);
 			
 			if (id > -1)
@@ -134,7 +137,7 @@ public class DataBase extends ContentProvider
 			}
 			break;
 		}
-		Log.d("inserted", inserted.toString());
+		Log.d("inserted uri", inserted.toString());
 		return inserted;
 	}
 
@@ -294,7 +297,7 @@ public class DataBase extends ContentProvider
 						TABLE_SCREENS = "screenManager",
 						TABLE_OBJECTS = "objects";
 		
-		private static final int DB_VERSION = 20;
+		private static final int DB_VERSION = 21;
 		
 		private static final String CREATE = "create table if not exists ";
 		private static final String DROP = "DROP TABLE if exists ";	
