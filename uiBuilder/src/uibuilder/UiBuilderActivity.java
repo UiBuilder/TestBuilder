@@ -116,7 +116,6 @@ public class UiBuilderActivity extends Activity implements
 		manager = getLoaderManager();
 		
 		manager.initLoader(DataBase.OBJECTS_LOADER, null, this);
-		Loader<Object> loader = manager.getLoader(DataBase.OBJECTS_LOADER);
 		
 	}
 

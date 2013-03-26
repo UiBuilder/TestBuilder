@@ -11,10 +11,23 @@
         
         />
     <GridView
+        android:padding="@dimen/default_padding_medium"
         android:id="@+id/manager_activity_project_grid"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:animateLayoutChanges="true"
+        android:verticalSpacing="@dimen/default_padding_medium"
+        
+        android:cacheColorHint="#ff000000"
+        android:requiresFadingEdge="vertical"
+        android:fadingEdgeLength="10dp" 
+        android:overScrollMode="always"
+        
+        android:scrollingCache="true"
+        android:smoothScrollbar="true"
+        android:drawSelectorOnTop="true"
+        android:listSelector="@color/fresh_aqua"
+        
         android:layout_below="@id/activity_manager_included_new"
         android:numColumns="4" >
     </GridView>

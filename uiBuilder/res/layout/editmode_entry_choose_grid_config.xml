@@ -4,7 +4,6 @@
     android:id="@+id/editmode_module_choose_list_config"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:animateLayoutChanges="true"
     android:orientation="vertical"
     style="@style/itembox"
 	>

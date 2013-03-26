@@ -27,12 +27,17 @@ public class DataBase extends ContentProvider
 	public static final int SCREENS_LOADER = 1;
 	public static final int OBJECTS_LOADER = 2;
 	
-	private static final String AUTHORITY = "de.ur.rk.uibuilder";
-	private static final String SCREENS_URI = "screens";
-	private static final String OBJECTS_URI = "objects";
+	private static final String 
+					AUTHORITY = "de.ur.rk.uibuilder",
+					PREFIX = "content://",
+					SCREENS_URI = "screens",
+					OBJECTS_URI = "objects",
+					PREVIEWS_URI = "previews";
 	
-	public static final Uri CONTENT_URI_SCREENS = Uri.parse("content://" + AUTHORITY + "/" + SCREENS_URI);
-	public static final Uri CONTENT_URI_OBJECTS = Uri.parse("content://" + AUTHORITY + "/" + OBJECTS_URI);
+	public static final Uri 
+					CONTENT_URI_SCREENS = Uri.parse(PREFIX + AUTHORITY + "/" + SCREENS_URI),
+					CONTENT_URI_OBJECTS = Uri.parse(PREFIX + AUTHORITY + "/" + OBJECTS_URI),
+					CONTENT_URI_PREVIEWS = Uri.parse(PREFIX + AUTHORITY + "/" + PREVIEWS_URI);
 	
 	private DataManager data;
 	
@@ -67,14 +72,23 @@ public class DataBase extends ContentProvider
 					KEY_OBJECTS_VIEW_BACKGROUNDCLR = ObjectValues.BACKGROUND_EDIT
 					;
 					
-					
+	//PREVIEWS TABLE
+	public static final String
+					KEY_PREVIEWS_PATH = "path",
+					KEY_PREVIEWS_ASSOCIATED = "associatedscreen"
+					;
 	
 	//uri match constants
-	private static final int SCREENS_SINGLE = 1;
-	private static final int SCREENS_ALL = 2;
-	
-	private static final int OBJECTS_SINGLE = 3;
-	private static final int OBJECTS_ALL = 4;
+	private static final int 
+					SCREENS_SINGLE = 0x01,
+					SCREENS_ALL = 0x02,
+					
+					OBJECTS_SINGLE = 0x03,
+					OBJECTS_ALL = 0x04,
+					
+					PREVIEWS_SINGLE = 0x05,
+					PREVIEWS_ALL = 0x06
+					;
 	
 	
 	private static final UriMatcher match;
@@ -87,6 +101,9 @@ public class DataBase extends ContentProvider
 		
 		match.addURI(AUTHORITY, OBJECTS_URI, OBJECTS_ALL);
 		match.addURI(AUTHORITY, OBJECTS_URI + "/#", OBJECTS_SINGLE);
+		
+		match.addURI(AUTHORITY, PREVIEWS_URI, PREVIEWS_ALL);
+		match.addURI(AUTHORITY, PREVIEWS_URI + "/#", PREVIEWS_SINGLE);
 	}
 
 
@@ -137,6 +154,20 @@ public class DataBase extends ContentProvider
 				getContext().getContentResolver().notifyChange(inserted, null);
 			}
 			break;
+			
+		case PREVIEWS_ALL:
+			
+			Log.d("previews all", "about to insert");
+			
+			id = db.insert(DataManager.TABLE_PREVIEWS, nullColumnHack, values);
+			
+			if (id > -1)
+			{
+				inserted = ContentUris.withAppendedId(CONTENT_URI_PREVIEWS, id);
+				getContext().getContentResolver().notifyChange(inserted, null);
+			}
+			break;
+			
 		}
 		Log.d("inserted uri", inserted.toString());
 		return inserted;
@@ -185,6 +216,14 @@ public class DataBase extends ContentProvider
 				//query.appendWhere(selection);
 				query.setTables(DataManager.TABLE_OBJECTS);
 				break;
+				
+			case PREVIEWS_SINGLE:
+				
+				row = uri.getPathSegments().get(1);
+				query.appendWhere(KEY_ID + "=" + row);
+				
+				query.setTables(DataManager.TABLE_PREVIEWS);
+				break;
 		}
 		
 		Cursor cursor = query.query(db, projection, selection, selectionArgs, groupBy, having, sortOrder);
@@ -215,6 +254,14 @@ public class DataBase extends ContentProvider
 			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
 			
 			updateCount = db.update(DataManager.TABLE_OBJECTS, values, selection, selectArgs);
+			break;
+			
+		case PREVIEWS_SINGLE:
+			
+			row = uri.getPathSegments().get(1);
+			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
+			
+			updateCount = db.update(DataManager.TABLE_PREVIEWS, values, selection, selectArgs);
 			break;
 			
 		default: break;
@@ -258,6 +305,14 @@ public class DataBase extends ContentProvider
 			deleteCount = db.delete(DataManager.TABLE_OBJECTS, selection, selArgs);
 			break;
 			
+		case PREVIEWS_SINGLE:
+			row = uri.getPathSegments().get(1);
+			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
+			
+			Log.d("database delete was called with", row);
+			deleteCount = db.delete(DataManager.TABLE_PREVIEWS, selection, selArgs);
+			break;
+			
 		default: break;
 		}
 		if (selection == null)
@@ -297,7 +352,10 @@ public class DataBase extends ContentProvider
 		public static final String 
 						DB_NAME = "uibuilder.db",
 						TABLE_SCREENS = "screenManager",
-						TABLE_OBJECTS = "objects";
+						TABLE_OBJECTS = "objects",
+						TABLE_PREVIEWS = "previews"
+						;
+		
 		
 		private static final int DB_VERSION = 22;
 		
@@ -333,35 +391,60 @@ public class DataBase extends ContentProvider
 						+ KEY_OBJECTS_VIEW_RATING + INT + KOMMA
 						+ KEY_OBJECTS_VIEW_STARSNUM + INT + KOMMA
 						+ KEY_OBJECTS_VIEW_USERTEXT + TEXT
-						
-						+ ");"
 						;
 		
-		private static final String CREATE_SCREENS_TABLE 
+		private static final String PREVIEWS_PROPERTIES
+						= KEY_PREVIEWS_PATH + TEXT_NULL + KOMMA
+						+ KEY_PREVIEWS_ASSOCIATED + INT_NULL + KOMMA
+						;
+		
+		//CREATE COMMANDS
+		private static final String 
+						CREATE_SCREENS_TABLE 
 						= CREATE 
 						+ TABLE_SCREENS + " ("
 						+ ID 
 						+ KEY_SCREEN_NAME + TEXT_NULL + KOMMA
 						+ KEY_SCREEN_DATE + TEXT_NULL + KOMMA
 						+ KEY_SCREEN_PREVIEW + TEXT
-						
-						+ ");";
+						+ ");"
+						,
 		
-		private static final String CREATE_OBJECTS_TABLE 
+						CREATE_OBJECTS_TABLE 
 						= CREATE
 						+ TABLE_OBJECTS + " ("
 						+ ID
 						+ KEY_OBJECTS_SCREEN + INT_NULL + KOMMA
-						+ OBJECT_PROPERTIES;
-
+						+ OBJECT_PROPERTIES
+						+ ");"
+						,
 		
-		private static final String DROP_MAIN 
+						CREATE_PREVIEWS_TABLE
+						= CREATE
+						+ TABLE_PREVIEWS + " ("
+						+ ID
+						+ PREVIEWS_PROPERTIES
+						+ ");"
+						;
+						
+		//DROP COMMANDS
+		private static final String 
+						DROP_MAIN 
 						= DROP 
-						+ TABLE_SCREENS;
+						+ TABLE_SCREENS
+						,
+						
+						DROP_OBJECTS 
+						= DROP 
+						+ TABLE_OBJECTS
+						,
+						
+						DROP_PREVIEWS
+						= DROP
+						+ TABLE_PREVIEWS
+						;
 		
-		private static final String DROP_OBJECTS 
-						= DROP 
-						+ TABLE_OBJECTS; 
+		
 		
 		public DataManager(Context context, String name, CursorFactory factory,
 				int version)
@@ -374,6 +457,7 @@ public class DataBase extends ContentProvider
 		{
 			db.execSQL(CREATE_SCREENS_TABLE);
 			db.execSQL(CREATE_OBJECTS_TABLE);
+			db.execSQL(CREATE_PREVIEWS_TABLE);
 		}
 
 		@Override
@@ -381,6 +465,7 @@ public class DataBase extends ContentProvider
 		{
 			db.execSQL(DROP_MAIN);
 			db.execSQL(DROP_OBJECTS);
+			db.execSQL(DROP_PREVIEWS);
 			
 			onCreate(db);
 		}
