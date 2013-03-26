@@ -1031,7 +1031,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		
 		Bundle b = (Bundle) activeItem.getTag();
 		
-		int id = b.getInt(Generator.ID);
+		int id = b.getInt(DataBase.KEY_ID);
 		Uri uri = ContentUris.withAppendedId(DataBase.CONTENT_URI_OBJECTS, id);
 		
 		cres.delete(uri, null, null);

@@ -228,7 +228,7 @@ public class DataBase extends ContentProvider
 	public int delete(Uri uri, String selection, String[] selArgs)
 	{
 		SQLiteDatabase db = data.getWritableDatabase();
-		
+		Log.d("database", "delete called");
 		String row;
 		int deleteCount = 0;
 		
@@ -238,7 +238,7 @@ public class DataBase extends ContentProvider
 			row = uri.getPathSegments().get(1);
 			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
 			
-
+			Log.d("database delete was called with", row);
 			deleteCount = db.delete(DataManager.TABLE_SCREENS, selection, selArgs);
 			break;
 			
@@ -252,6 +252,7 @@ public class DataBase extends ContentProvider
 			row = uri.getPathSegments().get(1);
 			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
 
+			Log.d("database delete objects single was called with", row);
 			Log.d("deleting", String.valueOf(row));
 			deleteCount = db.delete(DataManager.TABLE_OBJECTS, selection, selArgs);
 			break;
