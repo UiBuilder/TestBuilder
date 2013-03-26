@@ -322,7 +322,6 @@ public class UiBuilderActivity extends Activity implements
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
-		designbox.deleteOverlay();
 
 		switch (item.getItemId())
 		{
@@ -360,6 +359,8 @@ public class UiBuilderActivity extends Activity implements
 
 	private void togglePreview(MenuItem item)
 	{
+		designbox.deleteOverlay();
+
 		if (isPreview)
 		{
 			designbox.disableTouch(false);
