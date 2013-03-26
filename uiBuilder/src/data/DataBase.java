@@ -1,6 +1,7 @@
 package data;
 
 import helpers.ObjectValueCollector;
+import helpers.ObjectValues;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -48,22 +49,22 @@ public class DataBase extends ContentProvider
 	//OBJECTS TABLE
 	public static final String
 					KEY_OBJECTS_SCREEN = "screen",
-					KEY_OBJECTS_VIEW_TYPE = ObjectValueCollector.TYPE,
-					KEY_OBJECTS_VIEW_XPOS = ObjectValueCollector.X_POS,
-					KEY_OBJECTS_VIEW_YPOS = ObjectValueCollector.Y_POS,
-					KEY_OBJECTS_VIEW_WIDTH = ObjectValueCollector.WIDTH,
-					KEY_OBJECTS_VIEW_HEIGHT = ObjectValueCollector.HEIGHT,
-					KEY_OBJECTS_VIEW_USERTEXT = ObjectValueCollector.USER_TEXT,
-					KEY_OBJECTS_VIEW_RATING = ObjectValueCollector.RATING,
-					KEY_OBJECTS_VIEW_CONTENT = ObjectValueCollector.CONTENT,
-					KEY_OBJECTS_VIEW_COLUMNS_NUM = ObjectValueCollector.COLUMNS_NUM,
-					KEY_OBJECTS_VIEW_LAYOUT = ObjectValueCollector.LAYOUT,
-					KEY_OBJECTS_VIEW_STARSNUM = ObjectValueCollector.STARS_NUM,
-					KEY_OBJECTS_VIEW_ALIGNMENT = ObjectValueCollector.ALIGNMENT,
-					KEY_OBJECTS_VIEW_FONTSIZE = ObjectValueCollector.FONTSIZE,
-					KEY_OBJECTS_VIEW_IMGSRC = ObjectValueCollector.IMG_SRC,
-					KEY_OBJECTS_VIEW_ICNSRC = ObjectValueCollector.ICN_SRC,
-					KEY_OBJECTS_VIEW_BACKGROUNDCLR = ObjectValueCollector.BACKGROUND_COLOR
+					KEY_OBJECTS_VIEW_TYPE = ObjectValues.TYPE,
+					KEY_OBJECTS_VIEW_XPOS = ObjectValues.X_POS,
+					KEY_OBJECTS_VIEW_YPOS = ObjectValues.Y_POS,
+					KEY_OBJECTS_VIEW_WIDTH = ObjectValues.WIDTH,
+					KEY_OBJECTS_VIEW_HEIGHT = ObjectValues.HEIGHT,
+					KEY_OBJECTS_VIEW_USERTEXT = ObjectValues.USER_TEXT,
+					KEY_OBJECTS_VIEW_RATING = ObjectValues.RATING,
+					KEY_OBJECTS_VIEW_CONTENT = ObjectValues.EXAMPLE_CONTENT,
+					KEY_OBJECTS_VIEW_COLUMNS_NUM = ObjectValues.COLUMNS_NUM,
+					KEY_OBJECTS_VIEW_LAYOUT = ObjectValues.EXAMPLE_LAYOUT,
+					KEY_OBJECTS_VIEW_STARSNUM = ObjectValues.STARS_NUM,
+					KEY_OBJECTS_VIEW_ALIGNMENT = ObjectValues.ALIGNMENT,
+					KEY_OBJECTS_VIEW_FONTSIZE = ObjectValues.FONTSIZE,
+					KEY_OBJECTS_VIEW_IMGSRC = ObjectValues.IMG_SRC,
+					KEY_OBJECTS_VIEW_ICNSRC = ObjectValues.ICN_SRC,
+					KEY_OBJECTS_VIEW_BACKGROUNDCLR = ObjectValues.BACKGROUND_EDIT
 					;
 					
 					
@@ -298,7 +299,7 @@ public class DataBase extends ContentProvider
 						TABLE_SCREENS = "screenManager",
 						TABLE_OBJECTS = "objects";
 		
-		private static final int DB_VERSION = 21;
+		private static final int DB_VERSION = 22;
 		
 		private static final String CREATE = "create table if not exists ";
 		private static final String DROP = "DROP TABLE if exists ";	

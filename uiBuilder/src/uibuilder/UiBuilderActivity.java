@@ -3,6 +3,7 @@ package uibuilder;
 import helpers.ChildGrabber;
 import helpers.FromDatabaseObjectCreator;
 import helpers.ImageTools;
+import helpers.ObjectValues;
 import helpers.ToDatabaseObjectWriter;
 
 import java.util.ArrayList;
@@ -168,11 +169,11 @@ public class UiBuilderActivity extends Activity implements
 		Intent returnIntent = new Intent();
 		
 		//as a preview
-		changeDisplayMode(designbox.getView(), Generator.PRESENTATION_STYLE);
+		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_PRES);
 
 		Uri imageUri = exporter.requestBitmap(designbox.getView(), getContentResolver(), false);
 
-		changeDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
+		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_EDIT);
 		
 		returnIntent.putExtra(ManagerActivity.RESULT_SCREEN_ID, screenId);
 		returnIntent.putExtra(ManagerActivity.RESULT_IMAGE_PATH,imageUri.toString());
@@ -323,23 +324,23 @@ public class UiBuilderActivity extends Activity implements
 		{
 
 		case R.id.action_export_jpeg:
-			changeDisplayMode(designbox.getView(), Generator.PRESENTATION_STYLE);
+			changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_PRES);
 
 			exporter.requestBitmap(designbox.getView(), getContentResolver(), false);
 
 			Toast.makeText(getApplicationContext(), getString(R.string.confirmation_save_to_gallery), Toast.LENGTH_SHORT).show();
-			changeDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
+			changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_EDIT);
 
 			break;
 
 		case R.id.action_attach_mail:
-			changeDisplayMode(designbox.getView(), Generator.PRESENTATION_STYLE);
+			changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_PRES);
 
 			Intent mail = exporter.getIntent(ImageTools.SHARE);
 			mail.putExtra(Intent.EXTRA_STREAM, exporter.requestBitmap(designbox.getView(), getContentResolver(), false));
 
 			startActivityForResult(Intent.createChooser(mail, getString(R.string.intent_title_share)), ImageTools.SHARE);
-			changeDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
+			changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_EDIT);
 
 			break;
 
@@ -363,7 +364,7 @@ public class UiBuilderActivity extends Activity implements
 			// item.setIcon(previewIcon);
 			item.setTitle(R.string.menu_action_preview_mode);
 			isPreview = false;
-			changeDisplayMode(designbox.getView(), Generator.CREATION_STYLE);
+			changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_EDIT);
 			displaySidebar(ITEMBOX);
 
 		} else
@@ -374,7 +375,7 @@ public class UiBuilderActivity extends Activity implements
 			item.setTitle(R.string.menu_action_create_mode);
 
 			isPreview = true;
-			changeDisplayMode(designbox.getView(), Generator.PRESENTATION_STYLE);
+			changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_PRES);
 			displaySidebar(NOTHING);
 			designbox.disableTouch(true);
 

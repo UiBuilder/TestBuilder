@@ -215,8 +215,8 @@ public class ImageTools
 		/* Add the imagepath to the tagBundle */
 		
 		Bundle tagBundle = (Bundle) v.getTag();
-		tagBundle.putString(Generator.IMG_SRC, photoPath);
-		tagBundle.putInt(Generator.ICN_SRC, 0);
+		tagBundle.putString(ObjectValues.IMG_SRC, photoPath);
+		tagBundle.putInt(ObjectValues.ICN_SRC, 0);
 	}
 
 	public static void setPic(View v, String path)

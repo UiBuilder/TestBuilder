@@ -2,6 +2,7 @@ package creators;
 
 import helpers.Log;
 import helpers.ObjectValueCollector;
+import helpers.ObjectValues;
 import manipulators.Overlay;
 import uibuilder.DesignFragment;
 import android.content.Context;
@@ -41,7 +42,7 @@ import de.ur.rk.uibuilder.R;
 public class Generator
 {
 
-	public static final String OBJECT_TAG = "isObject";
+	//public static final String OBJECT_TAG = "isObject";
 
 	private int idCount;
 	/** Variable zur dynamischen Vergabe laufender IDs */
@@ -51,8 +52,19 @@ public class Generator
 	private LayoutInflater inflater;
 	private ObjectFactory factory;
 	
-	public static final String MINWIDTH = "mWidth", MINHEIGHT = "mHeight", TYPE = "type", ID = "id", SCALETYPE = "type", CREATION_STYLE = "create", PRESENTATION_STYLE = "pres", EXAMPLE_CONTENT = "exampleContent", EXAMPLE_LAYOUT = "exampleLayout", IMG_SRC = "imageSource", ICN_SRC = "iconSource";
-
+//	public static final String 
+//			MINWIDTH = "mWidth", 
+//			MINHEIGHT = "mHeight", 
+//			TYPE = "type", 
+//			ID = "id", 
+//			SCALETYPE = "type", 
+//			CREATION_STYLE = "create", 
+//			PRESENTATION_STYLE = "pres", 
+//			EXAMPLE_CONTENT = "exampleContent", 
+//			EXAMPLE_LAYOUT = "exampleLayout", 
+//			IMG_SRC = "imageSource", 
+//			ICN_SRC = "iconSource";
+//
 
 	
 	
@@ -86,7 +98,7 @@ public class Generator
 		View xmlView;
 		RelativeLayout.LayoutParams params = null;
 		Bundle properties = getBundle(id);
-		params = new RelativeLayout.LayoutParams((int) (properties.getInt(MINWIDTH)* 2), (int) (properties.getInt(MINHEIGHT) * 2));
+		params = new RelativeLayout.LayoutParams((int) (properties.getInt(ObjectValues.MINWIDTH)* 2), (int) (properties.getInt(ObjectValues.MINHEIGHT) * 2));
 
 		switch (id)
 		{
@@ -117,14 +129,14 @@ public class Generator
 
 		case R.id.element_switch:
 			xmlView = buildSwitch();
-			params = new RelativeLayout.LayoutParams((properties.getInt(MINWIDTH)), (int) (properties.getInt(MINHEIGHT) * 2));
+			params = new RelativeLayout.LayoutParams((properties.getInt(ObjectValues.MINWIDTH)), (int) (properties.getInt(ObjectValues.MINHEIGHT) * 2));
 
 			
 			break;
 
 		case R.id.element_checkbox:
 			xmlView = buildCheckBox();
-			params = new RelativeLayout.LayoutParams((int) (properties.getInt(MINWIDTH)* 2), (int) (properties.getInt(MINHEIGHT)));
+			params = new RelativeLayout.LayoutParams((int) (properties.getInt(ObjectValues.MINWIDTH)* 2), (int) (properties.getInt(ObjectValues.MINHEIGHT)));
 
 			
 			break;
@@ -136,28 +148,28 @@ public class Generator
 
 		case R.id.element_numberpick:
 			xmlView = buildNumberPicker();
-			params = new RelativeLayout.LayoutParams((int) (properties.getInt(MINWIDTH)), (int) (properties.getInt(MINHEIGHT)));
+			params = new RelativeLayout.LayoutParams((int) (properties.getInt(ObjectValues.MINWIDTH)), (int) (properties.getInt(ObjectValues.MINHEIGHT)));
 
 			
 			break;
 
 		case R.id.element_ratingbar:
 			xmlView = buildRatingBar();
-			params = new RelativeLayout.LayoutParams(properties.getInt(MINWIDTH) * 6, properties.getInt(MINHEIGHT));
+			params = new RelativeLayout.LayoutParams(properties.getInt(ObjectValues.MINWIDTH) * 6, properties.getInt(ObjectValues.MINHEIGHT));
 
 			
 			break;
 
 		case R.id.element_seekbar:
 			xmlView = buildSeekBar();
-			params = new RelativeLayout.LayoutParams(properties.getInt(MINWIDTH), properties.getInt(MINHEIGHT) * 2);
+			params = new RelativeLayout.LayoutParams(properties.getInt(ObjectValues.MINWIDTH), properties.getInt(ObjectValues.MINHEIGHT) * 2);
 
 			
 			break;
 
 		case R.id.element_timepicker:
 			xmlView = buildTimePicker();
-			params = new RelativeLayout.LayoutParams((int) (properties.getInt(MINWIDTH)), (int) (properties.getInt(MINHEIGHT)));
+			params = new RelativeLayout.LayoutParams((int) (properties.getInt(ObjectValues.MINWIDTH)), (int) (properties.getInt(ObjectValues.MINHEIGHT)));
 
 			
 			break;
@@ -178,12 +190,12 @@ public class Generator
 		
 		xmlView.setLayoutParams(params);
 		
-		xmlView.setBackgroundResource(properties.getInt(CREATION_STYLE));
+		xmlView.setBackgroundResource(properties.getInt(ObjectValues.BACKGROUND_EDIT));
 		xmlView.setId(idCount++);
 		xmlView.setTag(properties);
 		xmlView.setOnTouchListener(manipulator);
 		
-		xmlView.measure(properties.getInt(MINWIDTH), properties.getInt(MINHEIGHT));
+		xmlView.measure(properties.getInt(ObjectValues.MINWIDTH), properties.getInt(ObjectValues.MINHEIGHT));
 
 		return xmlView;
 	}
@@ -196,36 +208,36 @@ public class Generator
 	 */
 	protected View generate(Bundle databaseBundle)
 	{
-		int tagID = databaseBundle.getInt(ObjectValueCollector.TYPE);
+		int tagID = databaseBundle.getInt(ObjectValues.TYPE);
 		
 		Bundle properties = getBundle(tagID);
 		View xmlView;
 		RelativeLayout.LayoutParams params = null;
-		params = new RelativeLayout.LayoutParams(databaseBundle.getInt(ObjectValueCollector.WIDTH), databaseBundle.getInt(ObjectValueCollector.HEIGHT));
-		properties.putInt(Generator.PRESENTATION_STYLE, databaseBundle.getInt(ObjectValueCollector.BACKGROUND_PRES));
+		params = new RelativeLayout.LayoutParams(databaseBundle.getInt(ObjectValues.WIDTH), databaseBundle.getInt(ObjectValues.HEIGHT));
+		properties.putInt(ObjectValues.BACKGROUND_PRES, databaseBundle.getInt(ObjectValues.BACKGROUND_PRES));
 
 
 		switch (tagID)
 		{
 		case R.id.element_button:
 			xmlView = buildButton();
-			((Button)xmlView).setText(databaseBundle.getString(ObjectValueCollector.USER_TEXT));
-			((Button)xmlView).setTextSize(databaseBundle.getInt(ObjectValueCollector.FONTSIZE));
-			xmlView.setBackgroundResource(databaseBundle.getInt(ObjectValueCollector.BACKGROUND_COLOR));
+			((Button)xmlView).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
+			((Button)xmlView).setTextSize(databaseBundle.getInt(ObjectValues.FONTSIZE));
+			xmlView.setBackgroundResource(databaseBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 			
-			properties.putInt(Generator.CREATION_STYLE, databaseBundle.getInt(ObjectValueCollector.BACKGROUND_COLOR));
+			properties.putInt(ObjectValues.BACKGROUND_EDIT, databaseBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 
 			
 			break;
 
 		case R.id.element_textview:
 			xmlView = buildTextview();
-			((TextView)xmlView).setText(databaseBundle.getString(ObjectValueCollector.USER_TEXT));
-			((TextView)xmlView).setTextSize(databaseBundle.getInt(ObjectValueCollector.FONTSIZE));
-			xmlView.setBackgroundResource(databaseBundle.getInt(ObjectValueCollector.BACKGROUND_COLOR));
-			((TextView)xmlView).setGravity(databaseBundle.getInt(ObjectValueCollector.ALIGNMENT));
+			((TextView)xmlView).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
+			((TextView)xmlView).setTextSize(databaseBundle.getInt(ObjectValues.FONTSIZE));
+			xmlView.setBackgroundResource(databaseBundle.getInt(ObjectValues.BACKGROUND_EDIT));
+			((TextView)xmlView).setGravity(databaseBundle.getInt(ObjectValues.ALIGNMENT));
 			
-			properties.putInt(Generator.CREATION_STYLE, databaseBundle.getInt(ObjectValueCollector.BACKGROUND_COLOR));
+			properties.putInt(ObjectValues.BACKGROUND_EDIT, databaseBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 
 
 			
@@ -235,23 +247,23 @@ public class Generator
 			xmlView = buildImageView();
 			xmlView.setBackgroundResource(R.drawable.object_background_default);
 			
-			properties.putInt(Generator.CREATION_STYLE, databaseBundle.getInt(ObjectValueCollector.BACKGROUND_COLOR));
+			properties.putInt(ObjectValues.BACKGROUND_EDIT, databaseBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 
 			
 			break;
 
 		case R.id.element_edittext:
 			xmlView = buildEditText();
-			xmlView.setBackgroundResource(databaseBundle.getInt(ObjectValueCollector.BACKGROUND_COLOR));
-			((EditText)xmlView).setGravity(databaseBundle.getInt(ObjectValueCollector.ALIGNMENT));
-			((EditText)xmlView).setTextSize(databaseBundle.getInt(ObjectValueCollector.FONTSIZE));
+			xmlView.setBackgroundResource(databaseBundle.getInt(ObjectValues.BACKGROUND_EDIT));
+			((EditText)xmlView).setGravity(databaseBundle.getInt(ObjectValues.ALIGNMENT));
+			((EditText)xmlView).setTextSize(databaseBundle.getInt(ObjectValues.FONTSIZE));
 
 			
 			break;
 
 		case R.id.element_radiogroup:
 			xmlView = buildRadioButtons();
-			((TextView) xmlView).setText(databaseBundle.getString(ObjectValueCollector.USER_TEXT));
+			((TextView) xmlView).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
 
 			xmlView.setBackgroundResource(R.drawable.object_background_default);
 
@@ -260,7 +272,7 @@ public class Generator
 
 		case R.id.element_switch:
 			xmlView = buildSwitch();
-			((TextView) xmlView).setText(databaseBundle.getString(ObjectValueCollector.USER_TEXT));
+			((TextView) xmlView).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
 			xmlView.setBackgroundResource(R.drawable.object_background_default);
 
 
@@ -269,7 +281,7 @@ public class Generator
 
 		case R.id.element_checkbox:
 			xmlView = buildCheckBox();
-			((TextView) ((LinearLayout)xmlView).getChildAt(0)).setText(databaseBundle.getString(ObjectValueCollector.USER_TEXT));
+			((TextView) ((LinearLayout)xmlView).getChildAt(0)).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
 
 			xmlView.setBackgroundResource(R.drawable.object_background_default);
 
@@ -281,7 +293,7 @@ public class Generator
 			xmlView = buildListView();
 			
 			xmlView.setBackgroundResource(R.drawable.object_background_default);
-			factory.setAdapter(xmlView, databaseBundle.getInt(ObjectValueCollector.LAYOUT));
+			factory.setAdapter(xmlView, databaseBundle.getInt(ObjectValues.EXAMPLE_LAYOUT));
 			//Content is missing here
 			
 
@@ -298,10 +310,10 @@ public class Generator
 
 		case R.id.element_ratingbar:
 			xmlView = buildRatingBar();
-			xmlView.setBackgroundResource(databaseBundle.getInt(ObjectValueCollector.BACKGROUND_COLOR));
-			((RatingBar)((RelativeLayout)xmlView).getChildAt(0)).setRating(databaseBundle.getInt(ObjectValueCollector.RATING));
-			((RatingBar)((RelativeLayout)xmlView).getChildAt(0)).setNumStars(databaseBundle.getInt(ObjectValueCollector.STARS_NUM));
-			properties.putInt(Generator.CREATION_STYLE, databaseBundle.getInt(ObjectValueCollector.BACKGROUND_COLOR));
+			xmlView.setBackgroundResource(databaseBundle.getInt(ObjectValues.BACKGROUND_EDIT));
+			((RatingBar)((RelativeLayout)xmlView).getChildAt(0)).setRating(databaseBundle.getInt(ObjectValues.RATING));
+			((RatingBar)((RelativeLayout)xmlView).getChildAt(0)).setNumStars(databaseBundle.getInt(ObjectValues.STARS_NUM));
+			properties.putInt(ObjectValues.BACKGROUND_EDIT, databaseBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 
 			
 			break;
@@ -324,8 +336,8 @@ public class Generator
 
 		case R.id.element_grid:
 			xmlView = buildGrid();
-			factory.setAdapter(xmlView, databaseBundle.getInt(ObjectValueCollector.LAYOUT));
-			((GridView)((RelativeLayout)xmlView).getChildAt(0)).setNumColumns(databaseBundle.getInt(ObjectValueCollector.COLUMNS_NUM));
+			factory.setAdapter(xmlView, databaseBundle.getInt(ObjectValues.EXAMPLE_LAYOUT));
+			((GridView)((RelativeLayout)xmlView).getChildAt(0)).setNumColumns(databaseBundle.getInt(ObjectValues.COLUMNS_NUM));
 			xmlView.setBackgroundResource(R.drawable.object_background_default);
 
 			
@@ -335,15 +347,15 @@ public class Generator
 			
 			throw new NoClassDefFoundError();
 		}
-		params.leftMargin = databaseBundle.getInt(ObjectValueCollector.X_POS);
-		params.topMargin = databaseBundle.getInt(ObjectValueCollector.Y_POS);
-		xmlView.setBackgroundResource(databaseBundle.getInt(ObjectValueCollector.BACKGROUND_COLOR));
+		params.leftMargin = databaseBundle.getInt(ObjectValues.X_POS);
+		params.topMargin = databaseBundle.getInt(ObjectValues.Y_POS);
+		xmlView.setBackgroundResource(databaseBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 
 		xmlView.setLayoutParams(params);
 		
 		xmlView.setId(idCount++);
 		
-		properties.putInt(ID, databaseBundle.getInt(DataBase.KEY_ID));
+		properties.putInt(ObjectValues.DATABASE_ID, databaseBundle.getInt(DataBase.KEY_ID));
 		
 		xmlView.setTag(properties);
 		
@@ -354,7 +366,7 @@ public class Generator
 		
 		xmlView.setOnTouchListener(manipulator);
 		
-		xmlView.measure(databaseBundle.getInt(ObjectValueCollector.WIDTH), databaseBundle.getInt(ObjectValueCollector.HEIGHT));
+		xmlView.measure(databaseBundle.getInt(ObjectValues.WIDTH), databaseBundle.getInt(ObjectValues.HEIGHT));
 
 		return xmlView;
 	
@@ -400,8 +412,8 @@ public class Generator
 			width = res.getInteger(R.integer.image_factor_width);
 			height = res.getInteger(R.integer.image_factor_height);
 			scaleType = Overlay.BOTH;
-			tagBundle.putInt(IMG_SRC, 0);
-			tagBundle.putInt(ICN_SRC, 0);
+			tagBundle.putInt(ObjectValues.IMG_SRC, 0);
+			tagBundle.putInt(ObjectValues.ICN_SRC, 0);
 			
 			break;
 
@@ -444,8 +456,8 @@ public class Generator
 			width = res.getInteger(R.integer.list_factor_width);
 			height = res.getInteger(R.integer.list_factor_height);
 			scaleType = Overlay.BOTH;
-			tagBundle.putInt(EXAMPLE_CONTENT, R.id.content_choose_hipster);
-			tagBundle.putInt(EXAMPLE_LAYOUT, R.layout.item_listview_example_layout_1);
+			tagBundle.putInt(ObjectValues.EXAMPLE_CONTENT, R.id.content_choose_hipster);
+			tagBundle.putInt(ObjectValues.EXAMPLE_LAYOUT, R.layout.item_listview_example_layout_1);
 
 			break;
 
@@ -495,8 +507,8 @@ public class Generator
 			width = res.getInteger(R.integer.grid_factor_width);
 			height = res.getInteger(R.integer.grid_factor_height);
 			scaleType = Overlay.BOTH;
-			tagBundle.putInt(EXAMPLE_CONTENT, R.id.content_choose_bacon);
-			tagBundle.putInt(EXAMPLE_LAYOUT, R.layout.item_gridview_example_layout_3);
+			tagBundle.putInt(ObjectValues.EXAMPLE_CONTENT, R.id.content_choose_bacon);
+			tagBundle.putInt(ObjectValues.EXAMPLE_LAYOUT, R.layout.item_gridview_example_layout_3);
 			
 			
 			break;
@@ -509,12 +521,12 @@ public class Generator
 		width *= gridFactor;
 		height *= gridFactor;
 		
-		tagBundle.putInt(PRESENTATION_STYLE, presMode);
-		tagBundle.putInt(CREATION_STYLE, createMode);
-		tagBundle.putInt(SCALETYPE, scaleType);
-		tagBundle.putInt(MINHEIGHT, height);
-		tagBundle.putInt(MINWIDTH, width);
-		tagBundle.putInt(TYPE, which);
+		tagBundle.putInt(ObjectValues.BACKGROUND_PRES, presMode);
+		tagBundle.putInt(ObjectValues.BACKGROUND_EDIT, createMode);
+		tagBundle.putInt(ObjectValues.SCALETYPE, scaleType);
+		tagBundle.putInt(ObjectValues.MINHEIGHT, height);
+		tagBundle.putInt(ObjectValues.MINWIDTH, width);
+		tagBundle.putInt(ObjectValues.TYPE, which);
 		
 
 		return tagBundle;
@@ -648,7 +660,7 @@ public class Generator
 				case DragEvent.ACTION_DRAG_STARTED:
 					Bundle tagBundle = (Bundle) v.getTag();
 
-					int id = tagBundle.getInt(Generator.TYPE);
+					int id = tagBundle.getInt(ObjectValues.TYPE);
 					/*
 					if (id == R.id.element_container)
 					{

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import helpers.IconAdapter;
 import helpers.ImageTools;
+import helpers.ObjectValues;
 import helpers.ResArrayImporter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -391,7 +392,7 @@ public class EditmodeFragment extends Fragment
 		currentView = view;
 
 		Bundle tagBundle = (Bundle) currentView.getTag();
-		int id = tagBundle.getInt(Generator.TYPE);
+		int id = tagBundle.getInt(ObjectValues.TYPE);
 
 		resetModules();
 
@@ -799,64 +800,64 @@ public class EditmodeFragment extends Fragment
 			{
 			case R.id.editmode_background_red:
 				currentView.setBackgroundResource(R.drawable.object_background_red);
-				bundle.putInt(Generator.CREATION_STYLE, R.drawable.object_background_red);
-				bundle.putInt(Generator.PRESENTATION_STYLE, R.drawable.presentation_object_background_red);
+				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_red);
+				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_red);
 
 				break;
 
 			case R.id.editmode_background_yellow:
 				currentView.setBackgroundResource(R.drawable.object_background_grey_dark);
-				bundle.putInt(Generator.CREATION_STYLE, R.drawable.object_background_grey_dark);
-				bundle.putInt(Generator.PRESENTATION_STYLE, R.drawable.presentation_object_background_grey_dark);
+				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_grey_dark);
+				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_grey_dark);
 
 				break;
 
 			case R.id.editmode_background_orange:
 				currentView.setBackgroundResource(R.drawable.object_background_orange);
-				bundle.putInt(Generator.CREATION_STYLE, R.drawable.object_background_orange);
-				bundle.putInt(Generator.PRESENTATION_STYLE, R.drawable.presentation_object_background_orange);
+				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_orange);
+				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_orange);
 
 				break;
 
 			case R.id.editmode_background_green_light:
 				currentView.setBackgroundResource(R.drawable.object_background_green_light);
-				bundle.putInt(Generator.CREATION_STYLE, R.drawable.object_background_green_light);
-				bundle.putInt(Generator.PRESENTATION_STYLE, R.drawable.presentation_object_background_green_light);
+				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_green_light);
+				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_green_light);
 
 				break;
 
 			case R.id.editmode_background_green:
 				currentView.setBackgroundResource(R.drawable.object_background_green);
-				bundle.putInt(Generator.CREATION_STYLE, R.drawable.object_background_green);
-				bundle.putInt(Generator.PRESENTATION_STYLE, R.drawable.presentation_object_background_green);
+				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_green);
+				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_green);
 
 				break;
 
 			case R.id.editmode_background_aqua:
 				currentView.setBackgroundResource(R.drawable.object_background_aqua);
-				bundle.putInt(Generator.CREATION_STYLE, R.drawable.object_background_aqua);
-				bundle.putInt(Generator.PRESENTATION_STYLE, R.drawable.presentation_object_background_aqua);
+				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_aqua);
+				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_aqua);
 
 				break;
 
 			case R.id.editmode_background_blue:
 				currentView.setBackgroundResource(R.drawable.object_background_blue);
-				bundle.putInt(Generator.CREATION_STYLE, R.drawable.object_background_blue);
-				bundle.putInt(Generator.PRESENTATION_STYLE, R.drawable.presentation_object_background_blue);
+				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_blue);
+				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_blue);
 
 				break;
 
 			case R.id.editmode_background_grey_light:
 				currentView.setBackgroundResource(R.drawable.object_background_grey_light);
-				bundle.putInt(Generator.CREATION_STYLE, R.drawable.object_background_grey_light);
-				bundle.putInt(Generator.PRESENTATION_STYLE, R.drawable.presentation_object_background_grey_light);
+				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_grey_light);
+				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_grey_light);
 
 				break;
 
 			case R.id.editmode_background_grey:
 				currentView.setBackgroundResource(R.drawable.object_background_grey);
-				bundle.putInt(Generator.CREATION_STYLE, R.drawable.object_background_grey);
-				bundle.putInt(Generator.PRESENTATION_STYLE, R.drawable.presentation_object_background_grey);
+				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_grey);
+				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_grey);
 
 				break;
 
@@ -871,24 +872,24 @@ public class EditmodeFragment extends Fragment
 
 		private void resetBackgroundToDefault(Bundle bundle)
 		{
-			bundle.putInt(Generator.CREATION_STYLE, R.drawable.object_background_default);
+			bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_default);
 
 			
-			switch (bundle.getInt(Generator.TYPE))
+			switch (bundle.getInt(ObjectValues.TYPE))
 			{
 			case R.id.element_button:
-				bundle.putInt(Generator.CREATION_STYLE, R.drawable.object_background_default_button);
-				bundle.putInt(Generator.PRESENTATION_STYLE, R.drawable.presentation_button_default);
+				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_default_button);
+				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_button_default);
 				break;
 
 			case R.id.element_edittext:
-				bundle.putInt(Generator.CREATION_STYLE, R.drawable.object_background_default_edittext);
-				bundle.putInt(Generator.PRESENTATION_STYLE, R.drawable.presentation_border_medium);
+				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_default_edittext);
+				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_border_medium);
 				break;
 
 			default:
-				bundle.putInt(Generator.CREATION_STYLE, R.drawable.object_background_default);
-				bundle.putInt(Generator.PRESENTATION_STYLE, R.drawable.presentation_default_object);
+				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_default);
+				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_default_object);
 				break;
 				
 			}

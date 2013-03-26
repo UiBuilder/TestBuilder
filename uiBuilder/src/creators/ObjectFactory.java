@@ -1,5 +1,6 @@
 package creators;
 
+import helpers.ObjectValues;
 import helpers.ResArrayImporter;
 import uibuilder.EditmodeFragment;
 import uibuilder.EditmodeFragment.onObjectEditedListener;
@@ -120,7 +121,7 @@ public class ObjectFactory implements onObjectEditedListener
 	{
 		Bundle tagBundle = (Bundle) active.getTag();
 
-		int id = tagBundle.getInt(Generator.TYPE);
+		int id = tagBundle.getInt(ObjectValues.TYPE);
 
 		switch (id)
 		{
@@ -176,7 +177,7 @@ public class ObjectFactory implements onObjectEditedListener
 			gridLayout = 0;
 			break;
 		}
-		bundle.putInt(Generator.EXAMPLE_LAYOUT, from);
+		bundle.putInt(ObjectValues.EXAMPLE_LAYOUT, from);
 
 		setAdapter(gridView, gridLayout);
 	}
@@ -229,7 +230,7 @@ public class ObjectFactory implements onObjectEditedListener
 			break;
 		}
 
-		bundle.putInt(Generator.EXAMPLE_LAYOUT, from);
+		bundle.putInt(ObjectValues.EXAMPLE_LAYOUT, from);
 
 		setAdapter(listView, listLayout);
 
@@ -290,8 +291,8 @@ public class ObjectFactory implements onObjectEditedListener
 	{
 		int resourceId = (highResIcns[pos]);
 		Bundle bundle = (Bundle) active.getTag();
-		bundle.putInt(Generator.ICN_SRC, resourceId);
-		bundle.putString(Generator.IMG_SRC, null);
+		bundle.putInt(ObjectValues.ICN_SRC, resourceId);
+		bundle.putString(ObjectValues.IMG_SRC, null);
 
 		((ImageView) active).setScaleType(ScaleType.FIT_CENTER);
 		((ImageView) active).setImageResource(resourceId);
@@ -306,7 +307,7 @@ public class ObjectFactory implements onObjectEditedListener
 		case R.id.content_choose_hipster:
 			headersActive = headersHipster;
 			contentsActive = contentsHipster;
-			bundle.putInt(Generator.EXAMPLE_CONTENT, R.id.content_choose_hipster);
+			bundle.putInt(ObjectValues.EXAMPLE_CONTENT, R.id.content_choose_hipster);
 
 			Log.d("hipster", "set");
 			break;
@@ -314,7 +315,7 @@ public class ObjectFactory implements onObjectEditedListener
 		case R.id.content_choose_bacon:
 			headersActive = headersBacon;
 			contentsActive = contentsBacon;
-			bundle.putInt(Generator.EXAMPLE_CONTENT, R.id.content_choose_bacon);
+			bundle.putInt(ObjectValues.EXAMPLE_CONTENT, R.id.content_choose_bacon);
 
 			Log.d("bacon", "set");
 			break;

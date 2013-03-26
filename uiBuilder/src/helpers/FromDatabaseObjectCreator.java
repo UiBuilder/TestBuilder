@@ -35,26 +35,26 @@ public class FromDatabaseObjectCreator
 			int idxBackgroundColor = cursor.getColumnIndexOrThrow(DataBase.KEY_OBJECTS_VIEW_BACKGROUNDCLR);
 			Log.d("KEY", String.valueOf(cursor.getInt(idxKEYID)));
 			valuesBundle.putInt(DataBase.KEY_ID, cursor.getInt(idxKEYID));
-			valuesBundle.putInt(ObjectValueCollector.TYPE, cursor.getInt(idxID));
-			valuesBundle.putInt(ObjectValueCollector.X_POS, cursor.getInt(idxXPos));
-			valuesBundle.putInt(ObjectValueCollector.Y_POS, cursor.getInt(idxYPos));
-			valuesBundle.putInt(ObjectValueCollector.WIDTH, cursor.getInt(idxWidth));
-			valuesBundle.putInt(ObjectValueCollector.HEIGHT, cursor.getInt(idxHeight));
-			valuesBundle.putString(ObjectValueCollector.USER_TEXT, cursor.getString(idxUserText));
-			valuesBundle.putInt(ObjectValueCollector.RATING, cursor.getInt(idxRating));
-			valuesBundle.putInt(ObjectValueCollector.CONTENT, cursor.getInt(idxContent));
-			valuesBundle.putInt(ObjectValueCollector.COLUMNS_NUM, cursor.getInt(idxColumnsNum));
-			valuesBundle.putInt(ObjectValueCollector.LAYOUT, cursor.getInt(idxLayout));
-			valuesBundle.putInt(ObjectValueCollector.STARS_NUM, cursor.getInt(idxStarsNum));
-			valuesBundle.putInt(ObjectValueCollector.ALIGNMENT, cursor.getInt(idxAlignment));
-			valuesBundle.putInt(ObjectValueCollector.FONTSIZE, cursor.getInt(idxFontsize));
-			valuesBundle.putString(ObjectValueCollector.IMG_SRC, cursor.getString(idxImageSource));
-			valuesBundle.putInt(ObjectValueCollector.ICN_SRC, cursor.getInt(idxIconSource));
-			valuesBundle.putInt(ObjectValueCollector.BACKGROUND_COLOR, cursor.getInt(idxBackgroundColor));
+			valuesBundle.putInt(ObjectValues.TYPE, cursor.getInt(idxID));
+			valuesBundle.putInt(ObjectValues.X_POS, cursor.getInt(idxXPos));
+			valuesBundle.putInt(ObjectValues.Y_POS, cursor.getInt(idxYPos));
+			valuesBundle.putInt(ObjectValues.WIDTH, cursor.getInt(idxWidth));
+			valuesBundle.putInt(ObjectValues.HEIGHT, cursor.getInt(idxHeight));
+			valuesBundle.putString(ObjectValues.USER_TEXT, cursor.getString(idxUserText));
+			valuesBundle.putInt(ObjectValues.RATING, cursor.getInt(idxRating));
+			valuesBundle.putInt(ObjectValues.EXAMPLE_CONTENT, cursor.getInt(idxContent));
+			valuesBundle.putInt(ObjectValues.COLUMNS_NUM, cursor.getInt(idxColumnsNum));
+			valuesBundle.putInt(ObjectValues.EXAMPLE_LAYOUT, cursor.getInt(idxLayout));
+			valuesBundle.putInt(ObjectValues.STARS_NUM, cursor.getInt(idxStarsNum));
+			valuesBundle.putInt(ObjectValues.ALIGNMENT, cursor.getInt(idxAlignment));
+			valuesBundle.putInt(ObjectValues.FONTSIZE, cursor.getInt(idxFontsize));
+			valuesBundle.putString(ObjectValues.IMG_SRC, cursor.getString(idxImageSource));
+			valuesBundle.putInt(ObjectValues.ICN_SRC, cursor.getInt(idxIconSource));
+			valuesBundle.putInt(ObjectValues.BACKGROUND_EDIT, cursor.getInt(idxBackgroundColor));
 
 			// This is independent form Database, just assigning the right
 			// colours to presentationMode tag.
-			valuesBundle.putInt(ObjectValueCollector.BACKGROUND_PRES, getPresColour(cursor.getInt(idxBackgroundColor)));
+			valuesBundle.putInt(ObjectValues.BACKGROUND_PRES, getPresColour(cursor.getInt(idxBackgroundColor)));
 
 			listener.objectLoaded(valuesBundle);
 

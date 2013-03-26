@@ -4,6 +4,7 @@ import helpers.FromDatabaseObjectCreator;
 import helpers.FromDatabaseObjectCreator.OnObjectLoadedFromDatabaseListener;
 import helpers.Grid;
 import helpers.Log;
+import helpers.ObjectValues;
 import manipulators.Overlay;
 import android.app.Activity;
 import android.app.Fragment;
@@ -308,7 +309,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 					if (!overlay.isActive())
 					{
 						Bundle itemTag = (Bundle) activeItem.getTag();
-						int scaleType = itemTag.getInt(Generator.SCALETYPE);
+						int scaleType = itemTag.getInt(ObjectValues.SCALETYPE);
 
 						overlay.generate(activeItem, scaleType);
 
@@ -476,7 +477,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 				case R.id.overlay_drag:
 
 					Bundle tagBundle = (Bundle) activeItem.getTag();
-					int id = tagBundle.getInt(Generator.TYPE);
+					int id = tagBundle.getInt(ObjectValues.TYPE);
 
 					/*
 					 * Generate clipdata to provide to the dragshadowbuilder
@@ -645,8 +646,8 @@ public class DesignFragment extends Fragment implements OnDragListener,
 			float distance, Bundle itemTag, int which)
 	{
 
-		int minWidth = itemTag.getInt(Generator.MINWIDTH);
-		int minHeight = itemTag.getInt(Generator.MINHEIGHT);
+		int minWidth = itemTag.getInt(ObjectValues.MINWIDTH);
+		int minHeight = itemTag.getInt(ObjectValues.MINHEIGHT);
 
 		switch (which)
 		{
@@ -894,7 +895,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 					@Override
 					public void run()
 					{
-						activeItem.setBackgroundResource(((Bundle) activeItem.getTag()).getInt(Generator.CREATION_STYLE));
+						activeItem.setBackgroundResource(((Bundle) activeItem.getTag()).getInt(ObjectValues.BACKGROUND_EDIT));
 					}
 				});
 				break;

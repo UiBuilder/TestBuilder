@@ -47,7 +47,7 @@ public class ChildGrabber
 			
 			//THIS IS FOR LOGGING ONLY!
 			Bundle bundle = (Bundle) layout.getTag();
-			Log.d("Childgrabber", "added to ArrayList: "+ bundle.getInt(Generator.TYPE));
+			Log.d("Childgrabber", "added to ArrayList: "+ bundle.getInt(ObjectValues.TYPE));
 			
 			
 
