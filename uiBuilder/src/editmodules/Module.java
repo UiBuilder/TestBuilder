@@ -15,7 +15,7 @@ public abstract class Module implements onToggleExpansionListener
 		this.context = context;
 		this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		setupUi();
-		ExpansionListener.onToggleExpansionListener(this);
+		ExpansionListener.setOnToggleExpansionListener(this);
 	}
 	
 	protected abstract void setupUi();

@@ -109,7 +109,7 @@ public class ExpansionListener implements OnClickListener
 
 		private static onToggleExpansionListener listener;
 
-		public static void onToggleExpansionListener(
+		public static void setOnToggleExpansionListener(
 				onToggleExpansionListener listener)
 		{
 			ExpansionListener.listener = listener;
