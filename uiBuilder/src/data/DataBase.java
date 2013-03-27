@@ -31,13 +31,11 @@ public class DataBase extends ContentProvider
 					AUTHORITY = "de.ur.rk.uibuilder",
 					PREFIX = "content://",
 					SCREENS_URI = "screens",
-					OBJECTS_URI = "objects",
-					PREVIEWS_URI = "previews";
+					OBJECTS_URI = "objects";
 	
 	public static final Uri 
 					CONTENT_URI_SCREENS = Uri.parse(PREFIX + AUTHORITY + "/" + SCREENS_URI),
-					CONTENT_URI_OBJECTS = Uri.parse(PREFIX + AUTHORITY + "/" + OBJECTS_URI),
-					CONTENT_URI_PREVIEWS = Uri.parse(PREFIX + AUTHORITY + "/" + PREVIEWS_URI);
+					CONTENT_URI_OBJECTS = Uri.parse(PREFIX + AUTHORITY + "/" + OBJECTS_URI);
 	
 	private DataManager data;
 	
@@ -71,12 +69,6 @@ public class DataBase extends ContentProvider
 					KEY_OBJECTS_VIEW_ICNSRC = ObjectValues.ICN_SRC,
 					KEY_OBJECTS_VIEW_BACKGROUNDCLR = ObjectValues.BACKGROUND_EDIT
 					;
-					
-	//PREVIEWS TABLE
-	public static final String
-					KEY_PREVIEWS_PATH = "path",
-					KEY_PREVIEWS_ASSOCIATED = "associatedscreen"
-					;
 	
 	//uri match constants
 	private static final int 
@@ -84,10 +76,7 @@ public class DataBase extends ContentProvider
 					SCREENS_ALL = 0x02,
 					
 					OBJECTS_SINGLE = 0x03,
-					OBJECTS_ALL = 0x04,
-					
-					PREVIEWS_SINGLE = 0x05,
-					PREVIEWS_ALL = 0x06
+					OBJECTS_ALL = 0x04
 					;
 	
 	
@@ -101,9 +90,6 @@ public class DataBase extends ContentProvider
 		
 		match.addURI(AUTHORITY, OBJECTS_URI, OBJECTS_ALL);
 		match.addURI(AUTHORITY, OBJECTS_URI + "/#", OBJECTS_SINGLE);
-		
-		match.addURI(AUTHORITY, PREVIEWS_URI, PREVIEWS_ALL);
-		match.addURI(AUTHORITY, PREVIEWS_URI + "/#", PREVIEWS_SINGLE);
 	}
 
 
@@ -154,20 +140,7 @@ public class DataBase extends ContentProvider
 				getContext().getContentResolver().notifyChange(inserted, null);
 			}
 			break;
-			
-		case PREVIEWS_ALL:
-			
-			Log.d("previews all", "about to insert");
-			
-			id = db.insert(DataManager.TABLE_PREVIEWS, nullColumnHack, values);
-			
-			if (id > -1)
-			{
-				inserted = ContentUris.withAppendedId(CONTENT_URI_PREVIEWS, id);
-				getContext().getContentResolver().notifyChange(inserted, null);
-			}
-			break;
-			
+
 		}
 		Log.d("inserted uri", inserted.toString());
 		return inserted;
@@ -213,17 +186,9 @@ public class DataBase extends ContentProvider
 				
 			case OBJECTS_ALL:
 				
-				//query.appendWhere(selection);
 				query.setTables(DataManager.TABLE_OBJECTS);
 				break;
-				
-			case PREVIEWS_SINGLE:
-				Log.d("previews single","query image");
-				String associated = uri.getPathSegments().get(1);
-				query.appendWhere(KEY_PREVIEWS_ASSOCIATED + "=" + associated);
-				
-				query.setTables(DataManager.TABLE_PREVIEWS);
-				break;
+
 		}
 		
 		Cursor cursor = query.query(db, projection, selection, selectionArgs, groupBy, having, sortOrder);
@@ -255,15 +220,7 @@ public class DataBase extends ContentProvider
 			
 			updateCount = db.update(DataManager.TABLE_OBJECTS, values, selection, selectArgs);
 			break;
-			
-		case PREVIEWS_SINGLE:
-			
-			row = uri.getPathSegments().get(1);
-			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
-			
-			updateCount = db.update(DataManager.TABLE_PREVIEWS, values, selection, selectArgs);
-			break;
-			
+		
 		default: break;
 		}
 		
@@ -304,15 +261,7 @@ public class DataBase extends ContentProvider
 			Log.d("deleting", String.valueOf(row));
 			deleteCount = db.delete(DataManager.TABLE_OBJECTS, selection, selArgs);
 			break;
-			
-		case PREVIEWS_SINGLE:
-			row = uri.getPathSegments().get(1);
-			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
-			
-			Log.d("database delete was called with", row);
-			deleteCount = db.delete(DataManager.TABLE_PREVIEWS, selection, selArgs);
-			break;
-			
+		
 		default: break;
 		}
 		if (selection == null)
@@ -337,10 +286,7 @@ public class DataBase extends ContentProvider
 			
 		case OBJECTS_ALL:
 			return "vnd.android.cursor.dir/vnd.uibuilder.objects";
-			
-		case OBJECTS_SINGLE:
-			return "vnd.android.cursor.item/vnd.uibuilder.objects";
-			
+		
 		default: throw new IllegalArgumentException("Unsupported Uri: " + uri);
 		}
 	}
@@ -352,12 +298,11 @@ public class DataBase extends ContentProvider
 		public static final String 
 						DB_NAME = "uibuilder.db",
 						TABLE_SCREENS = "screenManager",
-						TABLE_OBJECTS = "objects",
-						TABLE_PREVIEWS = "previews"
+						TABLE_OBJECTS = "objects"
 						;
 		
 		
-		private static final int DB_VERSION = 24;
+		private static final int DB_VERSION = 26;
 		
 		private static final String CREATE = "create table if not exists ";
 		private static final String DROP = "DROP TABLE if exists ";	
@@ -392,11 +337,7 @@ public class DataBase extends ContentProvider
 						+ KEY_OBJECTS_VIEW_STARSNUM + INT + KOMMA
 						+ KEY_OBJECTS_VIEW_USERTEXT + TEXT
 						;
-		
-		private static final String PREVIEWS_PROPERTIES
-						= KEY_PREVIEWS_PATH + TEXT_NULL + KOMMA
-						+ KEY_PREVIEWS_ASSOCIATED + INT_NULL
-						;
+
 		
 		//CREATE COMMANDS
 		private static final String 
@@ -417,14 +358,6 @@ public class DataBase extends ContentProvider
 						+ KEY_OBJECTS_SCREEN + INT_NULL + KOMMA
 						+ OBJECT_PROPERTIES
 						+ ");"
-						,
-		
-						CREATE_PREVIEWS_TABLE
-						= CREATE
-						+ TABLE_PREVIEWS + " ("
-						+ ID
-						+ PREVIEWS_PROPERTIES
-						+ ");"
 						;
 						
 		//DROP COMMANDS
@@ -437,11 +370,6 @@ public class DataBase extends ContentProvider
 						DROP_OBJECTS 
 						= DROP 
 						+ TABLE_OBJECTS
-						,
-						
-						DROP_PREVIEWS
-						= DROP
-						+ TABLE_PREVIEWS
 						;
 		
 		
@@ -457,7 +385,6 @@ public class DataBase extends ContentProvider
 		{
 			db.execSQL(CREATE_SCREENS_TABLE);
 			db.execSQL(CREATE_OBJECTS_TABLE);
-			db.execSQL(CREATE_PREVIEWS_TABLE);
 		}
 
 		@Override
@@ -465,7 +392,6 @@ public class DataBase extends ContentProvider
 		{
 			db.execSQL(DROP_MAIN);
 			db.execSQL(DROP_OBJECTS);
-			db.execSQL(DROP_PREVIEWS);
 			
 			onCreate(db);
 		}

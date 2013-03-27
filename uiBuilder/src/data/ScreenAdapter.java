@@ -72,13 +72,7 @@ public class ScreenAdapter extends CursorAdapter
 
 		try 
 		{	
-			//Uri imagePath = Uri.parse(cursor.getString(previewIdx));
-			//Log.d("corresponding image", previewPath.toString());
-			
-	        // Attempt to fetch asset filename for image
-	        String[] projection = { DataBase.KEY_PREVIEWS_ASSOCIATED };
-			
-			Uri image = ContentUris.withAppendedId(DataBase.CONTENT_URI_PREVIEWS, id);
+			Uri image = ContentUris.withAppendedId(DataBase.CONTENT_URI_SCREENS, id);
 			
 	        photoCursor = context.getContentResolver().query(image, null, null, null, null );
 	        
@@ -87,24 +81,21 @@ public class ScreenAdapter extends CursorAdapter
 	        {
 	            photoCursor.moveToFirst();
 	            Log.d("query succeeded", "true");
-	            int pathIdx = cursor.getColumnIndexOrThrow(DataBase.KEY_PREVIEWS_PATH);
+	            int pathIdx = cursor.getColumnIndexOrThrow(DataBase.KEY_SCREEN_PREVIEW);
 	            
 	            photoFilePath = photoCursor.getString(pathIdx);
-
-	            // Load image from path
-	            //return BitmapFactory.decodeFile( photoFilePath, null );
 	            
-	            if (photoFilePath != null)
+	            if (!photoFilePath.equalsIgnoreCase("0"))
 	    		{
 	            	Log.d("photopath", photoFilePath);
 	    			
 	    			ImageTools.setPic(preView, photoFilePath);
 	    		}
-	        }
-	        else
-	        {
-	        	Log.d("photocursor", "set default");
-	        	preView.setImageDrawable(context.getResources().getDrawable(R.drawable.manager_blank_screen));
+	            else
+		        {
+		        	Log.d("photocursor", "set default");
+		        	preView.setImageDrawable(context.getResources().getDrawable(R.drawable.manager_blank_screen));
+		        }
 	        }
 	        
 	    } 
@@ -124,8 +115,7 @@ public class ScreenAdapter extends CursorAdapter
 		creation.parse3339(date);
 		String creationS = creation.format("%d.%m.%Y %H:%M");
 		
-		
-		//view.setId(id);
+
 		titleView.setText(title);
 		dateView.setText(creationS);
 	}
@@ -136,10 +126,7 @@ public class ScreenAdapter extends CursorAdapter
 	{
 		View view = inflater.inflate(R.layout.activity_manager_grid_item_layout, root, false);
 		Log.d("new view for grid", "called");
-		//bindView(newItem, con, cursor);
-		
 
-		
 		return view;	
 	}
 }

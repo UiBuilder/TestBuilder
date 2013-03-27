@@ -159,9 +159,6 @@ public class UiBuilderActivity extends Activity implements
 	@Override
 	public void onBackPressed()
 	{
-		
-		//super.onBackPressed();
-		
 		Intent returnIntent = new Intent();
 		
 		//as a preview
@@ -172,8 +169,11 @@ public class UiBuilderActivity extends Activity implements
 		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_EDIT);
 		
 		returnIntent.putExtra(ManagerActivity.RESULT_SCREEN_ID, screenId);
-		returnIntent.putExtra(ManagerActivity.RESULT_IMAGE_PATH,imageUri.toString());
-		
+		if(imageUri!=null)
+		{
+			returnIntent.putExtra(ManagerActivity.RESULT_IMAGE_PATH,imageUri.toString());
+			Log.d("returning path", imageUri.toString());
+		}
 		setResult(RESULT_OK, returnIntent);     
 		finish();
 	}

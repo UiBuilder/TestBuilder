@@ -2,13 +2,11 @@ package helpers;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -23,7 +21,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import data.DataBase;
 import de.ur.rk.uibuilder.R;
 
 /**
@@ -189,11 +186,8 @@ public class ImageTools
 				this.screenId = screenId;
 				
 				f = setUpPhotoFile(PREVIEW);
-				photoPath = f.getAbsolutePath();
 				
 				FileOutputStream fos = new FileOutputStream(f);
-				//FileOutputStream fos;
-				
 				fos = new FileOutputStream(f);
 				photoPath = f.getAbsolutePath();
 
@@ -201,13 +195,8 @@ public class ImageTools
 				fos.flush();
 				fos.close();
 				
-				ContentValues values = new ContentValues();
-				values.put(DataBase.KEY_PREVIEWS_PATH, photoPath);
-				values.put(DataBase.KEY_PREVIEWS_ASSOCIATED, screenId);
 				
-				Uri screenUri = cres.insert(DataBase.CONTENT_URI_PREVIEWS, values);
-				Log.d("photopath ist", photoPath);
-				Log.d("screenuri ist", screenUri.toString());
+				Uri screenUri = Uri.parse(photoPath);
 				photoPath = null;
 				
 				return screenUri;
@@ -373,6 +362,8 @@ public class ImageTools
 	}
 	
 	/**
+	 * 
+	 * @author funklos modified to handle multiple paths
 	 * @autor android developers photobyintent example
 	 */
 	private File setUpPhotoFile(int which) throws IOException
@@ -385,6 +376,7 @@ public class ImageTools
 	}
 
 	/**
+	 * @author funklos modified to handle multiple paths
 	 * @autor android developers photobyintent example
 	 */
 	private File createImageFile(int which) throws IOException
@@ -402,12 +394,9 @@ public class ImageTools
 			imageFileName = JPEG_FILE_PREFIX + screenId;
 
 		}
-
 		File albumF = getAlbumDir(which);
-		//FileWriter f = new FileWriter(albumF.getAbsolutePath() + imageFileName + JPEG_FILE_SUFFIX);
 		File f = new File(albumF, imageFileName + JPEG_FILE_SUFFIX);
-		
-		//File imageF = File.createTempFile(imageFileName, JPEG_FILE_SUFFIX, albumF);
+
 		return f;
 	}
 
