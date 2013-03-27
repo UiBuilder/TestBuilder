@@ -1,4 +1,4 @@
-package helpers;
+package data;
 
 /**
  * This Class contains all the possible constants for the values assigned to an

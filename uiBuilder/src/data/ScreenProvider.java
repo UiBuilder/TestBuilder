@@ -2,7 +2,6 @@ package data;
 
 import java.io.File;
 
-import helpers.ObjectValues;
 import android.content.ContentProvider;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -72,7 +71,8 @@ public class ScreenProvider extends ContentProvider
 					KEY_OBJECTS_VIEW_FONTSIZE = ObjectValues.FONTSIZE,
 					KEY_OBJECTS_VIEW_IMGSRC = ObjectValues.IMG_SRC,
 					KEY_OBJECTS_VIEW_ICNSRC = ObjectValues.ICN_SRC,
-					KEY_OBJECTS_VIEW_BACKGROUNDCLR = ObjectValues.BACKGROUND_EDIT
+					KEY_OBJECTS_VIEW_BACKGROUNDCLR_EDIT = ObjectValues.BACKGROUND_EDIT,
+					KEY_OBJECTS_VIEW_BACKGROUNDCLR_PRESENTATION = ObjectValues.BACKGROUND_PRES
 					;
 	
 	//uri match constants
@@ -151,6 +151,47 @@ public class ScreenProvider extends ContentProvider
 		Log.d("inserted uri", inserted.toString());
 		return inserted;
 	}
+
+
+	@Override
+	public int bulkInsert(Uri uri, ContentValues[] values)
+	{
+		SQLiteDatabase db = data.getWritableDatabase();
+		String nullColumnHack = null;
+		
+		Log.d("bulk insert as", String.valueOf(match.match(uri)));	
+		Log.d("bulk insert", uri.toString());
+		
+		long id = 0;
+		int count = 0;
+		Uri inserted = null;
+		
+		switch (match.match(uri))
+		{
+		case OBJECTS_ALL:
+			
+			Log.d("bulk ", String.valueOf(values.length));
+			
+			for (ContentValues contentValues : values)
+			{
+				Log.d("bulk", "for each");
+				
+				id = db.insert(DataManager.TABLE_OBJECTS, nullColumnHack, contentValues);
+				
+				if (id > -1)
+				{
+					inserted = ContentUris.withAppendedId(CONTENT_URI_OBJECTS, id);
+					getContext().getContentResolver().notifyChange(inserted, null);
+				}
+				count++;
+			}
+			
+			break;
+		}
+		
+		return count;
+	}
+
 
 
 	@Override
@@ -383,7 +424,8 @@ public class ScreenProvider extends ContentProvider
 						+ KEY_OBJECTS_VIEW_HEIGHT + INT_NULL + KOMMA
 						
 						+ KEY_OBJECTS_VIEW_ALIGNMENT + INT + KOMMA
-						+ KEY_OBJECTS_VIEW_BACKGROUNDCLR + INT + KOMMA
+						+ KEY_OBJECTS_VIEW_BACKGROUNDCLR_EDIT + INT + KOMMA
+						+ KEY_OBJECTS_VIEW_BACKGROUNDCLR_PRESENTATION + INT + KOMMA
 						+ KEY_OBJECTS_VIEW_COLUMNS_NUM + INT + KOMMA
 						+ KEY_OBJECTS_VIEW_CONTENT + INT + KOMMA
 						+ KEY_OBJECTS_VIEW_FONTSIZE + INT + KOMMA

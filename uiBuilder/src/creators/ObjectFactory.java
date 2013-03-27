@@ -1,7 +1,5 @@
 package creators;
 
-import helpers.ObjectValues;
-import helpers.ResArrayImporter;
 import uibuilder.EditmodeFragment;
 import uibuilder.EditmodeFragment.onObjectEditedListener;
 import android.content.Context;
@@ -18,6 +16,8 @@ import android.widget.ImageView.ScaleType;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import data.ObjectValues;
+import data.ResArrayImporter;
 import de.ur.rk.uibuilder.R;
 
 public class ObjectFactory implements onObjectEditedListener

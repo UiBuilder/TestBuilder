@@ -1,10 +1,7 @@
 package uibuilder;
 
 import helpers.ChildGrabber;
-import helpers.FromDatabaseObjectCreator;
 import helpers.ImageTools;
-import helpers.ObjectValues;
-import helpers.ToDatabaseObjectWriter;
 
 import java.util.ArrayList;
 
@@ -33,7 +30,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+import data.FromDatabaseObjectCreator;
+import data.ObjectValues;
 import data.ScreenProvider;
+import data.ToDatabaseObjectWriter;
 import de.ur.rk.uibuilder.R;
 
 public class UiBuilderActivity extends Activity implements
@@ -57,11 +57,10 @@ public class UiBuilderActivity extends Activity implements
 	private EditmodeFragment editbox;
 	private DesignFragment designbox;
 	private FragmentManager fManager;
-	private ViewGroup container;
+
 	private ImageTools exporter;
 	private DeleteFragment deletebox;
 	private ChildGrabber grabber;
-	private Button previewButton;
 	private LoaderManager manager;
 
 
@@ -83,7 +82,7 @@ public class UiBuilderActivity extends Activity implements
 
 		LayoutInflater inf = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
 
-		container = (ViewGroup) inf.inflate(R.layout.layout_fragment_container, null);
+		//container = (ViewGroup) inf.inflate(R.layout.layout_fragment_container, null);
 		fManager = getFragmentManager();
 		exporter = new ImageTools(getApplicationContext());
 		// previewIcon =

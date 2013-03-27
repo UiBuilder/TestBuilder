@@ -81,6 +81,7 @@ public class ScreenAdapter extends CursorAdapter
 
 		titleView.setText(title);
 		dateView.setText(creationS);
+
 	}
 
 

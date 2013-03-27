@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="@dimen/default_padding_medium"
-        android:visibility="gone"
+        android:visibility="visible"
          >
 
         <TableRow

@@ -2,6 +2,7 @@ package uibuilder;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -23,6 +24,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import data.ScreenAdapter;
 import data.ScreenProvider;
 import de.ur.rk.uibuilder.R;
@@ -39,6 +41,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	private GridView grid;
 	private ScreenAdapter adapter;
 	public static final String DATABASE_SCREEN_ID = "screen";
+	private LoaderManager manager;
 	
 	
 	@Override
@@ -46,14 +49,10 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_manager);
-		
-		
-		setupUi();
-		
-		setupActionBar();
-		
-		setupDatabaseConnection();
-		
+				
+		setupUi();	
+		setupActionBar();		
+		setupDatabaseConnection();	
 		setupInteraction();
 	}
 
@@ -71,9 +70,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 				if (screenName.getText().toString() != null)
 				startForNewScreen();
 			}
-		});
-		
-		
+		});	
 		
 		grid.setOnItemClickListener(new OnItemClickListener()
 		{
@@ -91,10 +88,24 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		{
 
 			@Override
-			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-					int arg2, long id)
+			public boolean onItemLongClick(AdapterView<?> arg0, View item,
+					int arg2, final long id)
 			{
-				deleteScreen(id);
+				final LinearLayout hidden = (LinearLayout) item.findViewById(R.id.activity_manager_griditem_deletebox);
+				hidden.setVisibility(View.VISIBLE);
+				item.setActivated(true);
+				
+				Button deleteButton = (Button) item.findViewById(R.id.activity_manager_griditem_deletebutton);
+				deleteButton.setOnClickListener(new OnClickListener()
+				{
+					
+					@Override
+					public void onClick(View v)
+					{
+						deleteScreen(id);
+						//hidden.setVisibility(View.INVISIBLE);
+					}
+				});
 				return true;
 			}
 
@@ -108,6 +119,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 				//delete the screen in screens table, automatically deletes all dependencies
 				Uri uri = ContentUris.withAppendedId(ScreenProvider.CONTENT_URI_SCREENS, id);
 				cres.delete(uri, null, null);
+				invalidated();
 			}
 		});
 	}
@@ -117,10 +129,18 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	 */
 	private void setupDatabaseConnection()
 	{
-		getLoaderManager().initLoader(ScreenProvider.SCREENS_LOADER, null, this);
+		manager = getLoaderManager();
+		manager.initLoader(ScreenProvider.SCREENS_LOADER, null, this);
 		adapter = new ScreenAdapter(getApplicationContext(), null, true);
 
 		grid.setAdapter(adapter);
+	}
+	
+	private void invalidated()
+	{
+		adapter.notifyDataSetInvalidated();
+		grid.setAdapter(adapter);
+		//grid.invalidateViews();
 	}
 
 	/**
@@ -147,7 +167,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	@Override
 	protected void onResume()
 	{
-		getLoaderManager().restartLoader(ScreenProvider.SCREENS_LOADER, null, this);
+		manager.restartLoader(ScreenProvider.SCREENS_LOADER, null, this);
 		super.onResume();
 	}
 
@@ -172,6 +192,8 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		values.put(ScreenProvider.KEY_SCREEN_NAME, screenName.getText().toString());
 		
 		res.insert(ScreenProvider.CONTENT_URI_SCREENS, values);
+		
+		invalidated();
 	}
 
 	private void startForEditing(View screen, long id)
@@ -229,6 +251,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	@Override
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor newCursor)
 	{
+		Log.d("loader", "finished");
 		adapter.swapCursor(newCursor);
 	}
 

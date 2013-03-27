@@ -1,10 +1,7 @@
 package uibuilder;
 
-import helpers.FromDatabaseObjectCreator;
-import helpers.FromDatabaseObjectCreator.OnObjectLoadedFromDatabaseListener;
-import helpers.Grid;
 import helpers.Log;
-import helpers.ObjectValues;
+import manipulators.Grid;
 import manipulators.Overlay;
 import android.app.Activity;
 import android.app.Fragment;
@@ -26,7 +23,10 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import creators.ObjectFactory;
+import data.FromDatabaseObjectCreator;
+import data.ObjectValues;
 import data.ScreenProvider;
+import data.FromDatabaseObjectCreator.OnObjectLoadedFromDatabaseListener;
 import de.ur.rk.uibuilder.R;
 
 public class DesignFragment extends Fragment implements OnDragListener,
@@ -1006,7 +1006,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	 * @author funklos
 	 * 
 	 */
-	protected interface onObjectSelectedListener
+	public interface onObjectSelectedListener
 	{
 		void objectChanged(View view);
 
@@ -1027,6 +1027,16 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	{
 		designArea.removeView(activeItem);
 		
+		removeFromDb();
+		activeItem = null;
+		overlay.delete();
+	}
+
+	/**
+	 * 
+	 */
+	private void removeFromDb()
+	{
 		ContentResolver cres = getActivity().getContentResolver();
 		
 		Bundle b = (Bundle) activeItem.getTag();
@@ -1038,8 +1048,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		{	
 			cres.delete(uri, null, null);
 		}
-		activeItem = null;
-		overlay.delete();
 	}
 
 	protected void disableTouch(boolean disable)

@@ -1,5 +1,6 @@
-package helpers;
+package manipulators;
 
+import helpers.Log;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;

@@ -21,6 +21,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import data.AlbumDirFactory;
+import data.ObjectValues;
 import de.ur.rk.uibuilder.R;
 
 /**
@@ -141,7 +143,6 @@ public class ImageTools
 	 * @param root
 	 * @param cres
 	 */
-	private Uri tempUri;
 	public Uri requestBitmap(View root, ContentResolver cres, boolean insert, boolean intern, int screenId)
 	{
 		RelativeLayout content = (RelativeLayout) root.findViewById(R.id.design_area);
@@ -211,7 +212,6 @@ public class ImageTools
 		if (insert)
 			galleryAddPic();
 		
-		tempUri = Uri.parse(photoPath);
 		photoPath = null;
 		return Uri.parse(photoUri);
 	}
@@ -315,7 +315,7 @@ public class ImageTools
 	
 	private String getPreviewFolder()
 	{
-		return "previews";
+		return c.getString(R.string.preview_directory);
 	}
 
 	/**

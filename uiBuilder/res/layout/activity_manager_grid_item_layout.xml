@@ -1,14 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" 
     >
+    <TextView 
+        
+		android:layout_alignParentTop="true"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentRight="true"
+		
+        android:layout_width="200dp"
+        android:layout_height="300dp"
+        android:gravity="center"
+        
+        android:text="empty screen"
+        android:textColor="@color/fresh_aqua"
+        />
 
     <ImageView
         android:id="@+id/activity_manager_griditem_layout_image"
-
+		
+		android:layout_alignParentTop="true"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentRight="true"
+		
         android:layout_width="200dp"
         android:layout_height="300dp"
         android:layout_gravity="center_horizontal"
@@ -17,6 +34,8 @@
     <TextView 
         android:id="@+id/activity_manager_griditem_layout_title"
 		android:text="EMPTY SCREEN"
+		
+		android:layout_below="@id/activity_manager_griditem_layout_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/manager_header"
@@ -26,11 +45,33 @@
     <TextView 
         android:id="@+id/activity_manager_griditem_layout_date"
 		
+		android:layout_below="@id/activity_manager_griditem_layout_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         
         style="@style/manager_sub"
         android:gravity="center_horizontal|top"
         />
+    
+    <LinearLayout android:id="@+id/activity_manager_griditem_deletebox"
+        android:visibility="invisible"
+		android:layout_alignParentTop="true"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentRight="true"
+		android:background="@color/fresh_aqua"
+        android:layout_width="200dp"
+        android:layout_height="300dp"
+        android:orientation="horizontal"
+        
+        android:gravity="center"
+        >
+        <Button android:id="@+id/activity_manager_griditem_deletebutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+			android:background="@color/element_out_of_dropzone"
+            android:text="delete"
+            />
+        
+    </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

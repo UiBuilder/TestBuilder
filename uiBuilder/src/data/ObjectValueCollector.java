@@ -1,5 +1,6 @@
-package helpers;
+package data;
 
+import helpers.Log;
 import android.content.ContentValues;
 import android.os.Bundle;
 import android.view.View;
@@ -13,8 +14,6 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
-import creators.Generator;
-import data.ScreenProvider;
 import de.ur.rk.uibuilder.R;
 
 public class ObjectValueCollector

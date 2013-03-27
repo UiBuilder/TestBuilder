@@ -2,7 +2,6 @@ package creators;
 
 import helpers.ImageTools;
 import helpers.Log;
-import helpers.ObjectValues;
 import manipulators.Overlay;
 import uibuilder.DesignFragment;
 import android.content.Context;
@@ -31,6 +30,7 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import data.ObjectValues;
 import de.ur.rk.uibuilder.R;
 
 /**
@@ -40,8 +40,6 @@ import de.ur.rk.uibuilder.R;
  */
 public class Generator
 {
-
-	//public static final String OBJECT_TAG = "isObject";
 
 	private int idCount;
 	/** Variable zur dynamischen Vergabe laufender IDs */
@@ -342,11 +340,6 @@ public class Generator
 		properties.putInt(ObjectValues.DATABASE_ID, databaseBundle.getInt(ObjectValues.DATABASE_ID));
 		
 		xmlView.setTag(properties);
-		
-		//xmlView.(databaseBundle.getInt(ObjectValueCollector.X_POS));
-		//xmlView.setY(databaseBundle.getInt(ObjectValueCollector.Y_POS));
-
-		
 		
 		xmlView.setOnTouchListener(manipulator);
 		

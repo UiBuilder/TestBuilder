@@ -1,8 +1,8 @@
-package helpers;
+package data;
 
+import helpers.Log;
 import android.database.Cursor;
 import android.os.Bundle;
-import data.ScreenProvider;
 import de.ur.rk.uibuilder.R;
 
 public class FromDatabaseObjectCreator
@@ -31,7 +31,7 @@ public class FromDatabaseObjectCreator
 			int idxFontsize = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_OBJECTS_VIEW_FONTSIZE);
 			int idxImageSource = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_OBJECTS_VIEW_IMGSRC);
 			int idxIconSource = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_OBJECTS_VIEW_ICNSRC);
-			int idxBackgroundColor = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_OBJECTS_VIEW_BACKGROUNDCLR);
+			int idxBackgroundColor = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_OBJECTS_VIEW_BACKGROUNDCLR_EDIT);
 			Log.d("KEY", String.valueOf(cursor.getInt(idxKEYID)));
 			valuesBundle.putInt(ObjectValues.DATABASE_ID, cursor.getInt(idxKEYID));
 			valuesBundle.putInt(ObjectValues.TYPE, cursor.getInt(idxID));
