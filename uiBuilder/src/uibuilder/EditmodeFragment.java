@@ -1,11 +1,12 @@
 package uibuilder;
 
-import java.util.ArrayList;
-
 import helpers.IconAdapter;
 import helpers.ImageTools;
 import helpers.ObjectValues;
 import helpers.ResArrayImporter;
+
+import java.util.ArrayList;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
@@ -33,7 +34,6 @@ import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
-import creators.Generator;
 import de.ur.rk.uibuilder.R;
 
 public class EditmodeFragment extends Fragment
@@ -48,9 +48,6 @@ public class EditmodeFragment extends Fragment
 
 	private View root;
 	private View currentView;
-	private View active;
-
-	private LayoutInflater inflater;
 
 	private ImageTools imageHandler;
 	private IconAdapter adapter;
@@ -104,7 +101,6 @@ public class EditmodeFragment extends Fragment
 	{
 		Log.d("Editmode Fragment", "onCreateView called");
 
-		this.inflater = inflater;
 		if (root == null)
 		{
 			root = inflater.inflate(R.layout.layout_editmode_fragment, container, false);

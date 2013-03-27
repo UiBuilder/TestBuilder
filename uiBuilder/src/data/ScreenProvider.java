@@ -1,6 +1,5 @@
 package data;
 
-import helpers.ObjectValueCollector;
 import helpers.ObjectValues;
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -21,9 +20,11 @@ import android.util.Log;
  * @see WROX - Professional Android 4 Application Development, Reto Meier
  * @author funklos
  *
+ * grants access to the database tables via specific URI's, which are mapped to related tables.
  */
-public class DataBase extends ContentProvider
+public class ScreenProvider extends ContentProvider
 {
+	//accesing loaders should use these constants as identifiers.
 	public static final int SCREENS_LOADER = 1;
 	public static final int OBJECTS_LOADER = 2;
 	
@@ -33,6 +34,7 @@ public class DataBase extends ContentProvider
 					SCREENS_URI = "screens",
 					OBJECTS_URI = "objects";
 	
+	//URI definition for access
 	public static final Uri 
 					CONTENT_URI_SCREENS = Uri.parse(PREFIX + AUTHORITY + "/" + SCREENS_URI),
 					CONTENT_URI_OBJECTS = Uri.parse(PREFIX + AUTHORITY + "/" + OBJECTS_URI);
@@ -108,9 +110,9 @@ public class DataBase extends ContentProvider
 		SQLiteDatabase db = data.getWritableDatabase();
 		String nullColumnHack = null;
 		
-		Log.d("insert as", String.valueOf(match.match(uri)));
-		
+		Log.d("insert as", String.valueOf(match.match(uri)));	
 		Log.d("insert", uri.toString());
+		
 		long id;
 		Uri inserted = null;
 		
@@ -130,7 +132,7 @@ public class DataBase extends ContentProvider
 		case OBJECTS_ALL:
 			
 			Log.d("objects all", "about to insert");
-			Log.d("inserted screenId",String.valueOf(values.getAsLong(DataBase.KEY_OBJECTS_SCREEN)));
+			Log.d("inserted screenId",String.valueOf(values.getAsLong(ScreenProvider.KEY_OBJECTS_SCREEN)));
 			
 			id = db.insert(DataManager.TABLE_OBJECTS, nullColumnHack, values);
 			
@@ -142,6 +144,7 @@ public class DataBase extends ContentProvider
 			break;
 
 		}
+		//breakpoint, remove when done
 		Log.d("inserted uri", inserted.toString());
 		return inserted;
 	}
@@ -291,7 +294,14 @@ public class DataBase extends ContentProvider
 		}
 	}
 
-
+	/**
+	 * the database uses two tables, one to manage the user-generated screens and the other to manage the corresponding
+	 * objects.
+	 * database transactions are provided by the contentprovider.
+	 * access to a specific table is granted via the related URI.
+	 * @author funklos
+	 *
+	 */
 	private static class DataManager extends SQLiteOpenHelper
 	{	
 		

@@ -2,8 +2,6 @@ package helpers;
 
 import java.util.ArrayList;
 
-import creators.Generator;
-
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;

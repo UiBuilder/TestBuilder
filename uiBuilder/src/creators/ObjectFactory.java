@@ -26,8 +26,6 @@ public class ObjectFactory implements onObjectEditedListener
 	private Context ref;
 	private Generator generator;
 
-	private int displayWidth;
-	private int displayHeight;
 	private LayoutInflater inflater;
 
 	private static final String LOGTAG = "OBJECTFACTORY says:";

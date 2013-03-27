@@ -44,7 +44,7 @@
         <provider android:exported="false"
             android:authorities="de.ur.rk.uibuilder"
             android:multiprocess="true"
-            android:name="data.DataBase"
+            android:name="data.ScreenProvider"
             >
             
             

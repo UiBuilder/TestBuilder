@@ -8,7 +8,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
 import android.view.View;
-import data.DataBase;
+import data.ScreenProvider;
 
 public class ToDatabaseObjectWriter
 {
@@ -35,7 +35,7 @@ public class ToDatabaseObjectWriter
 		for (View view : objectList)
 		{
 			ContentValues tempValues = ObjectValueCollector.getValuePack(view);
-			tempValues.put(DataBase.KEY_OBJECTS_SCREEN, screenId);
+			tempValues.put(ScreenProvider.KEY_OBJECTS_SCREEN, screenId);
 
 			int databaseID = tempValues.getAsInteger(ObjectValues.DATABASE_ID);
 			tempValues.remove(ObjectValues.DATABASE_ID);
@@ -45,10 +45,10 @@ public class ToDatabaseObjectWriter
 
 			if (databaseID == 0)
 			{
-				cres.insert(DataBase.CONTENT_URI_OBJECTS, tempValues);
+				cres.insert(ScreenProvider.CONTENT_URI_OBJECTS, tempValues);
 			} else
 			{
-				Uri uri = ContentUris.withAppendedId(DataBase.CONTENT_URI_OBJECTS, databaseID);
+				Uri uri = ContentUris.withAppendedId(ScreenProvider.CONTENT_URI_OBJECTS, databaseID);
 				cres.update(uri, tempValues, null, null);
 			}
 		}

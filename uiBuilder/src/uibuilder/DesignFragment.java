@@ -25,9 +25,8 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
-import creators.Generator;
 import creators.ObjectFactory;
-import data.DataBase;
+import data.ScreenProvider;
 import de.ur.rk.uibuilder.R;
 
 public class DesignFragment extends Fragment implements OnDragListener,
@@ -1033,7 +1032,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		Bundle b = (Bundle) activeItem.getTag();
 		
 		int id = b.getInt(ObjectValues.DATABASE_ID);
-		Uri uri = ContentUris.withAppendedId(DataBase.CONTENT_URI_OBJECTS, id);
+		Uri uri = ContentUris.withAppendedId(ScreenProvider.CONTENT_URI_OBJECTS, id);
 		
 		if (id != 0)
 		{	
@@ -1053,16 +1052,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	{
 		View newOne = (View) factory.getElement(objectBundle);
 
-		//activeItem = newOne;
-
-		
-
-		//RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) newOne.getLayoutParams();
-
-		
-
 		designArea.addView(newOne, newOne.getLayoutParams());
-		
-		
 	}
 }

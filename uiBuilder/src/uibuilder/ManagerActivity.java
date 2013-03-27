@@ -1,7 +1,5 @@
 package uibuilder;
 
-import java.util.Calendar;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -25,8 +23,8 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import data.DataBase;
 import data.ScreenAdapter;
+import data.ScreenProvider;
 import de.ur.rk.uibuilder.R;
 
 public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
@@ -108,11 +106,11 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 				ContentResolver cres = getContentResolver();
 				
 				//delete the screen in screens table
-				Uri uri = ContentUris.withAppendedId(DataBase.CONTENT_URI_SCREENS, id);
+				Uri uri = ContentUris.withAppendedId(ScreenProvider.CONTENT_URI_SCREENS, id);
 				cres.delete(uri, null, null);
 				//delete corresponding objects in objects table
-				String selection = DataBase.KEY_OBJECTS_SCREEN + "=" + "'" + String.valueOf(id) + "'";
-				cres.delete(DataBase.CONTENT_URI_OBJECTS, selection, null);
+				String selection = ScreenProvider.KEY_OBJECTS_SCREEN + "=" + "'" + String.valueOf(id) + "'";
+				cres.delete(ScreenProvider.CONTENT_URI_OBJECTS, selection, null);
 			}
 		});
 	}
@@ -122,7 +120,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	 */
 	private void setupDatabaseConnection()
 	{
-		getLoaderManager().initLoader(DataBase.SCREENS_LOADER, null, this);
+		getLoaderManager().initLoader(ScreenProvider.SCREENS_LOADER, null, this);
 		adapter = new ScreenAdapter(getApplicationContext(), null, true);
 
 		grid.setAdapter(adapter);
@@ -139,7 +137,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	}
 
 	/**
-	 * 
+	 * customize actionbar
 	 */
 	private void setupActionBar()
 	{
@@ -152,7 +150,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	@Override
 	protected void onResume()
 	{
-		getLoaderManager().restartLoader(DataBase.SCREENS_LOADER, null, this);
+		getLoaderManager().restartLoader(ScreenProvider.SCREENS_LOADER, null, this);
 		super.onResume();
 	}
 
@@ -172,11 +170,11 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		time.setToNow();
 
 	    
-		values.put(DataBase.KEY_SCREEN_PREVIEW, 0);
-		values.put(DataBase.KEY_SCREEN_DATE, time.format3339(false));
-		values.put(DataBase.KEY_SCREEN_NAME, screenName.getText().toString());
+		values.put(ScreenProvider.KEY_SCREEN_PREVIEW, 0);
+		values.put(ScreenProvider.KEY_SCREEN_DATE, time.format3339(false));
+		values.put(ScreenProvider.KEY_SCREEN_NAME, screenName.getText().toString());
 		
-		res.insert(DataBase.CONTENT_URI_SCREENS, values);
+		res.insert(ScreenProvider.CONTENT_URI_SCREENS, values);
 	}
 
 	private void startForEditing(View screen, long id)
@@ -200,10 +198,10 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 			if (id != -1)
 			{
 				ContentValues image = new ContentValues();
-				image.put(DataBase.KEY_SCREEN_PREVIEW, imagePath);
+				image.put(ScreenProvider.KEY_SCREEN_PREVIEW, imagePath);
 				
 				ContentResolver res = getContentResolver();
-				Uri imageUpdate = ContentUris.withAppendedId(DataBase.CONTENT_URI_SCREENS, id);
+				Uri imageUpdate = ContentUris.withAppendedId(ScreenProvider.CONTENT_URI_SCREENS, id);
 				
 				res.update(imageUpdate, image, null, null);
 				
@@ -228,7 +226,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args)
 	{  
-	    return new CursorLoader(getApplicationContext(), DataBase.CONTENT_URI_SCREENS, null, null, null, null);
+	    return new CursorLoader(getApplicationContext(), ScreenProvider.CONTENT_URI_SCREENS, null, null, null, null);
 	}
 
 	@Override

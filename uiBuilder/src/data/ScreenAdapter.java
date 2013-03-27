@@ -46,10 +46,10 @@ public class ScreenAdapter extends CursorAdapter
 	@Override
 	public void bindView(View view, Context context, Cursor cursor)
 	{
-		dateIdx = cursor.getColumnIndexOrThrow(DataBase.KEY_SCREEN_DATE);
-		titleIdx = cursor.getColumnIndexOrThrow(DataBase.KEY_SCREEN_NAME);
-		idIdx = cursor.getColumnIndexOrThrow(DataBase.KEY_ID);
-		previewIdx = cursor.getColumnIndexOrThrow(DataBase.KEY_SCREEN_PREVIEW);
+		dateIdx = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_SCREEN_DATE);
+		titleIdx = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_SCREEN_NAME);
+		idIdx = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_ID);
+		previewIdx = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_SCREEN_PREVIEW);
 		
 		TextView titleView = (TextView) view.findViewById(R.id.activity_manager_griditem_layout_title);
 		TextView dateView = (TextView) view.findViewById(R.id.activity_manager_griditem_layout_date);

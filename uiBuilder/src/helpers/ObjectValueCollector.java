@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import creators.Generator;
-import data.DataBase;
+import data.ScreenProvider;
 import de.ur.rk.uibuilder.R;
 
 public class ObjectValueCollector

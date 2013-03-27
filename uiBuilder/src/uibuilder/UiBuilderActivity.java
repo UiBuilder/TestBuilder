@@ -33,7 +33,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
-import data.DataBase;
+import data.ScreenProvider;
 import de.ur.rk.uibuilder.R;
 
 public class UiBuilderActivity extends Activity implements
@@ -115,7 +115,7 @@ public class UiBuilderActivity extends Activity implements
 	{
 		manager = getLoaderManager();
 		
-		manager.initLoader(DataBase.OBJECTS_LOADER, null, this);
+		manager.initLoader(ScreenProvider.OBJECTS_LOADER, null, this);
 		
 	}
 
@@ -432,10 +432,10 @@ public class UiBuilderActivity extends Activity implements
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1)
 	{
-		String selection = DataBase.KEY_OBJECTS_SCREEN + "=" + "'" + String.valueOf(screenId) + "'";
+		String selection = ScreenProvider.KEY_OBJECTS_SCREEN + "=" + "'" + String.valueOf(screenId) + "'";
 
 		Log.d("loader", "created");
-		return new CursorLoader(getApplicationContext(), DataBase.CONTENT_URI_OBJECTS, null, selection, null, null);
+		return new CursorLoader(getApplicationContext(), ScreenProvider.CONTENT_URI_OBJECTS, null, selection, null, null);
 	}
 
 	/**
@@ -448,7 +448,7 @@ public class UiBuilderActivity extends Activity implements
 		
 		switch (loaderId)
 		{
-		case DataBase.OBJECTS_LOADER:
+		case ScreenProvider.OBJECTS_LOADER:
 			FromDatabaseObjectCreator creator = new FromDatabaseObjectCreator(cursor);
 			
 			manager.destroyLoader(loaderId);
