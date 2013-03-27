@@ -38,7 +38,7 @@ public class ImageTools
 	private String photoPath;
 	private static final String JPEG_FILE_PREFIX = "UI_";
 	private static final String JPEG_FILE_SUFFIX = ".jpg";
-	private BaseAlbumDirFactory storageFactory = null;
+	private AlbumDirFactory storageFactory = null;
 	
 	public static final int CAMERA = 1;
 	public static final int GALLERY = 2;
@@ -49,7 +49,7 @@ public class ImageTools
 	public ImageTools(Context c)
 	{
 		this.c = c;
-		storageFactory = new BaseAlbumDirFactory();
+		storageFactory = new AlbumDirFactory();
 	}
 	
 	/**
