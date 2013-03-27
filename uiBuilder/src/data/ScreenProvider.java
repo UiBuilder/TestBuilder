@@ -1,7 +1,10 @@
 package data;
 
+import java.io.File;
+
 import helpers.ObjectValues;
 import android.content.ContentProvider;
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
@@ -98,7 +101,7 @@ public class ScreenProvider extends ContentProvider
 	@Override
 	public boolean onCreate()
 	{
-		data = new DataManager (getContext(), DataManager.DB_NAME, null, DataManager.DB_VERSION);
+		data = new DataManager(getContext(), DataManager.DB_NAME, null, DataManager.DB_VERSION);
 		return true;
 	}
 	
@@ -247,6 +250,11 @@ public class ScreenProvider extends ContentProvider
 			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
 			
 			Log.d("database delete was called with", row);
+			ContentResolver innerRes = getContext().getContentResolver();	
+			
+			deletePreviewImage(uri, row, innerRes);
+			deleteObjects(row, innerRes);
+			
 			deleteCount = db.delete(DataManager.TABLE_SCREENS, selection, selArgs);
 			break;
 			
@@ -274,6 +282,45 @@ public class ScreenProvider extends ContentProvider
 		
 		getContext().getContentResolver().notifyChange(uri, null);
 		return deleteCount;
+	}
+
+
+	/**
+	 * deletes all corresponding objects when delete was called for a screen
+	 * @param row
+	 * @param innerRes
+	 */
+	private void deleteObjects(String row, ContentResolver innerRes)
+	{
+		String selection = KEY_OBJECTS_SCREEN + "=" + "'" + String.valueOf(row) + "'";
+		
+		innerRes.delete(CONTENT_URI_OBJECTS, selection, null);
+	}
+
+
+
+	/**
+	 * deletes the preview image from the /previews folder
+	 * @param selection
+	 * @param db
+	 */
+	private void deletePreviewImage(Uri uri, String row, ContentResolver innerRes)
+	{
+		String selection = KEY_ID + "=" + row;
+		
+		Cursor c = innerRes.query(uri, new String[]{ KEY_SCREEN_PREVIEW }, selection, null, null);
+		
+		c.moveToFirst();
+		
+		int imageIdx = c.getColumnIndexOrThrow(KEY_SCREEN_PREVIEW);	
+		String imagePath = c.getString(imageIdx);
+		
+		if (!imagePath.equalsIgnoreCase("0"))
+		{
+			File temp = new File(imagePath);
+			temp.delete();
+			Log.d("image", "DELETED!");
+		}
 	}
 
 	@Override

@@ -105,12 +105,9 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 			{
 				ContentResolver cres = getContentResolver();
 				
-				//delete the screen in screens table
+				//delete the screen in screens table, automatically deletes all dependencies
 				Uri uri = ContentUris.withAppendedId(ScreenProvider.CONTENT_URI_SCREENS, id);
 				cres.delete(uri, null, null);
-				//delete corresponding objects in objects table
-				String selection = ScreenProvider.KEY_OBJECTS_SCREEN + "=" + "'" + String.valueOf(id) + "'";
-				cres.delete(ScreenProvider.CONTENT_URI_OBJECTS, selection, null);
 			}
 		});
 	}
