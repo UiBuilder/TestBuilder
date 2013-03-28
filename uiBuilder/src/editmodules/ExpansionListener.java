@@ -14,6 +14,7 @@ public class ExpansionListener implements OnClickListener
 		private ImageButton indicator;
 		private LinearLayout clickableArea;
 		private View expandableView;
+		private Boolean isExpanded = false;
 
 		private int indicatorExpanded = R.raw.ico_small_0037;
 		private int indicatorCollapsed = R.raw.ico_small_0035;
@@ -45,7 +46,7 @@ public class ExpansionListener implements OnClickListener
 		@Override
 		public void onClick(View clickedModule)
 		{
-			if (clickedModule.isActivated())
+			if (this.isExpanded)
 			{
 				collapse();
 
@@ -67,9 +68,10 @@ public class ExpansionListener implements OnClickListener
 			listener.getValues();
 			
 			indicator.setImageResource(indicatorCollapsed);
-			module.setActivated(true);
+			//module.setActivated(true);
 
 			expandedBox = module;
+			this.isExpanded = true;
 			refresh();
 		}
 
@@ -77,9 +79,10 @@ public class ExpansionListener implements OnClickListener
 		{
 			expandableView.setVisibility(View.GONE);
 			indicator.setImageResource(indicatorExpanded);
-			module.setActivated(false);
+			//module.setActivated(false);
 
 			expandedBox = null;
+			this.isExpanded = false;
 			refresh();
 		}
 
