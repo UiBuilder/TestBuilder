@@ -30,7 +30,8 @@ public class FontSizeModule extends Module
 	protected void setupUi()
 	{
 		box = super.inflater.inflate(R.layout.editmode_entry_text_size, null);
-
+		box.setOnClickListener(new ExpansionListener(box));
+		
 		picker = (NumberPicker) box.findViewById(R.id.item_edit_editsize_picker);
 		picker.setOnValueChangedListener(new FontsizeModuleListener());
 		picker.setMinValue(5);
