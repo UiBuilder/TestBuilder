@@ -9,17 +9,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import de.ur.rk.uibuilder.R;
 
+
+
 public class UserTextModule extends Module
 {
 	private EditText editText;
 
 	private View box;
+	
 	private View requesting;
 
 	public UserTextModule(Context context)
 	{
 		super(context);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
