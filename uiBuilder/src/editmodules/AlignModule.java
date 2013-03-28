@@ -1,6 +1,5 @@
 package editmodules;
 
-
 import android.content.Context;
 import android.util.Log;
 import android.view.Gravity;
@@ -12,19 +11,17 @@ import de.ur.rk.uibuilder.R;
 
 public class AlignModule extends Module
 {
+	private Button topLeft, topCenter, topRight, centerLeft, centerCenter,
+			centerRight, bottomLeft, bottomCenter, bottomRight;
+
+	private View box;
+
+	private View requesting;
+
 	public AlignModule(Context context)
 	{
 		super(context);
 	}
-
-	private View box;
-	
-	private View requesting;
-	
-	private Button topLeft, topCenter, topRight, centerLeft, centerCenter,
-	centerRight, bottomLeft, bottomCenter, bottomRight;
-	
-
 
 	/**
 	 * 
@@ -33,7 +30,7 @@ public class AlignModule extends Module
 	{
 		box = super.inflater.inflate(R.layout.editmode_entry_align_content, null);
 		box.setOnClickListener(new ExpansionListener(box));
-		
+
 		topLeft = (Button) box.findViewById(R.id.editmode_align_top_left);
 		topCenter = (Button) box.findViewById(R.id.editmode_align_top_center);
 		topRight = (Button) box.findViewById(R.id.editmode_align_top_right);
@@ -45,7 +42,7 @@ public class AlignModule extends Module
 		bottomRight = (Button) box.findViewById(R.id.editmode_align_bottom_right);
 
 		AlignModuleListener alignListener = new AlignModuleListener();
-		
+
 		topLeft.setOnClickListener(alignListener);
 		topCenter.setOnClickListener(alignListener);
 		topRight.setOnClickListener(alignListener);
@@ -56,15 +53,15 @@ public class AlignModule extends Module
 		bottomCenter.setOnClickListener(alignListener);
 		bottomRight.setOnClickListener(alignListener);
 	}
-	
+
 	public View getInstance(View inProgress)
-	{	
+	{
 		requesting = inProgress;
 		adaptAlignButtons();
-		
+
 		return box;
 	}
-	
+
 	private void adaptAlignButtons()
 	{
 		clearAlignSelection();
@@ -72,45 +69,45 @@ public class AlignModule extends Module
 		Log.d("value", String.valueOf(((TextView) requesting).getGravity()));
 		switch (((TextView) requesting).getGravity())
 		{
-			case Gravity.TOP | Gravity.LEFT:
+		case Gravity.TOP | Gravity.LEFT:
 			topLeft.setActivated(true);
 			break;
-			
-			case Gravity.TOP | Gravity.CENTER_HORIZONTAL:
+
+		case Gravity.TOP | Gravity.CENTER_HORIZONTAL:
 			topCenter.setActivated(true);
 			break;
-			
-			case Gravity.TOP | Gravity.RIGHT:
+
+		case Gravity.TOP | Gravity.RIGHT:
 			topRight.setActivated(true);
 			break;
-			
-			case Gravity.CENTER_VERTICAL | Gravity.LEFT:
+
+		case Gravity.CENTER_VERTICAL | Gravity.LEFT:
 			centerLeft.setActivated(true);
 			break;
-			
-			case Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL:
+
+		case Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL:
 			centerCenter.setActivated(true);
 			break;
-			
-			case Gravity.CENTER_VERTICAL | Gravity.RIGHT:
+
+		case Gravity.CENTER_VERTICAL | Gravity.RIGHT:
 			centerRight.setActivated(true);
 			break;
-			
-			case Gravity.BOTTOM | Gravity.LEFT:
+
+		case Gravity.BOTTOM | Gravity.LEFT:
 			bottomLeft.setActivated(true);
 			break;
-			
-			case Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL:
+
+		case Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL:
 			bottomCenter.setActivated(true);
 			break;
-			
-			case Gravity.BOTTOM | Gravity.RIGHT:
+
+		case Gravity.BOTTOM | Gravity.RIGHT:
 			bottomRight.setActivated(true);
 			break;
 		}
 		box.invalidate();
 	}
-	
+
 	protected void clearAlignSelection()
 	{
 		topLeft.setActivated(false);
@@ -123,7 +120,7 @@ public class AlignModule extends Module
 		bottomCenter.setActivated(false);
 		bottomRight.setActivated(false);
 	}
-	
+
 	private class AlignModuleListener implements OnClickListener
 	{
 
@@ -182,8 +179,7 @@ public class AlignModule extends Module
 	@Override
 	public void getValues()
 	{
-		adaptAlignButtons();		
+		adaptAlignButtons();
 	}
 
-	
 }

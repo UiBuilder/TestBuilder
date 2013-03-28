@@ -34,6 +34,7 @@ import data.ObjectValues;
 import data.ResArrayImporter;
 import de.ur.rk.uibuilder.R;
 import editmodules.AlignModule;
+import editmodules.UserTextModule;
 
 public class EditmodeFragment extends Fragment
 {
@@ -50,17 +51,19 @@ public class EditmodeFragment extends Fragment
 
 	private ImageTools imageHandler;
 
-	private EditText editText;
 	private NumberPicker picker;
 
 	private SeekBar starBar, ratingSlider;
 	private Button topLeft, topCenter, topRight, centerLeft, centerCenter,
 			centerRight, bottomLeft, bottomCenter, bottomRight;
 
-	private LinearLayout /*moduleAlign, */modulePicture, moduleEditText,
-			moduleChangeSize, moduleZorder, moduleNothing, moduleIcons,
-			moduleStarCount, moduleListConfig, moduleGridConfig,
-			moduleGridColumns, moduleContent, moduleBackgroundColor;
+	private LinearLayout modulePicture, moduleChangeSize, moduleZorder,
+			moduleNothing, moduleIcons, moduleStarCount, moduleListConfig,
+			moduleGridConfig, moduleGridColumns, moduleContent,
+			moduleBackgroundColor;
+
+	private AlignModule alignModule;
+	//private UserTextModule userTextModule;
 
 	@Override
 	public void onAttach(Activity activity)
@@ -133,9 +136,9 @@ public class EditmodeFragment extends Fragment
 
 	private void getModules()
 	{
-		//moduleAlign = (LinearLayout) root.findViewById(R.id.editmode_included_align_content);
-		moduleEditText = (LinearLayout) root.findViewById(R.id.editmode_included_text);
+
 		modulePicture = (LinearLayout) root.findViewById(R.id.editmode_included_choose_picture);
+
 		moduleChangeSize = (LinearLayout) root.findViewById(R.id.editmode_included_changesize);
 		moduleZorder = (LinearLayout) root.findViewById(R.id.editmode_included_order);
 		moduleNothing = (LinearLayout) root.findViewById(R.id.editmode_included_nothing);
@@ -148,22 +151,21 @@ public class EditmodeFragment extends Fragment
 		moduleBackgroundColor = (LinearLayout) root.findViewById(R.id.editmode_included_background_color);
 		// and so on..
 	}
-AlignModule align;
+
 	private void setupModules()
 	{
-		align = new AlignModule(getActivity().getApplicationContext());
-		
+		alignModule = new AlignModule(getActivity().getApplicationContext());
+		//userTextModule = new UserTextModule(getActivity().getApplicationContext());
+
 		setupPictureModule();
-		setupEdittextModule();
 		setupChangesizeModule();
-		//setupAlignModule();
 		setupZorderModule();
 		setupIconModule();
 		setupStarCountModule();
-		
+
 		setupGridColumnModule();
 		setupContentModule();
-		
+
 		setupListConfigModule();
 		setupGridConfigModule();
 		setupBackgroundColorModule();
@@ -198,10 +200,8 @@ AlignModule align;
 	private void setExpansionSelectos()
 	{
 		setExpansionSelector(moduleGridConfig);
-		//setExpansionSelector(moduleAlign);
 		setExpansionSelector(moduleIcons);
 		setExpansionSelector(modulePicture);
-		setExpansionSelector(moduleEditText);
 		setExpansionSelector(moduleListConfig);
 		setExpansionSelector(moduleChangeSize);
 		setExpansionSelector(moduleGridColumns);
@@ -266,7 +266,7 @@ AlignModule align;
 		LinearLayout layoutTypeFour = (LinearLayout) root.findViewById(R.id.editmode_grid_included_layout_4);
 
 		GridLayoutModuleListener gridLayoutListener = new GridLayoutModuleListener();
-		
+
 		layoutTypeOne.setOnClickListener(gridLayoutListener);
 		layoutTypeTwo.setOnClickListener(gridLayoutListener);
 		layoutTypeThree.setOnClickListener(gridLayoutListener);
@@ -297,7 +297,7 @@ AlignModule align;
 		LinearLayout layoutTypeSix = (LinearLayout) root.findViewById(R.id.editmode_list_included_layout_6);
 
 		ListLayoutModuleListener listLayoutListener = new ListLayoutModuleListener();
-		
+
 		layoutTypeOne.setOnClickListener(listLayoutListener);
 		layoutTypeTwo.setOnClickListener(listLayoutListener);
 		layoutTypeThree.setOnClickListener(listLayoutListener);
@@ -347,13 +347,6 @@ AlignModule align;
 
 	}
 
-	private void setupEdittextModule()
-	{
-		editText = (EditText) root.findViewById(R.id.item_edit_edittext);
-		editText.addTextChangedListener(new EditTextModuleListener());
-	}
-
-
 	private void setupPictureModule()
 	{
 		Button takePic = (Button) root.findViewById(R.id.image_choose_camera);
@@ -375,8 +368,7 @@ AlignModule align;
 		switch (id)
 		{
 		case R.id.element_button:
-			moduleEditText.setVisibility(View.VISIBLE);
-			editText.setText(getViewText(currentView));
+			//((LinearLayout) root).addView(userTextModule.getInstance(view));
 
 			moduleChangeSize.setVisibility(View.VISIBLE);
 			picker.setValue((int) ((TextView) currentView).getTextSize());
@@ -387,23 +379,21 @@ AlignModule align;
 
 		case R.id.element_checkbox:
 
-			moduleEditText.setVisibility(View.VISIBLE);
-			editText.setText(getViewText(currentView));
+			//((LinearLayout) root).addView(userTextModule.getInstance(view));
+
 
 			break;
 
 		case R.id.element_edittext:
 
-			moduleEditText.setVisibility(View.VISIBLE);
-			editText.setText(((TextView) currentView).getHint());
+			//((LinearLayout) root).addView(userTextModule.getInstance(view));
 
-			//moduleAlign.setVisibility(View.VISIBLE);
-			//adaptAlignButtons(currentView);
+
 			
-			((LinearLayout)root).addView(align.getInstance(view));
-			
+			((LinearLayout) root).addView(alignModule.getInstance(view));
+
 			root.requestLayout();
-			
+
 			moduleChangeSize.setVisibility(View.VISIBLE);
 			picker.setValue((int) ((TextView) currentView).getTextSize());
 			break;
@@ -414,10 +404,9 @@ AlignModule align;
 			moduleBackgroundColor.setVisibility(View.VISIBLE);
 			break;
 
-
 		case R.id.element_radiogroup:
-			moduleEditText.setVisibility(View.VISIBLE);
-			editText.setText(getViewText(currentView));
+			//((LinearLayout) root).addView(userTextModule.getInstance(view));
+
 
 			break;
 		case R.id.element_ratingbar:
@@ -425,32 +414,28 @@ AlignModule align;
 			moduleBackgroundColor.setVisibility(View.VISIBLE);
 
 			moduleStarCount.setVisibility(View.VISIBLE);
-			ratingSlider.setProgress((int)(((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getRating()));
+			ratingSlider.setProgress((int) (((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getRating()));
 
-			starBar.setProgress(((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getNumStars()-1);
+			starBar.setProgress(((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getNumStars() - 1);
 
-//			ratingSlider.setProgress(5);
+			// ratingSlider.setProgress(5);
 			break;
 
 		case R.id.element_switch:
-			moduleEditText.setVisibility(View.VISIBLE);
-			editText.setText(getViewText(currentView));
+			//((LinearLayout) root).addView(userTextModule.getInstance(view));
+
 
 			break;
 		case R.id.element_textview:
 			moduleChangeSize.setVisibility(View.VISIBLE);
 			picker.setValue((int) ((TextView) currentView).getTextSize());
 
-			moduleEditText.setVisibility(View.VISIBLE);
-			editText.setText(getViewText(currentView));
+			//((LinearLayout) root).addView(userTextModule.getInstance(view));
 
-			//moduleAlign.setVisibility(View.VISIBLE);
-			//adaptAlignButtons(currentView);
 
 			moduleBackgroundColor.setVisibility(View.VISIBLE);
 
 			break;
-
 
 		case R.id.element_list:
 			moduleListConfig.setVisibility(View.VISIBLE);
@@ -481,44 +466,13 @@ AlignModule align;
 		root.invalidate();
 	}
 
-	private CharSequence getViewText(View view)
-	{
-		if (view instanceof LinearLayout)
-		{
-			TextView textView = (TextView) ((LinearLayout) view).getChildAt(0);
-
-			return textView.getText();
-
-		}
-		return ((TextView) currentView).getText();
-
-	}
-
-	public void setViewText(String string)
-	{
-		if (currentView instanceof LinearLayout && currentView !=null)
-		{
-			TextView textView = (TextView) ((LinearLayout) currentView).getChildAt(0);
-
-			textView.setText(string);
-
-		} else if (currentView instanceof EditText&& currentView !=null)
-		{
-			((EditText) currentView).setHint(string);
-
-		} else if(currentView !=null)
-		{
-			((TextView) currentView).setText(string);
-		}
-	}
-
 	/**
 	 * @author funklos
 	 */
 	private void resetModules()
 	{
-		//moduleAlign.setVisibility(View.GONE);
-		moduleEditText.setVisibility(View.GONE);
+		// moduleAlign.setVisibility(View.GONE);
+		/* moduleEditText.setVisibility(View.GONE); */
 		modulePicture.setVisibility(View.GONE);
 		moduleChangeSize.setVisibility(View.GONE);
 		moduleZorder.setVisibility(View.GONE);
@@ -531,8 +485,8 @@ AlignModule align;
 		moduleContent.setVisibility(View.GONE);
 		moduleBackgroundColor.setVisibility(View.GONE);
 
-		//moduleAlign.invalidate();
-		moduleEditText.invalidate();
+		// moduleAlign.invalidate();
+		// moduleEditText.invalidate();
 		modulePicture.invalidate();
 		moduleChangeSize.invalidate();
 		moduleZorder.invalidate();
@@ -572,7 +526,7 @@ AlignModule align;
 	/**
 	 * 
 	 * @author funklos
-	 *
+	 * 
 	 */
 	private class ColumnNumberListener implements OnSeekBarChangeListener
 	{
@@ -791,7 +745,6 @@ AlignModule align;
 		{
 			bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_default);
 
-			
 			switch (bundle.getInt(ObjectValues.TYPE))
 			{
 			case R.id.element_button:
@@ -808,7 +761,7 @@ AlignModule align;
 				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_default);
 				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_default_object);
 				break;
-				
+
 			}
 		}
 	}
@@ -820,29 +773,28 @@ AlignModule align;
 		public void onClick(View v)
 		{
 			ViewGroup parent = (ViewGroup) currentView.getParent();
-			
-			
+
 			switch (v.getId())
 			{
 			case R.id.editmode_z_order_back:
 				parent.removeView(currentView);
 				ArrayList<View> allItems = new ArrayList<View>();
-				
+
 				allItems.add(currentView);
-				
+
 				int number = parent.getChildCount();
-				for (int i=0; i<number; i++)
+				for (int i = 0; i < number; i++)
 				{
 					allItems.add(parent.getChildAt(i));
 				}
 				parent.removeAllViews();
-				
+
 				for (View child : allItems)
 				{
 					parent.addView(child);
 				}
 				parent.invalidate();
-				
+
 				break;
 
 			case R.id.editmode_z_order_front:
@@ -865,12 +817,13 @@ AlignModule align;
 			switch (seekBar.getId())
 			{
 			case R.id.star_count_seekbar:
-				((RatingBar) ((ViewGroup) currentView).getChildAt(0)).setNumStars(progress +1);
-				ratingSlider.setMax(progress +1);
-				
-				Log.d("StarcountSeekbar", "gotValue for progress: " + progress +1);
+				((RatingBar) ((ViewGroup) currentView).getChildAt(0)).setNumStars(progress + 1);
+				ratingSlider.setMax(progress + 1);
+
+				Log.d("StarcountSeekbar", "gotValue for progress: " + progress
+						+ 1);
 				break;
-				
+
 			case R.id.star_rating_seekbar:
 				Log.d("RatingSeekbar", "gotValue for progress: " + progress);
 				((RatingBar) ((ViewGroup) currentView).getChildAt(0)).setRating(progress);
@@ -898,32 +851,7 @@ AlignModule align;
 	 * @author pattern: funklos
 	 * 
 	 */
-	private class EditTextModuleListener implements TextWatcher
-	{
-
-		@Override
-		public void afterTextChanged(Editable s)
-		{
-			setViewText(s.toString());
-
-		}
-
-		@Override
-		public void beforeTextChanged(CharSequence s, int start, int count,
-				int after)
-		{
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void onTextChanged(CharSequence s, int start, int before,
-				int count)
-		{
-			// TODO Auto-generated method stub
-
-		}
-	}
+	
 
 	private class FontsizeModuleListener implements OnValueChangeListener
 	{
@@ -943,7 +871,7 @@ AlignModule align;
 	 * 
 	 */
 	private LinearLayout expandedBox;
-	
+
 	private class ExpansionListener implements OnClickListener
 	{
 		private LinearLayout module;
@@ -960,7 +888,7 @@ AlignModule align;
 			this.indicator = indicator;
 			this.clickableArea = (LinearLayout) indicator.getParent();
 			this.expandableView = this.module.findViewById(R.id.expandable);
-			
+
 			setIndikatorListener();
 		}
 
@@ -968,13 +896,13 @@ AlignModule align;
 		{
 			this.indicator.setOnClickListener(new OnClickListener()
 			{
-				
+
 				@Override
 				public void onClick(View v)
 				{
 					clickableArea.performClick();
 				}
-			});	
+			});
 		}
 
 		@Override
@@ -986,7 +914,7 @@ AlignModule align;
 
 			} else
 			{
-		
+
 				if (expandedBox != null)
 				{
 					LinearLayout expandedClickArea = (LinearLayout) expandedBox.findViewById(R.id.expand_selector).getParent();
