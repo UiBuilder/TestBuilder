@@ -24,4 +24,5 @@ public abstract class Module implements onToggleExpansionListener
 	
 	protected abstract void adaptToContext();
 	
+	
 }
