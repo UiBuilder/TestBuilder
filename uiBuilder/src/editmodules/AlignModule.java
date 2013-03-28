@@ -62,7 +62,6 @@ public class AlignModule extends Module
 		return box;
 	}
 
-
 	@Override
 	protected void adaptToContext()
 	{
@@ -108,7 +107,7 @@ public class AlignModule extends Module
 			break;
 		}
 		box.invalidate();
-		
+
 	}
 
 	protected void clearAlignSelection()

@@ -47,10 +47,8 @@ public class EditmodeFragment extends Fragment
 
 	private NumberPicker picker;
 
-	private SeekBar starBar, ratingSlider;
-
 	private LinearLayout modulePicture, moduleChangeSize, moduleZorder,
-			moduleNothing, moduleIcons, moduleStarCount, moduleListConfig,
+			moduleNothing, moduleIcons,  moduleListConfig,
 			moduleGridConfig, moduleGridColumns, moduleContent,
 			moduleBackgroundColor;
 
@@ -135,7 +133,6 @@ public class EditmodeFragment extends Fragment
 		moduleZorder = (LinearLayout) root.findViewById(R.id.editmode_included_order);
 		moduleNothing = (LinearLayout) root.findViewById(R.id.editmode_included_nothing);
 		moduleIcons = (LinearLayout) root.findViewById(R.id.editmode_included_choose_icon);
-		moduleStarCount = (LinearLayout) root.findViewById(R.id.editmode_included_star_count);
 		moduleListConfig = (LinearLayout) root.findViewById(R.id.editmode_included_list_config);
 		moduleGridConfig = (LinearLayout) root.findViewById(R.id.editmode_included_grid_config);
 		moduleGridColumns = (LinearLayout) root.findViewById(R.id.editmode_included_grid_columns);
@@ -153,7 +150,6 @@ public class EditmodeFragment extends Fragment
 
 		setupZorderModule();
 		setupIconModule();
-		setupStarCountModule();
 
 		setupGridColumnModule();
 		setupContentModule();
@@ -267,16 +263,7 @@ public class EditmodeFragment extends Fragment
 		layoutTypeSix.setOnClickListener(listLayoutListener);
 	}
 
-	private void setupStarCountModule()
-	{
-		starBar = (SeekBar) root.findViewById(R.id.star_count_seekbar);
-		ratingSlider = (SeekBar) root.findViewById(R.id.star_rating_seekbar);
-		starBar.setMax(9);
-		starBar.setOnSeekBarChangeListener(new StarCountModuleListener());
-		ratingSlider.setMax(10);
-
-		ratingSlider.setOnSeekBarChangeListener(new StarCountModuleListener());
-	}
+	
 
 	private void setupIconModule()
 	{
@@ -366,12 +353,6 @@ public class EditmodeFragment extends Fragment
 
 			moduleBackgroundColor.setVisibility(View.VISIBLE);
 
-			moduleStarCount.setVisibility(View.VISIBLE);
-			ratingSlider.setProgress((int) (((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getRating()));
-
-			starBar.setProgress(((RatingBar) ((ViewGroup) currentView).getChildAt(0)).getNumStars() - 1);
-
-			// ratingSlider.setProgress(5);
 			break;
 
 		case R.id.element_switch:
@@ -728,43 +709,7 @@ public class EditmodeFragment extends Fragment
 		}
 	}
 
-	private class StarCountModuleListener implements OnSeekBarChangeListener
-	{
-		@Override
-		public void onProgressChanged(SeekBar seekBar, int progress,
-				boolean fromUser)
-		{
-			switch (seekBar.getId())
-			{
-			case R.id.star_count_seekbar:
-				((RatingBar) ((ViewGroup) currentView).getChildAt(0)).setNumStars(progress + 1);
-				ratingSlider.setMax(progress + 1);
 
-				Log.d("StarcountSeekbar", "gotValue for progress: " + progress
-						+ 1);
-				break;
-
-			case R.id.star_rating_seekbar:
-				Log.d("RatingSeekbar", "gotValue for progress: " + progress);
-				((RatingBar) ((ViewGroup) currentView).getChildAt(0)).setRating(progress);
-				break;
-			}
-		}
-
-		@Override
-		public void onStartTrackingTouch(SeekBar seekBar)
-		{
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void onStopTrackingTouch(SeekBar seekBar)
-		{
-			// TODO Auto-generated method stub
-
-		}
-	}
 
 
 	public interface onObjectEditedListener
