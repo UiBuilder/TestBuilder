@@ -63,7 +63,7 @@ public class EditmodeFragment extends Fragment
 			moduleBackgroundColor;
 
 	private AlignModule alignModule;
-	//private UserTextModule userTextModule;
+	private UserTextModule userTextModule;
 
 	@Override
 	public void onAttach(Activity activity)
@@ -155,7 +155,7 @@ public class EditmodeFragment extends Fragment
 	private void setupModules()
 	{
 		alignModule = new AlignModule(getActivity().getApplicationContext());
-		//userTextModule = new UserTextModule(getActivity().getApplicationContext());
+		userTextModule = new UserTextModule(getActivity().getApplicationContext());
 
 		setupPictureModule();
 		setupChangesizeModule();
@@ -368,7 +368,7 @@ public class EditmodeFragment extends Fragment
 		switch (id)
 		{
 		case R.id.element_button:
-			//((LinearLayout) root).addView(userTextModule.getInstance(view));
+			((LinearLayout) root).addView(userTextModule.getInstance(view));
 
 			moduleChangeSize.setVisibility(View.VISIBLE);
 			picker.setValue((int) ((TextView) currentView).getTextSize());
@@ -379,14 +379,14 @@ public class EditmodeFragment extends Fragment
 
 		case R.id.element_checkbox:
 
-			//((LinearLayout) root).addView(userTextModule.getInstance(view));
+			((LinearLayout) root).addView(userTextModule.getInstance(view));
 
 
 			break;
 
 		case R.id.element_edittext:
 
-			//((LinearLayout) root).addView(userTextModule.getInstance(view));
+			((LinearLayout) root).addView(userTextModule.getInstance(view));
 
 
 			
@@ -405,7 +405,7 @@ public class EditmodeFragment extends Fragment
 			break;
 
 		case R.id.element_radiogroup:
-			//((LinearLayout) root).addView(userTextModule.getInstance(view));
+			((LinearLayout) root).addView(userTextModule.getInstance(view));
 
 
 			break;
@@ -422,7 +422,7 @@ public class EditmodeFragment extends Fragment
 			break;
 
 		case R.id.element_switch:
-			//((LinearLayout) root).addView(userTextModule.getInstance(view));
+			((LinearLayout) root).addView(userTextModule.getInstance(view));
 
 
 			break;
@@ -430,7 +430,7 @@ public class EditmodeFragment extends Fragment
 			moduleChangeSize.setVisibility(View.VISIBLE);
 			picker.setValue((int) ((TextView) currentView).getTextSize());
 
-			//((LinearLayout) root).addView(userTextModule.getInstance(view));
+			((LinearLayout) root).addView(userTextModule.getInstance(view));
 
 
 			moduleBackgroundColor.setVisibility(View.VISIBLE);
