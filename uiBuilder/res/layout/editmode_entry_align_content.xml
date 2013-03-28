@@ -1,53 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    
     android:id="@+id/editmode_module_align_content"
+    style="@style/itembox"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-   
-    android:orientation="vertical"
-    style="@style/itembox"
-    >
+    android:orientation="vertical" >
 
     <!-- HEADER -->
-    
-    <LinearLayout 
+
+    <LinearLayout
         android:layout_width="match_parent"
-    	android:layout_height="wrap_content"
-    	android:orientation="horizontal"
-    	android:weightSum="1"
-    	android:gravity="center_vertical"
-        >
-        
-	    <TextView
-	        android:id="@+id/align_content"
-	        style="@style/editbox_header"
-	        android:layout_weight="0.9"
-	        android:layout_width="0dp"
-	        android:layout_height="wrap_content"  
-	        android:text="@string/item_edit_align_content" 
-	        android:gravity="center_vertical"
-	        />
-	    
-	    <include 
-	        android:layout_weight="0.1"
-	        android:layout_width="0dp"
-	        android:layout_height="40dp"
-	        android:layout_gravity="center"
-            layout="@layout/editmode_expand_button"
-            />
-        
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:weightSum="1" >
+
+        <TextView
+            android:id="@+id/align_content"
+            style="@style/editbox_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.9"
+            android:gravity="center_vertical"
+            android:text="@string/item_edit_align_content" />
+
+        <include
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.1"
+            layout="@layout/editmode_expand_button" />
     </LinearLayout>
-    
+
     <!-- EXPANDABLE CONTENT -->
 
-    <TableLayout android:id="@+id/expandable"
+    <TableLayout
+        android:id="@+id/expandable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="@dimen/default_padding_medium"
-        android:visibility="gone"
-         >
+        android:visibility="gone" >
 
         <TableRow
             android:layout_width="match_parent"
@@ -60,24 +53,21 @@
                 style="@style/itembox_items_inverted"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                 />
+                android:layout_weight="1" />
 
             <Button
                 android:id="@+id/editmode_align_top_center"
                 style="@style/itembox_items_inverted"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                 />
+                android:layout_weight="1" />
 
             <Button
                 android:id="@+id/editmode_align_top_right"
                 style="@style/itembox_items_inverted"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                 />
+                android:layout_weight="1" />
         </TableRow>
 
         <TableRow
@@ -91,24 +81,21 @@
                 style="@style/itembox_items_inverted"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                 />
+                android:layout_weight="1" />
 
             <Button
                 android:id="@+id/editmode_align_center_center"
                 style="@style/itembox_items_inverted"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                 />
+                android:layout_weight="1" />
 
             <Button
                 android:id="@+id/editmode_align_center_right"
                 style="@style/itembox_items_inverted"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                 />
+                android:layout_weight="1" />
         </TableRow>
 
         <TableRow
@@ -122,24 +109,21 @@
                 style="@style/itembox_items_inverted"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                />
+                android:layout_weight="1" />
 
             <Button
                 android:id="@+id/editmode_align_bottom_center"
                 style="@style/itembox_items_inverted"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                 />
+                android:layout_weight="1" />
 
             <Button
                 android:id="@+id/editmode_align_bottom_right"
                 style="@style/itembox_items_inverted"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                />
+                android:layout_weight="1" />
         </TableRow>
     </TableLayout>
 
