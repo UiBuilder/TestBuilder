@@ -3,13 +3,14 @@ package editmodules;
 import de.ur.rk.uibuilder.R;
 import android.content.Context;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.NumberPicker.OnValueChangeListener;
 
 public class FontSizeModule extends Module
 {
-	private View box;
+	private LinearLayout box;
 	private View requesting;
 	
 	private NumberPicker picker;
@@ -29,18 +30,16 @@ public class FontSizeModule extends Module
 	@Override
 	protected void setupUi()
 	{
-		box = super.inflater.inflate(R.layout.editmode_entry_text_size, null);
-		
+		box = (LinearLayout) super.inflater.inflate(R.layout.editmode_entry_text_size, null);
 		picker = (NumberPicker) box.findViewById(R.id.item_edit_editsize_picker);
 		
-		setListeners();
 		setDefaultValues();
 	}
 
 	/**
 	 * 
 	 */
-	private void setListeners()
+	protected void setListeners()
 	{
 		box.setOnClickListener(new ExpansionListener(box));
 		picker.setOnValueChangedListener(new FontsizeModuleListener());
@@ -56,7 +55,7 @@ public class FontSizeModule extends Module
 	}
 
 	@Override
-	public View getInstance(View inProgress)
+	public LinearLayout getInstance(View inProgress)
 	{
 		requesting = inProgress;
 		

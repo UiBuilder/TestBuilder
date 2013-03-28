@@ -15,7 +15,7 @@ public class UserTextModule extends Module
 {
 	private EditText editText;
 
-	private View box;
+	private LinearLayout box;
 	
 	private View requesting;
 
@@ -27,50 +27,18 @@ public class UserTextModule extends Module
 	@Override
 	protected void setupUi()
 	{
-		box = super.inflater.inflate(R.layout.editmode_entry_text_size, null);
-		box.setOnClickListener(new ExpansionListener(box));
+		box = (LinearLayout) super.inflater.inflate(R.layout.editmode_entry_text_size, null);
 
 		editText = (EditText) box.findViewById(R.id.item_edit_edittext);
-
-		UserTextModuleListener userTextListener = new UserTextModuleListener();
-
-		editText.addTextChangedListener(userTextListener);
 	}
 
 	@Override
-	public View getInstance(View inProgress)
+	public LinearLayout getInstance(View inProgress)
 	{
 		requesting = inProgress;
 		adaptToContext();
+		
 		return box;
-	}
-
-
-	private class UserTextModuleListener implements TextWatcher
-	{
-
-		@Override
-		public void afterTextChanged(Editable s)
-		{
-			setViewText(s.toString());
-
-		}
-
-		@Override
-		public void beforeTextChanged(CharSequence s, int start, int count,
-				int after)
-		{
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void onTextChanged(CharSequence s, int start, int before,
-				int count)
-		{
-			// TODO Auto-generated method stub
-
-		}
 	}
 
 	public void setViewText(String string)
@@ -128,4 +96,40 @@ public class UserTextModule extends Module
 		}		
 	}
 
+	@Override
+	protected void setListeners()
+	{
+		// TODO Auto-generated method stub
+		box.setOnClickListener(new ExpansionListener(box));
+
+		//editText.addTextChangedListener(new UserTextModuleListener());
+	}
+	
+
+	private class UserTextModuleListener implements TextWatcher
+	{
+
+		@Override
+		public void afterTextChanged(Editable s)
+		{
+			setViewText(s.toString());
+
+		}
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after)
+		{
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before,
+				int count)
+		{
+			// TODO Auto-generated method stub
+
+		}
+	}
 }

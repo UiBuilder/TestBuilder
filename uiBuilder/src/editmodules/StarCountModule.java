@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -13,7 +14,7 @@ public class StarCountModule extends Module
 {
 	SeekBar starBar, ratingSlider;
 
-	private View box;
+	private LinearLayout box;
 
 	private View requesting;
 
@@ -26,25 +27,19 @@ public class StarCountModule extends Module
 	public void getValues()
 	{
 		adaptToContext();
-
 	}
 
 	@Override
 	protected void setupUi()
 	{
-		box = super.inflater.inflate(R.layout.editmode_entry_stars_count, null);
-		box.setOnClickListener(new ExpansionListener(box));
+		box = (LinearLayout) super.inflater.inflate(R.layout.editmode_entry_stars_count, null);
 
 		starBar = (SeekBar) box.findViewById(R.id.star_count_seekbar);
 		ratingSlider = (SeekBar) box.findViewById(R.id.star_rating_seekbar);
-
-		RatingModuleListener ratingListener = new RatingModuleListener();
-
-		starBar.setOnSeekBarChangeListener(ratingListener);
 	}
 
 	@Override
-	public View getInstance(View inProgress)
+	public LinearLayout getInstance(View inProgress)
 	{
 		requesting = inProgress;
 		adaptToContext();
@@ -97,6 +92,16 @@ public class StarCountModule extends Module
 
 		starBar.setProgress(((RatingBar) ((ViewGroup) requesting).getChildAt(0)).getNumStars() - 1);
 
+	}
+
+	@Override
+	protected void setListeners()
+	{
+		// TODO Auto-generated method stub
+		box.setOnClickListener(new ExpansionListener(box));
+		RatingModuleListener ratingListener = new RatingModuleListener();
+
+		starBar.setOnSeekBarChangeListener(ratingListener);
 	}
 
 }

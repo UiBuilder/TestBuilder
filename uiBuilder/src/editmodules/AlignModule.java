@@ -6,6 +6,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import de.ur.rk.uibuilder.R;
 
@@ -14,7 +15,7 @@ public class AlignModule extends Module
 	private Button topLeft, topCenter, topRight, centerLeft, centerCenter,
 			centerRight, bottomLeft, bottomCenter, bottomRight;
 
-	private View box;
+	private LinearLayout box;
 
 	private View requesting;
 
@@ -26,10 +27,10 @@ public class AlignModule extends Module
 	/**
 	 * 
 	 */
+	@Override
 	protected void setupUi()
 	{
-		box = super.inflater.inflate(R.layout.editmode_entry_align_content, null);
-		box.setOnClickListener(new ExpansionListener(box));
+		box = (LinearLayout) super.inflater.inflate(R.layout.editmode_entry_align_content, null);
 
 		topLeft = (Button) box.findViewById(R.id.editmode_align_top_left);
 		topCenter = (Button) box.findViewById(R.id.editmode_align_top_center);
@@ -40,7 +41,21 @@ public class AlignModule extends Module
 		bottomLeft = (Button) box.findViewById(R.id.editmode_align_bottom_left);
 		bottomCenter = (Button) box.findViewById(R.id.editmode_align_bottom_center);
 		bottomRight = (Button) box.findViewById(R.id.editmode_align_bottom_right);
+	}
+	@Override
+	public LinearLayout getInstance(View inProgress)
+	{
+		requesting = inProgress;
+		adaptToContext();
 
+		return box;
+	}
+
+	@Override
+	protected void setListeners()
+	{
+		// TODO Auto-generated method stub
+		box.setOnClickListener(new ExpansionListener(box));
 		AlignModuleListener alignListener = new AlignModuleListener();
 
 		topLeft.setOnClickListener(alignListener);
@@ -52,14 +67,6 @@ public class AlignModule extends Module
 		bottomLeft.setOnClickListener(alignListener);
 		bottomCenter.setOnClickListener(alignListener);
 		bottomRight.setOnClickListener(alignListener);
-	}
-
-	public View getInstance(View inProgress)
-	{
-		requesting = inProgress;
-		adaptToContext();
-
-		return box;
 	}
 
 	@Override

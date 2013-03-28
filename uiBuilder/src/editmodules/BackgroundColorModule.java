@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 public class BackgroundColorModule extends Module
 {
@@ -21,7 +22,7 @@ public class BackgroundColorModule extends Module
 	Button backgroundGrey;
 	Button backgroundReset;
 
-	private View box;
+	private LinearLayout box;
 	
 	private View requesting;
 	
@@ -39,8 +40,7 @@ public class BackgroundColorModule extends Module
 	@Override
 	protected void setupUi()
 	{
-		box = super.inflater.inflate(R.layout.editmode_entry_set_background, null);
-		box.setOnClickListener(new ExpansionListener(box));
+		box = (LinearLayout) super.inflater.inflate(R.layout.editmode_entry_set_background, null);
 		
 		backgroundRed = (Button) box.findViewById(R.id.editmode_background_red);
 		backgroundOrange = (Button) box.findViewById(R.id.editmode_background_orange);
@@ -52,23 +52,10 @@ public class BackgroundColorModule extends Module
 		backgroundGreyLight = (Button) box.findViewById(R.id.editmode_background_grey_light);
 		backgroundGrey = (Button) box.findViewById(R.id.editmode_background_grey);
 		backgroundReset = (Button) box.findViewById(R.id.editmode_background_reset);
-		
-		BackgroundColorModuleListener backgroundColorListener = new BackgroundColorModuleListener();
-		
-		backgroundRed.setOnClickListener(backgroundColorListener);
-		backgroundOrange.setOnClickListener(backgroundColorListener);
-		backgroundYellow.setOnClickListener(backgroundColorListener);
-		backgroundGreenLight.setOnClickListener(backgroundColorListener);
-		backgroundGreen.setOnClickListener(backgroundColorListener);
-		backgroundAqua.setOnClickListener(backgroundColorListener);
-		backgroundBlue.setOnClickListener(backgroundColorListener);
-		backgroundGreyLight.setOnClickListener(backgroundColorListener);
-		backgroundGrey.setOnClickListener(backgroundColorListener);
-		backgroundReset.setOnClickListener(backgroundColorListener);
 	}
 
 	@Override
-	public View getInstance(View inProgress)
+	public LinearLayout getInstance(View inProgress)
 	{
 		requesting = inProgress;
 		adaptToContext();
@@ -186,6 +173,25 @@ public class BackgroundColorModule extends Module
 	protected void adaptToContext()
 	{
 
+	}
+
+	@Override
+	protected void setListeners()
+	{
+		// TODO Auto-generated method stub
+		box.setOnClickListener(new ExpansionListener(box));
+		BackgroundColorModuleListener backgroundColorListener = new BackgroundColorModuleListener();
+		
+		backgroundRed.setOnClickListener(backgroundColorListener);
+		backgroundOrange.setOnClickListener(backgroundColorListener);
+		backgroundYellow.setOnClickListener(backgroundColorListener);
+		backgroundGreenLight.setOnClickListener(backgroundColorListener);
+		backgroundGreen.setOnClickListener(backgroundColorListener);
+		backgroundAqua.setOnClickListener(backgroundColorListener);
+		backgroundBlue.setOnClickListener(backgroundColorListener);
+		backgroundGreyLight.setOnClickListener(backgroundColorListener);
+		backgroundGrey.setOnClickListener(backgroundColorListener);
+		backgroundReset.setOnClickListener(backgroundColorListener);
 	}
 
 }

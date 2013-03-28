@@ -31,6 +31,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import data.ObjectValues;
+import data.SampleAdapter;
 import de.ur.rk.uibuilder.R;
 
 /**
@@ -48,7 +49,7 @@ public class Generator
 	private OnTouchListener manipulator;
 	private LayoutInflater inflater;
 	private ObjectFactory factory;
-	
+	private SampleAdapter samples;
 	
 	private Resources res;
 	private int gridFactor;
@@ -62,6 +63,7 @@ public class Generator
 		context = ref;
 		manipulator = mp;
 		factory = fucktory;
+		samples = new SampleAdapter(ref);
 		
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
@@ -125,7 +127,7 @@ public class Generator
 
 		case R.id.element_list:
 			xmlView = buildListView();
-			
+			samples.setAdapter(xmlView);
 			break;
 
 		case R.id.element_numberpick:
@@ -163,7 +165,7 @@ public class Generator
 			*/
 		case R.id.element_grid:
 			xmlView = buildGrid();
-			
+			samples.setAdapter(xmlView);
 			break;
 		
 		default:
@@ -275,7 +277,7 @@ public class Generator
 			xmlView = buildListView();
 			
 			xmlView.setBackgroundResource(R.drawable.object_background_default);
-			factory.setAdapter(xmlView, databaseBundle.getInt(ObjectValues.EXAMPLE_LAYOUT));
+			//samples.setAdapter(xmlView);
 			//Content is missing here
 			
 
@@ -318,7 +320,7 @@ public class Generator
 
 		case R.id.element_grid:
 			xmlView = buildGrid();
-			factory.setAdapter(xmlView, databaseBundle.getInt(ObjectValues.EXAMPLE_LAYOUT));
+			//samples.setAdapter(xmlView);
 			((GridView)((RelativeLayout)xmlView).getChildAt(0)).setNumColumns(databaseBundle.getInt(ObjectValues.COLUMNS_NUM));
 			xmlView.setBackgroundResource(R.drawable.object_background_default);
 
@@ -540,7 +542,7 @@ public class Generator
 		
 		xmlGrid.setLayoutParams(params);
 		xmlGridContainer.addView(xmlGrid);
-		factory.setAdapter(xmlGrid, R.layout.item_gridview_example_layout_3);
+		//samples.setAdapter(xmlGridContainer);
 		
 		return xmlGridContainer;
 	}
@@ -612,7 +614,7 @@ public class Generator
 		xmlList.setLayoutParams(params);
 		container.addView(xmlList);
 		
-		factory.setAdapter(xmlList, R.layout.item_listview_example_layout_1);
+		//samples.setAdapter(container);
 		
 		RelativeLayout.LayoutParams containerParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		container.setLayoutParams(containerParams);

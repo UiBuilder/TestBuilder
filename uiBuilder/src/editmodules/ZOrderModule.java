@@ -7,17 +7,18 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import de.ur.rk.uibuilder.R;
 
-public class ModuleZOrder extends Module
+public class ZOrderModule extends Module
 {
-	private View box;
+	private LinearLayout box;
 	
 	private View requesting;
 	private Button toFront;
 	private Button toBack;
 	
-	public ModuleZOrder(Context context)
+	public ZOrderModule(Context context)
 	{
 		super(context);
 		// TODO Auto-generated constructor stub
@@ -27,31 +28,21 @@ public class ModuleZOrder extends Module
 	public void getValues()
 	{
 		// TODO Auto-generated method stub
-
+		adaptToContext();
 	}
 
 	@Override
 	protected void setupUi()
 	{
 		// TODO Auto-generated method stub
-		box = super.inflater.inflate(R.layout.editmode_entry_z_order, null);
+		box = (LinearLayout) super.inflater.inflate(R.layout.editmode_entry_z_order, null);
 		
 		toFront = (Button) box.findViewById(R.id.editmode_z_order_front);;
 		toBack = (Button) box.findViewById(R.id.editmode_z_order_back);
-		
-		setListeners();
-	}
-
-	private void setListeners()
-	{
-		box.setOnClickListener(new ExpansionListener(box));
-		
-		toFront.setOnClickListener(new ZorderModuleListener());
-		toBack.setOnClickListener(new ZorderModuleListener());	
 	}
 
 	@Override
-	public View getInstance(View inProgress)
+	public LinearLayout getInstance(View inProgress)
 	{
 		requesting = inProgress;
 		
@@ -122,6 +113,16 @@ public class ModuleZOrder extends Module
 		{
 			requesting.bringToFront();
 		}
+	}
+
+	@Override
+	protected void setListeners()
+	{
+		// TODO Auto-generated method stub
+		box.setOnClickListener(new ExpansionListener(box));
+		
+		toFront.setOnClickListener(new ZorderModuleListener());
+		toBack.setOnClickListener(new ZorderModuleListener());	
 	}
 
 }

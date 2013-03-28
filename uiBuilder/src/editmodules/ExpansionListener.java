@@ -7,6 +7,17 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import de.ur.rk.uibuilder.R;
 
+/**
+ * each sublayout module has an expansion selector button with the same id.
+ * get this button for each module and set the corresponding listener. a
+ * reference to the parent layout is passed to the listener to avoid final
+ * instances of references, which were not reliable enough when performing
+ * expansions
+ * 
+ * @author funklos
+ * @param box
+ *            the editmode module containing the button
+ */
 public class ExpansionListener implements OnClickListener
 {
 		private LinearLayout expandedBox;
