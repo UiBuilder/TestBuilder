@@ -47,9 +47,8 @@ public class EditmodeFragment extends Fragment
 
 	private NumberPicker picker;
 
-	private LinearLayout modulePicture, 
-			moduleNothing, moduleIcons,  
-			moduleGridConfig, moduleGridColumns, moduleContent;
+	private LinearLayout modulePicture, moduleIcons, moduleGridConfig,
+			moduleGridColumns, moduleContent;
 
 	private AlignModule alignModule;
 	private UserTextModule userTextModule;
@@ -76,7 +75,6 @@ public class EditmodeFragment extends Fragment
 	{
 		getModules();
 		setupModules();
-
 
 		super.onActivityCreated(savedInstanceState);
 	}
@@ -127,9 +125,6 @@ public class EditmodeFragment extends Fragment
 	{
 
 		modulePicture = (LinearLayout) root.findViewById(R.id.editmode_included_choose_picture);
-
-
-		moduleNothing = (LinearLayout) root.findViewById(R.id.editmode_included_nothing);
 		moduleIcons = (LinearLayout) root.findViewById(R.id.editmode_included_choose_icon);
 		moduleGridConfig = (LinearLayout) root.findViewById(R.id.editmode_included_grid_config);
 		moduleGridColumns = (LinearLayout) root.findViewById(R.id.editmode_included_grid_columns);
@@ -140,20 +135,13 @@ public class EditmodeFragment extends Fragment
 	{
 		alignModule = new AlignModule(getActivity().getApplicationContext());
 		userTextModule = new UserTextModule(getActivity().getApplicationContext());
-
 		setupPictureModule();
-
 		setupIconModule();
-
 		setupGridColumnModule();
 		setupContentModule();
-
 		setupListConfigModule();
 		setupGridConfigModule();
 	}
-
-	
-
 
 	/**
 	 * each sublayout module has an expansion selector button with the same id.
@@ -166,7 +154,6 @@ public class EditmodeFragment extends Fragment
 	 * @param module
 	 *            the editmode module containing the button
 	 */
-
 
 	/**
 	 * @author funklos
@@ -232,8 +219,6 @@ public class EditmodeFragment extends Fragment
 		layoutTypeSix.setOnClickListener(listLayoutListener);
 	}
 
-	
-
 	private void setupIconModule()
 	{
 		GridView grid = (GridView) root.findViewById(R.id.editmode_icon_grid);
@@ -245,7 +230,6 @@ public class EditmodeFragment extends Fragment
 		grid.setOnItemClickListener(new IconModuleListener());
 		adapter.notifyDataSetChanged();
 	}
-
 
 	private void setupPictureModule()
 	{
@@ -270,16 +254,11 @@ public class EditmodeFragment extends Fragment
 		case R.id.element_button:
 			((LinearLayout) root).addView(userTextModule.getInstance(view));
 
-			
-
-			
-
 			break;
 
 		case R.id.element_checkbox:
 
 			((LinearLayout) root).addView(userTextModule.getInstance(view));
-
 
 			break;
 
@@ -287,42 +266,33 @@ public class EditmodeFragment extends Fragment
 
 			((LinearLayout) root).addView(userTextModule.getInstance(view));
 
-
-			
 			((LinearLayout) root).addView(alignModule.getInstance(view));
 
 			root.requestLayout();
 
-			
 			break;
 
 		case R.id.element_imageview:
 			moduleIcons.setVisibility(View.VISIBLE);
 			modulePicture.setVisibility(View.VISIBLE);
-			
+
 			break;
 
 		case R.id.element_radiogroup:
 			((LinearLayout) root).addView(userTextModule.getInstance(view));
 
-
 			break;
 		case R.id.element_ratingbar:
-
 
 			break;
 
 		case R.id.element_switch:
 			((LinearLayout) root).addView(userTextModule.getInstance(view));
 
-
 			break;
 		case R.id.element_textview:
-			
 
 			((LinearLayout) root).addView(userTextModule.getInstance(view));
-
-
 
 			break;
 
@@ -346,14 +316,11 @@ public class EditmodeFragment extends Fragment
 			break;
 
 		default:
-			moduleNothing.setVisibility(View.VISIBLE);
 			break;
 		}
 
-
 		root.invalidate();
 	}
-
 
 	/**
 	 * 
@@ -513,12 +480,6 @@ public class EditmodeFragment extends Fragment
 			}
 		}
 	}
-
-
-
-
-
-
 
 	public interface onObjectEditedListener
 	{
