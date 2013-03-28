@@ -47,7 +47,7 @@ public class EditmodeFragment extends Fragment
 
 	private NumberPicker picker;
 
-	private LinearLayout modulePicture, moduleChangeSize, moduleZorder,
+	private LinearLayout modulePicture, moduleChangeSize, 
 			moduleNothing, moduleIcons,  moduleListConfig,
 			moduleGridConfig, moduleGridColumns, moduleContent,
 			moduleBackgroundColor;
@@ -130,7 +130,6 @@ public class EditmodeFragment extends Fragment
 		modulePicture = (LinearLayout) root.findViewById(R.id.editmode_included_choose_picture);
 
 
-		moduleZorder = (LinearLayout) root.findViewById(R.id.editmode_included_order);
 		moduleNothing = (LinearLayout) root.findViewById(R.id.editmode_included_nothing);
 		moduleIcons = (LinearLayout) root.findViewById(R.id.editmode_included_choose_icon);
 		moduleListConfig = (LinearLayout) root.findViewById(R.id.editmode_included_list_config);
@@ -148,7 +147,6 @@ public class EditmodeFragment extends Fragment
 
 		setupPictureModule();
 
-		setupZorderModule();
 		setupIconModule();
 
 		setupGridColumnModule();
@@ -277,15 +275,6 @@ public class EditmodeFragment extends Fragment
 		adapter.notifyDataSetChanged();
 	}
 
-	private void setupZorderModule()
-	{
-		Button pullToFront = (Button) root.findViewById(R.id.editmode_z_order_front);
-		Button pushToBack = (Button) root.findViewById(R.id.editmode_z_order_back);
-
-		pullToFront.setOnClickListener(new ZorderModuleListener());
-		pushToBack.setOnClickListener(new ZorderModuleListener());
-	}
-
 
 	private void setupPictureModule()
 	{
@@ -395,7 +384,7 @@ public class EditmodeFragment extends Fragment
 			moduleNothing.setVisibility(View.VISIBLE);
 			break;
 		}
-		moduleZorder.setVisibility(View.VISIBLE);
+
 
 		root.invalidate();
 	}
@@ -667,47 +656,6 @@ public class EditmodeFragment extends Fragment
 		}
 	}
 
-	private class ZorderModuleListener implements OnClickListener
-	{
-
-		@Override
-		public void onClick(View v)
-		{
-			ViewGroup parent = (ViewGroup) currentView.getParent();
-
-			switch (v.getId())
-			{
-			case R.id.editmode_z_order_back:
-				parent.removeView(currentView);
-				ArrayList<View> allItems = new ArrayList<View>();
-
-				allItems.add(currentView);
-
-				int number = parent.getChildCount();
-				for (int i = 0; i < number; i++)
-				{
-					allItems.add(parent.getChildAt(i));
-				}
-				parent.removeAllViews();
-
-				for (View child : allItems)
-				{
-					parent.addView(child);
-				}
-				parent.invalidate();
-
-				break;
-
-			case R.id.editmode_z_order_front:
-				currentView.bringToFront();
-				parent.invalidate();
-				break;
-
-			default:
-				break;
-			}
-		}
-	}
 
 
 
