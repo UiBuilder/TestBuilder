@@ -35,4 +35,11 @@ public class StarCountModule extends Module
 		return null;
 	}
 
+	@Override
+	protected void adaptToContext()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -41,39 +41,10 @@ public class UserTextModule extends Module
 	public View getInstance(View inProgress)
 	{
 		requesting = inProgress;
-		adaptText();
+		adaptToContext();
 		return box;
 	}
 
-	private void adaptText()
-	{
-		if (requesting instanceof LinearLayout)
-		{
-			TextView textView = (TextView) ((LinearLayout) requesting).getChildAt(0);
-			if (requesting instanceof EditText)
-			{
-				editText.setText(textView.getHint());
-
-			} else
-			{
-				editText.setText(textView.getText());
-
-			}
-
-		} else
-		{
-			if (requesting instanceof EditText)
-			{
-				editText.setText(((TextView)requesting).getHint());
-
-			} else
-			{
-				editText.setText(((TextView)requesting).getText());
-
-			}
-		}
-
-	}
 
 	private class UserTextModuleListener implements TextWatcher
 	{
@@ -123,8 +94,38 @@ public class UserTextModule extends Module
 	@Override
 	public void getValues()
 	{
-		adaptText();
+		adaptToContext();
 
+	}
+
+	@Override
+	protected void adaptToContext()
+	{
+		if (requesting instanceof LinearLayout)
+		{
+			TextView textView = (TextView) ((LinearLayout) requesting).getChildAt(0);
+			if (requesting instanceof EditText)
+			{
+				editText.setText(textView.getHint());
+
+			} else
+			{
+				editText.setText(textView.getText());
+
+			}
+
+		} else
+		{
+			if (requesting instanceof EditText)
+			{
+				editText.setText(((TextView)requesting).getHint());
+
+			} else
+			{
+				editText.setText(((TextView)requesting).getText());
+
+			}
+		}		
 	}
 
 }
