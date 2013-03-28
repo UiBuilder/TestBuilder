@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import data.ScreenAdapter;
 import data.ScreenProvider;
 import de.ur.rk.uibuilder.R;
@@ -93,7 +94,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 			{
 				final LinearLayout hidden = (LinearLayout) item.findViewById(R.id.activity_manager_griditem_deletebox);
 				hidden.setVisibility(View.VISIBLE);
-				item.setActivated(true);
+				
 				
 				Button deleteButton = (Button) item.findViewById(R.id.activity_manager_griditem_deletebutton);
 				deleteButton.setOnClickListener(new OnClickListener()
@@ -106,6 +107,19 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 						//hidden.setVisibility(View.INVISIBLE);
 					}
 				});
+				
+				LinearLayout deleteBox = (LinearLayout) deleteButton.getParent();
+				deleteBox.setOnClickListener(new OnClickListener()
+				{
+					
+					@Override
+					public void onClick(View v)
+					{
+						// TODO Auto-generated method stub
+						hidden.setVisibility(View.INVISIBLE);
+					}
+				});
+						
 				return true;
 			}
 

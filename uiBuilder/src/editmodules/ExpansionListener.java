@@ -1,5 +1,6 @@
 package editmodules;
 
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
@@ -13,7 +14,6 @@ public class ExpansionListener implements OnClickListener
 		private ImageButton indicator;
 		private LinearLayout clickableArea;
 		private View expandableView;
-		private LinearLayout root;
 
 		private int indicatorExpanded = R.raw.ico_small_0037;
 		private int indicatorCollapsed = R.raw.ico_small_0035;
@@ -24,18 +24,7 @@ public class ExpansionListener implements OnClickListener
 			this.indicator = (ImageButton) box.findViewById(R.id.expand_selector);
 			this.clickableArea = (LinearLayout) indicator.getParent();
 			this.expandableView = this.module.findViewById(R.id.expandable);
-			this.root = (LinearLayout) module.getParent();
 			
-			setIndikatorListener();
-		}
-		
-		public ExpansionListener(LinearLayout module, ImageButton indicator)
-		{
-			this.module = module;
-			this.indicator = indicator;
-			this.clickableArea = (LinearLayout) indicator.getParent();
-			this.expandableView = this.module.findViewById(R.id.expandable);
-			this.root = (LinearLayout) module.getParent();
 			setIndikatorListener();
 		}
 
@@ -47,7 +36,8 @@ public class ExpansionListener implements OnClickListener
 				@Override
 				public void onClick(View v)
 				{
-					clickableArea.performClick();
+					Log.d("exp", "ind");
+					module.performClick();
 				}
 			});	
 		}
@@ -55,7 +45,7 @@ public class ExpansionListener implements OnClickListener
 		@Override
 		public void onClick(View clickedModule)
 		{
-			if (!clickedModule.isActivated())
+			if (clickedModule.isActivated())
 			{
 				collapse();
 
@@ -73,23 +63,24 @@ public class ExpansionListener implements OnClickListener
 
 		private void expand()
 		{
-			listener.getValues();
 			expandableView.setVisibility(View.VISIBLE);
+			listener.getValues();
+			
 			indicator.setImageResource(indicatorCollapsed);
-			module.setActivated(false);
+			module.setActivated(true);
 
 			expandedBox = module;
-			//refresh();
+			refresh();
 		}
 
 		private void collapse()
 		{
 			expandableView.setVisibility(View.GONE);
 			indicator.setImageResource(indicatorExpanded);
-			module.setActivated(true);
+			module.setActivated(false);
 
 			expandedBox = null;
-			//refresh();
+			refresh();
 		}
 
 		private void refresh()
@@ -98,7 +89,6 @@ public class ExpansionListener implements OnClickListener
 			module.invalidate();
 			module.requestLayout();
 			expandableView.forceLayout();
-			//root.forceLayout();
 		}
 		
 		

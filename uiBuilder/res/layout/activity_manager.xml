@@ -27,7 +27,9 @@
         android:scrollingCache="true"
         android:smoothScrollbar="true"
         android:drawSelectorOnTop="false"
-        android:listSelector="@color/fresh_aqua"
+        
+        android:choiceMode="none"
+        android:listSelector="@drawable/manager_grid_selected"
         
         android:layout_below="@id/activity_manager_included_new"
         android:numColumns="4" >
