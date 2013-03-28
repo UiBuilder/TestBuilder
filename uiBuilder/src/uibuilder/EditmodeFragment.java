@@ -47,10 +47,9 @@ public class EditmodeFragment extends Fragment
 
 	private NumberPicker picker;
 
-	private LinearLayout modulePicture, moduleChangeSize, 
-			moduleNothing, moduleIcons,  moduleListConfig,
-			moduleGridConfig, moduleGridColumns, moduleContent,
-			moduleBackgroundColor;
+	private LinearLayout modulePicture, 
+			moduleNothing, moduleIcons,  
+			moduleGridConfig, moduleGridColumns, moduleContent;
 
 	private AlignModule alignModule;
 	private UserTextModule userTextModule;
@@ -132,12 +131,9 @@ public class EditmodeFragment extends Fragment
 
 		moduleNothing = (LinearLayout) root.findViewById(R.id.editmode_included_nothing);
 		moduleIcons = (LinearLayout) root.findViewById(R.id.editmode_included_choose_icon);
-		moduleListConfig = (LinearLayout) root.findViewById(R.id.editmode_included_list_config);
 		moduleGridConfig = (LinearLayout) root.findViewById(R.id.editmode_included_grid_config);
 		moduleGridColumns = (LinearLayout) root.findViewById(R.id.editmode_included_grid_columns);
 		moduleContent = (LinearLayout) root.findViewById(R.id.editmode_included_grid_content);
-		moduleBackgroundColor = (LinearLayout) root.findViewById(R.id.editmode_included_background_color);
-		// and so on..
 	}
 
 	private void setupModules()
@@ -154,34 +150,9 @@ public class EditmodeFragment extends Fragment
 
 		setupListConfigModule();
 		setupGridConfigModule();
-		setupBackgroundColorModule();
 	}
 
-	private void setupBackgroundColorModule()
-	{
-		Button backgroundRed = (Button) root.findViewById(R.id.editmode_background_red);
-		Button backgroundOrange = (Button) root.findViewById(R.id.editmode_background_orange);
-		Button backgroundYellow = (Button) root.findViewById(R.id.editmode_background_yellow);
-		Button backgroundGreenLight = (Button) root.findViewById(R.id.editmode_background_green_light);
-		Button backgroundGreen = (Button) root.findViewById(R.id.editmode_background_green);
-		Button backgroundAqua = (Button) root.findViewById(R.id.editmode_background_aqua);
-		Button backgroundBlue = (Button) root.findViewById(R.id.editmode_background_blue);
-		Button backgroundGreyLight = (Button) root.findViewById(R.id.editmode_background_grey_light);
-		Button backgroundGrey = (Button) root.findViewById(R.id.editmode_background_grey);
-		Button backgroundReset = (Button) root.findViewById(R.id.editmode_background_reset);
-
-		backgroundRed.setOnClickListener(new SetBackgroundColorModuleListener());
-		backgroundOrange.setOnClickListener(new SetBackgroundColorModuleListener());
-		backgroundYellow.setOnClickListener(new SetBackgroundColorModuleListener());
-		backgroundGreenLight.setOnClickListener(new SetBackgroundColorModuleListener());
-		backgroundGreen.setOnClickListener(new SetBackgroundColorModuleListener());
-		backgroundAqua.setOnClickListener(new SetBackgroundColorModuleListener());
-		backgroundBlue.setOnClickListener(new SetBackgroundColorModuleListener());
-		backgroundGreyLight.setOnClickListener(new SetBackgroundColorModuleListener());
-		backgroundGrey.setOnClickListener(new SetBackgroundColorModuleListener());
-		backgroundReset.setOnClickListener(new SetBackgroundColorModuleListener());
-
-	}
+	
 
 
 	/**
@@ -299,10 +270,9 @@ public class EditmodeFragment extends Fragment
 		case R.id.element_button:
 			((LinearLayout) root).addView(userTextModule.getInstance(view));
 
-			moduleChangeSize.setVisibility(View.VISIBLE);
-			picker.setValue((int) ((TextView) currentView).getTextSize());
+			
 
-			moduleBackgroundColor.setVisibility(View.VISIBLE);
+			
 
 			break;
 
@@ -323,14 +293,13 @@ public class EditmodeFragment extends Fragment
 
 			root.requestLayout();
 
-			moduleChangeSize.setVisibility(View.VISIBLE);
-			picker.setValue((int) ((TextView) currentView).getTextSize());
+			
 			break;
 
 		case R.id.element_imageview:
 			moduleIcons.setVisibility(View.VISIBLE);
 			modulePicture.setVisibility(View.VISIBLE);
-			moduleBackgroundColor.setVisibility(View.VISIBLE);
+			
 			break;
 
 		case R.id.element_radiogroup:
@@ -340,7 +309,6 @@ public class EditmodeFragment extends Fragment
 			break;
 		case R.id.element_ratingbar:
 
-			moduleBackgroundColor.setVisibility(View.VISIBLE);
 
 			break;
 
@@ -350,18 +318,15 @@ public class EditmodeFragment extends Fragment
 
 			break;
 		case R.id.element_textview:
-			moduleChangeSize.setVisibility(View.VISIBLE);
-			picker.setValue((int) ((TextView) currentView).getTextSize());
+			
 
 			((LinearLayout) root).addView(userTextModule.getInstance(view));
 
 
-			moduleBackgroundColor.setVisibility(View.VISIBLE);
 
 			break;
 
 		case R.id.element_list:
-			moduleListConfig.setVisibility(View.VISIBLE);
 			moduleContent.setVisibility(View.VISIBLE);
 			break;
 
@@ -549,112 +514,7 @@ public class EditmodeFragment extends Fragment
 		}
 	}
 
-	private class SetBackgroundColorModuleListener implements OnClickListener
-	{
 
-		@Override
-		public void onClick(View v)
-		{
-			Bundle bundle = (Bundle) currentView.getTag();
-
-			switch (v.getId())
-			{
-			case R.id.editmode_background_red:
-				currentView.setBackgroundResource(R.drawable.object_background_red);
-				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_red);
-				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_red);
-
-				break;
-
-			case R.id.editmode_background_yellow:
-				currentView.setBackgroundResource(R.drawable.object_background_grey_dark);
-				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_grey_dark);
-				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_grey_dark);
-
-				break;
-
-			case R.id.editmode_background_orange:
-				currentView.setBackgroundResource(R.drawable.object_background_orange);
-				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_orange);
-				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_orange);
-
-				break;
-
-			case R.id.editmode_background_green_light:
-				currentView.setBackgroundResource(R.drawable.object_background_green_light);
-				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_green_light);
-				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_green_light);
-
-				break;
-
-			case R.id.editmode_background_green:
-				currentView.setBackgroundResource(R.drawable.object_background_green);
-				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_green);
-				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_green);
-
-				break;
-
-			case R.id.editmode_background_aqua:
-				currentView.setBackgroundResource(R.drawable.object_background_aqua);
-				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_aqua);
-				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_aqua);
-
-				break;
-
-			case R.id.editmode_background_blue:
-				currentView.setBackgroundResource(R.drawable.object_background_blue);
-				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_blue);
-				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_blue);
-
-				break;
-
-			case R.id.editmode_background_grey_light:
-				currentView.setBackgroundResource(R.drawable.object_background_grey_light);
-				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_grey_light);
-				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_grey_light);
-
-				break;
-
-			case R.id.editmode_background_grey:
-				currentView.setBackgroundResource(R.drawable.object_background_grey);
-				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_grey);
-				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_grey);
-
-				break;
-
-			case R.id.editmode_background_reset:
-				currentView.setBackgroundResource(R.drawable.object_background_default);
-
-				resetBackgroundToDefault(bundle);
-
-			}
-
-		}
-
-		private void resetBackgroundToDefault(Bundle bundle)
-		{
-			bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_default);
-
-			switch (bundle.getInt(ObjectValues.TYPE))
-			{
-			case R.id.element_button:
-				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_default_button);
-				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_button_default);
-				break;
-
-			case R.id.element_edittext:
-				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_default_edittext);
-				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_border_medium);
-				break;
-
-			default:
-				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_default);
-				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_default_object);
-				break;
-
-			}
-		}
-	}
 
 
 
