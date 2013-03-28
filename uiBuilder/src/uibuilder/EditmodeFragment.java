@@ -9,10 +9,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,12 +17,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
-import android.widget.NumberPicker.OnValueChangeListener;
 import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -54,8 +48,6 @@ public class EditmodeFragment extends Fragment
 	private NumberPicker picker;
 
 	private SeekBar starBar, ratingSlider;
-	private Button topLeft, topCenter, topRight, centerLeft, centerCenter,
-			centerRight, bottomLeft, bottomCenter, bottomRight;
 
 	private LinearLayout modulePicture, moduleChangeSize, moduleZorder,
 			moduleNothing, moduleIcons, moduleStarCount, moduleListConfig,
@@ -87,7 +79,7 @@ public class EditmodeFragment extends Fragment
 	{
 		getModules();
 		setupModules();
-		setExpansionSelectos();
+
 
 		super.onActivityCreated(savedInstanceState);
 	}
@@ -139,7 +131,7 @@ public class EditmodeFragment extends Fragment
 
 		modulePicture = (LinearLayout) root.findViewById(R.id.editmode_included_choose_picture);
 
-		moduleChangeSize = (LinearLayout) root.findViewById(R.id.editmode_included_changesize);
+
 		moduleZorder = (LinearLayout) root.findViewById(R.id.editmode_included_order);
 		moduleNothing = (LinearLayout) root.findViewById(R.id.editmode_included_nothing);
 		moduleIcons = (LinearLayout) root.findViewById(R.id.editmode_included_choose_icon);
@@ -158,7 +150,7 @@ public class EditmodeFragment extends Fragment
 		userTextModule = new UserTextModule(getActivity().getApplicationContext());
 
 		setupPictureModule();
-		setupChangesizeModule();
+
 		setupZorderModule();
 		setupIconModule();
 		setupStarCountModule();
@@ -197,21 +189,6 @@ public class EditmodeFragment extends Fragment
 
 	}
 
-	private void setExpansionSelectos()
-	{
-		setExpansionSelector(moduleGridConfig);
-		setExpansionSelector(moduleIcons);
-		setExpansionSelector(modulePicture);
-		setExpansionSelector(moduleListConfig);
-		setExpansionSelector(moduleChangeSize);
-		setExpansionSelector(moduleGridColumns);
-		setExpansionSelector(moduleContent);
-		setExpansionSelector(moduleBackgroundColor);
-		setExpansionSelector(moduleStarCount);
-		setExpansionSelector(moduleZorder);
-
-		root.invalidate();
-	}
 
 	/**
 	 * each sublayout module has an expansion selector button with the same id.
@@ -224,23 +201,7 @@ public class EditmodeFragment extends Fragment
 	 * @param module
 	 *            the editmode module containing the button
 	 */
-	private void setExpansionSelector(View module)
-	{
 
-		module.invalidate();
-
-		ImageButton expandIndicator = (ImageButton) module.findViewById(R.id.expand_selector);
-
-		View toggleArea = (View) expandIndicator.getParent();
-		toggleArea.setOnClickListener(new ExpansionListener((LinearLayout) module, expandIndicator));
-
-		/**
-		 * onclick has to be called once for the button to react. this was the
-		 * only workaround which did the job.
-		 */
-		toggleArea.performClick();
-		root.requestLayout();
-	}
 
 	/**
 	 * @author funklos
@@ -338,14 +299,6 @@ public class EditmodeFragment extends Fragment
 		pushToBack.setOnClickListener(new ZorderModuleListener());
 	}
 
-	private void setupChangesizeModule()
-	{
-		picker = (NumberPicker) root.findViewById(R.id.item_edit_editsize_picker);
-		picker.setOnValueChangedListener(new FontsizeModuleListener());
-		picker.setMinValue(5);
-		picker.setMaxValue(130);
-
-	}
 
 	private void setupPictureModule()
 	{
@@ -466,39 +419,6 @@ public class EditmodeFragment extends Fragment
 		root.invalidate();
 	}
 
-	/**
-	 * @author funklos
-	 */
-	private void resetModules()
-	{
-		// moduleAlign.setVisibility(View.GONE);
-		/* moduleEditText.setVisibility(View.GONE); */
-		modulePicture.setVisibility(View.GONE);
-		moduleChangeSize.setVisibility(View.GONE);
-		moduleZorder.setVisibility(View.GONE);
-		moduleNothing.setVisibility(View.GONE);
-		moduleIcons.setVisibility(View.GONE);
-		moduleStarCount.setVisibility(View.GONE);
-		moduleListConfig.setVisibility(View.GONE);
-		moduleGridConfig.setVisibility(View.GONE);
-		moduleGridColumns.setVisibility(View.GONE);
-		moduleContent.setVisibility(View.GONE);
-		moduleBackgroundColor.setVisibility(View.GONE);
-
-		// moduleAlign.invalidate();
-		// moduleEditText.invalidate();
-		modulePicture.invalidate();
-		moduleChangeSize.invalidate();
-		moduleZorder.invalidate();
-		moduleNothing.invalidate();
-		moduleIcons.invalidate();
-		moduleStarCount.invalidate();
-		moduleListConfig.invalidate();
-		moduleGridConfig.invalidate();
-		moduleGridColumns.invalidate();
-		moduleContent.invalidate();
-		moduleBackgroundColor.invalidate();
-	}
 
 	/**
 	 * 
@@ -846,113 +766,6 @@ public class EditmodeFragment extends Fragment
 		}
 	}
 
-	/**
-	 * 
-	 * @author pattern: funklos
-	 * 
-	 */
-	
-
-	private class FontsizeModuleListener implements OnValueChangeListener
-	{
-
-		@Override
-		public void onValueChange(NumberPicker picker, int oldVal, int newVal)
-		{
-			((TextView) currentView).setTextSize(newVal);
-			currentView.invalidate();
-		}
-	}
-
-	/**
-	 * in each editmode module a button
-	 * 
-	 * @author funklos
-	 * 
-	 */
-	private LinearLayout expandedBox;
-
-	private class ExpansionListener implements OnClickListener
-	{
-		private LinearLayout module;
-		private ImageButton indicator;
-		private LinearLayout clickableArea;
-		private View expandableView;
-
-		private int indicatorExpanded = R.raw.ico_small_0037;
-		private int indicatorCollapsed = R.raw.ico_small_0035;
-
-		public ExpansionListener(LinearLayout module, ImageButton indicator)
-		{
-			this.module = module;
-			this.indicator = indicator;
-			this.clickableArea = (LinearLayout) indicator.getParent();
-			this.expandableView = this.module.findViewById(R.id.expandable);
-
-			setIndikatorListener();
-		}
-
-		private void setIndikatorListener()
-		{
-			this.indicator.setOnClickListener(new OnClickListener()
-			{
-
-				@Override
-				public void onClick(View v)
-				{
-					clickableArea.performClick();
-				}
-			});
-		}
-
-		@Override
-		public void onClick(View clickedModule)
-		{
-			if (!clickedModule.isActivated())
-			{
-				collapse();
-
-			} else
-			{
-
-				if (expandedBox != null)
-				{
-					LinearLayout expandedClickArea = (LinearLayout) expandedBox.findViewById(R.id.expand_selector).getParent();
-					expandedClickArea.performClick();
-				}
-				expand();
-			}
-		}
-
-		private void expand()
-		{
-			expandableView.setVisibility(View.VISIBLE);
-			indicator.setImageResource(indicatorCollapsed);
-			module.setActivated(false);
-
-			expandedBox = module;
-			refresh();
-		}
-
-		private void collapse()
-		{
-			expandableView.setVisibility(View.GONE);
-			indicator.setImageResource(indicatorExpanded);
-			module.setActivated(true);
-
-			expandedBox = null;
-			refresh();
-		}
-
-		private void refresh()
-		{
-			expandableView.invalidate();
-			module.invalidate();
-			module.requestLayout();
-			expandableView.forceLayout();
-			root.forceLayout();
-		}
-	}
 
 	public interface onObjectEditedListener
 	{
