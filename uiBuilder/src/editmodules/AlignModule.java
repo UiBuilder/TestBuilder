@@ -57,12 +57,14 @@ public class AlignModule extends Module
 	public View getInstance(View inProgress)
 	{
 		requesting = inProgress;
-		adaptAlignButtons();
+		adaptToContext();
 
 		return box;
 	}
 
-	private void adaptAlignButtons()
+
+	@Override
+	protected void adaptToContext()
 	{
 		clearAlignSelection();
 		Log.d("adapt", "called");
@@ -106,6 +108,7 @@ public class AlignModule extends Module
 			break;
 		}
 		box.invalidate();
+		
 	}
 
 	protected void clearAlignSelection()
@@ -179,7 +182,7 @@ public class AlignModule extends Module
 	@Override
 	public void getValues()
 	{
-		adaptAlignButtons();
+		adaptToContext();
 	}
 
 }

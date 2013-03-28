@@ -22,4 +22,6 @@ public abstract class Module implements onToggleExpansionListener
 	
 	public abstract View getInstance(View inProgress);
 	
+	protected abstract void adaptToContext();
+	
 }
