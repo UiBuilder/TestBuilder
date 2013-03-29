@@ -1,6 +1,6 @@
 package editmodules;
 
-import android.content.Context;
+import uibuilder.EditmodeFragment;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
@@ -22,10 +22,10 @@ public class ListLayoutModule extends Module
 			layoutTypeFive,
 			layoutTypeSix;
 	
-	public ListLayoutModule(Context context)
+	public ListLayoutModule(EditmodeFragment context)
 	{
 		super(context);
-		samples = new SampleAdapter(context);
+		samples = new SampleAdapter(super.context);
 	}
 
 	@Override

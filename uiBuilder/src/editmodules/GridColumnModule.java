@@ -1,6 +1,6 @@
 package editmodules;
 
-import android.content.Context;
+import uibuilder.EditmodeFragment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
@@ -18,7 +18,7 @@ public class GridColumnModule extends Module
 	TextView display;
 	private int offset = 2;
 
-	public GridColumnModule(Context context)
+	public GridColumnModule(EditmodeFragment context)
 	{
 		super(context);
 		// TODO Auto-generated constructor stub

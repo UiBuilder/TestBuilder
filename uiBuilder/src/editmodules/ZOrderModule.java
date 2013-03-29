@@ -2,7 +2,7 @@ package editmodules;
 
 import java.util.ArrayList;
 
-import android.content.Context;
+import uibuilder.EditmodeFragment;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -18,7 +18,7 @@ public class ZOrderModule extends Module
 	private Button toFront;
 	private Button toBack;
 	
-	public ZOrderModule(Context context)
+	public ZOrderModule(EditmodeFragment context)
 	{
 		super(context);
 		// TODO Auto-generated constructor stub

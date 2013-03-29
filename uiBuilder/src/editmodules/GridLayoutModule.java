@@ -1,6 +1,6 @@
 package editmodules;
 
-import android.content.Context;
+import uibuilder.EditmodeFragment;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
@@ -20,10 +20,10 @@ public class GridLayoutModule extends Module
 	
 	private SampleAdapter samples;
 	
-	public GridLayoutModule(Context context)
+	public GridLayoutModule(EditmodeFragment context)
 	{
 		super(context);
-		samples = new SampleAdapter(context);
+		samples = new SampleAdapter(super.context);
 	}
 
 	@Override

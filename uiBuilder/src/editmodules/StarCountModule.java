@@ -1,7 +1,6 @@
 package editmodules;
 
-import de.ur.rk.uibuilder.R;
-import android.content.Context;
+import uibuilder.EditmodeFragment;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import de.ur.rk.uibuilder.R;
 
 public class StarCountModule extends Module
 {
@@ -18,7 +18,7 @@ public class StarCountModule extends Module
 
 	private View requesting;
 
-	public StarCountModule(Context context)
+	public StarCountModule(EditmodeFragment context)
 	{
 		super(context);
 	}

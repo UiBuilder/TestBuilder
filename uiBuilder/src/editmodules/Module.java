@@ -1,5 +1,6 @@
 package editmodules;
 
+import uibuilder.EditmodeFragment;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +12,9 @@ public abstract class Module implements onToggleExpansionListener
 	protected Context context;
 	protected LayoutInflater inflater;
  	
-	public Module(Context context)
+	public Module(EditmodeFragment fragment)
 	{
-		this.context = context;
+		this.context = fragment.getActivity();
 		this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
 		setupUi();

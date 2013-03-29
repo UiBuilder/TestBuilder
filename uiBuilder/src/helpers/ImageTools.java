@@ -116,7 +116,9 @@ public class ImageTools
 
 		if (photoPath != null)
 		{
+			Log.d("path", "not null");
 			setPic(destination);
+			Log.d("set pic", "passed");
 			galleryAddPic();
 			photoPath = null;
 		}
@@ -130,6 +132,7 @@ public class ImageTools
 	 */
 	public void handleGalleryImport(View destination, Intent data)
 	{
+		Log.d("handle", "called");
 		path = data.getData();
 		photoPath = getPath(path);
 		

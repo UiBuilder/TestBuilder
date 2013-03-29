@@ -3,6 +3,7 @@
  */
 package editmodules;
 
+import uibuilder.EditmodeFragment;
 import helpers.IconAdapter;
 import android.content.Context;
 import android.os.Bundle;
@@ -34,10 +35,10 @@ public class IconModule extends Module
 	/**
 	 * @param context
 	 */
-	public IconModule(Context context)
+	public IconModule(EditmodeFragment context)
 	{
 		super(context);
-		setupData(context);
+		setupData(super.context);
 	}
 
 	/**

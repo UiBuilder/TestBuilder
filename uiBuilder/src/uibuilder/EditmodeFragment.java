@@ -3,7 +3,6 @@ package uibuilder;
 import helpers.ImageTools;
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -73,33 +72,7 @@ public class EditmodeFragment extends Fragment
 		Log.d("Editmode Fragment", "onCreate called");
 
 		context = getActivity();
-		
-		BroadcastReceiver receiver = new BroadcastReceiver()
-		{
-			
-			@Override
-			public void onReceive(Context context, Intent intent)
-			{
-				
-				int code = intent.getIntExtra(ImageModule.IMAGEREQUEST, 0);
-				switch (code)
-				{
-				case ImageTools.CAMERA:
-
-					Intent cameraIntent = imageHandler.getIntent(ImageTools.CAMERA);
-					startActivityForResult(cameraIntent, ImageTools.CAMERA);
-
-					break;
-
-				case ImageTools.GALLERY:
-
-					Intent galleryIntent = imageHandler.getIntent(ImageTools.GALLERY);
-					startActivityForResult(Intent.createChooser(galleryIntent, "Select Picture"), ImageTools.GALLERY);
-					break;
-				}
-			}
-		};
-		
+		imageHandler = new ImageTools(context);
 		super.onCreate(savedInstanceState);
 	}
 
@@ -134,7 +107,10 @@ public class EditmodeFragment extends Fragment
 	public void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
 		super.onActivityResult(requestCode, resultCode, data);
-
+		Bundle b = (Bundle) currentView.getTag();
+		Log.d("tag", String.valueOf(data.getData()));
+	
+		
 		switch (requestCode)
 		{
 		case ImageTools.CAMERA:
@@ -156,18 +132,18 @@ public class EditmodeFragment extends Fragment
 
 	private void getModules()
 	{
-		alignModule = new AlignModule(context);
-		backgroundColorModule = new BackgroundColorModule(context);
-		contentModule = new ContentModule(context);
-		fontSizeModule = new FontSizeModule(context);
-		gridColumnModule = new GridColumnModule(context);
-		gridLayoutModule = new GridLayoutModule(context);
-		iconModule = new IconModule(context);
-		imageModule = new ImageModule(context);
-		listLayoutModule = new ListLayoutModule(context);
-		starCountModule = new StarCountModule(context);
-		userTextModule = new UserTextModule(context);
-		zOrderModule = new ZOrderModule(context);
+		alignModule = new AlignModule(this);
+		backgroundColorModule = new BackgroundColorModule(this);
+		contentModule = new ContentModule(this);
+		fontSizeModule = new FontSizeModule(this);
+		gridColumnModule = new GridColumnModule(this);
+		gridLayoutModule = new GridLayoutModule(this);
+		iconModule = new IconModule(this);
+		imageModule = new ImageModule(this);
+		listLayoutModule = new ListLayoutModule(this);
+		starCountModule = new StarCountModule(this);
+		userTextModule = new UserTextModule(this);
+		zOrderModule = new ZOrderModule(this);
 	}
 
 
@@ -273,8 +249,8 @@ public class EditmodeFragment extends Fragment
 
 	private void configImageView()
 	{
-		linearRoot.addView(iconModule.getInstance(currentView));
 		linearRoot.addView(imageModule.getInstance(currentView));
+		linearRoot.addView(iconModule.getInstance(currentView));
 	}
 
 	private void configEditText()
@@ -302,26 +278,6 @@ public class EditmodeFragment extends Fragment
 		linearRoot.addView(fontSizeModule.getInstance(currentView));
 		linearRoot.addView(alignModule.getInstance(currentView));
 		linearRoot.addView(backgroundColorModule.getInstance(currentView));
-	}
-
-
-
-	public interface onObjectEditedListener
-	{
-		void setSampleContent(View active, int id);
-
-		void refreshAdapter(View active, int id);
-
-		void gridColumnsChanged(View active, int col);
-
-		void setIconResource(View active, int pos);
-	}
-
-	private static onObjectEditedListener editListener;
-
-	public static void setOnObjectEditedListener(onObjectEditedListener listener)
-	{
-		EditmodeFragment.editListener = listener;
 	}
 
 }

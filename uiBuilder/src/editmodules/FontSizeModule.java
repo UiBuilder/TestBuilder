@@ -1,12 +1,12 @@
 package editmodules;
 
-import de.ur.rk.uibuilder.R;
-import android.content.Context;
+import uibuilder.EditmodeFragment;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
-import android.widget.TextView;
 import android.widget.NumberPicker.OnValueChangeListener;
+import android.widget.TextView;
+import de.ur.rk.uibuilder.R;
 
 public class FontSizeModule extends Module
 {
@@ -15,7 +15,7 @@ public class FontSizeModule extends Module
 	
 	private NumberPicker picker;
 	
-	public FontSizeModule(Context context)
+	public FontSizeModule(EditmodeFragment context)
 	{
 		super(context);
 		// TODO Auto-generated constructor stub

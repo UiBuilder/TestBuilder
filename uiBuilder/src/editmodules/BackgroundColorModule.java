@@ -1,13 +1,13 @@
 package editmodules;
 
-import data.ObjectValues;
-import de.ur.rk.uibuilder.R;
-import android.content.Context;
+import uibuilder.EditmodeFragment;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import data.ObjectValues;
+import de.ur.rk.uibuilder.R;
 
 public class BackgroundColorModule extends Module
 {
@@ -26,7 +26,7 @@ public class BackgroundColorModule extends Module
 	
 	private View requesting;
 	
-	public BackgroundColorModule(Context context)
+	public BackgroundColorModule(EditmodeFragment context)
 	{
 		super(context);
 	}

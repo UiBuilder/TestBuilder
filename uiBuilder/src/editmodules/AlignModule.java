@@ -1,6 +1,6 @@
 package editmodules;
 
-import android.content.Context;
+import uibuilder.EditmodeFragment;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -19,7 +19,7 @@ public class AlignModule extends Module
 
 	private View requesting;
 
-	public AlignModule(Context context)
+	public AlignModule(EditmodeFragment context)
 	{
 		super(context);
 	}

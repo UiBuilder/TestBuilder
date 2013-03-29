@@ -11,6 +11,21 @@ import android.widget.ListView;
 import android.widget.TextView;
 import de.ur.rk.uibuilder.R;
 
+/**
+ * @author funklos
+ * 
+ * Helper class for grid and list configuration.
+ * Provides:
+ * method to change the example content
+ * @see setSampleContent
+ * 
+ * method to change the example layout
+ * @see setSampleLayout
+ * 
+ * Convenience method to set a data-adapter, displaying the chosen data in the selected way
+ * @see setSampleAdapter
+ *
+ */
 public class SampleAdapter
 {
 	private String[] 
@@ -49,6 +64,8 @@ public class SampleAdapter
 	}
 	
 	/**
+	 * Sets the active type for the given view.
+	 * The information is objects specific and stored in the bundle.
 	 * 
 	 * @param active
 	 * @param id
@@ -97,6 +114,14 @@ public class SampleAdapter
 		setSampleAdapter(active);
 	}
 	
+	/**
+	 * set an adapter to the requesting view.
+	 * this method is called after the creation and recreation from database.
+	 * <b>This method can be and is called after every object instantiation.</b>
+	 * The inner check guarantees type-safety.
+	 * 
+	 * @param active
+	 */
 	public void setSampleAdapter(View active)
 	{
 		try
@@ -124,6 +149,8 @@ public class SampleAdapter
 	}
 
 	/**
+	 * grid and list use ".setAdapter" methods to set an adapter.
+	 * the methods are specific so a typecheck is necessary.
 	 * @param inner
 	 * @param type
 	 * @param adapter
@@ -191,8 +218,10 @@ public class SampleAdapter
 
 	
 	/**
+	 * sets another example layout for the list.
 	 * @author funklos
-	 * @param from
+	 * @param from the selected layout type
+	 * @param active the destination list
 	 */
 	public void setSampleListLayout(View active, int from)
 	{
@@ -240,9 +269,10 @@ public class SampleAdapter
 	}
 	
 	/**
+	 * sets another example layout for the grid
 	 * @author funklos
-	 * @param active
-	 * @param from
+	 * @param from the selected layout type
+	 * @param active the destination list
 	 */
 	private void setSampleGridLayout(View active, int from)
 	{

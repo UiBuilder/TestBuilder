@@ -1,13 +1,10 @@
 package editmodules;
 
-import android.content.Context;
+import uibuilder.EditmodeFragment;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import data.SampleAdapter;
 import de.ur.rk.uibuilder.R;
 
@@ -21,11 +18,10 @@ public class ContentModule extends Module
 	
 	private SampleAdapter samples;
 
-	public ContentModule(Context context)
+	public ContentModule(EditmodeFragment context)
 	{
 		super(context);
-		samples = new SampleAdapter(context);
-		// TODO Auto-generated constructor stub
+		samples = new SampleAdapter(super.context);
 	}
 
 	@Override

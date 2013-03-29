@@ -4,8 +4,7 @@
 package editmodules;
 
 import helpers.ImageTools;
-import android.content.BroadcastReceiver;
-import android.content.Context;
+import uibuilder.EditmodeFragment;
 import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,16 +24,16 @@ public class ImageModule extends Module
 	private Button takePic, picFromGallery;
 	
 	private ImageTools imageHandler;
-	private Context context;
+	private EditmodeFragment context;
 	
 	/**
 	 * @param context
 	 */
-	public ImageModule(Context context)
+	public ImageModule(EditmodeFragment context)
 	{
 		super(context);
 		this.context = context;
-		imageHandler = new ImageTools(context);
+		imageHandler = new ImageTools(super.context);
 	}
 
 	/* (non-Javadoc)
@@ -109,20 +108,14 @@ public class ImageModule extends Module
 			{
 			case R.id.image_choose_camera:
 
-				Intent cameraIntent = new Intent();
-				cameraIntent.putExtra(IMAGEREQUEST, ImageTools.CAMERA);
-				
-				context.sendBroadcast(cameraIntent);
-				//startActivityForResult(cameraIntent, ImageTools.CAMERA);
-
+				Intent cameraIntent = imageHandler.getIntent(ImageTools.CAMERA);
+				context.startActivityForResult(cameraIntent, ImageTools.CAMERA);
 				break;
 
 			case R.id.image_choose_gallery:
-				Intent galleryIntent = new Intent();
-				galleryIntent.putExtra(IMAGEREQUEST, ImageTools.GALLERY);
 				
-				context.sendBroadcast(galleryIntent);
-				//startActivityForResult(Intent.createChooser(galleryIntent, "Select Picture"), ImageTools.GALLERY);
+				Intent galleryIntent = imageHandler.getIntent(ImageTools.GALLERY);
+				context.startActivityForResult(Intent.createChooser(galleryIntent, "Select Picture"), ImageTools.GALLERY);
 				break;
 			}
 		}

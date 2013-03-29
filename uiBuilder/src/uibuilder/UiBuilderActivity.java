@@ -347,7 +347,7 @@ public class UiBuilderActivity extends Activity implements
 	{
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
-
+Log.d("result", "registered");
 		if (resultCode == Activity.RESULT_OK)
 			switch (requestCode)
 			{

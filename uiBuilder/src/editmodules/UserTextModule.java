@@ -1,6 +1,6 @@
 package editmodules;
 
-import android.content.Context;
+import uibuilder.EditmodeFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -19,7 +19,7 @@ public class UserTextModule extends Module
 	
 	private View requesting;
 
-	public UserTextModule(Context context)
+	public UserTextModule(EditmodeFragment context)
 	{
 		super(context);
 	}

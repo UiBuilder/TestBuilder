@@ -1,26 +1,18 @@
 package creators;
 
-import uibuilder.EditmodeFragment;
-import uibuilder.EditmodeFragment.onObjectEditedListener;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnTouchListener;
 
-public class ObjectFactory implements onObjectEditedListener
+public class ObjectFactory
 {
 
 	private Context ref;
 	private Generator generator;
 
 	private static final String LOGTAG = "OBJECTFACTORY says:";
-
-	/**
-	 * Resources
-	 */
-
-	int[] highResIcns;
 
 	/**
 	 * KONSTRUKTOR
@@ -33,16 +25,12 @@ public class ObjectFactory implements onObjectEditedListener
 		ref = c;
 		generator = new Generator(ref, l, this);
 		
-		EditmodeFragment.setOnObjectEditedListener(this);
 	}
 
-
-
 	/**
-	 * 
-	 * @param which
-	 *            Definiert die Art des zu erzeugenden Elementes
-	 * @return Das erzeugte Element
+	 * called to create new objects
+	 * @param which the requested object type       
+	 * @return the generated object
 	 */
 	public View getElement(int which)
 	{
@@ -57,51 +45,13 @@ public class ObjectFactory implements onObjectEditedListener
 		}
 	}
 
+	/**
+	 * called to re-generate objects from database
+	 * @param bundle
+	 * @return
+	 */
 	public View getElement(Bundle bundle)
 	{
-//		try
-//		{
 			return generator.generate(bundle);
-//		} catch (Exception e)  
-//		{
-//			Log.d(LOGTAG, "Übergebene ID existiert nicht.");
-//			return null;
-//		}
-	}
-
-	/**
-	 * @author funklos
-	 */
-	@Override
-	public void setIconResource(View active, int pos)
-	{
-
-	}
-
-
-
-	@Override
-	public void setSampleContent(View active, int id)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-	@Override
-	public void refreshAdapter(View active, int id)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-	@Override
-	public void gridColumnsChanged(View active, int col)
-	{
-		// TODO Auto-generated method stub
-		
 	}
 }
