@@ -253,19 +253,11 @@ public class DesignFragment extends Fragment implements OnDragListener,
 				 */
 				case R.id.design_area:
 					Log.d("DesignArea", "called");
-					detector.setIsLongpressEnabled(false);
-					activeItem = null;
-
-					listener.objectSelected(false);
-
-					if (overlay.isActive())
+					
+					if (deselect())
 					{
-						Log.d("Case Design Area", "overlay active and therefore deleted");
-
-						deleteOverlay();
 						return true;
 					}
-
 					Log.d("layout forward", "called");
 					break;
 
@@ -346,6 +338,27 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		 *         processing
 		 */
 		return detector.onTouchEvent(event);
+	}
+
+	/**
+	 * 
+	 */
+	private boolean deselect()
+	{
+		detector.setIsLongpressEnabled(false);
+		activeItem = null;
+
+		listener.objectSelected(false);
+
+		if (overlay.isActive())
+		{
+			Log.d("Case Design Area", "overlay active and therefore deleted");
+
+			deleteOverlay();
+			return true;
+		}
+		else
+		return false;
 	}
 
 	@Override

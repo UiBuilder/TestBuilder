@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" 
+    android:padding="@dimen/default_padding_medium"
     >
     <TextView 
         
@@ -33,7 +34,6 @@
     
     <TextView 
         android:id="@+id/activity_manager_griditem_layout_title"
-		android:text="EMPTY SCREEN"
 		
 		android:layout_below="@id/activity_manager_griditem_layout_image"
         android:layout_width="match_parent"
@@ -53,25 +53,61 @@
         android:gravity="center_horizontal|top"
         />
     
-    <LinearLayout android:id="@+id/activity_manager_griditem_deletebox"
-        android:visibility="invisible"
-		android:layout_alignParentTop="true"
-		android:layout_alignParentLeft="true"
-		android:layout_alignParentRight="true"
-		android:background="@color/fresh_aqua"
-        android:layout_width="200dp"
-        android:layout_height="300dp"
-        android:orientation="horizontal"
         
-        android:gravity="center"
-        >
-        <Button android:id="@+id/activity_manager_griditem_deletebutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-			android:background="@color/element_out_of_dropzone"
-            android:text="delete"
-            />
+    <RelativeLayout android:id="@+id/activity_manager_griditem_deletebox"
+        	android:visibility="invisible"
+			android:layout_alignParentTop="true"
+			android:layout_alignParentLeft="true"
+			android:layout_alignParentRight="true"
+			
+			android:background="@color/black_transparent"
+        	android:layout_width="200dp"
+        	android:layout_height="300dp"
+        	android:padding="@dimen/default_padding_large"
+        	
+        	style="@android:attr/buttonBarStyle"
+            >
+            
+            <TextView android:id="@+id/activity_manager_griditem_delete_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                
+                android:gravity="center_horizontal"
+                android:text="@string/manager_caption_ask"
+                android:padding="@dimen/default_padding_large"
+                style="@style/itembox_header"
+                />
+            <View android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_below="@id/activity_manager_griditem_delete_hint"
+                android:layout_centerInParent="true"/>
         
-    </LinearLayout>
+	        <Button android:id="@+id/activity_manager_griditem_cancelbutton"
+	            android:layout_width="100dp"
+	            android:layout_height="wrap_content"
+	            
+	            android:layout_below="@id/activity_manager_griditem_delete_hint"
+	            android:layout_alignParentLeft="true"
+	            
+				android:background="@color/background_grey"
+	            android:text="@string/manager_caption_cancel"
+	            style="@android:attr/buttonBarButtonStyle"
+	            />
+	        
+	        <Button android:id="@+id/activity_manager_griditem_deletebutton"
+	            android:layout_width="100dp"
+	            android:layout_height="wrap_content"
+	            
+	            android:layout_below="@id/activity_manager_griditem_delete_hint"
+	            android:layout_alignParentRight="true"
+
+	            
+				android:background="@color/element_out_of_dropzone"
+	            android:text="@string/manager_caption_confirm"
+	            style="@android:attr/buttonBarButtonStyle"
+	            />
+      </RelativeLayout>
+
 
 </RelativeLayout>

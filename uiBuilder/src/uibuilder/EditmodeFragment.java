@@ -107,27 +107,12 @@ public class EditmodeFragment extends Fragment
 	public void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
 		super.onActivityResult(requestCode, resultCode, data);
-		Bundle b = (Bundle) currentView.getTag();
-		Log.d("tag", String.valueOf(data.getData()));
-	
-		
-		switch (requestCode)
+
+		if (resultCode == Activity.RESULT_OK)
 		{
-		case ImageTools.CAMERA:
-
-			if (resultCode == Activity.RESULT_OK)
-			{
-				imageHandler.handleBigCameraPhoto(currentView);
-			}
-			break;
-
-		case ImageTools.GALLERY:
-
-			if (resultCode == Activity.RESULT_OK)
-			{
-				imageHandler.handleGalleryImport(currentView, data);
-			}
+			((ImageModule) imageModule).setImageResource(requestCode, data);
 		}
+			
 	}
 
 	private void getModules()

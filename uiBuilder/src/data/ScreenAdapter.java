@@ -29,18 +29,6 @@ public class ScreenAdapter extends CursorAdapter
 		super(context, c, autoRequery);
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
-
-	/**
-	 * @deprecated
-	 * @param context
-	 * @param c
-	 */
-	public ScreenAdapter(Context context, Cursor c)
-	{
-		super(context, c, 0);
-		
-		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);;
-	}
 	
 
 	@Override

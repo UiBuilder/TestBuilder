@@ -46,6 +46,28 @@ public class ImageModule extends Module
 
 	}
 
+	/**
+	 * will be called when the user has successfully chosen a picture from an android content provider,
+	 * or taken a picture with the device camera and the result was delivered to EditmodeFragment.
+	 * @param requestCode
+	 * @param data
+	 */
+	public void setImageResource(int requestCode, Intent data)
+	{
+		switch (requestCode)
+		{
+		case ImageTools.CAMERA:
+
+			imageHandler.handleBigCameraPhoto(requesting);
+			break;
+
+		case ImageTools.GALLERY:
+
+			imageHandler.handleGalleryImport(requesting, data);
+			break;
+		}
+	}
+	
 	/* (non-Javadoc)
 	 * @see editmodules.Module#setupUi()
 	 */
@@ -92,9 +114,12 @@ public class ImageModule extends Module
 
 	}
 	
-	public static final String IMAGEREQUEST = "request";
+
 	/**
-	 * 
+	 * deliver intent to framework to pick a picture.
+	 * the result will be passed to editmode fragment, which is the context of the intents.
+	 * onactivityresult will call
+	 * @see ImageModule.setImageResource
 	 * @author funklos
 	 * 
 	 */

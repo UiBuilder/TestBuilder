@@ -38,12 +38,14 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	
 	private EditText screenName;
 	private Button newScreen;
-	
 	private GridView grid;
+	
 	private ScreenAdapter adapter;
 	public static final String DATABASE_SCREEN_ID = "screen";
 	private LoaderManager manager;
 	
+	private boolean deleteInProgress;
+	private RelativeLayout deleteScreenShowing;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -68,7 +70,6 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 			@Override
 			public void onClick(View v)
 			{
-				if (screenName.getText().toString() != null)
 				startForNewScreen();
 			}
 		});	
@@ -79,7 +80,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 			@Override
 			public void onItemClick(AdapterView<?> parent, View screen, int position,
 					long id)
-			{
+			{	
 				Log.d("itemid", String.valueOf(id));
 				startForEditing(screen, id);
 			}
@@ -89,13 +90,26 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		{
 
 			@Override
-			public boolean onItemLongClick(AdapterView<?> arg0, View item,
+			public boolean onItemLongClick(AdapterView<?> arg0, final View item,
 					int arg2, final long id)
 			{
-				final LinearLayout hidden = (LinearLayout) item.findViewById(R.id.activity_manager_griditem_deletebox);
-				hidden.setVisibility(View.VISIBLE);
+				final RelativeLayout hidden = (RelativeLayout) item.findViewById(R.id.activity_manager_griditem_deletebox);
 				
+				setToDeleteMode(hidden);
 				
+				setupDeleteScreenInteraction(item, id, hidden);
+						
+				return true;
+			}
+
+			/**
+			 * @param item
+			 * @param id
+			 * @param hidden
+			 */
+			private void setupDeleteScreenInteraction(final View item,
+					final long id, final RelativeLayout hidden)
+			{
 				Button deleteButton = (Button) item.findViewById(R.id.activity_manager_griditem_deletebutton);
 				deleteButton.setOnClickListener(new OnClickListener()
 				{
@@ -103,39 +117,71 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 					@Override
 					public void onClick(View v)
 					{
-						deleteScreen(id);
+						deleteScreenFromDatabase(id);
 						//hidden.setVisibility(View.INVISIBLE);
 					}
 				});
 				
-				LinearLayout deleteBox = (LinearLayout) deleteButton.getParent();
+				RelativeLayout deleteBox = (RelativeLayout) deleteButton.getParent();
 				deleteBox.setOnClickListener(new OnClickListener()
 				{
 					
 					@Override
 					public void onClick(View v)
 					{
-						// TODO Auto-generated method stub
-						hidden.setVisibility(View.INVISIBLE);
+						returnToNormalMode(hidden);
 					}
 				});
-						
-				return true;
-			}
+				
+				Button cancelButton = (Button) deleteBox.findViewById(R.id.activity_manager_griditem_cancelbutton);
+				cancelButton.setOnClickListener(new OnClickListener()
+				{
+					
+					@Override
+					public void onClick(View v)
+					{
 
+						returnToNormalMode(hidden);
+					}
+				});
+			}
+			
 			/**
 			 * @param id
 			 */
-			private void deleteScreen(long id)
+			private void deleteScreenFromDatabase(long id)
 			{
 				ContentResolver cres = getContentResolver();
 				
-				//delete the screen in screens table, automatically deletes all dependencies
+				//delete the screen in screens table, automatically deletes all depending entries in tables
 				Uri uri = ContentUris.withAppendedId(ScreenProvider.CONTENT_URI_SCREENS, id);
 				cres.delete(uri, null, null);
 				invalidated();
+				
+				deleteInProgress = false;
 			}
 		});
+	}
+	/**
+	 * @param deleteScreen
+	 */
+	private void setToDeleteMode(RelativeLayout deleteScreen)
+	{
+		deleteScreen.setVisibility(View.VISIBLE);
+		deleteInProgress = true;
+		deleteScreenShowing = deleteScreen;
+	}
+
+	
+	/**
+	 * @param item
+	 * @param hidden
+	 */
+	private void returnToNormalMode(RelativeLayout deleteScreen)
+	{
+		deleteScreen.setVisibility(View.INVISIBLE);
+		deleteInProgress = false;
+		deleteScreenShowing = null;
 	}
 
 	/**
@@ -222,9 +268,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
 		if (resultCode == RESULT_OK && requestCode == REQUEST_SCREEN)
-		{
-			Log.d("returning to manager", "with result ok");
-			
+		{	
 			String imagePath = data.getStringExtra(RESULT_IMAGE_PATH);
 			int id = data.getIntExtra(RESULT_SCREEN_ID, -1);
 			
@@ -242,6 +286,19 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 			}
 		}
 		
+	}
+
+	@Override
+	public void onBackPressed()
+	{
+		if (deleteInProgress)
+		{
+			returnToNormalMode(deleteScreenShowing);
+		}
+		else
+		{
+			super.onBackPressed();
+		}
 	}
 
 	@Override
