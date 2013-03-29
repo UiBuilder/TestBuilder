@@ -67,7 +67,7 @@ public class Generator
 		
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
-		gridFactor = DesignFragment.SNAP_GRID_INTERVAL;
+		gridFactor = ObjectFactory.SNAP_GRID_INTERVAL;
 		res = ref.getApplicationContext().getResources();
 	}
 

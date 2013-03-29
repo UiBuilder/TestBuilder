@@ -1,5 +1,6 @@
 package uibuilder;
 
+import helpers.CollisionChecker;
 import helpers.Log;
 import manipulators.Grid;
 import manipulators.Overlay;
@@ -46,7 +47,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 	private View currentTouch;
 
-	public static final int SNAP_GRID_INTERVAL = 15;
+	
 
 
 	@Override
@@ -57,7 +58,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		View root = inflater.inflate(R.layout.layout_design_fragment, container, false);
 		designArea = (RelativeLayout) root.findViewById(R.id.design_area);
 		parent = (RelativeLayout) designArea.getParent();
-		FromDatabaseObjectCreator.setOnObjectCreatedFromDatabaseListener(this);
+		
 		designArea.post(new Runnable()
 		{
 			@Override
@@ -84,8 +85,8 @@ public class DesignFragment extends Fragment implements OnDragListener,
 				int maxHeight = rootHeight - 2 * handleSize;
 
 				RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) designArea.getLayoutParams();
-				params.width = snapToGrid(maxWidth);
-				params.height = snapToGrid(maxHeight);
+				params.width = CollisionChecker.snapToGrid(maxWidth);
+				params.height = CollisionChecker.snapToGrid(maxHeight);
 
 				designArea.setLayoutParams(params);
 				designArea.forceLayout();
@@ -107,6 +108,8 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 	private void setListeners()
 	{
+		FromDatabaseObjectCreator.setOnObjectCreatedFromDatabaseListener(this);
+		
 		designArea.setOnTouchListener(this);
 		designArea.setOnDragListener(this);
 		parent.setOnTouchListener(new OnTouchListener()
@@ -144,9 +147,9 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 	private void initHelpers()
 	{
-		factory = new ObjectFactory(getActivity().getApplicationContext(), this);
+		factory = new ObjectFactory(getActivity().getApplicationContext(), this, designArea);
 		detector = new GestureDetector(getActivity().getApplicationContext(), this);
-		grid = new Grid(getActivity().getApplicationContext(), SNAP_GRID_INTERVAL);
+		grid = new Grid(getActivity().getApplicationContext(), ObjectFactory.SNAP_GRID_INTERVAL);
 		overlay = new Overlay(designArea, this);
 
 		grid.setLayoutParams(designArea.getLayoutParams());
@@ -194,7 +197,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 			case MotionEvent.ACTION_DOWN:
 
 				currentTouch = v;
-
 				listener.objectChanged(currentTouch);
 
 				Log.d("first down", String.valueOf(event.getPointerCount()));
@@ -346,12 +348,8 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	@Override
 	public boolean onDown(MotionEvent event)
 	{
-		// holt die Koordinaten des Touch-Punktes
-		float clickPosX = event.getAxisValue(MotionEvent.AXIS_X);
-		float clickPosY = event.getAxisValue(MotionEvent.AXIS_Y);
-
 		Log.d("Ondown", "is called");
-		return createObject(clickPosX, clickPosY);
+		return createObject(event);
 		/** If the Object was created the event is consumed. */
 	}
 
@@ -376,23 +374,14 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	 *         <b>false</b>
 	 * 
 	 */
-	private boolean createObject(float clickPosX, float clickPosY)
+	private boolean createObject(MotionEvent event)
 	{
 		if (activeItem == null && !overlay.isActive() && nextObjectId != 0)
 		{
-			View newOne = (View) factory.getElement(nextObjectId);
+			View newOne = (View) factory.getElement(nextObjectId, event);
 
 			activeItem = newOne;
-
-			int targetX = checkCollisionX(clickPosX);
-			int targetY = checkCollisionY(clickPosY);
-
-			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) newOne.getLayoutParams();
-
-			params.leftMargin = snapToGrid(targetX);
-			params.topMargin = snapToGrid(targetY);
-
-			designArea.addView(newOne, params);
+			
 			return true;
 		}
 		return false;
@@ -546,7 +535,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 			if (checkMinSize(dragParams, distance, itemTag, R.id.overlay_right))
 			{
 				roundedDist = checkMaxSize(distance, R.id.overlay_right);
-				roundedDist = snapToGrid(roundedDist);
+				roundedDist = CollisionChecker.snapToGrid(roundedDist);
 
 				itemParams.width = dragParams.width = activeItem.getMeasuredWidth()
 						+ roundedDist;
@@ -560,7 +549,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 			if (checkMinSize(dragParams, distance, itemTag, R.id.overlay_left))
 			{
 				roundedDist = checkMaxSize(distance, R.id.overlay_left);
-				roundedDist = snapToGrid(roundedDist);
+				roundedDist = CollisionChecker.snapToGrid(roundedDist);
 
 				dragParams.leftMargin = drag.getLeft() - roundedDist;
 				itemParams.leftMargin = activeItem.getLeft() - roundedDist;
@@ -577,7 +566,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 			if (checkMinSize(dragParams, distance, itemTag, R.id.overlay_bottom))
 			{
 				roundedDist = checkMaxSize(distance, R.id.overlay_bottom);
-				roundedDist = snapToGrid(roundedDist);
+				roundedDist = CollisionChecker.snapToGrid(roundedDist);
 
 				itemParams.width = dragParams.width = activeItem.getMeasuredWidth();
 				itemParams.height = dragParams.height = activeItem.getMeasuredHeight()
@@ -591,7 +580,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 			if (checkMinSize(dragParams, distance, itemTag, R.id.overlay_top))
 			{
 				roundedDist = checkMaxSize(distance, R.id.overlay_top);
-				roundedDist = snapToGrid(roundedDist);
+				roundedDist = CollisionChecker.snapToGrid(roundedDist);
 
 				dragParams.topMargin = drag.getTop() - roundedDist;
 				itemParams.topMargin = activeItem.getTop() - roundedDist;
@@ -768,7 +757,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 											// reposition the element at
 											// droptarget
 
-					performDrop(event);
+					factory.performDrop(event, activeItem, overlay.getDrag());
 					break;
 				}
 			}
@@ -776,33 +765,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 		return true;
 
-	}
-
-	/**
-	 * get the coordinates of the drop event
-	 * repositions:
-	 * the active item and the overlay
-	 * @param event the drop event
-	 */
-	private void performDrop(DragEvent event)
-	{
-		ImageButton drag = overlay.getDrag();
-
-		int dropTargetX = checkCollisionX(event.getX());
-		int dropTargetY = checkCollisionY(event.getY());
-
-		RelativeLayout.LayoutParams activeParams = (RelativeLayout.LayoutParams) activeItem.getLayoutParams();
-		RelativeLayout.LayoutParams dragParams = (RelativeLayout.LayoutParams) drag.getLayoutParams();
-
-		dragParams.leftMargin = snapToGrid(dropTargetX) + designArea.getLeft();
-		dragParams.topMargin = snapToGrid(dropTargetY) + designArea.getTop();
-		dragParams.width = activeItem.getMeasuredWidth();
-		dragParams.height = activeItem.getMeasuredHeight();
-		drag.setLayoutParams(dragParams);
-
-		activeParams.leftMargin = snapToGrid(dropTargetX);
-		activeParams.topMargin = snapToGrid(dropTargetY);
-		activeItem.setLayoutParams(activeParams);
 	}
 
 	/**
@@ -849,12 +811,12 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	 * @param value
 	 * @return
 	 */
-	private int snapToGrid(int value)
+/*	private int snapToGrid(int value)
 	{
 		return Math.round((float) value / SNAP_GRID_INTERVAL)
 				* SNAP_GRID_INTERVAL;
 	}
-
+*/
 	/**
 	 * sets the appropriate style to the item being dragged. check if activeitem
 	 * == null because a drop can result in a delete operation. without
@@ -912,14 +874,14 @@ public class DesignFragment extends Fragment implements OnDragListener,
 			}
 		}
 	}
-
-	/**
+/*
+	*//**
 	 * Checks if the target of the drop action is within view bounds
 	 * 
 	 * @author funklos
 	 * @param float y of event
 	 * @return calculated Y-position of the performed drop
-	 */
+	 *//*
 	private int checkCollisionY(float dropPosY)
 	{
 		int offsetPos = Math.round(dropPosY - activeItem.getMeasuredHeight()
@@ -940,13 +902,13 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		return offsetPos;
 	}
 
-	/**
+	*//**
 	 * Checks if the target of the drop action is within view bounds
 	 * 
 	 * @author funklos
 	 * @param float x of event
 	 * @return calculated X-position of the performed drop
-	 */
+	 *//*
 	private int checkCollisionX(float dropPosX)
 	{
 		int offsetPos = Math.round(dropPosX - activeItem.getMeasuredWidth() / 2);
@@ -965,7 +927,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		}
 		return offsetPos;
 	}
-
+*/
 	/**
 	 * Entfernt das Overlay komplett.
 	 * 
