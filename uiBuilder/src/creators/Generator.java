@@ -181,22 +181,8 @@ public class Generator
 		
 		xmlView.measure(properties.getInt(ObjectValues.MINWIDTH), properties.getInt(ObjectValues.MINHEIGHT));
 		
-		adapterNeeded(xmlView, id);
+		samples.setSampleAdapter(xmlView);
 		return xmlView;
-	}
-	
-	private void adapterNeeded(View v, int id)
-	{
-		switch (id)
-		{
-		case R.id.element_list: case R.id.element_grid:
-			samples.setSampleAdapter(v);
-			break;
-
-		default:
-			break;
-		}
-		
 	}
 
 	/**
@@ -292,11 +278,6 @@ public class Generator
 			xmlView = buildListView();
 			
 			xmlView.setBackgroundResource(R.drawable.object_background_default);
-			//samples.setAdapter(xmlView);
-			//Content is missing here
-			
-
-			
 			break;
 
 		case R.id.element_numberpick:
@@ -335,7 +316,7 @@ public class Generator
 
 		case R.id.element_grid:
 			xmlView = buildGrid();
-			//samples.setAdapter(xmlView);
+
 			((GridView)((RelativeLayout)xmlView).getChildAt(0)).setNumColumns(databaseBundle.getInt(ObjectValues.COLUMNS_NUM));
 			xmlView.setBackgroundResource(R.drawable.object_background_default);
 
@@ -362,9 +343,8 @@ public class Generator
 		
 		xmlView.measure(databaseBundle.getInt(ObjectValues.WIDTH), databaseBundle.getInt(ObjectValues.HEIGHT));
 
+		samples.setSampleAdapter(xmlView);
 		return xmlView;
-	
-		
 	}
 	
 
@@ -557,7 +537,6 @@ public class Generator
 		
 		xmlGrid.setLayoutParams(params);
 		xmlGridContainer.addView(xmlGrid);
-		//samples.setAdapter(xmlGridContainer);
 		
 		return xmlGridContainer;
 	}
@@ -628,8 +607,6 @@ public class Generator
 		
 		xmlList.setLayoutParams(params);
 		container.addView(xmlList);
-		
-		//samples.setAdapter(container);
 		
 		RelativeLayout.LayoutParams containerParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		container.setLayoutParams(containerParams);
@@ -780,7 +757,6 @@ public class Generator
 
 		RadioButton xmlRadioButton = (RadioButton) inflater.inflate(R.layout.item_radiobutton_layout, null);
 		xmlRadioButton.setBackgroundResource(R.drawable.object_background_default);
-		//xmlRadioGroup.addView(xmlRadioButton);
 
 		return xmlRadioButton;
 	}

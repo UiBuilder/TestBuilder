@@ -99,19 +99,28 @@ public class SampleAdapter
 	
 	public void setSampleAdapter(View active)
 	{
-
-		ViewGroup container = (ViewGroup) active;
-		View inner = container.getChildAt(0);
+		try
+		{
+			ViewGroup container = (ViewGroup) active;
+			View inner = container.getChildAt(0);
+			
+			if (inner instanceof ListView || inner instanceof GridView)
+			{
+				
+				Bundle tag = (Bundle) active.getTag();
 		
-		Bundle tag = (Bundle) active.getTag();
-
-		int content = tag.getInt(ObjectValues.EXAMPLE_CONTENT, R.id.content_choose_hipster);
-		final int listLayout = tag.getInt(ObjectValues.EXAMPLE_LAYOUT, R.id.editmode_grid_included_layout_4);
-		int	type = tag.getInt(ObjectValues.TYPE);		
-		
-		setActiveSampleContent(content);	
-		ArrayAdapter<String> adapter = generateAdapter(listLayout);
-		setInAppropriateWay(inner, type, adapter);
+				int content = tag.getInt(ObjectValues.EXAMPLE_CONTENT, R.id.content_choose_hipster);
+				final int listLayout = tag.getInt(ObjectValues.EXAMPLE_LAYOUT, R.id.editmode_grid_included_layout_4);
+				int	type = tag.getInt(ObjectValues.TYPE);		
+				
+				setActiveSampleContent(content);	
+				ArrayAdapter<String> adapter = generateAdapter(listLayout);
+				setInAppropriateWay(inner, type, adapter);
+			}
+		} catch (Exception e)
+		{
+			// TODO: handle exception
+		}
 	}
 
 	/**

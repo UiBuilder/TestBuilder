@@ -90,20 +90,7 @@ public class ListLayoutModule extends Module
 		{
 			int id = listLayout.getId();
 
-			switch (id)
-			{
-			case R.id.editmode_list_included_layout_1:
-			case R.id.editmode_list_included_layout_2:
-			case R.id.editmode_list_included_layout_3:
-			case R.id.editmode_list_included_layout_4:
-			case R.id.editmode_list_included_layout_5:
-			case R.id.editmode_list_included_layout_6:
-				samples.setSampleLayout(requesting, id);
-				break;
-
-			default:
-				break;
-			}
+			samples.setSampleLayout(requesting, id);
 		}
 	}
 
