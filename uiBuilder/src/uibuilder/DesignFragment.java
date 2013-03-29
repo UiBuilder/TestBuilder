@@ -3,7 +3,6 @@ package uibuilder;
 import helpers.Log;
 import manipulators.Grid;
 import manipulators.Overlay;
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.ClipData;
 import android.content.ClipDescription;
@@ -24,15 +23,14 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import creators.ObjectFactory;
 import data.FromDatabaseObjectCreator;
+import data.FromDatabaseObjectCreator.OnObjectLoadedFromDatabaseListener;
 import data.ObjectValues;
 import data.ScreenProvider;
-import data.FromDatabaseObjectCreator.OnObjectLoadedFromDatabaseListener;
 import de.ur.rk.uibuilder.R;
 
 public class DesignFragment extends Fragment implements OnDragListener,
 		OnGestureListener, OnTouchListener, OnObjectLoadedFromDatabaseListener
 {
-
 	private RelativeLayout designArea, parent;
 	private Grid grid;
 	private Overlay overlay;
@@ -42,45 +40,14 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 	private GestureDetector detector;
 	private Boolean isPreviewing = false;
+	
+	private View dragIndicator;
+	private int nextObjectId;
 
 	private View currentTouch;
 
 	public static final int SNAP_GRID_INTERVAL = 15;
 
-	@Override
-	public void onAttach(Activity activity)
-	{
-		// TODO Auto-generated method stub
-		super.onAttach(activity);
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState)
-	{
-
-		super.onCreate(savedInstanceState);
-	}
-
-	@Override
-	public void onDestroy()
-	{
-
-		super.onDestroy();
-
-	}
-
-	@Override
-	public void onResume()
-	{
-		super.onResume();
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle outState)
-	{
-		super.onSaveInstanceState(outState);
-
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -112,9 +79,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 				int rootHeight = designArea.getHeight();
 				int rootWidth = Math.round(rootHeight / 16f * 10f);
 
-				Log.d("pre measured", String.valueOf(rootWidth));
-				Log.d("pre measured", String.valueOf(rootHeight));
-
 				int handleSize = getResources().getDimensionPixelSize(R.dimen.default_overlay_handle_dimension);
 				int maxWidth = rootWidth - 2 * handleSize;
 				int maxHeight = rootHeight - 2 * handleSize;
@@ -125,9 +89,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 				designArea.setLayoutParams(params);
 				designArea.forceLayout();
-
-				Log.d("root width post", String.valueOf(params.width));
-				Log.d("root height post", String.valueOf(params.height));
 			}
 		});
 		return root;
@@ -136,15 +97,10 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState)
 	{
-		// super.onCreate(savedInstanceState);
-
 		activeItem = null;
-		snapMode = true;
 
 		initHelpers();
 		setListeners();
-
-		// designArea.setTag("PLAYGROUND");
 
 		super.onActivityCreated(savedInstanceState);
 	}
@@ -212,9 +168,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		nextObjectId = id;
 	}
 
-	private View dragIndicator;
-	private int nextObjectId;
-	private boolean snapMode;
 
 	/**
 	 * @param dragIndicator
@@ -270,11 +223,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 				case R.id.overlay_left:
 				case R.id.overlay_drag:
 
-					detector.setIsLongpressEnabled(false);
-					dragIndicator = currentTouch;
-					dragIndicator.setActivated(true);
-
-					Log.d("dragOverlay", "drag handle selected");
+					selectOverlay();
 					break;
 
 				/*
@@ -283,33 +232,10 @@ public class DesignFragment extends Fragment implements OnDragListener,
 				default:
 					Log.d("Default case in ontouch", "called");
 
-					listener.objectSelected(true);
-
-					/*
-					 * switch the overlay if another item was active
-					 */
-					if (overlay.isActive() && currentTouch != activeItem)
+					if (selectItem())
 					{
-						Log.d("Default case in ontouch", "deleting overlay");
-
-						deleteOverlay();
-					}
-					activeItem = currentTouch;
-					detector.setIsLongpressEnabled(true);
-
-					if (!overlay.isActive())
-					{
-						Bundle itemTag = (Bundle) activeItem.getTag();
-						int scaleType = itemTag.getInt(ObjectValues.SCALETYPE);
-
-						overlay.generate(activeItem, scaleType);
-
-						detector.setIsLongpressEnabled(false);
 						return true;
 					}
-
-					Log.d("active Item is currentTouch", "ID:"
-							+ String.valueOf(activeItem.getId()));
 					break;
 				}
 				break;
@@ -338,6 +264,47 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		 *         processing
 		 */
 		return detector.onTouchEvent(event);
+	}
+
+	/**
+	 * 
+	 */
+	private boolean selectItem()
+	{
+		listener.objectSelected(true);
+
+		/*
+		 * switch the overlay if another item was active
+		 */
+		if (overlay.isActive() && currentTouch != activeItem)
+		{
+			Log.d("Default case in ontouch", "deleting overlay");
+
+			deleteOverlay();
+		}
+		activeItem = currentTouch;
+		detector.setIsLongpressEnabled(true);
+
+		if (!overlay.isActive())
+		{
+			overlay.generate(activeItem);
+
+			detector.setIsLongpressEnabled(false);
+			return true;
+		}
+		else return false;
+	}
+
+	/**
+	 * 
+	 */
+	private void selectOverlay()
+	{
+		detector.setIsLongpressEnabled(false);
+		dragIndicator = currentTouch;
+		dragIndicator.setActivated(true);
+
+		Log.d("dragOverlay", "drag handle selected");
 	}
 
 	/**
@@ -395,7 +362,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	@Override
 	public boolean onSingleTapUp(MotionEvent event)
 	{
-
 		return false;
 	}
 
@@ -444,7 +410,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	public boolean onFling(MotionEvent arg0, MotionEvent arg1, float arg2,
 			float arg3)
 	{
-
 		return false;
 	}
 
@@ -488,17 +453,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 				{
 				case R.id.overlay_drag:
 
-					Bundle tagBundle = (Bundle) activeItem.getTag();
-					int id = tagBundle.getInt(ObjectValues.TYPE);
-
-					/*
-					 * Generate clipdata to provide to the dragshadowbuilder
-					 */
-					ClipData.Item item = new ClipData.Item(String.valueOf(id));
-					ClipData clipData = new ClipData((CharSequence) String.valueOf(id), new String[]
-					{ ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
-
-					activeItem.startDrag(clipData, new View.DragShadowBuilder(activeItem), activeItem, 0);
+					requestDrag();
 					break;
 
 				case R.id.overlay_right:
@@ -528,6 +483,24 @@ public class DesignFragment extends Fragment implements OnDragListener,
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * 
+	 */
+	private void requestDrag()
+	{
+		Bundle tagBundle = (Bundle) activeItem.getTag();
+		int id = tagBundle.getInt(ObjectValues.TYPE);
+
+		
+		// Generate clipdata to provide to the dragshadowbuilder
+		 
+		ClipData.Item item = new ClipData.Item(String.valueOf(id));
+		ClipData clipData = new ClipData((CharSequence) String.valueOf(id), new String[]
+		{ ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
+
+		activeItem.startDrag(clipData, new View.DragShadowBuilder(activeItem), activeItem, 0);
 	}
 
 	/**
@@ -762,17 +735,9 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 				switch (event.getAction())
 				{
-				case DragEvent.ACTION_DRAG_STARTED: // hide the overlay, show
-													// grid
-													// for positioning, set
-													// style of
-													// active item
-													// to indicate old position
-					listener.objectDragging();
-
-					overlay.setVisibility(false);
-					toggleGrid();
-					setStyle(DragEvent.ACTION_DRAG_STARTED);
+				case DragEvent.ACTION_DRAG_STARTED: 
+					
+					adaptToDrag();
 					break;
 
 				case DragEvent.ACTION_DRAG_ENTERED: // reset to dragging style
@@ -788,23 +753,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 				case DragEvent.ACTION_DRAG_ENDED:
 
-					setStyle(DragEvent.ACTION_DRAG_ENDED);
-					overlay.setVisibility(true); // das Overlay wird wieder
-													// angezeigt, da der Drag
-													// vorbei
-													// ist.
-
-					toggleGrid();
-
-					if (activeItem == null)
-					{
-						listener.objectSelected(false);
-					} else
-					{
-						listener.objectChanged(activeItem);
-						listener.objectSelected(true);
-					}
-					Log.d("dragging", "ended");
+					adaptToNormal();
 					break;
 
 				case DragEvent.ACTION_DRAG_EXITED: // indicate that the drop
@@ -819,31 +768,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 											// reposition the element at
 											// droptarget
 
-					ImageButton drag = overlay.getDrag();
-
-					int dropTargetX = checkCollisionX(event.getX());
-					int dropTargetY = checkCollisionY(event.getY());
-
-					// Positionen werden ausgelesen und zugewiesen. Objekte
-					// werden
-					// an
-					// ihre Zielposition verschoben und das Overlay bekommt neue
-					// Koordinaten.
-					RelativeLayout.LayoutParams activeParams = (RelativeLayout.LayoutParams) activeItem.getLayoutParams();
-					RelativeLayout.LayoutParams dragParams = (RelativeLayout.LayoutParams) drag.getLayoutParams();
-
-					dragParams.leftMargin = snapToGrid(dropTargetX)
-							+ root.getLeft();
-					dragParams.topMargin = snapToGrid(dropTargetY)
-							+ root.getTop();
-					dragParams.width = activeItem.getMeasuredWidth();
-					dragParams.height = activeItem.getMeasuredHeight();
-					drag.setLayoutParams(dragParams);
-
-					activeParams.leftMargin = snapToGrid(dropTargetX);
-					activeParams.topMargin = snapToGrid(dropTargetY);
-					activeItem.setLayoutParams(activeParams);
-
+					performDrop(event);
 					break;
 				}
 			}
@@ -851,6 +776,71 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 		return true;
 
+	}
+
+	/**
+	 * get the coordinates of the drop event
+	 * repositions:
+	 * the active item and the overlay
+	 * @param event the drop event
+	 */
+	private void performDrop(DragEvent event)
+	{
+		ImageButton drag = overlay.getDrag();
+
+		int dropTargetX = checkCollisionX(event.getX());
+		int dropTargetY = checkCollisionY(event.getY());
+
+		RelativeLayout.LayoutParams activeParams = (RelativeLayout.LayoutParams) activeItem.getLayoutParams();
+		RelativeLayout.LayoutParams dragParams = (RelativeLayout.LayoutParams) drag.getLayoutParams();
+
+		dragParams.leftMargin = snapToGrid(dropTargetX) + designArea.getLeft();
+		dragParams.topMargin = snapToGrid(dropTargetY) + designArea.getTop();
+		dragParams.width = activeItem.getMeasuredWidth();
+		dragParams.height = activeItem.getMeasuredHeight();
+		drag.setLayoutParams(dragParams);
+
+		activeParams.leftMargin = snapToGrid(dropTargetX);
+		activeParams.topMargin = snapToGrid(dropTargetY);
+		activeItem.setLayoutParams(activeParams);
+	}
+
+	/**
+	 * 
+	 */
+	private void adaptToNormal()
+	{
+		setStyle(DragEvent.ACTION_DRAG_ENDED);
+		overlay.setVisibility(true); // das Overlay wird wieder
+										// angezeigt, da der Drag
+										// vorbei
+										// ist.
+
+		toggleGrid();
+
+		if (activeItem == null)
+		{
+			listener.objectSelected(false);
+		} else
+		{
+			listener.objectChanged(activeItem);
+			listener.objectSelected(true);
+		}
+		Log.d("dragging", "ended");
+	}
+
+	/**
+	 * hide the overlay, show grid for positioning, 
+	 * set style of active item to indicate old position
+	 * notify the listeners that a drag is in progress
+	 */
+	private void adaptToDrag()
+	{
+		listener.objectDragging();
+
+		overlay.setVisibility(false);
+		toggleGrid();
+		setStyle(DragEvent.ACTION_DRAG_STARTED);
 	}
 
 	/**

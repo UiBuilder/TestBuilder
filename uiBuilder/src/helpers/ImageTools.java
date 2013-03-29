@@ -111,7 +111,7 @@ public class ImageTools
 	 * @autor android developers photobyintent example MODIFIED by @author funklos
 	 * @param destination
 	 */
-	public void handleBigCameraPhoto(View destination)
+	public void handleCameraPhoto(View destination)
 	{
 
 		if (photoPath != null)

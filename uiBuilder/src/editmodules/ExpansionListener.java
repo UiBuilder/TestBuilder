@@ -23,7 +23,6 @@ public class ExpansionListener implements OnClickListener
 		private static LinearLayout expandedBox;
 		private LinearLayout module;
 		private ImageButton indicator;
-		private LinearLayout clickableArea;
 		private View expandableView;
 		private Boolean isExpanded = false;
 
@@ -34,7 +33,6 @@ public class ExpansionListener implements OnClickListener
 		{
 			this.module = (LinearLayout) box;
 			this.indicator = (ImageButton) box.findViewById(R.id.expand_selector);
-			this.clickableArea = (LinearLayout) indicator.getParent();
 			this.expandableView = this.module.findViewById(R.id.expandable);
 			
 			setIndikatorListener();
@@ -63,34 +61,40 @@ public class ExpansionListener implements OnClickListener
 
 			} else
 			{
-		
-				if (expandedBox != null)
-				{
-					LinearLayout expandedClickArea = (LinearLayout) expandedBox.findViewById(R.id.expand_selector).getParent();
-					expandedClickArea.performClick();
-				}
 				expand();
 			}
 		}
 
 		private void expand()
 		{
+			collapseOther();
+			
 			expandableView.setVisibility(View.VISIBLE);
 			listener.getValues();
 			
 			indicator.setImageResource(indicatorCollapsed);
-			//module.setActivated(true);
 
 			expandedBox = module;
 			this.isExpanded = true;
 			refresh();
 		}
 
+		/**
+		 * called before expansion to close the box which is in "expanded" state
+		 */
+		private void collapseOther()
+		{
+			if (expandedBox != null)
+			{
+				ImageButton expandedClickArea = (ImageButton) expandedBox.findViewById(R.id.expand_selector);
+				expandedClickArea.performClick();
+			}
+		}
+
 		private void collapse()
 		{
 			expandableView.setVisibility(View.GONE);
 			indicator.setImageResource(indicatorExpanded);
-			//module.setActivated(false);
 
 			expandedBox = null;
 			this.isExpanded = false;

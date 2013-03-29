@@ -58,7 +58,7 @@ public class ImageModule extends Module
 		{
 		case ImageTools.CAMERA:
 
-			imageHandler.handleBigCameraPhoto(requesting);
+			imageHandler.handleCameraPhoto(requesting);
 			break;
 
 		case ImageTools.GALLERY:

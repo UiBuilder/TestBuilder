@@ -3,11 +3,13 @@ package manipulators;
 import helpers.Log;
 import uibuilder.DesignFragment;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import data.ObjectValues;
 import de.ur.rk.uibuilder.R;
 
 
@@ -55,9 +57,10 @@ public class Overlay
 	 * @param activeItem the item requesting the overlay
 	 * @param type the scaletype of the item
 	 */
-	public void generate(View activeItem, int type)
+	public void generate(View activeItem)
 	{
-		typeActive = type;
+		Bundle itemTag = (Bundle) activeItem.getTag();
+		typeActive = itemTag.getInt(ObjectValues.SCALETYPE);
 		
 		RelativeLayout.LayoutParams modified = new RelativeLayout.LayoutParams(activeItem.getLayoutParams());
 
@@ -74,7 +77,16 @@ public class Overlay
 
 		invalidate();
 		
-		switch (type)
+		adaptOverlayToScaletype();
+		overlayActive = true;
+	}
+
+	/**
+	 * 
+	 */
+	private void adaptOverlayToScaletype()
+	{
+		switch (typeActive)
 		{
 		case HORIZONTAL:
 			bottom.setVisibility(View.INVISIBLE);
@@ -90,7 +102,6 @@ public class Overlay
 		default:
 			break;
 		}
-		overlayActive = true;
 	}
 	/**
 	 * Bestimmt die Sichtbarkeit des Overlays. Das Overlay wird <b>Versteckt
