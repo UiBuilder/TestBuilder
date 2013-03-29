@@ -127,7 +127,7 @@ public class Generator
 
 		case R.id.element_list:
 			xmlView = buildListView();
-			samples.setAdapter(xmlView);
+			
 			break;
 
 		case R.id.element_numberpick:
@@ -165,7 +165,7 @@ public class Generator
 			*/
 		case R.id.element_grid:
 			xmlView = buildGrid();
-			samples.setAdapter(xmlView);
+			
 			break;
 		
 		default:
@@ -180,10 +180,25 @@ public class Generator
 		xmlView.setOnTouchListener(manipulator);
 		
 		xmlView.measure(properties.getInt(ObjectValues.MINWIDTH), properties.getInt(ObjectValues.MINHEIGHT));
-
+		
+		adapterNeeded(xmlView, id);
 		return xmlView;
 	}
 	
+	private void adapterNeeded(View v, int id)
+	{
+		switch (id)
+		{
+		case R.id.element_list: case R.id.element_grid:
+			samples.setSampleAdapter(v);
+			break;
+
+		default:
+			break;
+		}
+		
+	}
+
 	/**
 	 * Use this method to generate Views from a Bundle object.
 	 * @author jonesses

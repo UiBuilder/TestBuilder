@@ -95,7 +95,7 @@ public class GridLayoutModule extends Module
 			case R.id.editmode_grid_included_layout_2:
 			case R.id.editmode_grid_included_layout_3:
 			case R.id.editmode_grid_included_layout_4:
-				samples.setLayout(requesting, id);
+				samples.setSampleLayout(requesting, id);
 				break;
 
 			default:

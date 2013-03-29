@@ -98,7 +98,7 @@ public class ListLayoutModule extends Module
 			case R.id.editmode_list_included_layout_4:
 			case R.id.editmode_list_included_layout_5:
 			case R.id.editmode_list_included_layout_6:
-				samples.setLayout(requesting, id);
+				samples.setSampleLayout(requesting, id);
 				break;
 
 			default:

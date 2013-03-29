@@ -2,33 +2,31 @@ package data;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import de.ur.rk.uibuilder.R;
 
 public class SampleAdapter
 {
-	String[] headersActive;
-	String[] contentsActive;
-
-	String[] headersHipster;
-	String[] contentsHipster;
-
-	String[] headersBacon;
-	String[] contentsBacon;
+	private String[] 
+			headersActive,
+			contentsActive,
+			
+			headersHipster,
+			contentsHipster,
+			
+			headersBacon,
+			contentsBacon;
 	
 	//private ArrayAdapter<String> listAdapter;
 	private LayoutInflater inflater;
 	private Context ref;
+	
 	
 	public SampleAdapter(Context c)
 	{
@@ -50,6 +48,11 @@ public class SampleAdapter
 		contentsActive = contentsHipster;
 	}
 	
+	/**
+	 * 
+	 * @param active
+	 * @param id
+	 */
 	public void setSampleContent(View active, int id)
 	{
 		Bundle bundle = (Bundle) active.getTag();
@@ -59,25 +62,21 @@ public class SampleAdapter
 		case R.id.content_choose_hipster:
 
 			bundle.putInt(ObjectValues.EXAMPLE_CONTENT, R.id.content_choose_hipster);
-
-			Log.d("hipster", "set");
 			break;
 
 		case R.id.content_choose_bacon:
 
 			bundle.putInt(ObjectValues.EXAMPLE_CONTENT, R.id.content_choose_bacon);
-
-			Log.d("bacon", "set");
 			break;
 
 		default:
 			break;
 		}
 		
-		setAdapter(active);
+		setSampleAdapter(active);
 	}
 	
-	public void setLayout(View active, int layout)
+	public void setSampleLayout(View active, int layout)
 	{
 		Bundle tagBundle = (Bundle) active.getTag();
 		int id = tagBundle.getInt(ObjectValues.TYPE);
@@ -86,73 +85,66 @@ public class SampleAdapter
 		{
 		case R.id.element_list:
 
-			setListLayout(active, layout);
-
+			setSampleListLayout(active, layout);
 			break;
 
 		case R.id.element_grid:
 
-			setGridLayout(active, layout);
-
-		default:
+			setSampleGridLayout(active, layout);
 			break;
 		}
 		
-		setAdapter(active);
+		setSampleAdapter(active);
 	}
 	
-	public void setAdapter(View active)
+	public void setSampleAdapter(View active)
 	{
 
 		ViewGroup container = (ViewGroup) active;
 		View inner = container.getChildAt(0);
 		
-		int content;
-		final int listLayout;
-		int type;
-		
 		Bundle tag = (Bundle) active.getTag();
-		if (tag != null)
-		{
-			content = tag.getInt(ObjectValues.EXAMPLE_CONTENT, R.id.content_choose_hipster);
-			listLayout = tag.getInt(ObjectValues.EXAMPLE_LAYOUT, R.id.editmode_grid_included_layout_4);
-			type = tag.getInt(ObjectValues.TYPE);
-		}
-		else
-		{
-			if (inner instanceof ListView)
-			{
-				type = R.id.element_list;
-				listLayout = R.id.editmode_list_included_layout_1;
-			}
-			else
-			{
-				type = R.id.element_grid;
-				listLayout = R.id.editmode_grid_included_layout_1;
-			}
-			content = R.id.content_choose_hipster;
-		}
-			
+
+		int content = tag.getInt(ObjectValues.EXAMPLE_CONTENT, R.id.content_choose_hipster);
+		final int listLayout = tag.getInt(ObjectValues.EXAMPLE_LAYOUT, R.id.editmode_grid_included_layout_4);
+		int	type = tag.getInt(ObjectValues.TYPE);		
 		
-		switch (content)
+		setActiveSampleContent(content);	
+		ArrayAdapter<String> adapter = generateAdapter(listLayout);
+		setInAppropriateWay(inner, type, adapter);
+	}
+
+	/**
+	 * @param inner
+	 * @param type
+	 * @param adapter
+	 */
+	private void setInAppropriateWay(View inner, int type,
+			ArrayAdapter<String> adapter)
+	{
+		switch (type)
 		{
-		case R.id.content_choose_hipster:
-			headersActive = headersHipster;
-			contentsActive = contentsHipster;
+		case R.id.element_list:
+			((ListView)inner).setAdapter(adapter);
 			break;
 
-		case R.id.content_choose_bacon:
-			headersActive = headersBacon;
-			contentsActive = contentsBacon;
+		case R.id.element_grid:
+			((GridView)inner).setAdapter(adapter);
 			break;
 		default:
-
 			break;
 		}
-		
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(ref, listLayout)
-		{
+	}
 
+	/**
+	 * @param listLayout
+	 * @return
+	 */
+	private ArrayAdapter<String> generateAdapter(final int listLayout)
+	{
+		return new ArrayAdapter<String>(ref, listLayout, headersActive)
+		{
+			
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent)
 			{
@@ -167,20 +159,25 @@ public class SampleAdapter
 				return layout;
 			}
 		};
-		
-		switch (type)
+	}
+
+	/**
+	 * @param content
+	 */
+	private void setActiveSampleContent(int content)
+	{
+		switch (content)
 		{
-		case R.id.element_list:
-			((ListView)inner).setAdapter(adapter);
+		case R.id.content_choose_hipster:
+			headersActive = headersHipster;
+			contentsActive = contentsHipster;
 			break;
 
-		case R.id.element_grid:
-			((GridView)inner).setAdapter(adapter);
-			break;
-		default:
+		case R.id.content_choose_bacon:
+			headersActive = headersBacon;
+			contentsActive = contentsBacon;
 			break;
 		}
-		
 	}
 
 	
@@ -188,7 +185,7 @@ public class SampleAdapter
 	 * @author funklos
 	 * @param from
 	 */
-	public void setListLayout(View active, int from)
+	public void setSampleListLayout(View active, int from)
 	{
 
 		Bundle bundle = (Bundle) active.getTag();
@@ -230,7 +227,7 @@ public class SampleAdapter
 			break;
 		}
 
-		bundle.putInt(ObjectValues.EXAMPLE_LAYOUT, from);
+		bundle.putInt(ObjectValues.EXAMPLE_LAYOUT, listLayout);
 	}
 	
 	/**
@@ -238,7 +235,7 @@ public class SampleAdapter
 	 * @param active
 	 * @param from
 	 */
-	private void setGridLayout(View active, int from)
+	private void setSampleGridLayout(View active, int from)
 	{
 		Bundle bundle = (Bundle) active.getTag();
 
@@ -266,7 +263,7 @@ public class SampleAdapter
 			gridLayout = 0;
 			break;
 		}
-		bundle.putInt(ObjectValues.EXAMPLE_LAYOUT, from);
+		bundle.putInt(ObjectValues.EXAMPLE_LAYOUT, gridLayout);
 	}
 	
 }

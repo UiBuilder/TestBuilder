@@ -20,7 +20,7 @@ import de.ur.rk.uibuilder.R;
  */
 public class ExpansionListener implements OnClickListener
 {
-		private LinearLayout expandedBox;
+		private static LinearLayout expandedBox;
 		private LinearLayout module;
 		private ImageButton indicator;
 		private LinearLayout clickableArea;
