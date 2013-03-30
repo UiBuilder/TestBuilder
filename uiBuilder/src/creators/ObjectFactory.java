@@ -1,6 +1,7 @@
 package creators;
 
 import helpers.CollisionChecker;
+import helpers.GridSnapper;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,7 @@ public class ObjectFactory
 	private Context ref;
 	private Generator generator;
 	private CollisionChecker checker;
+	private ObjectManipulator manipulator;
 	
 	private View newItem;
 	
@@ -28,16 +30,18 @@ public class ObjectFactory
 	/**
 	 * KONSTRUKTOR
 	 * 
-	 * @param c
-	 *            Referenz auf die Activity
+	 * @param c the context in which the factory resides
+	 * @param listener the event listener the factory provides for new objects. this is passed to the generator to generate touchable objects
+	 * @param designArea 
 	 */
-	public ObjectFactory(Context c, OnTouchListener l, RelativeLayout designArea)
+	public ObjectFactory(Context c, OnTouchListener listener, RelativeLayout designArea)
 	{
 		ref = c;
 		this.designArea = designArea;
 		
-		generator = new Generator(ref, l, this);
+		generator = new Generator(ref, listener, this);
 		checker = new CollisionChecker(designArea);
+		manipulator = new ObjectManipulator(c, designArea);
 	}
 
 	/**
@@ -77,7 +81,17 @@ public class ObjectFactory
 		
 		return newItem;
 	}
-
+	
+	public void requestStyle(int which, View activeItem)
+	{
+		manipulator.setStyle(which, activeItem);
+	}
+	
+	public void requestResize(int which, MotionEvent start, MotionEvent end, View activeItem, ImageButton dragHandle)
+	{
+		manipulator.setParams(which, start, end, activeItem, dragHandle);
+	}
+	
 	/**
 	 * @param event
 	 * @return
@@ -92,8 +106,8 @@ public class ObjectFactory
 
 		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) newItem.getLayoutParams();
 
-		params.leftMargin = CollisionChecker.snapToGrid(targetX);
-		params.topMargin = CollisionChecker.snapToGrid(targetY);
+		params.leftMargin = GridSnapper.snapToGrid(targetX);
+		params.topMargin = GridSnapper.snapToGrid(targetY);
 		return params;
 	}
 	
@@ -122,8 +136,8 @@ public class ObjectFactory
 	{
 		RelativeLayout.LayoutParams activeParams = (RelativeLayout.LayoutParams) activeItem.getLayoutParams();
 		
-		activeParams.leftMargin = CollisionChecker.snapToGrid(dropTargetX);
-		activeParams.topMargin = CollisionChecker.snapToGrid(dropTargetY);
+		activeParams.leftMargin = GridSnapper.snapToGrid(dropTargetX);
+		activeParams.topMargin = GridSnapper.snapToGrid(dropTargetY);
 		activeItem.setLayoutParams(activeParams);
 	}
 
@@ -139,8 +153,8 @@ public class ObjectFactory
 	{
 		RelativeLayout.LayoutParams dragParams = (RelativeLayout.LayoutParams) drag.getLayoutParams();
 
-		dragParams.leftMargin = CollisionChecker.snapToGrid(dropTargetX) + designArea.getLeft();
-		dragParams.topMargin = CollisionChecker.snapToGrid(dropTargetY) + designArea.getTop();
+		dragParams.leftMargin = GridSnapper.snapToGrid(dropTargetX) + designArea.getLeft();
+		dragParams.topMargin = GridSnapper.snapToGrid(dropTargetY) + designArea.getTop();
 		dragParams.width = activeItem.getMeasuredWidth();
 		dragParams.height = activeItem.getMeasuredHeight();
 		drag.setLayoutParams(dragParams);

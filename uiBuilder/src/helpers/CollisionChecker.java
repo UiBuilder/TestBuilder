@@ -7,7 +7,7 @@ import android.widget.RelativeLayout;
 public class CollisionChecker
 {
 	private RelativeLayout designArea;
-	
+
 	public CollisionChecker(RelativeLayout designArea)
 	{
 		this.designArea = designArea;
@@ -63,19 +63,5 @@ public class CollisionChecker
 			return maxPos;
 		}
 		return offsetPos;
-	}
-	
-	
-	
-	/**
-	 * round the provided value to meet the next gridvalue
-	 * 
-	 * @param value
-	 * @return
-	 */
-	public static int snapToGrid(int value)
-	{
-		return Math.round((float) value / ObjectFactory.SNAP_GRID_INTERVAL)
-				* ObjectFactory.SNAP_GRID_INTERVAL;
 	}
 }

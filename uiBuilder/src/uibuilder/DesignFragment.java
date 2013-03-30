@@ -1,6 +1,7 @@
 package uibuilder;
 
 import helpers.CollisionChecker;
+import helpers.GridSnapper;
 import helpers.Log;
 import manipulators.Grid;
 import manipulators.Overlay;
@@ -47,8 +48,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 	private View currentTouch;
 
-	
-
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,8 +84,8 @@ public class DesignFragment extends Fragment implements OnDragListener,
 				int maxHeight = rootHeight - 2 * handleSize;
 
 				RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) designArea.getLayoutParams();
-				params.width = CollisionChecker.snapToGrid(maxWidth);
-				params.height = CollisionChecker.snapToGrid(maxHeight);
+				params.width = GridSnapper.snapToGrid(maxWidth);
+				params.height = GridSnapper.snapToGrid(maxHeight);
 
 				designArea.setLayoutParams(params);
 				designArea.forceLayout();
@@ -106,6 +105,14 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		super.onActivityCreated(savedInstanceState);
 	}
 
+	@Override
+	public void onStop()
+	{
+		Log.d("onstop designfragment", "called");
+		activeItem = null;
+		super.onStop();
+	}
+	
 	private void setListeners()
 	{
 		FromDatabaseObjectCreator.setOnObjectCreatedFromDatabaseListener(this);
@@ -330,14 +337,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		return false;
 	}
 
-	@Override
-	public void onStop()
-	{
-		Log.d("onstop designfragment", "called");
-		activeItem = null;
-		super.onStop();
-	}
-
 	boolean secondPointer = false;
 
 	private int getIndex(MotionEvent event)
@@ -366,13 +365,9 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	/**
 	 * Creates a Button on the specified position.
 	 * 
-	 * @param clickPosX
-	 *            The coordinate on the X-axis
-	 * @param clickPosY
-	 *            The coordinate on the Y-axis
-	 * @return <b>true</b> if the conditions for creation are met, else
-	 *         <b>false</b>
-	 * 
+	 * @param clickPosX The coordinate on the X-axis
+	 * @param clickPosY The coordinate on the Y-axis
+	 * @return <b>true</b> if the conditions for creation are met, else <b>false</b>
 	 */
 	private boolean createObject(MotionEvent event)
 	{
@@ -414,6 +409,54 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 	}
 
+	@Override
+	public void onShowPress(MotionEvent event)
+	{
+		// TODO Auto-generated method stub
+
+	}
+	
+	@Override
+	public boolean onDrag(View root, DragEvent event)
+	{
+
+		// synchronized (activeItem)
+		if (!isPreviewing)
+		{
+			switch (event.getAction())
+			{
+			case DragEvent.ACTION_DRAG_STARTED: 
+				
+				adaptToStarted();
+				break;
+				
+			case DragEvent.ACTION_DRAG_ENTERED:
+				
+				adaptToEnter();
+				break;
+
+			case DragEvent.ACTION_DRAG_LOCATION:
+				break;
+
+			case DragEvent.ACTION_DRAG_ENDED:
+
+				adaptToNormal();
+				break;
+
+			case DragEvent.ACTION_DRAG_EXITED: 
+				
+				adaptToExit();
+				break;
+
+			case DragEvent.ACTION_DROP: 
+				// check minpositions, hide grid, display overlay at new position and reposition the element at droptarget
+				factory.performDrop(event, activeItem, overlay.getDrag());
+				break;
+			}
+		}
+		return true;
+	}
+	
 	/**
 	 * Perform motion of the overlay resize-handles and resize the corresponding
 	 * element based on the new position of the handle movement in progress.
@@ -426,7 +469,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	 * 
 	 * @Override
 	 */
-	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
+	public boolean onScroll(MotionEvent start, MotionEvent end, float distanceX,
 			float distanceY)
 	{
 		if (!isPreviewing)
@@ -447,22 +490,20 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 				case R.id.overlay_right:
 
-					setParams(R.id.overlay_right, e1, e2);
+					factory.requestResize(R.id.overlay_right, start, end, activeItem, overlay.getDrag());
 					break;
 
 				case R.id.overlay_bottom:
-
-					setParams(R.id.overlay_bottom, e1, e2);
+					
+					factory.requestResize(R.id.overlay_bottom, start, end, activeItem, overlay.getDrag());
 					break;
 
 				case R.id.overlay_top:
-
-					setParams(R.id.overlay_top, e1, e2);
+					factory.requestResize(R.id.overlay_top, start, end, activeItem, overlay.getDrag());
 					break;
 
 				case R.id.overlay_left:
-
-					setParams(R.id.overlay_left, e1, e2);
+					factory.requestResize(R.id.overlay_left, start, end, activeItem, overlay.getDrag());
 					break;
 
 				default:
@@ -492,292 +533,31 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		activeItem.startDrag(clipData, new View.DragShadowBuilder(activeItem), activeItem, 0);
 	}
 
+
 	/**
-	 * This method resizes the item and repositions it appropriately.
-	 * 
-	 * @author funklos
-	 * @param handleId
-	 *            the handle which started the scaling
-	 * @param start
-	 *            the starting point of the scaling process
-	 * @param now
-	 *            the actual position of the scale movement
+	 * Indicate that the drag has left the droppable area.
 	 */
-
-	private void setParams(int handleId, MotionEvent start, MotionEvent now)
+	private void adaptToExit()
 	{
-		ImageButton drag = overlay.getDrag();
-
-		RelativeLayout.LayoutParams dragParams = (RelativeLayout.LayoutParams) drag.getLayoutParams(); // these
-																										// params
-																										// are
-																										// essentially
-																										// the
-																										// same
-																										// regarding
-		RelativeLayout.LayoutParams itemParams = (RelativeLayout.LayoutParams) activeItem.getLayoutParams(); // size
-																												// and
-																												// position
-																												// but
-																												// are
-																												// handled
-																												// separate
-
-		float distance;
-		int roundedDist;
-		Bundle itemTag = (Bundle) activeItem.getTag();
-
-		switch (handleId)
-		{
-		case R.id.overlay_right:
-			distance = now.getX() - start.getX();
-
-			if (checkMinSize(dragParams, distance, itemTag, R.id.overlay_right))
-			{
-				roundedDist = checkMaxSize(distance, R.id.overlay_right);
-				roundedDist = CollisionChecker.snapToGrid(roundedDist);
-
-				itemParams.width = dragParams.width = activeItem.getMeasuredWidth()
-						+ roundedDist;
-				itemParams.height = dragParams.height = activeItem.getMeasuredHeight();
-			}
-			break;
-
-		case R.id.overlay_left:
-			distance = start.getX() - now.getX();
-
-			if (checkMinSize(dragParams, distance, itemTag, R.id.overlay_left))
-			{
-				roundedDist = checkMaxSize(distance, R.id.overlay_left);
-				roundedDist = CollisionChecker.snapToGrid(roundedDist);
-
-				dragParams.leftMargin = drag.getLeft() - roundedDist;
-				itemParams.leftMargin = activeItem.getLeft() - roundedDist;
-
-				itemParams.width = dragParams.width = activeItem.getMeasuredWidth()
-						+ roundedDist;
-				itemParams.height = dragParams.height = activeItem.getMeasuredHeight();
-			}
-			break;
-
-		case R.id.overlay_bottom:
-			distance = now.getY() - start.getY();
-
-			if (checkMinSize(dragParams, distance, itemTag, R.id.overlay_bottom))
-			{
-				roundedDist = checkMaxSize(distance, R.id.overlay_bottom);
-				roundedDist = CollisionChecker.snapToGrid(roundedDist);
-
-				itemParams.width = dragParams.width = activeItem.getMeasuredWidth();
-				itemParams.height = dragParams.height = activeItem.getMeasuredHeight()
-						+ roundedDist;
-			}
-			break;
-
-		case R.id.overlay_top:
-			distance = start.getY() - now.getY();
-
-			if (checkMinSize(dragParams, distance, itemTag, R.id.overlay_top))
-			{
-				roundedDist = checkMaxSize(distance, R.id.overlay_top);
-				roundedDist = CollisionChecker.snapToGrid(roundedDist);
-
-				dragParams.topMargin = drag.getTop() - roundedDist;
-				itemParams.topMargin = activeItem.getTop() - roundedDist;
-
-				itemParams.width = dragParams.width = activeItem.getMeasuredWidth();
-				itemParams.height = dragParams.height = activeItem.getMeasuredHeight()
-						+ roundedDist;
-			}
-			break;
-
-		default:
-			break;
-		}
-		drag.setLayoutParams(dragParams);
-		activeItem.setLayoutParams(itemParams);
+		factory.requestStyle(DragEvent.ACTION_DRAG_EXITED, activeItem);
 	}
 
 	/**
-	 * compares the actual size to the minsizes provided by the tagbundle. this
-	 * is necessary because .getminwidth and getminheight methods are only
-	 * provided by api16 and up
-	 * 
-	 * @author funklos
-	 * @param params
-	 *            the params of the active item to compare against the min
-	 *            dimensions provided by the tag
-	 * @param distance
-	 *            the distance of the actual move event
-	 * @param itemTag
-	 *            tag to fetch min dimensions from
-	 * @param which
-	 *            discriminates resizing direction
-	 * @return true if further resizing is possible, false if the size
-	 *         restriction has been met
+	 * Indicate  that the droppable area was entered again.
 	 */
-	private boolean checkMinSize(RelativeLayout.LayoutParams params,
-			float distance, Bundle itemTag, int which)
+	private void adaptToEnter()
 	{
-
-		int minWidth = itemTag.getInt(ObjectValues.MINWIDTH);
-		int minHeight = itemTag.getInt(ObjectValues.MINHEIGHT);
-
-		switch (which)
-		{
-		case R.id.overlay_right:
-		case R.id.overlay_left:
-
-			return params.width >= minWidth
-					&& !(params.width + distance < minWidth);
-
-		case R.id.overlay_bottom:
-		case R.id.overlay_top:
-
-			return params.height >= minHeight
-					&& !(params.height + distance < minHeight);
-
-		default:
-
-		}
-		return false;
+		factory.requestStyle(DragEvent.ACTION_DRAG_ENTERED, activeItem);
 	}
 
 	/**
-	 * Checks whether the current resize in progress will be larger than the
-	 * workspace.
-	 * 
-	 * @author funklos
-	 * @param distance
-	 *            the current distance moved from the origin of the movement
-	 * @param which
-	 *            is the id of the overlay element that initiated the scale
-	 *            action
-	 * @return either the rounded distance when the scaling was in the workspace
-	 *         area, or a <b>restricted to workspace</b> distance.
-	 */
-	private int checkMaxSize(float distance, int which)
-	{
-		switch (which)
-		{
-		case R.id.overlay_right:
-
-			if (activeItem.getRight() + distance >= designArea.getWidth())
-			{
-				float overHead = (activeItem.getRight() + distance - designArea.getWidth());
-
-				return Math.round(distance - overHead);
-			}
-			break;
-
-		case R.id.overlay_left:
-
-			if (activeItem.getLeft() - distance <= 0)
-			{
-				float overHead = (activeItem.getLeft() - distance);
-
-				return Math.round(distance + overHead);
-			}
-			break;
-
-		case R.id.overlay_top:
-
-			if (activeItem.getTop() - distance <= 0)
-			{
-				float overHead = (activeItem.getTop() - distance);
-
-				return Math.round(distance + overHead);
-			}
-			break;
-
-		case R.id.overlay_bottom:
-
-			if (activeItem.getBottom() + distance >= designArea.getHeight())
-			{
-				float overHead = (activeItem.getBottom()
-						- designArea.getHeight() + distance);
-
-				return Math.round(distance - overHead);
-			}
-
-		default:
-			break;
-		}
-		return Math.round(distance);
-	}
-
-	@Override
-	public void onShowPress(MotionEvent event)
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public boolean onDrag(View root, DragEvent event)
-	{
-
-		// synchronized (activeItem)
-		if (!isPreviewing)
-		{
-			{
-
-				switch (event.getAction())
-				{
-				case DragEvent.ACTION_DRAG_STARTED: 
-					
-					adaptToDrag();
-					break;
-
-				case DragEvent.ACTION_DRAG_ENTERED: // reset to dragging style
-													// after
-													// reenter
-
-					setStyle(DragEvent.ACTION_DRAG_ENTERED);
-
-					break;
-
-				case DragEvent.ACTION_DRAG_LOCATION:
-					break;
-
-				case DragEvent.ACTION_DRAG_ENDED:
-
-					adaptToNormal();
-					break;
-
-				case DragEvent.ACTION_DRAG_EXITED: // indicate that the drop
-													// event
-													// will not be successful
-					setStyle(DragEvent.ACTION_DRAG_EXITED);
-					break;
-
-				case DragEvent.ACTION_DROP: // check minpositions, hide grid,
-											// display overlay at new position
-											// and
-											// reposition the element at
-											// droptarget
-
-					factory.performDrop(event, activeItem, overlay.getDrag());
-					break;
-				}
-			}
-		}
-
-		return true;
-
-	}
-
-	/**
-	 * 
+	 * Reset the item style to default, show the overlay and hide the grid.
+	 * Notify listeners of the ended drag event
 	 */
 	private void adaptToNormal()
 	{
-		setStyle(DragEvent.ACTION_DRAG_ENDED);
-		overlay.setVisibility(true); // das Overlay wird wieder
-										// angezeigt, da der Drag
-										// vorbei
-										// ist.
-
+		factory.requestStyle(DragEvent.ACTION_DRAG_ENDED, activeItem);
+		overlay.setVisibility(true);
 		toggleGrid();
 
 		if (activeItem == null)
@@ -796,138 +576,15 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	 * set style of active item to indicate old position
 	 * notify the listeners that a drag is in progress
 	 */
-	private void adaptToDrag()
+	private void adaptToStarted()
 	{
 		listener.objectDragging();
 
 		overlay.setVisibility(false);
 		toggleGrid();
-		setStyle(DragEvent.ACTION_DRAG_STARTED);
+		factory.requestStyle(DragEvent.ACTION_DRAG_STARTED, activeItem);
 	}
 
-	/**
-	 * round the provided value to meet the next gridvalue
-	 * 
-	 * @param value
-	 * @return
-	 */
-/*	private int snapToGrid(int value)
-	{
-		return Math.round((float) value / SNAP_GRID_INTERVAL)
-				* SNAP_GRID_INTERVAL;
-	}
-*/
-	/**
-	 * sets the appropriate style to the item being dragged. check if activeitem
-	 * == null because a drop can result in a delete operation. without
-	 * syncronization the drag started and drag ended styles are sometimes not
-	 * set.
-	 * 
-	 * @author funklos
-	 * @param event
-	 */
-	private void setStyle(int event)
-	{
-		if (activeItem != null)
-		// synchronized (activeItem)
-		{
-			switch (event)
-			{
-			case DragEvent.ACTION_DRAG_STARTED:
-
-				activeItem.post(new Runnable()
-				{
-
-					@Override
-					public void run()
-					{
-						activeItem.setBackgroundResource(R.drawable.element_dragging);
-					}
-				});
-
-				break;
-			case DragEvent.ACTION_DRAG_ENTERED:
-
-				activeItem.setBackgroundResource(R.drawable.element_dragging);
-				break;
-
-			case DragEvent.ACTION_DRAG_ENDED:
-			case DragEvent.ACTION_DROP:
-				activeItem.post(new Runnable()
-				{
-
-					@Override
-					public void run()
-					{
-						activeItem.setBackgroundResource(((Bundle) activeItem.getTag()).getInt(ObjectValues.BACKGROUND_EDIT));
-					}
-				});
-				break;
-
-			case DragEvent.ACTION_DRAG_EXITED:
-
-				activeItem.setBackgroundResource(R.drawable.element_out_of_dropzone);
-				break;
-
-			default:
-				break;
-			}
-		}
-	}
-/*
-	*//**
-	 * Checks if the target of the drop action is within view bounds
-	 * 
-	 * @author funklos
-	 * @param float y of event
-	 * @return calculated Y-position of the performed drop
-	 *//*
-	private int checkCollisionY(float dropPosY)
-	{
-		int offsetPos = Math.round(dropPosY - activeItem.getMeasuredHeight()
-				/ 2);
-
-		int maxPos = Math.round(designArea.getMeasuredHeight()
-				- activeItem.getMeasuredHeight());
-		int minPos = 0;
-
-		if (offsetPos <= minPos)
-		{
-			return minPos;
-		}
-		if (offsetPos >= maxPos)
-		{
-			return maxPos;
-		}
-		return offsetPos;
-	}
-
-	*//**
-	 * Checks if the target of the drop action is within view bounds
-	 * 
-	 * @author funklos
-	 * @param float x of event
-	 * @return calculated X-position of the performed drop
-	 *//*
-	private int checkCollisionX(float dropPosX)
-	{
-		int offsetPos = Math.round(dropPosX - activeItem.getMeasuredWidth() / 2);
-
-		int maxPos = Math.round(designArea.getMeasuredWidth()
-				- activeItem.getMeasuredWidth());
-		int minPos = 0;
-
-		if (offsetPos <= minPos)
-		{
-			return minPos;
-		}
-		if (offsetPos >= maxPos)
-		{
-			return maxPos;
-		}
-		return offsetPos;
-	}
-*/
 	/**
 	 * Entfernt das Overlay komplett.
 	 * 

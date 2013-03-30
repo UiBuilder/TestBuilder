@@ -204,7 +204,6 @@ public class Overlay
 	private void invalidate()
 	{
 		designArea.forceLayout();
-
 	}
 
 	private void buildTop(RelativeLayout.LayoutParams modified)
