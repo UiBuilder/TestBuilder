@@ -48,10 +48,10 @@ public class UiBuilderActivity extends Activity implements
 		return super.dispatchTouchEvent(ev);
 	}
 
-	public static final int ITEMBOX = 0;
-	public static final int EDITBOX = 1;
-	public static final int DELETEBOX = 2;
-	public static final int NOTHING = 3;
+	public static final int ITEMBOX = 0x00;
+	public static final int EDITBOX = 0x01;
+	public static final int DELETEBOX = 0x02;
+	public static final int NOTHING = 0x03;
 
 	private ItemboxFragment itembox;
 	private EditmodeFragment editbox;
@@ -283,24 +283,13 @@ public class UiBuilderActivity extends Activity implements
 		{
 
 		case R.id.action_export_jpeg:
-			changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_PRES);
 
-			exporter.requestBitmap(designbox.getView(), getContentResolver(), false, false, 0);
-
-			Toast.makeText(getApplicationContext(), getString(R.string.confirmation_save_to_gallery), Toast.LENGTH_SHORT).show();
-			changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_EDIT);
-
+			exportToGallery();
 			break;
 
 		case R.id.action_attach_mail:
-			changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_PRES);
-
-			Intent mail = exporter.getIntent(ImageTools.SHARE);
-			mail.putExtra(Intent.EXTRA_STREAM, exporter.requestBitmap(designbox.getView(), getContentResolver(), false, false, 0));
-
-			startActivityForResult(Intent.createChooser(mail, getString(R.string.intent_title_share)), ImageTools.SHARE);
-			changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_EDIT);
-
+			
+			startSharing();
 			break;
 
 		case R.id.action_preview:
@@ -311,6 +300,33 @@ public class UiBuilderActivity extends Activity implements
 		}
 		// displaySidebar(ITEMBOX);
 		return true;
+	}
+
+	/**
+	 * 
+	 */
+	private void startSharing()
+	{
+		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_PRES);
+
+		Intent mail = exporter.getIntent(ImageTools.SHARE);
+		mail.putExtra(Intent.EXTRA_STREAM, exporter.requestBitmap(designbox.getView(), getContentResolver(), false, false, 0));
+
+		startActivityForResult(Intent.createChooser(mail, getString(R.string.intent_title_share)), ImageTools.SHARE);
+		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_EDIT);
+	}
+
+	/**
+	 * 
+	 */
+	private void exportToGallery()
+	{
+		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_PRES);
+
+		exporter.requestBitmap(designbox.getView(), getContentResolver(), false, false, 0);
+
+		Toast.makeText(getApplicationContext(), getString(R.string.confirmation_save_to_gallery), Toast.LENGTH_SHORT).show();
+		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_EDIT);
 	}
 
 	private void togglePreview(MenuItem item)
@@ -345,9 +361,8 @@ public class UiBuilderActivity extends Activity implements
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
-		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
-Log.d("result", "registered");
+
 		if (resultCode == Activity.RESULT_OK)
 			switch (requestCode)
 			{
@@ -355,7 +370,6 @@ Log.d("result", "registered");
 			case ImageTools.SHARE:
 				Toast.makeText(getApplicationContext(), getString(R.string.confirmation_share_via_mail), Toast.LENGTH_SHORT).show();
 				break;
-
 			}
 	}
 
@@ -476,28 +490,6 @@ Log.d("result", "registered");
 			Bundle tagBundle = (Bundle) view.getTag();
 			int style = tagBundle.getInt(displayStyle);
 			view.setBackgroundResource(style);
-
 		}
-
 	}
-
-	// @Override
-	// public boolean onTouch(View v, MotionEvent event)
-	// {
-	// switch (event.getAction())
-	// {
-	// case MotionEvent.ACTION_DOWN:
-	// designbox.deleteOverlay();
-	// displaySidebar(ITEMBOX);
-	// DisplayModeChanger.setDisplayMode(designbox.getView(),
-	// Generator.PRESENTATION_STYLE);
-	// break;
-	// case MotionEvent.ACTION_UP:
-	// DisplayModeChanger.setDisplayMode(designbox.getView(),
-	// Generator.CREATION_STYLE);
-	// return true;
-	// }
-	// return false;
-	// }
-
 }

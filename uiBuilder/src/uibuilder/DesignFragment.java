@@ -113,6 +113,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		super.onStop();
 	}
 	
+	
 	private void setListeners()
 	{
 		FromDatabaseObjectCreator.setOnObjectCreatedFromDatabaseListener(this);
@@ -152,6 +153,14 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		});
 	}
 
+	/**
+	 * Init helper classes
+	 * factory: generates items, organizes object manipulations.
+	 * detector: detects gestures, such as swipes, longpresses, drag and drop events.
+	 * grid: visual helper for item repositioning and resize operations.
+	 * overlay: visual helper for indication for selected elements, provides handles for resize operations.
+	 * 
+	 */
 	private void initHelpers()
 	{
 		factory = new ObjectFactory(getActivity().getApplicationContext(), this, designArea);
@@ -170,20 +179,13 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	 * itembox selection. on touch, objectrequest, this id is passed to the
 	 * factory to generate the desired objecttype
 	 * 
-	 * @param id
-	 *            of the user selection in itembox
+	 * @param id of the user selection in itembox
 	 */
 	public void setSelection(int id)
 	{
 		nextObjectId = id;
 	}
 
-
-	/**
-	 * @param dragIndicator
-	 *            the active overlay element. Either ID_LEFT, ID_TOP, ID_BOTTOM,
-	 *            ID_RIGHT
-	 */
 
 	/**
 	 * Erfasst alle Touch-Events, setzt ggf. Flags die den Zustand der
@@ -276,7 +278,9 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	}
 
 	/**
-	 * 
+	 * A motionevent was performed on an item.
+	 * Check if there was an element active before, if true set its state to
+	 * disabled, set the current item as active and generate an overlay to indicate the selection.
 	 */
 	private boolean selectItem()
 	{
@@ -305,7 +309,8 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	}
 
 	/**
-	 * 
+	 * A motionevent on one of the overlay elements was performed.
+	 * Set its state to active.
 	 */
 	private void selectOverlay()
 	{
@@ -317,7 +322,11 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	}
 
 	/**
-	 * 
+	 * A motion event on the designArea was performed.
+	 * Check if there is an overlay active.
+	 * If <b>true</b>, disable the overlay and <b>null</b> the activeItem
+	 * else
+	 * no operation is necessary.
 	 */
 	private boolean deselect()
 	{
@@ -497,13 +506,19 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		return false;
 	}
 	
+	/**
+	 * Request a resize of the currently active item.
+	 * @param which the overlay handle that triggered the resize
+	 * @param start of the movement
+	 * @param end actual values of the event
+	 */
 	private void requestResize(int which, MotionEvent start, MotionEvent end)
 	{
 		factory.requestResize(which, start, end, activeItem, overlay.getDrag());
 	}
 
 	/**
-	 * 
+	 * Start the requested drag event
 	 */
 	private void requestDrag()
 	{
