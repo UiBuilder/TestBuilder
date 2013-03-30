@@ -480,39 +480,26 @@ public class DesignFragment extends Fragment implements OnDragListener,
 			invalidate();
 			if (dragIndicator != null && activeItem != null)
 			{
+				int which = dragIndicator.getId();
 
-				switch (dragIndicator.getId())
+				switch (which)
 				{
 				case R.id.overlay_drag:
 
 					requestDrag();
 					break;
-
-				case R.id.overlay_right:
-
-					factory.requestResize(R.id.overlay_right, start, end, activeItem, overlay.getDrag());
-					break;
-
-				case R.id.overlay_bottom:
 					
-					factory.requestResize(R.id.overlay_bottom, start, end, activeItem, overlay.getDrag());
-					break;
-
-				case R.id.overlay_top:
-					factory.requestResize(R.id.overlay_top, start, end, activeItem, overlay.getDrag());
-					break;
-
-				case R.id.overlay_left:
-					factory.requestResize(R.id.overlay_left, start, end, activeItem, overlay.getDrag());
-					break;
-
 				default:
-					// FUCK OFF
-					break;
+					requestResize(which, start, end);
 				}
 			}
 		}
 		return false;
+	}
+	
+	private void requestResize(int which, MotionEvent start, MotionEvent end)
+	{
+		factory.requestResize(which, start, end, activeItem, overlay.getDrag());
 	}
 
 	/**
