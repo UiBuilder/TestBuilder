@@ -2,15 +2,14 @@ package creators;
 
 import helpers.GridSnapper;
 import helpers.InBoundsChecker;
-import data.ObjectValues;
-import de.ur.rk.uibuilder.R;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import data.ObjectValues;
+import de.ur.rk.uibuilder.R;
 
 public class ObjectManipulator
 {
@@ -37,9 +36,7 @@ public class ObjectManipulator
 	 *            the actual position of the scale movement
 	 */
 	protected void setParams(int handleId, MotionEvent start, MotionEvent now, View activeItem, View drag)
-	{
-		// these params are essentially the same regarding size and position but are handledseparate
-		
+	{	
 		RelativeLayout.LayoutParams dragParams = (RelativeLayout.LayoutParams) drag.getLayoutParams(); 
 		RelativeLayout.LayoutParams itemParams = (RelativeLayout.LayoutParams) activeItem.getLayoutParams(); 
 

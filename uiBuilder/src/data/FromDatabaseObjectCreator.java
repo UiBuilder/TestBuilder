@@ -10,9 +10,11 @@ public class FromDatabaseObjectCreator
 
 	public FromDatabaseObjectCreator(Cursor cursor)
 	{
-
 		while (cursor.moveToNext())
 		{
+
+			android.util.Log.d("cursor size", String.valueOf(cursor.getCount()));
+			
 			Bundle valuesBundle = new Bundle();
 
 			int idxKEYID = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_ID);
@@ -32,7 +34,7 @@ public class FromDatabaseObjectCreator
 			int idxImageSource = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_OBJECTS_VIEW_IMGSRC);
 			int idxIconSource = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_OBJECTS_VIEW_ICNSRC);
 			int idxBackgroundColor = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_OBJECTS_VIEW_BACKGROUNDCLR_EDIT);
-			Log.d("KEY", String.valueOf(cursor.getInt(idxKEYID)));
+
 			valuesBundle.putInt(ObjectValues.DATABASE_ID, cursor.getInt(idxKEYID));
 			valuesBundle.putInt(ObjectValues.TYPE, cursor.getInt(idxID));
 			valuesBundle.putInt(ObjectValues.X_POS, cursor.getInt(idxXPos));
@@ -58,6 +60,7 @@ public class FromDatabaseObjectCreator
 			listener.objectLoaded(valuesBundle);
 
 		}
+		cursor.close();
 	}
 /**
  * @deprecated

@@ -27,8 +27,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import data.FromDatabaseObjectCreator;
 import data.ObjectValues;
@@ -62,6 +61,8 @@ public class UiBuilderActivity extends Activity implements
 	private DeleteFragment deletebox;
 	private ChildGrabber grabber;
 	private LoaderManager manager;
+	
+	ToDatabaseObjectWriter objectWriter;
 
 
 	// private Drawable previewIcon;
@@ -78,9 +79,10 @@ public class UiBuilderActivity extends Activity implements
 
 		setContentView(R.layout.layout_fragment_container);
 		setupUi();
+		checkIntent();
+		
 		grabber = new ChildGrabber();
-
-		LayoutInflater inf = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+		objectWriter = new ToDatabaseObjectWriter(screenId, getApplicationContext());
 
 		//container = (ViewGroup) inf.inflate(R.layout.layout_fragment_container, null);
 		fManager = getFragmentManager();
@@ -93,7 +95,6 @@ public class UiBuilderActivity extends Activity implements
 		// getResources().getDrawable(android.R.drawable.ic_menu_view);
 
 		performInitTransaction();
-		checkIntent();
 	}
 
 	private void checkIntent()
@@ -182,8 +183,7 @@ public class UiBuilderActivity extends Activity implements
 		
 		View designArea = rootDesignBox.findViewById(R.id.design_area);
 		
-		ToDatabaseObjectWriter objectWriter = new ToDatabaseObjectWriter(designArea, screenId, getApplicationContext());		
-		
+		objectWriter.writeObjects(designArea);
 		super.onStop();
 	}
 

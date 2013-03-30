@@ -109,7 +109,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	public void onStop()
 	{
 		Log.d("onstop designfragment", "called");
-		activeItem = null;
 		super.onStop();
 	}
 	
@@ -683,7 +682,5 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	public void objectLoaded(Bundle objectBundle)
 	{
 		View newOne = (View) factory.getElement(objectBundle);
-
-		designArea.addView(newOne, newOne.getLayoutParams());
 	}
 }

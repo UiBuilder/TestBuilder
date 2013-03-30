@@ -230,11 +230,12 @@ public class Generator
 
 		case R.id.element_imageview:
 			xmlView = buildImageView();
-			xmlView.setBackgroundResource(R.drawable.object_background_default);
-			insertImageToView(properties,databaseBundle, xmlView);
+			Log.d("measured imageview", String.valueOf(xmlView.getMeasuredHeight()));
+			//xmlView.setBackgroundResource(R.drawable.object_background_default);
+			//insertImageToView(properties,databaseBundle, xmlView);
+			properties.putString(ObjectValues.IMG_SRC, databaseBundle.getString(ObjectValues.IMG_SRC));
 			properties.putInt(ObjectValues.BACKGROUND_EDIT, databaseBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 
-			
 			break;
 
 		case R.id.element_edittext:

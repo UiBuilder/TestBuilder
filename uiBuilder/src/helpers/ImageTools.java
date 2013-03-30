@@ -3,17 +3,21 @@ package helpers;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -39,7 +43,7 @@ public class ImageTools
 	private int screenId;
 	private String photoPath;
 	private static final String JPEG_FILE_PREFIX = "UI_";
-	private static final String JPEG_FILE_SUFFIX = ".jpg";
+	private static final String JPEG_FILE_SUFFIX = ".png";
 	private AlbumDirFactory storageFactory = null;
 	
 	public static final int CAMERA = 1;
@@ -151,6 +155,7 @@ public class ImageTools
 		RelativeLayout content = (RelativeLayout) root.findViewById(R.id.design_area);
 
 		Bitmap image = Bitmap.createBitmap(content.getWidth(), content.getHeight(), Bitmap.Config.ARGB_8888);
+		
 		content.draw(new Canvas(image));
 		
 		File f;
@@ -165,7 +170,6 @@ public class ImageTools
 				photoPath = f.getAbsolutePath();
 				
 				FileOutputStream out = new FileOutputStream(f);
-	
 				image.compress(Bitmap.CompressFormat.PNG, 100, out);
 				out.flush();
 				out.close();
@@ -230,49 +234,19 @@ public class ImageTools
 		
 		Bundle tagBundle = (Bundle) v.getTag();
 		tagBundle.putString(ObjectValues.IMG_SRC, photoPath);
+		Log.d("put path", photoPath);
 		tagBundle.putInt(ObjectValues.ICN_SRC, 0);
 	}
 
 	public static void setPic(View v, String path)
 	{
-		/* There isn't enough memory to open up more than a couple camera photos */
-		/* So pre-scale the target bitmap into which the file is decoded */
-
-		/* Get the size of the ImageView */
-		
-		if (path != null)
-		{
-			int targetW = ((ImageView) v).getWidth();
-			int targetH = ((ImageView) v).getHeight();
-	
-			/* Get the size of the image */
-			BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-			bmOptions.inJustDecodeBounds = true;
-			BitmapFactory.decodeFile(path, bmOptions);
-			int photoW = bmOptions.outWidth;
-			int photoH = bmOptions.outHeight;
-	
-			/* Figure out which way needs to be reduced less */
-			int scaleFactor = 1;
-			if ((targetW > 0) || (targetH > 0))
-			{
-				scaleFactor = Math.min(photoW / targetW, photoH / targetH);
-			}
-	
-			/* Set bitmap options to scale the image decode target */
-			bmOptions.inJustDecodeBounds = false;
-			bmOptions.inSampleSize = scaleFactor;
-			bmOptions.inPurgeable = true;
-	
-			/* Decode the JPEG file into a Bitmap */
-			Bitmap bitmap = BitmapFactory.decodeFile(path, bmOptions);
-			
-			
-	
-			/* Associate the Bitmap to the ImageView */
-			((ImageView) v).setImageBitmap(bitmap);
-		}
+		BitmapWorkerTask task = new BitmapWorkerTask((ImageView) v);
+		//Bundle tagBundle = (Bundle) v.getTag();
+		//tagBundle.putString(ObjectValues.IMG_SRC, path);
+	    task.execute(path);
 	}
+	
+	
 
 	/**
 	 * Approach from stackoverflow.com, but slightly modified to use the
@@ -341,8 +315,7 @@ public class ImageTools
 
 			case PREVIEW:
 				storageDir = storageFactory.getPreviewStorageDir(getPreviewFolder());
-			}
-			
+			}	
 
 			if (storageDir != null)
 			{

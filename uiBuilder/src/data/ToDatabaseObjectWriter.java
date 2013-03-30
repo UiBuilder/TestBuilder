@@ -3,7 +3,6 @@ package data;
 import helpers.ChildGrabber;
 import helpers.Log;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import android.content.ContentResolver;
@@ -19,22 +18,17 @@ public class ToDatabaseObjectWriter
 	private int screenId;
 	private Context context;
 
-	
-
-	public ToDatabaseObjectWriter(View view, int screenId, Context context)
+	public ToDatabaseObjectWriter(int screenId, Context context)
 	{
 		this.screenId = screenId;
 		this.context = context;
 		grabber = new ChildGrabber();
-		ArrayList<View> objectList;
-		objectList = grabber.getChildren(view);
-		
-		writeObjects(objectList);
-		
 	}
 
-	public void writeObjects(ArrayList<View> objectList)
+	public void writeObjects(View root)
 	{
+		ArrayList<View> objectList = grabber.getChildren(root);
+		
 		ArrayList<ContentValues> values = new ArrayList<ContentValues>();
 		ContentResolver cres = context.getContentResolver();
 		
@@ -58,9 +52,8 @@ public class ToDatabaseObjectWriter
 		}
 		Log.d("contentvals", String.valueOf(values.size()));
 		
-		ContentValues[] a = new ContentValues[values.size()];
-		values.toArray(a);
-		cres.bulkInsert(ScreenProvider.CONTENT_URI_OBJECTS, a);
-		
+		ContentValues[] allProperties = new ContentValues[values.size()];
+		values.toArray(allProperties);
+		cres.bulkInsert(ScreenProvider.CONTENT_URI_OBJECTS, allProperties);	
 	}
 }

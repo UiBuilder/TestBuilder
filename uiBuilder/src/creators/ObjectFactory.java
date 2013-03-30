@@ -1,7 +1,10 @@
 package creators;
 
+import data.ObjectValues;
+import de.ur.rk.uibuilder.R;
 import helpers.CollisionChecker;
 import helpers.GridSnapper;
+import helpers.ImageTools;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +14,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 
 public class ObjectFactory
 {
@@ -78,6 +82,21 @@ public class ObjectFactory
 	public View getElement(Bundle bundle)
 	{
 		newItem = generator.generate(bundle);
+		
+		designArea.addView(newItem, newItem.getLayoutParams());
+		newItem.measure(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		
+		switch (bundle.getInt(ObjectValues.TYPE))
+		{
+		case R.id.element_imageview:
+			
+			String source = bundle.getString(ObjectValues.IMG_SRC);
+			ImageTools.setPic(newItem, source);
+			break;
+
+		default:
+			break;
+		}
 		
 		return newItem;
 	}

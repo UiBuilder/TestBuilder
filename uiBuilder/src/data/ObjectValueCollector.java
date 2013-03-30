@@ -93,7 +93,7 @@ public class ObjectValueCollector
 			{
 				valuesBundle.put(ObjectValues.ICN_SRC, objectBundle.getInt(ObjectValues.ICN_SRC));
 			}
-			Log.d("ObjectValueCollector", "put Imageview, with: ");
+			Log.d("ObjectValueCollector", "put Imageview, with:"+ objectBundle.getString(ObjectValues.IMG_SRC));
 			break;
 
 		case R.id.element_list:
