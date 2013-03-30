@@ -180,7 +180,7 @@ public class Generator
 		xmlView.setOnTouchListener(manipulator);
 		
 		xmlView.measure(properties.getInt(ObjectValues.MINWIDTH), properties.getInt(ObjectValues.MINHEIGHT));
-		
+		 
 		samples.setSampleAdapter(xmlView);
 		return xmlView;
 	}
@@ -320,7 +320,7 @@ public class Generator
 
 			((GridView)((RelativeLayout)xmlView).getChildAt(0)).setNumColumns(databaseBundle.getInt(ObjectValues.COLUMNS_NUM));
 			xmlView.setBackgroundResource(R.drawable.object_background_default);
-
+			
 			
 			break;
 		

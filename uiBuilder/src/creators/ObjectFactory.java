@@ -1,5 +1,7 @@
 package creators;
 
+import data.FromDatabaseObjectCreator.OnObjectLoadedFromDatabaseListener;
+import data.FromDatabaseObjectCreator;
 import data.ObjectValues;
 import de.ur.rk.uibuilder.R;
 import helpers.CollisionChecker;
@@ -16,7 +18,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
-public class ObjectFactory
+public class ObjectFactory implements OnObjectLoadedFromDatabaseListener
 {
 	public static final int SNAP_GRID_INTERVAL = 15;
 	
@@ -46,6 +48,8 @@ public class ObjectFactory
 		generator = new Generator(ref, listener, this);
 		checker = new CollisionChecker(designArea);
 		manipulator = new ObjectManipulator(c, designArea);
+		
+		FromDatabaseObjectCreator.setOnObjectCreatedFromDatabaseListener(this);
 	}
 
 	/**
@@ -177,6 +181,12 @@ public class ObjectFactory
 		dragParams.width = activeItem.getMeasuredWidth();
 		dragParams.height = activeItem.getMeasuredHeight();
 		drag.setLayoutParams(dragParams);
+	}
+
+	@Override
+	public void objectLoaded(Bundle objectBundle)
+	{
+		getElement(objectBundle);
 	}
 
 }

@@ -9,14 +9,17 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.view.View;
 
-public class ToDatabaseObjectWriter
+public class ToDatabaseObjectWriter extends AsyncTask<View, Void, Void> 
 {
 	private ChildGrabber grabber;
 	private int screenId;
 	private Context context;
+	private View root = null;
 
 	public ToDatabaseObjectWriter(int screenId, Context context)
 	{
@@ -25,7 +28,7 @@ public class ToDatabaseObjectWriter
 		grabber = new ChildGrabber();
 	}
 
-	public void writeObjects(View root)
+	private Void writeObjects(View root)
 	{
 		ArrayList<View> objectList = grabber.getChildren(root);
 		
@@ -54,6 +57,29 @@ public class ToDatabaseObjectWriter
 		
 		ContentValues[] allProperties = new ContentValues[values.size()];
 		values.toArray(allProperties);
-		cres.bulkInsert(ScreenProvider.CONTENT_URI_OBJECTS, allProperties);	
+		cres.bulkInsert(ScreenProvider.CONTENT_URI_OBJECTS, allProperties);
+		return null;	
+	}
+
+	@Override
+	protected Void doInBackground(View... params)
+	{
+		root = params[0];
+		
+		return writeObjects(root);
+	}
+	
+	@Override
+	protected void onPostExecute(Void result)
+	{
+		// TODO Auto-generated method stub
+		super.onPostExecute(result);
+	}
+
+	@Override
+	protected void onProgressUpdate(Void... values)
+	{
+		// TODO Auto-generated method stub
+		super.onProgressUpdate(values);
 	}
 }

@@ -1,6 +1,5 @@
 package data;
 
-import helpers.Log;
 import android.database.Cursor;
 import android.os.Bundle;
 import de.ur.rk.uibuilder.R;

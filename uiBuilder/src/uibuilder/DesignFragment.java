@@ -1,6 +1,5 @@
 package uibuilder;
 
-import helpers.CollisionChecker;
 import helpers.GridSnapper;
 import helpers.Log;
 import manipulators.Grid;
@@ -21,17 +20,14 @@ import android.view.View;
 import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import creators.ObjectFactory;
-import data.FromDatabaseObjectCreator;
-import data.FromDatabaseObjectCreator.OnObjectLoadedFromDatabaseListener;
 import data.ObjectValues;
 import data.ScreenProvider;
 import de.ur.rk.uibuilder.R;
 
 public class DesignFragment extends Fragment implements OnDragListener,
-		OnGestureListener, OnTouchListener, OnObjectLoadedFromDatabaseListener
+		OnGestureListener, OnTouchListener
 {
 	private RelativeLayout designArea, parent;
 	private Grid grid;
@@ -114,9 +110,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	
 	
 	private void setListeners()
-	{
-		FromDatabaseObjectCreator.setOnObjectCreatedFromDatabaseListener(this);
-		
+	{	
 		designArea.setOnTouchListener(this);
 		designArea.setOnDragListener(this);
 		parent.setOnTouchListener(new OnTouchListener()
@@ -621,7 +615,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 				grid.setVisibility(View.INVISIBLE);
 			}
 		}
-
 	}
 
 	/**
@@ -676,11 +669,5 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	protected void disableTouch(boolean disable)
 	{
 		isPreviewing = disable;
-	}
-
-	@Override
-	public void objectLoaded(Bundle objectBundle)
-	{
-		View newOne = (View) factory.getElement(objectBundle);
 	}
 }

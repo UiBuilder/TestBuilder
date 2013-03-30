@@ -1,6 +1,7 @@
 
-package helpers;
+package data;
 
+import helpers.Log;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

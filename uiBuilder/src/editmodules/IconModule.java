@@ -4,16 +4,17 @@
 package editmodules;
 
 import uibuilder.EditmodeFragment;
-import helpers.IconAdapter;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView.ScaleType;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
+import data.IconAdapter;
 import data.ObjectValues;
 import data.ResArrayImporter;
 import de.ur.rk.uibuilder.R;
@@ -103,7 +104,9 @@ public class IconModule extends Module
 	protected void adaptToContext()
 	{
 		// TODO Auto-generated method stub
-
+		box.invalidate();
+		Log.d("adapt called", "refresh");
+		iconGrid.setAdapter(adapter);
 	}
 	
 	/**
@@ -128,6 +131,7 @@ public class IconModule extends Module
 			bundle.putInt(ObjectValues.ICN_SRC, resourceId);
 
 			((ImageView) requesting).setScaleType(ScaleType.FIT_CENTER);
+			
 			((ImageView) requesting).setImageResource(resourceId);
 		}
 	}

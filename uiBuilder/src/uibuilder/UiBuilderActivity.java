@@ -183,7 +183,7 @@ public class UiBuilderActivity extends Activity implements
 		
 		View designArea = rootDesignBox.findViewById(R.id.design_area);
 		
-		objectWriter.writeObjects(designArea);
+		objectWriter.execute(designArea);
 		super.onStop();
 	}
 
