@@ -139,7 +139,7 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 		{
 			reGenerator = new ReGenerator(generator);
 			
-			reGenerator.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, objectList);
+			reGenerator.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, objectList);
 		}
 		catch (Exception e) {
 			// TODO: handle exception
