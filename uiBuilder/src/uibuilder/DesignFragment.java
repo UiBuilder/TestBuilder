@@ -198,54 +198,53 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 		switch (action)
 		{
-
-		case MotionEvent.ACTION_DOWN:
-
-			currentTouch = v;
-			listener.objectChanged(currentTouch);
-
-			Log.d("first down", String.valueOf(event.getPointerCount()));
-
-			switch (currentTouch.getId())
-			{
-			/*
-			 * touch on designarea
-			 */
-			case R.id.design_area:
-				Log.d("DesignArea", "called");
-				
-				if (deselect())
+			case MotionEvent.ACTION_DOWN:
+	
+				currentTouch = v;
+				listener.objectChanged(currentTouch);
+	
+				Log.d("first down", String.valueOf(event.getPointerCount()));
+	
+				switch (currentTouch.getId())
 				{
-					return true;
+					/*
+					 * touch on designarea
+					 */
+					case R.id.design_area:
+						Log.d("DesignArea", "called");
+						
+						if (deselect())
+						{
+							return true;
+						}
+						Log.d("layout forward", "called");
+						break;
+	
+					/*
+					 * touch on overlay
+					 */
+					case R.id.overlay_top:
+					case R.id.overlay_right:
+					case R.id.overlay_bottom:
+					case R.id.overlay_left:
+					case R.id.overlay_drag:
+		
+						selectOverlay();
+						break;
+		
+					/*
+					 * touch on object
+					 */
+					default:
+						Log.d("Default case in ontouch", "called");
+		
+						if (selectItem())
+						{
+							return true;
+						}
+						break;
 				}
-				Log.d("layout forward", "called");
 				break;
-
-			/*
-			 * touch on overlay
-			 */
-			case R.id.overlay_top:
-			case R.id.overlay_right:
-			case R.id.overlay_bottom:
-			case R.id.overlay_left:
-			case R.id.overlay_drag:
-
-				selectOverlay();
-				break;
-
-			/*
-			 * touch on object
-			 */
-			default:
-				Log.d("Default case in ontouch", "called");
-
-				if (selectItem())
-				{
-					return true;
-				}
-				break;
-			}
-			break;
 
 		case MotionEvent.ACTION_POINTER_UP:
 
@@ -337,8 +336,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 			deleteOverlay();
 			return true;
 		}
-		else
-		return false;
+		else return false;
 	}
 
 	boolean secondPointer = false;
@@ -383,7 +381,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 			
 			return true;
 		}
-		return false;
+		else return false;
 	}
 
 	/**
@@ -423,8 +421,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	@Override
 	public boolean onDrag(View root, DragEvent event)
 	{
-
-		// synchronized (activeItem)
 		if (!isPreviewing)
 		{
 			switch (event.getAction())
@@ -519,7 +515,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	{
 		Bundle tagBundle = (Bundle) activeItem.getTag();
 		int id = tagBundle.getInt(ObjectValues.TYPE);
-
 		
 		// Generate clipdata to provide to the dragshadowbuilder
 		 
@@ -647,6 +642,8 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		
 		removeFromDb();
 		activeItem = null;
+		dragIndicator = null;
+		
 		overlay.delete();
 	}
 

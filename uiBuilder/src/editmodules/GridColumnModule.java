@@ -1,6 +1,7 @@
 package editmodules;
 
 import uibuilder.EditmodeFragment;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
@@ -8,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+import data.ObjectValues;
 import de.ur.rk.uibuilder.R;
 
 public class GridColumnModule extends Module
@@ -17,6 +19,8 @@ public class GridColumnModule extends Module
 	SeekBar columnNumber;
 	TextView display;
 	private int offset = 2;
+	
+	private int colNum;
 
 	public GridColumnModule(EditmodeFragment context)
 	{
@@ -96,14 +100,22 @@ public class GridColumnModule extends Module
 		@Override
 		public void onStopTrackingTouch(SeekBar arg0)
 		{
-			// TODO Auto-generated method stub
+			putInTag(colNum);
+		}
+		
+		
+		private void gridColumnsChanged(int col)
+		{
+			requesting.setNumColumns(col);
+			colNum = col;
+		}
 
+		private void putInTag(int col)
+		{
+			Bundle tag = (Bundle) requesting.getTag();
+			tag.putInt(ObjectValues.COLUMNS_NUM, col);
 		}
 	}
-	
-	private void gridColumnsChanged(int col)
-	{
-		requesting.setNumColumns(col);
-	}
+
 
 }
