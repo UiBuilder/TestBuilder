@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layoutAnimation  xmlns:android="http://schemas.android.com/apk/res/android"
 
-	android:animation="@anim/fast_alpha_in"
+	android:animation="@anim/design_loaded_scale_in"
 >
 <!-- this is just a pointer to use the anim as layout animation -->
 </layoutAnimation>
