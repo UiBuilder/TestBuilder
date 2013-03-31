@@ -13,6 +13,8 @@ import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
@@ -26,12 +28,13 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 {
 	public static final int SNAP_GRID_INTERVAL = 15;
 	
-	private Context ref;
+	private Context context;
 	private Generator generator;
 	private ReGenerator reGenerator;
 	
 	private CollisionChecker checker;
 	private ObjectManipulator manipulator;
+	private Animation showUpAnimation;
 	
 	private View newItem;
 	
@@ -48,13 +51,15 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 	 */
 	public ObjectFactory(Context c, OnTouchListener listener, RelativeLayout designArea)
 	{
-		ref = c;
+		context = c;
 		this.designArea = designArea;
 		
-		generator = new Generator(ref, listener);
+		generator = new Generator(context, listener);
 		
 		checker = new CollisionChecker(designArea);
 		manipulator = new ObjectManipulator(c, designArea);
+		
+		showUpAnimation = AnimationUtils.loadAnimation(context, R.anim.fast_alpha_in);
 		
 		FromDatabaseObjectCreator.setOnObjectCreatedFromDatabaseListener(this);
 		ReGenerator.setOnObjectGeneratedListener(this);
@@ -76,6 +81,7 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 	public void objectGenerated(View newItem)
 	{
 		designArea.addView(newItem, newItem.getLayoutParams());
+		
 		newItem.measure(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		Bundle bundle = (Bundle) newItem.getTag();
 		Log.d("object generated", "get bundle");
@@ -90,6 +96,8 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 		default:
 			break;
 		}	
+		
+		newItem.startAnimation(showUpAnimation);
 	}
 	
 	

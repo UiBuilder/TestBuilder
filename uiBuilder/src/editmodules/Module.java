@@ -7,6 +7,12 @@ import android.view.View;
 import android.widget.LinearLayout;
 import editmodules.ExpansionListener.onToggleExpansionListener;
 
+/**
+ * Convenience class for rapid implementation of new box modules.
+ * Supplies a context and a layout inflater and user interface auto setup.
+ * @author funklos and @author jonesses
+ *
+ */
 public abstract class Module implements onToggleExpansionListener
 {
 	protected Context context; /** the activity context */

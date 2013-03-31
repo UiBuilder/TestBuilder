@@ -8,13 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnDragListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import de.ur.rk.uibuilder.R;
 
 public class DeleteFragment extends Fragment implements OnDragListener
 {
-	private Button delete;
 	private LinearLayout container;
 	
 	@Override
@@ -24,7 +22,7 @@ public class DeleteFragment extends Fragment implements OnDragListener
 		View root = inflater.inflate(R.layout.layout_deletebox_fragment, container, false);
 		
 		this.container = (LinearLayout) root.findViewById(R.id.deletebox_container);
-		delete = (Button) root.findViewById(R.id.deletebox_delete_area);
+
 		container.setOnDragListener(this);
 		
 		return root;

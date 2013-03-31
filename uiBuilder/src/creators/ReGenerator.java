@@ -59,7 +59,7 @@ public class ReGenerator extends AsyncTask<ArrayList<Bundle>, View, Void>
 	{
 		// TODO Auto-generated method stub
 		super.onProgressUpdate(values);
-		
+
 		listener.objectGenerated(values[0]);
 	}
 	
