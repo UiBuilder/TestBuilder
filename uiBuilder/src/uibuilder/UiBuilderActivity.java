@@ -181,11 +181,17 @@ public class UiBuilderActivity extends Activity implements
 		
 		View designArea = rootDesignBox.findViewById(R.id.design_area);
 		
-		ToDatabaseObjectWriter objectWriter = new ToDatabaseObjectWriter(screenId, getApplicationContext());
 		objectWriter.execute(designArea);
 		super.onStop();
 	}
 	
+
+	@Override
+	protected void onResume()
+	{
+		objectWriter = new ToDatabaseObjectWriter(screenId, getApplicationContext());
+		super.onResume();
+	}
 
 	@Override
 	protected void onDestroy()
