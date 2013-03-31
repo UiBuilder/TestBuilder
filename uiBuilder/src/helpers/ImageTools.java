@@ -230,8 +230,6 @@ public class ImageTools
 		Bundle tagBundle = (Bundle) v.getTag();
 		tagBundle.putString(ObjectValues.IMG_SRC, photoPath);
 		tagBundle.putInt(ObjectValues.ICN_SRC, 0);
-		Log.d("put path", photoPath);
-
 	}
 
 	public static void setPic(View v, String path)

@@ -91,15 +91,16 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 		switch (bundle.getInt(ObjectValues.TYPE))
 		{
 		case R.id.element_imageview:
-			((ImageView) newItem).setScaleType(ScaleType.FIT_CENTER);
 
 			if(bundle.getInt(ObjectValues.ICN_SRC) == 0)
 			{
+				((ImageView) newItem).setScaleType(ScaleType.CENTER_CROP);
 				String source = bundle.getString(ObjectValues.IMG_SRC);
 				ImageTools.setPic(newItem, source);
 			}
 			else
 			{
+				((ImageView) newItem).setScaleType(ScaleType.FIT_CENTER);
 				((ImageView) newItem).setImageResource(bundle.getInt(ObjectValues.ICN_SRC));
 			}
 			
