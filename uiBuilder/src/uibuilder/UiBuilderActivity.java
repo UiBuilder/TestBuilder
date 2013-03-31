@@ -62,8 +62,8 @@ public class UiBuilderActivity extends Activity implements
 	private ChildGrabber grabber;
 	private LoaderManager manager;
 	
-	ToDatabaseObjectWriter objectWriter;
-
+	private ToDatabaseObjectWriter objectWriter;
+	private FromDatabaseObjectCreator objectCreator;
 
 	// private Drawable previewIcon;
 	// private Drawable editIcon;
@@ -83,6 +83,7 @@ public class UiBuilderActivity extends Activity implements
 		
 		grabber = new ChildGrabber();
 		objectWriter = new ToDatabaseObjectWriter(screenId, getApplicationContext());
+		objectCreator = new FromDatabaseObjectCreator();
 
 		//container = (ViewGroup) inf.inflate(R.layout.layout_fragment_container, null);
 		fManager = getFragmentManager();
@@ -114,9 +115,7 @@ public class UiBuilderActivity extends Activity implements
 	private void checkDb()
 	{
 		manager = getLoaderManager();
-		
 		manager.initLoader(ScreenProvider.OBJECTS_LOADER, null, this);
-		
 	}
 
 	@Override
@@ -185,6 +184,14 @@ public class UiBuilderActivity extends Activity implements
 		
 		objectWriter.execute(designArea);
 		super.onStop();
+	}
+	
+
+	@Override
+	protected void onDestroy()
+	{
+		// TODO Auto-generated method stub
+		super.onDestroy();
 	}
 
 
@@ -462,8 +469,8 @@ public class UiBuilderActivity extends Activity implements
 		switch (loaderId)
 		{
 		case ScreenProvider.OBJECTS_LOADER:
-			FromDatabaseObjectCreator creator = new FromDatabaseObjectCreator(cursor);
 			
+			objectCreator.loadObjects(cursor);
 			manager.destroyLoader(loaderId);
 			manager = null;
 			break;

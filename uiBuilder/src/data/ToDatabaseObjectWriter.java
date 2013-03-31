@@ -37,7 +37,7 @@ public class ToDatabaseObjectWriter extends AsyncTask<View, Void, Void>
 		
 		for (View view : objectList)
 		{
-			ContentValues tempValues = ObjectValueCollector.getValuePack(view);
+			ContentValues tempValues = Bundler.getValuePack(view);
 			tempValues.put(ScreenProvider.KEY_OBJECTS_SCREEN, screenId);
 
 			int databaseID = tempValues.getAsInteger(ObjectValues.DATABASE_ID);

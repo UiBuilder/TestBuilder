@@ -1,12 +1,11 @@
 package creators;
 
-import data.FromDatabaseObjectCreator.OnObjectLoadedFromDatabaseListener;
-import data.FromDatabaseObjectCreator;
-import data.ObjectValues;
-import de.ur.rk.uibuilder.R;
 import helpers.CollisionChecker;
 import helpers.GridSnapper;
 import helpers.ImageTools;
+
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,13 +16,20 @@ import android.view.View.OnTouchListener;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
+import creators.ReGenerator.OnObjectGeneratedListener;
+import data.FromDatabaseObjectCreator;
+import data.FromDatabaseObjectCreator.OnObjectLoadedFromDatabaseListener;
+import data.ObjectValues;
+import de.ur.rk.uibuilder.R;
 
-public class ObjectFactory implements OnObjectLoadedFromDatabaseListener
+public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObjectGeneratedListener
 {
 	public static final int SNAP_GRID_INTERVAL = 15;
 	
 	private Context ref;
 	private Generator generator;
+	private ReGenerator reGenerator;
+	
 	private CollisionChecker checker;
 	private ObjectManipulator manipulator;
 	
@@ -45,13 +51,42 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener
 		ref = c;
 		this.designArea = designArea;
 		
-		generator = new Generator(ref, listener, this);
+		generator = new Generator(ref, listener);
+		
 		checker = new CollisionChecker(designArea);
 		manipulator = new ObjectManipulator(c, designArea);
 		
 		FromDatabaseObjectCreator.setOnObjectCreatedFromDatabaseListener(this);
+		ReGenerator.setOnObjectGeneratedListener(this);
+	}
+	
+	@Override
+	public void objectsLoaded(ArrayList<Bundle> objectList)
+	{
+		getElements(objectList);
 	}
 
+	@Override
+	public void objectGenerated(View newItem)
+	{
+		designArea.addView(newItem, newItem.getLayoutParams());
+		newItem.measure(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		Bundle bundle = (Bundle) newItem.getTag();
+		Log.d("object generated", "get bundle");
+		switch (bundle.getInt(ObjectValues.TYPE))
+		{
+		case R.id.element_imageview:
+			
+			String source = bundle.getString(ObjectValues.IMG_SRC);
+			ImageTools.setPic(newItem, source);
+			break;
+
+		default:
+			break;
+		}	
+	}
+	
+	
 	/**
 	 * called to create new objects
 	 * @param which the requested object type       
@@ -80,29 +115,19 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener
 	
 	/**
 	 * called to re-generate objects from database
-	 * @param bundle
+	 * @param objectList
 	 * @return
 	 */
-	public View getElement(Bundle bundle)
+	public void getElements(ArrayList<Bundle> objectList)
 	{
-		newItem = generator.generate(bundle);
-		
-		designArea.addView(newItem, newItem.getLayoutParams());
-		newItem.measure(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-		
-		switch (bundle.getInt(ObjectValues.TYPE))
+		try
 		{
-		case R.id.element_imageview:
-			
-			String source = bundle.getString(ObjectValues.IMG_SRC);
-			ImageTools.setPic(newItem, source);
-			break;
-
-		default:
-			break;
+			reGenerator = new ReGenerator(generator);
+			reGenerator.execute(objectList);
 		}
-		
-		return newItem;
+		catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 	
 	public void requestStyle(int which, View activeItem)
@@ -181,12 +206,6 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener
 		dragParams.width = activeItem.getMeasuredWidth();
 		dragParams.height = activeItem.getMeasuredHeight();
 		drag.setLayoutParams(dragParams);
-	}
-
-	@Override
-	public void objectLoaded(Bundle objectBundle)
-	{
-		getElement(objectBundle);
 	}
 
 }

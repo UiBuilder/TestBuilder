@@ -189,80 +189,82 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	@Override
 	public boolean onTouch(View v, MotionEvent event)
 	{
-		if (!isPreviewing)
+		if (isPreviewing)
 		{
-			int action = event.getAction() & MotionEvent.ACTION_MASK;
+			return true;
+		}
+		
+		int action = event.getAction() & MotionEvent.ACTION_MASK;
 
-			switch (action)
+		switch (action)
+		{
+
+		case MotionEvent.ACTION_DOWN:
+
+			currentTouch = v;
+			listener.objectChanged(currentTouch);
+
+			Log.d("first down", String.valueOf(event.getPointerCount()));
+
+			switch (currentTouch.getId())
 			{
-
-			case MotionEvent.ACTION_DOWN:
-
-				currentTouch = v;
-				listener.objectChanged(currentTouch);
-
-				Log.d("first down", String.valueOf(event.getPointerCount()));
-
-				switch (currentTouch.getId())
+			/*
+			 * touch on designarea
+			 */
+			case R.id.design_area:
+				Log.d("DesignArea", "called");
+				
+				if (deselect())
 				{
-				/*
-				 * touch on designarea
-				 */
-				case R.id.design_area:
-					Log.d("DesignArea", "called");
-					
-					if (deselect())
-					{
-						return true;
-					}
-					Log.d("layout forward", "called");
-					break;
-
-				/*
-				 * touch on overlay
-				 */
-				case R.id.overlay_top:
-				case R.id.overlay_right:
-				case R.id.overlay_bottom:
-				case R.id.overlay_left:
-				case R.id.overlay_drag:
-
-					selectOverlay();
-					break;
-
-				/*
-				 * touch on object
-				 */
-				default:
-					Log.d("Default case in ontouch", "called");
-
-					if (selectItem())
-					{
-						return true;
-					}
-					break;
+					return true;
 				}
+				Log.d("layout forward", "called");
 				break;
 
-			case MotionEvent.ACTION_POINTER_UP:
+			/*
+			 * touch on overlay
+			 */
+			case R.id.overlay_top:
+			case R.id.overlay_right:
+			case R.id.overlay_bottom:
+			case R.id.overlay_left:
+			case R.id.overlay_drag:
 
-				secondPointer = false;
+				selectOverlay();
 				break;
 
-			case MotionEvent.ACTION_UP:
-
-				if (dragIndicator != null)
-				{
-					Log.d("drag indikator", "drag handle disabled");
-					dragIndicator.setActivated(false);
-				}
-				break;
-
+			/*
+			 * touch on object
+			 */
 			default:
+				Log.d("Default case in ontouch", "called");
+
+				if (selectItem())
+				{
+					return true;
+				}
 				break;
 			}
-		}
+			break;
 
+		case MotionEvent.ACTION_POINTER_UP:
+
+			secondPointer = false;
+			break;
+
+		case MotionEvent.ACTION_UP:
+
+			if (dragIndicator != null)
+			{
+				Log.d("drag indikator", "drag handle disabled");
+				dragIndicator.setActivated(false);
+			}
+			break;
+
+		default:
+			break;
+		}
+	
 		/**
 		 * @return forward the touch event to the gesturedetector for further
 		 *         processing

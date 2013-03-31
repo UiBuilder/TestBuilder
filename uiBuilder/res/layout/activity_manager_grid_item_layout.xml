@@ -92,7 +92,7 @@
 	            android:layout_below="@id/activity_manager_griditem_delete_hint"
 	            android:layout_alignParentLeft="true"
 	            
-				android:background="@color/background_grey"
+				android:background="@drawable/ui_manager_delete_cancel_button_states"
 	            android:text="@string/manager_caption_cancel"
 	            style="@android:attr/buttonBarButtonStyle"
 	            />
@@ -105,7 +105,7 @@
 	            android:layout_alignParentRight="true"
 
 	            
-				android:background="@color/element_out_of_dropzone"
+				android:background="@drawable/ui_manager_delete_screen_button_states"
 	            android:text="@string/manager_caption_confirm"
 	            style="@android:attr/buttonBarButtonStyle"
 	            />
