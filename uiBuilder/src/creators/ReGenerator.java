@@ -1,8 +1,9 @@
 package creators;
 
+import helpers.Log;
+
 import java.util.ArrayList;
 
-import helpers.Log;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;

@@ -60,12 +60,18 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 		ReGenerator.setOnObjectGeneratedListener(this);
 	}
 	
+	/**
+	 * OnObjectLoadedFromDatabaseListener interface implementation
+	 */
 	@Override
 	public void objectsLoaded(ArrayList<Bundle> objectList)
 	{
 		getElements(objectList);
 	}
 
+	/**
+	 * OnObjectGeneratedListener interface implementation
+	 */
 	@Override
 	public void objectGenerated(View newItem)
 	{
