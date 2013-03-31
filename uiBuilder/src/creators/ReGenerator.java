@@ -31,7 +31,9 @@ public class ReGenerator extends AsyncTask<ArrayList<Bundle>, View, Void>
 	@Override
 	protected Void doInBackground(ArrayList<Bundle>... params)
 	{
-		Looper.prepare();
+		//Looper loop = Looper.getMainLooper();
+		Looper.prepareMainLooper();
+		
 		for (Bundle bundle : params[0])
 		{
 			Log.d("async", "regeneration");
@@ -53,7 +55,6 @@ public class ReGenerator extends AsyncTask<ArrayList<Bundle>, View, Void>
 	@Override
 	protected void onPreExecute()
 	{
-
 		// TODO Auto-generated method stub
 		super.onPreExecute();
 	}
