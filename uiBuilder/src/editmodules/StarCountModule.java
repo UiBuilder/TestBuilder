@@ -119,6 +119,7 @@ public class StarCountModule extends Module
 		RatingModuleListener ratingListener = new RatingModuleListener();
 
 		starBar.setOnSeekBarChangeListener(ratingListener);
+		ratingSlider.setOnSeekBarChangeListener(ratingListener);
 	}
 
 }
