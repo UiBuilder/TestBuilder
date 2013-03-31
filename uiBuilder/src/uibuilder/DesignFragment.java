@@ -20,6 +20,8 @@ import android.view.View;
 import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import creators.ObjectFactory;
 import data.ObjectValues;
@@ -415,7 +417,12 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	public void onShowPress(MotionEvent event)
 	{
 		// TODO Auto-generated method stub
-
+		Log.d("showpress", "called");
+		if (activeItem != null)
+		{
+			Animation press = AnimationUtils.loadAnimation(getActivity(), R.anim.design_press_scale);
+			activeItem.startAnimation(press);
+		}
 	}
 	
 	@Override

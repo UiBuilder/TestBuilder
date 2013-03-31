@@ -16,8 +16,10 @@ public class GridColumnModule extends Module
 {
 	private LinearLayout box;
 	private GridView requesting;
-	SeekBar columnNumber;
-	TextView display;
+	private ViewGroup container;
+	
+	private SeekBar columnNumber;
+	private TextView display;
 	private int offset = 2;
 	
 	private int colNum;
@@ -57,7 +59,7 @@ public class GridColumnModule extends Module
 	@Override
 	public LinearLayout getInstance(View inProgress)
 	{
-		ViewGroup container = (ViewGroup) inProgress;
+		container = (ViewGroup) inProgress;
 
 		requesting = (GridView) container.getChildAt(0);
 		adaptToContext();
@@ -100,7 +102,7 @@ public class GridColumnModule extends Module
 		@Override
 		public void onStopTrackingTouch(SeekBar arg0)
 		{
-			putInTag(colNum);
+			putInTag();
 		}
 		
 		
@@ -110,10 +112,10 @@ public class GridColumnModule extends Module
 			colNum = col;
 		}
 
-		private void putInTag(int col)
+		private void putInTag()
 		{
-			Bundle tag = (Bundle) requesting.getTag();
-			tag.putInt(ObjectValues.COLUMNS_NUM, col);
+			Bundle tag = (Bundle) container.getTag();
+			tag.putInt(ObjectValues.COLUMNS_NUM, colNum);
 		}
 	}
 
