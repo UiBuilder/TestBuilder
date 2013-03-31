@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,6 +31,7 @@ public class ReGenerator extends AsyncTask<ArrayList<Bundle>, View, Void>
 	@Override
 	protected Void doInBackground(ArrayList<Bundle>... params)
 	{
+		Looper.prepare();
 		for (Bundle bundle : params[0])
 		{
 			Log.d("async", "regeneration");
@@ -45,12 +47,13 @@ public class ReGenerator extends AsyncTask<ArrayList<Bundle>, View, Void>
 	{
 		// TODO Auto-generated method stub
 		super.onPostExecute(result);
+
 	}
 
 	@Override
 	protected void onPreExecute()
 	{
-		
+
 		// TODO Auto-generated method stub
 		super.onPreExecute();
 	}
