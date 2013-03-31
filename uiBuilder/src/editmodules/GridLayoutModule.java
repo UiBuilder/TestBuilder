@@ -100,7 +100,7 @@ public class GridLayoutModule extends Module
 			case R.id.editmode_grid_included_layout_3:
 			case R.id.editmode_grid_included_layout_4:
 				samples.setSampleLayout(requesting, id);
-				objectBundle.putInt(ObjectValues.EXAMPLE_LAYOUT, id);
+//				objectBundle.putInt(ObjectValues.EXAMPLE_LAYOUT, id);
 				break;
 
 			default:

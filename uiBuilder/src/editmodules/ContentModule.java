@@ -87,7 +87,7 @@ public class ContentModule extends Module
 			case R.id.content_choose_hipster:
 			case R.id.content_choose_bacon:
 				samples.setSampleContent(requesting, id);
-				objectBundle.putInt(ObjectValues.EXAMPLE_CONTENT, id);
+//				objectBundle.putInt(ObjectValues.EXAMPLE_CONTENT, id);
 			}
 
 		}

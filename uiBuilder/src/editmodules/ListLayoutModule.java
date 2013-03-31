@@ -94,7 +94,7 @@ public class ListLayoutModule extends Module
 			int id = listLayout.getId();
 
 			samples.setSampleLayout(requesting, id);
-			objectBundle.putInt(ObjectValues.EXAMPLE_LAYOUT, id);
+//			objectBundle.putInt(ObjectValues.EXAMPLE_LAYOUT, id);
 		}
 	}
 
