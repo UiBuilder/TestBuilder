@@ -104,10 +104,10 @@ public class StarCountModule extends Module
 	protected void adaptToContext()
 	{
 		Bundle valuesBundle = (Bundle) requesting.getTag();
-
+		
+		starBar.setProgress(valuesBundle.getInt(ObjectValues.STARS_NUM)-1);
 		ratingSlider.setProgress(valuesBundle.getInt(ObjectValues.RATING));
 
-		starBar.setProgress(valuesBundle.getInt(ObjectValues.STARS_NUM)-1);
 
 	}
 
