@@ -146,6 +146,8 @@ public class Bundler
 	
 	public static Bundle getValueBundle(int which, Resources res)
 	{
+		Log.d("getValueBundle", "called");
+		
 		Bundle tagBundle = new Bundle();
 		int width = 0;
 		int height = 0;

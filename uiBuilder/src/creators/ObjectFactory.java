@@ -72,6 +72,7 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 	@Override
 	public void objectsLoaded(ArrayList<Bundle> objectList)
 	{
+		Log.d("ObjectFactory", "OnObjectLoadedFromDatabaseListerner method called, calling GetElements");
 		getElements(objectList);
 	}
 
@@ -138,10 +139,12 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 		try
 		{
 			reGenerator = new ReGenerator(generator);
-			
+			Log.d("ObjectFactory", "getElements called and created Regenerator, about to execute");
 			reGenerator.execute(objectList);
+			
 		}
 		catch (Exception e) {
+			Log.d("ObjectFactory", "getElements called but threw an Exception");
 			// TODO: handle exception
 		}
 	}

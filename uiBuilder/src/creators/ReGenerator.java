@@ -35,7 +35,7 @@ public class ReGenerator extends AsyncTask<ArrayList<Bundle>, View, Void>
 	{
 		for (Bundle bundle : params[0])
 		{
-			Log.d("async", "regeneration");
+			Log.d("Regenerator", "doInBackground started.");
 			View newItem = reGenerate(bundle);
 			publishProgress(newItem);
 		}
@@ -63,7 +63,7 @@ public class ReGenerator extends AsyncTask<ArrayList<Bundle>, View, Void>
 	{
 		// TODO Auto-generated method stub
 		super.onProgressUpdate(values);
-
+		android.util.Log.d("Regenerator", "onProgressUpdate called, about to call objectGenerated Listener");
 		listener.objectGenerated(values[0]);
 	}
 	

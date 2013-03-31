@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import de.ur.rk.uibuilder.R;
 
 public class FromDatabaseObjectCreator
@@ -64,7 +65,9 @@ public class FromDatabaseObjectCreator
 			}
 			
 			cursor.close();
+			
 			listener.objectsLoaded(dataBaseObjects);
+			Log.d("FromDatabaseObjectCreator", "done loading Objects, called listener");
 		}
 	}
 
