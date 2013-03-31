@@ -31,16 +31,12 @@ public class ReGenerator extends AsyncTask<ArrayList<Bundle>, View, Void>
 	@Override
 	protected Void doInBackground(ArrayList<Bundle>... params)
 	{
-		Looper.prepare();
-		
 		for (Bundle bundle : params[0])
 		{
 			Log.d("async", "regeneration");
 			View newItem = reGenerate(bundle);
 			publishProgress(newItem);
 		}
-		
-		Looper.myLooper().quit();
 		return null;
 	}
 
