@@ -469,7 +469,7 @@ public class UiBuilderActivity extends Activity implements
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor)
 	{	
 		int loaderId = loader.getId();
-		
+
 		switch (loaderId)
 		{
 		case ScreenProvider.OBJECTS_LOADER:

@@ -294,6 +294,7 @@ public class Bundler
 		tagBundle.putInt(ObjectValues.MINHEIGHT, height);
 		tagBundle.putInt(ObjectValues.MINWIDTH, width);
 		tagBundle.putInt(ObjectValues.TYPE, which);
+		tagBundle.putInt(ObjectValues.DATABASE_ID, 0);
 		
 
 		return tagBundle;
