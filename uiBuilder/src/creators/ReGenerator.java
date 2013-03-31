@@ -107,6 +107,13 @@ public class ReGenerator extends AsyncTask<ArrayList<Bundle>, View, Void>
 			break;
 
 		case R.id.element_imageview:
+			int iconid = databaseBundle.getInt(ObjectValues.ICN_SRC);
+			String imagepath = databaseBundle.getString(ObjectValues.IMG_SRC);
+			
+			if (iconid == 0 && imagepath == null)
+			{
+				return null;
+			}
 			
 			Log.d("measured imageview", String.valueOf(xmlView.getMeasuredHeight()));
 			properties.putString(ObjectValues.IMG_SRC, databaseBundle.getString(ObjectValues.IMG_SRC));

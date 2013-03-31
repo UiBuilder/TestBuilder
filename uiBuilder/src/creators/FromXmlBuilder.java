@@ -39,29 +39,6 @@ public class FromXmlBuilder
 		this.context = context;
 		this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
-
-
-	private void insertImageToView(Bundle properties, Bundle databaseBundle, View xmlView)
-	{
-		
-		
-		String imgSrc = databaseBundle.getString(ObjectValues.IMG_SRC);
-		int icnSrc = databaseBundle.getInt(ObjectValues.ICN_SRC);
-		
-		if(icnSrc == 0)
-		{
-			ImageTools.setPic(xmlView, imgSrc);
-			properties.putString(ObjectValues.IMG_SRC, imgSrc);
-		}
-		else
-		{
-			((ImageView)xmlView).setImageResource(icnSrc);
-			
-			properties.putInt(ObjectValues.ICN_SRC, icnSrc);
-		}
-		
-	}
-
 	
 
 	protected View buildGrid()

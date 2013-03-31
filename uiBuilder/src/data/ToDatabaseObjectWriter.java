@@ -42,6 +42,8 @@ public class ToDatabaseObjectWriter extends AsyncTask<View, Void, Void>
 			int databaseID = tempValues.getAsInteger(ObjectValues.DATABASE_ID);
 			tempValues.remove(ObjectValues.DATABASE_ID);
 			
+			Log.d("writing object with id", String.valueOf(databaseID));
+			
 			if (databaseID != 0)
 			{
 				Uri uri = ContentUris.withAppendedId(ScreenProvider.CONTENT_URI_OBJECTS, databaseID);

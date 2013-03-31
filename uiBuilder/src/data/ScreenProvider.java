@@ -158,8 +158,7 @@ public class ScreenProvider extends ContentProvider
 	{
 		SQLiteDatabase db = data.getWritableDatabase();
 		String nullColumnHack = null;
-		
-		Log.d("bulk insert as", String.valueOf(match.match(uri)));	
+
 		Log.d("bulk insert", uri.toString());
 		
 		long id = 0;
@@ -185,10 +184,8 @@ public class ScreenProvider extends ContentProvider
 				}
 				count++;
 			}
-			
 			break;
-		}
-		
+		}		
 		return count;
 	}
 
@@ -241,6 +238,8 @@ public class ScreenProvider extends ContentProvider
 		Cursor cursor = query.query(db, projection, selection, selectionArgs, groupBy, having, sortOrder);
 		
 		cursor.setNotificationUri(getContext().getContentResolver(), uri);
+		
+		Log.d("provider cursor", String.valueOf(cursor.getCount()));
 		return cursor;
 	}
 
@@ -400,7 +399,7 @@ public class ScreenProvider extends ContentProvider
 						;
 		
 		
-		private static final int DB_VERSION = 28;
+		private static final int DB_VERSION = 29;
 		
 		private static final String CREATE = "create table if not exists ";
 		private static final String DROP = "DROP TABLE if exists ";	

@@ -48,7 +48,7 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap>
 	
 			/* Figure out which way needs to be reduced less */
 			int scaleFactor = 8;
-			if ((targetW > 0) || (targetH > 0))
+			if ((targetW > 0) && (targetH > 0))
 			{
 				Log.d("imagecontainer w", String.valueOf(photoW));
 				Log.d("imagecontainer w", String.valueOf(targetW));
