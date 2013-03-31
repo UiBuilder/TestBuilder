@@ -67,6 +67,7 @@ public class FromDatabaseObjectCreator
 			cursor.close();
 			
 			listener.objectsLoaded(dataBaseObjects);
+			Log.d("FromDatabaseObjectCreator", "size of dataBaseObjects: "+ String.valueOf(dataBaseObjects.size()));
 			Log.d("FromDatabaseObjectCreator", "done loading Objects, called listener");
 		}
 	}
