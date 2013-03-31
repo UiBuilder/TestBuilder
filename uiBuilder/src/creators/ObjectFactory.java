@@ -7,6 +7,7 @@ import helpers.ImageTools;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.DragEvent;
@@ -137,7 +138,8 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 		try
 		{
 			reGenerator = new ReGenerator(generator);
-			reGenerator.execute(objectList);
+			
+			reGenerator.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, objectList);
 		}
 		catch (Exception e) {
 			// TODO: handle exception

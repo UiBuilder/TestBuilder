@@ -50,6 +50,7 @@ public class ReGenerator extends AsyncTask<ArrayList<Bundle>, View, Void>
 	@Override
 	protected void onPreExecute()
 	{
+		
 		// TODO Auto-generated method stub
 		super.onPreExecute();
 	}
