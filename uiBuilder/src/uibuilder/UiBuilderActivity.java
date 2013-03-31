@@ -82,7 +82,6 @@ public class UiBuilderActivity extends Activity implements
 		checkIntent();
 		
 		grabber = new ChildGrabber();
-		objectWriter = new ToDatabaseObjectWriter(screenId, getApplicationContext());
 		objectCreator = new FromDatabaseObjectCreator();
 
 		//container = (ViewGroup) inf.inflate(R.layout.layout_fragment_container, null);
@@ -182,6 +181,7 @@ public class UiBuilderActivity extends Activity implements
 		
 		View designArea = rootDesignBox.findViewById(R.id.design_area);
 		
+		ToDatabaseObjectWriter objectWriter = new ToDatabaseObjectWriter(screenId, getApplicationContext());
 		objectWriter.execute(designArea);
 		super.onStop();
 	}
