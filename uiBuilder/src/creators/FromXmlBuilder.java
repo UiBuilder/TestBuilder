@@ -120,6 +120,7 @@ public class FromXmlBuilder
 		xmlRatingBar.setEnabled(true);
 		xmlRatingBar.setActivated(true);
 		
+		
 		RelativeLayout.LayoutParams ratingBarParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		ratingBarParams.addRule(RelativeLayout.CENTER_IN_PARENT, 1);
 		xmlRatingBar.setLayoutParams(ratingBarParams);

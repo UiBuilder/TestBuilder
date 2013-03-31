@@ -1,13 +1,16 @@
 package editmodules;
 
 import uibuilder.EditmodeFragment;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import data.ObjectValues;
 import de.ur.rk.uibuilder.R;
 
 public class StarCountModule extends Module
@@ -36,6 +39,9 @@ public class StarCountModule extends Module
 
 		starBar = (SeekBar) box.findViewById(R.id.star_count_seekbar);
 		ratingSlider = (SeekBar) box.findViewById(R.id.star_rating_seekbar);
+		
+		starBar.setMax(9);
+		ratingSlider.setMax(10);
 	}
 
 	@Override
@@ -53,17 +59,26 @@ public class StarCountModule extends Module
 		public void onProgressChanged(SeekBar seekBar, int progress,
 				boolean fromUser)
 		{
+			Bundle valuesBundle = (Bundle) requesting.getTag();
 			switch (seekBar.getId())
 			{
 			case R.id.star_count_seekbar:
-				((RatingBar) ((ViewGroup) requesting).getChildAt(0)).setNumStars(progress + 1);
-				ratingSlider.setMax(progress + 1);
+				
+				progress += 1;
+				
+				valuesBundle.putInt(ObjectValues.STARS_NUM, progress);
+				
+				((RatingBar) ((RelativeLayout) requesting).getChildAt(0)).setNumStars(progress);
+				ratingSlider.setMax(progress);
 
 				Log.d("StarcountSeekbar", "gotValue for progress: " + progress
 						+ 1);
 				break;
 
 			case R.id.star_rating_seekbar:
+				
+				valuesBundle.putInt(ObjectValues.RATING, progress);
+
 				Log.d("RatingSeekbar", "gotValue for progress: " + progress);
 				((RatingBar) ((ViewGroup) requesting).getChildAt(0)).setRating(progress);
 				break;
@@ -88,9 +103,11 @@ public class StarCountModule extends Module
 	@Override
 	protected void adaptToContext()
 	{
-		ratingSlider.setProgress((int) (((RatingBar) ((ViewGroup) requesting).getChildAt(0)).getRating()));
+		Bundle valuesBundle = (Bundle) requesting.getTag();
 
-		starBar.setProgress(((RatingBar) ((ViewGroup) requesting).getChildAt(0)).getNumStars() - 1);
+		ratingSlider.setProgress(valuesBundle.getInt(ObjectValues.RATING));
+
+		starBar.setProgress(valuesBundle.getInt(ObjectValues.STARS_NUM)-1);
 
 	}
 
