@@ -78,7 +78,7 @@ public class Bundler
 			break;
 
 		case R.id.element_edittext:
-			valuesBundle.put(ObjectValues.USER_TEXT, (((EditText) object).getText()).toString());
+			valuesBundle.put(ObjectValues.USER_TEXT, (((EditText) object).getHint()).toString());
 			valuesBundle.put(ObjectValues.ALIGNMENT, ((TextView) object).getGravity());
 			valuesBundle.put(ObjectValues.FONTSIZE, (int) ((TextView) object).getTextSize());
 			valuesBundle.put(ObjectValues.BACKGROUND_EDIT, objectBundle.getInt(ObjectValues.BACKGROUND_EDIT));
