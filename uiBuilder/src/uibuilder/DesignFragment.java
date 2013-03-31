@@ -418,11 +418,11 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	{
 		// TODO Auto-generated method stub
 		Log.d("showpress", "called");
-		if (activeItem != null)
+		/*if (activeItem != null)
 		{
 			Animation press = AnimationUtils.loadAnimation(getActivity(), R.anim.design_press_scale);
 			activeItem.startAnimation(press);
-		}
+		}*/
 	}
 	
 	@Override

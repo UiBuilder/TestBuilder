@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -356,7 +357,7 @@ public class ImageTools
 		switch (which)
 		{
 		case ALBUM:
-			String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+			String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.GERMAN).format(new Date());
 			imageFileName = JPEG_FILE_PREFIX + timeStamp + "_";
 			break;
 
