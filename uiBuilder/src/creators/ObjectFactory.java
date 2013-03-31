@@ -60,7 +60,7 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 		checker = new CollisionChecker(designArea);
 		manipulator = new ObjectManipulator(c, designArea);
 		
-		showUpAnimation = AnimationUtils.loadAnimation(context, R.anim.fast_alpha_in);
+		showUpAnimation = AnimationUtils.loadAnimation(context, R.anim.design_loaded_scale_in);
 		
 		FromDatabaseObjectCreator.setOnObjectCreatedFromDatabaseListener(this);
 		ReGenerator.setOnObjectGeneratedListener(this);
