@@ -27,7 +27,7 @@ public class UserTextModule extends Module
 	@Override
 	protected void setupUi()
 	{
-		box = (LinearLayout) super.inflater.inflate(R.layout.editmode_entry_text_size, null);
+		box = (LinearLayout) super.inflater.inflate(R.layout.editmode_entry_enter_text, null);
 
 		editText = (EditText) box.findViewById(R.id.item_edit_edittext);
 	}
@@ -99,10 +99,9 @@ public class UserTextModule extends Module
 	@Override
 	protected void setListeners()
 	{
-		// TODO Auto-generated method stub
 		box.setOnClickListener(new ExpansionListener(box));
-
-		//editText.addTextChangedListener(new UserTextModuleListener());
+		UserTextModuleListener textListener = new UserTextModuleListener();
+		editText.addTextChangedListener(textListener);
 	}
 	
 
@@ -120,7 +119,6 @@ public class UserTextModule extends Module
 		public void beforeTextChanged(CharSequence s, int start, int count,
 				int after)
 		{
-			// TODO Auto-generated method stub
 
 		}
 
@@ -128,7 +126,6 @@ public class UserTextModule extends Module
 		public void onTextChanged(CharSequence s, int start, int before,
 				int count)
 		{
-			// TODO Auto-generated method stub
 
 		}
 	}

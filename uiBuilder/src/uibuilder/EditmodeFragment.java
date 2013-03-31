@@ -259,7 +259,7 @@ public class EditmodeFragment extends Fragment
 
 	private void configButton()
 	{
-		//linearRoot.addView(userTextModule.getInstance(currentView));
+		linearRoot.addView(userTextModule.getInstance(currentView));
 		linearRoot.addView(fontSizeModule.getInstance(currentView));
 		linearRoot.addView(alignModule.getInstance(currentView));
 		linearRoot.addView(backgroundColorModule.getInstance(currentView));
