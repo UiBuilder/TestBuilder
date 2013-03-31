@@ -34,6 +34,10 @@ public class Bundler
 		int yPos = (int) object.getY();
 		int width = object.getMeasuredWidth();
 		int height = object.getMeasuredHeight();
+		
+		
+		
+		
 
 		valuesBundle.put(ObjectValues.DATABASE_ID, id);
 		valuesBundle.put(ObjectValues.TYPE, tagId);
@@ -134,22 +138,20 @@ public class Bundler
 			break;
 		}
 		valuesBundle.put(ObjectValues.BACKGROUND_EDIT, objectBundle.getInt(ObjectValues.BACKGROUND_EDIT));
+		valuesBundle.put(ObjectValues.BACKGROUND_PRES,  objectBundle.getInt(ObjectValues.BACKGROUND_PRES));
 
 		return valuesBundle;
 
 	}
 	
-	public static Bundle getDefaultBundle(int which, Resources res)
+	public static Bundle getValueBundle(int which, Resources res)
 	{
 		Bundle tagBundle = new Bundle();
 		int width = 0;
 		int height = 0;
 		int scaleType = 0;
-		int createMode = 0;
-		int presMode = 0;
-
-		presMode = R.drawable.presentation_default_object;
-		createMode = R.drawable.object_background_default;
+		int presMode = R.drawable.presentation_default_object;
+		int createMode = R.drawable.object_background_default;
 
 		switch (which)
 		{

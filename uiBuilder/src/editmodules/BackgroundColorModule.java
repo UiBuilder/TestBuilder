@@ -134,6 +134,8 @@ public class BackgroundColorModule extends Module
 				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_grey);
 
 				break;
+				
+			
 
 			case R.id.editmode_background_reset:
 				requesting.setBackgroundResource(R.drawable.object_background_default);
@@ -147,6 +149,7 @@ public class BackgroundColorModule extends Module
 		private void resetBackgroundToDefault(Bundle bundle)
 		{
 			bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_default);
+			bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_default_object);
 
 			switch (bundle.getInt(ObjectValues.TYPE))
 			{

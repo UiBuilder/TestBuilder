@@ -58,8 +58,8 @@ public class Generator
 	{
 		View xmlView;
 		RelativeLayout.LayoutParams params = null;
-		Bundle properties = Bundler.getDefaultBundle(id, res);
-		params = new RelativeLayout.LayoutParams((int) (properties.getInt(ObjectValues.MINWIDTH)* 2), (int) (properties.getInt(ObjectValues.MINHEIGHT) * 2));
+		Bundle valueBundle = Bundler.getValueBundle(id, res);
+		params = new RelativeLayout.LayoutParams((int) (valueBundle.getInt(ObjectValues.MINWIDTH)* 2), (int) (valueBundle.getInt(ObjectValues.MINHEIGHT) * 2));
 
 		switch (id)
 		{
@@ -90,14 +90,14 @@ public class Generator
 
 		case R.id.element_switch:
 			xmlView = builder.buildSwitch();
-			params = new RelativeLayout.LayoutParams((properties.getInt(ObjectValues.MINWIDTH)), (int) (properties.getInt(ObjectValues.MINHEIGHT) * 2));
+			params = new RelativeLayout.LayoutParams((valueBundle.getInt(ObjectValues.MINWIDTH)), (int) (valueBundle.getInt(ObjectValues.MINHEIGHT) * 2));
 
 			
 			break;
 
 		case R.id.element_checkbox:
 			xmlView = builder.buildCheckBox();
-			params = new RelativeLayout.LayoutParams((int) (properties.getInt(ObjectValues.MINWIDTH)* 2), (int) (properties.getInt(ObjectValues.MINHEIGHT)));
+			params = new RelativeLayout.LayoutParams((int) (valueBundle.getInt(ObjectValues.MINWIDTH)* 2), (int) (valueBundle.getInt(ObjectValues.MINHEIGHT)));
 
 			
 			break;
@@ -109,28 +109,28 @@ public class Generator
 
 		case R.id.element_numberpick:
 			xmlView = builder.buildNumberPicker();
-			params = new RelativeLayout.LayoutParams((int) (properties.getInt(ObjectValues.MINWIDTH)), (int) (properties.getInt(ObjectValues.MINHEIGHT)));
+			params = new RelativeLayout.LayoutParams((int) (valueBundle.getInt(ObjectValues.MINWIDTH)), (int) (valueBundle.getInt(ObjectValues.MINHEIGHT)));
 
 			
 			break;
 
 		case R.id.element_ratingbar:
 			xmlView = builder.buildRatingBar();
-			params = new RelativeLayout.LayoutParams(properties.getInt(ObjectValues.MINWIDTH) * 6, properties.getInt(ObjectValues.MINHEIGHT));
+			params = new RelativeLayout.LayoutParams(valueBundle.getInt(ObjectValues.MINWIDTH) * 6, valueBundle.getInt(ObjectValues.MINHEIGHT));
 
 			
 			break;
 
 		case R.id.element_seekbar:
 			xmlView = builder.buildSeekBar();
-			params = new RelativeLayout.LayoutParams(properties.getInt(ObjectValues.MINWIDTH), properties.getInt(ObjectValues.MINHEIGHT) * 2);
+			params = new RelativeLayout.LayoutParams(valueBundle.getInt(ObjectValues.MINWIDTH), valueBundle.getInt(ObjectValues.MINHEIGHT) * 2);
 
 			
 			break;
 
 		case R.id.element_timepicker:
 			xmlView = builder.buildTimePicker();
-			params = new RelativeLayout.LayoutParams((int) (properties.getInt(ObjectValues.MINWIDTH)), (int) (properties.getInt(ObjectValues.MINHEIGHT)));
+			params = new RelativeLayout.LayoutParams((int) (valueBundle.getInt(ObjectValues.MINWIDTH)), (int) (valueBundle.getInt(ObjectValues.MINHEIGHT)));
 
 			
 			break;
@@ -151,12 +151,12 @@ public class Generator
 		
 		xmlView.setLayoutParams(params);
 		
-		xmlView.setBackgroundResource(properties.getInt(ObjectValues.BACKGROUND_EDIT));
+		xmlView.setBackgroundResource(valueBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 		xmlView.setId(idCount++);
-		xmlView.setTag(properties);
+		xmlView.setTag(valueBundle);
 		xmlView.setOnTouchListener(manipulator);
 		
-		xmlView.measure(properties.getInt(ObjectValues.MINWIDTH), properties.getInt(ObjectValues.MINHEIGHT));
+		xmlView.measure(valueBundle.getInt(ObjectValues.MINWIDTH), valueBundle.getInt(ObjectValues.MINHEIGHT));
 		 
 		samples.setSampleAdapter(xmlView);
 		return xmlView;

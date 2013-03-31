@@ -1,10 +1,12 @@
 package editmodules;
 
 import uibuilder.EditmodeFragment;
+import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import data.ObjectValues;
 import data.SampleAdapter;
 import de.ur.rk.uibuilder.R;
 
@@ -77,6 +79,7 @@ public class ContentModule extends Module
 		@Override
 		public void onClick(View v)
 		{
+			Bundle objectBundle = (Bundle) requesting.getTag();
 			int id = v.getId();
 
 			switch (id)
@@ -84,6 +87,7 @@ public class ContentModule extends Module
 			case R.id.content_choose_hipster:
 			case R.id.content_choose_bacon:
 				samples.setSampleContent(requesting, id);
+				objectBundle.putInt(ObjectValues.EXAMPLE_CONTENT, id);
 			}
 
 		}

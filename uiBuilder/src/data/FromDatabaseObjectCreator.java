@@ -38,7 +38,8 @@ public class FromDatabaseObjectCreator
 				int idxFontsize = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_OBJECTS_VIEW_FONTSIZE);
 				int idxImageSource = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_OBJECTS_VIEW_IMGSRC);
 				int idxIconSource = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_OBJECTS_VIEW_ICNSRC);
-				int idxBackgroundColor = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_OBJECTS_VIEW_BACKGROUNDCLR_EDIT);
+				int idxBackgroundColorEdit = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_OBJECTS_VIEW_BACKGROUNDCLR_EDIT);
+				int idxBackgroundColorPres = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_OBJECTS_VIEW_BACKGROUNDCLR_PRESENTATION);
 	
 				valuesBundle.putInt(ObjectValues.DATABASE_ID, cursor.getInt(idxKEYID));
 				valuesBundle.putInt(ObjectValues.TYPE, cursor.getInt(idxID));
@@ -56,11 +57,8 @@ public class FromDatabaseObjectCreator
 				valuesBundle.putInt(ObjectValues.FONTSIZE, cursor.getInt(idxFontsize));
 				valuesBundle.putString(ObjectValues.IMG_SRC, cursor.getString(idxImageSource));
 				valuesBundle.putInt(ObjectValues.ICN_SRC, cursor.getInt(idxIconSource));
-				valuesBundle.putInt(ObjectValues.BACKGROUND_EDIT, cursor.getInt(idxBackgroundColor));
-	
-				// This is independent form Database, just assigning the right
-				// colours to presentationMode tag.
-				valuesBundle.putInt(ObjectValues.BACKGROUND_PRES, getPresColour(cursor.getInt(idxBackgroundColor)));
+				valuesBundle.putInt(ObjectValues.BACKGROUND_EDIT, cursor.getInt(idxBackgroundColorEdit));
+				valuesBundle.putInt(ObjectValues.BACKGROUND_PRES, cursor.getInt(idxBackgroundColorPres ));
 				
 				dataBaseObjects.add(valuesBundle);
 			}
@@ -69,54 +67,7 @@ public class FromDatabaseObjectCreator
 			listener.objectsLoaded(dataBaseObjects);
 		}
 	}
-/**
- * @deprecated
- * @param int1
- * @return
- */
-	private int getPresColour(int int1)
-	{
-		int presColor;
 
-		switch (int1)
-		{
-		case R.drawable.object_background_aqua:
-			presColor = R.drawable.presentation_object_background_aqua;
-			break;
-		case R.drawable.object_background_blue:
-			presColor = R.drawable.presentation_object_background_blue;
-			break;
-		case R.drawable.object_background_green:
-			presColor = R.drawable.presentation_object_background_green;
-			break;
-		case R.drawable.object_background_green_light:
-			presColor = R.drawable.presentation_object_background_green_light;
-			break;
-		case R.drawable.object_background_grey:
-			presColor = R.drawable.presentation_object_background_grey;
-			break;
-		case R.drawable.object_background_grey_dark:
-			presColor = R.drawable.presentation_object_background_grey_dark;
-			break;
-		case R.drawable.object_background_grey_light:
-			presColor = R.drawable.presentation_object_background_grey_light;
-			break;
-		case R.drawable.object_background_orange:
-			presColor = R.drawable.presentation_object_background_orange;
-			break;
-		case R.drawable.object_background_red:
-			presColor = R.drawable.presentation_object_background_red;
-			break;
-		case R.drawable.object_background_default_button:
-			presColor = R.drawable.presentation_button_default;
-			break;
-		case R.drawable.object_background_default_edittext:
-			presColor = R.drawable.presentation_border_medium;
-		default:
-			presColor = R.drawable.presentation_default_object;
-		}
-		return presColor;
-	}
 
 	public interface OnObjectLoadedFromDatabaseListener
 	{

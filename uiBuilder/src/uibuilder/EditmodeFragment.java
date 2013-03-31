@@ -253,7 +253,7 @@ public class EditmodeFragment extends Fragment
 
 	private void configCheckBox()
 	{
-		//linearRoot.addView(userTextModule.getInstance(currentView));
+		linearRoot.addView(userTextModule.getInstance(currentView));
 		linearRoot.addView(backgroundColorModule.getInstance(currentView));
 	}
 

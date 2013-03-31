@@ -1,9 +1,11 @@
 package editmodules;
 
 import uibuilder.EditmodeFragment;
+import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
+import data.ObjectValues;
 import data.SampleAdapter;
 import de.ur.rk.uibuilder.R;
 
@@ -83,10 +85,12 @@ public class GridLayoutModule extends Module
 	 */
 	private class GridLayoutModuleListener implements OnClickListener
 	{
+	
 
 		@Override
 		public void onClick(View gridLayout)
 		{
+			Bundle objectBundle = (Bundle) requesting.getTag();
 			int id = gridLayout.getId();
 
 			switch (id)
@@ -96,6 +100,7 @@ public class GridLayoutModule extends Module
 			case R.id.editmode_grid_included_layout_3:
 			case R.id.editmode_grid_included_layout_4:
 				samples.setSampleLayout(requesting, id);
+				objectBundle.putInt(ObjectValues.EXAMPLE_LAYOUT, id);
 				break;
 
 			default:

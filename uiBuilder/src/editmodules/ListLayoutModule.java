@@ -1,9 +1,11 @@
 package editmodules;
 
 import uibuilder.EditmodeFragment;
+import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
+import data.ObjectValues;
 import data.SampleAdapter;
 import de.ur.rk.uibuilder.R;
 
@@ -84,13 +86,15 @@ public class ListLayoutModule extends Module
 	
 	private class ListLayoutModuleListener implements OnClickListener
 	{
-
 		@Override
 		public void onClick(View listLayout)
 		{
+			Bundle objectBundle = (Bundle) requesting.getTag();
+
 			int id = listLayout.getId();
 
 			samples.setSampleLayout(requesting, id);
+			objectBundle.putInt(ObjectValues.EXAMPLE_LAYOUT, id);
 		}
 	}
 

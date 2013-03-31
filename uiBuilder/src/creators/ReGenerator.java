@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,13 +13,16 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import data.ObjectValues;
+import data.SampleAdapter;
 import de.ur.rk.uibuilder.R;
 
 public class ReGenerator extends AsyncTask<ArrayList<Bundle>, View, Void>
 {
 	private Generator generator;
+	private SampleAdapter sampleAdapter = new SampleAdapter(null);
 	
 	public ReGenerator(Generator generator)
 	{
@@ -81,7 +83,7 @@ public class ReGenerator extends AsyncTask<ArrayList<Bundle>, View, Void>
 		Bundle properties = (Bundle) xmlView.getTag();
 		RelativeLayout.LayoutParams params = null;
 		params = new RelativeLayout.LayoutParams(databaseBundle.getInt(ObjectValues.WIDTH), databaseBundle.getInt(ObjectValues.HEIGHT));
-		properties.putInt(ObjectValues.BACKGROUND_PRES, databaseBundle.getInt(ObjectValues.BACKGROUND_PRES));
+
 
 
 		switch (type)
@@ -90,9 +92,7 @@ public class ReGenerator extends AsyncTask<ArrayList<Bundle>, View, Void>
 			
 			((Button)xmlView).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
 			((Button)xmlView).setTextSize(databaseBundle.getInt(ObjectValues.FONTSIZE));
-			xmlView.setBackgroundResource(databaseBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 			
-			properties.putInt(ObjectValues.BACKGROUND_EDIT, databaseBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 
 			
 			break;
@@ -101,10 +101,8 @@ public class ReGenerator extends AsyncTask<ArrayList<Bundle>, View, Void>
 			
 			((TextView)xmlView).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
 			((TextView)xmlView).setTextSize(databaseBundle.getInt(ObjectValues.FONTSIZE));
-			xmlView.setBackgroundResource(databaseBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 			((TextView)xmlView).setGravity(databaseBundle.getInt(ObjectValues.ALIGNMENT));
 			
-			properties.putInt(ObjectValues.BACKGROUND_EDIT, databaseBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 
 
 			
@@ -113,16 +111,13 @@ public class ReGenerator extends AsyncTask<ArrayList<Bundle>, View, Void>
 		case R.id.element_imageview:
 			
 			Log.d("measured imageview", String.valueOf(xmlView.getMeasuredHeight()));
-			//xmlView.setBackgroundResource(R.drawable.object_background_default);
-			//insertImageToView(properties,databaseBundle, xmlView);
 			properties.putString(ObjectValues.IMG_SRC, databaseBundle.getString(ObjectValues.IMG_SRC));
-			properties.putInt(ObjectValues.BACKGROUND_EDIT, databaseBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 
 			break;
 
 		case R.id.element_edittext:
 			
-			xmlView.setBackgroundResource(databaseBundle.getInt(ObjectValues.BACKGROUND_EDIT));
+			((EditText) xmlView).setHint(databaseBundle.getString(ObjectValues.USER_TEXT));
 			((EditText)xmlView).setGravity(databaseBundle.getInt(ObjectValues.ALIGNMENT));
 			((EditText)xmlView).setTextSize(databaseBundle.getInt(ObjectValues.FONTSIZE));
 
@@ -133,15 +128,13 @@ public class ReGenerator extends AsyncTask<ArrayList<Bundle>, View, Void>
 			
 			((TextView) xmlView).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
 
-			xmlView.setBackgroundResource(R.drawable.object_background_default);
 
 			
 			break;
 
 		case R.id.element_switch:
 			
-			((TextView) xmlView).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
-			xmlView.setBackgroundResource(R.drawable.object_background_default);
+			((Switch) xmlView).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
 
 
 			
@@ -151,20 +144,21 @@ public class ReGenerator extends AsyncTask<ArrayList<Bundle>, View, Void>
 			
 			((TextView) ((LinearLayout)xmlView).getChildAt(0)).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
 
-			xmlView.setBackgroundResource(R.drawable.object_background_default);
 
 
 			
 			break;
 
 		case R.id.element_list:
+			sampleAdapter.setSampleListLayout(xmlView, databaseBundle.getInt(ObjectValues.EXAMPLE_LAYOUT));
+			sampleAdapter.setSampleContent(xmlView, databaseBundle.getInt(ObjectValues.EXAMPLE_CONTENT));
+			properties.putInt(ObjectValues.EXAMPLE_LAYOUT, databaseBundle.getInt(ObjectValues.EXAMPLE_LAYOUT));
+			properties.putInt(ObjectValues.EXAMPLE_CONTENT, databaseBundle.getInt(ObjectValues.EXAMPLE_CONTENT));
 			
-			xmlView.setBackgroundResource(R.drawable.object_background_default);
 			break;
 
 		case R.id.element_numberpick:
 			
-			xmlView.setBackgroundResource(R.drawable.object_background_default);
 
 
 			
@@ -172,17 +166,14 @@ public class ReGenerator extends AsyncTask<ArrayList<Bundle>, View, Void>
 
 		case R.id.element_ratingbar:
 			
-			xmlView.setBackgroundResource(databaseBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 			((RatingBar)((RelativeLayout)xmlView).getChildAt(0)).setRating(databaseBundle.getInt(ObjectValues.RATING));
 			((RatingBar)((RelativeLayout)xmlView).getChildAt(0)).setNumStars(databaseBundle.getInt(ObjectValues.STARS_NUM));
-			properties.putInt(ObjectValues.BACKGROUND_EDIT, databaseBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 
 			
 			break;
 
 		case R.id.element_seekbar:
 			
-			xmlView.setBackgroundResource(R.drawable.object_background_default);
 
 
 			
@@ -190,7 +181,6 @@ public class ReGenerator extends AsyncTask<ArrayList<Bundle>, View, Void>
 
 		case R.id.element_timepicker:
 			
-			xmlView.setBackgroundResource(R.drawable.object_background_default);
 
 
 			
@@ -198,9 +188,12 @@ public class ReGenerator extends AsyncTask<ArrayList<Bundle>, View, Void>
 
 		case R.id.element_grid:
 			
-
-			((GridView)((RelativeLayout)xmlView).getChildAt(0)).setNumColumns(databaseBundle.getInt(ObjectValues.COLUMNS_NUM));
-			xmlView.setBackgroundResource(R.drawable.object_background_default);
+			sampleAdapter.setSampleLayout(xmlView, databaseBundle.getInt(ObjectValues.EXAMPLE_CONTENT));
+			sampleAdapter.setSampleContent(xmlView, databaseBundle.getInt(ObjectValues.EXAMPLE_CONTENT));
+			properties.putInt(ObjectValues.EXAMPLE_LAYOUT, databaseBundle.getInt(ObjectValues.EXAMPLE_LAYOUT));
+			properties.putInt(ObjectValues.EXAMPLE_CONTENT, databaseBundle.getInt(ObjectValues.EXAMPLE_CONTENT));
+			
+//			((GridView)((RelativeLayout)xmlView).getChildAt(0)).setNumColumns(databaseBundle.getInt(ObjectValues.COLUMNS_NUM));
 			
 			
 			break;
@@ -211,6 +204,10 @@ public class ReGenerator extends AsyncTask<ArrayList<Bundle>, View, Void>
 		}
 		params.leftMargin = databaseBundle.getInt(ObjectValues.X_POS);
 		params.topMargin = databaseBundle.getInt(ObjectValues.Y_POS);
+		
+		properties.putInt(ObjectValues.BACKGROUND_PRES, databaseBundle.getInt(ObjectValues.BACKGROUND_PRES));
+		properties.putInt(ObjectValues.BACKGROUND_EDIT, databaseBundle.getInt(ObjectValues.BACKGROUND_EDIT));
+		
 		xmlView.setBackgroundResource(databaseBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 
 		xmlView.setLayoutParams(params);
