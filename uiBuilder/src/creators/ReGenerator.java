@@ -16,13 +16,11 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import data.ObjectValues;
-import data.SampleAdapter;
 import de.ur.rk.uibuilder.R;
 
 public class ReGenerator extends AsyncTask<ArrayList<Bundle>, View, Void>
 {
 	private Generator generator;
-	private SampleAdapter sampleAdapter = new SampleAdapter(null);
 	
 	public ReGenerator(Generator generator)
 	{
@@ -150,8 +148,7 @@ public class ReGenerator extends AsyncTask<ArrayList<Bundle>, View, Void>
 			break;
 
 		case R.id.element_list:
-			sampleAdapter.setSampleListLayout(xmlView, databaseBundle.getInt(ObjectValues.EXAMPLE_LAYOUT));
-			sampleAdapter.setSampleContent(xmlView, databaseBundle.getInt(ObjectValues.EXAMPLE_CONTENT));
+			
 			properties.putInt(ObjectValues.EXAMPLE_LAYOUT, databaseBundle.getInt(ObjectValues.EXAMPLE_LAYOUT));
 			properties.putInt(ObjectValues.EXAMPLE_CONTENT, databaseBundle.getInt(ObjectValues.EXAMPLE_CONTENT));
 			
@@ -188,8 +185,7 @@ public class ReGenerator extends AsyncTask<ArrayList<Bundle>, View, Void>
 
 		case R.id.element_grid:
 			
-			sampleAdapter.setSampleLayout(xmlView, databaseBundle.getInt(ObjectValues.EXAMPLE_CONTENT));
-			sampleAdapter.setSampleContent(xmlView, databaseBundle.getInt(ObjectValues.EXAMPLE_CONTENT));
+			
 			properties.putInt(ObjectValues.EXAMPLE_LAYOUT, databaseBundle.getInt(ObjectValues.EXAMPLE_LAYOUT));
 			properties.putInt(ObjectValues.EXAMPLE_CONTENT, databaseBundle.getInt(ObjectValues.EXAMPLE_CONTENT));
 			
