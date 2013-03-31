@@ -111,8 +111,8 @@ public class Bundler
 			break;
 
 		case R.id.element_ratingbar:
-			valuesBundle.put(ObjectValues.STARS_NUM, ((RatingBar) ((ViewGroup) object).getChildAt(0)).getNumStars());
-			valuesBundle.put(ObjectValues.RATING, (int)((RatingBar) ((ViewGroup) object).getChildAt(0)).getRating());
+			valuesBundle.put(ObjectValues.STARS_NUM, objectBundle.getInt(ObjectValues.STARS_NUM));
+			valuesBundle.put(ObjectValues.RATING, objectBundle.getInt(ObjectValues.RATING));
 			valuesBundle.put(ObjectValues.BACKGROUND_EDIT, objectBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 			Log.d("ObjectValueCollector", "put ratingbar, with: ");
 			break;
@@ -239,6 +239,8 @@ public class Bundler
 			width = res.getInteger(R.integer.ratingbar_factor_width);
 			height = res.getInteger(R.integer.ratingbar_factor_height);
 			scaleType = Overlay.BOTH;
+			tagBundle.putInt(ObjectValues.STARS_NUM, 5);
+			tagBundle.putInt(ObjectValues.RATING, 4);
 			
 			break;
 

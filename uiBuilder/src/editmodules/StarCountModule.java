@@ -15,11 +15,13 @@ import de.ur.rk.uibuilder.R;
 
 public class StarCountModule extends Module
 {
-	SeekBar starBar, ratingSlider;
+	private SeekBar starBar, ratingSlider;
 
 	private LinearLayout box;
 
 	private View requesting;
+	
+	private Bundle valuesBundle;
 
 	public StarCountModule(EditmodeFragment context)
 	{
@@ -39,15 +41,15 @@ public class StarCountModule extends Module
 
 		starBar = (SeekBar) box.findViewById(R.id.star_count_seekbar);
 		ratingSlider = (SeekBar) box.findViewById(R.id.star_rating_seekbar);
-		
-		starBar.setMax(9);
-		ratingSlider.setMax(10);
+		starBar.setMax(7);
 	}
 
 	@Override
 	public LinearLayout getInstance(View inProgress)
 	{
 		requesting = inProgress;
+		valuesBundle = (Bundle) requesting.getTag();
+
 		adaptToContext();
 
 		return box;
@@ -59,7 +61,6 @@ public class StarCountModule extends Module
 		public void onProgressChanged(SeekBar seekBar, int progress,
 				boolean fromUser)
 		{
-			Bundle valuesBundle = (Bundle) requesting.getTag();
 			switch (seekBar.getId())
 			{
 			case R.id.star_count_seekbar:
@@ -67,6 +68,7 @@ public class StarCountModule extends Module
 				progress += 1;
 				
 				valuesBundle.putInt(ObjectValues.STARS_NUM, progress);
+				
 				
 				((RatingBar) ((RelativeLayout) requesting).getChildAt(0)).setNumStars(progress);
 				ratingSlider.setMax(progress);
@@ -103,11 +105,10 @@ public class StarCountModule extends Module
 	@Override
 	protected void adaptToContext()
 	{
-		Bundle valuesBundle = (Bundle) requesting.getTag();
 		
 		starBar.setProgress(valuesBundle.getInt(ObjectValues.STARS_NUM)-1);
 		ratingSlider.setProgress(valuesBundle.getInt(ObjectValues.RATING));
-
+		
 
 	}
 

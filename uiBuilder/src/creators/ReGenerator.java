@@ -166,6 +166,8 @@ public class ReGenerator extends AsyncTask<ArrayList<Bundle>, View, Void>
 			
 			((RatingBar)((RelativeLayout)xmlView).getChildAt(0)).setRating(databaseBundle.getInt(ObjectValues.RATING));
 			((RatingBar)((RelativeLayout)xmlView).getChildAt(0)).setNumStars(databaseBundle.getInt(ObjectValues.STARS_NUM));
+			properties.putInt(ObjectValues.STARS_NUM, databaseBundle.getInt(ObjectValues.STARS_NUM));
+			properties.putInt(ObjectValues.RATING, databaseBundle.getInt(ObjectValues.RATING));
 
 			
 			break;

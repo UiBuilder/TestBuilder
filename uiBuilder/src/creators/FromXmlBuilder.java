@@ -119,6 +119,8 @@ public class FromXmlBuilder
 		RatingBar xmlRatingBar = (RatingBar) inflater.inflate(R.layout.item_ratingbar_layout, null);
 		xmlRatingBar.setEnabled(true);
 		xmlRatingBar.setActivated(true);
+		xmlRatingBar.setNumStars(5);
+		xmlRatingBar.setRating(4);
 		
 		
 		RelativeLayout.LayoutParams ratingBarParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
