@@ -2,11 +2,13 @@ package data;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import de.ur.rk.uibuilder.R;
@@ -304,5 +306,6 @@ public class SampleAdapter
 		}
 		bundle.putInt(ObjectValues.EXAMPLE_LAYOUT, gridLayout);
 	}
+	
 	
 }

@@ -215,6 +215,7 @@ public class ReGenerator extends AsyncTask<ArrayList<Bundle>, View, Void>
 		
 		xmlView.measure(databaseBundle.getInt(ObjectValues.WIDTH), databaseBundle.getInt(ObjectValues.HEIGHT));
 		
+		//generator.samples.setSampleAdapter(xmlView);
 		return xmlView;
 	}
 
