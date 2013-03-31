@@ -129,6 +129,7 @@ public class IconModule extends Module
 			int resourceId = (highResIcns[pos]);
 			Bundle bundle = (Bundle) requesting.getTag();
 			bundle.putInt(ObjectValues.ICN_SRC, resourceId);
+			bundle.putString(ObjectValues.IMG_SRC, null);
 
 			((ImageView) requesting).setScaleType(ScaleType.FIT_CENTER);
 			

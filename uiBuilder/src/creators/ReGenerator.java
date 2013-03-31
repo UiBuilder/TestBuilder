@@ -110,6 +110,7 @@ public class ReGenerator extends AsyncTask<ArrayList<Bundle>, View, Void>
 			
 			Log.d("measured imageview", String.valueOf(xmlView.getMeasuredHeight()));
 			properties.putString(ObjectValues.IMG_SRC, databaseBundle.getString(ObjectValues.IMG_SRC));
+			properties.putInt(ObjectValues.ICN_SRC, databaseBundle.getInt(ObjectValues.ICN_SRC));
 
 			break;
 

@@ -7,7 +7,6 @@ import helpers.ImageTools;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.DragEvent;
@@ -17,7 +16,9 @@ import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ImageView.ScaleType;
 import android.widget.RelativeLayout.LayoutParams;
 import creators.ReGenerator.OnObjectGeneratedListener;
 import data.FromDatabaseObjectCreator;
@@ -90,9 +91,18 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 		switch (bundle.getInt(ObjectValues.TYPE))
 		{
 		case R.id.element_imageview:
+			((ImageView) newItem).setScaleType(ScaleType.FIT_CENTER);
+
+			if(bundle.getInt(ObjectValues.ICN_SRC) == 0)
+			{
+				String source = bundle.getString(ObjectValues.IMG_SRC);
+				ImageTools.setPic(newItem, source);
+			}
+			else
+			{
+				((ImageView) newItem).setImageResource(bundle.getInt(ObjectValues.ICN_SRC));
+			}
 			
-			String source = bundle.getString(ObjectValues.IMG_SRC);
-			ImageTools.setPic(newItem, source);
 			break;
 
 		default:
