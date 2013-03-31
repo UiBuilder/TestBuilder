@@ -93,13 +93,10 @@ public class Bundler
 			break;
 
 		case R.id.element_imageview:
-			if (objectBundle.getInt(ObjectValues.ICN_SRC) == 0)
-			{
-				valuesBundle.put(ObjectValues.IMG_SRC, objectBundle.getString(ObjectValues.IMG_SRC));
-			} else
-			{
-				valuesBundle.put(ObjectValues.ICN_SRC, objectBundle.getInt(ObjectValues.ICN_SRC));
-			}
+			valuesBundle.put(ObjectValues.IMG_SRC, objectBundle.getString(ObjectValues.IMG_SRC));
+			valuesBundle.put(ObjectValues.ICN_SRC, objectBundle.getInt(ObjectValues.ICN_SRC));
+
+
 			Log.d("ObjectValueCollector", "put Imageview, with:"+ objectBundle.getString(ObjectValues.IMG_SRC));
 			break;
 
