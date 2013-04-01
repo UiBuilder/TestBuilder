@@ -66,7 +66,8 @@ public class UiBuilderActivity extends Activity implements
 
 
 	private int screenId;
-	private Boolean isPreview = false;
+	private boolean isPreview = false;
+	private boolean activityInBackground = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -166,7 +167,7 @@ public class UiBuilderActivity extends Activity implements
 	{
 		
 		Log.d("UIBuilderactivity", "onStop called");
-		if (!activityAboutToStart)
+		if (!activityInBackground)
 		{
 			Log.d("stoppingsaving state to database", "saving state to database");
 			View rootDesignBox = designbox.getView();
@@ -311,7 +312,7 @@ public class UiBuilderActivity extends Activity implements
 	 */
 	private void startSharing()
 	{
-		activityAboutToStart = true;
+		activityInBackground = true;
 		
 		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_PRES);
 
@@ -365,7 +366,7 @@ public class UiBuilderActivity extends Activity implements
 	{
 		super.onActivityResult(requestCode, resultCode, data);
 
-		activityAboutToStart = false;
+		activityInBackground = false;
 		
 		if (resultCode == Activity.RESULT_OK)
 			switch (requestCode)
@@ -496,18 +497,17 @@ public class UiBuilderActivity extends Activity implements
 		}
 	}
 
-	boolean activityAboutToStart = false;
 
 	@Override
 	public void prepareForBackground()
 	{
-		activityAboutToStart = true;
+		activityInBackground = true;
 	}
 
 	@Override
 	public void comingToForeground()
 	{
-		activityAboutToStart = false;
+		activityInBackground = false;
 	}
 	
 }
