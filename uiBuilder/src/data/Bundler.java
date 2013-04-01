@@ -316,6 +316,8 @@ public class Bundler
 		
 		minWidth *= ObjectFactory.SNAP_GRID_INTERVAL;
 		minHeight *= ObjectFactory.SNAP_GRID_INTERVAL;
+		defWidth *= ObjectFactory.SNAP_GRID_INTERVAL;
+		defHeight *= ObjectFactory.SNAP_GRID_INTERVAL;
 		
 		tagBundle.putInt(ObjectValues.BACKGROUND_PRES, presMode);
 		tagBundle.putInt(ObjectValues.BACKGROUND_EDIT, createMode);
