@@ -49,6 +49,8 @@ public class StarCountModule extends Module
 	{
 		requesting = inProgress;
 		valuesBundle = (Bundle) requesting.getTag();
+		
+		
 
 		adaptToContext();
 
