@@ -305,6 +305,7 @@ public class Bundler
 			scaleType = Overlay.BOTH;
 			tagBundle.putInt(ObjectValues.EXAMPLE_CONTENT, R.id.content_choose_bacon);
 			tagBundle.putInt(ObjectValues.EXAMPLE_LAYOUT, R.layout.item_gridview_example_layout_3);
+			tagBundle.putInt(ObjectValues.COLUMNS_NUM, R.integer.default_columns_count);
 			
 			
 			break;

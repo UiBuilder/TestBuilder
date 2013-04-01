@@ -136,6 +136,10 @@
     
     <!-- textsizes -->
     <dimen name="font_size_small">14sp</dimen>
+    
+    <!-- other default values -->
+    
+    <item name="default_columns_count" format="integer" type="integer">2</item>
 
     
 </resources>
