@@ -191,12 +191,24 @@ public class EditmodeFragment extends Fragment
 
 			configGrid();
 			break;
+			
+		case R.id.element_seekbar:
+			
+			configSeekBar();
+			break;
 
 		default:
 			break;
 		}
 
 		root.invalidate();
+	}
+
+	private void configSeekBar()
+	{
+		linearRoot.addView(backgroundColorModule.getInstance(currentView));
+
+		
 	}
 
 	private void configGrid()
@@ -225,6 +237,8 @@ public class EditmodeFragment extends Fragment
 	private void configRatingBar()
 	{
 		linearRoot.addView(starCountModule.getInstance(currentView));
+		linearRoot.addView(backgroundColorModule.getInstance(currentView));
+
 	}
 
 	private void configRadioGroup()
