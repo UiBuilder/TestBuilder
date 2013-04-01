@@ -4,6 +4,7 @@
 package editmodules;
 
 import helpers.ImageTools;
+import helpers.OnGoingInBackground;
 import uibuilder.EditmodeFragment;
 import android.content.Intent;
 import android.view.View;
@@ -54,7 +55,7 @@ public class ImageModule extends Module
 	 */
 	public void setImageResource(int requestCode, Intent data)
 	{
-		listener.imageImported();
+		listener.comingToForeground();
 		
 		switch (requestCode)
 		{
@@ -131,7 +132,8 @@ public class ImageModule extends Module
 		@Override
 		public void onClick(View v)
 		{
-			listener.prepareForImport();
+			//listener.prepareForImport();
+			listener.prepareForBackground();
 			
 			switch (v.getId())
 			{
@@ -150,11 +152,9 @@ public class ImageModule extends Module
 		}
 	}
 	
-	public interface onImageImportListener
+	public interface onImageImportListener extends OnGoingInBackground
 	{
-		void prepareForImport();
-		
-		void imageImported();
+
 	}
 
 	private static onImageImportListener listener;

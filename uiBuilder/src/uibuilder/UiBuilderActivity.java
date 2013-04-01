@@ -311,6 +311,8 @@ public class UiBuilderActivity extends Activity implements
 	 */
 	private void startSharing()
 	{
+		activityAboutToStart = true;
+		
 		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_PRES);
 
 		Intent mail = exporter.getIntent(ImageTools.SHARE);
@@ -363,6 +365,8 @@ public class UiBuilderActivity extends Activity implements
 	{
 		super.onActivityResult(requestCode, resultCode, data);
 
+		activityAboutToStart = false;
+		
 		if (resultCode == Activity.RESULT_OK)
 			switch (requestCode)
 			{
@@ -493,16 +497,17 @@ public class UiBuilderActivity extends Activity implements
 	}
 
 	boolean activityAboutToStart = false;
-	
+
 	@Override
-	public void prepareForImport()
+	public void prepareForBackground()
 	{
 		activityAboutToStart = true;
 	}
 
 	@Override
-	public void imageImported()
+	public void comingToForeground()
 	{
-		activityAboutToStart = false;	
+		activityAboutToStart = false;
 	}
+	
 }
