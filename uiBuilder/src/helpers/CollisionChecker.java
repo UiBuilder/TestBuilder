@@ -24,12 +24,12 @@ public class CollisionChecker
 	public int collisionX(float dropPosX, View item)
 	{
 		Bundle b = (Bundle) item.getTag();
-		int defaultWidth = b.getInt(ObjectValues.DEFAULT_WIDTH);
+		//int defaultWidth = b.getInt(ObjectValues.DEFAULT_WIDTH);
 		
 		
-		int offsetPos = Math.round(dropPosX - defaultWidth / 2);
+		int offsetPos = Math.round(dropPosX - item.getMeasuredWidth() / 2);
 
-		int maxPos = Math.round(designArea.getMeasuredWidth() - defaultWidth);
+		int maxPos = Math.round(designArea.getMeasuredWidth() - item.getMeasuredWidth());
 		int minPos = 0;
 
 		if (offsetPos <= minPos)
