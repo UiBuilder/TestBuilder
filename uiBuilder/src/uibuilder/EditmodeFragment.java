@@ -235,8 +235,8 @@ public class EditmodeFragment extends Fragment
 	private void configImageView()
 	{
 		linearRoot.addView(imageModule.getInstance(currentView));
-		linearRoot.addView(iconModule.getInstance(currentView));
 		linearRoot.addView(backgroundColorModule.getInstance(currentView));
+		linearRoot.addView(iconModule.getInstance(currentView));
 	}
 
 	private void configEditText()
