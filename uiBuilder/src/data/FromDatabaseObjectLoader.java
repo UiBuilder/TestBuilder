@@ -2,12 +2,12 @@ package data;
 
 import java.util.ArrayList;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
-import de.ur.rk.uibuilder.R;
 
-public class FromDatabaseObjectCreator
+public class FromDatabaseObjectLoader
 {
 
 	public void loadObjects(Cursor cursor)
@@ -66,7 +66,10 @@ public class FromDatabaseObjectCreator
 			
 			cursor.close();
 			
-			listener.objectsLoaded(dataBaseObjects);
+			Bundle[] objectList = new Bundle[dataBaseObjects.size()];
+			dataBaseObjects.toArray(objectList);
+			
+			listener.objectsLoaded(objectList);
 			Log.d("FromDatabaseObjectCreator", "size of dataBaseObjects: "+ String.valueOf(dataBaseObjects.size()));
 			Log.d("FromDatabaseObjectCreator", "done loading Objects, called listener");
 		}
@@ -75,7 +78,7 @@ public class FromDatabaseObjectCreator
 
 	public interface OnObjectLoadedFromDatabaseListener
 	{
-		void objectsLoaded(ArrayList<Bundle> objectList);
+		void objectsLoaded(Bundle[] objectList);
 
 	}
 
@@ -84,7 +87,7 @@ public class FromDatabaseObjectCreator
 	public static void setOnObjectCreatedFromDatabaseListener(
 			OnObjectLoadedFromDatabaseListener listener)
 	{
-		FromDatabaseObjectCreator.listener = listener;
+		FromDatabaseObjectLoader.listener = listener;
 	}
 
 }

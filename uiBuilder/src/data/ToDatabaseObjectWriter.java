@@ -46,6 +46,7 @@ public class ToDatabaseObjectWriter extends AsyncTask<View, Void, Void>
 			
 			if (databaseID != 0)
 			{
+				Log.d("database insert", "update");
 				Uri uri = ContentUris.withAppendedId(ScreenProvider.CONTENT_URI_OBJECTS, databaseID);
 				cres.update(uri, tempValues, null, null);
 			}

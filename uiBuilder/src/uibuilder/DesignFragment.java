@@ -16,12 +16,12 @@ import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
+import android.view.ScaleGestureDetector.OnScaleGestureListener;
 import android.view.View;
 import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import creators.ObjectFactory;
 import data.ObjectValues;
@@ -29,7 +29,7 @@ import data.ScreenProvider;
 import de.ur.rk.uibuilder.R;
 
 public class DesignFragment extends Fragment implements OnDragListener,
-		OnGestureListener, OnTouchListener
+		OnGestureListener, OnTouchListener, OnScaleGestureListener
 {
 	private RelativeLayout designArea, parent;
 	private Grid grid;
@@ -39,9 +39,12 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	private ObjectFactory factory;
 
 	private GestureDetector detector;
+	private ScaleGestureDetector scaleDetector;
 	private Boolean isPreviewing = false;
 	
 	private View dragIndicator;
+	private View drag2;
+	
 	private int nextObjectId;
 
 	private View currentTouch;
@@ -115,6 +118,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	{	
 		designArea.setOnTouchListener(this);
 		designArea.setOnDragListener(this);
+		
 		parent.setOnTouchListener(new OnTouchListener()
 		{
 
@@ -160,6 +164,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	{
 		factory = new ObjectFactory(getActivity().getApplicationContext(), this, designArea);
 		detector = new GestureDetector(getActivity().getApplicationContext(), this);
+		scaleDetector = new ScaleGestureDetector(getActivity().getApplicationContext(), this);
 		grid = new Grid(getActivity().getApplicationContext(), ObjectFactory.SNAP_GRID_INTERVAL);
 		overlay = new Overlay(designArea, this);
 
@@ -196,16 +201,32 @@ public class DesignFragment extends Fragment implements OnDragListener,
 			return true;
 		}
 		
+		int pointer = event.getPointerId(getIndex(event));
+		
+		Log.d("pointer", String.valueOf(pointer));
+		Log.d("first down", String.valueOf(event.getPointerCount()));
+		
+		if(pointer > 0)
+		{
+			return scaleDetector.onTouchEvent(event);
+		}
+		
 		int action = event.getAction() & MotionEvent.ACTION_MASK;
 
 		switch (action)
 		{
+		
+			case MotionEvent.ACTION_POINTER_DOWN:
+				//return scaleDetector.onTouchEvent(event);
+				//Log.d("pointer", "down");
+				//secondPointer = true;
+				//break;
+		
 			case MotionEvent.ACTION_DOWN:
 	
 				currentTouch = v;
 				listener.objectChanged(currentTouch);
-	
-				Log.d("first down", String.valueOf(event.getPointerCount()));
+
 	
 				switch (currentTouch.getId())
 				{
@@ -248,10 +269,11 @@ public class DesignFragment extends Fragment implements OnDragListener,
 				}
 				break;
 
-		case MotionEvent.ACTION_POINTER_UP:
-
-			secondPointer = false;
-			break;
+		/*case MotionEvent.ACTION_POINTER_DOWN:
+			//if (isresizing) return false;
+			Log.d("pointer", "down");
+			secondPointer = true;
+			break;*/
 
 		case MotionEvent.ACTION_UP:
 
@@ -259,6 +281,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 			{
 				Log.d("drag indikator", "drag handle disabled");
 				dragIndicator.setActivated(false);
+				isresizing = false;
 			}
 			break;
 
@@ -312,6 +335,13 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	{
 		detector.setIsLongpressEnabled(false);
 		dragIndicator = currentTouch;
+		
+		if(dragIndicator != null)
+		{
+			drag2 = currentTouch;
+			drag2.setActivated(true);
+		}
+		
 		dragIndicator.setActivated(true);
 
 		Log.d("dragOverlay", "drag handle selected");
@@ -394,36 +424,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		designArea.requestLayout();
 	}
 
-	@Override
-	public boolean onFling(MotionEvent arg0, MotionEvent arg1, float arg2,
-			float arg3)
-	{
-		return false;
-	}
-
-	@Override
-	public void onLongPress(MotionEvent arg0)
-	{
-		Log.d("OnLongpress","called" );
-
-		/**
-		 * activeItem.createContextMenue should be called here in the future
-		 * from there we could call delete, edit caption and such
-		 */
-
-	}
-
-	@Override
-	public void onShowPress(MotionEvent event)
-	{
-		// TODO Auto-generated method stub
-		Log.d("showpress", "called");
-		/*if (activeItem != null)
-		{
-			Animation press = AnimationUtils.loadAnimation(getActivity(), R.anim.design_press_scale);
-			activeItem.startAnimation(press);
-		}*/
-	}
 	
 	@Override
 	public boolean onDrag(View root, DragEvent event)
@@ -481,8 +481,8 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	{
 		if (!isPreviewing)
 		{
-			if (secondPointer)
-				return true;
+			/*if (secondPointer)
+				return true;*/
 
 			invalidate();
 			if (dragIndicator != null && activeItem != null)
@@ -503,7 +503,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		}
 		return false;
 	}
-	
+	boolean isresizing = false;
 	/**
 	 * Request a resize of the currently active item.
 	 * @param which the overlay handle that triggered the resize
@@ -512,6 +512,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	 */
 	private void requestResize(int which, MotionEvent start, MotionEvent end)
 	{
+		isresizing = true;
 		factory.requestResize(which, start, end, activeItem, overlay.getDrag());
 	}
 
@@ -675,5 +676,49 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	protected void disableTouch(boolean disable)
 	{
 		isPreviewing = disable;
+	}
+
+	@Override
+	public boolean onFling(MotionEvent arg0, MotionEvent arg1, float arg2,
+			float arg3)
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void onLongPress(MotionEvent arg0)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onShowPress(MotionEvent arg0)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean onScale(ScaleGestureDetector detector)
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean onScaleBegin(ScaleGestureDetector detector)
+	{
+		// TODO Auto-generated method stub
+		Log.d("scale", "begin");
+		return false;
+	}
+
+	@Override
+	public void onScaleEnd(ScaleGestureDetector detector)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }

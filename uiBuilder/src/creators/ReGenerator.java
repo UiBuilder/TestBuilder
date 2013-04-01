@@ -1,9 +1,6 @@
 package creators;
 
 import helpers.Log;
-
-import java.util.ArrayList;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -17,7 +14,15 @@ import android.widget.TextView;
 import data.ObjectValues;
 import de.ur.rk.uibuilder.R;
 
-public class ReGenerator extends AsyncTask<ArrayList<Bundle>, View, Void>
+/**
+ * Creates new Objects from the given Bundle[] which contains the properties of the datbase entries belonging
+ * to this screen.
+ * The objects are generated in an async task and published via publishProgress to the ui thread, where a listener
+ * callback is fired to notify the ObjectFactory to add a new object to the view tree of the designArea.
+ * @author funklos
+ *
+ */
+public class ReGenerator extends AsyncTask<Bundle[], View, Void>
 {
 	private Generator generator;
 	
@@ -28,7 +33,7 @@ public class ReGenerator extends AsyncTask<ArrayList<Bundle>, View, Void>
 
 
 	@Override
-	protected Void doInBackground(ArrayList<Bundle>... params)
+	protected Void doInBackground(Bundle[]... params)
 	{
 		for (Bundle bundle : params[0])
 		{

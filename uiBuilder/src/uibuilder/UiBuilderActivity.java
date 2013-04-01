@@ -27,7 +27,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
-import data.FromDatabaseObjectCreator;
+import data.FromDatabaseObjectLoader;
 import data.ObjectValues;
 import data.ScreenProvider;
 import data.ToDatabaseObjectWriter;
@@ -61,7 +61,7 @@ public class UiBuilderActivity extends Activity implements
 	private LoaderManager manager;
 	
 	private ToDatabaseObjectWriter objectWriter;
-	private FromDatabaseObjectCreator objectCreator;
+	private FromDatabaseObjectLoader objectCreator;
 
 	// private Drawable previewIcon;
 	// private Drawable editIcon;
@@ -80,7 +80,7 @@ public class UiBuilderActivity extends Activity implements
 		checkIntent();
 		
 		grabber = new ChildGrabber();
-		objectCreator = new FromDatabaseObjectCreator();
+		objectCreator = new FromDatabaseObjectLoader();
 
 		//container = (ViewGroup) inf.inflate(R.layout.layout_fragment_container, null);
 		fManager = getFragmentManager();

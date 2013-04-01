@@ -236,8 +236,7 @@ public class ImageTools
 	public static void setPic(View v, String path)
 	{
 		BitmapWorkerTask task = new BitmapWorkerTask((ImageView) v);
-		//Bundle tagBundle = (Bundle) v.getTag();
-		//tagBundle.putString(ObjectValues.IMG_SRC, path);
+
 	    task.execute(path);
 	}
 	

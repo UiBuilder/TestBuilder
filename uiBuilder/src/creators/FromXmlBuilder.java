@@ -1,6 +1,5 @@
 package creators;
 
-import helpers.ImageTools;
 import helpers.Log;
 import android.content.Context;
 import android.os.Bundle;

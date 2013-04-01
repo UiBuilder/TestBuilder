@@ -3,9 +3,6 @@ package creators;
 import helpers.CollisionChecker;
 import helpers.GridSnapper;
 import helpers.ImageTools;
-
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,25 +14,26 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.ImageView.ScaleType;
+import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import creators.ReGenerator.OnObjectGeneratedListener;
-import data.FromDatabaseObjectCreator;
-import data.FromDatabaseObjectCreator.OnObjectLoadedFromDatabaseListener;
+import data.FromDatabaseObjectLoader;
+import data.FromDatabaseObjectLoader.OnObjectLoadedFromDatabaseListener;
 import data.ObjectValues;
+import data.SampleAdapter;
 import de.ur.rk.uibuilder.R;
 
 public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObjectGeneratedListener
 {
 	public static final int SNAP_GRID_INTERVAL = 15;
-	
-	private Context context;
+
 	private Generator generator;
 	private ReGenerator reGenerator;
 	
 	private CollisionChecker checker;
 	private ObjectManipulator manipulator;
+	private SampleAdapter samples;
 	private Animation showUpAnimation;
 	
 	private View newItem;
@@ -51,27 +49,30 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 	 * @param listener the event listener the factory provides for new objects. this is passed to the generator to generate touchable objects
 	 * @param designArea 
 	 */
-	public ObjectFactory(Context c, OnTouchListener listener, RelativeLayout designArea)
+	public ObjectFactory(Context context, OnTouchListener listener, RelativeLayout designArea)
 	{
-		context = c;
 		this.designArea = designArea;
 		
 		generator = new Generator(context, listener);
 		
 		checker = new CollisionChecker(designArea);
-		manipulator = new ObjectManipulator(c, designArea);
+		manipulator = new ObjectManipulator(context, designArea);
+		samples = new SampleAdapter(context);
 		
 		showUpAnimation = AnimationUtils.loadAnimation(context, R.anim.design_loaded_scale_in);
 		
-		FromDatabaseObjectCreator.setOnObjectCreatedFromDatabaseListener(this);
+		FromDatabaseObjectLoader.setOnObjectCreatedFromDatabaseListener(this);
 		ReGenerator.setOnObjectGeneratedListener(this);
 	}
 	
 	/**
 	 * OnObjectLoadedFromDatabaseListener interface implementation
+	 * 
+	 * Notified by the FromDatabaseObjectLoader that a list of objects was loaded from the ScreenProviders database.
+	 * Calls getElements to instantiate the loaded object properties as new items.
 	 */
 	@Override
-	public void objectsLoaded(ArrayList<Bundle> objectList)
+	public void objectsLoaded(Bundle[] objectList)
 	{
 		Log.d("ObjectFactory", "OnObjectLoadedFromDatabaseListerner method called, calling GetElements");
 		getElements(objectList);
@@ -79,6 +80,9 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 
 	/**
 	 * OnObjectGeneratedListener interface implementation
+	 * Called when an object is returned from async ReGenerators publish progress method.
+	 * Calls setDataSources to set associated data sources.
+	 * @author funklos
 	 */
 	@Override
 	public void objectGenerated(View newItem)
@@ -86,29 +90,9 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 		designArea.addView(newItem, newItem.getLayoutParams());
 		
 		newItem.measure(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-		Bundle bundle = (Bundle) newItem.getTag();
+		
 		Log.d("object generated", "get bundle");
-		switch (bundle.getInt(ObjectValues.TYPE))
-		{
-		case R.id.element_imageview:
-
-			if(bundle.getInt(ObjectValues.ICN_SRC) == 0)
-			{
-				((ImageView) newItem).setScaleType(ScaleType.CENTER_CROP);
-				String source = bundle.getString(ObjectValues.IMG_SRC);
-				ImageTools.setPic(newItem, source);
-			}
-			else
-			{
-				((ImageView) newItem).setScaleType(ScaleType.FIT_CENTER);
-				((ImageView) newItem).setImageResource(bundle.getInt(ObjectValues.ICN_SRC));
-			}
-			
-			break;
-
-		default:
-			break;
-		}	
+		setDataSources(newItem);	
 		
 		newItem.startAnimation(showUpAnimation);
 	}
@@ -124,12 +108,12 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 		try
 		{
 			newItem = generator.generate(which);
-			
+			designArea.addView(newItem);
 			// holt die Koordinaten des Touch-Punktes
 			RelativeLayout.LayoutParams params = setPosition(event);
-
+			designArea.removeView(newItem);
 			designArea.addView(newItem, params);
-			
+
 			return newItem;
 			
 		} catch (Exception e)
@@ -141,11 +125,12 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 	}
 	
 	/**
+	 * Instantiates a new async task 
 	 * called to re-generate objects from database
 	 * @param objectList
 	 * @return
 	 */
-	public void getElements(ArrayList<Bundle> objectList)
+	public void getElements(Bundle[] objectList)
 	{
 		try
 		{
@@ -236,6 +221,51 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 		dragParams.width = activeItem.getMeasuredWidth();
 		dragParams.height = activeItem.getMeasuredHeight();
 		drag.setLayoutParams(dragParams);
+	}
+	
+
+	/**
+	 * @param newItem
+	 * @param bundle
+	 */
+	private void setDataSources(View newItem)
+	{
+		Bundle bundle = (Bundle) newItem.getTag();
+		
+		switch (bundle.getInt(ObjectValues.TYPE))
+		{
+		case R.id.element_imageview:
+
+			setImageResource(newItem, bundle);
+			
+			break;
+
+		case R.id.element_grid : case R.id.element_list:
+			
+			samples.setSampleAdapter(newItem);
+			break;
+		default:
+			break;
+		}
+	}
+
+	/**
+	 * @param newItem
+	 * @param bundle
+	 */
+	private void setImageResource(View newItem, Bundle bundle)
+	{
+		if(bundle.getInt(ObjectValues.ICN_SRC) == 0)
+		{
+			((ImageView) newItem).setScaleType(ScaleType.CENTER_CROP);
+			String source = bundle.getString(ObjectValues.IMG_SRC);
+			ImageTools.setPic(newItem, source);
+		}
+		else
+		{
+			((ImageView) newItem).setScaleType(ScaleType.FIT_CENTER);
+			((ImageView) newItem).setImageResource(bundle.getInt(ObjectValues.ICN_SRC));
+		}
 	}
 
 }

@@ -1,5 +1,7 @@
 package helpers;
 
+import data.ObjectValues;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -21,6 +23,10 @@ public class CollisionChecker
 	 */
 	public int collisionX(float dropPosX, View item)
 	{
+		Bundle b = (Bundle) item.getTag();
+		int defaultWidth = b.getInt(ObjectValues.MINWIDTH);
+		int defaultHeight = b.getInt(ObjectValues.MINHEIGHT);
+		
 		int offsetPos = Math.round(dropPosX - item.getMeasuredWidth() / 2);
 
 		int maxPos = Math.round(designArea.getMeasuredWidth() - item.getMeasuredWidth());
@@ -46,11 +52,9 @@ public class CollisionChecker
 	 */
 	public int collisionY(float dropPosY, View item)
 	{
-		int offsetPos = Math.round(dropPosY - item.getMeasuredHeight()
-				/ 2);
+		int offsetPos = Math.round(dropPosY - item.getMeasuredHeight() / 2);
 
-		int maxPos = Math.round(designArea.getMeasuredHeight()
-				- item.getMeasuredHeight());
+		int maxPos = Math.round(designArea.getMeasuredHeight() - item.getMeasuredHeight());
 		int minPos = 0;
 
 		if (offsetPos <= minPos)

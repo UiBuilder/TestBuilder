@@ -3,13 +3,11 @@ package creators;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.RelativeLayout;
 import data.Bundler;
 import data.ObjectValues;
-import data.SampleAdapter;
 import de.ur.rk.uibuilder.R;
 
 /**
@@ -23,12 +21,9 @@ public class Generator
 	private static int idCount;
 	/** Variable zur dynamischen Vergabe laufender IDs */
 
-	private Context context;
 	private OnTouchListener manipulator;
-	private LayoutInflater inflater;
-	private FromXmlBuilder builder;
 
-	private SampleAdapter samples;
+	private FromXmlBuilder builder;
 	
 	private Resources res;
 
@@ -38,12 +33,8 @@ public class Generator
 	public Generator(Context ref, OnTouchListener mp)
 	{
 		idCount = 1;
-		context = ref;
 		manipulator = mp;
-
-		samples = new SampleAdapter(ref);
 		
-		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		builder = new FromXmlBuilder(ref);
 		res = ref.getApplicationContext().getResources();
 	}
@@ -158,7 +149,6 @@ public class Generator
 		
 		xmlView.measure(valueBundle.getInt(ObjectValues.MINWIDTH), valueBundle.getInt(ObjectValues.MINHEIGHT));
 		 
-		samples.setSampleAdapter(xmlView);
 		return xmlView;
 	}
 
