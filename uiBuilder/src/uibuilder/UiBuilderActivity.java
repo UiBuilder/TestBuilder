@@ -41,7 +41,6 @@ public class UiBuilderActivity extends Activity implements
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev)
 	{
-		// /// TODO Auto-generated method stub
 		return super.dispatchTouchEvent(ev);
 	}
 
@@ -63,8 +62,6 @@ public class UiBuilderActivity extends Activity implements
 	private ToDatabaseObjectWriter objectWriter;
 	private FromDatabaseObjectLoader objectCreator;
 
-	// private Drawable previewIcon;
-	// private Drawable editIcon;
 
 	private int screenId;
 	private Boolean isPreview = false;
@@ -82,15 +79,8 @@ public class UiBuilderActivity extends Activity implements
 		grabber = new ChildGrabber();
 		objectCreator = new FromDatabaseObjectLoader();
 
-		//container = (ViewGroup) inf.inflate(R.layout.layout_fragment_container, null);
 		fManager = getFragmentManager();
 		exporter = new ImageTools(getApplicationContext());
-		// previewIcon =
-		// getResources().getDrawable(android.R.drawable.ic_menu_view);
-		// previewIcon.setColorFilter(R.color.text_light,
-		// PorterDuff.Mode.MULTIPLY);
-		// editIcon =
-		// getResources().getDrawable(android.R.drawable.ic_menu_view);
 
 		performInitTransaction();
 	}
@@ -118,7 +108,6 @@ public class UiBuilderActivity extends Activity implements
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState)
 	{
-		// TODO Auto-generated method stub
 		super.onRestoreInstanceState(savedInstanceState);
 	}
 
@@ -194,7 +183,6 @@ public class UiBuilderActivity extends Activity implements
 	@Override
 	protected void onDestroy()
 	{
-		// TODO Auto-generated method stub
 		super.onDestroy();
 	}
 
@@ -309,7 +297,6 @@ public class UiBuilderActivity extends Activity implements
 		default:
 			break;
 		}
-		// displaySidebar(ITEMBOX);
 		return true;
 	}
 
@@ -347,7 +334,6 @@ public class UiBuilderActivity extends Activity implements
 		if (isPreview)
 		{
 			designbox.disableTouch(false);
-			// item.setIcon(previewIcon);
 			item.setTitle(R.string.menu_action_preview_mode);
 			isPreview = false;
 			changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_EDIT);
@@ -356,10 +342,7 @@ public class UiBuilderActivity extends Activity implements
 		} else
 		{
 			designbox.disableTouch(true);
-			// item.setIcon(editIcon);
-
 			item.setTitle(R.string.menu_action_create_mode);
-
 			isPreview = true;
 			changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_PRES);
 			displaySidebar(NOTHING);
@@ -487,7 +470,6 @@ public class UiBuilderActivity extends Activity implements
 	@Override
 	public void onLoaderReset(Loader<Cursor> arg0)
 	{
-		// TODO Auto-generated method stub
 
 	}
 
