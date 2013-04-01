@@ -21,15 +21,15 @@ public class CollisionChecker
 	 * @param float x of event
 	 * @return calculated X-position of the performed drop
 	 */
-	public int collisionX(float dropPosX, View item)
+	public int collisionX(float dropPosX, int width)
 	{
-		Bundle b = (Bundle) item.getTag();
+		//Bundle b = (Bundle) item.getTag();
 		//int defaultWidth = b.getInt(ObjectValues.DEFAULT_WIDTH);
 		
 		
-		int offsetPos = Math.round(dropPosX - item.getMeasuredWidth() / 2);
+		int offsetPos = Math.round(dropPosX - width / 2);
 
-		int maxPos = Math.round(designArea.getMeasuredWidth() - item.getMeasuredWidth());
+		int maxPos = Math.round(designArea.getMeasuredWidth() - width);
 		int minPos = 0;
 
 		if (offsetPos <= minPos)
@@ -50,14 +50,13 @@ public class CollisionChecker
 	 * @param float y of event
 	 * @return calculated Y-position of the performed drop
 	 */
-	public int collisionY(float dropPosY, View item)
+	public int collisionY(float dropPosY, int height)
 	{
-		Bundle b = (Bundle) item.getTag();
-		int defaultHeight = b.getInt(ObjectValues.DEFAULT_HEIGHT);
-		
-		int offsetPos = Math.round(dropPosY - defaultHeight / 2);
 
-		int maxPos = Math.round(designArea.getMeasuredHeight() - defaultHeight);
+		
+		int offsetPos = Math.round(dropPosY - height / 2);
+
+		int maxPos = Math.round(designArea.getMeasuredHeight() - height);
 		int minPos = 0;
 
 		if (offsetPos <= minPos)

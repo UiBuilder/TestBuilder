@@ -159,11 +159,15 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 	 */
 	private RelativeLayout.LayoutParams setPosition(MotionEvent event)
 	{
+		Bundle tag = (Bundle) newItem.getTag();
+		int defaultWidth = tag.getInt(ObjectValues.DEFAULT_WIDTH);
+		int defaultHeight = tag.getInt(ObjectValues.DEFAULT_HEIGHT);
+		
 		float clickPosX = event.getAxisValue(MotionEvent.AXIS_X);
 		float clickPosY = event.getAxisValue(MotionEvent.AXIS_Y);
 
-		int targetX = checker.collisionX(clickPosX, newItem);
-		int targetY = checker.collisionY(clickPosY, newItem);
+		int targetX = checker.collisionX(clickPosX, defaultWidth);
+		int targetY = checker.collisionY(clickPosY, defaultHeight);
 
 		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) newItem.getLayoutParams();
 
@@ -180,8 +184,8 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 	 */
 	public void performDrop(DragEvent event, View activeItem, ImageButton drag)
 	{
-		int dropTargetX = checker.collisionX(event.getX(), activeItem);
-		int dropTargetY = checker.collisionY(event.getY(), activeItem);
+		int dropTargetX = checker.collisionX(event.getX(), activeItem.getMeasuredWidth());
+		int dropTargetY = checker.collisionY(event.getY(), activeItem.getMeasuredHeight());
 
 		setDragParams(activeItem, drag, dropTargetX, dropTargetY);
 		setActiveItemParams(activeItem, dropTargetX, dropTargetY);
