@@ -111,6 +111,7 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 			// holt die Koordinaten des Touch-Punktes
 			RelativeLayout.LayoutParams params = setPosition(event);
 			designArea.addView(newItem, params);
+			setDataSources(newItem);
 
 			return newItem;
 			
@@ -184,8 +185,11 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 	 */
 	public void performDrop(DragEvent event, View activeItem, ImageButton drag)
 	{
-		int dropTargetX = checker.collisionX(event.getX(), activeItem.getMeasuredWidth());
-		int dropTargetY = checker.collisionY(event.getY(), activeItem.getMeasuredHeight());
+		int itemWidth = activeItem.getMeasuredWidth();
+		int itemHeight = activeItem.getMeasuredHeight();
+		
+		int dropTargetX = checker.collisionX(event.getX(), itemWidth);
+		int dropTargetY = checker.collisionY(event.getY(), itemHeight);
 
 		setDragParams(activeItem, drag, dropTargetX, dropTargetY);
 		setActiveItemParams(activeItem, dropTargetX, dropTargetY);
