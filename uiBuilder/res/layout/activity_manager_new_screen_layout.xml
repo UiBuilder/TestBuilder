@@ -18,6 +18,8 @@
         android:id="@+id/activity_manager_new_screen_name"
         android:hint="Enter screen name"
         android:inputType="text"
+        android:imeOptions="actionDone|flagNoFullscreen"
+        android:
         
         android:layout_below="@id/activity_manager_new_screen_caption"
         android:layout_alignParentLeft="true"
