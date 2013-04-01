@@ -21,6 +21,9 @@ public class ObjectValues
 			HEIGHT = "height",
 			MINWIDTH = "minWidth", 
 			MINHEIGHT = "minHeight",
+			DEFAULT_WIDTH = "defaultWidth",
+			DEFAULT_HEIGHT = "defaultHeight",
+			
 			
 			SCALETYPE = "scaleType",
 			USER_TEXT = "userText", 
