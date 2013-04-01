@@ -141,7 +141,7 @@ public class Generator
 		xmlView.setTag(valueBundle);
 		xmlView.setOnTouchListener(manipulator);
 		
-		xmlView.measure(valueBundle.getInt(ObjectValues.MINWIDTH), valueBundle.getInt(ObjectValues.MINHEIGHT));
+		xmlView.measure(valueBundle.getInt(ObjectValues.DEFAULT_WIDTH), valueBundle.getInt(ObjectValues.DEFAULT_HEIGHT));
 		 
 		return xmlView;
 	}
