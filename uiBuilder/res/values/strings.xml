@@ -6,6 +6,7 @@
     <string name="overlay_desc">Handle for manipulation</string>
     
     <!-- MANAGER -->
+    <string name="manager_caption_create">Create new screen</string>
     <string name="manager_caption_confirm">Yes</string>
     <string name="manager_caption_cancel">No</string>
     <string name="manager_caption_ask"><b>Delete</b> \n this screen?</string>

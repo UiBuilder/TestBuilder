@@ -206,6 +206,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		Log.d("pointer", String.valueOf(pointer));
 		Log.d("first down", String.valueOf(event.getPointerCount()));
 		
+		//catch Multitouch events
 		if(pointer > 0)
 		{
 			return scaleDetector.onTouchEvent(event);
@@ -217,10 +218,9 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		{
 		
 			case MotionEvent.ACTION_POINTER_DOWN:
-				//return scaleDetector.onTouchEvent(event);
-				//Log.d("pointer", "down");
-				//secondPointer = true;
-				//break;
+				
+				
+				break;
 		
 			case MotionEvent.ACTION_DOWN:
 	
