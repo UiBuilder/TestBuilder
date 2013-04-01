@@ -148,18 +148,26 @@ public class UiBuilderActivity extends Activity implements
 	@Override
 	public void onBackPressed()
 	{	
-		//as a preview
-		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_PRES);
-
-		Uri imageUri = exporter.requestBitmap(designbox.getView(), getContentResolver(), false, true, screenId);
-
-		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_EDIT);
-		
-		Intent returnIntent = new Intent();
-		returnIntent.putExtra(ManagerActivity.RESULT_SCREEN_ID, screenId);
-		returnIntent.putExtra(ManagerActivity.RESULT_IMAGE_PATH,imageUri.toString());
-		setResult(RESULT_OK, returnIntent);     
-		finish();
+		if (designbox.getOverlay().isActive())
+		{
+			designbox.deleteOverlay();
+			displaySidebar(ITEMBOX);
+		}
+		else
+		{
+			//export screen as a preview to display it in the screen manager
+			changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_PRES);
+	
+			Uri imageUri = exporter.requestBitmap(designbox.getView(), getContentResolver(), false, true, screenId);
+	
+			changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_EDIT);
+			
+			Intent returnIntent = new Intent();
+			returnIntent.putExtra(ManagerActivity.RESULT_SCREEN_ID, screenId);
+			returnIntent.putExtra(ManagerActivity.RESULT_IMAGE_PATH,imageUri.toString());
+			setResult(RESULT_OK, returnIntent);     
+			finish();
+		}
 	}
 	
 	@Override

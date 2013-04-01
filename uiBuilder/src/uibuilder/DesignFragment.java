@@ -584,13 +584,18 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		toggleGrid();
 		factory.requestStyle(DragEvent.ACTION_DRAG_STARTED, activeItem);
 	}
+	
+	protected Overlay getOverlay()
+	{
+		return overlay;
+	}
 
 	/**
 	 * Entfernt das Overlay komplett.
 	 * 
 	 * @author funklos
 	 */
-	public void deleteOverlay()
+	protected void deleteOverlay()
 	{
 		synchronized (parent)
 		{
