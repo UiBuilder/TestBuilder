@@ -248,6 +248,8 @@ public class ScreenProvider extends ContentProvider
 	{
 		SQLiteDatabase db = data.getWritableDatabase();
 
+		Log.d("provider update", "called");
+		
 		String row;
 		int updateCount = 0;
 		

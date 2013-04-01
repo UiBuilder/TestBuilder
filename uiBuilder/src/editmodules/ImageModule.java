@@ -54,6 +54,8 @@ public class ImageModule extends Module
 	 */
 	public void setImageResource(int requestCode, Intent data)
 	{
+		listener.imageImported();
+		
 		switch (requestCode)
 		{
 		case ImageTools.CAMERA:
@@ -129,6 +131,8 @@ public class ImageModule extends Module
 		@Override
 		public void onClick(View v)
 		{
+			listener.prepareForImport();
+			
 			switch (v.getId())
 			{
 			case R.id.image_choose_camera:
@@ -144,5 +148,20 @@ public class ImageModule extends Module
 				break;
 			}
 		}
+	}
+	
+	public interface onImageImportListener
+	{
+		void prepareForImport();
+		
+		void imageImported();
+	}
+
+	private static onImageImportListener listener;
+
+	public static void setOnImageImportListener(
+			onImageImportListener listener)
+	{
+		ImageModule.listener = listener;
 	}
 }

@@ -32,10 +32,12 @@ import data.ObjectValues;
 import data.ScreenProvider;
 import data.ToDatabaseObjectWriter;
 import de.ur.rk.uibuilder.R;
+import editmodules.ImageModule;
+import editmodules.ImageModule.onImageImportListener;
 
 public class UiBuilderActivity extends Activity implements
 		onUiElementSelectedListener, onObjectSelectedListener,
-		onDeleteRequestListener, LoaderCallbacks<Cursor>
+		onDeleteRequestListener, LoaderCallbacks<Cursor>, onImageImportListener
 {
 
 	@Override
@@ -125,6 +127,7 @@ public class UiBuilderActivity extends Activity implements
 		ItemboxFragment.setOnUiElementSelectedListener(this);
 		DesignFragment.setOnObjectSelectedListener(this);
 		DeleteFragment.onDeleteRequestListener(this);
+		ImageModule.setOnImageImportListener(this);
 		setActionBarStyle();
 
 	}
@@ -163,12 +166,15 @@ public class UiBuilderActivity extends Activity implements
 	{
 		
 		Log.d("UIBuilderactivity", "onStop called");
-		
-		View rootDesignBox = designbox.getView();
-		
-		View designArea = rootDesignBox.findViewById(R.id.design_area);
-		
-		objectWriter.execute(designArea);
+		if (!activityAboutToStart)
+		{
+			Log.d("stoppingsaving state to database", "saving state to database");
+			View rootDesignBox = designbox.getView();
+			
+			View designArea = rootDesignBox.findViewById(R.id.design_area);
+			
+			objectWriter.execute(designArea);
+		}
 		super.onStop();
 	}
 	
@@ -439,7 +445,7 @@ public class UiBuilderActivity extends Activity implements
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1)
 	{
-		String selection = ScreenProvider.KEY_OBJECTS_SCREEN + "=" + "'" + String.valueOf(screenId) + "'";
+		String selection = ScreenProvider.KEY_OBJECTS_SCREEN + " = " + "'" + String.valueOf(screenId) + "'";
 
 		Log.d("loader", "created");
 		return new CursorLoader(getApplicationContext(), ScreenProvider.CONTENT_URI_OBJECTS, null, selection, null, null);
@@ -484,5 +490,19 @@ public class UiBuilderActivity extends Activity implements
 			int style = tagBundle.getInt(displayStyle);
 			view.setBackgroundResource(style);
 		}
+	}
+
+	boolean activityAboutToStart = false;
+	
+	@Override
+	public void prepareForImport()
+	{
+		activityAboutToStart = true;
+	}
+
+	@Override
+	public void imageImported()
+	{
+		activityAboutToStart = false;	
 	}
 }
