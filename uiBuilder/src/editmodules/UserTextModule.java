@@ -10,7 +10,14 @@ import android.widget.TextView;
 import de.ur.rk.uibuilder.R;
 
 
-
+/**
+ * Provides the interface to change the text content.
+ * For information about the instantiation and general concept behind this
+ * @see Module
+ * 
+ * @author jonesses
+ *
+ */
 public class UserTextModule extends Module
 {
 	private EditText editText;
@@ -40,7 +47,11 @@ public class UserTextModule extends Module
 		
 		return box;
 	}
-
+	
+	/**
+	 * Check if the requesting view is inside a container and set the text appropriately.
+	 * @param string
+	 */
 	public void setViewText(String string)
 	{
 		if (requesting instanceof LinearLayout && requesting != null)

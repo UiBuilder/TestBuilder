@@ -1,14 +1,20 @@
 package editmodules;
 
 import uibuilder.EditmodeFragment;
-import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
-import data.ObjectValues;
 import data.SampleAdapter;
 import de.ur.rk.uibuilder.R;
 
+/**
+ * Provides the interface to change the sample layout of a listView.
+ * For information about the instantiation and general concept behind this
+ * @see Module
+ * 
+ * @author funklos
+ *
+ */
 public class ListLayoutModule extends Module
 {
 	private LinearLayout box;
@@ -89,12 +95,9 @@ public class ListLayoutModule extends Module
 		@Override
 		public void onClick(View listLayout)
 		{
-			Bundle objectBundle = (Bundle) requesting.getTag();
-
 			int id = listLayout.getId();
 
 			samples.setSampleLayout(requesting, id);
-//			objectBundle.putInt(ObjectValues.EXAMPLE_LAYOUT, id);
 		}
 	}
 

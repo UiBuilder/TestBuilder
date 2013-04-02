@@ -17,10 +17,24 @@ import android.widget.TextView;
 import creators.ObjectFactory;
 import de.ur.rk.uibuilder.R;
 
+/**
+ * Defines static access methods which return object properties in a structured way.
+ * GgetValuePack is used to collect all the data from the supplied items tag to be inserted in the database.
+ * getDefaultValueBundle returns a default bundle object which is requested when a new view is generated.
+ * @author funklos
+ *
+ */
 public class Bundler
 {
 
-
+	/**
+	 * Collects the items properties from the tagbundle
+	 * and
+	 * transfers them to a new contentValues object which will be inserted into the database.
+	 * 
+	 * @param object the source view
+	 * @return contentValues which can be directly inserted into the database.
+	 */
 	public static ContentValues getValuePack(View object)
 	{
 		Bundle objectBundle = (Bundle) object.getTag();
@@ -32,9 +46,6 @@ public class Bundler
 		int yPos = (int) object.getY();
 		int width = object.getMeasuredWidth();
 		int height = object.getMeasuredHeight();
-		
-		
-		
 		
 		valuesBundle.put(ObjectValues.ZORDER, objectBundle.getInt(ObjectValues.ZORDER));
 		valuesBundle.put(ObjectValues.DATABASE_ID, id);
@@ -139,7 +150,19 @@ public class Bundler
 
 	}
 	
-	public static Bundle getValueBundle(int which, Resources res)
+	/**
+	 * Creates a default object bundle of the given type.
+	 * Puts the default object properties of each type into the bundle.
+	 * These will be overridden when the user interacts with the object.
+	 * 
+	 * We had to use the approach with the object tag bundle, because we need to track more properties as
+	 * the views can supply via getter methods.
+	 * 
+	 * @param which the type of the requesting object.
+	 * @param res the resources to fetch references from
+	 * @return a bundle representing the default object properties
+	 */
+	public static Bundle getDefaultValueBundle(int which, Resources res)
 	{
 		Log.d("getValueBundle", "called");
 		
@@ -150,8 +173,7 @@ public class Bundler
 		int defHeight = 0;
 		int scaleType = 0;
 		int presMode = R.drawable.presentation_default_object;
-		int createMode = R.drawable.object_background_default;
-		
+		int createMode = R.drawable.object_background_default;	
 
 		switch (which)
 		{
@@ -164,7 +186,6 @@ public class Bundler
 			scaleType = Overlay.BOTH;
 			createMode = R.drawable.object_background_default_button;
 			presMode = R.drawable.presentation_button_default;
-			
 			break;
 
 		case R.id.element_textview:
@@ -174,7 +195,6 @@ public class Bundler
 			defWidth = res.getInteger(R.integer.textview_factor_default_width);
 			defHeight = res.getInteger(R.integer.textview_factor_default_height);
 			scaleType = Overlay.BOTH;
-			
 			break;
 
 		case R.id.element_imageview:
@@ -186,7 +206,6 @@ public class Bundler
 			scaleType = Overlay.BOTH;
 			tagBundle.putInt(ObjectValues.IMG_SRC, 0);
 			tagBundle.putInt(ObjectValues.ICN_SRC, 0);
-			
 			break;
 
 		case R.id.element_edittext:
@@ -198,7 +217,6 @@ public class Bundler
 			scaleType = Overlay.BOTH;
 			createMode = R.drawable.object_background_default_edittext;
 			presMode = R.drawable.presentation_border_medium;
-			
 			break;
 
 		case R.id.element_radiogroup:
@@ -208,7 +226,6 @@ public class Bundler
 			defWidth = res.getInteger(R.integer.radio_factor_default_width);
 			defHeight = res.getInteger(R.integer.radio_factor_default_height);
 			scaleType = Overlay.BOTH;
-			
 			break;
 
 		case R.id.element_switch:
@@ -218,7 +235,6 @@ public class Bundler
 			defWidth = res.getInteger(R.integer.switch_factor_default_width);
 			defHeight = res.getInteger(R.integer.switch_factor_default_height);
 			scaleType = Overlay.BOTH;
-			
 			break;
 
 		case R.id.element_checkbox:
@@ -228,7 +244,6 @@ public class Bundler
 			defWidth = res.getInteger(R.integer.checkbox_factor_default_width);
 			defHeight = res.getInteger(R.integer.checkbox_factor_default_height);
 			scaleType = Overlay.BOTH;
-
 			break;
 
 		case R.id.element_list:
@@ -240,7 +255,6 @@ public class Bundler
 			scaleType = Overlay.BOTH;
 			tagBundle.putInt(ObjectValues.EXAMPLE_CONTENT, R.id.content_choose_hipster);
 			tagBundle.putInt(ObjectValues.EXAMPLE_LAYOUT, R.layout.item_listview_example_layout_1);
-
 			break;
 
 		case R.id.element_numberpick:
@@ -250,7 +264,6 @@ public class Bundler
 			defWidth = res.getInteger(R.integer.numberpicker_factor_default_width);
 			defHeight = res.getInteger(R.integer.numberpicker_factor_default_height);
 			scaleType = Overlay.VERTICAL;
-
 			break;
 
 		case R.id.element_ratingbar:
@@ -262,7 +275,6 @@ public class Bundler
 			scaleType = Overlay.BOTH;
 			tagBundle.putInt(ObjectValues.STARS_NUM, 5);
 			tagBundle.putInt(ObjectValues.RATING, 4);
-			
 			break;
 
 		case R.id.element_seekbar:
@@ -272,7 +284,6 @@ public class Bundler
 			defWidth = res.getInteger(R.integer.seekbar_factor_default_width);
 			defHeight = res.getInteger(R.integer.seekbar_factor_default_height);
 			scaleType = Overlay.HORIZONTAL;
-
 			break;
 
 		case R.id.element_timepicker:
@@ -282,7 +293,6 @@ public class Bundler
 			defWidth = res.getInteger(R.integer.timepicker_factor_default_width);
 			defHeight = res.getInteger(R.integer.timepicker_factor_default_height);
 			scaleType = Overlay.VERTICAL;
-
 			break;
 /*
 		case R.id.element_container:
@@ -304,8 +314,6 @@ public class Bundler
 			tagBundle.putInt(ObjectValues.EXAMPLE_CONTENT, R.id.content_choose_bacon);
 			tagBundle.putInt(ObjectValues.EXAMPLE_LAYOUT, R.layout.item_gridview_example_layout_3);
 			tagBundle.putInt(ObjectValues.COLUMNS_NUM, R.integer.default_columns_count);
-			
-			
 			break;
 			
 		default:

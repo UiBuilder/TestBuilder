@@ -11,7 +11,13 @@ import data.ObjectValues;
 import de.ur.rk.uibuilder.R;
 
 /**
- * 
+ * This class is used to determine which element is requested to be instantiated.
+ * It uses a FromXmlBuilder instance the generate the item,
+ * an onTouchListener provided as a parameter by the constructor to prepare the item for
+ * user interaction,
+ * and
+ * accesses the Bundler class in a static way to fetch a default bundle, to add to the element
+ * which will contain the objects properties in the future of its use.
  * @author funklos
  *
  */
@@ -40,7 +46,9 @@ public class Generator
 	}
 
 	/**
-	 * Use this method to create a View by passing an identifier of the type of view to be created
+	 * Use this method to create a View by passing an identifier of the type of view to be created.
+	 * The view receives a bundle, for the storage of properties and a listener, to become 
+	 * interactive.
 	 * 
 	 * @param id specifies the View to be created.
 	 * @return the created View
@@ -49,7 +57,7 @@ public class Generator
 	{
 		View xmlView;
 		RelativeLayout.LayoutParams params = null;
-		Bundle valueBundle = Bundler.getValueBundle(id, res);
+		Bundle valueBundle = Bundler.getDefaultValueBundle(id, res);
 		params = new RelativeLayout.LayoutParams(valueBundle.getInt(ObjectValues.DEFAULT_WIDTH), valueBundle.getInt(ObjectValues.DEFAULT_HEIGHT));
 
 		switch (id)

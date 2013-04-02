@@ -12,6 +12,14 @@ import android.widget.TextView;
 import data.ObjectValues;
 import de.ur.rk.uibuilder.R;
 
+/**
+ * Provides the interface to change the number of columns.
+ * For information about the instantiation and general concept behind this
+ * @see Module
+ * 
+ * @author funklos
+ *
+ */
 public class GridColumnModule extends Module
 {
 	private LinearLayout box;

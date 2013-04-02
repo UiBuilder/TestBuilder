@@ -20,7 +20,10 @@ import android.util.Log;
 /**
  * ContentProvider SKELETON from
  * @see WROX - Professional Android 4 Application Development, Reto Meier
- * @author funklos
+ * pimped by @author funklos to support and manage multiple tables and respective queries, inserts and delete operations.
+ * 
+ * The provider also supports bulkInsert methods for efficient object insertion processing.
+ * The provider is running in his own thread and supports async access.
  *
  * grants access to the database tables via specific URI's, which are mapped to related tables.
  */
@@ -153,6 +156,9 @@ public class ScreenProvider extends ContentProvider
 		return inserted;
 	}
 
+	/**
+	 * efficient insertion of contentvalues[]'s
+	 */
 
 	@Override
 	public int bulkInsert(Uri uri, ContentValues[] values)

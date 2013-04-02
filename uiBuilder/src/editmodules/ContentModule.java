@@ -1,15 +1,21 @@
 package editmodules;
 
 import uibuilder.EditmodeFragment;
-import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import data.ObjectValues;
 import data.SampleAdapter;
 import de.ur.rk.uibuilder.R;
 
+/**
+ * Provides the interface to change the the sample content of a grid or list view.
+ * For information about the instantiation and general concept behind this
+ * @see Module
+ * 
+ * @author funklos
+ *
+ */
 public class ContentModule extends Module
 {
 	private LinearLayout box;
@@ -79,7 +85,6 @@ public class ContentModule extends Module
 		@Override
 		public void onClick(View v)
 		{
-			Bundle objectBundle = (Bundle) requesting.getTag();
 			int id = v.getId();
 
 			switch (id)
@@ -87,7 +92,6 @@ public class ContentModule extends Module
 			case R.id.content_choose_hipster:
 			case R.id.content_choose_bacon:
 				samples.setSampleContent(requesting, id);
-//				objectBundle.putInt(ObjectValues.EXAMPLE_CONTENT, id);
 			}
 
 		}

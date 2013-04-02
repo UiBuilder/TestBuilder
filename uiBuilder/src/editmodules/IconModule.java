@@ -20,6 +20,10 @@ import data.ResArrayImporter;
 import de.ur.rk.uibuilder.R;
 
 /**
+ * Provides the interface to choose an icon as a resource for the background of an imageView.
+ * For information about the instantiation and general concept behind this
+ * @see Module
+ * 
  * @author funklos
  *
  */

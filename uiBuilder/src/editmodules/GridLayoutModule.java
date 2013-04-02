@@ -1,14 +1,20 @@
 package editmodules;
 
 import uibuilder.EditmodeFragment;
-import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
-import data.ObjectValues;
 import data.SampleAdapter;
 import de.ur.rk.uibuilder.R;
 
+/**
+ * Provides the interface to change the example layout of a grid.
+ * For information about the instantiation and general concept behind this
+ * @see Module
+ * 
+ * @author funklos
+ *
+ */
 public class GridLayoutModule extends Module
 {
 	private LinearLayout box;
@@ -90,7 +96,6 @@ public class GridLayoutModule extends Module
 		@Override
 		public void onClick(View gridLayout)
 		{
-			Bundle objectBundle = (Bundle) requesting.getTag();
 			int id = gridLayout.getId();
 
 			switch (id)
@@ -100,7 +105,6 @@ public class GridLayoutModule extends Module
 			case R.id.editmode_grid_included_layout_3:
 			case R.id.editmode_grid_included_layout_4:
 				samples.setSampleLayout(requesting, id);
-//				objectBundle.putInt(ObjectValues.EXAMPLE_LAYOUT, id);
 				break;
 
 			default:

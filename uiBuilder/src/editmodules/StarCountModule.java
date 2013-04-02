@@ -13,6 +13,14 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import data.ObjectValues;
 import de.ur.rk.uibuilder.R;
 
+/**
+ * Provides the interface to adjust the ratingBar.
+ * For information about the instantiation and general concept behind this
+ * @see Module
+ * 
+ * @author jonesses
+ *
+ */
 public class StarCountModule extends Module
 {
 	private SeekBar starBar, ratingSlider;

@@ -10,6 +10,14 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import de.ur.rk.uibuilder.R;
 
+/**
+ * Provides the interface to change the z-order alignment.
+ * For information about the instantiation and general concept behind this
+ * @see Module
+ * 
+ * @author funklos
+ *
+ */
 public class ZOrderModule extends Module
 {
 	private LinearLayout box;
@@ -84,6 +92,7 @@ public class ZOrderModule extends Module
 		}
 
 		/**
+		 * Sends the requesting view to background.
 		 * @param parent
 		 */
 		private void pushToBack(ViewGroup parent)
@@ -107,7 +116,7 @@ public class ZOrderModule extends Module
 		}
 
 		/**
-		 * 
+		 * Pulls the requesting view to the foreground
 		 */
 		private void bringToFront()
 		{

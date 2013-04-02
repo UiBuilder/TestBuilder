@@ -10,6 +10,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import de.ur.rk.uibuilder.R;
 
+/**
+ * Provides the interface to change the alignment of text content.
+ * For information about the instantiation and general concept behind this
+ * @see Module
+ * 
+ * @author jonesses
+ *
+ */
 public class AlignModule extends Module
 {
 	private Button topLeft, topCenter, topRight, centerLeft, centerCenter,
@@ -24,9 +32,6 @@ public class AlignModule extends Module
 		super(context);
 	}
 
-	/**
-	 * 
-	 */
 	@Override
 	protected void setupUi()
 	{
@@ -42,6 +47,7 @@ public class AlignModule extends Module
 		bottomCenter = (Button) box.findViewById(R.id.editmode_align_bottom_center);
 		bottomRight = (Button) box.findViewById(R.id.editmode_align_bottom_right);
 	}
+	
 	@Override
 	public LinearLayout getInstance(View inProgress)
 	{

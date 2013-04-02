@@ -8,6 +8,14 @@ import android.widget.NumberPicker.OnValueChangeListener;
 import android.widget.TextView;
 import de.ur.rk.uibuilder.R;
 
+/**
+ * Provides the interface to change the fontsize.
+ * For information about the instantiation and general concept behind this
+ * @see Module
+ * 
+ * @author jonesses
+ *
+ */
 public class FontSizeModule extends Module
 {
 	private LinearLayout box;

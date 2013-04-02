@@ -2,13 +2,11 @@ package data;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import de.ur.rk.uibuilder.R;
@@ -95,6 +93,14 @@ public class SampleAdapter
 		setSampleAdapter(active);
 	}
 	
+	/**
+	 * called when a user selects a different sample layout for a grid or a list.
+	 * Call to set the appropriate layout and set a new adapter displaying the data 
+	 * in the desired way.
+	 * 
+	 * @param active
+	 * @param layout
+	 */
 	public void setSampleLayout(View active, int layout)
 	{
 		Bundle tagBundle = (Bundle) active.getTag();
@@ -111,8 +117,7 @@ public class SampleAdapter
 
 			setSampleGridLayout(active, layout);
 			break;
-		}
-		
+		}	
 		setSampleAdapter(active);
 	}
 	
@@ -175,6 +180,8 @@ public class SampleAdapter
 	}
 
 	/**
+	 * Return a new adapter displaying the sample content as defined by
+	 * the passed layout.
 	 * @param listLayout
 	 * @return
 	 */
@@ -200,6 +207,7 @@ public class SampleAdapter
 	}
 
 	/**
+	 * Switch the default content to be displayed in the grid or list.
 	 * @param content
 	 */
 	private void setActiveSampleContent(int content)

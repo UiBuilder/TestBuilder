@@ -17,9 +17,12 @@ import data.ObjectValues;
 import de.ur.rk.uibuilder.R;
 
 /**
- * Creates new Objects from the given Bundle[] which contains the properties of the datbase entries belonging
+ * Creates new Objects from the given Bundle[] which contains the properties of the database entries belonging
  * to this screen.
- * The objects are generated in an async task and published via publishProgress to the ui thread, where a listener
+ * The ReGenerator uses the supplied generator instance to fetch a new default item of the desired type
+ * and resets its properties with the values provided by the bundle object.
+ * 
+ * The objects are generated in an async task and published via publishProgress to the UI thread, where a listener
  * callback is fired to notify the ObjectFactory to add a new object to the view tree of the designArea.
  * @author funklos
  *
@@ -67,7 +70,7 @@ public class ReGenerator extends AsyncTask<Bundle[], View, Void>
 	{
 		// TODO Auto-generated method stub
 		super.onProgressUpdate(values);
-		android.util.Log.d("Regenerator", "onProgressUpdate called, about to call objectGenerated Listener");
+		Log.d("Regenerator", "onProgressUpdate called, about to call objectGenerated Listener");
 		listener.objectGenerated(values[0]);
 	}
 	
@@ -96,9 +99,6 @@ public class ReGenerator extends AsyncTask<Bundle[], View, Void>
 			
 			((Button)xmlView).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
 			((Button)xmlView).setTextSize(databaseBundle.getInt(ObjectValues.FONTSIZE));
-			
-
-			
 			break;
 
 		case R.id.element_textview:
@@ -106,25 +106,13 @@ public class ReGenerator extends AsyncTask<Bundle[], View, Void>
 			((TextView)xmlView).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
 			((TextView)xmlView).setTextSize(databaseBundle.getInt(ObjectValues.FONTSIZE));
 			((TextView)xmlView).setGravity(databaseBundle.getInt(ObjectValues.ALIGNMENT));
-			
-
-
-			
 			break;
 
 		case R.id.element_imageview:
-			/*int iconid = databaseBundle.getInt(ObjectValues.ICN_SRC);
-			String imagepath = databaseBundle.getString(ObjectValues.IMG_SRC);
-			
-			if (iconid == 0 && imagepath == null)
-			{
-				return null;
-			}*/
-			
+
 			Log.d("measured imageview", String.valueOf(xmlView.getMeasuredHeight()));
 			properties.putString(ObjectValues.IMG_SRC, databaseBundle.getString(ObjectValues.IMG_SRC));
 			properties.putInt(ObjectValues.ICN_SRC, databaseBundle.getInt(ObjectValues.ICN_SRC));
-
 			break;
 
 		case R.id.element_edittext:
@@ -132,47 +120,27 @@ public class ReGenerator extends AsyncTask<Bundle[], View, Void>
 			((EditText) xmlView).setHint(databaseBundle.getString(ObjectValues.USER_TEXT));
 			((EditText)xmlView).setGravity(databaseBundle.getInt(ObjectValues.ALIGNMENT));
 			((EditText)xmlView).setTextSize(databaseBundle.getInt(ObjectValues.FONTSIZE));
-
-			
 			break;
 
 		case R.id.element_radiogroup:
 			
 			((TextView) xmlView).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
-
-
-			
 			break;
 
 		case R.id.element_switch:
 			
 			((Switch) xmlView).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
-
-
-			
 			break;
 
 		case R.id.element_checkbox:
 			
 			((TextView) ((LinearLayout)xmlView).getChildAt(0)).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
-
-
-
-			
 			break;
 
 		case R.id.element_list:
 			
 			properties.putInt(ObjectValues.EXAMPLE_LAYOUT, databaseBundle.getInt(ObjectValues.EXAMPLE_LAYOUT));
 			properties.putInt(ObjectValues.EXAMPLE_CONTENT, databaseBundle.getInt(ObjectValues.EXAMPLE_CONTENT));
-			
-			break;
-
-		case R.id.element_numberpick:
-			
-
-
-			
 			break;
 
 		case R.id.element_ratingbar:
@@ -181,34 +149,18 @@ public class ReGenerator extends AsyncTask<Bundle[], View, Void>
 			((RatingBar)((RelativeLayout)xmlView).getChildAt(0)).setNumStars(databaseBundle.getInt(ObjectValues.STARS_NUM));
 			properties.putInt(ObjectValues.STARS_NUM, databaseBundle.getInt(ObjectValues.STARS_NUM));
 			properties.putInt(ObjectValues.RATING, databaseBundle.getInt(ObjectValues.RATING));
-
-			
 			break;
 
-		case R.id.element_seekbar:
-			
-
-
-			
-			break;
-
-		case R.id.element_timepicker:
-			
-
-
-			
+		case R.id.element_seekbar: case R.id.element_numberpick: case R.id.element_timepicker:
 			break;
 
 		case R.id.element_grid:
-			
-			
+
 			properties.putInt(ObjectValues.EXAMPLE_LAYOUT, databaseBundle.getInt(ObjectValues.EXAMPLE_LAYOUT));
 			properties.putInt(ObjectValues.EXAMPLE_CONTENT, databaseBundle.getInt(ObjectValues.EXAMPLE_CONTENT));
 			properties.putInt(ObjectValues.COLUMNS_NUM, databaseBundle.getInt(ObjectValues.COLUMNS_NUM));
 			
 			((GridView)((ViewGroup)xmlView).getChildAt(0)).setNumColumns(databaseBundle.getInt(ObjectValues.COLUMNS_NUM));
-			
-			
 			break;
 		
 		default:
@@ -235,7 +187,12 @@ public class ReGenerator extends AsyncTask<Bundle[], View, Void>
 		return xmlView;
 	}
 
-	
+	/**
+	 * Notify the listener that a new view has been regenerated from a bundle and 
+	 * can now be added to the viewtree and further processed.
+	 * @author funklos
+	 *
+	 */
 	public interface OnObjectGeneratedListener
 	{
 		void objectGenerated(View newItem);

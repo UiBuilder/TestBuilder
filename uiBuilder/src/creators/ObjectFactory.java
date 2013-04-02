@@ -1,7 +1,5 @@
 package creators;
 
-import helpers.CollisionChecker;
-import helpers.GridSnapper;
 import helpers.ImageTools;
 import android.content.Context;
 import android.os.Bundle;
@@ -24,14 +22,32 @@ import data.ObjectValues;
 import data.SampleAdapter;
 import de.ur.rk.uibuilder.R;
 
+
+/**
+ * The ObjectFactory Class coordinates the generation of new views,
+ * the regeneration from database and
+ * the manipulation of object properties by the user.
+ * 
+ * It requests new views from an instance of the generator class by passing in the desired type.
+ * The Regenerator instance is responsible for instantiating views from the supplied Bundle[] which is passed 
+ * in by the OnObjectLoadedFromDatabaseListener interface callback method.
+ * 
+ * Those classes return their results and are added to the view tree by the factory.
+ * Finally the factory checks if additional datasources, like adapters, or images have to be added to the object.
+ * 
+ * The Factory is also notified when a user interacts with an object and manipulates its properties.
+ * Those events are passed on to the ObjectManipultor instance to handle the request appropriately.
+ * 
+ * @author funklos
+ *
+ */
 public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObjectGeneratedListener
 {
 	public static final int SNAP_GRID_INTERVAL = 15;
 
 	private Generator generator;
 	private ReGenerator reGenerator;
-	
-	private CollisionChecker checker;
+
 	private ObjectManipulator manipulator;
 	private SampleAdapter samples;
 	private Animation showUpAnimation;
@@ -55,8 +71,7 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 		
 		generator = new Generator(context, listener);
 		
-		checker = new CollisionChecker(designArea);
-		manipulator = new ObjectManipulator(context, designArea);
+		manipulator = new ObjectManipulator(designArea);
 		samples = new SampleAdapter(context);
 		
 		showUpAnimation = AnimationUtils.loadAnimation(context, R.anim.design_loaded_scale_in);
@@ -109,7 +124,7 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 		{
 			newItem = generator.generate(which);
 			// holt die Koordinaten des Touch-Punktes
-			RelativeLayout.LayoutParams params = setPosition(event);
+			RelativeLayout.LayoutParams params = setInitialPosition(event);
 			designArea.addView(newItem, params);
 			setDataSources(newItem);
 
@@ -144,11 +159,29 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 		}
 	}
 	
+	/**
+	 * The views state has to be changed, because it is involved in a drag process.
+	 * Forward the call to the manipulator to set the appropriate optical
+	 * Representation of the state.
+	 * 
+	 * @param which
+	 * @param activeItem
+	 */
 	public void requestStyle(int which, View activeItem)
 	{
 		manipulator.setStyle(which, activeItem);
 	}
 	
+	/**
+	 * the user is interaction with the overlays scale handles.
+	 * resizes the item correspondingly.
+	 * 
+	 * @param which the id of the overlay handle which is touched by the user
+	 * @param start the start event
+	 * @param end the event which represents the actual state
+	 * @param activeItem the item which is manipulated
+	 * @param dragHandle the center element of the overlay, which has to adapt its properties to the item being resized
+	 */
 	public void requestResize(int which, MotionEvent start, MotionEvent end, View activeItem, ImageButton dragHandle)
 	{
 		manipulator.setParams(which, start, end, activeItem, dragHandle);
@@ -156,82 +189,43 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 	}
 	
 	/**
+	 * The method is called after a view has been generated for the first time.
+	 * The supplied event represents the users target for instantiation. This target
+	 * position has to be checked for collisions with the designArea, to keep the
+	 * generated view in bounds.
+	 * 
+	 * This method calculates an appropriate position, which has to be in 
+	 * bounds of the designArea, and rounded to the nearest grid column.
+	 * 
 	 * @param event
-	 * @return
+	 * @return the calculated params, which keep the view in bounds and follow the grid columns.
 	 */
-	private RelativeLayout.LayoutParams setPosition(MotionEvent event)
+	private RelativeLayout.LayoutParams setInitialPosition(MotionEvent event)
 	{
-		Bundle tag = (Bundle) newItem.getTag();
-		int defaultWidth = tag.getInt(ObjectValues.DEFAULT_WIDTH);
-		int defaultHeight = tag.getInt(ObjectValues.DEFAULT_HEIGHT);
-		
-		float clickPosX = event.getAxisValue(MotionEvent.AXIS_X);
-		float clickPosY = event.getAxisValue(MotionEvent.AXIS_Y);
-
-		int targetX = checker.collisionX(clickPosX, defaultWidth);
-		int targetY = checker.collisionY(clickPosY, defaultHeight);
-
-		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) newItem.getLayoutParams();
-
-		params.leftMargin = GridSnapper.snapToGrid(targetX);
-		params.topMargin = GridSnapper.snapToGrid(targetY);
-		return params;
+		return manipulator.setInitialPosition(event, newItem);
 	}
 	
 	/**
-	 * get the coordinates of the drop event
-	 * repositions:
-	 * the active item and the overlay
+	 * A drop operation has returned true, but the position has to be checked
+	 * for collisions and rounded to the nearest grid value.
+	 * Repositions the drag overlay accordingly.
+	 * 
 	 * @param event the drop event
+	 * @param activeItem the item in progress
+	 * @param drag the drag element, representing the overlay
 	 */
 	public void performDrop(DragEvent event, View activeItem, ImageButton drag)
 	{
-		int itemWidth = activeItem.getMeasuredWidth();
-		int itemHeight = activeItem.getMeasuredHeight();
-		
-		int dropTargetX = checker.collisionX(event.getX(), itemWidth);
-		int dropTargetY = checker.collisionY(event.getY(), itemHeight);
-
-		setDragParams(activeItem, drag, dropTargetX, dropTargetY);
-		setActiveItemParams(activeItem, dropTargetX, dropTargetY);
+		manipulator.performDrop(event, activeItem, drag);
 	}
 
 	/**
-	 * @param activeItem
-	 * @param dropTargetX
-	 * @param dropTargetY
-	 */
-	private void setActiveItemParams(View activeItem, int dropTargetX,
-			int dropTargetY)
-	{
-		RelativeLayout.LayoutParams activeParams = (RelativeLayout.LayoutParams) activeItem.getLayoutParams();
-		
-		activeParams.leftMargin = GridSnapper.snapToGrid(dropTargetX);
-		activeParams.topMargin = GridSnapper.snapToGrid(dropTargetY);
-		activeItem.setLayoutParams(activeParams);
-	}
-
-	/**
-	 * @param activeItem
-	 * @param drag
-	 * @param dropTargetX
-	 * @param dropTargetY
-	 * @return
-	 */
-	private void setDragParams(View activeItem,
-			ImageButton drag, int dropTargetX, int dropTargetY)
-	{
-		RelativeLayout.LayoutParams dragParams = (RelativeLayout.LayoutParams) drag.getLayoutParams();
-
-		dragParams.leftMargin = GridSnapper.snapToGrid(dropTargetX) + designArea.getLeft();
-		dragParams.topMargin = GridSnapper.snapToGrid(dropTargetY) + designArea.getTop();
-		dragParams.width = activeItem.getMeasuredWidth();
-		dragParams.height = activeItem.getMeasuredHeight();
-		drag.setLayoutParams(dragParams);
-	}
-	
-
-	/**
+	 * Check if the generated item needs additional datasources.
+	 * Images need a source, which must be added after adding them to the view tree, else 
+	 * their size is 0 and no appropriate scaling can be applied by the ImageTools class.
+	 * If the new item is an instance of gridView or listView, they need an adapter
+	 * to display sample content. The SampleAdapter instance is called to return a new adapter.
+	 * 
 	 * @param newItem
 	 * @param bundle
 	 */
@@ -257,6 +251,8 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 	}
 
 	/**
+	 * Check if the supplied supplied bundle contains a reference to either an icon
+	 * or an image, set the image accordingly.
 	 * @param newItem
 	 * @param bundle
 	 */

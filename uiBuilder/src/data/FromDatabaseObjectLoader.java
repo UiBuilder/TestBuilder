@@ -2,11 +2,19 @@ package data;
 
 import java.util.ArrayList;
 
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 
+/**
+ * After an async database query for objects belonging to a specific screen, an instance of this class
+ * processes the result cursor to generate a bundle, representing a former object.
+ * The bundles are collected in an arraylist and passed as an array, for type safeties sake.
+ * A listener is notified via callback when all cursor entries are collected for further processing of the bundle array.
+ * 
+ * @author funklos
+ *
+ */
 public class FromDatabaseObjectLoader
 {
 
@@ -75,11 +83,14 @@ public class FromDatabaseObjectLoader
 		}
 	}
 
-
+	/**
+	 * Interface definition, implemented by the class responsible for further processing. 
+	 * @author funklos
+	 *
+	 */
 	public interface OnObjectLoadedFromDatabaseListener
 	{
 		void objectsLoaded(Bundle[] objectList);
-
 	}
 
 	private static OnObjectLoadedFromDatabaseListener listener;

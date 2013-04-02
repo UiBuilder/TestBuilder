@@ -9,6 +9,15 @@ import android.widget.LinearLayout;
 import data.ObjectValues;
 import de.ur.rk.uibuilder.R;
 
+/**
+ * Provides the interface to change the background color of an element.
+ * For information about the instantiation and general concept behind this
+ * @see Module
+ * 
+ * @author jonesses
+ *
+ */
+
 public class BackgroundColorModule extends Module
 {
 	Button backgroundRed;

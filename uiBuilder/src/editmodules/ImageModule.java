@@ -14,6 +14,10 @@ import android.widget.LinearLayout;
 import de.ur.rk.uibuilder.R;
 
 /**
+ * Provides the interface to set an image as the background resource of an imageView.
+ * For information about the instantiation and general concept behind this
+ * @see Module
+ * 
  * @author funklos
  *
  */
@@ -151,9 +155,14 @@ public class ImageModule extends Module
 		}
 	}
 	
+	/**
+	 * @see OnGoingInBackground
+	 * @author funklos
+	 *
+	 */
 	public interface onImageImportListener extends OnGoingInBackground
 	{
-
+		
 	}
 
 	private static onImageImportListener listener;

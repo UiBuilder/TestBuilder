@@ -15,8 +15,7 @@ import de.ur.rk.uibuilder.R;
  * expansions
  * 
  * @author funklos
- * @param box
- *            the editmode module containing the button
+ * @param box the editmode module containing the button
  */
 public class ExpansionListener implements OnClickListener
 {
@@ -64,7 +63,10 @@ public class ExpansionListener implements OnClickListener
 				expand();
 			}
 		}
-
+		
+		/**
+		 * expand the box
+		 */
 		private void expand()
 		{
 			collapseOther();
@@ -91,6 +93,9 @@ public class ExpansionListener implements OnClickListener
 			}
 		}
 
+		/**
+		 * collapse the box
+		 */
 		private void collapse()
 		{
 			expandableView.setVisibility(View.GONE);
@@ -101,6 +106,9 @@ public class ExpansionListener implements OnClickListener
 			refresh();
 		}
 
+		/**
+		 * force ui redraw
+		 */
 		private void refresh()
 		{
 			expandableView.invalidate();
@@ -109,7 +117,12 @@ public class ExpansionListener implements OnClickListener
 			expandableView.forceLayout();
 		}
 		
-		
+		/**
+		 * Interface implemented by all subclasses of Module.
+		 * Implementation is realized in the superclass implementation @see Module
+		 * @author funklos
+		 *
+		 */
 		public abstract interface onToggleExpansionListener
 		{
 			void getValues();
