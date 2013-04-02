@@ -28,7 +28,7 @@ public class ScreenProvider extends ContentProvider
 {
 	//accesing loaders should use these constants as identifiers.
 	public static final int SCREENS_LOADER = 1;
-	public static final int OBJECTS_LOADER = 2;
+	public static final int DATABASE_OBJECTS_LOADER = 2;
 	
 	private static final String 
 					AUTHORITY = "de.ur.rk.uibuilder",
@@ -72,7 +72,8 @@ public class ScreenProvider extends ContentProvider
 					KEY_OBJECTS_VIEW_IMGSRC = ObjectValues.IMG_SRC,
 					KEY_OBJECTS_VIEW_ICNSRC = ObjectValues.ICN_SRC,
 					KEY_OBJECTS_VIEW_BACKGROUNDCLR_EDIT = ObjectValues.BACKGROUND_EDIT,
-					KEY_OBJECTS_VIEW_BACKGROUNDCLR_PRESENTATION = ObjectValues.BACKGROUND_PRES
+					KEY_OBJECTS_VIEW_BACKGROUNDCLR_PRESENTATION = ObjectValues.BACKGROUND_PRES,
+					KEY_OBJECTS_VIEW_ZORDER = ObjectValues.ZORDER
 					;
 	
 	//uri match constants
@@ -230,6 +231,7 @@ public class ScreenProvider extends ContentProvider
 				
 			case OBJECTS_ALL:
 				
+				sortOrder = KEY_OBJECTS_VIEW_ZORDER + " ASC";
 				query.setTables(DataManager.TABLE_OBJECTS);
 				break;
 
@@ -401,7 +403,7 @@ public class ScreenProvider extends ContentProvider
 						;
 		
 		
-		private static final int DB_VERSION = 29;
+		private static final int DB_VERSION = 30;
 		
 		private static final String CREATE = "create table if not exists ";
 		private static final String DROP = "DROP TABLE if exists ";	
@@ -435,7 +437,8 @@ public class ScreenProvider extends ContentProvider
 						+ KEY_OBJECTS_VIEW_LAYOUT + INT + KOMMA
 						+ KEY_OBJECTS_VIEW_RATING + INT + KOMMA
 						+ KEY_OBJECTS_VIEW_STARSNUM + INT + KOMMA
-						+ KEY_OBJECTS_VIEW_USERTEXT + TEXT
+						+ KEY_OBJECTS_VIEW_USERTEXT + TEXT + KOMMA
+						+ KEY_OBJECTS_VIEW_ZORDER + INT
 						;
 
 		

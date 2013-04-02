@@ -118,7 +118,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 					public void onClick(View v)
 					{
 						deleteScreenFromDatabase(id);
-						//hidden.setVisibility(View.INVISIBLE);
+
 					}
 				});
 				
@@ -193,14 +193,14 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		manager.initLoader(ScreenProvider.SCREENS_LOADER, null, this);
 		adapter = new ScreenAdapter(getApplicationContext(), null, true);
 
-		grid.setAdapter(adapter);
 	}
 	
 	private void invalidated()
 	{
-		adapter.notifyDataSetInvalidated();
+		manager.restartLoader(ScreenProvider.SCREENS_LOADER, null, this);
+		adapter.notifyDataSetChanged();
 		grid.setAdapter(adapter);
-		//grid.invalidateViews();
+		grid.invalidateViews();
 	}
 
 	/**
@@ -281,8 +281,6 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 				Uri imageUpdate = ContentUris.withAppendedId(ScreenProvider.CONTENT_URI_SCREENS, id);
 				
 				res.update(imageUpdate, image, null, null);
-				
-				adapter.notifyDataSetChanged();
 			}
 		}
 		
@@ -324,6 +322,10 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	{
 		Log.d("loader", "finished");
 		adapter.swapCursor(newCursor);
+		adapter.notifyDataSetChanged();
+		grid.invalidateViews();
+		//grid.setAdapter(adapter);
+
 	}
 
 	@Override

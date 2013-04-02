@@ -55,7 +55,6 @@ public class ImageModule extends Module
 	 */
 	public void setImageResource(int requestCode, Intent data)
 	{
-		listener.comingToForeground();
 		
 		switch (requestCode)
 		{

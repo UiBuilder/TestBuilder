@@ -26,6 +26,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 import data.FromDatabaseObjectLoader;
 import data.ObjectValues;
@@ -62,12 +63,12 @@ public class UiBuilderActivity extends Activity implements
 	private LoaderManager manager;
 	
 	private ToDatabaseObjectWriter objectWriter;
-	private FromDatabaseObjectLoader objectCreator;
+	private FromDatabaseObjectLoader objectBundleLoader;
 
 
 	private int screenId;
 	private boolean isPreview = false;
-	private boolean activityInBackground = false;
+	private boolean intentStarted = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -80,13 +81,58 @@ public class UiBuilderActivity extends Activity implements
 		checkIntent();
 		
 		grabber = new ChildGrabber();
-		objectCreator = new FromDatabaseObjectLoader();
+		objectBundleLoader = new FromDatabaseObjectLoader();
 
 		fManager = getFragmentManager();
 		exporter = new ImageTools(getApplicationContext());
 
 		performInitTransaction();
+		checkDb();
 	}
+
+	@Override
+	protected void onResume()
+	{	
+		objectWriter = new ToDatabaseObjectWriter(screenId, getApplicationContext());
+		
+		Log.d("onresume", "called");
+		if (!intentStarted)
+		{
+			checkDb();
+		}
+		else
+		{
+			intentStarted = false;
+		}
+		super.onResume();
+	}
+	
+
+	@Override
+	protected void onStop()
+	{		
+		Log.d("stoppingsaving state to database", "saving state to database");
+		
+		if(!intentStarted)
+		{
+			saveStateToDatabase();
+		}
+		
+		super.onStop();
+	}
+
+	/**
+	 * 
+	 */
+	private void saveStateToDatabase()
+	{
+		View rootDesignBox = designbox.getView();
+		
+		ViewGroup designArea = (ViewGroup) rootDesignBox.findViewById(R.id.design_area);
+		
+		objectWriter.execute(designArea);
+	}
+
 
 	private void checkIntent()
 	{
@@ -98,20 +144,77 @@ public class UiBuilderActivity extends Activity implements
 			screenId = intentBundle.getInt(ManagerActivity.DATABASE_SCREEN_ID);
 			Log.d("screen id is", String.valueOf(screenId));
 		}
-
-		checkDb();
 	}
 
 	private void checkDb()
 	{
 		manager = getLoaderManager();
-		manager.initLoader(ScreenProvider.OBJECTS_LOADER, null, this);
+		manager.initLoader(ScreenProvider.DATABASE_OBJECTS_LOADER, null, this);
 	}
 
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState)
 	{
 		super.onRestoreInstanceState(savedInstanceState);
+	}
+	
+	@Override
+	public void onBackPressed()
+	{	
+		
+		/**
+		 * USABILITY TEST REQUIREMENT:
+		 * if an overlay is active, use the back button to disable it
+		 */
+		if (designbox.deleteOverlay())
+		{
+			displaySidebar(ITEMBOX);
+		}
+		
+		/**
+		 * USABILITY TEST REQUIREMENT:
+		 * if the activity is in preview mode, use the back button to disable it
+		 */
+		else if (isPreview)
+		{
+			togglePreview();
+		}
+		
+		/**
+		 * default case, use back button to leave the design activity and navigate back to the manager
+		 */
+		else
+		{
+			//export screen as a preview to display it in the screen manager
+			changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_PRES);
+	
+			Uri imageUri = exporter.requestBitmap(designbox.getView(), getContentResolver(), false, true, screenId);
+	
+			changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_EDIT);
+			
+			Intent returnIntent = new Intent();
+			returnIntent.putExtra(ManagerActivity.RESULT_SCREEN_ID, screenId);
+			returnIntent.putExtra(ManagerActivity.RESULT_IMAGE_PATH,imageUri.toString());
+			setResult(RESULT_OK, returnIntent);     
+			finish();
+		}
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		super.onActivityResult(requestCode, resultCode, data);
+
+		intentStarted = false;
+		
+		if (resultCode == Activity.RESULT_OK)
+			switch (requestCode)
+			{
+
+			case ImageTools.SHARE:
+				Toast.makeText(getApplicationContext(), getString(R.string.confirmation_share_via_mail), Toast.LENGTH_SHORT).show();
+				break;
+			}
 	}
 
 	/**
@@ -142,63 +245,7 @@ public class UiBuilderActivity extends Activity implements
 
 		bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME);
 		bar.setBackgroundDrawable(getResources().getDrawable(R.color.designfragment_background));
-	}
 
-
-	@Override
-	public void onBackPressed()
-	{	
-		if (designbox.getOverlay().isActive())
-		{
-			designbox.deleteOverlay();
-			displaySidebar(ITEMBOX);
-		}
-		else
-		{
-			//export screen as a preview to display it in the screen manager
-			changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_PRES);
-	
-			Uri imageUri = exporter.requestBitmap(designbox.getView(), getContentResolver(), false, true, screenId);
-	
-			changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_EDIT);
-			
-			Intent returnIntent = new Intent();
-			returnIntent.putExtra(ManagerActivity.RESULT_SCREEN_ID, screenId);
-			returnIntent.putExtra(ManagerActivity.RESULT_IMAGE_PATH,imageUri.toString());
-			setResult(RESULT_OK, returnIntent);     
-			finish();
-		}
-	}
-	
-	@Override
-	protected void onStop()
-	{
-		
-		Log.d("UIBuilderactivity", "onStop called");
-		if (!activityInBackground)
-		{
-			Log.d("stoppingsaving state to database", "saving state to database");
-			View rootDesignBox = designbox.getView();
-			
-			View designArea = rootDesignBox.findViewById(R.id.design_area);
-			
-			objectWriter.execute(designArea);
-		}
-		super.onStop();
-	}
-	
-
-	@Override
-	protected void onResume()
-	{
-		objectWriter = new ToDatabaseObjectWriter(screenId, getApplicationContext());
-		super.onResume();
-	}
-
-	@Override
-	protected void onDestroy()
-	{
-		super.onDestroy();
 	}
 
 
@@ -307,7 +354,7 @@ public class UiBuilderActivity extends Activity implements
 			break;
 
 		case R.id.action_preview:
-			togglePreview(item);
+			togglePreview();
 
 		default:
 			break;
@@ -316,23 +363,33 @@ public class UiBuilderActivity extends Activity implements
 	}
 
 	/**
+	 * Calls the imagetools instance to fetch a share intent.
+	 * An extra containing the uri of a new screenshot is set.
+	 * The intent is passed to the framework to determine which activity can handle it.
+	 * Intended results are:
+	 * share via email,
+	 * share via bluetooth,
+	 * share via g+,
+	 * share via google keep
 	 * 
+	 * these are working and maybe many more, depending on the users device.
 	 */
 	private void startSharing()
 	{
-		activityInBackground = true;
+		intentStarted = true;
 		
 		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_PRES);
+		Uri screenShotPath = exporter.requestBitmap(designbox.getView(), getContentResolver(), false, false, 0);
 
-		Intent mail = exporter.getIntent(ImageTools.SHARE);
-		mail.putExtra(Intent.EXTRA_STREAM, exporter.requestBitmap(designbox.getView(), getContentResolver(), false, false, 0));
+		Intent shareIntent = exporter.getIntent(ImageTools.SHARE);
+		shareIntent.putExtra(Intent.EXTRA_STREAM, screenShotPath);
 
-		startActivityForResult(Intent.createChooser(mail, getString(R.string.intent_title_share)), ImageTools.SHARE);
+		startActivityForResult(Intent.createChooser(shareIntent, getString(R.string.intent_title_share)), ImageTools.SHARE);
 		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_EDIT);
 	}
 
 	/**
-	 * 
+	 * Calls the ImageTools instance to request a screenshot and save it in the uiBuilder gallery folder
 	 */
 	private void exportToGallery()
 	{
@@ -340,51 +397,51 @@ public class UiBuilderActivity extends Activity implements
 
 		exporter.requestBitmap(designbox.getView(), getContentResolver(), false, false, 0);
 
-		Toast.makeText(getApplicationContext(), getString(R.string.confirmation_save_to_gallery), Toast.LENGTH_SHORT).show();
+		Toast.makeText(getApplicationContext(), getString(R.string.confirmation_save_to_gallery), Toast.LENGTH_LONG).show();
 		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_EDIT);
 	}
 
-	private void togglePreview(MenuItem item)
+	
+	private void togglePreview()
 	{
 		designbox.deleteOverlay();
 
 		if (isPreview)
 		{
-			designbox.disableTouch(false);
-			item.setTitle(R.string.menu_action_preview_mode);
-			isPreview = false;
-			changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_EDIT);
-			displaySidebar(ITEMBOX);
+			disablePreviewMode();
 
 		} else
 		{
-			designbox.disableTouch(true);
-			item.setTitle(R.string.menu_action_create_mode);
-			isPreview = true;
-			changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_PRES);
-			displaySidebar(NOTHING);
-			designbox.disableTouch(true);
-
+			enablePreviewMode();
 		}
 
 	}
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	/**
+	 * @param item
+	 */
+	private void enablePreviewMode()
 	{
-		super.onActivityResult(requestCode, resultCode, data);
-
-		activityInBackground = false;
+		designbox.disableTouch(true);
 		
-		if (resultCode == Activity.RESULT_OK)
-			switch (requestCode)
-			{
-
-			case ImageTools.SHARE:
-				Toast.makeText(getApplicationContext(), getString(R.string.confirmation_share_via_mail), Toast.LENGTH_SHORT).show();
-				break;
-			}
+		isPreview = true;
+		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_PRES);
+		displaySidebar(NOTHING);
+		designbox.disableTouch(true);
 	}
+
+	/**
+	 * @param item
+	 */
+	private void disablePreviewMode()
+	{
+		designbox.disableTouch(false);
+		
+		isPreview = false;
+		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_EDIT);
+		displaySidebar(ITEMBOX);
+	}
+
 
 	/**
 	 * Interface onUiElementSelected method
@@ -400,6 +457,7 @@ public class UiBuilderActivity extends Activity implements
 
 	/**
 	 * Interface onObjectSelected method
+	 * called when an item is selected on the designarea
 	 * 
 	 * @author funklos sets a reference to the object in progress
 	 * @param view
@@ -434,6 +492,10 @@ public class UiBuilderActivity extends Activity implements
 		}
 	}
 
+	/**
+	 * Interface callback to notify a drag in process.
+	 * The deletebox is showing up.
+	 */
 	@Override
 	public void objectDragging()
 	{
@@ -465,6 +527,9 @@ public class UiBuilderActivity extends Activity implements
 	}
 
 	/**
+	 * The loader has finished loading from database.
+	 * The cursor containing the loaded object definitions is passed to the 
+	 * FromDatabaseObjectLoader instance to convert the cursor entries to bundles.
 	 * @author funklos
 	 */
 	@Override
@@ -474,9 +539,9 @@ public class UiBuilderActivity extends Activity implements
 
 		switch (loaderId)
 		{
-		case ScreenProvider.OBJECTS_LOADER:
+		case ScreenProvider.DATABASE_OBJECTS_LOADER:
 			
-			objectCreator.loadObjects(cursor);
+			objectBundleLoader.loadObjects(cursor);
 			manager.destroyLoader(loaderId);
 			manager = null;
 			break;
@@ -509,13 +574,7 @@ public class UiBuilderActivity extends Activity implements
 	@Override
 	public void prepareForBackground()
 	{
-		activityInBackground = true;
-	}
-
-	@Override
-	public void comingToForeground()
-	{
-		activityInBackground = false;
+		intentStarted = true;
 	}
 	
 }

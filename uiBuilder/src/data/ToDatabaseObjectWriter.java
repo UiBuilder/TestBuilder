@@ -12,6 +12,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.view.View;
+import android.view.ViewGroup;
 
 public class ToDatabaseObjectWriter extends AsyncTask<View, Void, Void> 
 {
@@ -26,6 +27,31 @@ public class ToDatabaseObjectWriter extends AsyncTask<View, Void, Void>
 		this.context = context;
 		grabber = new ChildGrabber();
 	}
+
+	@Override
+	protected Void doInBackground(View... params)
+	{
+		root = params[0];
+		
+		return writeObjects(root);
+	}
+	
+	@Override
+	protected void onPostExecute(Void result)
+	{
+		ViewGroup rootAsGroup = (ViewGroup) root;
+		rootAsGroup.removeAllViews();
+		
+		super.onPostExecute(result);
+	}
+
+	@Override
+	protected void onProgressUpdate(Void... values)
+	{
+		// TODO Auto-generated method stub
+		super.onProgressUpdate(values);
+	}
+	
 
 	private Void writeObjects(View root)
 	{
@@ -61,27 +87,5 @@ public class ToDatabaseObjectWriter extends AsyncTask<View, Void, Void>
 		values.toArray(allProperties);
 		cres.bulkInsert(ScreenProvider.CONTENT_URI_OBJECTS, allProperties);
 		return null;	
-	}
-
-	@Override
-	protected Void doInBackground(View... params)
-	{
-		root = params[0];
-		
-		return writeObjects(root);
-	}
-	
-	@Override
-	protected void onPostExecute(Void result)
-	{
-		// TODO Auto-generated method stub
-		super.onPostExecute(result);
-	}
-
-	@Override
-	protected void onProgressUpdate(Void... values)
-	{
-		// TODO Auto-generated method stub
-		super.onProgressUpdate(values);
 	}
 }

@@ -15,14 +15,16 @@ import android.widget.TextView;
 public class ChildGrabber
 {
 	private ArrayList<View> childrenList;
+	private int order = 0;
 	
 	public ArrayList<View> getChildren(View layout)
 	{
 		childrenList = new ArrayList<View>();
 		
 		recursiveWalkThrough(layout);
-		Log.d("Childgrabber", "about to return arrayList ");
+		Log.d("Childgrabber", "about to return arrayList with size "+String.valueOf(childrenList.size()));
 
+		order = 0;
 		return childrenList;
 	}
 	
@@ -36,12 +38,14 @@ public class ChildGrabber
 			for (int i = 0; i < count; i++)
 			{
 				recursiveWalkThrough(((ViewGroup) layout).getChildAt(i));
-
+				Log.d("recursive walk", "called");
 			}
 		} else if (layout instanceof TextView || layout instanceof LinearLayout
 				|| layout instanceof RelativeLayout
 				|| layout instanceof ImageView)
 		{
+			Bundle tag = (Bundle) layout.getTag();
+			tag.putInt(ObjectValues.ZORDER, order++);
 			
 			childrenList.add(layout);
 			

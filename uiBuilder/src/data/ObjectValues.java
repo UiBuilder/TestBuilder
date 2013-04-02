@@ -24,7 +24,7 @@ public class ObjectValues
 			DEFAULT_WIDTH = "defaultWidth",
 			DEFAULT_HEIGHT = "defaultHeight",
 			
-			
+			ZORDER = "zOrder",
 			SCALETYPE = "scaleType",
 			USER_TEXT = "userText", 
 			RATING = "rating", 

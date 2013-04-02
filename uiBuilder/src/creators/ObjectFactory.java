@@ -152,6 +152,7 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 	public void requestResize(int which, MotionEvent start, MotionEvent end, View activeItem, ImageButton dragHandle)
 	{
 		manipulator.setParams(which, start, end, activeItem, dragHandle);
+		designArea.invalidate();
 	}
 	
 	/**

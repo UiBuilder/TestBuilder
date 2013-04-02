@@ -1,22 +1,20 @@
 package data;
 
-import creators.ObjectFactory;
-import manipulators.Overlay;
 import helpers.Log;
+import manipulators.Overlay;
 import android.content.ContentValues;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import creators.ObjectFactory;
 import de.ur.rk.uibuilder.R;
 
 public class Bundler
@@ -38,7 +36,7 @@ public class Bundler
 		
 		
 		
-
+		valuesBundle.put(ObjectValues.ZORDER, objectBundle.getInt(ObjectValues.ZORDER));
 		valuesBundle.put(ObjectValues.DATABASE_ID, id);
 		valuesBundle.put(ObjectValues.TYPE, tagId);
 		valuesBundle.put(ObjectValues.X_POS, xPos);

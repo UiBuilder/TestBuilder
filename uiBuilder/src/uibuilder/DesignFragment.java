@@ -202,8 +202,8 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		}
 		
 		int pointer = event.getPointerId(getIndex(event));
-		
-		Log.d("pointer", String.valueOf(pointer));
+		int pointerCount = event.getPointerCount();
+		//Log.d("pointer", String.valueOf(pointer));
 		Log.d("first down", String.valueOf(event.getPointerCount()));
 		
 		//catch Multitouch events
@@ -268,13 +268,28 @@ public class DesignFragment extends Fragment implements OnDragListener,
 						break;
 				}
 				break;
-
-		/*case MotionEvent.ACTION_POINTER_DOWN:
-			//if (isresizing) return false;
-			Log.d("pointer", "down");
-			secondPointer = true;
-			break;*/
-
+/*
+		case MotionEvent.ACTION_MOVE:
+			currentTouch = v;
+			designArea.invalidate();
+			
+			switch (currentTouch.getId())
+			{
+				
+				 * touch on overlay
+				 
+				case R.id.overlay_top:
+				case R.id.overlay_right:
+				case R.id.overlay_bottom:
+				case R.id.overlay_left:
+				case R.id.overlay_drag:
+	
+					selectOverlay();
+					break;
+	
+			}
+			break;
+*/
 		case MotionEvent.ACTION_UP:
 
 			if (dragIndicator != null)
@@ -335,13 +350,13 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	{
 		detector.setIsLongpressEnabled(false);
 		dragIndicator = currentTouch;
-		
+		/*
 		if(dragIndicator != null)
 		{
 			drag2 = currentTouch;
 			drag2.setActivated(true);
 		}
-		
+		*/
 		dragIndicator.setActivated(true);
 
 		Log.d("dragOverlay", "drag handle selected");
@@ -473,17 +488,13 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	 * </p>
 	 * The solution is to compute our own distance values to get a smooth
 	 * movement and a nice experience.
-	 * 
-	 * @Override
-	 */
+	 */ 
+ 	@Override
 	public boolean onScroll(MotionEvent start, MotionEvent end, float distanceX,
 			float distanceY)
 	{
 		if (!isPreviewing)
 		{
-			/*if (secondPointer)
-				return true;*/
-
 			invalidate();
 			if (dragIndicator != null && activeItem != null)
 			{
@@ -584,18 +595,14 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		toggleGrid();
 		factory.requestStyle(DragEvent.ACTION_DRAG_STARTED, activeItem);
 	}
-	
-	protected Overlay getOverlay()
-	{
-		return overlay;
-	}
+
 
 	/**
 	 * Entfernt das Overlay komplett.
 	 * 
 	 * @author funklos
 	 */
-	protected void deleteOverlay()
+	protected boolean deleteOverlay()
 	{
 		synchronized (parent)
 		{
@@ -604,7 +611,9 @@ public class DesignFragment extends Fragment implements OnDragListener,
 				overlay.delete();
 
 				dragIndicator = null;
+				return true;
 			}
+			else return false;
 		}
 	}
 

@@ -32,8 +32,24 @@ public class ScreenAdapter extends CursorAdapter
 	
 
 	@Override
+	public View getView(int position, View convertView, ViewGroup parent)
+	{
+		Log.d("screenadapter", "getview");
+		
+		/*if (position == 0)
+		{
+			return inflater.inflate(R.layout.activity_manager_new_screen_layout, null);
+		}
+		else */return super.getView(position, convertView, parent);
+		
+		//return super.getView(position, convertView, parent);
+	}
+
+
+	@Override
 	public void bindView(View view, Context context, Cursor cursor)
 	{
+		Log.d("screenadapter", "bindview");
 		dateIdx = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_SCREEN_DATE);
 		titleIdx = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_SCREEN_NAME);
 		idIdx = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_ID);
@@ -77,7 +93,7 @@ public class ScreenAdapter extends CursorAdapter
 	public View newView(Context con, Cursor cursor, ViewGroup root)
 	{
 		View view = inflater.inflate(R.layout.activity_manager_grid_item_layout, root, false);
-
+		Log.d("screenadapter", "newview");
 		return view;	
 	}
 }
