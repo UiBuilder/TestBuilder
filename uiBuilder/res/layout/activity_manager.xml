@@ -43,7 +43,7 @@
         android:persistentDrawingCache="all"
         android:alwaysDrawnWithCache="true"
         
-        android:listSelector="@drawable/manager_grid_selected"
+        android:listSelector="@android:color/transparent"
         android:overScrollMode="always"
         
         android:scrollingCache="true"
