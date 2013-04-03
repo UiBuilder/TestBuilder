@@ -1,7 +1,11 @@
 package helpers;
 
 import android.widget.RelativeLayout;
-
+/**
+ * Use this class to get x and y values within the bounds of a RelativeLayout.
+ * @author funklos
+ *
+ */
 public class CollisionChecker
 {
 	private RelativeLayout designArea;
