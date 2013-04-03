@@ -4,6 +4,15 @@ import android.content.Context;
 import android.widget.RelativeLayout;
 import de.ur.rk.uibuilder.R;
 
+/**
+ * Resizes the drawing area to match with the dimensions of a real screen device.
+ * In this version of the app we use a default ratio of 16:10.
+ * 
+ * This class has to be posted as runnable and is run after the layout process is finsihed to apply the resizing.
+ * Else no measurements would be possible.
+ * @author funklos
+ *
+ */
 public class ScreenRatioChanger implements Runnable
 {
 	//protected final static int SCREENRATIO_DEFAULT = 160;

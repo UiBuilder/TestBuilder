@@ -14,6 +14,17 @@ import de.ur.rk.uibuilder.R;
 
 
 /**
+ * The Overlay provides interface elements to allow the user to modify and interact with the objects on the designarea.
+ * Each time an object is selected, a new instance of the overlay class is generated and adapted to the requesting
+ * objects size and position.
+ * 
+ * The handles of the overlay provide the possibility to resize the object.
+ * The centered drag element is used to perform drag and drop operations.
+ * 
+ * The parent of the Overlay class is not the designArea itself, but the parent RelativeLayout, referred to as parent.
+ * So the overlay is floating one layer above the objects on the designArea.
+ * This makes it easier to distinguish between objects and interface elements, when the contents of the designArea are saved to the database.
+ * 
  * 
  * @author funklos
  *
@@ -52,7 +63,8 @@ public class Overlay
 		
 	}
 	
-	/**Generates a new overlay object.
+	/**
+	 * Generates a new overlay object.
 	 * 
 	 * @param activeItem the item requesting the overlay
 	 * @param type the scaletype of the item
@@ -81,8 +93,10 @@ public class Overlay
 		overlayActive = true;
 	}
 
-	/**
-	 * 
+	/** The visibility of the elements is defined by the scaletype of the active view.
+	 * Some object types only support horizontal or vertical
+	 * adjustment of the size.
+	 * The overlay adapts its handles.
 	 */
 	private void adaptOverlayToScaletype()
 	{
@@ -104,11 +118,7 @@ public class Overlay
 		}
 	}
 	/**
-	 * Bestimmt die Sichtbarkeit des Overlays. Das Overlay wird <b>Versteckt
-	 * </b>, jedoch <b>nicht Entfernt</b>.
-	 * 
-	 * @param visibility
-	 *            legt die Sichtbarkeit des Overlays fest.
+	 * Defines the visibility of the overlay elements.
 	 */
 	public void setVisibility(boolean visibility)
 	{
@@ -175,7 +185,7 @@ public class Overlay
 	}
 
 	/** 
-	 * Entfernt das Overlay komplett.
+	 * Deletes the overlay completely
 	 * 
 	 */
 	public void delete()
@@ -206,6 +216,11 @@ public class Overlay
 		designArea.forceLayout();
 	}
 
+	/**
+	 * The following methods are building the specific parts of the overlay.
+	 * @param modified
+	 */
+	
 	private void buildTop(RelativeLayout.LayoutParams modified)
 	{
 		top = (ImageButton) inflater.inflate(R.layout.overlay_handle_top, null);
