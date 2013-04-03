@@ -9,6 +9,13 @@ import android.view.View;
 import de.ur.rk.uibuilder.R;
 
 /**
+ * 
+ * The Grid is a visual helper class, instantiated be the @see DesignFragment to support the user while he 
+ * repositions items via drag and drop operations.
+ * The Grid is only showing when a drag operation is in progress, else hidden.
+ * 
+ * The interval is defined by a constant passed in and also used by the @see GridSnapper class
+ * 
  * @author funklos
  *
  */
