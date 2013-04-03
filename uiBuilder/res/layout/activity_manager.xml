@@ -1,33 +1,60 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/designfragment_background" >
+    android:background="@color/designfragment_background"
+    android:orientation="horizontal"
+    android:weightSum="1"
+    android:baselineAligned="false"
+     >
 
     <include
+
         android:id="@+id/activity_manager_included_new"
         layout="@layout/activity_manager_new_screen_layout"
 
          />
 
-    <GridView
-        android:id="@+id/manager_activity_project_grid"
-        android:layout_width="match_parent"
+    <LinearLayout 
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_toRightOf="@id/activity_manager_included_new"
-        android:animateLayoutChanges="true"
+        android:orientation="vertical"
+        android:padding="@dimen/default_padding_large"
+        >
+        
+        <TextView 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            
+            style="@style/itembox_header"
+            android:gravity="center_horizontal"
+            />
+        
+        <GridView
+        android:id="@+id/manager_activity_project_grid"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:numColumns="3"       
+
         android:cacheColorHint="#ff000000"
         android:choiceMode="none"
-        android:drawSelectorOnTop="true"
-        android:fadingEdgeLength="10dp"
+        
+        android:drawSelectorOnTop="false"
+        android:persistentDrawingCache="all"
+        android:alwaysDrawnWithCache="true"
+        
         android:listSelector="@drawable/manager_grid_selected"
-        android:numColumns="4"
         android:overScrollMode="always"
-        android:padding="@dimen/default_padding_medium"
-        android:requiresFadingEdge="vertical"
+        
         android:scrollingCache="true"
         android:smoothScrollbar="true"
         android:verticalSpacing="@dimen/default_padding_medium" >
     </GridView>
+        
+        
+        
+        
+    </LinearLayout>
+    
 
-</RelativeLayout>
+</LinearLayout>

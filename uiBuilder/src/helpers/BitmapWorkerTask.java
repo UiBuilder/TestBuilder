@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 /**
@@ -18,7 +19,15 @@ import android.widget.ImageView;
  */
 public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> 
 {
-    private final WeakReference<ImageView> imageViewReference;
+    @Override
+	protected void onPreExecute()
+	{
+		// TODO Auto-generated method stub
+		super.onPreExecute();
+
+	}
+
+	private final WeakReference<ImageView> imageViewReference;
     private String data = null;
     
     private int measuredWidth, measuredHeight;
@@ -28,8 +37,10 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap>
         // Use a WeakReference to ensure the ImageView can be garbage collected
     	measuredHeight = imageView.getMeasuredHeight();
     	measuredWidth = imageView.getMeasuredWidth();
+    	Log.d("image size", String.valueOf(measuredHeight));
+    	Log.d("image width", String.valueOf(measuredWidth));
         imageViewReference = new WeakReference<ImageView>(imageView);
-        
+ 
         Log.d("image worker", "instantiated");
     }
 
@@ -55,7 +66,7 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap>
 			int photoH = bmOptions.outHeight;
 	
 			/* Figure out which way needs to be reduced less */
-			int scaleFactor = 8;
+			int scaleFactor = 1;
 			if ((measuredWidth > 0) && (measuredHeight > 0))
 			{
 				scaleFactor = Math.min(photoW / measuredWidth, photoH / measuredHeight);

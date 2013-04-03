@@ -6,6 +6,11 @@ import android.widget.RelativeLayout;
 import data.ObjectValues;
 import de.ur.rk.uibuilder.R;
 
+/**
+ * Checks whether resize operations are in bounds of the designarea
+ * @author funklos
+ *
+ */
 public class InBoundsChecker
 {
 	private RelativeLayout designArea;

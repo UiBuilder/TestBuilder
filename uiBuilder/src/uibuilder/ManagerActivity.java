@@ -114,7 +114,8 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		adapter.notifyDataSetChanged();
 
 		grid.setAdapter(adapter);
-		grid.invalidateViews();
+		
+		//grid.invalidateViews();
 	}
 
 	@Override
@@ -144,7 +145,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 				Uri imageUpdate = ContentUris.withAppendedId(ScreenProvider.CONTENT_URI_SCREENS, id);
 
 				res.update(imageUpdate, image, null, null);
-				// invalidated();
+				invalidated();
 			}
 		}
 	}
@@ -257,7 +258,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 			private void deleteScreenFromDatabase(long id)
 			{
 				ContentResolver cres = getContentResolver();
-
+				
 				// delete the screen in screens table, automatically deletes all
 				// depending entries in tables
 				Uri uri = ContentUris.withAppendedId(ScreenProvider.CONTENT_URI_SCREENS, id);
@@ -277,6 +278,10 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	 */
 	private void setToDeleteMode(RelativeLayout deleteScreen)
 	{
+		if (deleteScreenShowing != null)
+		{
+			deleteScreenShowing.setVisibility(View.INVISIBLE);
+		}
 		deleteScreen.setVisibility(View.VISIBLE);
 		deleteInProgress = true;
 		deleteScreenShowing = deleteScreen;
@@ -290,6 +295,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	 */
 	private void returnToNormalMode(RelativeLayout deleteScreen)
 	{
+		grid.clearFocus();
 		deleteScreen.setVisibility(View.INVISIBLE);
 		deleteInProgress = false;
 		deleteScreenShowing = null;

@@ -1,5 +1,10 @@
 package helpers;
 
+/**
+ * Logging defined by Debugmode constant
+ * @author funklos
+ *
+ */
 public class Log
 {
 	private static final boolean DEBUGMODE = true;
