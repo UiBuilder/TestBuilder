@@ -90,7 +90,9 @@ public class ReGenerator extends AsyncTask<Bundle[], View, Void>
 		Bundle properties = (Bundle) xmlView.getTag();
 		RelativeLayout.LayoutParams params = null;
 		params = new RelativeLayout.LayoutParams(databaseBundle.getInt(ObjectValues.WIDTH), databaseBundle.getInt(ObjectValues.HEIGHT));
-
+		params.leftMargin = databaseBundle.getInt(ObjectValues.X_POS);
+		params.topMargin = databaseBundle.getInt(ObjectValues.Y_POS);
+		xmlView.setLayoutParams(params);
 
 
 		switch (type)
@@ -167,15 +169,13 @@ public class ReGenerator extends AsyncTask<Bundle[], View, Void>
 			
 			throw new NoClassDefFoundError();
 		}
-		params.leftMargin = databaseBundle.getInt(ObjectValues.X_POS);
-		params.topMargin = databaseBundle.getInt(ObjectValues.Y_POS);
+
 		
 		properties.putInt(ObjectValues.BACKGROUND_PRES, databaseBundle.getInt(ObjectValues.BACKGROUND_PRES));
 		properties.putInt(ObjectValues.BACKGROUND_EDIT, databaseBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 		
 		xmlView.setBackgroundResource(databaseBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 
-		xmlView.setLayoutParams(params);
 		
 		properties.putInt(ObjectValues.DATABASE_ID, databaseBundle.getInt(ObjectValues.DATABASE_ID));
 		
