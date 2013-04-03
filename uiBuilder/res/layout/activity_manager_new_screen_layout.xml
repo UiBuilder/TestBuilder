@@ -24,7 +24,7 @@
 
         <EditText
             android:id="@+id/activity_manager_new_screen_name"
-            style="@style/editbox_sub"
+            android:background="@drawable/textfield_activated_holo_light"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

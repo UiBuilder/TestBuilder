@@ -11,6 +11,11 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import de.ur.rk.uibuilder.R;
 
+/**
+ * this Fragment is used to perform delete actions. It only becomes visible while dragging an object
+ * @author funklos
+ *
+ */
 public class DeleteFragment extends Fragment implements OnDragListener
 {
 	private LinearLayout container;
