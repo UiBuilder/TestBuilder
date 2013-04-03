@@ -1,6 +1,5 @@
 package uibuilder;
 
-import helpers.GridSnapper;
 import helpers.Log;
 import helpers.ScreenRatioChanger;
 import manipulators.Grid;
@@ -44,7 +43,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	private Boolean isPreviewing = false;
 	
 	private View dragIndicator;
-	private View drag2;
 	
 	private int nextObjectId;
 

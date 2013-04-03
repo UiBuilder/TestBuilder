@@ -21,17 +21,11 @@ public class InBoundsChecker
 	 * provided by api16 and up
 	 * 
 	 * @author funklos
-	 * @param params
-	 *            the params of the active item to compare against the min
-	 *            dimensions provided by the tag
-	 * @param distance
-	 *            the distance of the actual move event
-	 * @param itemTag
-	 *            tag to fetch min dimensions from
-	 * @param which
-	 *            discriminates resizing direction
-	 * @return true if further resizing is possible, false if the size
-	 *         restriction has been met
+	 * @param params the params of the active item to compare against the min dimensions provided by the tag
+	 * @param distance the distance of the actual move event
+	 * @param itemTag tag to fetch min dimensions from
+	 * @param which discriminates resizing direction
+	 * @return true if further resizing is possible, false if the size restriction has been met
 	 */
 	public boolean checkMinSize(RelativeLayout.LayoutParams params,
 			float distance, Bundle itemTag, int which)

@@ -11,7 +11,11 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import de.ur.rk.uibuilder.R;
+
+
 /**
+ * This class is representing the sidebar fragment and provides the user interface
+ * to choose an object type from the library of supported types
  * 
  * @author funklos
  *
@@ -39,6 +43,9 @@ public class ItemboxFragment extends Fragment implements
 		return layout;
 	}
 
+	/**
+	 * Get references to the library elements and set onTouchlistener
+	 */
 	private void setupLibraryUi()
 	{
 		ImageButton createButton = (ImageButton) layout.findViewById(R.id.element_button);
@@ -92,6 +99,11 @@ public class ItemboxFragment extends Fragment implements
 		super.onCreate(savedInstanceState);
 	}
 
+	/**
+	 * Set activated states for visual feedback.
+	 * Deactivate the former selection and notify
+	 * the listener of the event.
+	 */
 	@Override
 	public boolean onTouch(View v, MotionEvent event)
 	{
@@ -101,7 +113,6 @@ public class ItemboxFragment extends Fragment implements
 			{
 				active.setActivated(false);
 			}
-			
 			active = v;
 			active.setActivated(true);
 		}
@@ -120,7 +131,8 @@ public class ItemboxFragment extends Fragment implements
 	}
 
 	/**
-	 * 
+	 * Interface to notify listeners that the user has selected another type
+	 * of view he wants to create.
 	 * @author funklos
 	 *
 	 */

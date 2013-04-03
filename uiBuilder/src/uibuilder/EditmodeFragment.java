@@ -1,9 +1,7 @@
 package uibuilder;
 
-import helpers.ImageTools;
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,8 +39,6 @@ public class EditmodeFragment extends Fragment
 	private LinearLayout linearRoot;
 	private View currentView;
 
-	private ImageTools imageHandler;
-
 	private Module 
 			alignModule,
 			userTextModule,
@@ -56,25 +52,7 @@ public class EditmodeFragment extends Fragment
 			listLayoutModule,
 			starCountModule,
 			zOrderModule;
-	
-	private Context context;
 
-	@Override
-	public void onAttach(Activity activity)
-	{
-		// TODO Auto-generated method stub
-		super.onAttach(activity);
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState)
-	{
-		Log.d("Editmode Fragment", "onCreate called");
-
-		context = getActivity();
-		imageHandler = new ImageTools(context);
-		super.onCreate(savedInstanceState);
-	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState)
@@ -101,6 +79,8 @@ public class EditmodeFragment extends Fragment
 	}
 
 	/**
+	 * The only result delivered to this fragment is an imagePick intent.
+	 * The requestCode is checked and differentiated inside the @see ImageModule
 	 * @author funklos
 	 */
 	@Override
@@ -115,6 +95,10 @@ public class EditmodeFragment extends Fragment
 			
 	}
 
+	/**
+	 * Instantiate the modules to be displayed in the sidebar.
+	 * @see Module
+	 */
 	private void getModules()
 	{
 		alignModule = new AlignModule(this);
@@ -131,7 +115,17 @@ public class EditmodeFragment extends Fragment
 		zOrderModule = new ZOrderModule(this);
 	}
 
-
+	/**
+	 * Called from @see UiBuilderActivity when the selected view on the
+	 * designArea has changed.
+	 * This method checks which element type has focus, resets the state of
+	 * the sidebar and loads the
+	 * correct sidebar option menus for editing the properties.
+	 * The config methods call for an container instance by calling .getInstance on
+	 * the module classes
+	 * For the general concept @see Module
+	 * @param view
+	 */
 	protected void adaptLayoutToContext(View view)
 	{
 		currentView = view;
@@ -139,8 +133,7 @@ public class EditmodeFragment extends Fragment
 		Bundle tagBundle = (Bundle) currentView.getTag();
 		int id = tagBundle.getInt(ObjectValues.TYPE);
 
-		linearRoot.removeAllViews();
-		
+		resetState();
 		configDefault();
 
 		switch (id)
@@ -204,13 +197,25 @@ public class EditmodeFragment extends Fragment
 		root.invalidate();
 	}
 
+	/**
+	 * Clear the sidebar
+	 */
+	private void resetState()
+	{
+		linearRoot.removeAllViews();
+	}
+
+	/**
+	 * selected type is SeekBar
+	 */
 	private void configSeekBar()
 	{
 		linearRoot.addView(backgroundColorModule.getInstance(currentView));
-
-		
 	}
 
+	/**
+	 * selected type is gridView
+	 */
 	private void configGrid()
 	{
 		linearRoot.addView(contentModule.getInstance(currentView));
@@ -218,17 +223,26 @@ public class EditmodeFragment extends Fragment
 		linearRoot.addView(gridLayoutModule.getInstance(currentView));
 	}
 
+	/**
+	 * selected type is listView
+	 */
 	private void configListView()
 	{
 		linearRoot.addView(contentModule.getInstance(currentView));
 		linearRoot.addView(listLayoutModule.getInstance(currentView));
 	}
 
+	/**
+	 * selected type is TextView
+	 */
 	private void configTextView()
 	{
 		configButton();
 	}
 
+	/**
+	 * selected type is Switch
+	 */
 	private void configSwitch()
 	{
 		configCheckBox();	
@@ -238,14 +252,19 @@ public class EditmodeFragment extends Fragment
 	{
 		linearRoot.addView(starCountModule.getInstance(currentView));
 		linearRoot.addView(backgroundColorModule.getInstance(currentView));
-
 	}
 
+	/**
+	 * selected type is RadioButton
+	 */
 	private void configRadioGroup()
 	{
 		configCheckBox();	
 	}
 
+	/**
+	 * selected type is ImageView
+	 */
 	private void configImageView()
 	{
 		linearRoot.addView(imageModule.getInstance(currentView));
@@ -253,25 +272,34 @@ public class EditmodeFragment extends Fragment
 		linearRoot.addView(iconModule.getInstance(currentView));
 	}
 
+	/**
+	 * selected type is EditText
+	 */
 	private void configEditText()
 	{
 		configButton();	
 	}
 
 	/**
-	 * 
+	 * Load a default configuration for all objects: just z-order is in common for all
 	 */
 	private void configDefault()
 	{
 		linearRoot.addView(zOrderModule.getInstance(currentView));
 	}
-
+	
+	/**
+	 * selected type is CheckBox
+	 */
 	private void configCheckBox()
 	{
 		linearRoot.addView(userTextModule.getInstance(currentView));
 		linearRoot.addView(backgroundColorModule.getInstance(currentView));
 	}
 
+	/**
+	 * selected type is Button
+	 */
 	private void configButton()
 	{
 		linearRoot.addView(userTextModule.getInstance(currentView));
