@@ -2,37 +2,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/designfragment_background"
-     >
+    android:background="@color/designfragment_background" >
 
-    <include 
-        layout="@layout/activity_manager_new_screen_layout"
+    <include
         android:id="@+id/activity_manager_included_new"
-        
-        />
+        layout="@layout/activity_manager_new_screen_layout"
+
+         />
+
     <GridView
-        android:padding="@dimen/default_padding_medium"
         android:id="@+id/manager_activity_project_grid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_toRightOf="@id/activity_manager_included_new"
         android:animateLayoutChanges="true"
-        android:verticalSpacing="@dimen/default_padding_medium"
-        
-        
         android:cacheColorHint="#ff000000"
-        android:requiresFadingEdge="vertical"
-        android:fadingEdgeLength="10dp" 
+        android:choiceMode="none"
+        android:drawSelectorOnTop="true"
+        android:fadingEdgeLength="10dp"
+        android:listSelector="@drawable/manager_grid_selected"
+        android:numColumns="4"
         android:overScrollMode="always"
-        
+        android:padding="@dimen/default_padding_medium"
+        android:requiresFadingEdge="vertical"
         android:scrollingCache="true"
         android:smoothScrollbar="true"
-        android:drawSelectorOnTop="true"
-        
-        android:choiceMode="none"
-        android:listSelector="@drawable/manager_grid_selected"
-        
-        android:layout_below="@id/activity_manager_included_new"
-        android:numColumns="4" >
+        android:verticalSpacing="@dimen/default_padding_medium" >
     </GridView>
 
 </RelativeLayout>

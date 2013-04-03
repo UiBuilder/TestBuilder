@@ -7,6 +7,8 @@
     
     <!-- MANAGER -->
     <string name="manager_caption_create">Create new screen</string>
+    <string name="manager_new_screen_button_text">Create</string>
+    <string name="manager_screenname_edittext">Enter Screen Name</string>
     <string name="manager_caption_confirm">Yes</string>
     <string name="manager_caption_cancel">No</string>
     <string name="manager_caption_ask"><b>Delete</b> \n this screen?</string>
