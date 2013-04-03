@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="@dimen/default_padding_large"
-    >
+    android:padding="@dimen/default_padding_large" >
 
     <TextView
         android:id="@+id/activity_manager_new_screen_caption"
@@ -16,12 +15,12 @@
         android:id="@+id/newscreen_namebox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/default_padding_medium"
         android:layout_alignLeft="@id/activity_manager_new_screen_caption"
         android:layout_alignRight="@id/activity_manager_new_screen_caption"
         android:layout_below="@id/activity_manager_new_screen_caption"
         android:background="@color/editbox_item_background_normal"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:padding="@dimen/default_padding_medium" >
 
         <EditText
             android:id="@+id/activity_manager_new_screen_name"
@@ -33,8 +32,7 @@
             android:hint="@string/manager_screenname_edittext"
             android:imeOptions="actionDone|flagNoFullscreen"
             android:inputType="text"
-            android:singleLine="true"
-            android:textColor="@android:color/white" />
+            android:singleLine="true" />
 
         <Button
             android:id="@+id/new_screen_button"
