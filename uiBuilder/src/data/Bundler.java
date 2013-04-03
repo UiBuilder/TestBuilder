@@ -186,6 +186,7 @@ public class Bundler
 			scaleType = Overlay.BOTH;
 			createMode = R.drawable.object_background_default_button;
 			presMode = R.drawable.presentation_button_default;
+			tagBundle.putInt(ObjectValues.FONTSIZE, 16);
 			break;
 
 		case R.id.element_textview:
