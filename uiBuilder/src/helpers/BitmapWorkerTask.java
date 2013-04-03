@@ -8,14 +8,26 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
+/**
+ * Class to load image resources off of the ui thread.
+ * Uses the approach from @see http://developer.android.com/training/displaying-bitmaps/process-bitmap.html
+ * to load and set them async.
+ * uses weak references which can be easily freed when the imageView which requested the resource is no longer displayed on the screen.
+ * @author funklos
+ *
+ */
 public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> 
 {
     private final WeakReference<ImageView> imageViewReference;
     private String data = null;
+    
+    private int measuredWidth, measuredHeight;
 
     public BitmapWorkerTask(ImageView imageView) 
     {
         // Use a WeakReference to ensure the ImageView can be garbage collected
+    	measuredHeight = imageView.getMeasuredHeight();
+    	measuredWidth = imageView.getMeasuredWidth();
         imageViewReference = new WeakReference<ImageView>(imageView);
         
         Log.d("image worker", "instantiated");
@@ -32,48 +44,36 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap>
 
     private Bitmap decodeSampledBitmap(String photoPath)
 	{
-    	//try
-    	{
-	    	if (photoPath != null && imageViewReference.get()!= null)
+    	if (photoPath != null)
+		{
+	
+			/* Get the size of the image */
+			BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+			bmOptions.inJustDecodeBounds = true;
+			BitmapFactory.decodeFile(photoPath, bmOptions);
+			int photoW = bmOptions.outWidth;
+			int photoH = bmOptions.outHeight;
+	
+			/* Figure out which way needs to be reduced less */
+			int scaleFactor = 8;
+			if ((measuredWidth > 0) && (measuredHeight > 0))
 			{
-	    		ImageView v = imageViewReference.get();
-	    		
-				int targetW = ((ImageView) v).getMeasuredWidth();
-				int targetH = ((ImageView) v).getMeasuredHeight();
-		
-				/* Get the size of the image */
-				BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-				bmOptions.inJustDecodeBounds = true;
-				BitmapFactory.decodeFile(photoPath, bmOptions);
-				int photoW = bmOptions.outWidth;
-				int photoH = bmOptions.outHeight;
-		
-				/* Figure out which way needs to be reduced less */
-				int scaleFactor = 8;
-				if ((targetW > 0) && (targetH > 0))
-				{
-					Log.d("imagecontainer w", String.valueOf(photoW));
-					Log.d("imagecontainer w", String.valueOf(targetW));
-					scaleFactor = Math.min(photoW / targetW, photoH / targetH);
-				}
-				
-				Log.d("scalefactor of image", String.valueOf(scaleFactor));
-				/* Set bitmap options to scale the image decode target */
-				bmOptions.inJustDecodeBounds = false;
-				bmOptions.inSampleSize = scaleFactor;
-				bmOptions.inDither = true;
-				bmOptions.inPreferQualityOverSpeed = true;
-				bmOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;
-				bmOptions.inPurgeable = true;
-		
-				/* Decode the JPEG file into a Bitmap */
-				return BitmapFactory.decodeFile(photoPath, bmOptions);
+				scaleFactor = Math.min(photoW / measuredWidth, photoH / measuredHeight);
 			}
-			return null;
-    	}
-    	//catch (Exception e) {
-			// TODO: handle exception
-		//}
+			
+			Log.d("scalefactor of image", String.valueOf(scaleFactor));
+			/* Set bitmap options to scale the image decode target */
+			bmOptions.inJustDecodeBounds = false;
+			bmOptions.inSampleSize = scaleFactor;
+			bmOptions.inDither = true;
+			bmOptions.inPreferQualityOverSpeed = true;
+			bmOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;
+			bmOptions.inPurgeable = true;
+	
+			/* Decode the JPEG file into a Bitmap */
+			return BitmapFactory.decodeFile(photoPath, bmOptions);
+		}
+		return null;
 	}
 
 	// Once complete, see if ImageView is still around and set bitmap.

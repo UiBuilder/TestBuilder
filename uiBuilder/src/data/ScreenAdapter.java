@@ -4,7 +4,6 @@ package data;
 import helpers.ImageTools;
 import android.content.Context;
 import android.database.Cursor;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +13,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import de.ur.rk.uibuilder.R;
 
+
+/**
+ * Used to bind the provided cursor to the gridView in @see ManagerActivity
+ * Maps the cursor data to the corresponding views provided by the layout.
+ * @author funklos
+ *
+ */
 public class ScreenAdapter extends CursorAdapter
 {
 
@@ -34,18 +40,13 @@ public class ScreenAdapter extends CursorAdapter
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
-		Log.d("screenadapter", "getview");
-		
-		/*if (position == 0)
-		{
-			return inflater.inflate(R.layout.activity_manager_new_screen_layout, null);
-		}
-		else */return super.getView(position, convertView, parent);
-		
-		//return super.getView(position, convertView, parent);
+		return super.getView(position, convertView, parent);
 	}
 
-
+	/**
+	 * Responsible for mapping and inserting data.
+	 * Calls an async task to display the preview images.
+	 */
 	@Override
 	public void bindView(View view, Context context, Cursor cursor)
 	{
@@ -77,15 +78,9 @@ public class ScreenAdapter extends CursorAdapter
         	Log.d("photocursor", "set default");
         	preView.setImageDrawable(context.getResources().getDrawable(R.drawable.manager_blank_screen));
         }
-		
-		Time creation = new Time();
-		creation.parse3339(date);
-		String creationS = creation.format("%d.%m.%Y %H:%M");
-		
 
 		titleView.setText(title);
-		dateView.setText(creationS);
-
+		dateView.setText(date);
 	}
 
 

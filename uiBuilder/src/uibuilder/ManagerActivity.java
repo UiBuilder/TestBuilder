@@ -1,5 +1,9 @@
 package uibuilder;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.LoaderManager;
@@ -13,7 +17,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.format.Time;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -64,11 +68,12 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		super.onResume();
 	}
 	
-
+	/**
+	 * if a grid item is showing its delete-option-screen, back press is hiding the delete screen
+	 */
 	@Override
 	public void onBackPressed()
 	{
-		//if a grid item is showing its delete-option-screen, back press is hiding the delete screen
 		if (deleteInProgress)
 		{
 			returnToNormalMode(deleteScreenShowing);
@@ -259,7 +264,8 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		});
 	}
 	/**
-	 * @param deleteScreen
+	 * Shows the items deleteScreen, which is initially invisible.
+	 * @param deleteScreen the gridItems layout, which is requesting the operation
 	 */
 	private void setToDeleteMode(RelativeLayout deleteScreen)
 	{
@@ -270,8 +276,8 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 
 	
 	/**
-	 * @param item
-	 * @param hidden
+	 * Hides the deleteScreen part of the layout again.
+	 * @param item the gridItems layout, which is requesting the operation
 	 */
 	private void returnToNormalMode(RelativeLayout deleteScreen)
 	{
@@ -281,23 +287,26 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	}
 
 	/**
-	 * 
+	 * Initialize an async loader, to load the saved screens from the database contained
+	 * in @see ScreenProvider and init a new adapter to be connected to the grid in @see onLoadFinished
 	 */
 	private void setupDatabaseConnection()
 	{
 		manager = getLoaderManager();
 		manager.initLoader(ScreenProvider.SCREENS_LOADER, null, this);
 		adapter = new ScreenAdapter(getApplicationContext(), null, true);
-
 	}
 	
+	/**
+	 * Restart the loader to update the cusror data.
+	 */
 	private void invalidated()
 	{
 		manager.restartLoader(ScreenProvider.SCREENS_LOADER, null, this);
 	}
 
 	/**
-	 * 
+	 * initial setup for interaction
 	 */
 	private void setupUi()
 	{
@@ -307,7 +316,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	}
 
 	/**
-	 * customize actionbar
+	 * customize actionbar to match the overall ui-style of the app
 	 */
 	private void setupActionBar()
 	{
@@ -317,31 +326,63 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		bar.setBackgroundDrawable(getResources().getDrawable(R.color.designfragment_background));
 	}
 
+	/**
+	 * Called when a new screen is requested by the user.
+	 */
 	private void startForNewScreen()
 	{
 		putInDatabase();
 	}
 	
+	/**
+	 * Insert a new row in the Screenproviders screens table.
+	 * Fetch the values to insert by @see getNewScreenValues
+	 * 
+	 */
 	private void putInDatabase()
 	{
 		ContentResolver res = getContentResolver();
+		res.insert(ScreenProvider.CONTENT_URI_SCREENS, getNewScreenValues());
+	}
+	
+	/**
+	 * Generates the content Value object to insert into the screen provider
+	 * @return
+	 */
+	private ContentValues getNewScreenValues()
+	{
 		ContentValues values = new ContentValues();
 		
-		Time time = new Time();
-		String tz = Time.getCurrentTimezone();
-		time.switchTimezone(tz);
-		time.setToNow();
+		String now = generateDate();
 
-	    
 		values.put(ScreenProvider.KEY_SCREEN_PREVIEW, 0);
-		values.put(ScreenProvider.KEY_SCREEN_DATE, time.format3339(false));
+		values.put(ScreenProvider.KEY_SCREEN_DATE, now);
 		values.put(ScreenProvider.KEY_SCREEN_NAME, screenName.getText().toString());
 		
-		res.insert(ScreenProvider.CONTENT_URI_SCREENS, values);
+		return values;
+	}
+	
+	/**
+	 * generate a new date string based on the users timezone.
+	 * @return
+	 */
+	private String generateDate()
+	{	
+		Calendar currentDateCal = Calendar.getInstance();
+		currentDateCal.setTimeZone(TimeZone.getDefault());
 		
-		invalidated();
+		Date date = currentDateCal.getTime();
+		
+		return DateFormat.format("dd.MM.yyyy, kk:mm", date).toString();
 	}
 
+	/**
+	 * start a new @see UiBuilderActivity with the associated screen id, to be used as identifier for objects
+	 * which will be inserted in the objects table.
+	 * shows a slide animation when showing the new activity.
+	 * @param screen
+	 * @param id
+	 */
 	private void startForEditing(View screen, long id)
 	{
 		Intent start = new Intent(getApplicationContext(), UiBuilderActivity.class);

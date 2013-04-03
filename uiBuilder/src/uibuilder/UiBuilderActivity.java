@@ -36,9 +36,14 @@ import de.ur.rk.uibuilder.R;
 import editmodules.ImageModule;
 import editmodules.ImageModule.onImageImportListener;
 
-public class UiBuilderActivity extends Activity implements
-		onUiElementSelectedListener, onObjectSelectedListener,
-		onDeleteRequestListener, LoaderCallbacks<Cursor>, onImageImportListener
+public class UiBuilderActivity 
+								extends Activity 
+								implements
+								onUiElementSelectedListener, 
+								onObjectSelectedListener,
+								onDeleteRequestListener, 
+								LoaderCallbacks<Cursor>, 
+								onImageImportListener
 {
 
 	@Override
@@ -47,10 +52,11 @@ public class UiBuilderActivity extends Activity implements
 		return super.dispatchTouchEvent(ev);
 	}
 
-	public static final int ITEMBOX = 0x00;
-	public static final int EDITBOX = 0x01;
-	public static final int DELETEBOX = 0x02;
-	public static final int NOTHING = 0x03;
+	public static final int 
+			ITEMBOX = 0x00, 
+			EDITBOX = 0x01, 
+			DELETEBOX = 0x02, 
+			NOTHING = 0x03;
 
 	private ItemboxFragment itembox;
 	private EditmodeFragment editbox;
@@ -65,15 +71,12 @@ public class UiBuilderActivity extends Activity implements
 	private ToDatabaseObjectWriter objectWriter;
 	private FromDatabaseObjectLoader objectBundleLoader;
 
-
 	private int screenId;
-	private boolean isPreview = false;
-	private boolean intentStarted = false;
+	private boolean isPreview = false, intentStarted = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.layout_fragment_container);
@@ -90,6 +93,12 @@ public class UiBuilderActivity extends Activity implements
 		checkDb();
 	}
 
+	/**
+	 * load the objects in onResume, for the case the activity was killed.
+	 * No data reloading is necessary if the activity was stopped by an media intent,
+	 * originating from this app.
+	 * by the system to free up memory resources.
+	 */
 	@Override
 	protected void onResume()
 	{	
@@ -107,14 +116,23 @@ public class UiBuilderActivity extends Activity implements
 		super.onResume();
 	}
 	
-
+	
+	/**
+	 * The onStop method is always called by the framework.
+	 * To differentiate if onStop was called because of an intent
+	 * launched from this app, intentStarted is checked, which is set to true
+	 * by an interface callback, in the case of an intent originating from an
+	 * activity or fragment by this app.
+	 * In this case, no database insertion is desired, to avoid duplicates or
+	 * a complete reload of the objects displayed on the designArea.
+	 */
 	@Override
 	protected void onStop()
 	{		
-		Log.d("stoppingsaving state to database", "saving state to database");
 		
 		if(!intentStarted)
 		{
+			Log.d("stoppingsaving state to database", "saving state to database");
 			saveStateToDatabase();
 		}
 		
@@ -154,6 +172,7 @@ public class UiBuilderActivity extends Activity implements
 	/**
 	 * Fetch a reference to the loader manager to generate a new loader instance, which is responsible
 	 * for loading the associated objects data from the ScreenProvider's objects table.
+	 * @see onLoadFinished for the description of processing the results.
 	 */
 	private void checkDb()
 	{
@@ -302,8 +321,7 @@ public class UiBuilderActivity extends Activity implements
 	 * Adapt the sidebar to create or edit mode. Is called from the interface
 	 * implementation.
 	 * 
-	 * @param sidebarType
-	 *            specifies which of the sidebars to display
+	 * @param sidebarType specifies which of the sidebars to display
 	 */
 
 	public boolean displaySidebar(int sidebarType)
@@ -434,7 +452,9 @@ public class UiBuilderActivity extends Activity implements
 		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_EDIT);
 	}
 
-	
+	/**
+	 * Called when the toggle preview menu button was clicked by the user
+	 */
 	private void togglePreview()
 	{
 		designbox.deleteOverlay();
@@ -451,6 +471,7 @@ public class UiBuilderActivity extends Activity implements
 	}
 
 	/**
+	 * Hide the itembox and disable all interactions for the designarea
 	 * @param item
 	 */
 	private void enablePreviewMode()
@@ -464,6 +485,7 @@ public class UiBuilderActivity extends Activity implements
 	}
 
 	/**
+	 * Shows the sidebar again and reactivate the interaction listeners again. 
 	 * @param item
 	 */
 	private void disablePreviewMode()
@@ -548,6 +570,9 @@ public class UiBuilderActivity extends Activity implements
 	}
 
 	/**
+	 * Creates a loader responsible for async ScreenProvider queries in the objects table.
+	 * The selection (WHERE clause) restricts the query to objects belonging to the screen
+	 * which is edited by the activity.
 	 * @author funklos
 	 */
 	@Override
@@ -582,14 +607,23 @@ public class UiBuilderActivity extends Activity implements
 	}
 
 	/**
+	 * Do nothing on this callback. The screen should not be updated when the objects table was
+	 * updated, because all elements are already in the viewtree of the designArea.
 	 * @author funklos
 	 */
 	@Override
 	public void onLoaderReset(Loader<Cursor> arg0)
 	{
-
+		
 	}
 
+	/**
+	 * Switches the style of the objects in the designArea to represent the preview or
+	 * edit mode.
+	 * Calls the grabber for a list of references and updates their visual presentation.
+	 * @param designbox
+	 * @param displayStyle
+	 */
 	private void changeDisplayMode(View designbox, String displayStyle)
 	{
 		ArrayList<View> viewList;
@@ -604,6 +638,12 @@ public class UiBuilderActivity extends Activity implements
 	}
 
 
+	/**
+	 * interface callback to tell the activity that it is going to be covered by an
+	 * activity, started by an intent, such as an mediaPickIntent or a shareIntent, which is launched
+	 * by the app itself.
+	 * In this case, no database insertion should be processed.
+	 */
 	@Override
 	public void prepareForBackground()
 	{

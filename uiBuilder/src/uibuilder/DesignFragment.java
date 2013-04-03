@@ -2,6 +2,7 @@ package uibuilder;
 
 import helpers.GridSnapper;
 import helpers.Log;
+import helpers.ScreenRatioChanger;
 import manipulators.Grid;
 import manipulators.Overlay;
 import android.app.Fragment;
@@ -48,7 +49,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	private int nextObjectId;
 
 	private View currentTouch;
-
+	public static final float dings = 160f;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,39 +60,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		designArea = (RelativeLayout) root.findViewById(R.id.design_area);
 		parent = (RelativeLayout) designArea.getParent();
 		
-		designArea.post(new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				resizeDrawingArea();
-			}
-
-			/**
-			 * @author funklos Resizes the designArea according to the screen
-			 *         size after the layouting process has finished, to have
-			 *         access to measured dimensions
-			 */
-			private void resizeDrawingArea()
-			{
-				// int rootWidth = designArea.getMeasuredWidth();
-				// int rootHeight = rootWidth / 16 * 9;
-
-				int rootHeight = designArea.getHeight();
-				int rootWidth = Math.round(rootHeight / 16f * 10f);
-
-				int handleSize = getResources().getDimensionPixelSize(R.dimen.default_overlay_handle_dimension);
-				int maxWidth = rootWidth - 2 * handleSize;
-				int maxHeight = rootHeight - 2 * handleSize;
-
-				RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) designArea.getLayoutParams();
-				params.width = GridSnapper.snapToGrid(maxWidth);
-				params.height = GridSnapper.snapToGrid(maxHeight);
-
-				designArea.setLayoutParams(params);
-				designArea.forceLayout();
-			}
-		});
+		designArea.post(new ScreenRatioChanger(designArea, this.getActivity()));
 		return root;
 	}
 
@@ -202,8 +171,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		}
 		
 		int pointer = event.getPointerId(getIndex(event));
-		int pointerCount = event.getPointerCount();
-		//Log.d("pointer", String.valueOf(pointer));
+
 		Log.d("first down", String.valueOf(event.getPointerCount()));
 		
 		//catch Multitouch events
@@ -268,6 +236,9 @@ public class DesignFragment extends Fragment implements OnDragListener,
 						break;
 				}
 				break;
+				
+				//This part of code works but is flickering, provides multitouch
+				//resizing when scalelistener disabled. we still have to work on this
 /*
 		case MotionEvent.ACTION_MOVE:
 			currentTouch = v;
@@ -350,13 +321,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	{
 		detector.setIsLongpressEnabled(false);
 		dragIndicator = currentTouch;
-		/*
-		if(dragIndicator != null)
-		{
-			drag2 = currentTouch;
-			drag2.setActivated(true);
-		}
-		*/
 		dragIndicator.setActivated(true);
 
 		Log.d("dragOverlay", "drag handle selected");
@@ -637,7 +601,11 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	}
 
 	/**
-	 * 
+	 * Call the implementing listener to notify of selection changes on the
+	 * designArea.
+	 * objectchanged: another object has focus, pass it to adapt to new conditions @see EditmodeFragment and @see Module
+	 * objectselected: used to trigger the @see EditmodeFragment
+	 * objectdragging: a drag is in progress, show the @see DeleteFragment
 	 * @author funklos
 	 * 
 	 */
@@ -658,6 +626,10 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		DesignFragment.listener = listener;
 	}
 
+	/**
+	 * called from the parent activity @see UiBuilderActivity
+	 * to perform a requested delete operation
+	 */
 	protected void performDelete()
 	{
 		designArea.removeView(activeItem);
@@ -670,7 +642,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	}
 
 	/**
-	 * 
+	 * removes the object from the database
 	 */
 	private void removeFromDb()
 	{
@@ -687,6 +659,10 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		}
 	}
 
+	/**
+	 * called from @see UiBuilderActivity when the user has selected the preview option
+	 * @param disable
+	 */
 	protected void disableTouch(boolean disable)
 	{
 		isPreviewing = disable;

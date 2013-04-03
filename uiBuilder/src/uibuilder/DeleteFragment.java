@@ -22,12 +22,14 @@ public class DeleteFragment extends Fragment implements OnDragListener
 		View root = inflater.inflate(R.layout.layout_deletebox_fragment, container, false);
 		
 		this.container = (LinearLayout) root.findViewById(R.id.deletebox_container);
-
 		container.setOnDragListener(this);
 		
 		return root;
 	}
 
+	/**
+	 * Adjust the containers visual presentation to reflect the events.
+	 */
 	@Override
 	public boolean onDrag(View draggingView, DragEvent event)
 	{
@@ -38,20 +40,21 @@ public class DeleteFragment extends Fragment implements OnDragListener
 			return true;
 			
 		case DragEvent.ACTION_DRAG_ENTERED:
+			
 			container.setBackgroundResource(R.drawable.ui_deletebox_active_border);
-
 			return true;
 					
 		case DragEvent.ACTION_DRAG_LOCATION:
 			return true;
 			
 		case DragEvent.ACTION_DRAG_EXITED:
-			container.setBackgroundResource(R.drawable.object_background_default);
 			
+			container.setBackgroundResource(R.drawable.object_background_default);
 			return false;
 			
 		case DragEvent.ACTION_DROP:
-			//container.setBackgroundResource(R.drawable.object_background_default);
+			
+			container.setBackgroundResource(R.drawable.object_background_default);
 			listener.requestDelete();
 			return true;
 
@@ -63,7 +66,10 @@ public class DeleteFragment extends Fragment implements OnDragListener
 	}
 
 	/**
-	 * 
+	 * The interface callback is called when the user successfully dropped the item
+	 * on the drop area.
+	 * The DeleteFragment just request a delete operation, the interface is implemented by
+	 * the @see uibuilderactivity, handles the event.
 	 * @author funklos
 	 *
 	 */

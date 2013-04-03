@@ -55,6 +55,7 @@ public class ImageTools
 	}
 	
 	/**
+	 * Used as a factory method to return new intents associated with media imports.
 	 * @autor android developers photobyintent example MODIFIED by @author funklos
 	 * @param which
 	 * @return
@@ -108,12 +109,12 @@ public class ImageTools
 
 	}
 	/**
+	 * Called when the user has taken a picture to insert into his project.
 	 * @autor android developers photobyintent example MODIFIED by @author funklos
 	 * @param destination
 	 */
 	public void handleCameraPhoto(View destination)
 	{
-
 		if (photoPath != null)
 		{
 			Log.d("path", "not null");
@@ -126,6 +127,8 @@ public class ImageTools
 	}
 
 	/**
+	 * Fetch the path of the image chosen from the gallery and set the related picture 
+	 * as a background resource of the destination view.
 	 * @autor android developers photobyintent example MODIFIED by @author funklos
 	 * @param destination
 	 * @param data
@@ -142,9 +145,12 @@ public class ImageTools
 		}
 	}
 	/**
+	 * Generates a screenshot of the content of the designArea, to be used as a preview image in the manager
+	 * grid or to be passed on to an share intent.
 	 * @author funklos
 	 * @param root
 	 * @param cres
+	 * @return the uri pointing to the image file
 	 */
 	public Uri requestBitmap(View root, ContentResolver cres, boolean insert, boolean intern, int screenId)
 	{
@@ -183,8 +189,7 @@ public class ImageTools
 			}
 		}
 		else
-		{	
-			
+		{			
 			try
 			{
 				this.screenId = screenId;
@@ -220,6 +225,9 @@ public class ImageTools
 	}
 
 	/**
+	 * Calls the public static implementation which uses the async data loading approach.
+	 * Set the path of the image in the tag bundle of the passed view.
+	 * 
 	 * @autor android developers photobyintent example MODIFIED by @author funklos
 	 * @param v the target to receive the picture
 	 */
@@ -233,6 +241,11 @@ public class ImageTools
 		tagBundle.putInt(ObjectValues.ICN_SRC, 0);
 	}
 
+	/**
+	 * use an async worker task to load the image in background and set it to the destination few.
+	 * @param v
+	 * @param path
+	 */
 	public static void setPic(View v, String path)
 	{
 		BitmapWorkerTask task = new BitmapWorkerTask((ImageView) v);
@@ -265,6 +278,7 @@ public class ImageTools
 	}
 	
 	/**
+	 * Adds the new picture to the gallery
 	 * @autor android developers photobyintent example
 	 */
 	private void galleryAddPic()
@@ -277,6 +291,7 @@ public class ImageTools
 	}
 
 	/**
+	 * Fetches the default paths
 	 * @autor android developers photobyintent example
 	 */
 	private String getAlbumName()
