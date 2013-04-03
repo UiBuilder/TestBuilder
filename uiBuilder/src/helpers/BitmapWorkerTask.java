@@ -32,42 +32,48 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap>
 
     private Bitmap decodeSampledBitmap(String photoPath)
 	{
-    	if (photoPath != null)
-		{
-    		ImageView v = imageViewReference.get();
-    		
-			int targetW = ((ImageView) v).getMeasuredWidth();
-			int targetH = ((ImageView) v).getMeasuredHeight();
-	
-			/* Get the size of the image */
-			BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-			bmOptions.inJustDecodeBounds = true;
-			BitmapFactory.decodeFile(photoPath, bmOptions);
-			int photoW = bmOptions.outWidth;
-			int photoH = bmOptions.outHeight;
-	
-			/* Figure out which way needs to be reduced less */
-			int scaleFactor = 8;
-			if ((targetW > 0) && (targetH > 0))
+    	//try
+    	{
+	    	if (photoPath != null && imageViewReference.get()!= null)
 			{
-				Log.d("imagecontainer w", String.valueOf(photoW));
-				Log.d("imagecontainer w", String.valueOf(targetW));
-				scaleFactor = Math.min(photoW / targetW, photoH / targetH);
+	    		ImageView v = imageViewReference.get();
+	    		
+				int targetW = ((ImageView) v).getMeasuredWidth();
+				int targetH = ((ImageView) v).getMeasuredHeight();
+		
+				/* Get the size of the image */
+				BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+				bmOptions.inJustDecodeBounds = true;
+				BitmapFactory.decodeFile(photoPath, bmOptions);
+				int photoW = bmOptions.outWidth;
+				int photoH = bmOptions.outHeight;
+		
+				/* Figure out which way needs to be reduced less */
+				int scaleFactor = 8;
+				if ((targetW > 0) && (targetH > 0))
+				{
+					Log.d("imagecontainer w", String.valueOf(photoW));
+					Log.d("imagecontainer w", String.valueOf(targetW));
+					scaleFactor = Math.min(photoW / targetW, photoH / targetH);
+				}
+				
+				Log.d("scalefactor of image", String.valueOf(scaleFactor));
+				/* Set bitmap options to scale the image decode target */
+				bmOptions.inJustDecodeBounds = false;
+				bmOptions.inSampleSize = scaleFactor;
+				bmOptions.inDither = true;
+				bmOptions.inPreferQualityOverSpeed = true;
+				bmOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;
+				bmOptions.inPurgeable = true;
+		
+				/* Decode the JPEG file into a Bitmap */
+				return BitmapFactory.decodeFile(photoPath, bmOptions);
 			}
-			
-			Log.d("scalefactor of image", String.valueOf(scaleFactor));
-			/* Set bitmap options to scale the image decode target */
-			bmOptions.inJustDecodeBounds = false;
-			bmOptions.inSampleSize = scaleFactor;
-			bmOptions.inDither = true;
-			bmOptions.inPreferQualityOverSpeed = true;
-			bmOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;
-			bmOptions.inPurgeable = true;
-	
-			/* Decode the JPEG file into a Bitmap */
-			return BitmapFactory.decodeFile(photoPath, bmOptions);
-		}
-		return null;
+			return null;
+    	}
+    	//catch (Exception e) {
+			// TODO: handle exception
+		//}
 	}
 
 	// Once complete, see if ImageView is still around and set bitmap.

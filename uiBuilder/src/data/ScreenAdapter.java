@@ -90,9 +90,10 @@ public class ScreenAdapter extends CursorAdapter
 
 
 	@Override
-	public View newView(Context con, Cursor cursor, ViewGroup root)
+	public View newView(Context context, Cursor cursor, ViewGroup root)
 	{
 		View view = inflater.inflate(R.layout.activity_manager_grid_item_layout, root, false);
+		bindView(view, context, cursor);
 		Log.d("screenadapter", "newview");
 		return view;	
 	}

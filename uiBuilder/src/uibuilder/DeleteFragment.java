@@ -74,7 +74,7 @@ public class DeleteFragment extends Fragment implements OnDragListener
 
 	private static onDeleteRequestListener listener;
 
-	public static void onDeleteRequestListener(
+	public static void setOnDeleteRequestListener(
 			onDeleteRequestListener listener)
 	{
 		DeleteFragment.listener = listener;

@@ -1,8 +1,5 @@
 package helpers;
 
-import data.ObjectValues;
-import android.os.Bundle;
-import android.view.View;
 import android.widget.RelativeLayout;
 
 public class CollisionChecker

@@ -122,7 +122,8 @@ public class UiBuilderActivity extends Activity implements
 	}
 
 	/**
-	 * 
+	 * Fetch a reference to the designArea and pass it as a parameter to the ToDatabaseObjectWriter
+	 * instance, which fetches a childviews and inserts them into the ScreenProvider in an async task.
 	 */
 	private void saveStateToDatabase()
 	{
@@ -133,7 +134,11 @@ public class UiBuilderActivity extends Activity implements
 		objectWriter.execute(designArea);
 	}
 
-
+	/**
+	 * Get the passed intent from the Manager activity and fetch the content id of the screen which should be
+	 * edited. The id specifies which database entries to load and to which screen new generated objects
+	 * should be associated.
+	 */
 	private void checkIntent()
 	{
 		Intent intent = getIntent();
@@ -146,6 +151,10 @@ public class UiBuilderActivity extends Activity implements
 		}
 	}
 
+	/**
+	 * Fetch a reference to the loader manager to generate a new loader instance, which is responsible
+	 * for loading the associated objects data from the ScreenProvider's objects table.
+	 */
 	private void checkDb()
 	{
 		manager = getLoaderManager();
@@ -186,18 +195,30 @@ public class UiBuilderActivity extends Activity implements
 		else
 		{
 			//export screen as a preview to display it in the screen manager
-			changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_PRES);
-	
-			Uri imageUri = exporter.requestBitmap(designbox.getView(), getContentResolver(), false, true, screenId);
-	
-			changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_EDIT);
-			
-			Intent returnIntent = new Intent();
-			returnIntent.putExtra(ManagerActivity.RESULT_SCREEN_ID, screenId);
-			returnIntent.putExtra(ManagerActivity.RESULT_IMAGE_PATH,imageUri.toString());
-			setResult(RESULT_OK, returnIntent);     
-			finish();
+			returnToManager();
 		}
+	}
+
+	/**
+	 * Make a screenshot in presentation mode to display as preview in the manager grid.
+	 * Put the information about the loaction of the picture as extra
+	 * and return to manager activity with an overridden transition.
+	 */
+	private void returnToManager()
+	{
+		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_PRES);
+
+		Uri imageUri = exporter.requestBitmap(designbox.getView(), getContentResolver(), false, true, screenId);
+
+		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_EDIT);
+		
+		Intent returnIntent = new Intent();
+		returnIntent.putExtra(ManagerActivity.RESULT_SCREEN_ID, screenId);
+		returnIntent.putExtra(ManagerActivity.RESULT_IMAGE_PATH,imageUri.toString());
+		setResult(RESULT_OK, returnIntent); 
+		
+		finish();
+		overridePendingTransition(R.anim.activity_transition_from_left_in, R.anim.activity_transition_to_right_out);
 	}
 	
 	@Override
@@ -210,19 +231,21 @@ public class UiBuilderActivity extends Activity implements
 		if (resultCode == Activity.RESULT_OK)
 			switch (requestCode)
 			{
-
-			case ImageTools.SHARE:
-				Toast.makeText(getApplicationContext(), getString(R.string.confirmation_share_via_mail), Toast.LENGTH_SHORT).show();
-				break;
+				case ImageTools.SHARE:
+					Toast.makeText(getApplicationContext(), getString(R.string.confirmation_share_via_mail), Toast.LENGTH_LONG).show();
+					break;
 			}
 	}
 
 	/**
 	 * Create UI-Fragment instances and set the activity as listener for changes
+	 * @see onUiElementSelectedListener
+	 * @see onObjectSelectedListener
+	 * @see onDeleteRequestListener
+	 * @see onImageImportListener
 	 */
 	private void setupUi()
 	{
-
 		itembox = new ItemboxFragment();
 		editbox = new EditmodeFragment();
 		designbox = new DesignFragment();
@@ -230,13 +253,14 @@ public class UiBuilderActivity extends Activity implements
 
 		ItemboxFragment.setOnUiElementSelectedListener(this);
 		DesignFragment.setOnObjectSelectedListener(this);
-		DeleteFragment.onDeleteRequestListener(this);
+		DeleteFragment.setOnDeleteRequestListener(this);
 		ImageModule.setOnImageImportListener(this);
+		
 		setActionBarStyle();
-
 	}
 
 	/**
+	 * Configure the action bar to match the ui-style.
 	 * @author funklos
 	 */
 	private void setActionBarStyle()
@@ -245,7 +269,9 @@ public class UiBuilderActivity extends Activity implements
 
 		bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME);
 		bar.setBackgroundDrawable(getResources().getDrawable(R.color.designfragment_background));
-
+		
+		bar.setDisplayHomeAsUpEnabled(true);
+		bar.setDisplayOptions(ActionBar.NAVIGATION_MODE_STANDARD|ActionBar.DISPLAY_SHOW_HOME|ActionBar.DISPLAY_HOME_AS_UP);
 	}
 
 
@@ -354,7 +380,14 @@ public class UiBuilderActivity extends Activity implements
 			break;
 
 		case R.id.action_preview:
+			
 			togglePreview();
+			break;
+			
+		case android.R.id.home:
+			
+			returnToManager();
+			break;
 
 		default:
 			break;

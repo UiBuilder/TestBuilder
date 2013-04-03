@@ -141,7 +141,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 				Uri imageUpdate = ContentUris.withAppendedId(ScreenProvider.CONTENT_URI_SCREENS, id);
 				
 				res.update(imageUpdate, image, null, null);
-				invalidated();
+				//invalidated();
 			}
 		}	
 	}
@@ -348,6 +348,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		start.putExtra(DATABASE_SCREEN_ID, (int)id);
 		
 		startActivityForResult(start, REQUEST_SCREEN);
+		overridePendingTransition(R.anim.activity_transition_from_right_in, R.anim.activity_transition_to_left_out);
 	}
 
 
