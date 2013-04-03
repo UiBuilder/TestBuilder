@@ -1,11 +1,13 @@
 package editmodules;
 
 import uibuilder.EditmodeFragment;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.NumberPicker.OnValueChangeListener;
 import android.widget.TextView;
+import data.ObjectValues;
 import de.ur.rk.uibuilder.R;
 
 /**
@@ -20,6 +22,7 @@ public class FontSizeModule extends Module
 {
 	private LinearLayout box;
 	private View requesting;
+	private Bundle valuesBundle;
 	
 	private NumberPicker picker;
 	
@@ -66,7 +69,8 @@ public class FontSizeModule extends Module
 	public LinearLayout getInstance(View inProgress)
 	{
 		requesting = inProgress;
-		
+		valuesBundle = (Bundle) requesting.getTag();
+
 		adaptToContext();
 		return box;
 	}
@@ -75,8 +79,8 @@ public class FontSizeModule extends Module
 	@Override
 	protected void adaptToContext()
 	{
-		// TODO Auto-generated method stub
-		picker.setValue((int) ((TextView) requesting).getTextSize());
+		
+		picker.setValue(valuesBundle.getInt(ObjectValues.FONTSIZE));
 	}
 	
 	private class FontsizeModuleListener implements OnValueChangeListener
@@ -86,6 +90,7 @@ public class FontSizeModule extends Module
 		public void onValueChange(NumberPicker picker, int oldVal, int newVal)
 		{
 			((TextView) requesting).setTextSize(newVal);
+			valuesBundle.putInt(ObjectValues.FONTSIZE, newVal);
 			requesting.invalidate();
 		}
 	}
