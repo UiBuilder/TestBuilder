@@ -96,6 +96,7 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap>
             if (imageView != null) 
             {
                 imageView.setImageBitmap(bitmap);
+                imageView.invalidate();
             }
         }
     }

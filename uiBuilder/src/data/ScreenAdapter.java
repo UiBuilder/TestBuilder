@@ -55,7 +55,6 @@ public class ScreenAdapter extends CursorAdapter
 		TextView titleView = (TextView) view.findViewById(R.id.activity_manager_griditem_layout_title);
 		TextView dateView = (TextView) view.findViewById(R.id.activity_manager_griditem_layout_date);
 		ImageView preView = (ImageView) view.findViewById(R.id.activity_manager_griditem_layout_image);
-		//preView.setLayoutParams(new RelativeLayout.LayoutParams(200, 300));
 		
 		String title = cursor.getString(titleIdx);
 		String date = cursor.getString(dateIdx);
@@ -78,6 +77,8 @@ public class ScreenAdapter extends CursorAdapter
 
 		titleView.setText(title);
 		dateView.setText(date);
+		
+		view.invalidate();
 	}
 
 
