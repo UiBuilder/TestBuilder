@@ -21,7 +21,7 @@ import de.ur.rk.uibuilder.R;
  * Defines static access methods which return object properties in a structured way.
  * GgetValuePack is used to collect all the data from the supplied items tag to be inserted in the database.
  * getDefaultValueBundle returns a default bundle object which is requested when a new view is generated.
- * @author funklos
+ * @author funklos and jonesses
  *
  */
 public class Bundler
@@ -160,7 +160,7 @@ public class Bundler
 	 * 
 	 * We had to use the approach with the object tag bundle, because we need to track more properties as
 	 * the views can supply via getter methods.
-	 * 
+	 * @author funklos edited by jonesses
 	 * @param which the type of the requesting object.
 	 * @param res the resources to fetch references from
 	 * @return a bundle representing the default object properties
@@ -276,8 +276,7 @@ public class Bundler
 			defWidth = res.getInteger(R.integer.ratingbar_factor_default_width);
 			defHeight = res.getInteger(R.integer.ratingbar_factor_default_height);
 			scaleType = Overlay.BOTH;
-			tagBundle.putInt(ObjectValues.STARS_NUM, 5);
-			tagBundle.putInt(ObjectValues.RATING, 4);
+			
 			break;
 
 		case R.id.element_seekbar:
