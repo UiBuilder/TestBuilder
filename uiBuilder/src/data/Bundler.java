@@ -62,6 +62,8 @@ public class Bundler
 			valuesBundle.put(ObjectValues.USER_TEXT, (String) ((Button) object).getText());
 			valuesBundle.put(ObjectValues.FONTSIZE, (int) ((Button) object).getTextSize());
 			valuesBundle.put(ObjectValues.BACKGROUND_EDIT, objectBundle.getInt(ObjectValues.BACKGROUND_EDIT));
+			valuesBundle.put(ObjectValues.ALIGNMENT, ((TextView) object).getGravity());
+
 			Log.d("ObjectValueCollector", "put Button, with: "
 					+ (String) ((Button) object).getText() + " and Size:"
 					+ (int) ((Button) object).getTextSize());
@@ -143,6 +145,7 @@ public class Bundler
 			Log.d("ObjectValueCollector", "put TimePicker ");
 			break;
 		}
+		
 		valuesBundle.put(ObjectValues.BACKGROUND_EDIT, objectBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 		valuesBundle.put(ObjectValues.BACKGROUND_PRES,  objectBundle.getInt(ObjectValues.BACKGROUND_PRES));
 
@@ -186,7 +189,6 @@ public class Bundler
 			scaleType = Overlay.BOTH;
 			createMode = R.drawable.object_background_default_button;
 			presMode = R.drawable.presentation_button_default;
-			tagBundle.putInt(ObjectValues.FONTSIZE, 16);
 			break;
 
 		case R.id.element_textview:
@@ -326,6 +328,7 @@ public class Bundler
 		defWidth *= ObjectFactory.SNAP_GRID_INTERVAL;
 		defHeight *= ObjectFactory.SNAP_GRID_INTERVAL;
 		
+		tagBundle.putInt(ObjectValues.FONTSIZE, 16);
 		tagBundle.putInt(ObjectValues.BACKGROUND_PRES, presMode);
 		tagBundle.putInt(ObjectValues.BACKGROUND_EDIT, createMode);
 		tagBundle.putInt(ObjectValues.SCALETYPE, scaleType);

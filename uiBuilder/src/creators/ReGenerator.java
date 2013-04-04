@@ -110,7 +110,6 @@ public class ReGenerator extends AsyncTask<Bundle[], View, Void>
 			((TextView) xmlView).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
 			((TextView) xmlView).setTextSize(databaseBundle.getInt(ObjectValues.FONTSIZE));
 			properties.putInt(ObjectValues.FONTSIZE, databaseBundle.getInt(ObjectValues.FONTSIZE));
-
 			((TextView) xmlView).setGravity(databaseBundle.getInt(ObjectValues.ALIGNMENT));
 			break;
 
@@ -126,7 +125,6 @@ public class ReGenerator extends AsyncTask<Bundle[], View, Void>
 			((EditText) xmlView).setHint(databaseBundle.getString(ObjectValues.USER_TEXT));
 			((EditText) xmlView).setGravity(databaseBundle.getInt(ObjectValues.ALIGNMENT));
 			properties.putInt(ObjectValues.FONTSIZE, databaseBundle.getInt(ObjectValues.FONTSIZE));
-
 			((EditText) xmlView).setTextSize(databaseBundle.getInt(ObjectValues.FONTSIZE));
 			break;
 
