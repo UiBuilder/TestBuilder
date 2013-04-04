@@ -428,8 +428,11 @@ public class UiBuilderActivity
 
 	private void launchHelp()
 	{
+		prepareForBackground();
+		
 		Intent helpIntent = new Intent(getApplicationContext(), HelpActivity.class);
 		startActivity(helpIntent);
+		
 	}
 
 	/**
