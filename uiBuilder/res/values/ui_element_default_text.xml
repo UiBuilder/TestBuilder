@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- DEFAULT TEXTS AND HINTS -->
+    <string name="edittext_hint_default">Enter some text</string>
+    <string name="checkbox_caption_default">Option</string>
+    <string name="button_caption_default">Button</string>
+    <string name="radios_caption_default">Option</string>
+    <string name="item_edit_enter_text">Text Content</string>
+    <string name="item_edit_caption_switch">Option</string>
+    
+</resources>

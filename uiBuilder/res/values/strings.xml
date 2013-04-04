@@ -11,22 +11,16 @@
     <string name="manager_screenname_edittext">Enter Screen Name</string>
     <string name="manager_caption_confirm">Yes</string>
     <string name="manager_caption_cancel">No</string>
-    <string name="manager_caption_ask"><b>Delete</b> \n this screen?</string>
+    <string name="manager_caption_ask"><b>Delete</b> \nthis screen?</string>
+    <string name="manager_caption_unedited_screen">Unedited\nScreen\nTap to sketch.</string>
     
     <!-- STORAGE -->
-    <string name="album_name">uiBuilder</string>
+    <string name="album_name">Prime UI</string>
     <string name="preview_directory">previews</string>
     
     <!-- DROP AREA DESC -->
     <string name="droparea_hint">Drop here to delete</string>
 
-    <!-- DEFAULT TEXTS AND HINTS -->
-    <string name="edittext_hint_default">Enter some text</string>
-    <string name="checkbox_caption_default">Option</string>
-    <string name="button_caption_default">Button</string>
-    <string name="radios_caption_default">Option</string>
-    <string name="item_edit_enter_text">Text Content</string>
-    <string name="item_edit_caption_switch">Option</string>
 
     <!-- MENU ACTION -->
     <string name="menu_action_export_gallery">Export</string>
@@ -41,8 +35,8 @@
     <string name="intent_share_extra_text">Check-out the attached image file!</string>
 
     <!-- FEEDBACK -->
-    <string name="confirmation_save_to_gallery">Your layout has been saved to the gallery</string>
-    <string name="confirmation_share_via_mail">Your layout has been shared</string>
+    <string name="confirmation_save_to_gallery">Your layout has been saved to the gallery.</string>
+    <string name="confirmation_share_via_mail">Your layout has been shared.</string>
 
     <!-- ITEMBOX SIMPLE ELEMENTS -->
     <string name="itembox_simple_title">Simple Elements</string>
@@ -113,7 +107,7 @@
     <!-- EDITMODE TEXTELEMENT -->
     <string name="textview_content_default">Lorem Ipsum Dolor</string>
     <string name="item_edit_align_content">Content Alignment</string>
-      <string name="item_edit_enter_item_count">Anzahl der Elemente</string>
+      <string name="item_edit_enter_item_count">Number of Elements</string>
     <string name="item_edit_star_count">Select number of Stars</string>
     <string name="item_edit_star_rating">Adjust rating</string>
     <string name="item_edit_background_color">Background Color</string>

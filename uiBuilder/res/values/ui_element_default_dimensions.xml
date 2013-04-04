@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- Default Dimensions for elements expressed as factors, will be multiplied with grid factor to calculate the actual size -->
+    
+    <!-- button -->
+    <item name="button_factor_default_width" format="integer" type="integer">6</item>
+    <item name="button_factor_default_height" format="integer" type="integer">4</item>
+    
+    <!-- textview -->
+    <item name="textview_factor_default_width" format="integer" type="integer">8</item>
+    <item name="textview_factor_default_height" format="integer" type="integer">4</item>
+    
+    <!-- edittext -->
+    <item name="edittext_factor_default_width" format="integer" type="integer">10</item>
+    <item name="edittext_factor_default_height" format="integer" type="integer">4</item>
+    
+    <!-- imageview -->
+    <item name="image_factor_default_width" format="integer" type="integer">4</item>
+    <item name="image_factor_default_height" format="integer" type="integer">4</item>
+    
+    <!-- radio -->
+    <item name="radio_factor_default_width" format="integer" type="integer">8</item>
+    <item name="radio_factor_default_height" format="integer" type="integer">4</item>
+    
+    <!-- switch -->
+    <item name="switch_factor_default_width" format="integer" type="integer">11</item>
+    <item name="switch_factor_default_height" format="integer" type="integer">4</item>
+    
+    <!-- checkbox -->
+    <item name="checkbox_factor_default_width" format="integer" type="integer">10</item>
+    <item name="checkbox_factor_default_height" format="integer" type="integer">3</item>
+    
+    <!-- search -->
+    <item name="search_factor_default_width" format="integer" type="integer">14</item>
+    <item name="search_factor_default_height" format="integer" type="integer">6</item>
+    
+    <!-- numberpicker -->
+    <item name="numberpicker_factor_default_width" format="integer" type="integer">4</item>
+    <item name="numberpicker_factor_default_height" format="integer" type="integer">9</item>
+    
+    <!-- seekbar -->
+    <item name="seekbar_factor_default_width" format="integer" type="integer">8</item>
+    <item name="seekbar_factor_default_height" format="integer" type="integer">2</item>
+    
+     <!-- timepicker -->
+    <item name="timepicker_factor_default_width" format="integer" type="integer">13</item>
+    <item name="timepicker_factor_default_height" format="integer" type="integer">9</item>
+    
+    <!-- ratingbar -->
+    <item name="ratingbar_factor_default_width" format="integer" type="integer">18</item>
+    <item name="ratingbar_factor_default_height" format="integer" type="integer">3</item>
+    
+    <!-- list -->
+    <item name="list_factor_default_width" format="integer" type="integer">16</item>
+    <item name="list_factor_default_height" format="integer" type="integer">16</item>
+    
+    <!-- grid -->
+    <item name="grid_factor_default_width" format="integer" type="integer">20</item>
+    <item name="grid_factor_default_height" format="integer" type="integer">20</item>
+    
+</resources>

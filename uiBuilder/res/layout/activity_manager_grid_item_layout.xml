@@ -13,12 +13,12 @@
 		android:layout_alignParentLeft="true"
 		android:layout_alignParentRight="true"
 		
-        android:layout_width="200dp"
-        android:layout_height="300dp"
+        android:layout_width="@dimen/manager_grid_item_width"
+        android:layout_height="@dimen/manager_grid_item_height"
         android:gravity="center"
         
-        android:text="empty screen"
-        android:textColor="@color/fresh_aqua"
+        android:text="@string/manager_caption_unedited_screen"
+        android:textColor="@color/text_light"
         />
 
     <ImageView
@@ -27,11 +27,10 @@
 		android:layout_alignParentTop="true"
 		android:layout_alignParentLeft="true"
 		android:layout_alignParentRight="true"
-		android:antialias="true"
-		
+		android:antialias="true"	
 
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="@dimen/manager_grid_item_height"
         android:layout_gravity="center_horizontal"
         android:adjustViewBounds="true"
         android:scaleType="centerInside"
@@ -67,7 +66,7 @@
 			
 			android:background="@color/black_transparent"
         	android:layout_width="match_parent"
-        	android:layout_height="300dp"
+        	android:layout_height="@dimen/manager_grid_item_height"
         	android:padding="@dimen/default_padding_large"
         	
         	style="@android:attr/buttonBarStyle"
@@ -89,7 +88,7 @@
                 android:layout_centerInParent="true"/>
         
 	        <Button android:id="@+id/activity_manager_griditem_cancelbutton"
-	            android:layout_width="100dp"
+	            android:layout_width="@dimen/manager_grid_deletescreen_button_width"
 	            android:layout_height="wrap_content"
 	            
 	            android:layout_below="@id/activity_manager_griditem_delete_hint"
@@ -101,7 +100,7 @@
 	            />
 	        
 	        <Button android:id="@+id/activity_manager_griditem_deletebutton"
-	            android:layout_width="100dp"
+	            android:layout_width="@dimen/manager_grid_deletescreen_button_width"
 	            android:layout_height="wrap_content"
 	            
 	            android:layout_below="@id/activity_manager_griditem_delete_hint"
