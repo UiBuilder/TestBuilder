@@ -46,6 +46,7 @@ public class ScreenAdapter extends CursorAdapter
 	@Override
 	public void bindView(View view, Context context, Cursor cursor)
 	{
+		
 		Log.d("screenadapter", "bindview");
 		dateIdx = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_SCREEN_DATE);
 		titleIdx = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_SCREEN_NAME);
@@ -54,10 +55,28 @@ public class ScreenAdapter extends CursorAdapter
 		
 		TextView titleView = (TextView) view.findViewById(R.id.activity_manager_griditem_layout_title);
 		TextView dateView = (TextView) view.findViewById(R.id.activity_manager_griditem_layout_date);
-		ImageView preView = (ImageView) view.findViewById(R.id.activity_manager_griditem_layout_image);
+		
 		
 		String title = cursor.getString(titleIdx);
 		String date = cursor.getString(dateIdx);
+		
+
+		titleView.setText(title);
+		dateView.setText(date);
+		
+		view.invalidate();
+	}
+
+
+	@Override
+	public View newView(Context context, Cursor cursor, ViewGroup root)
+	{
+		View view = inflater.inflate(R.layout.activity_manager_grid_item_layout, root, false);
+		
+		bindView(view, context, cursor);
+		
+		//had to set the image here, else the view would not refresh properly
+		ImageView preView = (ImageView) view.findViewById(R.id.activity_manager_griditem_layout_image);
 		String photoFilePath = cursor.getString(previewIdx);
 		int id = cursor.getInt(idIdx);
 		
@@ -74,21 +93,8 @@ public class ScreenAdapter extends CursorAdapter
         	Log.d("photocursor", "set default");
         	preView.setImageDrawable(context.getResources().getDrawable(R.drawable.manager_blank_screen));
         }
-
-		titleView.setText(title);
-		dateView.setText(date);
 		
-		view.invalidate();
-	}
-
-
-	@Override
-	public View newView(Context context, Cursor cursor, ViewGroup root)
-	{
-		View view = inflater.inflate(R.layout.activity_manager_grid_item_layout, root, false);
-		
-		bindView(view, context, cursor);
-		
+		view.postInvalidate();
 		Log.d("screenadapter", "newview");
 		return view;	
 	}

@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ImageView;
 
 /**
@@ -21,9 +23,7 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap>
     @Override
 	protected void onPreExecute()
 	{
-		// TODO Auto-generated method stub
 		super.onPreExecute();
-
 	}
 
 	private final WeakReference<ImageView> imageViewReference;
@@ -96,7 +96,8 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap>
             if (imageView != null) 
             {
                 imageView.setImageBitmap(bitmap);
-                imageView.invalidate();
+                
+                imageView.postInvalidate();
             }
         }
     }

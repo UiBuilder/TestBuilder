@@ -42,6 +42,7 @@
         android:drawSelectorOnTop="false"
         android:persistentDrawingCache="all"
         android:alwaysDrawnWithCache="true"
+        android:scrollingCache="true"
         android:fastScrollEnabled="true"
         android:scrollbarThumbVertical="@color/fresh_aqua"
         android:scrollbarSize="@dimen/manager_grid_scroll_thumb"
@@ -49,7 +50,6 @@
         android:listSelector="@android:color/transparent"
         android:overScrollMode="never"
         
-        android:scrollingCache="true"
         android:smoothScrollbar="true"
         android:verticalSpacing="@dimen/default_padding_medium" >
     </GridView>
