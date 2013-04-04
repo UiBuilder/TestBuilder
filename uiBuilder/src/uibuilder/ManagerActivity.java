@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -91,6 +92,25 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		getMenuInflater().inflate(R.menu.manager, menu);
 		return true;
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+
+		switch (item.getItemId())
+		{
+
+		case R.id.manager_menu_action_about:	
+			
+			Intent aboutIntent = new Intent(ManagerActivity.this, AboutActivity.class);
+			startActivity(aboutIntent);
+			break;
+
+		default:
+			break;
+		}
+		return true;
+	}
 
 	/**
 	 * Create a new loader for the screen preview grid, querying the
@@ -114,8 +134,6 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		adapter.notifyDataSetChanged();
 
 		grid.setAdapter(adapter);
-		
-		//grid.invalidateViews();
 	}
 
 	@Override

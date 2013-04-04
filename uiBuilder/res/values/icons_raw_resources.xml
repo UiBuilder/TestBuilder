@@ -3,6 +3,7 @@
    <!-- TO EXPAND ICON LIBRARY: -->
    <!-- just put icon resources in raw folder and add the small and big version here. --> 
    <!-- they will automatically appear in the icon library -->
+   <!-- Resources compiled from: "Android 4+ Icons" hsigmond touchborder.com -->
     
     <!-- BIG icon resources -->
     <integer-array name="icons_big" >

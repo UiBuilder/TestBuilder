@@ -9,10 +9,10 @@
         android:title="@string/menu_action_preview_mode"
         android:titleCondensed="@string/menu_action_preview_mode"/>
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_help"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="@string/action_settings"/>
+        android:title="@string/action_help"/>
     <item
         android:id="@+id/action_export_jpeg"
         android:icon="@android:drawable/ic_menu_gallery"

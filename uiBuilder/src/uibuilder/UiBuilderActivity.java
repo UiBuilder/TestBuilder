@@ -402,6 +402,12 @@ public class UiBuilderActivity
 			togglePreview();
 			break;
 			
+		case R.id.action_help:
+			
+			launchHelp();
+			break;
+			
+			
 		case android.R.id.home:
 			
 			returnToManager();
@@ -411,6 +417,12 @@ public class UiBuilderActivity
 			break;
 		}
 		return true;
+	}
+
+	private void launchHelp()
+	{
+		Intent helpIntent = new Intent(getApplicationContext(), HelpActivity.class);
+		startActivity(helpIntent);
 	}
 
 	/**

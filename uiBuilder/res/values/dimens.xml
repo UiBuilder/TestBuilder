@@ -7,7 +7,7 @@
     <!-- Manager Grid -->
     <dimen name="manager_grid_item_width">200dp</dimen>
     <dimen name="manager_grid_item_height">300dp</dimen>
-    <dimen name="manager_grid_scroll_thumb">3dp</dimen>
+    <dimen name="manager_grid_scroll_thumb">2dp</dimen>
     <dimen name="manager_grid_deletescreen_button_width">100dp</dimen>
     
     <!-- Overlay -->
