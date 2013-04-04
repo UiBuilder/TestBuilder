@@ -44,6 +44,8 @@
 	                android:layout_height="wrap_content"
 	                
 	                android:text="content"
+	                android:padding="@dimen/default_padding_small"
+	                android:textColor="@color/text_dark"
 	                />
 	            
 	            

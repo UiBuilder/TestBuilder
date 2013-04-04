@@ -12,6 +12,8 @@
          android:layout_centerHorizontal="true"
          android:background="@android:color/white"
          
+         android:scrollbarThumbVertical="@color/fresh_aqua"
+         android:scrollbarSize="@dimen/manager_grid_scroll_thumb"
          >
 	    <LinearLayout 
 	        android:layout_width="wrap_content"
