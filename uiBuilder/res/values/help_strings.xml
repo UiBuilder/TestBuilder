@@ -2,7 +2,7 @@
 <resources>
 
     <string name="help_overlay_title">Select an object on Screen</string>
-    <string name="help_overlay_content">Once you have objects on your prototype, perform a single tap on one of them to activate the overlay shown left. You are now in editmode and able to adjust various parameters of the selected object. To deselect the object, simply tap somewhere else on the screen.</string>
+    <string name="help_overlay_content">Once you have objects on your prototype, perform a single tap on one of them to activate the overlay shown left.\nYou are now in editmode and able to adjust various parameters of the selected object.\n\nTo deselect the object, simply tap somewhere else on the screen.</string>
    
     <string name="help_dragmode_title">Change the position of objects</string>
     <string name="help_dragmode_content">While you are in editmode, you can drag objects around by dragging the center part of the overlay.</string>
@@ -11,8 +11,14 @@
     <string name="help_resize_content">While in editmode you can change the size of an object by dragging one of the handles surrounding the selected object.</string>
     
     <string name="help_delete_title">Delete Objects from screen</string>
-    <string name="help_delete_content">To delete unwanted objects simply drag the object out of the screen to the delezezone on the left. Dropping it over the delezezone will delete the object, dragging it back to the screen will reposition it. To cancel the operation drop the object on the black area around the virtual screen.</string>
+    <string name="help_delete_content">To delete unwanted objects simply drag the object out of the screen to the delezezone on the left.\nDropping it over the delezezone will delete the object, dragging it back to the screen will reposition it.\n\nTo cancel the operation drop the object on the black area around the virtual screen.</string>
+    
+    <string name="help_itembox_title">Create objects</string>
+    <string name="help_itembox_content">To create objects, tap on one of the objecttypes shown left. The selected objecttype is highlighted.\nTap on the virtual screen to create a new object at that point.</string>
+
+    <string name="help_manipulate_title">Fine-tune object appearance</string>
+    <string name="help_manipulate_content">Tap on the object you want to tune and then select one of the manipulation options shown left.\nTapping on one of the options will expand the box to show the possibilities.</string>
 
     
-    
+
 </resources>
