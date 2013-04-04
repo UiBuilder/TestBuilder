@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     
     android:id="@+id/activity_help_root"
-     >
+    >
      <ScrollView 
          android:layout_height="match_parent"
          android:layout_width="wrap_content"
@@ -21,207 +21,32 @@
 	        > 
 	        
 	        <!-- HELP OVERLAY -->
-	        <RelativeLayout 
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            
-	            android:padding="@dimen/default_padding_large"
-	            >
-	            
-	            <TextView android:id="@+id/help_placeholder"
-	                android:layout_width="200dp"
-	                android:layout_height="wrap_content"
-	                
-	                android:text="\u0020"
-	                
-	                />
-	            
-	            <ImageView android:id="@+id/help_image"
-	                android:layout_below="@id/help_placeholder"
-
-	                android:layout_width="200dp"
-	                android:layout_height="200dp"
-	                android:src="@raw/help_overlay"
-	                android:padding="@dimen/default_padding_large"
-	                />
-	            
-	            <TextView android:id="@+id/help_title"
-	                android:layout_toRightOf="@id/help_placeholder"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-
-	                android:layout_alignParentTop="true"
-	            	
-	            	android:text="harcode"
-	            	style="@style/editbox_header"
-	            	/>
-	            
-	            
-	            <TextView android:id="@+id/help_content"
-	                android:layout_below="@id/help_title"
-	                android:layout_toRightOf="@id/help_image"
-
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                
-	                android:text="content"
-	                />
-	            
-	            
-	        </RelativeLayout>
+	        
+	        <include 
+	           layout="@layout/activity_help_overlay"
+	           
+	           /> 
 	        
 	        <!-- HELP SCALE -->
 	        
-	        <RelativeLayout 
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            
-	            android:padding="@dimen/default_padding_large"
-	            >
-	            
-	            <TextView android:id="@+id/help_placeholder"
-	                android:layout_width="200dp"
-	                android:layout_height="wrap_content"
-	                
-	                android:text="\u0020"
-	                
-	                />
-	            
-	            <ImageView android:id="@+id/help_image"
-	                android:layout_below="@id/help_placeholder"
-
-	                android:layout_width="200dp"
-	                android:layout_height="200dp"
-	                android:src="@raw/help_resize_action"
-	                android:padding="@dimen/default_padding_large"
-	                />
-	            
-	            <TextView android:id="@+id/help_title"
-	                android:layout_toRightOf="@id/help_placeholder"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-
-	                android:layout_alignParentTop="true"
-	            	
-	            	android:text="harcode"
-	            	style="@style/editbox_header"
-	            	/>
-	            
-	            
-	            <TextView android:id="@+id/help_content"
-	                android:layout_below="@id/help_title"
-	                android:layout_toRightOf="@id/help_image"
-
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                
-	                android:text="content"
-	                />
-	            
-	            
-	        </RelativeLayout>
+	        <include 
+	           layout="@layout/activity_help_scale"
+	           
+	           />   
 	        
 	        <!-- HELP DRAG -->
 	        
-	        <RelativeLayout 
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            
-	            android:padding="@dimen/default_padding_large"
-	            >
-	            
-	            <TextView android:id="@+id/help_placeholder"
-	                android:layout_width="200dp"
-	                android:layout_height="wrap_content"
-	                
-	                android:text="\u0020"
-	                
-	                />
-	            
-	            <ImageView android:id="@+id/help_image"
-	                android:layout_below="@id/help_placeholder"
-
-	                android:layout_width="200dp"
-	                android:layout_height="200dp"
-	                android:src="@raw/help_drag_active"
-	                android:padding="@dimen/default_padding_large"
-	                />
-	            
-	            <TextView android:id="@+id/help_title"
-	                android:layout_toRightOf="@id/help_placeholder"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-
-	                android:layout_alignParentTop="true"
-	            	
-	            	android:text="harcode"
-	            	style="@style/editbox_header"
-	            	/>
-	            
-	            
-	            <TextView android:id="@+id/help_content"
-	                android:layout_below="@id/help_title"
-	                android:layout_toRightOf="@id/help_image"
-
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                
-	                android:text="content"
-	                />
-	            
-	            
-	        </RelativeLayout>
+	        <include 
+	           layout="@layout/activity_help_drag"
+	           
+	           />
 	        
 	        <!-- HELP DROP -->
 	        
-	        <RelativeLayout 
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            
-	            android:padding="@dimen/default_padding_large"
-	            >
-	            
-	            <TextView android:id="@+id/help_placeholder"
-	                android:layout_width="200dp"
-	                android:layout_height="wrap_content"
-	                
-	                android:text="\u0020"
-	                
-	                />
-	            
-	            <ImageView android:id="@+id/help_image"
-	                android:layout_below="@id/help_placeholder"
-
-	                android:layout_width="200dp"
-	                android:layout_height="200dp"
-	                android:src="@raw/help_element_ot_of_dropzone"
-	                android:padding="@dimen/default_padding_large"
-	                />
-	            
-	            <TextView android:id="@+id/help_title"
-	                android:layout_toRightOf="@id/help_placeholder"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-
-	                android:layout_alignParentTop="true"
-	            	
-	            	android:text="harcode"
-	            	style="@style/editbox_header"
-	            	/>
-	            
-	            
-	            <TextView android:id="@+id/help_content"
-	                android:layout_below="@id/help_title"
-	                android:layout_toRightOf="@id/help_image"
-
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                
-	                android:text="content"
-	                />
-	            
-	            
-	        </RelativeLayout>
+	       <include 
+	           layout="@layout/activity_help_drop"
+	           
+	           />
 	        
 		   
 	    </LinearLayout>
