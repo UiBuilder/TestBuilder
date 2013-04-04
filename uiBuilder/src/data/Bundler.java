@@ -31,7 +31,7 @@ public class Bundler
 	 * Collects the items properties from the tagbundle
 	 * and
 	 * transfers them to a new contentValues object which will be inserted into the database.
-	 * 
+	 * @author jonesses
 	 * @param object the source view
 	 * @return contentValues which can be directly inserted into the database.
 	 */

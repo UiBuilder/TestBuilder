@@ -8,6 +8,12 @@ import android.view.Window;
 import android.widget.RelativeLayout;
 import de.ur.rk.uibuilder.R;
 
+/**
+ * Displays information about the app
+ * @author funklos and jonesses
+ *
+ */
+
 public class AboutActivity extends Activity
 {
 	RelativeLayout root;

@@ -12,7 +12,7 @@ import android.util.Log;
  * The bundles are collected in an arraylist and passed as an array, for type safeties sake.
  * A listener is notified via callback when all cursor entries are collected for further processing of the bundle array.
  * 
- * @author funklos
+ * @author jonesses  edited by funklos
  *
  */
 public class FromDatabaseObjectLoader

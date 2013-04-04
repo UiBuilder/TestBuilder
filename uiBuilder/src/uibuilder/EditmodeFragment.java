@@ -25,6 +25,12 @@ import editmodules.StarCountModule;
 import editmodules.UserTextModule;
 import editmodules.ZOrderModule;
 
+/**
+ * 
+ * @author funklos and jonesses
+ *
+ */
+
 public class EditmodeFragment extends Fragment
 {
 
@@ -124,6 +130,7 @@ public class EditmodeFragment extends Fragment
 	 * The config methods call for an container instance by calling .getInstance on
 	 * the module classes
 	 * For the general concept @see Module
+	 * @author jonesses edited by funklos
 	 * @param view
 	 */
 	protected void adaptLayoutToContext(View view)

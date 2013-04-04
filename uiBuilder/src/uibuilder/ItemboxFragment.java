@@ -17,7 +17,7 @@ import de.ur.rk.uibuilder.R;
  * This class is representing the sidebar fragment and provides the user interface
  * to choose an object type from the library of supported types
  * 
- * @author funklos
+ * @author funklos edited by jonesses
  *
  */
 public class ItemboxFragment extends Fragment implements

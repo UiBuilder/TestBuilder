@@ -1,6 +1,7 @@
 package uibuilder;
 
 import helpers.Log;
+
 import helpers.ScreenRatioChanger;
 import manipulators.Grid;
 import manipulators.Overlay;
@@ -27,6 +28,13 @@ import creators.ObjectFactory;
 import data.ObjectValues;
 import data.ScreenProvider;
 import de.ur.rk.uibuilder.R;
+
+
+/**
+ * 
+ * @author funklos and jonesses
+ *
+ */
 
 public class DesignFragment extends Fragment implements OnDragListener,
 		OnGestureListener, OnTouchListener, OnScaleGestureListener

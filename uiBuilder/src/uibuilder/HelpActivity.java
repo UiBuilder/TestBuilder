@@ -1,12 +1,20 @@
 package uibuilder;
 
 import android.app.Activity;
+
+
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.RelativeLayout;
 import de.ur.rk.uibuilder.R;
+
+/**
+ * Displays an explanation of the functionality of the app
+ * @author jonesses and funklos
+ *
+ */
 
 public class HelpActivity extends Activity
 {

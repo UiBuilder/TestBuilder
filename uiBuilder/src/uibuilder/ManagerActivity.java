@@ -36,6 +36,12 @@ import data.ScreenAdapter;
 import data.ScreenProvider;
 import de.ur.rk.uibuilder.R;
 
+/**
+ * Displays an overview over the screens created by the user. Screens can be created and deleted here.
+ * @author funklos edited and stuff added by jonesses
+ *
+ */
+
 public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 {
 	public static final int REQUEST_SCREEN = 0x00;

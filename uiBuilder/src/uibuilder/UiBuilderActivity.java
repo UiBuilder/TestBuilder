@@ -36,6 +36,12 @@ import de.ur.rk.uibuilder.R;
 import editmodules.ImageModule;
 import editmodules.ImageModule.onImageImportListener;
 
+/**
+ * This activity hosts the fragments for the design and manipulation of UIs
+ * @author jonesses and funklos
+ *
+ */
+
 public class UiBuilderActivity 
 								extends Activity 
 								implements
@@ -297,6 +303,7 @@ public class UiBuilderActivity
 	/**
 	 * Initial fragmenttransaction to display the fragments. Editbox is added
 	 * but hidden to guarantee access
+	 * @author jonesses edited by funklos
 	 */
 	private void performInitTransaction()
 	{
@@ -320,7 +327,7 @@ public class UiBuilderActivity
 	/**
 	 * Adapt the sidebar to create or edit mode. Is called from the interface
 	 * implementation.
-	 * 
+	 * @author jonesses slightly edited by funklos
 	 * @param sidebarType specifies which of the sidebars to display
 	 */
 
@@ -465,6 +472,7 @@ public class UiBuilderActivity
 	}
 
 	/**
+	 * @author jonesses
 	 * Called when the toggle preview menu button was clicked by the user
 	 */
 	private void togglePreview()
@@ -633,6 +641,7 @@ public class UiBuilderActivity
 	 * Switches the style of the objects in the designArea to represent the preview or
 	 * edit mode.
 	 * Calls the grabber for a list of references and updates their visual presentation.
+	 * @author jonesses
 	 * @param designbox
 	 * @param displayStyle
 	 */

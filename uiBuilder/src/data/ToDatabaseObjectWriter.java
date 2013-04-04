@@ -18,7 +18,7 @@ import android.view.ViewGroup;
  * Async Database Insertion and update for user generated objects.
  * Fetches a list of all objects in the designArea via an instance of the ChildGrabber class. 
  * 
- * @author funklos for async and @author jonesses writeObjects
+ * @author funklos for async and @author jonesses functionality
  *
  */
 public class ToDatabaseObjectWriter extends AsyncTask<View, Void, Void> 
@@ -74,7 +74,7 @@ public class ToDatabaseObjectWriter extends AsyncTask<View, Void, Void>
 	 * database with the contentValues object fetched by the Bundler.
 	 * 
 	 * The contentValues of the items without database id are put in an arrayList and bulkInserted as new database entries.
-	 * 
+	 * @author jonesses and funklos
 	 * @param root
 	 * @return
 	 */
