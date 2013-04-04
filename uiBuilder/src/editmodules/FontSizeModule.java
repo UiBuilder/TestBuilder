@@ -89,8 +89,9 @@ public class FontSizeModule extends Module
 		@Override
 		public void onValueChange(NumberPicker picker, int oldVal, int newVal)
 		{
-			((TextView) requesting).setTextSize(newVal);
 			valuesBundle.putInt(ObjectValues.FONTSIZE, newVal);
+
+			((TextView) requesting).setTextSize(valuesBundle.getInt(ObjectValues.FONTSIZE));
 			requesting.invalidate();
 		}
 	}
