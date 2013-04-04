@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    
+    android:id="@+id/activity_about_root"
+     >
+    <RelativeLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        
+        android:layout_centerInParent="true"
+        > 
+	    <ImageView android:id="@+id/activity_about_logo"
+	        android:layout_width="250dp"
+	        android:layout_height="250dp"
+	        
+	        android:layout_centerHorizontal="true"
+	        android:src="@raw/ic_ui_about"
+	        
+	        />
+	    
+	    <TextView android:id="@+id/activity_about_app_name"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        
+	        android:layout_below="@id/activity_about_logo"
+	        android:layout_centerHorizontal="true"
+	        
+	        android:text="@string/about_app_name"
+	        style="@style/itembox_header"
+	        
+	        android:gravity="center_horizontal"
+	        />
+	    
+	    <TextView android:id="@+id/activity_about_version"
+	        android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:layout_below="@id/activity_about_app_name"
+			android:layout_centerHorizontal="true"  
+			
+			android:text="@string/about_app_version"    
+			
+			android:gravity="center_horizontal"  
+	        />
+	    
+	    
+	    <TextView android:id="@+id/activity_about_year"
+	        android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:layout_below="@id/activity_about_version"
+			android:layout_centerHorizontal="true"
+			
+			android:text="@string/about_app_year"    
+			
+			android:gravity="center_horizontal"    
+	        />
+	    
+	    <TextView android:id="@+id/activity_about_devs"
+	        android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:layout_below="@id/activity_about_year"
+			android:layout_centerHorizontal="true"   
+			
+			android:padding="@dimen/default_padding_medium"
+			android:text="@string/about_app_devs"     
+	        />
+	    
+	    <TextView android:id="@+id/activity_about_desc"
+	        android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:layout_below="@id/activity_about_devs"
+			android:layout_centerHorizontal="true"  
+			
+			android:text="@string/about_app_desc"   
+			
+			android:gravity="center_horizontal"   
+	        />
+	    
+	    <TextView android:id="@+id/activity_about_res"
+	        android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			
+			android:layout_below="@id/activity_about_desc"
+			android:layout_centerHorizontal="true"  
+			
+			android:text="@string/about_app_resources"   
+			android:padding="@dimen/default_padding_medium"
+			android:gravity="center_horizontal"   
+	        />
+    </RelativeLayout>
+
+</RelativeLayout>
