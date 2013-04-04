@@ -7,16 +7,16 @@
     >
      <ScrollView 
          android:layout_height="match_parent"
-         android:layout_width="wrap_content"
+         android:layout_width="650dp"
          
          android:layout_centerHorizontal="true"
-         android:background="@android:color/white"
+         android:background="@color/superlight_grey"
          
          android:scrollbarThumbVertical="@color/fresh_aqua"
          android:scrollbarSize="@dimen/manager_grid_scroll_thumb"
          >
 	    <LinearLayout 
-	        android:layout_width="wrap_content"
+	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        
 	        android:orientation="vertical"
@@ -25,7 +25,16 @@
 	        <!-- HELP OVERLAY -->
 	        
 	        <include 
+	           layout="@layout/activity_help_itembox"
+	           android:layout_margin="@dimen/default_padding_small"
+	           
+	           /> 
+	        
+	        <!-- HELP OVERLAY -->
+	        
+	        <include 
 	           layout="@layout/activity_help_overlay"
+	           android:layout_margin="@dimen/default_padding_small"
 	           
 	           /> 
 	        
@@ -33,6 +42,7 @@
 	        
 	        <include 
 	           layout="@layout/activity_help_scale"
+	           android:layout_margin="@dimen/default_padding_small"
 	           
 	           />   
 	        
@@ -40,6 +50,7 @@
 	        
 	        <include 
 	           layout="@layout/activity_help_drag"
+	           android:layout_margin="@dimen/default_padding_small"
 	           
 	           />
 	        
@@ -47,6 +58,7 @@
 	        
 	       <include 
 	           layout="@layout/activity_help_drop"
+	           android:layout_margin="@dimen/default_padding_small"
 	           
 	           />
 	        

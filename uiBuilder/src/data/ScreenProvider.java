@@ -409,7 +409,7 @@ public class ScreenProvider extends ContentProvider
 						;
 		
 		
-		private static final int DB_VERSION = 31;
+		private static final int DB_VERSION = 32;
 		
 		private static final String CREATE = "create table if not exists ";
 		private static final String DROP = "DROP TABLE if exists ";	

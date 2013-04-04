@@ -9,31 +9,14 @@
 	            >
 	            
 	            
-	            <TextView android:id="@+id/help_placeholder"
-	                android:layout_width="200dp"
-	                android:layout_height="wrap_content"
-	                
-	                android:text="\u0020"
-	                
-	                />
-	            
-	            <ImageView android:id="@+id/help_image"
-	                android:layout_below="@id/help_placeholder"
-
-	                android:layout_width="200dp"
-	                android:layout_height="200dp"
-	                android:src="@raw/help_drag_active"
-	                android:padding="@dimen/default_padding_large"
-	                />
-	            
 	            <TextView android:id="@+id/help_title"
-	                android:layout_toRightOf="@id/help_placeholder"
+	                
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 
 	                android:layout_alignParentTop="true"
 	            	
-	            	android:text="@string/help_dragmode_title"
+	            	android:text="@string/help_itembox_title"
 	            	style="@style/editbox_header"
 	            	android:textSize="28sp"
 	            	/>
@@ -41,16 +24,28 @@
 	            
 	            <TextView android:id="@+id/help_content"
 	                android:layout_below="@id/help_title"
-	                android:layout_toRightOf="@id/help_image"
 
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	                
-	                android:text="@string/help_dragmode_content"
+	                android:text="@string/help_itembox_content"
 	                android:padding="@dimen/default_padding_small"
 	                android:textColor="@color/text_dark"
 	                style="@style/editbox_sub"
+	                
 	                />
+	            
+	            <ImageView android:id="@+id/help_image"
+	                android:layout_below="@id/help_content"
+
+					android:layout_centerHorizontal="true"
+	                android:layout_width="450dp"
+	                android:layout_height="450dp"
+	                android:src="@raw/help_itembox"
+	                android:padding="@dimen/default_padding_large"
+	                />
+	            
+	            
 	            
 	            
 	        </RelativeLayout>

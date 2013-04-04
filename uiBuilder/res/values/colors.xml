@@ -33,6 +33,7 @@
 	
 	<color name="superlight_grey_alpha">#88E0E0E0</color>
 	<color name="superlight_grey">#F0F3F4</color>
+	<color name="superlight_grey_dimmed">#E0E3E4</color>
 	<color name="fresh_aqua_solid">#00e0a3</color>
 	<color name="fresh_aqua">#aa00e0a3</color>
 	<color name="black_transparent">#DD000000</color>

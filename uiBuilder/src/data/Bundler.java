@@ -319,7 +319,6 @@ public class Bundler
 			
 		default:
 			Log.d("bundle ", "not built");
-			throw new NoClassDefFoundError();
 		}
 		
 		minWidth *= ObjectFactory.SNAP_GRID_INTERVAL;
