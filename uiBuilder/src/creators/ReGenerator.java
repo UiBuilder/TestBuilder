@@ -101,6 +101,7 @@ public class ReGenerator extends AsyncTask<Bundle[], View, Void>
 			
 			((Button)xmlView).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
 			((Button)xmlView).setTextSize(databaseBundle.getInt(ObjectValues.FONTSIZE));
+			properties.putInt(ObjectValues.FONTSIZE, databaseBundle.getInt(ObjectValues.FONTSIZE));
 			break;
 
 		case R.id.element_textview:
