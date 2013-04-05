@@ -14,7 +14,6 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import data.ObjectValues;
-import de.ur.rk.uibuilder.R;
 
 /**
  * Creates new Objects from the given Bundle[] which contains the properties of
