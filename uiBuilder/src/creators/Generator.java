@@ -61,67 +61,67 @@ public class Generator
 
 		switch (id)
 		{
-		case ObjectIds.OBJECT_ID_BUTTON:
+		case ObjectIdMapper.OBJECT_ID_BUTTON:
 			xmlView = builder.buildButton();
 			
 			break;
 
-		case ObjectIds.OBJECT_ID_TEXTVIEW:
+		case ObjectIdMapper.OBJECT_ID_TEXTVIEW:
 			xmlView = builder.buildTextview();
 			
 			break;
 
-		case ObjectIds.OBJECT_ID_IMAGEVIEW:
+		case ObjectIdMapper.OBJECT_ID_IMAGEVIEW:
 			xmlView = builder.buildImageView();
 			
 			break;
 
-		case ObjectIds.OBJECT_ID_EDITTEXT:
+		case ObjectIdMapper.OBJECT_ID_EDITTEXT:
 			xmlView = builder.buildEditText();
 			
 			break;
 
-		case ObjectIds.OBJECT_ID_RADIOGROUP:
+		case ObjectIdMapper.OBJECT_ID_RADIOGROUP:
 			xmlView = builder.buildRadioButtons();
 			
 			break;
 
-		case ObjectIds.OBJECT_ID_SWITCH:
+		case ObjectIdMapper.OBJECT_ID_SWITCH:
 			xmlView = builder.buildSwitch();
 
 			
 			break;
 
-		case ObjectIds.OBJECT_ID_CHECKBOX:
+		case ObjectIdMapper.OBJECT_ID_CHECKBOX:
 			xmlView = builder.buildCheckBox();
 
 			
 			break;
 
-		case ObjectIds.OBJECT_ID_LISTVIEW:
+		case ObjectIdMapper.OBJECT_ID_LISTVIEW:
 			xmlView = builder.buildListView();
 			
 			break;
 
-		case ObjectIds.OBJECT_ID_NUMBERPICKER:
+		case ObjectIdMapper.OBJECT_ID_NUMBERPICKER:
 			xmlView = builder.buildNumberPicker();
 
 			
 			break;
 
-		case ObjectIds.OBJECT_ID_RATINGBAR:
+		case ObjectIdMapper.OBJECT_ID_RATINGBAR:
 			xmlView = builder.buildRatingBar();
 
 			
 			break;
 
-		case ObjectIds.OBJECT_ID_SEEKBAR:
+		case ObjectIdMapper.OBJECT_ID_SEEKBAR:
 			xmlView = builder.buildSeekBar();
 
 			
 			break;
 
-		case ObjectIds.OBJECT_ID_TIMEPICKER:
+		case ObjectIdMapper.OBJECT_ID_TIMEPICKER:
 			xmlView = builder.buildTimePicker();
 
 			
@@ -132,7 +132,7 @@ public class Generator
 			
 			break;
 			*/
-		case ObjectIds.OBJECT_ID_GRIDVIEW:
+		case ObjectIdMapper.OBJECT_ID_GRIDVIEW:
 			xmlView = builder.buildGrid();
 			
 			break;

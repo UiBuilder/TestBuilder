@@ -1,6 +1,6 @@
 package editmodules;
 
-import creators.ObjectIds;
+import creators.ObjectIdMapper;
 import uibuilder.EditmodeFragment;
 import android.os.Bundle;
 import android.view.View;
@@ -163,12 +163,12 @@ public class BackgroundColorModule extends Module
 
 			switch (bundle.getInt(ObjectValues.TYPE))
 			{
-			case ObjectIds.OBJECT_ID_BUTTON:
+			case ObjectIdMapper.OBJECT_ID_BUTTON:
 				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_default_button);
 				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_button_default);
 				break;
 
-			case ObjectIds.OBJECT_ID_EDITTEXT:
+			case ObjectIdMapper.OBJECT_ID_EDITTEXT:
 				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_default_edittext);
 				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_border_medium);
 				break;

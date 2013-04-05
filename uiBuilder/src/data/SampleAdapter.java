@@ -1,6 +1,6 @@
 package data;
 
-import creators.ObjectIds;
+import creators.ObjectIdMapper;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -109,12 +109,12 @@ public class SampleAdapter
 
 		switch (id)
 		{
-		case ObjectIds.OBJECT_ID_LISTVIEW:
+		case ObjectIdMapper.OBJECT_ID_LISTVIEW:
 
 			setSampleListLayout(active, layout);
 			break;
 
-		case ObjectIds.OBJECT_ID_GRIDVIEW:
+		case ObjectIdMapper.OBJECT_ID_GRIDVIEW:
 
 			setSampleGridLayout(active, layout);
 			break;
@@ -168,11 +168,11 @@ public class SampleAdapter
 	{
 		switch (type)
 		{
-		case ObjectIds.OBJECT_ID_LISTVIEW:
+		case ObjectIdMapper.OBJECT_ID_LISTVIEW:
 			((ListView)inner).setAdapter(adapter);
 			break;
 
-		case ObjectIds.OBJECT_ID_GRIDVIEW:
+		case ObjectIdMapper.OBJECT_ID_GRIDVIEW:
 			((GridView)inner).setAdapter(adapter);
 			break;
 		default:

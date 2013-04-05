@@ -1,6 +1,6 @@
 package uibuilder;
 
-import creators.ObjectIds;
+import creators.ObjectIdMapper;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -146,54 +146,54 @@ public class EditmodeFragment extends Fragment
 
 		switch (id)
 		{
-		case ObjectIds.OBJECT_ID_BUTTON:
+		case ObjectIdMapper.OBJECT_ID_BUTTON:
 			
 			configButton();
 			break;
 
-		case ObjectIds.OBJECT_ID_CHECKBOX:
+		case ObjectIdMapper.OBJECT_ID_CHECKBOX:
 
 			configCheckBox();
 			break;
 
-		case ObjectIds.OBJECT_ID_EDITTEXT:
+		case ObjectIdMapper.OBJECT_ID_EDITTEXT:
 
 			configEditText();
 			break;
 
-		case ObjectIds.OBJECT_ID_IMAGEVIEW:
+		case ObjectIdMapper.OBJECT_ID_IMAGEVIEW:
 
 			configImageView();
 			break;
 
-		case ObjectIds.OBJECT_ID_RADIOGROUP:
+		case ObjectIdMapper.OBJECT_ID_RADIOGROUP:
 
 			configRadioGroup();
 			break;
-		case ObjectIds.OBJECT_ID_RATINGBAR:
+		case ObjectIdMapper.OBJECT_ID_RATINGBAR:
 			configRatingBar();
 			break;
 
-		case ObjectIds.OBJECT_ID_SWITCH:
+		case ObjectIdMapper.OBJECT_ID_SWITCH:
 			
 			configSwitch();
 			break;
-		case ObjectIds.OBJECT_ID_TEXTVIEW:
+		case ObjectIdMapper.OBJECT_ID_TEXTVIEW:
 
 			configTextView();
 			break;
 
-		case ObjectIds.OBJECT_ID_LISTVIEW:
+		case ObjectIdMapper.OBJECT_ID_LISTVIEW:
 			
 			configListView();
 			break;
 
-		case ObjectIds.OBJECT_ID_GRIDVIEW:
+		case ObjectIdMapper.OBJECT_ID_GRIDVIEW:
 
 			configGrid();
 			break;
 			
-		case ObjectIds.OBJECT_ID_SEEKBAR:
+		case ObjectIdMapper.OBJECT_ID_SEEKBAR:
 			
 			configSeekBar();
 			break;

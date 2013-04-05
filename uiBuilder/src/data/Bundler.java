@@ -15,7 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import creators.ObjectFactory;
-import creators.ObjectIds;
+import creators.ObjectIdMapper;
 import de.ur.rk.uibuilder.R;
 
 /**
@@ -59,7 +59,7 @@ public class Bundler
 
 		switch (tagId)
 		{
-		case ObjectIds.OBJECT_ID_BUTTON:
+		case ObjectIdMapper.OBJECT_ID_BUTTON:
 			valuesBundle.put(ObjectValues.USER_TEXT, (String) ((Button) object).getText());
 			valuesBundle.put(ObjectValues.FONTSIZE, (int) ((Button) object).getTextSize());
 			valuesBundle.put(ObjectValues.BACKGROUND_EDIT, objectBundle.getInt(ObjectValues.BACKGROUND_EDIT));
@@ -71,7 +71,7 @@ public class Bundler
 
 			break;
 
-		case ObjectIds.OBJECT_ID_CHECKBOX:
+		case ObjectIdMapper.OBJECT_ID_CHECKBOX:
 
 			TextView textView = (TextView) ((LinearLayout) object).getChildAt(0);
 			valuesBundle.put(ObjectValues.USER_TEXT, (String) textView.getText());
@@ -79,17 +79,17 @@ public class Bundler
 					+ (String) textView.getText());
 			break;
 
-		case ObjectIds.OBJECT_ID_RADIOGROUP:
+		case ObjectIdMapper.OBJECT_ID_RADIOGROUP:
 			valuesBundle.put(ObjectValues.USER_TEXT, ((RadioButton) object).getText().toString());
 			Log.d("ObjectValueCollector", "put radiogroup");
 			break;
 
-		case ObjectIds.OBJECT_ID_SWITCH:
+		case ObjectIdMapper.OBJECT_ID_SWITCH:
 			valuesBundle.put(ObjectValues.USER_TEXT, ((Switch) object).getText().toString());
 			Log.d("ObjectValueCollector", "put Switch");
 			break;
 
-		case ObjectIds.OBJECT_ID_EDITTEXT:
+		case ObjectIdMapper.OBJECT_ID_EDITTEXT:
 			valuesBundle.put(ObjectValues.USER_TEXT, (((EditText) object).getHint()).toString());
 			valuesBundle.put(ObjectValues.ALIGNMENT, ((TextView) object).getGravity());
 			valuesBundle.put(ObjectValues.FONTSIZE, (int) ((TextView) object).getTextSize());
@@ -97,14 +97,14 @@ public class Bundler
 			Log.d("ObjectValueCollector", "put edittext");
 			break;
 
-		case ObjectIds.OBJECT_ID_GRIDVIEW:
+		case ObjectIdMapper.OBJECT_ID_GRIDVIEW:
 			valuesBundle.put(ObjectValues.COLUMNS_NUM, ((GridView) ((RelativeLayout) object).getChildAt(0)).getNumColumns());
 			valuesBundle.put(ObjectValues.EXAMPLE_CONTENT, objectBundle.getInt(ObjectValues.EXAMPLE_CONTENT));
 			valuesBundle.put(ObjectValues.EXAMPLE_LAYOUT, objectBundle.getInt(ObjectValues.EXAMPLE_LAYOUT));
 			Log.d("ObjectValueCollector", "put Grid");
 			break;
 
-		case ObjectIds.OBJECT_ID_IMAGEVIEW:
+		case ObjectIdMapper.OBJECT_ID_IMAGEVIEW:
 			valuesBundle.put(ObjectValues.IMG_SRC, objectBundle.getString(ObjectValues.IMG_SRC));
 			valuesBundle.put(ObjectValues.ICN_SRC, objectBundle.getInt(ObjectValues.ICN_SRC));
 
@@ -112,29 +112,29 @@ public class Bundler
 			Log.d("ObjectValueCollector", "put Imageview"+ objectBundle.getString(ObjectValues.IMG_SRC));
 			break;
 
-		case ObjectIds.OBJECT_ID_LISTVIEW:
+		case ObjectIdMapper.OBJECT_ID_LISTVIEW:
 			valuesBundle.put(ObjectValues.EXAMPLE_CONTENT, objectBundle.getInt(ObjectValues.EXAMPLE_CONTENT));
 			valuesBundle.put(ObjectValues.EXAMPLE_LAYOUT, objectBundle.getInt(ObjectValues.EXAMPLE_LAYOUT));
 			Log.d("ObjectValueCollector", "put List, with: ");
 			break;
 
-		case ObjectIds.OBJECT_ID_NUMBERPICKER:
+		case ObjectIdMapper.OBJECT_ID_NUMBERPICKER:
 			Log.d("ObjectValueCollector", "put Numberpicker");
 			break;
 
-		case ObjectIds.OBJECT_ID_RATINGBAR:
+		case ObjectIdMapper.OBJECT_ID_RATINGBAR:
 			valuesBundle.put(ObjectValues.STARS_NUM, objectBundle.getInt(ObjectValues.STARS_NUM));
 			valuesBundle.put(ObjectValues.RATING, objectBundle.getInt(ObjectValues.RATING));
 			valuesBundle.put(ObjectValues.BACKGROUND_EDIT, objectBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 			Log.d("ObjectValueCollector", "put ratingbar, with: ");
 			break;
 
-		case ObjectIds.OBJECT_ID_SEEKBAR:
+		case ObjectIdMapper.OBJECT_ID_SEEKBAR:
 			Log.d("ObjectValueCollector", "put Seekbar ");
 
 			break;
 
-		case ObjectIds.OBJECT_ID_TEXTVIEW:
+		case ObjectIdMapper.OBJECT_ID_TEXTVIEW:
 			valuesBundle.put(ObjectValues.USER_TEXT, ((String) ((TextView) object).getText()));
 			valuesBundle.put(ObjectValues.ALIGNMENT, ((TextView) object).getGravity());
 			valuesBundle.put(ObjectValues.FONTSIZE, (int) ((TextView) object).getTextSize());
@@ -142,7 +142,7 @@ public class Bundler
 			Log.d("ObjectValueCollector", "put Textview");
 			break;
 
-		case ObjectIds.OBJECT_ID_TIMEPICKER:
+		case ObjectIdMapper.OBJECT_ID_TIMEPICKER:
 			Log.d("ObjectValueCollector", "put TimePicker ");
 			break;
 		}
@@ -181,7 +181,7 @@ public class Bundler
 
 		switch (which)
 		{
-		case ObjectIds.OBJECT_ID_BUTTON:
+		case ObjectIdMapper.OBJECT_ID_BUTTON:
 
 			minWidth = res.getInteger(R.integer.button_factor_width);
 			minHeight = res.getInteger(R.integer.button_factor_height);
@@ -192,7 +192,7 @@ public class Bundler
 			presMode = R.drawable.presentation_button_default;
 			break;
 
-		case ObjectIds.OBJECT_ID_TEXTVIEW:
+		case ObjectIdMapper.OBJECT_ID_TEXTVIEW:
 			
 			minWidth = res.getInteger(R.integer.textview_factor_width);
 			minHeight = res.getInteger(R.integer.textview_factor_height);
@@ -201,7 +201,7 @@ public class Bundler
 			scaleType = Overlay.BOTH;
 			break;
 
-		case ObjectIds.OBJECT_ID_IMAGEVIEW:
+		case ObjectIdMapper.OBJECT_ID_IMAGEVIEW:
 			
 			minWidth = res.getInteger(R.integer.image_factor_width);
 			minHeight = res.getInteger(R.integer.image_factor_height);
@@ -212,7 +212,7 @@ public class Bundler
 			tagBundle.putInt(ObjectValues.ICN_SRC, 0);
 			break;
 
-		case ObjectIds.OBJECT_ID_EDITTEXT:
+		case ObjectIdMapper.OBJECT_ID_EDITTEXT:
 
 			minWidth = res.getInteger(R.integer.edittext_factor_width);
 			minHeight = res.getInteger(R.integer.edittext_factor_height);
@@ -223,7 +223,7 @@ public class Bundler
 			presMode = R.drawable.presentation_border_medium;
 			break;
 
-		case ObjectIds.OBJECT_ID_RADIOGROUP:
+		case ObjectIdMapper.OBJECT_ID_RADIOGROUP:
 
 			minWidth = res.getInteger(R.integer.radio_factor_width);
 			minHeight = res.getInteger(R.integer.radio_factor_height);
@@ -232,7 +232,7 @@ public class Bundler
 			scaleType = Overlay.BOTH;
 			break;
 
-		case ObjectIds.OBJECT_ID_SWITCH:
+		case ObjectIdMapper.OBJECT_ID_SWITCH:
 			
 			minWidth = res.getInteger(R.integer.switch_factor_width);
 			minHeight = res.getInteger(R.integer.switch_factor_height);
@@ -241,7 +241,7 @@ public class Bundler
 			scaleType = Overlay.BOTH;
 			break;
 
-		case ObjectIds.OBJECT_ID_CHECKBOX:
+		case ObjectIdMapper.OBJECT_ID_CHECKBOX:
 			
 			minWidth = res.getInteger(R.integer.checkbox_factor_width);
 			minHeight = res.getInteger(R.integer.checkbox_factor_height);
@@ -250,7 +250,7 @@ public class Bundler
 			scaleType = Overlay.BOTH;
 			break;
 
-		case ObjectIds.OBJECT_ID_LISTVIEW:
+		case ObjectIdMapper.OBJECT_ID_LISTVIEW:
 			
 			minWidth = res.getInteger(R.integer.list_factor_width);
 			minHeight = res.getInteger(R.integer.list_factor_height);
@@ -261,7 +261,7 @@ public class Bundler
 			tagBundle.putInt(ObjectValues.EXAMPLE_LAYOUT, R.layout.item_listview_example_layout_1);
 			break;
 
-		case ObjectIds.OBJECT_ID_NUMBERPICKER:
+		case ObjectIdMapper.OBJECT_ID_NUMBERPICKER:
 			
 			minWidth = res.getInteger(R.integer.numberpicker_factor_width);
 			minHeight = res.getInteger(R.integer.numberpicker_factor_height);
@@ -270,7 +270,7 @@ public class Bundler
 			scaleType = Overlay.VERTICAL;
 			break;
 
-		case ObjectIds.OBJECT_ID_RATINGBAR:
+		case ObjectIdMapper.OBJECT_ID_RATINGBAR:
 			
 			minWidth = res.getInteger(R.integer.ratingbar_factor_width);
 			minHeight = res.getInteger(R.integer.ratingbar_factor_height);
@@ -281,7 +281,7 @@ public class Bundler
 			tagBundle.putInt(ObjectValues.RATING, 4);
 			break;
 
-		case ObjectIds.OBJECT_ID_SEEKBAR:
+		case ObjectIdMapper.OBJECT_ID_SEEKBAR:
 			
 			minWidth = res.getInteger(R.integer.seekbar_factor_width);
 			minHeight = res.getInteger(R.integer.seekbar_factor_height);
@@ -290,7 +290,7 @@ public class Bundler
 			scaleType = Overlay.HORIZONTAL;
 			break;
 
-		case ObjectIds.OBJECT_ID_TIMEPICKER:
+		case ObjectIdMapper.OBJECT_ID_TIMEPICKER:
 			
 			minWidth = res.getInteger(R.integer.timepicker_factor_width);
 			minHeight = res.getInteger(R.integer.timepicker_factor_height);
@@ -308,7 +308,7 @@ public class Bundler
 
 			break;
 			*/
-		case ObjectIds.OBJECT_ID_GRIDVIEW:
+		case ObjectIdMapper.OBJECT_ID_GRIDVIEW:
 			
 			minWidth = res.getInteger(R.integer.grid_factor_width);
 			minHeight = res.getInteger(R.integer.grid_factor_height);
