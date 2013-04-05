@@ -161,7 +161,7 @@ public class Bundler
 	 * 
 	 * We had to use the approach with the object tag bundle, because we need to track more properties as
 	 * the views can supply via getter methods.
-	 * 
+	 * @author funklos, modified by jonesses
 	 * @param which the type of the requesting object.
 	 * @param res the resources to fetch references from
 	 * @return a bundle representing the default object properties
