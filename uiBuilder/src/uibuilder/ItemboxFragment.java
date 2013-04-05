@@ -1,5 +1,6 @@
 package uibuilder;
 
+import creators.ObjectIds;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -121,7 +122,7 @@ public class ItemboxFragment extends Fragment implements
 		{
 		case MotionEvent.ACTION_UP:
 
-			listener.typeChanged(v.getId());
+			listener.typeChanged(mapType(v.getId()));
 			break;
 
 		default:
@@ -147,5 +148,51 @@ public class ItemboxFragment extends Fragment implements
 			onUiElementSelectedListener listener)
 	{
 		ItemboxFragment.listener = listener;
+	}
+	
+	private int mapType (int id)
+	{
+		switch (id)
+		{
+		case R.id.element_button:
+			return ObjectIds.OBJECT_ID_BUTTON;
+
+		case R.id.element_textview:
+			return ObjectIds.OBJECT_ID_TEXTVIEW;
+
+		case R.id.element_imageview:
+			return ObjectIds.OBJECT_ID_IMAGEVIEW;
+
+		case R.id.element_edittext:
+			return ObjectIds.OBJECT_ID_EDITTEXT;
+
+		case R.id.element_radiogroup:
+			return ObjectIds.OBJECT_ID_RADIOGROUP;
+
+		case R.id.element_switch:
+			return ObjectIds.OBJECT_ID_SWITCH;
+			
+		case R.id.element_checkbox:
+			return ObjectIds.OBJECT_ID_CHECKBOX;
+
+		case R.id.element_list:
+			return ObjectIds.OBJECT_ID_LISTVIEW;
+
+		case R.id.element_numberpick:
+			return ObjectIds.OBJECT_ID_NUMBERPICKER;
+
+		case R.id.element_ratingbar:
+			return ObjectIds.OBJECT_ID_RATINGBAR;
+
+		case R.id.element_seekbar:
+			return ObjectIds.OBJECT_ID_SEEKBAR;
+
+		case R.id.element_timepicker:
+			return ObjectIds.OBJECT_ID_TIMEPICKER;
+	
+		case R.id.element_grid:
+			return ObjectIds.OBJECT_ID_GRIDVIEW;
+		}
+		return 0;
 	}
 }

@@ -235,13 +235,13 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 		
 		switch (bundle.getInt(ObjectValues.TYPE))
 		{
-		case R.id.element_imageview:
+		case ObjectIds.OBJECT_ID_IMAGEVIEW:
 
 			setImageResource(newItem, bundle);
 			
 			break;
 
-		case R.id.element_grid : case R.id.element_list:
+		case ObjectIds.OBJECT_ID_GRIDVIEW : case ObjectIds.OBJECT_ID_LISTVIEW:
 			
 			samples.setSampleAdapter(newItem);
 			break;

@@ -612,7 +612,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	 * objectchanged: another object has focus, pass it to adapt to new conditions @see EditmodeFragment and @see Module
 	 * objectselected: used to trigger the @see EditmodeFragment
 	 * objectdragging: a drag is in progress, show the @see DeleteFragment
-	 * @author funklos 
+	 * @author funklos
 	 * 
 	 */
 	public interface onObjectSelectedListener

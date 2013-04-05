@@ -1,5 +1,6 @@
 package uibuilder;
 
+import creators.ObjectIds;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -145,54 +146,54 @@ public class EditmodeFragment extends Fragment
 
 		switch (id)
 		{
-		case R.id.element_button:
+		case ObjectIds.OBJECT_ID_BUTTON:
 			
 			configButton();
 			break;
 
-		case R.id.element_checkbox:
+		case ObjectIds.OBJECT_ID_CHECKBOX:
 
 			configCheckBox();
 			break;
 
-		case R.id.element_edittext:
+		case ObjectIds.OBJECT_ID_EDITTEXT:
 
 			configEditText();
 			break;
 
-		case R.id.element_imageview:
+		case ObjectIds.OBJECT_ID_IMAGEVIEW:
 
 			configImageView();
 			break;
 
-		case R.id.element_radiogroup:
+		case ObjectIds.OBJECT_ID_RADIOGROUP:
 
 			configRadioGroup();
 			break;
-		case R.id.element_ratingbar:
+		case ObjectIds.OBJECT_ID_RATINGBAR:
 			configRatingBar();
 			break;
 
-		case R.id.element_switch:
+		case ObjectIds.OBJECT_ID_SWITCH:
 			
 			configSwitch();
 			break;
-		case R.id.element_textview:
+		case ObjectIds.OBJECT_ID_TEXTVIEW:
 
 			configTextView();
 			break;
 
-		case R.id.element_list:
+		case ObjectIds.OBJECT_ID_LISTVIEW:
 			
 			configListView();
 			break;
 
-		case R.id.element_grid:
+		case ObjectIds.OBJECT_ID_GRIDVIEW:
 
 			configGrid();
 			break;
 			
-		case R.id.element_seekbar:
+		case ObjectIds.OBJECT_ID_SEEKBAR:
 			
 			configSeekBar();
 			break;

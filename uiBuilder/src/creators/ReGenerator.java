@@ -95,8 +95,9 @@ public class ReGenerator extends AsyncTask<Bundle[], View, Void>
 		params.topMargin = databaseBundle.getInt(ObjectValues.Y_POS);
 		xmlView.setLayoutParams(params);
 
-		switch (type) {
-		case R.id.element_button:
+		switch (type) 
+		{
+		case ObjectIds.OBJECT_ID_BUTTON:
 
 			((Button) xmlView).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
 			((Button) xmlView).setTextSize(databaseBundle.getInt(ObjectValues.FONTSIZE));
@@ -105,7 +106,7 @@ public class ReGenerator extends AsyncTask<Bundle[], View, Void>
 
 			break;
 
-		case R.id.element_textview:
+		case ObjectIds.OBJECT_ID_TEXTVIEW:
 
 			((TextView) xmlView).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
 			((TextView) xmlView).setTextSize(databaseBundle.getInt(ObjectValues.FONTSIZE));
@@ -113,14 +114,14 @@ public class ReGenerator extends AsyncTask<Bundle[], View, Void>
 			((TextView) xmlView).setGravity(databaseBundle.getInt(ObjectValues.ALIGNMENT));
 			break;
 
-		case R.id.element_imageview:
+		case ObjectIds.OBJECT_ID_IMAGEVIEW:
 
 			Log.d("measured imageview", String.valueOf(xmlView.getMeasuredHeight()));
 			properties.putString(ObjectValues.IMG_SRC, databaseBundle.getString(ObjectValues.IMG_SRC));
 			properties.putInt(ObjectValues.ICN_SRC, databaseBundle.getInt(ObjectValues.ICN_SRC));
 			break;
 
-		case R.id.element_edittext:
+		case ObjectIds.OBJECT_ID_EDITTEXT:
 
 			((EditText) xmlView).setHint(databaseBundle.getString(ObjectValues.USER_TEXT));
 			((EditText) xmlView).setGravity(databaseBundle.getInt(ObjectValues.ALIGNMENT));
@@ -128,34 +129,34 @@ public class ReGenerator extends AsyncTask<Bundle[], View, Void>
 			((EditText) xmlView).setTextSize(databaseBundle.getInt(ObjectValues.FONTSIZE));
 			break;
 
-		case R.id.element_radiogroup:
+		case ObjectIds.OBJECT_ID_RADIOGROUP:
 
 			((TextView) xmlView).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
 			properties.putInt(ObjectValues.FONTSIZE, databaseBundle.getInt(ObjectValues.FONTSIZE));
 
 			break;
 
-		case R.id.element_switch:
+		case ObjectIds.OBJECT_ID_SWITCH:
 
 			((Switch) xmlView).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
 			properties.putInt(ObjectValues.FONTSIZE, databaseBundle.getInt(ObjectValues.FONTSIZE));
 
 			break;
 
-		case R.id.element_checkbox:
+		case ObjectIds.OBJECT_ID_CHECKBOX:
 
 			((TextView) ((LinearLayout) xmlView).getChildAt(0)).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
 			properties.putInt(ObjectValues.FONTSIZE, databaseBundle.getInt(ObjectValues.FONTSIZE));
 
 			break;
 
-		case R.id.element_list:
+		case ObjectIds.OBJECT_ID_LISTVIEW:
 
 			properties.putInt(ObjectValues.EXAMPLE_LAYOUT, databaseBundle.getInt(ObjectValues.EXAMPLE_LAYOUT));
 			properties.putInt(ObjectValues.EXAMPLE_CONTENT, databaseBundle.getInt(ObjectValues.EXAMPLE_CONTENT));
 			break;
 
-		case R.id.element_ratingbar:
+		case ObjectIds.OBJECT_ID_RATINGBAR:
 
 			((RatingBar) ((RelativeLayout) xmlView).getChildAt(0)).setRating(databaseBundle.getInt(ObjectValues.RATING));
 			((RatingBar) ((RelativeLayout) xmlView).getChildAt(0)).setNumStars(databaseBundle.getInt(ObjectValues.STARS_NUM));
@@ -163,12 +164,12 @@ public class ReGenerator extends AsyncTask<Bundle[], View, Void>
 			properties.putInt(ObjectValues.RATING, databaseBundle.getInt(ObjectValues.RATING));
 			break;
 
-		case R.id.element_seekbar:
-		case R.id.element_numberpick:
-		case R.id.element_timepicker:
+		case ObjectIds.OBJECT_ID_SEEKBAR:
+		case ObjectIds.OBJECT_ID_NUMBERPICKER:
+		case ObjectIds.OBJECT_ID_TIMEPICKER:
 			break;
 
-		case R.id.element_grid:
+		case ObjectIds.OBJECT_ID_GRIDVIEW:
 
 			properties.putInt(ObjectValues.EXAMPLE_LAYOUT, databaseBundle.getInt(ObjectValues.EXAMPLE_LAYOUT));
 			properties.putInt(ObjectValues.EXAMPLE_CONTENT, databaseBundle.getInt(ObjectValues.EXAMPLE_CONTENT));

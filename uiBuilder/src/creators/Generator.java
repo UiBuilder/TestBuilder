@@ -8,7 +8,6 @@ import android.view.View.OnTouchListener;
 import android.widget.RelativeLayout;
 import data.Bundler;
 import data.ObjectValues;
-import de.ur.rk.uibuilder.R;
 
 /**
  * This class is used to determine which element is requested to be instantiated.
@@ -62,67 +61,67 @@ public class Generator
 
 		switch (id)
 		{
-		case R.id.element_button:
+		case ObjectIds.OBJECT_ID_BUTTON:
 			xmlView = builder.buildButton();
 			
 			break;
 
-		case R.id.element_textview:
+		case ObjectIds.OBJECT_ID_TEXTVIEW:
 			xmlView = builder.buildTextview();
 			
 			break;
 
-		case R.id.element_imageview:
+		case ObjectIds.OBJECT_ID_IMAGEVIEW:
 			xmlView = builder.buildImageView();
 			
 			break;
 
-		case R.id.element_edittext:
+		case ObjectIds.OBJECT_ID_EDITTEXT:
 			xmlView = builder.buildEditText();
 			
 			break;
 
-		case R.id.element_radiogroup:
+		case ObjectIds.OBJECT_ID_RADIOGROUP:
 			xmlView = builder.buildRadioButtons();
 			
 			break;
 
-		case R.id.element_switch:
+		case ObjectIds.OBJECT_ID_SWITCH:
 			xmlView = builder.buildSwitch();
 
 			
 			break;
 
-		case R.id.element_checkbox:
+		case ObjectIds.OBJECT_ID_CHECKBOX:
 			xmlView = builder.buildCheckBox();
 
 			
 			break;
 
-		case R.id.element_list:
+		case ObjectIds.OBJECT_ID_LISTVIEW:
 			xmlView = builder.buildListView();
 			
 			break;
 
-		case R.id.element_numberpick:
+		case ObjectIds.OBJECT_ID_NUMBERPICKER:
 			xmlView = builder.buildNumberPicker();
 
 			
 			break;
 
-		case R.id.element_ratingbar:
+		case ObjectIds.OBJECT_ID_RATINGBAR:
 			xmlView = builder.buildRatingBar();
 
 			
 			break;
 
-		case R.id.element_seekbar:
+		case ObjectIds.OBJECT_ID_SEEKBAR:
 			xmlView = builder.buildSeekBar();
 
 			
 			break;
 
-		case R.id.element_timepicker:
+		case ObjectIds.OBJECT_ID_TIMEPICKER:
 			xmlView = builder.buildTimePicker();
 
 			
@@ -133,7 +132,7 @@ public class Generator
 			
 			break;
 			*/
-		case R.id.element_grid:
+		case ObjectIds.OBJECT_ID_GRIDVIEW:
 			xmlView = builder.buildGrid();
 			
 			break;
