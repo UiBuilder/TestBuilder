@@ -12,7 +12,7 @@
     <item name="textview_factor_height" format="integer" type="integer">2</item>
     
     <!-- edittext -->
-    <item name="edittext_factor_width" format="integer" type="integer">5</item>
+    <item name="edittext_factor_width" format="integer" type="integer">1</item>
     <item name="edittext_factor_height" format="integer" type="integer">2</item>
     
     <!-- imageview -->

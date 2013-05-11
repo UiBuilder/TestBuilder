@@ -4,7 +4,7 @@
     android:id="@+id/editmode_module_z_order"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    
+
     android:orientation="vertical"
 	style="@style/itembox">
 	
@@ -56,6 +56,7 @@
 	
 	        <Button
 	            android:id="@+id/editmode_z_order_front"
+	            style="@style/itembox_items_inverted"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="0.5"
@@ -63,6 +64,7 @@
 	
 	        <Button
 	            android:id="@+id/editmode_z_order_back"
+	            style="@style/itembox_items_inverted"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="0.5"

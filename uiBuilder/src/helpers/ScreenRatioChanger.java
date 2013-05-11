@@ -19,10 +19,14 @@ public class ScreenRatioChanger implements Runnable
 	private RelativeLayout designArea;
 	private Context context;
 	
+	private int handleSize;
+	
 	public ScreenRatioChanger(RelativeLayout designArea, Context context)
 	{
 		this.designArea = designArea;
 		this.context = context;
+		
+		handleSize = this.context.getResources().getDimensionPixelSize(R.dimen.default_overlay_handle_dimension);
 	}
 	
 	@Override
@@ -42,7 +46,6 @@ public class ScreenRatioChanger implements Runnable
 		int rootHeight = designArea.getHeight();
 		int rootWidth = Math.round(rootHeight / 16*10f); // does not work with another accessing method
 
-		int handleSize = context.getResources().getDimensionPixelSize(R.dimen.default_overlay_handle_dimension);
 		int maxWidth = rootWidth - 2 * handleSize;
 		int maxHeight = rootHeight - 2 * handleSize;
 

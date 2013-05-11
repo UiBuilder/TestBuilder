@@ -4,6 +4,10 @@
     <item android:state_activated="true" 
         android:drawable="@drawable/ui_itembox_button_active" />
     
+    <item android:state_pressed="true"
+        android:drawable="@drawable/ui_itembox_button_active"
+        />
+    
     <item android:drawable="@drawable/ui_editbox_button_normal"/>
 
 </selector>

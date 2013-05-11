@@ -1,12 +1,11 @@
 package editmodules;
 
-import creators.ObjectIdMapper;
 import uibuilder.EditmodeFragment;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import creators.ObjectIdMapper;
 import data.ObjectValues;
 import de.ur.rk.uibuilder.R;
 
@@ -192,7 +191,7 @@ public class BackgroundColorModule extends Module
 	protected void setListeners()
 	{
 		// TODO Auto-generated method stub
-		box.setOnClickListener(new ExpansionListener(box));
+		box.setOnClickListener(new ExpansionListener(box, super.context));
 		BackgroundColorModuleListener backgroundColorListener = new BackgroundColorModuleListener();
 		
 		backgroundRed.setOnClickListener(backgroundColorListener);

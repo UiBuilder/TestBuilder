@@ -74,6 +74,8 @@ public class ItemboxFragment extends Fragment implements
 		ImageButton createSeekBar = (ImageButton) layout.findViewById(R.id.element_seekbar);
 
 		ImageButton createTimePicker = (ImageButton) layout.findViewById(R.id.element_timepicker);
+		
+		ImageButton createSpinner = (ImageButton) layout.findViewById(R.id.element_spinner);
 
 		//LinearLayout createContainer = (LinearLayout) layout.findViewById(R.id.element_container);
 
@@ -91,6 +93,7 @@ public class ItemboxFragment extends Fragment implements
 		createTimePicker.setOnTouchListener(this);
 		//createContainer.setOnTouchListener(this);
 		createGrid.setOnTouchListener(this);
+		createSpinner.setOnTouchListener(this);
 	}
 
 	@Override

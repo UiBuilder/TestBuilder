@@ -1,8 +1,11 @@
 package editmodules;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import de.ur.rk.uibuilder.R;
@@ -28,12 +31,21 @@ public class ExpansionListener implements OnClickListener
 		private int indicatorExpanded = R.raw.ico_small_0037;
 		private int indicatorCollapsed = R.raw.ico_small_0035;
 		
-		public ExpansionListener(View box)
+		private static float alphaActive = 1.0f, alphaInactive = 0.7f; 
+		
+		private Animation fadeOut, fadeIn;
+		
+		public ExpansionListener(View box, Context context)
 		{
 			this.module = (LinearLayout) box;
 			this.indicator = (ImageButton) box.findViewById(R.id.expand_selector);
 			this.expandableView = this.module.findViewById(R.id.expandable);
 			
+			fadeOut = AnimationUtils.loadAnimation(context, R.anim.modules_fade_out);
+			fadeIn = AnimationUtils.loadAnimation(context, R.anim.modules_fade_in);
+			
+			//this.module.startAnimation(fadeOut);
+			module.setAlpha(alphaInactive);
 			setIndikatorListener();
 		}
 
@@ -75,6 +87,8 @@ public class ExpansionListener implements OnClickListener
 			listener.getValues();
 			
 			indicator.setImageResource(indicatorCollapsed);
+			module.startAnimation(fadeIn);
+			module.setAlpha(alphaActive);
 
 			expandedBox = module;
 			this.isExpanded = true;
@@ -100,6 +114,9 @@ public class ExpansionListener implements OnClickListener
 		{
 			expandableView.setVisibility(View.GONE);
 			indicator.setImageResource(indicatorExpanded);
+			
+			//module.startAnimation(fadeOut);
+			module.setAlpha(alphaInactive);
 
 			expandedBox = null;
 			this.isExpanded = false;
@@ -117,11 +134,11 @@ public class ExpansionListener implements OnClickListener
 			expandableView.forceLayout();
 		}
 		
-		/**
+		/**NOT IN USE
 		 * Interface implemented by all subclasses of Module.
 		 * Implementation is realized in the superclass implementation @see Module
 		 * @author funklos
-		 *
+		 *	
 		 */
 		public abstract interface onToggleExpansionListener
 		{
@@ -130,8 +147,7 @@ public class ExpansionListener implements OnClickListener
 
 		private static onToggleExpansionListener listener;
 
-		public static void setOnToggleExpansionListener(
-				onToggleExpansionListener listener)
+		public static void setOnToggleExpansionListener(onToggleExpansionListener listener, Context context)
 		{
 			ExpansionListener.listener = listener;
 		}

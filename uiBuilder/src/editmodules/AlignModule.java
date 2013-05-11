@@ -4,7 +4,6 @@ import uibuilder.EditmodeFragment;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -61,7 +60,7 @@ public class AlignModule extends Module
 	protected void setListeners()
 	{
 		// TODO Auto-generated method stub
-		box.setOnClickListener(new ExpansionListener(box));
+		box.setOnClickListener(new ExpansionListener(box, super.context));
 		AlignModuleListener alignListener = new AlignModuleListener();
 
 		topLeft.setOnClickListener(alignListener);

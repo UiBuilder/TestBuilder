@@ -218,7 +218,7 @@ public class EditmodeFragment extends Fragment
 	 */
 	private void configSeekBar()
 	{
-		linearRoot.addView(backgroundColorModule.getInstance(currentView));
+		
 	}
 
 	/**
@@ -259,7 +259,6 @@ public class EditmodeFragment extends Fragment
 	private void configRatingBar()
 	{
 		linearRoot.addView(starCountModule.getInstance(currentView));
-		linearRoot.addView(backgroundColorModule.getInstance(currentView));
 	}
 
 	/**
@@ -302,7 +301,6 @@ public class EditmodeFragment extends Fragment
 	private void configCheckBox()
 	{
 		linearRoot.addView(userTextModule.getInstance(currentView));
-		linearRoot.addView(backgroundColorModule.getInstance(currentView));
 	}
 
 	/**
@@ -313,7 +311,6 @@ public class EditmodeFragment extends Fragment
 		linearRoot.addView(userTextModule.getInstance(currentView));
 		linearRoot.addView(fontSizeModule.getInstance(currentView));
 		linearRoot.addView(alignModule.getInstance(currentView));
-		linearRoot.addView(backgroundColorModule.getInstance(currentView));
 	}
 
 }

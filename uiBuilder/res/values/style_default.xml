@@ -8,7 +8,7 @@
     <!-- UI STYLES -->
     
     <style name="editbox_header" parent="@style/default_fontsizes">
-        <item name="android:textSize">25sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textStyle">normal</item>
         <item name="android:typeface">sans</item>   
         <item name="android:padding">@dimen/default_padding_small</item>
@@ -54,7 +54,7 @@
         <item name="android:background">@drawable/ui_editbox_button_states</item>
         <item name="android:textColor">@color/text_dark</item>
         <item name="android:padding">@dimen/default_padding_medium</item>
-		<item name="android:layout_margin">0dp</item>
+		<item name="android:layout_margin">1dp</item>
     </style>
     
     <style name="itembox_background_items" parent="@style/itembox_items_inverted">
@@ -66,13 +66,13 @@
         <item name="android:paddingRight">@dimen/default_padding_small</item>
         <item name="android:paddingTop">@dimen/default_padding_small</item>
         <item name="android:paddingBottom">@dimen/default_padding_large</item>
-        <item name="android:layout_margin">1dp</item>
+        <item name="android:layout_margin">25dp</item>
         <item name="android:background">@color/designarea_background</item>
     </style>
     
     <!-- DEFAULT LIST STYLES -->
     <style name="list_layout_1_header" parent="@style/default_fontsizes">
-        <item name="android:textSize">25dp</item>
+        <item name="android:textSize">25sp</item>
         <item name="android:padding">@dimen/default_padding_large</item>
         
     </style>

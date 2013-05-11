@@ -139,7 +139,7 @@ public class StarCountModule extends Module
 	@Override
 	protected void setListeners()
 	{
-		box.setOnClickListener(new ExpansionListener(box));
+		box.setOnClickListener(new ExpansionListener(box, super.context));
 		StarCountListener starCountListener = new StarCountListener();
 		RatingListener ratingListener = new RatingListener();
 		starBar.setOnSeekBarChangeListener(starCountListener);

@@ -4,7 +4,6 @@
     android:layout_height="wrap_content"
     
     android:inputType="none"
-    android:editable="false"
     android:padding="@dimen/default_padding_small"
     
     android:hint="@string/edittext_hint_default"
@@ -14,6 +13,9 @@
     android:enabled="true"
 	android:cursorVisible="false"
     android:clickable="true"
+    
     android:textColorHint="@color/text_light"
     style="@style/default_fontsizes"
+    android:background="@drawable/textfield_default_holo_light"
+    
     />

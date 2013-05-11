@@ -59,7 +59,7 @@
 	        >
 	
 	        <Button
-	            style="@android:attr/buttonBarButtonStyle"
+	            style="@style/itembox_items_inverted"
 	            android:id="@+id/content_choose_hipster"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
 	            android:text="@string/item_edit_content_hipster" />
 	
 	        <Button
-	            style="@android:attr/buttonBarButtonStyle"
+	            style="@style/itembox_items_inverted"
 	            android:id="@+id/content_choose_bacon"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"

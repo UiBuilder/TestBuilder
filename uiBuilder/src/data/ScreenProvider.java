@@ -15,7 +15,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
+import helpers.Log;
 
 /**
  * ContentProvider SKELETON from
@@ -48,6 +48,12 @@ public class ScreenProvider extends ContentProvider
 	
 	//table column constants
 	public static final String KEY_ID = "_id";
+	
+	//PROJECTS TABLE
+	public static final String
+					KEY_PROJECTS_NAME = "projectname",
+					KEY_PROJECTS_DATE = "projectcreation"
+					;
 	
 	//SCREENS TABLE
 	public static final String 
@@ -223,7 +229,7 @@ public class ScreenProvider extends ContentProvider
 				
 			case SCREENS_ALL:
 				
-				sortOrder = KEY_SCREEN_DATE + " DESC";
+				sortOrder = KEY_ID + " DESC";
 				query.setTables(DataManager.TABLE_SCREENS);
 				break;
 				
@@ -401,15 +407,18 @@ public class ScreenProvider extends ContentProvider
 	 */
 	private static class DataManager extends SQLiteOpenHelper
 	{	
-		
+		/*
+		 * Database properties
+		 */
 		public static final String 
 						DB_NAME = "uibuilder.db",
 						TABLE_SCREENS = "screenManager",
-						TABLE_OBJECTS = "objects"
+						TABLE_OBJECTS = "objects",
+						TABLE_PROJECTS = "projects"
 						;
 		
 		
-		private static final int DB_VERSION = 32;
+		private static final int DB_VERSION = 33;
 		
 		private static final String CREATE = "create table if not exists ";
 		private static final String DROP = "DROP TABLE if exists ";	
@@ -425,7 +434,8 @@ public class ScreenProvider extends ContentProvider
 		private static final String ID = KEY_ID + " integer primary key autoincrement, ";
 		
 		
-		private static final String OBJECT_PROPERTIES 
+		private static final String 
+						OBJECT_PROPERTIES 
 						= KEY_OBJECTS_VIEW_TYPE + INT_NULL + KOMMA 
 						+ KEY_OBJECTS_VIEW_XPOS + INT_NULL + KOMMA
 						+ KEY_OBJECTS_VIEW_YPOS + INT_NULL + KOMMA
@@ -445,6 +455,18 @@ public class ScreenProvider extends ContentProvider
 						+ KEY_OBJECTS_VIEW_STARSNUM + INT + KOMMA
 						+ KEY_OBJECTS_VIEW_USERTEXT + TEXT + KOMMA
 						+ KEY_OBJECTS_VIEW_ZORDER + INT
+						,
+						
+						SCREEN_PROPERTIES
+						= KEY_SCREEN_NAME + TEXT_NULL + KOMMA
+						+ KEY_SCREEN_DATE + TEXT_NULL + KOMMA
+						+ KEY_SCREEN_PREVIEW + TEXT
+						,
+						
+						PROJECTS_PROPERTIES
+						= KEY_PROJECTS_NAME + TEXT_NULL + KOMMA
+						+ KEY_PROJECTS_DATE + TEXT_NULL
+						
 						;
 
 		
@@ -454,9 +476,7 @@ public class ScreenProvider extends ContentProvider
 						= CREATE 
 						+ TABLE_SCREENS + " ("
 						+ ID 
-						+ KEY_SCREEN_NAME + TEXT_NULL + KOMMA
-						+ KEY_SCREEN_DATE + TEXT_NULL + KOMMA
-						+ KEY_SCREEN_PREVIEW + TEXT
+						+ SCREEN_PROPERTIES
 						+ ");"
 						,
 		
@@ -466,6 +486,14 @@ public class ScreenProvider extends ContentProvider
 						+ ID
 						+ KEY_OBJECTS_SCREEN + INT_NULL + KOMMA
 						+ OBJECT_PROPERTIES
+						+ ");"
+						,
+						
+						CREATE_PROJECTS_TABLE
+						= CREATE
+						+ TABLE_SCREENS + " ("
+						+ ID
+						+ PROJECTS_PROPERTIES
 						+ ");"
 						;
 						
@@ -479,6 +507,11 @@ public class ScreenProvider extends ContentProvider
 						DROP_OBJECTS 
 						= DROP 
 						+ TABLE_OBJECTS
+						,
+						
+						DROP_PROJECTS
+						= DROP
+						+ TABLE_PROJECTS
 						;
 		
 		
@@ -494,13 +527,17 @@ public class ScreenProvider extends ContentProvider
 		{
 			db.execSQL(CREATE_SCREENS_TABLE);
 			db.execSQL(CREATE_OBJECTS_TABLE);
+			db.execSQL(CREATE_PROJECTS_TABLE);
 		}
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
 		{
+			Log.d("database upgraded to v.", String.valueOf(DB_VERSION));
+			
 			db.execSQL(DROP_MAIN);
 			db.execSQL(DROP_OBJECTS);
+			db.execSQL(DROP_PROJECTS);
 			
 			onCreate(db);
 		}

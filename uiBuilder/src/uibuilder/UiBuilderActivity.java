@@ -27,6 +27,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import data.FromDatabaseObjectLoader;
 import data.ObjectValues;
@@ -68,6 +69,7 @@ public class UiBuilderActivity
 	private EditmodeFragment editbox;
 	private DesignFragment designbox;
 	private FragmentManager fManager;
+	private RelativeLayout rootLayout;
 
 	private ImageTools exporter;
 	private DeleteFragment deletebox;
@@ -231,11 +233,7 @@ public class UiBuilderActivity
 	 */
 	private void returnToManager()
 	{
-		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_PRES);
-
-		Uri imageUri = exporter.requestBitmap(designbox.getView(), getContentResolver(), false, true, screenId);
-
-		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_EDIT);
+		Uri imageUri = getPreviewImage();
 		
 		Intent returnIntent = new Intent();
 		returnIntent.putExtra(ManagerActivity.RESULT_SCREEN_ID, screenId);
@@ -244,6 +242,19 @@ public class UiBuilderActivity
 		
 		finish();
 		overridePendingTransition(R.anim.activity_transition_from_left_in, R.anim.activity_transition_to_right_out);
+	}
+
+	/**
+	 * @return
+	 */
+	private Uri getPreviewImage()
+	{
+		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_PRES);
+
+		Uri imageUri = exporter.requestBitmap(designbox.getView(), getContentResolver(), false, true, screenId);
+
+		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_EDIT);
+		return imageUri;
 	}
 	
 	@Override
@@ -281,6 +292,7 @@ public class UiBuilderActivity
 		DeleteFragment.setOnDeleteRequestListener(this);
 		ImageModule.setOnImageImportListener(this);
 		
+		rootLayout = (RelativeLayout) findViewById(R.id.uibuilder_activity_root);
 		setActionBarStyle();
 	}
 

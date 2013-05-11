@@ -110,7 +110,7 @@ public class UserTextModule extends Module
 	@Override
 	protected void setListeners()
 	{
-		box.setOnClickListener(new ExpansionListener(box));
+		box.setOnClickListener(new ExpansionListener(box, super.context));
 		UserTextModuleListener textListener = new UserTextModuleListener();
 		editText.addTextChangedListener(textListener);
 	}

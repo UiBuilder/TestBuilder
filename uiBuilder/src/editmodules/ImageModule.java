@@ -8,7 +8,6 @@ import helpers.OnGoingInBackground;
 import uibuilder.EditmodeFragment;
 import android.content.Intent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import de.ur.rk.uibuilder.R;
@@ -92,7 +91,7 @@ public class ImageModule extends Module
 	@Override
 	protected void setListeners()
 	{
-		box.setOnClickListener(new ExpansionListener(box));
+		box.setOnClickListener(new ExpansionListener(box, super.context));
 		
 		takePic.setOnClickListener(new ImageModuleListener());
 		picFromGallery.setOnClickListener(new ImageModuleListener());

@@ -52,7 +52,7 @@ public class FontSizeModule extends Module
 	 */
 	protected void setListeners()
 	{
-		box.setOnClickListener(new ExpansionListener(box));
+		box.setOnClickListener(new ExpansionListener(box, super.context));
 		picker.setOnValueChangedListener(new FontsizeModuleListener());
 	}
 
@@ -79,7 +79,6 @@ public class FontSizeModule extends Module
 	@Override
 	protected void adaptToContext()
 	{
-		
 		picker.setValue(valuesBundle.getInt(ObjectValues.FONTSIZE));
 	}
 	

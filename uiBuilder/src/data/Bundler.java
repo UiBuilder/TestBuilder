@@ -181,6 +181,17 @@ public class Bundler
 
 		switch (which)
 		{
+		case ObjectIdMapper.OBJECT_ID_SPINNER:
+			
+			minWidth = res.getInteger(R.integer.button_factor_width);
+			minHeight = res.getInteger(R.integer.button_factor_height);
+			defWidth = res.getInteger(R.integer.button_factor_default_width);
+			defHeight = res.getInteger(R.integer.button_factor_default_height);
+			scaleType = Overlay.HORIZONTAL;
+			createMode = R.drawable.object_background_default_button;
+			presMode = R.drawable.presentation_button_default;
+			break;
+		
 		case ObjectIdMapper.OBJECT_ID_BUTTON:
 
 			minWidth = res.getInteger(R.integer.button_factor_width);

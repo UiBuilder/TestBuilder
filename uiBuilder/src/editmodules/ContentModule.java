@@ -2,7 +2,6 @@ package editmodules;
 
 import uibuilder.EditmodeFragment;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import data.SampleAdapter;
@@ -53,7 +52,7 @@ public class ContentModule extends Module
 	protected void setListeners()
 	{
 		// TODO Auto-generated method stub
-		box.setOnClickListener(new ExpansionListener(box));
+		box.setOnClickListener(new ExpansionListener(box, super.context));
 		
 		chooseHipster.setOnClickListener(new ContentSelectedListener());
 		chooseBacon.setOnClickListener(new ContentSelectedListener());

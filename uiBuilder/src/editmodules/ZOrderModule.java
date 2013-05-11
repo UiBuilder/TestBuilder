@@ -128,7 +128,7 @@ public class ZOrderModule extends Module
 	protected void setListeners()
 	{
 		// TODO Auto-generated method stub
-		box.setOnClickListener(new ExpansionListener(box));
+		box.setOnClickListener(new ExpansionListener(box, super.context));
 		
 		toFront.setOnClickListener(new ZorderModuleListener());
 		toBack.setOnClickListener(new ZorderModuleListener());	

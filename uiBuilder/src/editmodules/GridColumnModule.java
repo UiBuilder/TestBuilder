@@ -59,7 +59,7 @@ public class GridColumnModule extends Module
 	protected void setListeners()
 	{
 		// TODO Auto-generated method stub
-		box.setOnClickListener(new ExpansionListener(box));
+		box.setOnClickListener(new ExpansionListener(box, super.context));
 		
 		columnNumber.setOnSeekBarChangeListener(new ColumnNumberListener());
 	}

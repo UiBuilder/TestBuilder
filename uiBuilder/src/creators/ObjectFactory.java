@@ -1,5 +1,7 @@
 package creators;
 
+import java.util.ArrayList;
+
 import helpers.ImageTools;
 import android.content.Context;
 import android.os.Bundle;
@@ -57,6 +59,8 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 	private RelativeLayout designArea;
 
 	private static final String LOGTAG = "OBJECTFACTORY says:";
+	
+	private ArrayList<View> imageViews;
 
 	/**
 	 * KONSTRUKTOR
@@ -78,6 +82,8 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 		
 		FromDatabaseObjectLoader.setOnObjectCreatedFromDatabaseListener(this);
 		ReGenerator.setOnObjectGeneratedListener(this);
+		
+		imageViews = new ArrayList<View>();
 	}
 	
 	/**
@@ -237,6 +243,7 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 		{
 		case ObjectIdMapper.OBJECT_ID_IMAGEVIEW:
 
+			imageViews.add(newItem);
 			setImageResource(newItem, bundle);
 			
 			break;
@@ -245,10 +252,13 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 			
 			samples.setSampleAdapter(newItem);
 			break;
+			
 		default:
 			break;
 		}
 	}
+	
+	
 
 	/**
 	 * Check if the supplied supplied bundle contains a reference to either an icon
@@ -256,13 +266,23 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 	 * @param newItem
 	 * @param bundle
 	 */
-	private void setImageResource(View newItem, Bundle bundle)
+	private void setImageResource(final View newItem, Bundle bundle)
 	{
 		if(bundle.getInt(ObjectValues.ICN_SRC) == 0)
 		{
 			((ImageView) newItem).setScaleType(ScaleType.CENTER_CROP);
-			String source = bundle.getString(ObjectValues.IMG_SRC);
-			ImageTools.setPic(newItem, source);
+			final String source = bundle.getString(ObjectValues.IMG_SRC);
+			newItem.post(new Runnable()
+			{
+				
+				@Override
+				public void run()
+				{
+					// TODO Auto-generated method stub
+					ImageTools.setPic(newItem, source);
+				}
+			});
+			
 		}
 		else
 		{

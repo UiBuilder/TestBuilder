@@ -85,7 +85,7 @@ public class IconModule extends Module
 	@Override
 	protected void setListeners()
 	{
-		box.setOnClickListener(new ExpansionListener(box));
+		box.setOnClickListener(new ExpansionListener(box, super.context));
 		iconGrid.setOnItemClickListener(new IconModuleListener());
 	}
 

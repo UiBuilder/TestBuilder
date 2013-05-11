@@ -56,6 +56,7 @@
     <string name="itembox_simple_element_caption_textview">Text</string>
     <string name="itembox_simple_element_caption_edittext">Edit Text</string>
     <string name="itembox_simple_element_caption_container">Container</string>
+    <string name="itembox_simple_element_caption_spinner">Spinner</string>
 
     <!-- ITEMBOX COMPLEX ELEMENTS -->
     <string name="itembox_complex_title">Complex Elements</string>

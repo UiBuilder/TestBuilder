@@ -136,6 +136,10 @@ public class Generator
 			xmlView = builder.buildGrid();
 			
 			break;
+			
+		case ObjectIdMapper.OBJECT_ID_SPINNER:
+			xmlView = builder.buildSpinner();
+			break;
 		
 		default:
 			throw new NoClassDefFoundError();
@@ -143,7 +147,7 @@ public class Generator
 		
 		xmlView.setLayoutParams(params);
 		
-		xmlView.setBackgroundResource(valueBundle.getInt(ObjectValues.BACKGROUND_EDIT));
+		//xmlView.setBackgroundResource(valueBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 		xmlView.setId(idCount++);
 		xmlView.setTag(valueBundle);
 		xmlView.setOnTouchListener(manipulator);

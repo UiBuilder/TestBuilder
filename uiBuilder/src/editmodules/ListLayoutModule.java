@@ -63,7 +63,7 @@ public class ListLayoutModule extends Module
 	 */
 	protected void setListeners()
 	{
-		box.setOnClickListener(new ExpansionListener(box));
+		box.setOnClickListener(new ExpansionListener(box, super.context));
 		ListLayoutModuleListener listLayoutListener = new ListLayoutModuleListener();
 
 		layoutTypeOne.setOnClickListener(listLayoutListener);

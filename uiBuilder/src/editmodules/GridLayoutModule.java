@@ -60,7 +60,7 @@ public class GridLayoutModule extends Module
 	protected void setListeners()
 	{
 		GridLayoutModuleListener gridLayoutListener = new GridLayoutModuleListener();
-		box.setOnClickListener(new ExpansionListener(box));
+		box.setOnClickListener(new ExpansionListener(box, super.context));
 
 		layoutTypeOne.setOnClickListener(gridLayoutListener);
 		layoutTypeTwo.setOnClickListener(gridLayoutListener);

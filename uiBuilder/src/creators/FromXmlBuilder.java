@@ -22,6 +22,7 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -333,5 +334,12 @@ public class FromXmlBuilder
 		Button xmlButton = (Button) inflater.inflate(R.layout.item_button_layout, null);
 
 		return xmlButton;
+	}
+	
+	protected Spinner buildSpinner()
+	{
+		Spinner xmlSpinner = (Spinner) inflater.inflate(R.layout.item_spinner_layout, null);
+		
+		return xmlSpinner;
 	}
 }

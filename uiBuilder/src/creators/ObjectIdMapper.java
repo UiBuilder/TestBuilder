@@ -25,7 +25,9 @@ public final class ObjectIdMapper
 	OBJECT_ID_RATINGBAR = 0xA06,
 	OBJECT_ID_SEEKBAR = 0xA07,
 	OBJECT_ID_TIMEPICKER = 0xA08,
-	OBJECT_ID_GRIDVIEW  = 0xA09;
+	OBJECT_ID_GRIDVIEW  = 0xA09,
+	OBJECT_ID_SPINNER  = 0xA0A;
+	
 	
 	
 	public static int mapType (int id)
@@ -70,6 +72,9 @@ public final class ObjectIdMapper
 	
 		case R.id.element_grid:
 			return OBJECT_ID_GRIDVIEW;
+			
+		case R.id.element_spinner:
+			return OBJECT_ID_SPINNER;
 		}
 		return 0;
 	}

@@ -13,11 +13,17 @@ import editmodules.ExpansionListener.onToggleExpansionListener;
  * @author funklos and @author jonesses
  *
  */
-public abstract class Module implements onToggleExpansionListener
+public abstract class Module extends View implements onToggleExpansionListener
 {
+	@Override
+	public void getValues()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 	protected Context context; /** the activity context */
 	protected LayoutInflater inflater; /** the inflater used by the subclasses to inflate their ui*/
- 	
 	
 	/**
 	 * <b>Constructor</b>
@@ -27,13 +33,14 @@ public abstract class Module implements onToggleExpansionListener
 	 */
 	public Module(EditmodeFragment fragment)
 	{
+		super(fragment.getActivity());
 		this.context = fragment.getActivity();
 		this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
 		setupUi();
 		setListeners();
 		
-		ExpansionListener.setOnToggleExpansionListener(this);
+		ExpansionListener.setOnToggleExpansionListener(this, context);
 	}
 	
 	/**
