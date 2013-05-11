@@ -85,7 +85,7 @@ public class FromDatabaseObjectLoader
 
 	/**
 	 * Interface definition, implemented by the class responsible for further processing. 
-	 * @author funklos
+	 * @author jonesses, edited by funklos
 	 *
 	 */
 	public interface OnObjectLoadedFromDatabaseListener
