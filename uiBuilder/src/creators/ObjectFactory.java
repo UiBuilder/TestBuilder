@@ -249,12 +249,14 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 	{
 		Bundle bundle = (Bundle) newItem.getTag();
 		
+		View image = ((RelativeLayout) newItem).getChildAt(0);
+		
 		switch (bundle.getInt(ObjectValues.TYPE))
 		{
 		case ObjectIdMapper.OBJECT_ID_IMAGEVIEW:
 
-			imageViews.add(newItem);
-			setImageResource(newItem, bundle);
+			imageViews.add(image);
+			setImageResource(image, bundle);
 			
 			break;
 
@@ -278,13 +280,13 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 	 */
 	private void setImageResource(View newItem, Bundle bundle)
 	{
-		final ImageView image = (ImageView) ((RelativeLayout) newItem).getChildAt(0);
+		final ImageView image = (ImageView) newItem;
 		
 		if(bundle.getInt(ObjectValues.ICN_SRC) == 0)
 		{
 			image.setScaleType(ScaleType.CENTER_CROP);
 			final String source = bundle.getString(ObjectValues.IMG_SRC);
-			newItem.post(new Runnable()
+			image.post(new Runnable()
 			{
 				
 				@Override

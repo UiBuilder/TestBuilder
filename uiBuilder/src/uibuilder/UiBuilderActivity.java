@@ -704,8 +704,5 @@ public class UiBuilderActivity
 		View v = factory.getElement(id, event);
 		
 		return v;
-	}
-
-
-	
+	}	
 }

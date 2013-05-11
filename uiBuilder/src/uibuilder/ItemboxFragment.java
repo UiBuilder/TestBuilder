@@ -153,7 +153,6 @@ public class ItemboxFragment extends Fragment implements
 			
 			if (newV != null)
 			{
-				
 				ClipData.Item item = new ClipData.Item("itembox");
 				ClipData clipData = new ClipData((CharSequence) String.valueOf(objectType), new String[]
 				{ ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
@@ -198,6 +197,8 @@ public class ItemboxFragment extends Fragment implements
 	@Override
 	public boolean onDrag(View inProcess, DragEvent event)
 	{
+		Log.d("itembox", "ondrag");
+		
 		switch (event.getAction())
 		{
 		case DragEvent.ACTION_DRAG_STARTED:
@@ -206,16 +207,13 @@ public class ItemboxFragment extends Fragment implements
 		
 		case DragEvent.ACTION_DROP:
 			
-			View v = (View) event.getLocalState();
-			ViewGroup parent = (ViewGroup) v.getParent();
-			parent.removeView(v);
+			Log.d("dropped", "deleted");
 			break;
 			
 		case DragEvent.ACTION_DRAG_ENDED:
 			
-			active.setActivated(false);
 			Log.d("drag ", "ended");
-		
+			break;
 		}
 		return true;
 	}

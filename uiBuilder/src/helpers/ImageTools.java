@@ -115,15 +115,19 @@ public class ImageTools
 	 */
 	public void handleCameraPhoto(View destination)
 	{
+		View image = ((RelativeLayout) destination).getChildAt(0);
+		
 		if (photoPath != null)
 		{
 			Log.d("path", "not null");
-			setPic(destination);
+			
+			setPic(image);
+			updateBundle(destination);
+			
 			Log.d("set pic", "passed");
 			galleryAddPic();
 			photoPath = null;
 		}
-
 	}
 
 	/**
@@ -135,14 +139,29 @@ public class ImageTools
 	 */
 	public void handleGalleryImport(View destination, Intent data)
 	{
+		View image = ((RelativeLayout) destination).getChildAt(0);
+		
 		Log.d("handle", "called");
 		path = data.getData();
 		photoPath = getPath(path);
 		
 		if (photoPath != null)
 		{
-			setPic(destination, photoPath);
+			setPic(image);
 		}
+		
+		updateBundle(destination);
+		
+	}
+
+	/**
+	 * @param destination
+	 */
+	private void updateBundle(View destination)
+	{
+		Bundle tagBundle = (Bundle) destination.getTag();
+		tagBundle.putString(ObjectValues.IMG_SRC, photoPath);
+		tagBundle.putInt(ObjectValues.ICN_SRC, 0);
 	}
 	/**
 	 * Generates a screenshot of the content of the designArea, to be used as a preview image in the manager
@@ -235,10 +254,7 @@ public class ImageTools
 	{
 		setPic(v, photoPath);
 		/* Add the imagepath to the tagBundle */
-		
-		Bundle tagBundle = (Bundle) v.getTag();
-		tagBundle.putString(ObjectValues.IMG_SRC, photoPath);
-		tagBundle.putInt(ObjectValues.ICN_SRC, 0);
+
 	}
 
 	/**

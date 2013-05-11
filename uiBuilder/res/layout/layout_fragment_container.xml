@@ -6,7 +6,7 @@
     android:baselineAligned="false"
     android:orientation="horizontal" 
     android:background="@color/designfragment_background"
-    
+    android:splitMotionEvents="true"
     android:id="@+id/uibuilder_activity_root"
     >
 

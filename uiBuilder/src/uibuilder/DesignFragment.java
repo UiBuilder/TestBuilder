@@ -1,5 +1,6 @@
 package uibuilder;
 
+import uibuilder.ItemboxFragment.onObjectRequestedListener;
 import helpers.Log;
 
 import helpers.ScreenRatioChanger;
@@ -39,7 +40,7 @@ import de.ur.rk.uibuilder.R;
  */
 
 public class DesignFragment extends Fragment implements OnDragListener,
-		OnGestureListener, OnTouchListener, OnScaleGestureListener
+		OnGestureListener, OnTouchListener, OnScaleGestureListener, onObjectRequestedListener
 {
 	private RelativeLayout designArea, parent;
 	private Grid grid;
@@ -58,7 +59,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	//private int nextObjectId;
 
 	private View currentTouch;
-	public static final float dings = 160f;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -448,25 +448,25 @@ public class DesignFragment extends Fragment implements OnDragListener,
 			case DragEvent.ACTION_DROP: 
 				// check minpositions, hide grid, display overlay at new position and reposition the element at droptarget
 				
-				View v = (View) event.getLocalState();
-				//ViewGroup parent = (ViewGroup) v.getParent();
-				//parent.removeView(v);
+				//check if new object generated
 				ClipData.Item item = event.getClipData().getItemAt(0);
 				if (item.getText().equals("itembox"))
 				{
+					View v = (View) event.getLocalState();
+					
+					activeItem = v;
 					designArea.addView(v);
+					overlay.generate(v);
+					overlay.setVisibility(false);
+					v.setVisibility(View.VISIBLE);
+					v.setBackgroundResource(R.drawable.object_background_default);
 				}
 				
-				overlay.generate(v);
-				overlay.setVisibility(false);
+				manipulator.performDrop(event, activeItem, overlay.getDrag());
 				
-				manipulator.performDrop(event, v, overlay.getDrag());
-				//factory.performDrop(event, activeItem, overlay.getDrag());
 				Log.d("action drop", "registered");
-				v.setVisibility(View.VISIBLE);
-				v.setBackgroundResource(R.drawable.object_background_default);
+			
 				
-				activeItem = v;
 				break;
 			}
 		}
@@ -741,4 +741,12 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public View requestObject(int id, MotionEvent event)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

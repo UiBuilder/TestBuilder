@@ -63,12 +63,12 @@ public class ImageModule extends Module
 		{
 		case ImageTools.CAMERA:
 
-			imageHandler.handleCameraPhoto(item);
+			imageHandler.handleCameraPhoto(container);
 			break;
 
 		case ImageTools.GALLERY:
 
-			imageHandler.handleGalleryImport(item, data);
+			imageHandler.handleGalleryImport(container, data);
 			break;
 		}
 	}
