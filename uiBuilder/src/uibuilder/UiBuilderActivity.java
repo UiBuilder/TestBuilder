@@ -5,8 +5,11 @@ import helpers.ImageTools;
 
 import java.util.ArrayList;
 
+import creators.ObjectFactory;
+
 import uibuilder.DeleteFragment.onDeleteRequestListener;
 import uibuilder.DesignFragment.onObjectSelectedListener;
+import uibuilder.ItemboxFragment.onObjectRequestedListener;
 import uibuilder.ItemboxFragment.onUiElementSelectedListener;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -21,6 +24,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -50,7 +54,7 @@ public class UiBuilderActivity
 								onObjectSelectedListener,
 								onDeleteRequestListener, 
 								LoaderCallbacks<Cursor>, 
-								onImageImportListener
+								onImageImportListener, onObjectRequestedListener
 {
 
 	@Override
@@ -81,6 +85,8 @@ public class UiBuilderActivity
 
 	private int screenId;
 	private boolean isPreview = false, intentStarted = false;
+	
+	private ObjectFactory factory;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -99,6 +105,8 @@ public class UiBuilderActivity
 
 		performInitTransaction();
 		checkDb();
+		
+		factory = new ObjectFactory(getApplicationContext(), designbox, rootLayout);
 	}
 
 	/**
@@ -291,6 +299,7 @@ public class UiBuilderActivity
 		DesignFragment.setOnObjectSelectedListener(this);
 		DeleteFragment.setOnDeleteRequestListener(this);
 		ImageModule.setOnImageImportListener(this);
+		ItemboxFragment.setOnObjectRequestedListener(this);
 		
 		rootLayout = (RelativeLayout) findViewById(R.id.uibuilder_activity_root);
 		setActionBarStyle();
@@ -684,5 +693,17 @@ public class UiBuilderActivity
 	{
 		intentStarted = true;
 	}
+
+	@Override
+	public View requestObject(int id, MotionEvent event)
+	{
+		// TODO Auto-generated method stub
+		View v = factory.getElement(id, event);
+		
+		
+		return v;
+	}
+
+
 	
 }

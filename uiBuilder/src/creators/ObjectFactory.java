@@ -131,6 +131,9 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 			newItem = generator.generate(which);
 			// holt die Koordinaten des Touch-Punktes
 			RelativeLayout.LayoutParams params = setInitialPosition(event);
+			
+			Log.d("pos", String.valueOf(params.height) + " " + String.valueOf(params.width));
+			
 			designArea.addView(newItem, params);
 			setDataSources(newItem);
 

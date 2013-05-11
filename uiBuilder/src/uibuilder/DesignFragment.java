@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.RelativeLayout;
 import creators.ObjectFactory;
 import data.ObjectValues;
@@ -442,7 +443,20 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 			case DragEvent.ACTION_DROP: 
 				// check minpositions, hide grid, display overlay at new position and reposition the element at droptarget
-				factory.performDrop(event, activeItem, overlay.getDrag());
+				
+				View v = (View) event.getLocalState();
+				ViewGroup parent = (ViewGroup) v.getParent();
+				parent.removeView(v);
+				designArea.addView(v);
+				
+				overlay.generate(v);
+				overlay.setVisibility(false);
+				
+				factory.performDrop(event, v, overlay.getDrag());
+				//factory.performDrop(event, activeItem, overlay.getDrag());
+				Log.d("action drop", "registered");
+				v.setVisibility(View.VISIBLE);
+				v.setBackgroundResource(R.drawable.object_background_default);
 				break;
 			}
 		}

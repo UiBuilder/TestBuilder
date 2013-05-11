@@ -3,6 +3,8 @@ package uibuilder;
 import creators.ObjectIdMapper;
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.ClipData;
+import android.content.ClipDescription;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.DragEvent;
@@ -123,14 +125,33 @@ public class ItemboxFragment extends Fragment implements
 			active.setActivated(true);
 		}
 		
+		int idSelected = v.getId();
+		int objectType = ObjectIdMapper.mapType(idSelected);
+		
 		switch (event.getAction())
 		{
+		case MotionEvent.ACTION_DOWN:
+			
+			newV = requestListener.requestObject(objectType, event);
+			newV.setBackgroundColor(getActivity().getResources().getColor(R.color.fresh_aqua));
+			newV.setVisibility(View.INVISIBLE);
+			
+			break;
+		
 		case MotionEvent.ACTION_UP:
-
-			int idSelected = v.getId();
-			int objectType = ObjectIdMapper.mapType(idSelected);
 			
 			listener.typeChanged(objectType);
+			
+			break;
+			
+		case MotionEvent.ACTION_MOVE:
+			
+			ClipData.Item item = new ClipData.Item(String.valueOf(objectType));
+			ClipData clipData = new ClipData((CharSequence) String.valueOf(objectType), new String[]
+			{ ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
+
+			newV.startDrag(clipData, new View.DragShadowBuilder(newV), newV, 0);
+			
 			break;
 
 		default:
@@ -138,6 +159,8 @@ public class ItemboxFragment extends Fragment implements
 		}
 		return false;
 	}
+	
+	private View newV;
 
 	/**
 	 * Interface to notify listeners that the user has selected another type
@@ -162,7 +185,25 @@ public class ItemboxFragment extends Fragment implements
 	public boolean onDrag(View inProcess, DragEvent event)
 	{
 		// TODO Auto-generated method stub
-		return false;
+		return true;
+	}
+	
+	/**
+	 * Object creation
+	 * @author funklos
+	 *
+	 */
+	public interface onObjectRequestedListener
+	{
+		View requestObject(int id, MotionEvent event);
+	}
+
+	private static onObjectRequestedListener requestListener;
+
+	public static void setOnObjectRequestedListener(
+			onObjectRequestedListener listener)
+	{
+		ItemboxFragment.requestListener = listener;
 	}
 	
 }
