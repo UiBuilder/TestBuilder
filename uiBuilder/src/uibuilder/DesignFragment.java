@@ -55,7 +55,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	
 	private View dragIndicator;
 	
-	private int nextObjectId;
+	//private int nextObjectId;
 
 	private View currentTouch;
 	public static final float dings = 160f;
@@ -72,7 +72,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		designArea.post(new ScreenRatioChanger(designArea, this.getActivity()));
 		return root;
 	}
-
+	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState)
 	{
@@ -163,7 +163,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	 */
 	public void setSelection(int id)
 	{
-		nextObjectId = id;
+		//nextObjectId = id;
 	}
 
 
@@ -454,7 +454,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 				ClipData.Item item = event.getClipData().getItemAt(0);
 				if (item.getText().equals("itembox"))
 				{
-				designArea.addView(v);
+					designArea.addView(v);
 				}
 				
 				overlay.generate(v);

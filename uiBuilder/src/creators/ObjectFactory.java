@@ -2,6 +2,8 @@ package creators;
 
 import java.util.ArrayList;
 
+import uibuilder.DesignFragment;
+
 import helpers.ImageTools;
 import android.content.Context;
 import android.os.Bundle;
@@ -56,7 +58,7 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 	
 	private View newItem;
 	
-	private RelativeLayout designArea;
+	private RelativeLayout rootLayout, designArea;
 
 	private static final String LOGTAG = "OBJECTFACTORY says:";
 	
@@ -69,13 +71,15 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 	 * @param listener the event listener the factory provides for new objects. this is passed to the generator to generate touchable objects
 	 * @param designArea 
 	 */
-	public ObjectFactory(Context context, OnTouchListener listener, RelativeLayout designArea)
+	public ObjectFactory(Context context, OnTouchListener listener, RelativeLayout root)
 	{
-		this.designArea = designArea;
+		this.rootLayout = root;
+		this.designArea = (RelativeLayout) root.findViewById(R.id.design_area);
+		
 		
 		generator = new Generator(context, listener);
 		
-		manipulator = new ObjectManipulator(designArea);
+		manipulator = new ObjectManipulator(rootLayout);
 		samples = new SampleAdapter(context);
 		
 		showUpAnimation = AnimationUtils.loadAnimation(context, R.anim.design_loaded_scale_in);
@@ -108,10 +112,11 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 	@Override
 	public void objectGenerated(View newItem)
 	{
-		designArea.addView(newItem, newItem.getLayoutParams());
 		
-		newItem.measure(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		
+		//newItem.measure(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		
+		this.designArea.addView(newItem);
 		Log.d("object generated", "get bundle");
 		setDataSources(newItem);	
 		
@@ -133,10 +138,12 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 			RelativeLayout.LayoutParams params = setInitialPosition(event);
 			
 			Log.d("pos", String.valueOf(params.height) + " " + String.valueOf(params.width));
+			newItem.setLayoutParams(params);
 			
-			designArea.addView(newItem, params);
+			rootLayout.addView(newItem);
+			Log.d("new item", "added to root");
 			setDataSources(newItem);
-
+			Log.d("datasources","set");
 			return newItem;
 			
 		} catch (Exception e)
@@ -269,11 +276,13 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 	 * @param newItem
 	 * @param bundle
 	 */
-	private void setImageResource(final View newItem, Bundle bundle)
+	private void setImageResource(View newItem, Bundle bundle)
 	{
+		final ImageView image = (ImageView) ((RelativeLayout) newItem).getChildAt(0);
+		
 		if(bundle.getInt(ObjectValues.ICN_SRC) == 0)
 		{
-			((ImageView) newItem).setScaleType(ScaleType.CENTER_CROP);
+			image.setScaleType(ScaleType.CENTER_CROP);
 			final String source = bundle.getString(ObjectValues.IMG_SRC);
 			newItem.post(new Runnable()
 			{
@@ -282,15 +291,15 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 				public void run()
 				{
 					// TODO Auto-generated method stub
-					ImageTools.setPic(newItem, source);
+					ImageTools.setPic(image, source);
 				}
 			});
 			
 		}
 		else
 		{
-			((ImageView) newItem).setScaleType(ScaleType.FIT_CENTER);
-			((ImageView) newItem).setImageResource(bundle.getInt(ObjectValues.ICN_SRC));
+			image.setScaleType(ScaleType.FIT_CENTER);
+			image.setImageResource(bundle.getInt(ObjectValues.ICN_SRC));
 		}
 	}
 

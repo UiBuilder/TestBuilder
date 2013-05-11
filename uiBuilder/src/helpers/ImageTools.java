@@ -141,7 +141,7 @@ public class ImageTools
 		
 		if (photoPath != null)
 		{
-			setPic(destination);
+			setPic(destination, photoPath);
 		}
 	}
 	/**

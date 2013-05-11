@@ -3,6 +3,7 @@ package creators;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
@@ -79,6 +80,7 @@ public class Generator
 			break;
 
 		case ObjectIdMapper.OBJECT_ID_IMAGEVIEW:
+			Log.d("building", "IMAGE");
 			xmlView = builder.buildImageView();
 			
 			break;
@@ -163,6 +165,7 @@ public class Generator
 		container.setTag(valueBundle);
 		container.setOnTouchListener(manipulator);
 		
+		xmlView.measure(valueBundle.getInt(ObjectValues.DEFAULT_WIDTH), valueBundle.getInt(ObjectValues.DEFAULT_HEIGHT));
 		container.measure(valueBundle.getInt(ObjectValues.DEFAULT_WIDTH), valueBundle.getInt(ObjectValues.DEFAULT_HEIGHT));
 		 
 		return container;

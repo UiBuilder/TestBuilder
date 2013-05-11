@@ -104,9 +104,10 @@ public class UiBuilderActivity
 		exporter = new ImageTools(getApplicationContext());
 
 		performInitTransaction();
-		checkDb();
 		
-		factory = new ObjectFactory(getApplicationContext(), designbox, rootLayout);
+		//checkDb();
+		
+		
 	}
 
 	/**
@@ -119,6 +120,8 @@ public class UiBuilderActivity
 	protected void onResume()
 	{	
 		objectWriter = new ToDatabaseObjectWriter(screenId, getApplicationContext());
+		
+		factory = new ObjectFactory(getApplicationContext(), designbox, rootLayout);
 		
 		Log.d("onresume", "called");
 		if (!intentStarted)
@@ -700,12 +703,7 @@ public class UiBuilderActivity
 		// TODO Auto-generated method stub
 		View v = factory.getElement(id, event);
 		
-		if (displaySidebar(DELETEBOX))
-		{
-			return v;
-		}
-		
-		return null;
+		return v;
 	}
 
 

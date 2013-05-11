@@ -137,7 +137,7 @@ public class ItemboxFragment extends Fragment implements
 		case MotionEvent.ACTION_DOWN:
 			
 			newV = requestListener.requestObject(objectType, event);
-			//newV.setBackgroundColor(context.getResources().getColor(R.color.fresh_aqua));
+			newV.setBackgroundColor(context.getResources().getColor(R.color.fresh_aqua));
 			
 			newV.setVisibility(View.INVISIBLE);
 			v.setActivated(true);
@@ -153,18 +153,18 @@ public class ItemboxFragment extends Fragment implements
 			
 			if (newV != null)
 			{
-			
-			ClipData.Item item = new ClipData.Item("itembox");
-			ClipData clipData = new ClipData((CharSequence) String.valueOf(objectType), new String[]
-			{ ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
+				
+				ClipData.Item item = new ClipData.Item("itembox");
+				ClipData clipData = new ClipData((CharSequence) String.valueOf(objectType), new String[]
+				{ ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
+	
+				newV.startDrag(clipData, new View.DragShadowBuilder(newV), newV, 0);
 
-			newV.startDrag(clipData, new View.DragShadowBuilder(newV), newV, 0);
-			//active.setActivated(false);
-			v.setActivated(false);
-			
-			ViewGroup parent = (ViewGroup) newV.getParent();
-			parent.removeView(newV);
-			newV = null;
+				v.setActivated(false);
+				
+				ViewGroup parent = (ViewGroup) newV.getParent();
+				parent.removeView(newV);
+				newV = null;
 			}
 			return false;
 
