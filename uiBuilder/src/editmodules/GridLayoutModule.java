@@ -4,6 +4,7 @@ import uibuilder.EditmodeFragment;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import data.SampleAdapter;
 import de.ur.rk.uibuilder.R;
 
@@ -18,7 +19,6 @@ import de.ur.rk.uibuilder.R;
 public class GridLayoutModule extends Module
 {
 	private LinearLayout box;
-	private View requesting;
 	
 	LinearLayout 
 			layoutTypeOne,
@@ -69,9 +69,11 @@ public class GridLayoutModule extends Module
 	}
 
 	@Override
-	public LinearLayout getInstance(View inProgress)
+	public LinearLayout getInstance(View container, View item)
 	{
-		requesting = inProgress;
+		this.container = (RelativeLayout) container;
+		this.item = item;
+		
 		adaptToContext();
 		
 		return box;
@@ -104,7 +106,7 @@ public class GridLayoutModule extends Module
 			case R.id.editmode_grid_included_layout_2:
 			case R.id.editmode_grid_included_layout_3:
 			case R.id.editmode_grid_included_layout_4:
-				samples.setSampleLayout(requesting, id);
+				samples.setSampleLayout(container, id);
 				break;
 
 			default:

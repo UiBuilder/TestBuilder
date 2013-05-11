@@ -8,6 +8,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import de.ur.rk.uibuilder.R;
 
 /**
@@ -21,8 +22,7 @@ import de.ur.rk.uibuilder.R;
 public class ZOrderModule extends Module
 {
 	private LinearLayout box;
-	
-	private View requesting;
+
 	private Button toFront;
 	private Button toBack;
 	
@@ -49,10 +49,14 @@ public class ZOrderModule extends Module
 		toBack = (Button) box.findViewById(R.id.editmode_z_order_back);
 	}
 
+	
 	@Override
-	public LinearLayout getInstance(View inProgress)
+	public LinearLayout getInstance(View container, View item)
 	{
-		requesting = inProgress;
+		this.container = (RelativeLayout) container;
+		this.item = item;
+		
+		adaptToContext();
 		
 		return box;
 	}
@@ -70,7 +74,7 @@ public class ZOrderModule extends Module
 		@Override
 		public void onClick(View v)
 		{
-			ViewGroup parent = (ViewGroup) requesting.getParent();
+			ViewGroup parent = (ViewGroup) container.getParent();
 
 			switch (v.getId())
 			{
@@ -97,10 +101,10 @@ public class ZOrderModule extends Module
 		 */
 		private void pushToBack(ViewGroup parent)
 		{
-			parent.removeView(requesting);
+			parent.removeView(container);
 			ArrayList<View> allItems = new ArrayList<View>();
 
-			allItems.add(requesting);
+			allItems.add(container);
 
 			int number = parent.getChildCount();
 			for (int i = 0; i < number; i++)
@@ -120,7 +124,7 @@ public class ZOrderModule extends Module
 		 */
 		private void bringToFront()
 		{
-			requesting.bringToFront();
+			container.bringToFront();
 		}
 	}
 

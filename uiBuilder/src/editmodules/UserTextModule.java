@@ -1,12 +1,16 @@
 package editmodules;
 
+import creators.ObjectIdMapper;
 import uibuilder.EditmodeFragment;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import data.ObjectValues;
 import de.ur.rk.uibuilder.R;
 
 
@@ -24,7 +28,6 @@ public class UserTextModule extends Module
 
 	private LinearLayout box;
 	
-	private View requesting;
 
 	public UserTextModule(EditmodeFragment context)
 	{
@@ -39,36 +42,18 @@ public class UserTextModule extends Module
 		editText = (EditText) box.findViewById(R.id.item_edit_edittext);
 	}
 
+
 	@Override
-	public LinearLayout getInstance(View inProgress)
+	public LinearLayout getInstance(View container, View item)
 	{
-		requesting = inProgress;
+		this.container = (RelativeLayout) container;
+		this.item = item;
+		
 		adaptToContext();
 		
 		return box;
 	}
 	
-	/**
-	 * Check if the requesting view is inside a container and set the text appropriately.
-	 * @param string
-	 */
-	public void setViewText(String string)
-	{
-		if (requesting instanceof LinearLayout && requesting != null)
-		{
-			TextView textView = (TextView) ((LinearLayout) requesting).getChildAt(0);
-
-			textView.setText(string);
-
-		} else if (requesting instanceof EditText && requesting != null)
-		{
-			((EditText) requesting).setHint(string);
-
-		} else if (requesting != null)
-		{
-			((TextView) requesting).setText(string);
-		}
-	}
 
 	@Override
 	public void getValues()
@@ -80,31 +65,32 @@ public class UserTextModule extends Module
 	@Override
 	protected void adaptToContext()
 	{
-		if (requesting instanceof LinearLayout)
+		Bundle objectBundle = (Bundle) container.getTag();
+		int id = objectBundle.getInt(ObjectValues.TYPE);
+		
+		switch (id)
 		{
-			TextView textView = (TextView) ((LinearLayout) requesting).getChildAt(0);
-			if (requesting instanceof EditText)
-			{
-				editText.setText(textView.getHint());
+		case ObjectIdMapper.OBJECT_ID_EDITTEXT:
+			
+			editText.setText(((EditText) item).getHint());
+			break;
+			
+		case ObjectIdMapper.OBJECT_ID_TEXTVIEW:
+		case ObjectIdMapper.OBJECT_ID_SWITCH:
+		case ObjectIdMapper.OBJECT_ID_RADIOGROUP:
+		case ObjectIdMapper.OBJECT_ID_BUTTON:
+			
+			editText.setText(((TextView) item).getText());
+			break;
+			
+		case ObjectIdMapper.OBJECT_ID_CHECKBOX:
+			
+			TextView textView = (TextView) ((LinearLayout) item).getChildAt(0);
 
-			} else
-			{
-				editText.setText(textView.getText());
-
-			}
-
-		} else
-		{
-			if (requesting instanceof EditText)
-			{
-				editText.setText(((TextView)requesting).getHint());
-
-			} else
-			{
-				editText.setText(((TextView)requesting).getText());
-
-			}
-		}		
+			editText.setText(textView.getText());
+			break;
+			
+		}	
 	}
 
 	@Override
@@ -115,6 +101,39 @@ public class UserTextModule extends Module
 		editText.addTextChangedListener(textListener);
 	}
 	
+	
+	/**
+	 * Check if the requesting view is inside a container and set the text appropriately.
+	 * @param string
+	 */
+	public void setViewText(String string)
+	{
+		Bundle objectBundle = (Bundle) container.getTag();
+		int id = objectBundle.getInt(ObjectValues.TYPE);
+		
+		switch (id)
+		{
+		case ObjectIdMapper.OBJECT_ID_EDITTEXT:
+			
+			((EditText) item).setHint(string);
+			break;
+			
+		case ObjectIdMapper.OBJECT_ID_TEXTVIEW:
+		case ObjectIdMapper.OBJECT_ID_SWITCH:
+		case ObjectIdMapper.OBJECT_ID_RADIOGROUP:
+		case ObjectIdMapper.OBJECT_ID_BUTTON:
+			
+			((TextView) item).setText(string);
+			break;
+			
+		case ObjectIdMapper.OBJECT_ID_CHECKBOX:
+			
+			TextView textView = (TextView) ((LinearLayout) item).getChildAt(0);
+
+			textView.setText(string);
+			break;
+		}
+	}
 
 	private class UserTextModuleListener implements TextWatcher
 	{
@@ -123,7 +142,6 @@ public class UserTextModule extends Module
 		public void afterTextChanged(Editable s)
 		{
 			setViewText(s.toString());
-
 		}
 
 		@Override

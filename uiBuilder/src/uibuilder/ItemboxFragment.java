@@ -5,9 +5,11 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -22,7 +24,7 @@ import de.ur.rk.uibuilder.R;
  *
  */
 public class ItemboxFragment extends Fragment implements
-		OnTouchListener
+		OnTouchListener, OnDragListener
 {
 	private View active;
 
@@ -154,6 +156,13 @@ public class ItemboxFragment extends Fragment implements
 			onUiElementSelectedListener listener)
 	{
 		ItemboxFragment.listener = listener;
+	}
+
+	@Override
+	public boolean onDrag(View inProcess, DragEvent event)
+	{
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 }

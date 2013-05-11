@@ -6,6 +6,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import de.ur.rk.uibuilder.R;
 
@@ -24,7 +25,6 @@ public class AlignModule extends Module
 
 	private LinearLayout box;
 
-	private View requesting;
 
 	public AlignModule(EditmodeFragment context)
 	{
@@ -48,11 +48,13 @@ public class AlignModule extends Module
 	}
 	
 	@Override
-	public LinearLayout getInstance(View inProgress)
+	public LinearLayout getInstance(View container, View item)
 	{
-		requesting = inProgress;
+		this.container = (RelativeLayout) container;
+		this.item = item;
+		
 		adaptToContext();
-
+		
 		return box;
 	}
 
@@ -79,8 +81,8 @@ public class AlignModule extends Module
 	{
 		clearAlignSelection();
 		Log.d("adapt", "called");
-		Log.d("value", String.valueOf(((TextView) requesting).getGravity()));
-		switch (((TextView) requesting).getGravity())
+		Log.d("value", String.valueOf(((TextView) item).getGravity()));
+		switch (((TextView) item).getGravity())
 		{
 		case Gravity.TOP | Gravity.LEFT:
 			topLeft.setActivated(true);
@@ -148,40 +150,40 @@ public class AlignModule extends Module
 			{
 
 			case R.id.editmode_align_top_left:
-				((TextView) requesting).setGravity(Gravity.LEFT);
+				((TextView) item).setGravity(Gravity.LEFT);
 				break;
 			case R.id.editmode_align_top_center:
-				((TextView) requesting).setGravity(Gravity.CENTER_HORIZONTAL);
+				((TextView) item).setGravity(Gravity.CENTER_HORIZONTAL);
 				break;
 			case R.id.editmode_align_top_right:
-				((TextView) requesting).setGravity(Gravity.RIGHT);
+				((TextView) item).setGravity(Gravity.RIGHT);
 				break;
 			case R.id.editmode_align_center_left:
-				((TextView) requesting).setGravity(Gravity.LEFT
+				((TextView) item).setGravity(Gravity.LEFT
 						| Gravity.CENTER_VERTICAL);
 
 				break;
 			case R.id.editmode_align_center_center:
-				((TextView) requesting).setGravity(Gravity.CENTER);
+				((TextView) item).setGravity(Gravity.CENTER);
 
 				break;
 			case R.id.editmode_align_center_right:
-				((TextView) requesting).setGravity(Gravity.RIGHT
+				((TextView) item).setGravity(Gravity.RIGHT
 						| Gravity.CENTER_VERTICAL);
 
 				break;
 			case R.id.editmode_align_bottom_left:
-				((TextView) requesting).setGravity(Gravity.LEFT
+				((TextView) item).setGravity(Gravity.LEFT
 						| Gravity.BOTTOM);
 
 				break;
 			case R.id.editmode_align_bottom_center:
-				((TextView) requesting).setGravity(Gravity.CENTER_HORIZONTAL
+				((TextView) item).setGravity(Gravity.CENTER_HORIZONTAL
 						| Gravity.BOTTOM);
 
 				break;
 			case R.id.editmode_align_bottom_right:
-				((TextView) requesting).setGravity(Gravity.RIGHT
+				((TextView) item).setGravity(Gravity.RIGHT
 						| Gravity.BOTTOM);
 
 				break;

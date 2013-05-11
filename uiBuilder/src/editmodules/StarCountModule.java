@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import data.ObjectValues;
@@ -26,8 +27,6 @@ public class StarCountModule extends Module
 	private SeekBar starBar, ratingSlider;
 
 	private LinearLayout box;
-
-	private RatingBar requesting;
 
 	private Bundle valuesBundle;
 
@@ -54,16 +53,17 @@ public class StarCountModule extends Module
 	}
 
 	@Override
-	public LinearLayout getInstance(View inProgress)
+	public LinearLayout getInstance(View container, View item)
 	{
-		requesting = (RatingBar) ((ViewGroup) inProgress).getChildAt(0);
-		valuesBundle = (Bundle) inProgress.getTag();
-
+		this.container = (RelativeLayout) container;
+		this.item = item;
+		
+		valuesBundle = (Bundle) container.getTag();
+		
 		adaptToContext();
-
+		
 		return box;
 	}
-
 	/*
 	 * Using two separate Listeners for virtually the same type of action may
 	 * seem counter-intuitive but for some reason delivers more predictable
@@ -79,7 +79,7 @@ public class StarCountModule extends Module
 
 			valuesBundle.putInt(ObjectValues.STARS_NUM, progress);
 
-			requesting.setNumStars(valuesBundle.getInt(ObjectValues.STARS_NUM));
+			((RatingBar) item).setNumStars(valuesBundle.getInt(ObjectValues.STARS_NUM));
 			ratingSlider.setMax(progress);
 
 			Log.d("StarcountSeekbar", "gotValue for progress: " + progress + 1);
@@ -106,7 +106,7 @@ public class StarCountModule extends Module
 		public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
 		{
 			Log.d("RatingSeekbar", "gotValue for progress: " + progress);
-			requesting.setRating(progress);
+			((RatingBar) item).setRating(progress);
 		}
 
 		@Override
@@ -119,7 +119,7 @@ public class StarCountModule extends Module
 		@Override
 		public void onStopTrackingTouch(SeekBar seekBar)
 		{
-			valuesBundle.putInt(ObjectValues.RATING, Math.round(requesting.getRating()));
+			valuesBundle.putInt(ObjectValues.RATING, Math.round(((RatingBar) item).getRating()));
 
 		}
 	}
@@ -132,7 +132,7 @@ public class StarCountModule extends Module
 		starBar.setProgress(valuesBundle.getInt(ObjectValues.STARS_NUM) - 1);
 		ratingSlider.setProgress(valuesBundle.getInt(ObjectValues.RATING));
 
-		requesting.setRating(valuesBundle.getInt(ObjectValues.RATING));
+		((RatingBar) item).setRating(valuesBundle.getInt(ObjectValues.RATING));
 
 	}
 

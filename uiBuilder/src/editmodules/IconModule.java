@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import data.IconAdapter;
@@ -30,7 +31,7 @@ import de.ur.rk.uibuilder.R;
 public class IconModule extends Module
 {
 	private LinearLayout box;
-	private View requesting;
+
 	GridView iconGrid;
 	
 	int[] lowResIcns;
@@ -93,11 +94,13 @@ public class IconModule extends Module
 	 * @see editmodules.Module#getInstance(android.view.View)
 	 */
 	@Override
-	public LinearLayout getInstance(View inProgress)
+	public LinearLayout getInstance(View container, View item)
 	{
-		requesting = inProgress;
+		this.container = (RelativeLayout) container;
+		this.item = item;
 		
 		adaptToContext();
+		
 		return box;
 	}
 
@@ -131,13 +134,13 @@ public class IconModule extends Module
 		private void setIconResource(int pos)
 		{
 			int resourceId = (highResIcns[pos]);
-			Bundle bundle = (Bundle) requesting.getTag();
+			Bundle bundle = (Bundle) container.getTag();
 			bundle.putInt(ObjectValues.ICN_SRC, resourceId);
 			bundle.putString(ObjectValues.IMG_SRC, null);
 
-			((ImageView) requesting).setScaleType(ScaleType.FIT_CENTER);
+			((ImageView) item).setScaleType(ScaleType.FIT_CENTER);
 			
-			((ImageView) requesting).setImageResource(resourceId);
+			((ImageView) item).setImageResource(resourceId);
 		}
 	}
 

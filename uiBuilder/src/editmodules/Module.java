@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import editmodules.ExpansionListener.onToggleExpansionListener;
 
 /**
@@ -15,6 +16,9 @@ import editmodules.ExpansionListener.onToggleExpansionListener;
  */
 public abstract class Module extends View implements onToggleExpansionListener
 {
+	protected RelativeLayout container;
+	protected View item;
+	
 	@Override
 	public void getValues()
 	{
@@ -58,7 +62,7 @@ public abstract class Module extends View implements onToggleExpansionListener
 	 * @param inProgress the selected item on the drawing area
 	 * @return a fully set up layout containing the user interface for the specific module
 	 */
-	public abstract LinearLayout getInstance(View inProgress);
+	public abstract LinearLayout getInstance(View container, View item);
 	
 	/**
 	 * User interface elements which indicate current states of the selected item should adapt 

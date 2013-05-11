@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -23,8 +24,6 @@ import de.ur.rk.uibuilder.R;
 public class GridColumnModule extends Module
 {
 	private LinearLayout box;
-	private GridView requesting;
-	private ViewGroup container;
 	
 	private SeekBar columnNumber;
 	private TextView display;
@@ -64,12 +63,13 @@ public class GridColumnModule extends Module
 		columnNumber.setOnSeekBarChangeListener(new ColumnNumberListener());
 	}
 
+	
 	@Override
-	public LinearLayout getInstance(View inProgress)
+	public LinearLayout getInstance(View container, View item)
 	{
-		container = (ViewGroup) inProgress;
-
-		requesting = (GridView) container.getChildAt(0);
+		this.container = (RelativeLayout) container;
+		this.item = item;
+		
 		adaptToContext();
 		
 		return box;
@@ -80,7 +80,7 @@ public class GridColumnModule extends Module
 	{
 		// TODO Auto-generated method stub
 
-		columnNumber.setProgress(requesting.getNumColumns() - offset);
+		columnNumber.setProgress(((GridView) item).getNumColumns() - offset);
 		display.setText(String.valueOf(columnNumber.getProgress() + offset));
 	}
 	
@@ -116,7 +116,7 @@ public class GridColumnModule extends Module
 		
 		private void gridColumnsChanged(int col)
 		{
-			requesting.setNumColumns(col);
+			((GridView) item).setNumColumns(col);
 			colNum = col;
 		}
 

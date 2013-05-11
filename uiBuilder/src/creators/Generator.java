@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.RelativeLayout;
 import data.Bundler;
 import data.ObjectValues;
@@ -31,6 +32,8 @@ public class Generator
 	private FromXmlBuilder builder;
 	
 	private Resources res;
+	
+	private RelativeLayout.LayoutParams childParams, parentParams;
 
 	/**
 	 * Konstruktor
@@ -55,10 +58,14 @@ public class Generator
 	protected View generate(int id)
 	{
 		View xmlView;
-		RelativeLayout.LayoutParams params = null;
-		Bundle valueBundle = Bundler.getDefaultValueBundle(id, res);
-		params = new RelativeLayout.LayoutParams(valueBundle.getInt(ObjectValues.DEFAULT_WIDTH), valueBundle.getInt(ObjectValues.DEFAULT_HEIGHT));
+		RelativeLayout container = builder.createContainer();
 
+		Bundle valueBundle = Bundler.getDefaultValueBundle(id, res);
+		
+		parentParams = new RelativeLayout.LayoutParams(valueBundle.getInt(ObjectValues.DEFAULT_WIDTH), valueBundle.getInt(ObjectValues.DEFAULT_HEIGHT));
+		childParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		childParams.addRule(RelativeLayout.CENTER_IN_PARENT, 1);
+		
 		switch (id)
 		{
 		case ObjectIdMapper.OBJECT_ID_BUTTON:
@@ -145,16 +152,20 @@ public class Generator
 			throw new NoClassDefFoundError();
 		}
 		
-		xmlView.setLayoutParams(params);
+		xmlView.setLayoutParams(childParams);
+		container.setLayoutParams(parentParams);
+		
+		container.addView(xmlView);
+
 		
 		//xmlView.setBackgroundResource(valueBundle.getInt(ObjectValues.BACKGROUND_EDIT));
-		xmlView.setId(idCount++);
-		xmlView.setTag(valueBundle);
-		xmlView.setOnTouchListener(manipulator);
+		container.setId(idCount++);
+		container.setTag(valueBundle);
+		container.setOnTouchListener(manipulator);
 		
-		xmlView.measure(valueBundle.getInt(ObjectValues.DEFAULT_WIDTH), valueBundle.getInt(ObjectValues.DEFAULT_HEIGHT));
+		container.measure(valueBundle.getInt(ObjectValues.DEFAULT_WIDTH), valueBundle.getInt(ObjectValues.DEFAULT_HEIGHT));
 		 
-		return xmlView;
+		return container;
 	}
 
 	

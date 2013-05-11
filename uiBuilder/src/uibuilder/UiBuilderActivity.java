@@ -514,7 +514,7 @@ public class UiBuilderActivity
 		designbox.disableTouch(true);
 		
 		isPreview = true;
-		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_PRES);
+		changeDisplayMode(designbox.getView(), "0");
 		displaySidebar(NOTHING);
 		designbox.disableTouch(true);
 	}
@@ -600,7 +600,6 @@ public class UiBuilderActivity
 	@Override
 	public void requestDelete()
 	{
-
 		designbox.performDelete();
 	}
 

@@ -44,7 +44,7 @@ public class EditmodeFragment extends Fragment
 
 	private View root;
 	private LinearLayout linearRoot;
-	private View currentView;
+	private View currentContainer, currentView;
 
 	private Module 
 			alignModule,
@@ -132,13 +132,14 @@ public class EditmodeFragment extends Fragment
 	 * the module classes
 	 * For the general concept @see Module
 	 * @author jonesses edited by funklos
-	 * @param view
+	 * @param container
 	 */
-	protected void adaptLayoutToContext(View view)
+	protected void adaptLayoutToContext(View container)
 	{
-		currentView = view;
-
-		Bundle tagBundle = (Bundle) currentView.getTag();
+		currentContainer = container;
+		currentView = ((ViewGroup) container).getChildAt(0);
+		
+		Bundle tagBundle = (Bundle) currentContainer.getTag();
 		int id = tagBundle.getInt(ObjectValues.TYPE);
 
 		resetState();
@@ -226,9 +227,9 @@ public class EditmodeFragment extends Fragment
 	 */
 	private void configGrid()
 	{
-		linearRoot.addView(contentModule.getInstance(currentView));
-		linearRoot.addView(gridColumnModule.getInstance(currentView));
-		linearRoot.addView(gridLayoutModule.getInstance(currentView));
+		linearRoot.addView(contentModule.getInstance(currentContainer, currentView));
+		linearRoot.addView(gridColumnModule.getInstance(currentContainer, currentView));
+		linearRoot.addView(gridLayoutModule.getInstance(currentContainer, currentView));
 	}
 
 	/**
@@ -236,8 +237,8 @@ public class EditmodeFragment extends Fragment
 	 */
 	private void configListView()
 	{
-		linearRoot.addView(contentModule.getInstance(currentView));
-		linearRoot.addView(listLayoutModule.getInstance(currentView));
+		linearRoot.addView(contentModule.getInstance(currentContainer, currentView));
+		linearRoot.addView(listLayoutModule.getInstance(currentContainer, currentView));
 	}
 
 	/**
@@ -258,7 +259,7 @@ public class EditmodeFragment extends Fragment
 
 	private void configRatingBar()
 	{
-		linearRoot.addView(starCountModule.getInstance(currentView));
+		linearRoot.addView(starCountModule.getInstance(currentContainer, currentView));
 	}
 
 	/**
@@ -274,9 +275,9 @@ public class EditmodeFragment extends Fragment
 	 */
 	private void configImageView()
 	{
-		linearRoot.addView(imageModule.getInstance(currentView));
-		linearRoot.addView(backgroundColorModule.getInstance(currentView));
-		linearRoot.addView(iconModule.getInstance(currentView));
+		linearRoot.addView(imageModule.getInstance(currentContainer, currentView));
+		linearRoot.addView(backgroundColorModule.getInstance(currentContainer, currentView));
+		linearRoot.addView(iconModule.getInstance(currentContainer, currentView));
 	}
 
 	/**
@@ -292,7 +293,7 @@ public class EditmodeFragment extends Fragment
 	 */
 	private void configDefault()
 	{
-		linearRoot.addView(zOrderModule.getInstance(currentView));
+		linearRoot.addView(zOrderModule.getInstance(currentContainer, currentView));
 	}
 	
 	/**
@@ -300,7 +301,7 @@ public class EditmodeFragment extends Fragment
 	 */
 	private void configCheckBox()
 	{
-		linearRoot.addView(userTextModule.getInstance(currentView));
+		linearRoot.addView(userTextModule.getInstance(currentContainer, currentView));
 	}
 
 	/**
@@ -308,9 +309,9 @@ public class EditmodeFragment extends Fragment
 	 */
 	private void configButton()
 	{
-		linearRoot.addView(userTextModule.getInstance(currentView));
-		linearRoot.addView(fontSizeModule.getInstance(currentView));
-		linearRoot.addView(alignModule.getInstance(currentView));
+		linearRoot.addView(userTextModule.getInstance(currentContainer, currentView));
+		linearRoot.addView(fontSizeModule.getInstance(currentContainer, currentView));
+		linearRoot.addView(alignModule.getInstance(currentContainer, currentView));
 	}
 
 }

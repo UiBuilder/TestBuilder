@@ -4,6 +4,7 @@ import uibuilder.EditmodeFragment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import data.SampleAdapter;
 import de.ur.rk.uibuilder.R;
 
@@ -18,7 +19,6 @@ import de.ur.rk.uibuilder.R;
 public class ContentModule extends Module
 {
 	private LinearLayout box;
-	private View requesting;
 	
 	private Button chooseHipster;
 	private Button chooseBacon;
@@ -57,11 +57,14 @@ public class ContentModule extends Module
 		chooseHipster.setOnClickListener(new ContentSelectedListener());
 		chooseBacon.setOnClickListener(new ContentSelectedListener());
 	}
-
+	
 	@Override
-	public LinearLayout getInstance(View inProgress)
+	public LinearLayout getInstance(View container, View item)
 	{
-		requesting = inProgress;
+		this.container = (RelativeLayout) container;
+		this.item = item;
+		
+		adaptToContext();
 		
 		return box;
 	}
@@ -90,7 +93,7 @@ public class ContentModule extends Module
 			{
 			case R.id.content_choose_hipster:
 			case R.id.content_choose_bacon:
-				samples.setSampleContent(requesting, id);
+				samples.setSampleContent(container, id);
 			}
 
 		}

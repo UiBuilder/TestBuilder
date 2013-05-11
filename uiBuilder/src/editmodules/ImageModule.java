@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import de.ur.rk.uibuilder.R;
 
 /**
@@ -23,7 +24,6 @@ import de.ur.rk.uibuilder.R;
 public class ImageModule extends Module
 {
 	private LinearLayout box;
-	private View requesting;
 	
 	private Button takePic, picFromGallery;
 	
@@ -63,12 +63,12 @@ public class ImageModule extends Module
 		{
 		case ImageTools.CAMERA:
 
-			imageHandler.handleCameraPhoto(requesting);
+			imageHandler.handleCameraPhoto(item);
 			break;
 
 		case ImageTools.GALLERY:
 
-			imageHandler.handleGalleryImport(requesting, data);
+			imageHandler.handleGalleryImport(item, data);
 			break;
 		}
 	}
@@ -101,11 +101,13 @@ public class ImageModule extends Module
 	 * @see editmodules.Module#getInstance(android.view.View)
 	 */
 	@Override
-	public LinearLayout getInstance(View inProgress)
+	public LinearLayout getInstance(View container, View item)
 	{
-		requesting = inProgress;
+		this.container = (RelativeLayout) container;
+		this.item = item;
 		
 		adaptToContext();
+		
 		return box;
 	}
 

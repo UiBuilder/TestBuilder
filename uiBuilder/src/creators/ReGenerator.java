@@ -85,32 +85,35 @@ public class ReGenerator extends AsyncTask<Bundle[], View, Void>
 	{
 		int type = databaseBundle.getInt(ObjectValues.TYPE);
 
-		View xmlView = generator.generate(type);
-
+		RelativeLayout xmlView = (RelativeLayout) generator.generate(type);
+		View generatedView = xmlView.getChildAt(0);
+		
 		Bundle properties = (Bundle) xmlView.getTag();
+		
 		RelativeLayout.LayoutParams params = null;
 		params = new RelativeLayout.LayoutParams(databaseBundle.getInt(ObjectValues.WIDTH), databaseBundle.getInt(ObjectValues.HEIGHT));
 		params.leftMargin = databaseBundle.getInt(ObjectValues.X_POS);
 		params.topMargin = databaseBundle.getInt(ObjectValues.Y_POS);
+		
 		xmlView.setLayoutParams(params);
 
 		switch (type) 
 		{
 		case ObjectIdMapper.OBJECT_ID_BUTTON:
 
-			((Button) xmlView).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
-			((Button) xmlView).setTextSize(databaseBundle.getInt(ObjectValues.FONTSIZE));
+			((Button) generatedView).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
+			((Button) generatedView).setTextSize(databaseBundle.getInt(ObjectValues.FONTSIZE));
 			properties.putInt(ObjectValues.FONTSIZE, databaseBundle.getInt(ObjectValues.FONTSIZE));
-			((Button) xmlView).setGravity(databaseBundle.getInt(ObjectValues.ALIGNMENT));
+			((Button) generatedView).setGravity(databaseBundle.getInt(ObjectValues.ALIGNMENT));
 
 			break;
 
 		case ObjectIdMapper.OBJECT_ID_TEXTVIEW:
 
-			((TextView) xmlView).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
-			((TextView) xmlView).setTextSize(databaseBundle.getInt(ObjectValues.FONTSIZE));
+			((TextView) generatedView).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
+			((TextView) generatedView).setTextSize(databaseBundle.getInt(ObjectValues.FONTSIZE));
 			properties.putInt(ObjectValues.FONTSIZE, databaseBundle.getInt(ObjectValues.FONTSIZE));
-			((TextView) xmlView).setGravity(databaseBundle.getInt(ObjectValues.ALIGNMENT));
+			((TextView) generatedView).setGravity(databaseBundle.getInt(ObjectValues.ALIGNMENT));
 			break;
 
 		case ObjectIdMapper.OBJECT_ID_IMAGEVIEW:
@@ -122,29 +125,29 @@ public class ReGenerator extends AsyncTask<Bundle[], View, Void>
 
 		case ObjectIdMapper.OBJECT_ID_EDITTEXT:
 
-			((EditText) xmlView).setHint(databaseBundle.getString(ObjectValues.USER_TEXT));
-			((EditText) xmlView).setGravity(databaseBundle.getInt(ObjectValues.ALIGNMENT));
+			((EditText) generatedView).setHint(databaseBundle.getString(ObjectValues.USER_TEXT));
+			((EditText) generatedView).setGravity(databaseBundle.getInt(ObjectValues.ALIGNMENT));
 			properties.putInt(ObjectValues.FONTSIZE, databaseBundle.getInt(ObjectValues.FONTSIZE));
-			((EditText) xmlView).setTextSize(databaseBundle.getInt(ObjectValues.FONTSIZE));
+			((EditText) generatedView).setTextSize(databaseBundle.getInt(ObjectValues.FONTSIZE));
 			break;
 
 		case ObjectIdMapper.OBJECT_ID_RADIOGROUP:
 
-			((TextView) xmlView).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
+			((TextView) generatedView).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
 			properties.putInt(ObjectValues.FONTSIZE, databaseBundle.getInt(ObjectValues.FONTSIZE));
 
 			break;
 
 		case ObjectIdMapper.OBJECT_ID_SWITCH:
 
-			((Switch) xmlView).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
+			((Switch) generatedView).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
 			properties.putInt(ObjectValues.FONTSIZE, databaseBundle.getInt(ObjectValues.FONTSIZE));
 
 			break;
 
 		case ObjectIdMapper.OBJECT_ID_CHECKBOX:
 
-			((TextView) ((LinearLayout) xmlView).getChildAt(0)).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
+			((TextView) ((LinearLayout) generatedView).getChildAt(0)).setText(databaseBundle.getString(ObjectValues.USER_TEXT));
 			properties.putInt(ObjectValues.FONTSIZE, databaseBundle.getInt(ObjectValues.FONTSIZE));
 
 			break;
@@ -157,8 +160,8 @@ public class ReGenerator extends AsyncTask<Bundle[], View, Void>
 
 		case ObjectIdMapper.OBJECT_ID_RATINGBAR:
 
-			((RatingBar) ((RelativeLayout) xmlView).getChildAt(0)).setRating(databaseBundle.getInt(ObjectValues.RATING));
-			((RatingBar) ((RelativeLayout) xmlView).getChildAt(0)).setNumStars(databaseBundle.getInt(ObjectValues.STARS_NUM));
+			((RatingBar) generatedView).setRating(databaseBundle.getInt(ObjectValues.RATING));
+			((RatingBar) generatedView).setNumStars(databaseBundle.getInt(ObjectValues.STARS_NUM));
 			properties.putInt(ObjectValues.STARS_NUM, databaseBundle.getInt(ObjectValues.STARS_NUM));
 			properties.putInt(ObjectValues.RATING, databaseBundle.getInt(ObjectValues.RATING));
 			break;
@@ -174,7 +177,7 @@ public class ReGenerator extends AsyncTask<Bundle[], View, Void>
 			properties.putInt(ObjectValues.EXAMPLE_CONTENT, databaseBundle.getInt(ObjectValues.EXAMPLE_CONTENT));
 			properties.putInt(ObjectValues.COLUMNS_NUM, databaseBundle.getInt(ObjectValues.COLUMNS_NUM));
 
-			((GridView) ((ViewGroup) xmlView).getChildAt(0)).setNumColumns(databaseBundle.getInt(ObjectValues.COLUMNS_NUM));
+			((GridView) generatedView).setNumColumns(databaseBundle.getInt(ObjectValues.COLUMNS_NUM));
 			break;
 
 		default:

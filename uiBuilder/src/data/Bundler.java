@@ -36,17 +36,20 @@ public class Bundler
 	 * @param object the source view
 	 * @return contentValues which can be directly inserted into the database.
 	 */
-	public static ContentValues getValuePack(View object)
+	public static ContentValues getValuePack(View viewObject)
 	{
-		Bundle objectBundle = (Bundle) object.getTag();
+		RelativeLayout container = (RelativeLayout) viewObject;
+		View item = container.getChildAt(0);
+		
+		Bundle objectBundle = (Bundle) container.getTag();
 		ContentValues valuesBundle = new ContentValues();
 
 		int id = objectBundle.getInt(ObjectValues.DATABASE_ID);
 		int tagId = objectBundle.getInt(ObjectValues.TYPE);
-		int xPos = (int) object.getX();
-		int yPos = (int) object.getY();
-		int width = object.getMeasuredWidth();
-		int height = object.getMeasuredHeight();
+		int xPos = (int) container.getX();
+		int yPos = (int) container.getY();
+		int width = container.getMeasuredWidth();
+		int height = container.getMeasuredHeight();
 		
 		valuesBundle.put(ObjectValues.ZORDER, objectBundle.getInt(ObjectValues.ZORDER));
 		valuesBundle.put(ObjectValues.DATABASE_ID, id);
@@ -60,45 +63,45 @@ public class Bundler
 		switch (tagId)
 		{
 		case ObjectIdMapper.OBJECT_ID_BUTTON:
-			valuesBundle.put(ObjectValues.USER_TEXT, (String) ((Button) object).getText());
-			valuesBundle.put(ObjectValues.FONTSIZE, (int) ((Button) object).getTextSize());
+			valuesBundle.put(ObjectValues.USER_TEXT, (String) ((Button) item).getText());
+			valuesBundle.put(ObjectValues.FONTSIZE, (int) ((Button) item).getTextSize());
 			valuesBundle.put(ObjectValues.BACKGROUND_EDIT, objectBundle.getInt(ObjectValues.BACKGROUND_EDIT));
-			valuesBundle.put(ObjectValues.ALIGNMENT, ((TextView) object).getGravity());
+			valuesBundle.put(ObjectValues.ALIGNMENT, ((TextView) item).getGravity());
 
 			Log.d("ObjectValueCollector", "put Button, with: "
-					+ (String) ((Button) object).getText() + " and Size:"
-					+ (int) ((Button) object).getTextSize());
+					+ (String) ((Button) item).getText() + " and Size:"
+					+ (int) ((Button) item).getTextSize());
 
 			break;
 
 		case ObjectIdMapper.OBJECT_ID_CHECKBOX:
 
-			TextView textView = (TextView) ((LinearLayout) object).getChildAt(0);
+			TextView textView = (TextView) ((LinearLayout) item).getChildAt(0);
 			valuesBundle.put(ObjectValues.USER_TEXT, (String) textView.getText());
 			Log.d("ObjectValueCollector", "put checkbox"
 					+ (String) textView.getText());
 			break;
 
 		case ObjectIdMapper.OBJECT_ID_RADIOGROUP:
-			valuesBundle.put(ObjectValues.USER_TEXT, ((RadioButton) object).getText().toString());
+			valuesBundle.put(ObjectValues.USER_TEXT, ((RadioButton) item).getText().toString());
 			Log.d("ObjectValueCollector", "put radiogroup");
 			break;
 
 		case ObjectIdMapper.OBJECT_ID_SWITCH:
-			valuesBundle.put(ObjectValues.USER_TEXT, ((Switch) object).getText().toString());
+			valuesBundle.put(ObjectValues.USER_TEXT, ((Switch) item).getText().toString());
 			Log.d("ObjectValueCollector", "put Switch");
 			break;
 
 		case ObjectIdMapper.OBJECT_ID_EDITTEXT:
-			valuesBundle.put(ObjectValues.USER_TEXT, (((EditText) object).getHint()).toString());
-			valuesBundle.put(ObjectValues.ALIGNMENT, ((TextView) object).getGravity());
-			valuesBundle.put(ObjectValues.FONTSIZE, (int) ((TextView) object).getTextSize());
+			valuesBundle.put(ObjectValues.USER_TEXT, (((EditText) item).getHint()).toString());
+			valuesBundle.put(ObjectValues.ALIGNMENT, ((TextView) item).getGravity());
+			valuesBundle.put(ObjectValues.FONTSIZE, (int) ((TextView) item).getTextSize());
 			valuesBundle.put(ObjectValues.BACKGROUND_EDIT, objectBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 			Log.d("ObjectValueCollector", "put edittext");
 			break;
 
 		case ObjectIdMapper.OBJECT_ID_GRIDVIEW:
-			valuesBundle.put(ObjectValues.COLUMNS_NUM, ((GridView) ((RelativeLayout) object).getChildAt(0)).getNumColumns());
+			valuesBundle.put(ObjectValues.COLUMNS_NUM, ((GridView) item).getNumColumns());
 			valuesBundle.put(ObjectValues.EXAMPLE_CONTENT, objectBundle.getInt(ObjectValues.EXAMPLE_CONTENT));
 			valuesBundle.put(ObjectValues.EXAMPLE_LAYOUT, objectBundle.getInt(ObjectValues.EXAMPLE_LAYOUT));
 			Log.d("ObjectValueCollector", "put Grid");
@@ -135,9 +138,9 @@ public class Bundler
 			break;
 
 		case ObjectIdMapper.OBJECT_ID_TEXTVIEW:
-			valuesBundle.put(ObjectValues.USER_TEXT, ((String) ((TextView) object).getText()));
-			valuesBundle.put(ObjectValues.ALIGNMENT, ((TextView) object).getGravity());
-			valuesBundle.put(ObjectValues.FONTSIZE, (int) ((TextView) object).getTextSize());
+			valuesBundle.put(ObjectValues.USER_TEXT, ((String) ((TextView) item).getText()));
+			valuesBundle.put(ObjectValues.ALIGNMENT, ((TextView) item).getGravity());
+			valuesBundle.put(ObjectValues.FONTSIZE, (int) ((TextView) item).getTextSize());
 			valuesBundle.put(ObjectValues.BACKGROUND_EDIT, objectBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 			Log.d("ObjectValueCollector", "put Textview");
 			break;

@@ -4,6 +4,7 @@ import uibuilder.EditmodeFragment;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import data.SampleAdapter;
 import de.ur.rk.uibuilder.R;
 
@@ -18,7 +19,6 @@ import de.ur.rk.uibuilder.R;
 public class ListLayoutModule extends Module
 {
 	private LinearLayout box;
-	private View requesting;
 	
 	private SampleAdapter samples;
 	
@@ -73,11 +73,13 @@ public class ListLayoutModule extends Module
 		layoutTypeFive.setOnClickListener(listLayoutListener);
 		layoutTypeSix.setOnClickListener(listLayoutListener);
 	}
-
+	
 	@Override
-	public LinearLayout getInstance(View inProgress)
+	public LinearLayout getInstance(View container, View item)
 	{
-		requesting = inProgress;
+		this.container = (RelativeLayout) container;
+		this.item = item;
+		
 		adaptToContext();
 		
 		return box;
@@ -97,7 +99,7 @@ public class ListLayoutModule extends Module
 		{
 			int id = listLayout.getId();
 
-			samples.setSampleLayout(requesting, id);
+			samples.setSampleLayout(container, id);
 		}
 	}
 

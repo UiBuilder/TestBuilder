@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
+import android.widget.RelativeLayout;
 import android.widget.NumberPicker.OnValueChangeListener;
 import android.widget.TextView;
 import data.ObjectValues;
@@ -21,7 +22,7 @@ import de.ur.rk.uibuilder.R;
 public class FontSizeModule extends Module
 {
 	private LinearLayout box;
-	private View requesting;
+
 	private Bundle valuesBundle;
 	
 	private NumberPicker picker;
@@ -64,16 +65,20 @@ public class FontSizeModule extends Module
 		picker.setMinValue(5);
 		picker.setMaxValue(130);
 	}
-
+	
+	
 	@Override
-	public LinearLayout getInstance(View inProgress)
+	public LinearLayout getInstance(View container, View item)
 	{
-		requesting = inProgress;
-		valuesBundle = (Bundle) requesting.getTag();
-
+		this.container = (RelativeLayout) container;
+		this.item = item;
+		
+		valuesBundle = (Bundle) container.getTag();
 		adaptToContext();
+		
 		return box;
 	}
+
 	
 
 	@Override
@@ -90,10 +95,8 @@ public class FontSizeModule extends Module
 		{
 			valuesBundle.putInt(ObjectValues.FONTSIZE, newVal);
 
-			((TextView) requesting).setTextSize(valuesBundle.getInt(ObjectValues.FONTSIZE));
-			requesting.invalidate();
+			((TextView) item).setTextSize(valuesBundle.getInt(ObjectValues.FONTSIZE));
+			item.invalidate();
 		}
 	}
-
-
 }
