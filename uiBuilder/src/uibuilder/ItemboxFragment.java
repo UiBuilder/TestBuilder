@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.ClipData;
 import android.content.ClipDescription;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.DragEvent;
@@ -31,11 +32,14 @@ public class ItemboxFragment extends Fragment implements
 	private View active;
 
 	private View layout;
+	
+	private Context context;
 
 	@Override
 	public void onAttach(Activity activity)
 	{
 		super.onAttach(activity);
+		context = getActivity();
 	}
 
 	@Override
@@ -133,9 +137,10 @@ public class ItemboxFragment extends Fragment implements
 		case MotionEvent.ACTION_DOWN:
 			
 			newV = requestListener.requestObject(objectType, event);
-			newV.setBackgroundColor(getActivity().getResources().getColor(R.color.fresh_aqua));
-			newV.setVisibility(View.INVISIBLE);
+			//newV.setBackgroundColor(context.getResources().getColor(R.color.fresh_aqua));
 			
+			newV.setVisibility(View.INVISIBLE);
+			v.setActivated(true);
 			break;
 		
 		case MotionEvent.ACTION_UP:
@@ -146,18 +151,27 @@ public class ItemboxFragment extends Fragment implements
 			
 		case MotionEvent.ACTION_MOVE:
 			
-			ClipData.Item item = new ClipData.Item(String.valueOf(objectType));
+			if (newV != null)
+			{
+			
+			ClipData.Item item = new ClipData.Item("itembox");
 			ClipData clipData = new ClipData((CharSequence) String.valueOf(objectType), new String[]
 			{ ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
 
 			newV.startDrag(clipData, new View.DragShadowBuilder(newV), newV, 0);
+			//active.setActivated(false);
+			v.setActivated(false);
 			
-			break;
+			ViewGroup parent = (ViewGroup) newV.getParent();
+			parent.removeView(newV);
+			newV = null;
+			}
+			return false;
 
 		default:
 			break;
 		}
-		return false;
+		return true;
 	}
 	
 	private View newV;
@@ -184,7 +198,25 @@ public class ItemboxFragment extends Fragment implements
 	@Override
 	public boolean onDrag(View inProcess, DragEvent event)
 	{
-		// TODO Auto-generated method stub
+		switch (event.getAction())
+		{
+		case DragEvent.ACTION_DRAG_STARTED:
+			Log.d("drag ", "started");
+			break;
+		
+		case DragEvent.ACTION_DROP:
+			
+			View v = (View) event.getLocalState();
+			ViewGroup parent = (ViewGroup) v.getParent();
+			parent.removeView(v);
+			break;
+			
+		case DragEvent.ACTION_DRAG_ENDED:
+			
+			active.setActivated(false);
+			Log.d("drag ", "ended");
+		
+		}
 		return true;
 	}
 	

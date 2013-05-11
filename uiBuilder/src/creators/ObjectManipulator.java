@@ -75,7 +75,7 @@ public class ObjectManipulator
 	 * @param start the starting point of the scaling process
 	 * @param now the actual position of the scale movement
 	 */
-	protected void setParams(int handleId, MotionEvent start, MotionEvent now, View activeItem, View drag)
+	public void setParams(int handleId, MotionEvent start, MotionEvent now, View activeItem, View drag)
 	{	
 		RelativeLayout.LayoutParams dragParams = (RelativeLayout.LayoutParams) drag.getLayoutParams(); 
 		RelativeLayout.LayoutParams itemParams = (RelativeLayout.LayoutParams) activeItem.getLayoutParams(); 
@@ -164,7 +164,7 @@ public class ObjectManipulator
 	 * @author funklos
 	 * @param event
 	 */
-	protected void setStyle(int event, final View activeItem)
+	public void setStyle(int event, final View activeItem)
 	{
 		if (activeItem != null)
 		// synchronized (activeItem)
@@ -211,6 +211,7 @@ public class ObjectManipulator
 				break;
 			}
 		}
+		designArea.invalidate();
 	}
 	
 	/**
@@ -222,7 +223,7 @@ public class ObjectManipulator
 	 * @param activeItem the item in progress
 	 * @param drag the drag element, representing the overlay
 	 */
-	protected void performDrop(DragEvent event, View activeItem, ImageButton drag)
+	public void performDrop(DragEvent event, View activeItem, ImageButton drag)
 	{
 		int itemWidth = activeItem.getMeasuredWidth();
 		int itemHeight = activeItem.getMeasuredHeight();

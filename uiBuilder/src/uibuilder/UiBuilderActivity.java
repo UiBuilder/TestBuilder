@@ -700,8 +700,12 @@ public class UiBuilderActivity
 		// TODO Auto-generated method stub
 		View v = factory.getElement(id, event);
 		
+		if (displaySidebar(DELETEBOX))
+		{
+			return v;
+		}
 		
-		return v;
+		return null;
 	}
 
 

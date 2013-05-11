@@ -167,21 +167,21 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 			// TODO: handle exception
 		}
 	}
-	
-	/**
+/*	
+	*//**
 	 * The views state has to be changed, because it is involved in a drag process.
 	 * Forward the call to the manipulator to set the appropriate optical
 	 * Representation of the state.
 	 * 
 	 * @param which
 	 * @param activeItem
-	 */
+	 *//*
 	public void requestStyle(int which, View activeItem)
 	{
 		manipulator.setStyle(which, activeItem);
 	}
 	
-	/**
+	*//**
 	 * the user is interaction with the overlays scale handles.
 	 * resizes the item correspondingly.
 	 * 
@@ -190,14 +190,14 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 	 * @param end the event which represents the actual state
 	 * @param activeItem the item which is manipulated
 	 * @param dragHandle the center element of the overlay, which has to adapt its properties to the item being resized
-	 */
+	 *//*
 	public void requestResize(int which, MotionEvent start, MotionEvent end, View activeItem, ImageButton dragHandle)
 	{
 		manipulator.setParams(which, start, end, activeItem, dragHandle);
 		designArea.invalidate();
 	}
 	
-	/**
+	*//**
 	 * The method is called after a view has been generated for the first time.
 	 * The supplied event represents the users target for instantiation. This target
 	 * position has to be checked for collisions with the designArea, to keep the
@@ -222,12 +222,12 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 	 * @param event the drop event
 	 * @param activeItem the item in progress
 	 * @param drag the drag element, representing the overlay
-	 */
+	 *//*
 	public void performDrop(DragEvent event, View activeItem, ImageButton drag)
 	{
 		manipulator.performDrop(event, activeItem, drag);
 	}
-
+*/
 	/**
 	 * Check if the generated item needs additional datasources.
 	 * Images need a source, which must be added after adding them to the view tree, else 

@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.RelativeLayout;
 import creators.ObjectFactory;
+import creators.ObjectManipulator;
 import data.ObjectValues;
 import data.ScreenProvider;
 import de.ur.rk.uibuilder.R;
@@ -45,7 +46,8 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	private Overlay overlay;
 
 	private View activeItem;
-	private ObjectFactory factory;
+	//private ObjectFactory factory;
+	private ObjectManipulator manipulator;
 
 	private GestureDetector detector;
 	private ScaleGestureDetector scaleDetector;
@@ -138,7 +140,9 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	 */
 	private void initHelpers()
 	{
-		factory = new ObjectFactory(getActivity().getApplicationContext(), this, designArea);
+		//factory = new ObjectFactory(getActivity().getApplicationContext(), this, designArea);
+		
+		manipulator = new ObjectManipulator(designArea);
 		detector = new GestureDetector(getActivity().getApplicationContext(), this);
 		scaleDetector = new ScaleGestureDetector(getActivity().getApplicationContext(), this);
 		grid = new Grid(getActivity().getApplicationContext(), ObjectFactory.SNAP_GRID_INTERVAL);
@@ -368,7 +372,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	public boolean onDown(MotionEvent event)
 	{
 		Log.d("Ondown", "is called");
-		return createObject(event);
+		return false;//createObject(event);
 		/** If the Object was created the event is consumed. */
 	}
 
@@ -388,7 +392,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	 * @param clickPosX The coordinate on the X-axis
 	 * @param clickPosY The coordinate on the Y-axis
 	 * @return <b>true</b> if the conditions for creation are met, else <b>false</b>
-	 */
+	 *//*
 	private boolean createObject(MotionEvent event)
 	{
 		if (activeItem == null && !overlay.isActive() && nextObjectId != 0)
@@ -400,7 +404,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 			return true;
 		}
 		else return false;
-	}
+	}*/
 
 	/**
 	 * force redraw
@@ -445,18 +449,24 @@ public class DesignFragment extends Fragment implements OnDragListener,
 				// check minpositions, hide grid, display overlay at new position and reposition the element at droptarget
 				
 				View v = (View) event.getLocalState();
-				ViewGroup parent = (ViewGroup) v.getParent();
-				parent.removeView(v);
+				//ViewGroup parent = (ViewGroup) v.getParent();
+				//parent.removeView(v);
+				ClipData.Item item = event.getClipData().getItemAt(0);
+				if (item.getText().equals("itembox"))
+				{
 				designArea.addView(v);
+				}
 				
 				overlay.generate(v);
 				overlay.setVisibility(false);
 				
-				factory.performDrop(event, v, overlay.getDrag());
+				manipulator.performDrop(event, v, overlay.getDrag());
 				//factory.performDrop(event, activeItem, overlay.getDrag());
 				Log.d("action drop", "registered");
 				v.setVisibility(View.VISIBLE);
 				v.setBackgroundResource(R.drawable.object_background_default);
+				
+				activeItem = v;
 				break;
 			}
 		}
@@ -508,7 +518,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	private void requestResize(int which, MotionEvent start, MotionEvent end)
 	{
 		isresizing = true;
-		factory.requestResize(which, start, end, activeItem, overlay.getDrag());
+		manipulator.setParams(which, start, end, activeItem, overlay.getDrag());
 	}
 
 	/**
@@ -534,7 +544,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	 */
 	private void adaptToExit()
 	{
-		factory.requestStyle(DragEvent.ACTION_DRAG_EXITED, activeItem);
+		manipulator.setStyle(DragEvent.ACTION_DRAG_EXITED, activeItem);
 	}
 
 	/**
@@ -542,7 +552,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	 */
 	private void adaptToEnter()
 	{
-		factory.requestStyle(DragEvent.ACTION_DRAG_ENTERED, activeItem);
+		manipulator.setStyle(DragEvent.ACTION_DRAG_ENTERED, activeItem);
 	}
 
 	/**
@@ -551,7 +561,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	 */
 	private void adaptToNormal()
 	{
-		factory.requestStyle(DragEvent.ACTION_DRAG_ENDED, activeItem);
+		manipulator.setStyle(DragEvent.ACTION_DRAG_ENDED, activeItem);
 		overlay.setVisibility(true);
 		toggleGrid();
 
@@ -577,7 +587,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 		overlay.setVisibility(false);
 		toggleGrid();
-		factory.requestStyle(DragEvent.ACTION_DRAG_STARTED, activeItem);
+		manipulator.setStyle(DragEvent.ACTION_DRAG_STARTED, activeItem);
 	}
 
 
