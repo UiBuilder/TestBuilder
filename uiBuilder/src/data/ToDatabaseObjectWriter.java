@@ -110,6 +110,7 @@ public class ToDatabaseObjectWriter extends AsyncTask<View, Void, Void>
 		
 		ContentValues[] allProperties = new ContentValues[values.size()];
 		values.toArray(allProperties);
+		
 		cres.bulkInsert(ScreenProvider.CONTENT_URI_OBJECTS, allProperties);
 		return null;	
 	}

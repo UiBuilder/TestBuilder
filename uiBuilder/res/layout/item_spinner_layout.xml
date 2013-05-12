@@ -4,5 +4,6 @@
    		android:layout_height="match_parent"
    		
         style="@android:style/Widget.Holo.Light.Spinner"
+        android:spinnerMode="dropdown"
         
         />

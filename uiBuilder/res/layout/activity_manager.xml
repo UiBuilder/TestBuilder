@@ -34,7 +34,9 @@
         android:id="@+id/manager_activity_project_grid"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:numColumns="3"       
+        android:numColumns="4"     
+        android:horizontalSpacing="@dimen/default_padding_medium"  
+        android:verticalSpacing="@dimen/default_padding_medium" 
 
         android:cacheColorHint="#ff000000"
         android:choiceMode="none"
@@ -50,8 +52,8 @@
         android:listSelector="@android:color/transparent"
         android:overScrollMode="never"
         
-        android:smoothScrollbar="true"
-        android:verticalSpacing="@dimen/default_padding_medium" >
+        android:smoothScrollbar="true">
+        
     </GridView>
         
         

@@ -38,7 +38,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:scaleType="centerInside"
-                    android:src="@raw/ui_builder_icon_button" />
+                    android:src="@raw/ui_builder_icon_button" 
+					/>
 
                 <TextView
                     android:layout_width="match_parent"

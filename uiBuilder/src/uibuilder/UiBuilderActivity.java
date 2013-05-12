@@ -126,6 +126,7 @@ public class UiBuilderActivity
 		Log.d("onresume", "called");
 		if (!intentStarted)
 		{
+			Log.d("ONRESUME intentstarted", String.valueOf(intentStarted));
 			checkDb();
 		}
 		else
@@ -148,7 +149,7 @@ public class UiBuilderActivity
 	@Override
 	protected void onStop()
 	{		
-		
+		Log.d("ONSTOP", String.valueOf(intentStarted));
 		if(!intentStarted)
 		{
 			Log.d("stoppingsaving state to database", "saving state to database");
@@ -195,6 +196,7 @@ public class UiBuilderActivity
 	 */
 	private void checkDb()
 	{
+		Log.d("check db", "init loader");
 		manager = getLoaderManager();
 		manager.initLoader(ScreenProvider.DATABASE_OBJECTS_LOADER, null, this);
 	}
@@ -273,15 +275,18 @@ public class UiBuilderActivity
 	{
 		super.onActivityResult(requestCode, resultCode, data);
 
-		intentStarted = false;
 		
+		Log.d("ONRESULT intentstarted", String.valueOf(intentStarted));
 		if (resultCode == Activity.RESULT_OK)
+		{
 			switch (requestCode)
 			{
 				case ImageTools.SHARE:
 					Toast.makeText(getApplicationContext(), getString(R.string.confirmation_share_via_mail), Toast.LENGTH_LONG).show();
 					break;
 			}
+		intentStarted = false;
+		}
 	}
 
 	/**
@@ -473,7 +478,7 @@ public class UiBuilderActivity
 	 */
 	private void startSharing()
 	{
-		intentStarted = true;
+		prepareForBackground();
 		
 		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_PRES);
 		Uri screenShotPath = exporter.requestBitmap(designbox.getView(), getContentResolver(), false, false, 0);

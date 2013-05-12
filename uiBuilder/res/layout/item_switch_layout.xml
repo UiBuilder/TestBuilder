@@ -17,7 +17,7 @@
         android:textOff="off"
         android:checked="true"
         android:text="@string/item_edit_caption_switch"
-		android:thumb="@drawable/default_switch_border_thumb"
+		
         
         android:thumbTextPadding="@dimen/default_padding_large"
         

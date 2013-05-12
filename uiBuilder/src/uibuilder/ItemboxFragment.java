@@ -9,6 +9,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.DragEvent;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -131,6 +132,10 @@ public class ItemboxFragment extends Fragment implements
 		{
 		case MotionEvent.ACTION_DOWN:
 			
+			active.setActivated(true);
+
+			v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+			
 			newV = requestListener.requestObject(objectType, event);
 			newV.setBackgroundColor(context.getResources().getColor(R.color.fresh_aqua));
 			
@@ -139,8 +144,8 @@ public class ItemboxFragment extends Fragment implements
 		
 		case MotionEvent.ACTION_UP:
 			
-			listener.typeChanged(objectType);
-			
+			//listener.typeChanged(objectType);
+			active.setActivated(false);
 			break;
 			
 		case MotionEvent.ACTION_MOVE:
@@ -194,7 +199,7 @@ public class ItemboxFragment extends Fragment implements
 		switch (event.getAction())
 		{
 		case DragEvent.ACTION_DRAG_STARTED:
-			active.setActivated(true);
+			
 			Log.d("drag ", "started");
 			break;
 		
