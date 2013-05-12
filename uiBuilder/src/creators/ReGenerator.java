@@ -69,7 +69,7 @@ public class ReGenerator extends AsyncTask<Bundle[], View, Void>
 		// TODO Auto-generated method stub
 		super.onProgressUpdate(values);
 		Log.d("Regenerator", "onProgressUpdate called, about to call objectGenerated Listener");
-		listener.objectGenerated(values[0]);
+		//listener.objectGenerated(values[0]);
 	}
 
 	/**
@@ -169,6 +169,7 @@ public class ReGenerator extends AsyncTask<Bundle[], View, Void>
 		case ObjectIdMapper.OBJECT_ID_SEEKBAR:
 		case ObjectIdMapper.OBJECT_ID_NUMBERPICKER:
 		case ObjectIdMapper.OBJECT_ID_TIMEPICKER:
+		case ObjectIdMapper.OBJECT_ID_SPINNER:
 			break;
 
 		case ObjectIdMapper.OBJECT_ID_GRIDVIEW:
@@ -199,14 +200,14 @@ public class ReGenerator extends AsyncTask<Bundle[], View, Void>
 		// generator.samples.setSampleAdapter(xmlView);
 		return xmlView;
 	}
-
-	/**
+/*
+	*//**
 	 * Notify the listener that a new view has been regenerated from a bundle
 	 * and can now be added to the viewtree and further processed.
 	 * 
 	 * @author funklos
 	 * 
-	 */
+	 *//*
 	public interface OnObjectGeneratedListener
 	{
 		void objectGenerated(View newItem);
@@ -218,5 +219,5 @@ public class ReGenerator extends AsyncTask<Bundle[], View, Void>
 	{
 		ReGenerator.listener = listener;
 	}
-
+*/
 }

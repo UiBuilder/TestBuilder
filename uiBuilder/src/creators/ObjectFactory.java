@@ -19,7 +19,7 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
-import creators.ReGenerator.OnObjectGeneratedListener;
+import creators.SyncReGenerator.OnObjectGeneratedListener;
 import data.FromDatabaseObjectLoader;
 import data.FromDatabaseObjectLoader.OnObjectLoadedFromDatabaseListener;
 import data.ObjectValues;
@@ -50,7 +50,7 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 	public static final int SNAP_GRID_INTERVAL = 15;
 
 	private Generator generator;
-	private ReGenerator reGenerator;
+	private SyncReGenerator reGenerator;
 
 	private ObjectManipulator manipulator;
 	private SampleAdapter samples;
@@ -85,7 +85,7 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 		showUpAnimation = AnimationUtils.loadAnimation(context, R.anim.design_loaded_scale_in);
 		
 		FromDatabaseObjectLoader.setOnObjectCreatedFromDatabaseListener(this);
-		ReGenerator.setOnObjectGeneratedListener(this);
+		SyncReGenerator.setOnObjectGeneratedListener(this);
 		
 		imageViews = new ArrayList<View>();
 	}
@@ -164,9 +164,9 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 	{
 		try
 		{
-			reGenerator = new ReGenerator(generator);
+			reGenerator = new SyncReGenerator(generator);
 			Log.d("ObjectFactory", "getElements called and created Regenerator, about to execute");
-			reGenerator.execute(objectList);
+			reGenerator.regenerate(objectList);
 			
 		}
 		catch (Exception e) {

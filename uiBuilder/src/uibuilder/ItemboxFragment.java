@@ -102,6 +102,8 @@ public class ItemboxFragment extends Fragment implements
 		//createContainer.setOnTouchListener(this);
 		createGrid.setOnTouchListener(this);
 		createSpinner.setOnTouchListener(this);
+		
+		layout.setOnDragListener(this);
 	}
 
 	@Override

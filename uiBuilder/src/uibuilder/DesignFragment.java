@@ -165,7 +165,10 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	{
 		//nextObjectId = id;
 	}
-
+	public void setActiveItem(View v)
+	{
+		activeItem = v;
+	}
 
 	/**
 	 * Erfasst alle Touch-Events, setzt ggf. Flags die den Zustand der

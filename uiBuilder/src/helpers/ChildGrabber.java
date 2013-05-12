@@ -60,6 +60,7 @@ public class ChildGrabber
 			Bundle tag = (Bundle) layout.getTag();
 			tag.putInt(ObjectValues.ZORDER, order++);
 			
+			
 			childrenList.add(layout);
 			
 			//THIS IS FOR LOGGING ONLY!

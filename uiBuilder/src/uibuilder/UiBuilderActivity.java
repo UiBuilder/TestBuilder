@@ -557,6 +557,7 @@ public class UiBuilderActivity
 		designbox.setSelection(id);
 	}
 
+
 	/**
 	 * Interface onObjectSelected method
 	 * called when an item is selected on the designarea
@@ -702,7 +703,8 @@ public class UiBuilderActivity
 	{
 		// TODO Auto-generated method stub
 		View v = factory.getElement(id, event);
-		
+
+		//designbox.setActiveItem(v);
 		return v;
 	}	
 }
