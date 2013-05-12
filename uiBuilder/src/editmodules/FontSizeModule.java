@@ -62,7 +62,7 @@ public class FontSizeModule extends Module
 	 */
 	private void setDefaultValues()
 	{
-		picker.setMinValue(5);
+		picker.setMinValue(11);
 		picker.setMaxValue(130);
 	}
 	

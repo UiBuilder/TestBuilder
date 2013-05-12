@@ -148,6 +148,31 @@
                     android:gravity="center_horizontal"
                     android:text="@string/itembox_simple_element_caption_spinner" />
             </LinearLayout>
+            
+            <!-- placeholder -->
+            <LinearLayout android:visibility="invisible"
+                style="@style/itembox_items"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <ImageButton
+                    android:id="@+id/element_spinner"
+                    style="@style/itembox_items"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:scaleType="centerInside"
+                    android:src="@raw/ui_builder_icon_edittext" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/superlight_grey"
+                    android:gravity="center_horizontal"
+                    android:text="@string/itembox_simple_element_caption_spinner" />
+            </LinearLayout>
         </TableRow>
     </TableLayout>
 

@@ -1,10 +1,9 @@
 package creators;
 
 import helpers.Log;
-import android.os.AsyncTask;
+import data.ObjectValues;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -13,67 +12,25 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
-import data.ObjectValues;
 
-/**
- * Creates new Objects from the given Bundle[] which contains the properties of
- * the database entries belonging to this screen. The ReGenerator uses the
- * supplied generator instance to fetch a new default item of the desired type
- * and resets its properties with the values provided by the bundle object.
- * 
- * The objects are generated in an async task and published via publishProgress
- * to the UI thread, where a listener callback is fired to notify the
- * ObjectFactory to add a new object to the view tree of the designArea.
- * 
- * @author funklos
- * 
- */
-
-//THE USE OF THIS CLASS IS DEPRECATED
-@Deprecated
-public class ReGenerator extends AsyncTask<Bundle[], View, Void>
+public class SyncReGenerator
 {
 	private Generator generator;
-
-	public ReGenerator(Generator generator)
+	
+	public SyncReGenerator(Generator generator)
 	{
 		this.generator = generator;
 	}
-
-	@Override
-	protected Void doInBackground(Bundle[]... params)
+	
+	public void regenerate(Bundle[] params)
 	{
-		for (Bundle bundle : params[0]) {
-			Log.d("Regenerator", "doInBackground started.");
-			View newItem = reGenerate(bundle);
-			publishProgress(newItem);
+		for (Bundle bundle: params)
+		{
+			View v = reGenerate(bundle);
+			listener.objectGenerated(v);
 		}
-		return null;
 	}
-
-	@Override
-	protected void onPostExecute(Void result)
-	{
-		// TODO Auto-generated method stub
-		super.onPostExecute(result);
-
-	}
-
-	@Override
-	protected void onPreExecute()
-	{
-		// TODO Auto-generated method stub
-		super.onPreExecute();
-	}
-
-	@Override
-	protected void onProgressUpdate(View... values)
-	{
-		// TODO Auto-generated method stub
-		super.onProgressUpdate(values);
-		Log.d("Regenerator", "onProgressUpdate called, about to call objectGenerated Listener");
-		//listener.objectGenerated(values[0]);
-	}
+	
 
 	/**
 	 * Use this method to generate Views from a Bundle object.
@@ -203,14 +160,14 @@ public class ReGenerator extends AsyncTask<Bundle[], View, Void>
 		// generator.samples.setSampleAdapter(xmlView);
 		return xmlView;
 	}
-/*
-	*//**
+	
+	/**
 	 * Notify the listener that a new view has been regenerated from a bundle
 	 * and can now be added to the viewtree and further processed.
 	 * 
 	 * @author funklos
 	 * 
-	 *//*
+	 */
 	public interface OnObjectGeneratedListener
 	{
 		void objectGenerated(View newItem);
@@ -220,7 +177,6 @@ public class ReGenerator extends AsyncTask<Bundle[], View, Void>
 
 	public static void setOnObjectGeneratedListener(OnObjectGeneratedListener listener)
 	{
-		ReGenerator.listener = listener;
+		SyncReGenerator.listener = listener;
 	}
-*/
 }

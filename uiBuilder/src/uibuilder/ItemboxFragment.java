@@ -121,15 +121,8 @@ public class ItemboxFragment extends Fragment implements
 	@Override
 	public boolean onTouch(View v, MotionEvent event)
 	{
-		if (v != active)
-		{
-			if (active != null)
-			{
-				active.setActivated(false);
-			}
-			active = v;
-			active.setActivated(true);
-		}
+		active = v;	
+		
 		
 		int idSelected = v.getId();
 		int objectType = ObjectIdMapper.mapType(idSelected);
@@ -142,7 +135,6 @@ public class ItemboxFragment extends Fragment implements
 			newV.setBackgroundColor(context.getResources().getColor(R.color.fresh_aqua));
 			
 			newV.setVisibility(View.INVISIBLE);
-			v.setActivated(true);
 			break;
 		
 		case MotionEvent.ACTION_UP:
@@ -160,8 +152,6 @@ public class ItemboxFragment extends Fragment implements
 				{ ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
 	
 				newV.startDrag(clipData, new View.DragShadowBuilder(newV), newV, 0);
-
-				v.setActivated(false);
 				
 				ViewGroup parent = (ViewGroup) newV.getParent();
 				parent.removeView(newV);
@@ -204,6 +194,7 @@ public class ItemboxFragment extends Fragment implements
 		switch (event.getAction())
 		{
 		case DragEvent.ACTION_DRAG_STARTED:
+			active.setActivated(true);
 			Log.d("drag ", "started");
 			break;
 		
@@ -215,6 +206,8 @@ public class ItemboxFragment extends Fragment implements
 		case DragEvent.ACTION_DRAG_ENDED:
 			
 			Log.d("drag ", "ended");
+			active.setActivated(false);
+			active = null;
 			break;
 		}
 		return true;
