@@ -1,11 +1,14 @@
 package uibuilder;
 
-import uibuilder.ItemboxFragment.onObjectRequestedListener;
-import helpers.Log;
 
+
+
+
+import helpers.Log;
 import helpers.ScreenRatioChanger;
 import manipulators.Grid;
 import manipulators.Overlay;
+import uibuilder.ItemboxFragment.onObjectRequestedListener;
 import android.app.Fragment;
 import android.content.ClipData;
 import android.content.ClipDescription;
@@ -24,8 +27,11 @@ import android.view.View;
 import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.RelativeLayout;
+
+import com.larvalabs.svgandroid.SVG;
+import com.larvalabs.svgandroid.SVGParser;
+
 import creators.ObjectFactory;
 import creators.ObjectManipulator;
 import data.ObjectValues;
@@ -47,7 +53,9 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	private Overlay overlay;
 
 	private View activeItem;
-	//private ObjectFactory factory;
+	private View currentTouch;
+	
+	
 	private ObjectManipulator manipulator;
 
 	private GestureDetector detector;
@@ -55,10 +63,8 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	private Boolean isPreviewing = false;
 	
 	private View dragIndicator;
-	
-	//private int nextObjectId;
 
-	private View currentTouch;
+	public static final String DRAG_EVENT_ORIGIN_DESIGNFRAGMENT = "designfragmentdrag";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -110,7 +116,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 					case MotionEvent.ACTION_DOWN:
 						activeItem = null;
 
-						listener.objectSelected(false);
+						selectionListener.objectSelected(false);
 
 						if (overlay.isActive())
 						{
@@ -140,7 +146,18 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	 */
 	private void initHelpers()
 	{
-		//factory = new ObjectFactory(getActivity().getApplicationContext(), this, designArea);
+		SVG svg = SVGParser.getSVGFromResource(getActivity().getResources(), R.raw.test);
+		
+		//Drawable d = (Drawable)svg.createPictureDrawable();
+		
+		
+		//ImageView i = new ImageView(getActivity());
+	
+		//i.setScaleType(ScaleType.CENTER_INSIDE);
+		//i.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+		
+		//designArea.addView(i, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+		//i.setImageDrawable(d);
 		
 		manipulator = new ObjectManipulator(designArea);
 		detector = new GestureDetector(getActivity().getApplicationContext(), this);
@@ -154,20 +171,11 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		toggleGrid();
 	}
 
-	/**
-	 * called from the uibuilderactivity to set the user selection from the
-	 * itembox selection. on touch, objectrequest, this id is passed to the
-	 * factory to generate the desired objecttype
-	 * 
-	 * @param id of the user selection in itembox
-	 */
-	public void setSelection(int id)
+	boolean newObjectInProgress = false;
+
+	public void newObjectEvent()
 	{
-		//nextObjectId = id;
-	}
-	public void setActiveItem(View v)
-	{
-		activeItem = v;
+		newObjectInProgress = true;
 	}
 
 	/**
@@ -202,12 +210,12 @@ public class DesignFragment extends Fragment implements OnDragListener,
 			case MotionEvent.ACTION_POINTER_DOWN:
 				
 				
-				break;
+				return true;
 		
 			case MotionEvent.ACTION_DOWN:
 	
 				currentTouch = v;
-				listener.objectChanged(currentTouch);
+				selectionListener.objectChanged(currentTouch);
 
 	
 				switch (currentTouch.getId())
@@ -303,7 +311,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	 */
 	private boolean selectItem()
 	{
-		listener.objectSelected(true);
+		selectionListener.objectSelected(true);
 
 		/*
 		 * switch the overlay if another item was active
@@ -352,7 +360,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		detector.setIsLongpressEnabled(false);
 		activeItem = null;
 
-		listener.objectSelected(false);
+		selectionListener.objectSelected(false);
 
 		if (overlay.isActive())
 		{
@@ -364,7 +372,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		else return false;
 	}
 
-	boolean secondPointer = false;
+	//boolean secondPointer = false;
 
 	private int getIndex(MotionEvent event)
 	{
@@ -423,15 +431,16 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	{
 		if (!isPreviewing)
 		{
+			
 			switch (event.getAction())
 			{
 			case DragEvent.ACTION_DRAG_STARTED: 
-				
+
 				adaptToStarted();
 				break;
 				
 			case DragEvent.ACTION_DRAG_ENTERED:
-				
+					
 				adaptToEnter();
 				break;
 
@@ -439,7 +448,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 				break;
 
 			case DragEvent.ACTION_DRAG_ENDED:
-
+				
 				adaptToNormal();
 				break;
 
@@ -453,7 +462,8 @@ public class DesignFragment extends Fragment implements OnDragListener,
 				
 				//check if new object generated
 				ClipData.Item item = event.getClipData().getItemAt(0);
-				if (item.getText().equals("itembox"))
+				
+				if (item.getText().equals(ItemboxFragment.DRAG_EVENT_ORIGIN_ITEMBOX))
 				{
 					View v = (View) event.getLocalState();
 					
@@ -462,14 +472,12 @@ public class DesignFragment extends Fragment implements OnDragListener,
 					overlay.generate(v);
 					overlay.setVisibility(false);
 					v.setVisibility(View.VISIBLE);
-					v.setBackgroundResource(R.drawable.object_background_default);
 				}
 				
 				manipulator.performDrop(event, activeItem, overlay.getDrag());
 				
 				Log.d("action drop", "registered");
 			
-				
 				break;
 			}
 		}
@@ -511,7 +519,9 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		}
 		return false;
 	}
+ 	
 	boolean isresizing = false;
+	
 	/**
 	 * Request a resize of the currently active item.
 	 * @param which the overlay handle that triggered the resize
@@ -534,7 +544,8 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		
 		// Generate clipdata to provide to the dragshadowbuilder
 		 
-		ClipData.Item item = new ClipData.Item(String.valueOf(id));
+		ClipData.Item item = new ClipData.Item(DRAG_EVENT_ORIGIN_DESIGNFRAGMENT);
+		
 		ClipData clipData = new ClipData((CharSequence) String.valueOf(id), new String[]
 		{ ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
 
@@ -570,11 +581,15 @@ public class DesignFragment extends Fragment implements OnDragListener,
 
 		if (activeItem == null)
 		{
-			listener.objectSelected(false);
-		} else
+			selectionListener.objectSelected(false);
+		} 
+		else
 		{
-			listener.objectChanged(activeItem);
-			listener.objectSelected(true);
+			//if (!newObjectInProgress)
+			{
+				selectionListener.objectChanged(activeItem);
+				selectionListener.objectSelected(true);
+			}
 		}
 		Log.d("dragging", "ended");
 	}
@@ -586,7 +601,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	 */
 	private void adaptToStarted()
 	{
-		listener.objectDragging();
+		selectionListener.objectDragging();
 
 		overlay.setVisibility(false);
 		toggleGrid();
@@ -626,7 +641,8 @@ public class DesignFragment extends Fragment implements OnDragListener,
 			if (grid.getVisibility() == View.INVISIBLE)
 			{
 				grid.setVisibility(View.VISIBLE);
-			} else
+			} 
+			else
 			{
 				grid.setVisibility(View.INVISIBLE);
 			}
@@ -651,12 +667,12 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		void objectDragging();
 	}
 
-	private static onObjectSelectedListener listener;
+	private static onObjectSelectedListener selectionListener;
 
 	protected static void setOnObjectSelectedListener(
 			onObjectSelectedListener listener)
 	{
-		DesignFragment.listener = listener;
+		DesignFragment.selectionListener = listener;
 	}
 
 	/**

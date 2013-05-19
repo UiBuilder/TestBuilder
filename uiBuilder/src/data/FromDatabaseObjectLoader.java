@@ -47,9 +47,10 @@ public class FromDatabaseObjectLoader
 				int idxFontsize = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_OBJECTS_VIEW_FONTSIZE);
 				int idxImageSource = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_OBJECTS_VIEW_IMGSRC);
 				int idxIconSource = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_OBJECTS_VIEW_ICNSRC);
-				int idxBackgroundColorEdit = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_OBJECTS_VIEW_BACKGROUNDCLR_EDIT);
-				int idxBackgroundColorPres = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_OBJECTS_VIEW_BACKGROUNDCLR_PRESENTATION);
-	
+				//int idxBackgroundColorEdit = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_OBJECTS_VIEW_BACKGROUNDCLR_EDIT);
+				//int idxBackgroundColorPres = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_OBJECTS_VIEW_BACKGROUNDCLR_PRESENTATION);
+				int idxBackgroundColor = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_OBJECTS_VIEW_BACKGROUND);
+				
 				valuesBundle.putInt(ObjectValues.DATABASE_ID, cursor.getInt(idxKEYID));
 				valuesBundle.putInt(ObjectValues.TYPE, cursor.getInt(idxID));
 				valuesBundle.putInt(ObjectValues.X_POS, cursor.getInt(idxXPos));
@@ -66,8 +67,9 @@ public class FromDatabaseObjectLoader
 				valuesBundle.putInt(ObjectValues.FONTSIZE, cursor.getInt(idxFontsize));
 				valuesBundle.putString(ObjectValues.IMG_SRC, cursor.getString(idxImageSource));
 				valuesBundle.putInt(ObjectValues.ICN_SRC, cursor.getInt(idxIconSource));
-				valuesBundle.putInt(ObjectValues.BACKGROUND_EDIT, cursor.getInt(idxBackgroundColorEdit));
-				valuesBundle.putInt(ObjectValues.BACKGROUND_PRES, cursor.getInt(idxBackgroundColorPres ));
+				//valuesBundle.putInt(ObjectValues.BACKGROUND_EDIT, cursor.getInt(idxBackgroundColorEdit));
+				//valuesBundle.putInt(ObjectValues.BACKGROUND_PRES, cursor.getInt(idxBackgroundColorPres ));
+				valuesBundle.putInt(ObjectValues.BACKGROUNDCOLOR, cursor.getInt(idxBackgroundColor));
 				
 				dataBaseObjects.add(valuesBundle);
 			}

@@ -140,7 +140,7 @@
                     android:layout_height="60dp"
                     android:layout_weight="1"
                     android:scaleType="centerInside"
-                    android:src="@raw/ui_builder_icon_edittext" />
+                    android:src="@raw/ui_builder_icon_spinner" />
 
                 <TextView
                     android:layout_width="match_parent"

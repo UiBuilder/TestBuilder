@@ -71,7 +71,7 @@ public class ScreenAdapter extends CursorAdapter
 	{
 		View view = inflater.inflate(R.layout.activity_manager_grid_item_layout, root, false);
 		
-		bindView(view, context, cursor);
+		//bindView(view, context, cursor);
 		
 		//had to set the image here, else the view would not refresh properly
 		ImageView preView = (ImageView) view.findViewById(R.id.activity_manager_griditem_layout_image);

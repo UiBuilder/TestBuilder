@@ -50,6 +50,7 @@ public class Bundler
 		int yPos = (int) container.getY();
 		int width = container.getMeasuredWidth();
 		int height = container.getMeasuredHeight();
+		int backgroundColor = 0;
 		
 		valuesBundle.put(ObjectValues.ZORDER, objectBundle.getInt(ObjectValues.ZORDER));
 		valuesBundle.put(ObjectValues.DATABASE_ID, id);
@@ -58,6 +59,8 @@ public class Bundler
 		valuesBundle.put(ObjectValues.Y_POS, yPos);
 		valuesBundle.put(ObjectValues.WIDTH, width);
 		valuesBundle.put(ObjectValues.HEIGHT, height);
+		valuesBundle.put(ObjectValues.BACKGROUNDCOLOR, backgroundColor);
+		
 		Log.d("ObjectValueCollector", "values put.");
 
 		switch (tagId)
@@ -65,7 +68,7 @@ public class Bundler
 		case ObjectIdMapper.OBJECT_ID_BUTTON:
 			valuesBundle.put(ObjectValues.USER_TEXT, (String) ((Button) item).getText());
 			valuesBundle.put(ObjectValues.FONTSIZE, (int) ((Button) item).getTextSize());
-			valuesBundle.put(ObjectValues.BACKGROUND_EDIT, objectBundle.getInt(ObjectValues.BACKGROUND_EDIT));
+			//valuesBundle.put(ObjectValues.BACKGROUND_EDIT, objectBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 			valuesBundle.put(ObjectValues.ALIGNMENT, ((TextView) item).getGravity());
 
 			Log.d("ObjectValueCollector", "put Button, with: "
@@ -96,7 +99,7 @@ public class Bundler
 			valuesBundle.put(ObjectValues.USER_TEXT, (((EditText) item).getHint()).toString());
 			valuesBundle.put(ObjectValues.ALIGNMENT, ((TextView) item).getGravity());
 			valuesBundle.put(ObjectValues.FONTSIZE, (int) ((TextView) item).getTextSize());
-			valuesBundle.put(ObjectValues.BACKGROUND_EDIT, objectBundle.getInt(ObjectValues.BACKGROUND_EDIT));
+			//valuesBundle.put(ObjectValues.BACKGROUND_EDIT, objectBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 			Log.d("ObjectValueCollector", "put edittext");
 			break;
 
@@ -110,7 +113,7 @@ public class Bundler
 		case ObjectIdMapper.OBJECT_ID_IMAGEVIEW:
 			valuesBundle.put(ObjectValues.IMG_SRC, objectBundle.getString(ObjectValues.IMG_SRC));
 			valuesBundle.put(ObjectValues.ICN_SRC, objectBundle.getInt(ObjectValues.ICN_SRC));
-
+			valuesBundle.put(ObjectValues.BACKGROUNDCOLOR, objectBundle.getInt(ObjectValues.BACKGROUNDCOLOR));
 
 			Log.d("ObjectValueCollector", "put Imageview"+ objectBundle.getString(ObjectValues.IMG_SRC));
 			break;
@@ -128,7 +131,7 @@ public class Bundler
 		case ObjectIdMapper.OBJECT_ID_RATINGBAR:
 			valuesBundle.put(ObjectValues.STARS_NUM, objectBundle.getInt(ObjectValues.STARS_NUM));
 			valuesBundle.put(ObjectValues.RATING, objectBundle.getInt(ObjectValues.RATING));
-			valuesBundle.put(ObjectValues.BACKGROUND_EDIT, objectBundle.getInt(ObjectValues.BACKGROUND_EDIT));
+			//valuesBundle.put(ObjectValues.BACKGROUND_EDIT, objectBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 			Log.d("ObjectValueCollector", "put ratingbar, with: ");
 			break;
 
@@ -141,7 +144,7 @@ public class Bundler
 			valuesBundle.put(ObjectValues.USER_TEXT, ((String) ((TextView) item).getText()));
 			valuesBundle.put(ObjectValues.ALIGNMENT, ((TextView) item).getGravity());
 			valuesBundle.put(ObjectValues.FONTSIZE, (int) ((TextView) item).getTextSize());
-			valuesBundle.put(ObjectValues.BACKGROUND_EDIT, objectBundle.getInt(ObjectValues.BACKGROUND_EDIT));
+			//valuesBundle.put(ObjectValues.BACKGROUND_EDIT, objectBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 			Log.d("ObjectValueCollector", "put Textview");
 			break;
 
@@ -150,8 +153,8 @@ public class Bundler
 			break;
 		}
 		
-		valuesBundle.put(ObjectValues.BACKGROUND_EDIT, objectBundle.getInt(ObjectValues.BACKGROUND_EDIT));
-		valuesBundle.put(ObjectValues.BACKGROUND_PRES,  objectBundle.getInt(ObjectValues.BACKGROUND_PRES));
+		//valuesBundle.put(ObjectValues.BACKGROUND_EDIT, objectBundle.getInt(ObjectValues.BACKGROUND_EDIT));
+		//valuesBundle.put(ObjectValues.BACKGROUND_PRES,  objectBundle.getInt(ObjectValues.BACKGROUND_PRES));
 
 		return valuesBundle;
 
@@ -179,8 +182,9 @@ public class Bundler
 		int defWidth = 0;
 		int defHeight = 0;
 		int scaleType = 0;
-		int presMode = R.drawable.presentation_default_object;
-		int createMode = R.drawable.object_background_default;	
+		int backgroundColor = android.R.color.transparent;
+		//int presMode = 0;//R.drawable.presentation_default_object;
+		//int createMode = 0;//R.drawable.object_background_default;	
 
 		switch (which)
 		{
@@ -191,8 +195,8 @@ public class Bundler
 			defWidth = res.getInteger(R.integer.button_factor_default_width);
 			defHeight = res.getInteger(R.integer.button_factor_default_height);
 			scaleType = Overlay.HORIZONTAL;
-			createMode = R.drawable.object_background_default_button;
-			presMode = R.drawable.presentation_button_default;
+			//createMode = R.drawable.object_background_default_button;
+			//presMode = R.drawable.presentation_button_default;
 			break;
 		
 		case ObjectIdMapper.OBJECT_ID_BUTTON:
@@ -202,8 +206,8 @@ public class Bundler
 			defWidth = res.getInteger(R.integer.button_factor_default_width);
 			defHeight = res.getInteger(R.integer.button_factor_default_height);
 			scaleType = Overlay.BOTH;
-			createMode = R.drawable.object_background_default_button;
-			presMode = R.drawable.presentation_button_default;
+			//createMode = R.drawable.object_background_default_button;
+			//presMode = R.drawable.presentation_button_default;
 			break;
 
 		case ObjectIdMapper.OBJECT_ID_TEXTVIEW:
@@ -224,6 +228,7 @@ public class Bundler
 			scaleType = Overlay.BOTH;
 			tagBundle.putInt(ObjectValues.IMG_SRC, 0);
 			tagBundle.putInt(ObjectValues.ICN_SRC, 0);
+			tagBundle.putInt(ObjectValues.BACKGROUNDCOLOR, backgroundColor);
 			break;
 
 		case ObjectIdMapper.OBJECT_ID_EDITTEXT:
@@ -233,8 +238,8 @@ public class Bundler
 			defWidth = res.getInteger(R.integer.edittext_factor_default_width);
 			defHeight = res.getInteger(R.integer.edittext_factor_default_height);
 			scaleType = Overlay.BOTH;
-			createMode = R.drawable.object_background_default_edittext;
-			presMode = R.drawable.presentation_border_medium;
+			//createMode = R.drawable.object_background_default_edittext;
+			//presMode = R.drawable.presentation_border_medium;
 			break;
 
 		case ObjectIdMapper.OBJECT_ID_RADIOGROUP:
@@ -344,8 +349,9 @@ public class Bundler
 		defHeight *= ObjectFactory.SNAP_GRID_INTERVAL;
 		
 		tagBundle.putInt(ObjectValues.FONTSIZE, 16);
-		tagBundle.putInt(ObjectValues.BACKGROUND_PRES, presMode);
-		tagBundle.putInt(ObjectValues.BACKGROUND_EDIT, createMode);
+		
+		//tagBundle.putInt(ObjectValues.BACKGROUND_PRES, presMode);
+		//tagBundle.putInt(ObjectValues.BACKGROUND_EDIT, createMode);
 		tagBundle.putInt(ObjectValues.SCALETYPE, scaleType);
 		tagBundle.putInt(ObjectValues.MINHEIGHT, minHeight);
 		tagBundle.putInt(ObjectValues.MINWIDTH, minWidth);

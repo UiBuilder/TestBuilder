@@ -9,7 +9,6 @@ import android.app.Activity;
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.CursorLoader;
@@ -25,14 +24,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
-import android.widget.RelativeLayout;
-import data.ScreenAdapter;
+import android.widget.ListView;
+import data.ProjectAdapter;
 import data.ScreenProvider;
 import de.ur.rk.uibuilder.R;
 
@@ -42,28 +37,26 @@ import de.ur.rk.uibuilder.R;
  *
  */
 
-public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
+public class ProjectManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 {
 	public static final int REQUEST_SCREEN = 0x00;
-	public static final String RESULT_SCREEN_ID = "edited_screen";
-	public static final String RESULT_IMAGE_PATH = "image_path";
 
-	private EditText screenName;
-	private Button newScreenButton;
-	private GridView grid;
+	private EditText projectName;
+	private Button newProjectButton;
+	private ListView projectList;
 
-	private ScreenAdapter adapter;
-	public static final String DATABASE_SCREEN_ID = "screen";
+	private ProjectAdapter projectAdapter;
+	//public static final String DATABASE_SCREEN_ID = "screen";
 	private LoaderManager manager;
 
-	private boolean deleteInProgress;
-	private RelativeLayout deleteScreenShowing;
+	//private boolean deleteInProgress;
+	//private RelativeLayout deleteScreenShowing;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_manager);
+		setContentView(R.layout.activity_project_manager);
 
 		setupUi();
 		setupActionBar();
@@ -84,10 +77,11 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	@Override
 	public void onBackPressed()
 	{
-		if (deleteInProgress) 
+		/*if (deleteInProgress) 
 		{
 			returnToNormalMode(deleteScreenShowing);
-		} else {
+		} else */
+		{
 			super.onBackPressed();
 		}
 	}
@@ -96,7 +90,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.manager, menu);
+		//getMenuInflater().inflate(R.menu.manager, menu);
 		return true;
 	}
 	
@@ -107,12 +101,12 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		switch (item.getItemId())
 		{
 
-		case R.id.manager_menu_action_about:	
+		/*case R.id.manager_menu_action_about:	
 			
-			Intent aboutIntent = new Intent(ManagerActivity.this, AboutActivity.class);
+			Intent aboutIntent = new Intent(ProjectManagerActivity.this, AboutActivity.class);
 			startActivity(aboutIntent);
 			break;
-
+*/
 		default:
 			break;
 		}
@@ -126,9 +120,21 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args)
 	{
-		String selection = ScreenProvider.KEY_SCREEN_ASSOCIATED_SECTION + " = " + "'" + String.valueOf(1) + "'";
-		
-		return new CursorLoader(getApplicationContext(), ScreenProvider.CONTENT_URI_SCREENS, null, selection, null, null);
+		//String selection = ScreenProvider.KEY_SCREEN_ASSOCIATED_SECTION + " = " + "'" + String.valueOf(1) + "'";
+		switch (id)
+		{
+		case ScreenProvider.LOADER_ID_PROJECTS:
+			
+			return new CursorLoader(getApplicationContext(), ScreenProvider.CONTENT_URI_PROJECTS, null, null, null, null);
+			
+		case ScreenProvider.LOADER_ID_SECTIONS:
+			
+			return new CursorLoader(getApplicationContext(), ScreenProvider.CONTENT_URI_SECTIONS, null, null, null, null);
+
+		default:
+			break;
+		}
+		return null;
 	}
 
 	/**
@@ -136,19 +142,41 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	 * display the containing data.
 	 */
 	@Override
-	public void onLoadFinished(Loader<Cursor> arg0, Cursor newCursor)
+	public void onLoadFinished(Loader<Cursor> loader, Cursor newCursor)
 	{
-		Log.d("loader", "finished");
-		adapter.swapCursor(newCursor);
-		adapter.notifyDataSetChanged();
+		
+		switch (loader.getId())
+		{
+		case ScreenProvider.LOADER_ID_PROJECTS:
+			
+			Log.d("loader", "finished");
+			projectAdapter.swapCursor(newCursor);
+			projectAdapter.notifyDataSetChanged();
 
-		grid.setAdapter(adapter);
+			projectList.setAdapter(projectAdapter);
+			break;
+			
+		case ScreenProvider.LOADER_ID_SECTIONS:
+
+		default:
+			break;
+		}
+
 	}
 
 	@Override
-	public void onLoaderReset(Loader<Cursor> arg0)
+	public void onLoaderReset(Loader<Cursor> loader)
 	{
-		adapter.swapCursor(null);
+		switch (loader.getId())
+		{
+		case ScreenProvider.LOADER_ID_PROJECTS:
+			
+			break;
+
+		default:
+			break;
+		}
+		projectAdapter.swapCursor(null);
 	}
 
 	/**
@@ -160,7 +188,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
-		if (resultCode == RESULT_OK && requestCode == REQUEST_SCREEN) 
+		/*if (resultCode == RESULT_OK && requestCode == REQUEST_SCREEN) 
 		{
 			String imagePath = data.getStringExtra(RESULT_IMAGE_PATH);
 			int id = data.getIntExtra(RESULT_SCREEN_ID, -1);
@@ -176,7 +204,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 				res.update(imageUpdate, image, null, null);
 				invalidated();
 			}
-		}
+		}*/
 	}
 
 	/**
@@ -185,13 +213,13 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	private void setupInteraction()
 	{
 		// the button to create a new screen
-		newScreenButton.setOnClickListener(new OnClickListener()
+		newProjectButton.setOnClickListener(new OnClickListener()
 		{
 
 			@Override
 			public void onClick(View v)
 			{
-				createNewScreen();
+				createNewProject();
 				
 				resetDialog();
 			}
@@ -201,15 +229,15 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 			 */
 			private void resetDialog()
 			{
-				screenName.setText("");
+				projectName.setText("");
 				InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-				inputManager.hideSoftInputFromWindow(screenName.getWindowToken(), 0);
+				inputManager.hideSoftInputFromWindow(projectName.getWindowToken(), 0);
 			}
 		});
 
 		// the griditems should start the editing activity with the
 		// corresponding id
-		grid.setOnItemClickListener(new OnItemClickListener()
+		/*grid.setOnItemClickListener(new OnItemClickListener()
 		{
 
 			@Override
@@ -236,7 +264,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 				return true;
 			}
 
-			/**
+			*//**
 			 * Setup the interaction for the delete screen which is showing
 			 * after a long press on a grid item.
 			 * 
@@ -246,7 +274,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 			 *            the associated database id
 			 * @param hidden
 			 *            the grid items deletescreen layout
-			 */
+			 *//*
 			private void setupDeleteScreenInteraction(final View item, final long id, final RelativeLayout hidden)
 			{
 				Button confirmDeleteButton = (Button) item.findViewById(R.id.activity_manager_griditem_deletebutton);
@@ -289,9 +317,9 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 				});
 			}
 
-			/**
+			*//**
 			 * @param id
-			 */
+			 *//*
 			private void deleteScreenFromDatabase(long id)
 			{
 				ContentResolver cres = getContentResolver();
@@ -304,7 +332,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 
 				deleteInProgress = false;
 			}
-		});
+		});*/
 	}
 
 	/**
@@ -313,7 +341,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	 * @param deleteScreen
 	 *            the gridItems layout, which is requesting the operation
 	 */
-	private void setToDeleteMode(RelativeLayout deleteScreen)
+	/*private void setToDeleteMode(RelativeLayout deleteScreen)
 	{
 		if (deleteScreenShowing != null)
 		{
@@ -322,7 +350,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		deleteScreen.setVisibility(View.VISIBLE);
 		deleteInProgress = true;
 		deleteScreenShowing = deleteScreen;
-	}
+	}*/
 
 	/**
 	 * Hides the deleteScreen part of the layout again.
@@ -330,13 +358,13 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	 * @param item
 	 *            the gridItems layout, which is requesting the operation
 	 */
-	private void returnToNormalMode(RelativeLayout deleteScreen)
+	/*private void returnToNormalMode(RelativeLayout deleteScreen)
 	{
 		grid.clearFocus();
 		deleteScreen.setVisibility(View.INVISIBLE);
 		deleteInProgress = false;
 		deleteScreenShowing = null;
-	}
+	}*/
 
 	/**
 	 * Initialize an async loader, to load the saved screens from the database
@@ -346,8 +374,10 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	private void setupDatabaseConnection()
 	{
 		manager = getLoaderManager();
-		manager.initLoader(ScreenProvider.LOADER_ID_SCREENS, null, this);
-		adapter = new ScreenAdapter(getApplicationContext(), null, true);
+		manager.initLoader(ScreenProvider.LOADER_ID_PROJECTS, null, this);
+		
+		
+		projectAdapter = new ProjectAdapter(getApplicationContext(), null, true);
 	}
 
 	/**
@@ -355,7 +385,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	 */
 	private void invalidated()
 	{
-		manager.restartLoader(ScreenProvider.LOADER_ID_SCREENS, null, this);
+		manager.restartLoader(ScreenProvider.LOADER_ID_PROJECTS, null, this);
 	}
 
 	/**
@@ -363,9 +393,9 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	 */
 	private void setupUi()
 	{
-		newScreenButton = (Button) findViewById(R.id.new_screen_button);
-		screenName = (EditText) findViewById(R.id.activity_manager_new_screen_name);
-		grid = (GridView) findViewById(R.id.manager_activity_project_grid);
+		newProjectButton = (Button) findViewById(R.id.new_screen_button);
+		projectName = (EditText) findViewById(R.id.activity_manager_new_screen_name);
+		projectList = (ListView) findViewById(R.id.project_manager_list);
 	}
 
 	/**
@@ -382,7 +412,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	/**
 	 * Called when a new screen is requested by the user.
 	 */
-	private void createNewScreen()
+	private void createNewProject()
 	{
 		putInDatabase();
 	}
@@ -395,7 +425,29 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	private void putInDatabase()
 	{
 		ContentResolver res = getContentResolver();
-		res.insert(ScreenProvider.CONTENT_URI_SCREENS, getNewScreenValues());
+		Uri inserted = res.insert(ScreenProvider.CONTENT_URI_PROJECTS, getNewScreenValues());
+		int id = Integer.valueOf(inserted.getPathSegments().get(1));
+		
+		ContentValues testValues = new ContentValues();
+		testValues.put(ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT, id);
+		testValues.put(ScreenProvider.KEY_SECTION_DESCRIPTION, "section description");
+		testValues.put(ScreenProvider.KEY_SECTION_NAME, "section name");
+		
+		res.insert(ScreenProvider.CONTENT_URI_SECTIONS, testValues);
+		
+		testValues = new ContentValues();
+		testValues.put(ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT, id);
+		testValues.put(ScreenProvider.KEY_SECTION_DESCRIPTION, "section description");
+		testValues.put(ScreenProvider.KEY_SECTION_NAME, "section name 2");
+		
+		res.insert(ScreenProvider.CONTENT_URI_SECTIONS, testValues);
+		
+		testValues = new ContentValues();
+		testValues.put(ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT, id);
+		testValues.put(ScreenProvider.KEY_SECTION_DESCRIPTION, "section description 3");
+		testValues.put(ScreenProvider.KEY_SECTION_NAME, "section name 3");
+		
+		res.insert(ScreenProvider.CONTENT_URI_SECTIONS, testValues);
 	}
 
 	/**
@@ -409,10 +461,9 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 
 		String now = generateDate();
 
-		values.put(ScreenProvider.KEY_SCREEN_PREVIEW, 0);
-		values.put(ScreenProvider.KEY_SCREEN_DATE, now);
-		values.put(ScreenProvider.KEY_SCREEN_NAME, screenName.getText().toString());
-		values.put(ScreenProvider.KEY_SCREEN_ASSOCIATED_SECTION, 1);
+		values.put(ScreenProvider.KEY_PROJECTS_DESCRIPTION, 0);
+		values.put(ScreenProvider.KEY_PROJECTS_DATE, now);
+		values.put(ScreenProvider.KEY_PROJECTS_NAME, projectName.getText().toString());
 
 		return values;
 	}
@@ -440,13 +491,13 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	 * @param screen
 	 * @param id
 	 */
-	private void startForEditing(View screen, long id)
+/*	private void startForEditing(View screen, long id)
 	{
 		Intent start = new Intent(getApplicationContext(), UiBuilderActivity.class);
 		start.putExtra(DATABASE_SCREEN_ID, (int) id);
 
 		startActivityForResult(start, REQUEST_SCREEN);
 		overridePendingTransition(R.anim.activity_transition_from_right_in, R.anim.activity_transition_to_left_out);
-	}
+	}*/
 
 }

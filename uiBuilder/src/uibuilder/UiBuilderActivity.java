@@ -5,12 +5,9 @@ import helpers.ImageTools;
 
 import java.util.ArrayList;
 
-import creators.ObjectFactory;
-
 import uibuilder.DeleteFragment.onDeleteRequestListener;
 import uibuilder.DesignFragment.onObjectSelectedListener;
 import uibuilder.ItemboxFragment.onObjectRequestedListener;
-import uibuilder.ItemboxFragment.onUiElementSelectedListener;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -24,17 +21,17 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+import creators.ObjectFactory;
 import data.FromDatabaseObjectLoader;
-import data.ObjectValues;
 import data.ScreenProvider;
 import data.ToDatabaseObjectWriter;
 import de.ur.rk.uibuilder.R;
@@ -50,7 +47,6 @@ import editmodules.ImageModule.onImageImportListener;
 public class UiBuilderActivity 
 								extends Activity 
 								implements
-								onUiElementSelectedListener, 
 								onObjectSelectedListener,
 								onDeleteRequestListener, 
 								LoaderCallbacks<Cursor>, 
@@ -68,13 +64,19 @@ public class UiBuilderActivity
 			EDITBOX = 0x01, 
 			DELETEBOX = 0x02, 
 			NOTHING = 0x03;
+	
+
+	private static final int DISPLAY_PRESENTATION_MODE = 0x01;
+	private static final int DISPLAY_EDIT_MODE = 0x02;
 
 	private ItemboxFragment itembox;
 	private EditmodeFragment editbox;
 	private DesignFragment designbox;
 	private FragmentManager fManager;
+	
 	private RelativeLayout rootLayout;
-
+	private LinearLayout sideFragment;
+	
 	private ImageTools exporter;
 	private DeleteFragment deletebox;
 	private ChildGrabber grabber;
@@ -198,7 +200,7 @@ public class UiBuilderActivity
 	{
 		Log.d("check db", "init loader");
 		manager = getLoaderManager();
-		manager.initLoader(ScreenProvider.DATABASE_OBJECTS_LOADER, null, this);
+		manager.initLoader(ScreenProvider.LOADER_ID_OBJECTS, null, this);
 	}
 
 	@Override
@@ -262,11 +264,11 @@ public class UiBuilderActivity
 	 */
 	private Uri getPreviewImage()
 	{
-		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_PRES);
+		changeDisplayMode(designbox.getView(), DISPLAY_PRESENTATION_MODE);
 
 		Uri imageUri = exporter.requestBitmap(designbox.getView(), getContentResolver(), false, true, screenId);
 
-		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_EDIT);
+		changeDisplayMode(designbox.getView(), DISPLAY_EDIT_MODE);
 		return imageUri;
 	}
 	
@@ -274,7 +276,6 @@ public class UiBuilderActivity
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
 		super.onActivityResult(requestCode, resultCode, data);
-
 		
 		Log.d("ONRESULT intentstarted", String.valueOf(intentStarted));
 		if (resultCode == Activity.RESULT_OK)
@@ -282,16 +283,20 @@ public class UiBuilderActivity
 			switch (requestCode)
 			{
 				case ImageTools.SHARE:
+					
 					Toast.makeText(getApplicationContext(), getString(R.string.confirmation_share_via_mail), Toast.LENGTH_LONG).show();
 					break;
 			}
-		intentStarted = false;
+		}
+		else
+		{
+			
 		}
 	}
 
 	/**
 	 * Create UI-Fragment instances and set the activity as listener for changes
-	 * @see onUiElementSelectedListener
+	 * @see OnNewItemRequestedListener
 	 * @see onObjectSelectedListener
 	 * @see onDeleteRequestListener
 	 * @see onImageImportListener
@@ -303,13 +308,15 @@ public class UiBuilderActivity
 		designbox = new DesignFragment();
 		deletebox = new DeleteFragment();
 
-		ItemboxFragment.setOnUiElementSelectedListener(this);
+
 		DesignFragment.setOnObjectSelectedListener(this);
 		DeleteFragment.setOnDeleteRequestListener(this);
 		ImageModule.setOnImageImportListener(this);
 		ItemboxFragment.setOnObjectRequestedListener(this);
 		
 		rootLayout = (RelativeLayout) findViewById(R.id.uibuilder_activity_root);
+		sideFragment = (LinearLayout) findViewById(R.id.fragment_sidebar);
+		
 		setActionBarStyle();
 	}
 
@@ -360,44 +367,57 @@ public class UiBuilderActivity
 	 * @param sidebarType specifies which of the sidebars to display
 	 */
 
-	public boolean displaySidebar(int sidebarType)
+	public void displaySidebar(final int sidebarType)
 	{
-		Log.d("DisplaySidebar", "is Called");
-		FragmentTransaction outSwapper = fManager.beginTransaction();
-		outSwapper.setCustomAnimations(R.animator.to_left_in, R.animator.to_left_out);
-
-		switch (sidebarType)
+		//synchronized (sideFragment)
 		{
-		case NOTHING:
-			outSwapper.hide(itembox);
-			outSwapper.hide(editbox);
-			outSwapper.hide(deletebox);
-			break;
+			sideFragment.post(new Runnable()
+			{
+				
+				@Override
+				public void run()
+				{
+					Log.d("DisplaySidebar", "is Called");
+					FragmentTransaction outSwapper = fManager.beginTransaction();
+					outSwapper.setCustomAnimations(R.animator.to_left_in, R.animator.to_left_out);
 
-		case ITEMBOX:
+					switch (sidebarType)
+					{
+					case NOTHING:
+						outSwapper.hide(itembox);
+						outSwapper.hide(editbox);
+						outSwapper.hide(deletebox);
+						break;
 
-			outSwapper.hide(editbox);
-			outSwapper.show(itembox);
-			break;
+					case ITEMBOX:
+						outSwapper.hide(deletebox);
+						outSwapper.hide(editbox);
+						outSwapper.show(itembox);
+						break;
 
-		case EDITBOX:
+					case EDITBOX:
 
-			Log.d("switched sideBarType", "result Editbox, replacing");
+						Log.d("switched sideBarType", "result Editbox, replacing");
+						outSwapper.hide(deletebox);
+						outSwapper.hide(itembox);
+						outSwapper.show(editbox);
 
-			outSwapper.show(editbox);
-			outSwapper.hide(itembox);
+						break;
 
-			break;
+					case DELETEBOX:
 
-		case DELETEBOX:
+						outSwapper.hide(editbox);
+						outSwapper.show(deletebox);
+						break;
 
-			outSwapper.hide(editbox);
-			outSwapper.show(deletebox);
-			break;
-
+					}
+					outSwapper.commit();
+					//sideFragment.invalidate();
+					//rootLayout.forceLayout();
+				}
+			});
 		}
-		outSwapper.commit();
-		return true;
+
 	}
 
 	@Override
@@ -480,14 +500,14 @@ public class UiBuilderActivity
 	{
 		prepareForBackground();
 		
-		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_PRES);
+		changeDisplayMode(designbox.getView(), DISPLAY_PRESENTATION_MODE);//ObjectValues.BACKGROUND_PRES);
 		Uri screenShotPath = exporter.requestBitmap(designbox.getView(), getContentResolver(), false, false, 0);
 
 		Intent shareIntent = exporter.getIntent(ImageTools.SHARE);
 		shareIntent.putExtra(Intent.EXTRA_STREAM, screenShotPath);
 
 		startActivityForResult(Intent.createChooser(shareIntent, getString(R.string.intent_title_share)), ImageTools.SHARE);
-		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_EDIT);
+		changeDisplayMode(designbox.getView(), DISPLAY_EDIT_MODE);//ObjectValues.BACKGROUND_EDIT);
 	}
 
 	/**
@@ -495,12 +515,12 @@ public class UiBuilderActivity
 	 */
 	private void exportToGallery()
 	{
-		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_PRES);
+		changeDisplayMode(designbox.getView(), DISPLAY_PRESENTATION_MODE);
 
 		exporter.requestBitmap(designbox.getView(), getContentResolver(), false, false, 0);
 
 		Toast.makeText(getApplicationContext(), getString(R.string.confirmation_save_to_gallery), Toast.LENGTH_LONG).show();
-		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_EDIT);
+		changeDisplayMode(designbox.getView(), DISPLAY_EDIT_MODE);//ObjectValues.BACKGROUND_EDIT);
 	}
 
 	/**
@@ -531,7 +551,7 @@ public class UiBuilderActivity
 		designbox.disableTouch(true);
 		
 		isPreview = true;
-		changeDisplayMode(designbox.getView(), "0");
+		changeDisplayMode(designbox.getView(), DISPLAY_PRESENTATION_MODE);
 		displaySidebar(NOTHING);
 		designbox.disableTouch(true);
 	}
@@ -545,21 +565,8 @@ public class UiBuilderActivity
 		designbox.disableTouch(false);
 		
 		isPreview = false;
-		changeDisplayMode(designbox.getView(), ObjectValues.BACKGROUND_EDIT);
+		changeDisplayMode(designbox.getView(), DISPLAY_EDIT_MODE);//ObjectValues.BACKGROUND_EDIT);
 		displaySidebar(ITEMBOX);
-	}
-
-
-	/**
-	 * Interface onUiElementSelected method
-	 * 
-	 * @author funklos implemented to notify the designbox of the chosen type of
-	 *         interface element.
-	 */
-	@Override
-	public void typeChanged(int id)
-	{
-		designbox.setSelection(id);
 	}
 
 
@@ -649,7 +656,7 @@ public class UiBuilderActivity
 
 		switch (loaderId)
 		{
-		case ScreenProvider.DATABASE_OBJECTS_LOADER:
+		case ScreenProvider.LOADER_ID_OBJECTS:
 			
 			objectBundleLoader.loadObjects(cursor);
 			manager.destroyLoader(loaderId);
@@ -668,7 +675,8 @@ public class UiBuilderActivity
 	{
 		
 	}
-
+	
+	
 	/**
 	 * Switches the style of the objects in the designArea to represent the preview or
 	 * edit mode.
@@ -677,16 +685,24 @@ public class UiBuilderActivity
 	 * @param designbox
 	 * @param displayStyle
 	 */
-	private void changeDisplayMode(View designbox, String displayStyle)
+	private void changeDisplayMode(View designbox, /*String displayStyle,*/ int style)
 	{
 		ArrayList<View> viewList;
-		viewList = grabber.getChildren(designbox.findViewById(R.id.design_area));
+		viewList = grabber.getChildren(designbox.findViewById(R.id.design_area), ChildGrabber.MODE_FLAT);
 
 		for (View view : viewList)
 		{
-			Bundle tagBundle = (Bundle) view.getTag();
-			int style = tagBundle.getInt(displayStyle);
-			view.setBackgroundResource(style);
+			if (style == DISPLAY_EDIT_MODE)
+			{
+				view.setBackgroundResource(R.drawable.object_background_default);
+			}
+			else
+			{
+				view.setBackgroundResource(android.R.color.transparent);
+			}
+			//Bundle tagBundle = (Bundle) view.getTag();
+			//int style = tagBundle.getInt(displayStyle);
+			//view.setBackgroundResource(style);
 		}
 	}
 
@@ -706,10 +722,9 @@ public class UiBuilderActivity
 	@Override
 	public View requestObject(int id, MotionEvent event)
 	{
-		// TODO Auto-generated method stub
 		View v = factory.getElement(id, event);
-
-		//designbox.setActiveItem(v);
+		designbox.newObjectEvent();
+		
 		return v;
 	}	
 }

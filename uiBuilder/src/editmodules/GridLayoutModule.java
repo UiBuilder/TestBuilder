@@ -2,7 +2,6 @@ package editmodules;
 
 import uibuilder.EditmodeFragment;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import data.SampleAdapter;

@@ -46,6 +46,11 @@
 	        android:layout_height="wrap_content"
 	        android:orientation="vertical" 
 	        android:visibility="gone"
+	        
+	        android:divider="?android:dividerHorizontal"
+	        android:showDividers="middle"
+	        android:dividerPadding="8dp"
+	        android:dividerHeight="2dp"
 	        >
 			
 	        <!-- Preview modules -->

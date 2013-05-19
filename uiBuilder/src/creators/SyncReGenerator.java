@@ -1,7 +1,6 @@
 package creators;
 
 import helpers.Log;
-import data.ObjectValues;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +11,7 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import data.ObjectValues;
 
 public class SyncReGenerator
 {
@@ -78,9 +78,14 @@ public class SyncReGenerator
 
 		case ObjectIdMapper.OBJECT_ID_IMAGEVIEW:
 
+			generatedView.setBackgroundResource(databaseBundle.getInt(ObjectValues.BACKGROUNDCOLOR));
+			properties.putInt(ObjectValues.BACKGROUNDCOLOR, databaseBundle.getInt(ObjectValues.BACKGROUNDCOLOR));
+			
 			Log.d("measured imageview", String.valueOf(xmlView.getMeasuredHeight()));
 			properties.putString(ObjectValues.IMG_SRC, databaseBundle.getString(ObjectValues.IMG_SRC));
 			properties.putInt(ObjectValues.ICN_SRC, databaseBundle.getInt(ObjectValues.ICN_SRC));
+			
+			Log.d("background REset to ", String.valueOf(databaseBundle.getInt(ObjectValues.BACKGROUNDCOLOR)));
 			break;
 
 		case ObjectIdMapper.OBJECT_ID_EDITTEXT:
@@ -146,10 +151,10 @@ public class SyncReGenerator
 			throw new NoClassDefFoundError();
 		}
 
-		properties.putInt(ObjectValues.BACKGROUND_PRES, databaseBundle.getInt(ObjectValues.BACKGROUND_PRES));
-		properties.putInt(ObjectValues.BACKGROUND_EDIT, databaseBundle.getInt(ObjectValues.BACKGROUND_EDIT));
+		//properties.putInt(ObjectValues.BACKGROUND_PRES, databaseBundle.getInt(ObjectValues.BACKGROUND_PRES));
+		//properties.putInt(ObjectValues.BACKGROUND_EDIT, databaseBundle.getInt(ObjectValues.BACKGROUND_EDIT));
 
-		xmlView.setBackgroundResource(databaseBundle.getInt(ObjectValues.BACKGROUND_EDIT));
+		//xmlView.setBackgroundResource(R.drawable.object_background_default);
 
 		properties.putInt(ObjectValues.DATABASE_ID, databaseBundle.getInt(ObjectValues.DATABASE_ID));
 

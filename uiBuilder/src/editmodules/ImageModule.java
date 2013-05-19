@@ -9,8 +9,10 @@ import uibuilder.EditmodeFragment;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ImageView.ScaleType;
 import de.ur.rk.uibuilder.R;
 
 /**
@@ -58,6 +60,7 @@ public class ImageModule extends Module
 	 */
 	public void setImageResource(int requestCode, Intent data)
 	{
+		((ImageView) this.item).setScaleType(ScaleType.CENTER_CROP);
 		
 		switch (requestCode)
 		{

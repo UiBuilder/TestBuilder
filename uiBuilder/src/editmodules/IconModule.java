@@ -3,8 +3,12 @@
  */
 package editmodules;
 
+import com.larvalabs.svgandroid.SVG;
+import com.larvalabs.svgandroid.SVGParser;
+
 import uibuilder.EditmodeFragment;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -133,13 +137,14 @@ public class IconModule extends Module
 		
 		private void setIconResource(int pos)
 		{
+			
 			int resourceId = (highResIcns[pos]);
 			Bundle bundle = (Bundle) container.getTag();
 			bundle.putInt(ObjectValues.ICN_SRC, resourceId);
 			bundle.putString(ObjectValues.IMG_SRC, null);
 
 			((ImageView) item).setScaleType(ScaleType.FIT_CENTER);
-			
+
 			((ImageView) item).setImageResource(resourceId);
 		}
 	}

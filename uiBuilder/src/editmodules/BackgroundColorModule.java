@@ -2,6 +2,7 @@ package editmodules;
 
 import uibuilder.EditmodeFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -82,85 +83,112 @@ public class BackgroundColorModule extends Module
 		{
 			Bundle bundle = (Bundle) container.getTag();
 
+			int backgroundColor = android.R.color.transparent;
+			
 			switch (v.getId())
 			{
 			case R.id.editmode_background_red:
-				item.setBackgroundResource(R.drawable.object_background_red);
-				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_red);
-				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_red);
+				
+				backgroundColor = R.drawable.object_background_red;
+				//item.setBackgroundResource(R.drawable.object_background_red);
+				//bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_red);
+				//bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_red);
 
 				break;
 
 			case R.id.editmode_background_yellow:
-				item.setBackgroundResource(R.drawable.object_background_grey_dark);
-				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_grey_dark);
-				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_grey_dark);
+				
+				backgroundColor = R.drawable.object_background_grey_dark;
+				//item.setBackgroundResource(R.drawable.object_background_grey_dark);
+				//bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_grey_dark);
+				//bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_grey_dark);
 
 				break;
 
 			case R.id.editmode_background_orange:
-				item.setBackgroundResource(R.drawable.object_background_orange);
-				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_orange);
-				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_orange);
+				
+				backgroundColor = R.drawable.object_background_orange;
+				//item.setBackgroundResource(R.drawable.object_background_orange);
+				//bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_orange);
+				//bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_orange);
 
 				break;
 
 			case R.id.editmode_background_green_light:
-				item.setBackgroundResource(R.drawable.object_background_green_light);
-				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_green_light);
-				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_green_light);
+				
+				backgroundColor = R.drawable.object_background_green_light;
+				//item.setBackgroundResource(R.drawable.object_background_green_light);
+				//bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_green_light);
+				//bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_green_light);
 
 				break;
 
 			case R.id.editmode_background_green:
-				item.setBackgroundResource(R.drawable.object_background_green);
-				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_green);
-				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_green);
+				
+				backgroundColor = R.drawable.object_background_green;
+				//item.setBackgroundResource(R.drawable.object_background_green);
+				//bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_green);
+				//bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_green);
 
 				break;
 
 			case R.id.editmode_background_aqua:
-				item.setBackgroundResource(R.drawable.object_background_aqua);
-				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_aqua);
-				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_aqua);
+				
+				backgroundColor = R.drawable.object_background_aqua;
+				//item.setBackgroundResource(R.drawable.object_background_aqua);
+				//bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_aqua);
+				//bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_aqua);
 
 				break;
 
 			case R.id.editmode_background_blue:
-				item.setBackgroundResource(R.drawable.object_background_blue);
-				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_blue);
-				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_blue);
+				
+				backgroundColor = R.drawable.object_background_blue;
+				//item.setBackgroundResource(R.drawable.object_background_blue);
+				//bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_blue);
+				//bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_blue);
 
 				break;
 
 			case R.id.editmode_background_grey_light:
-				item.setBackgroundResource(R.drawable.object_background_grey_light);
-				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_grey_light);
-				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_grey_light);
+				
+				backgroundColor = R.drawable.object_background_grey_light;
+				//item.setBackgroundResource(R.drawable.object_background_grey_light);
+				//bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_grey_light);
+				//bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_grey_light);
 
 				break;
 
 			case R.id.editmode_background_grey:
-				item.setBackgroundResource(R.drawable.object_background_grey);
-				bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_grey);
-				bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_grey);
+				
+				backgroundColor = R.drawable.object_background_grey;
+				//item.setBackgroundResource(R.drawable.object_background_grey);
+				//bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_grey);
+				//bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_object_background_grey);
 
 				break;	
 
 			case R.id.editmode_background_reset:
-				item.setBackgroundResource(R.drawable.object_background_default);
+				item.setBackgroundResource(android.R.color.transparent);
 
 				resetBackgroundToDefault(bundle);
 
 			}
+			
+			item.setBackgroundResource(backgroundColor);
+			bundle.putInt(ObjectValues.BACKGROUNDCOLOR, backgroundColor);
+			Log.d("background set to ", String.valueOf(backgroundColor)); 
+			
+			
 
 		}
 
 		private void resetBackgroundToDefault(Bundle bundle)
 		{
-			bundle.putInt(ObjectValues.BACKGROUND_EDIT, R.drawable.object_background_default);
-			bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_default_object);
-
+			//bundle.putInt(ObjectValues.BACKGROUND_EDIT, android.R.color.transparent);
+			//bundle.putInt(ObjectValues.BACKGROUND_PRES, R.drawable.presentation_default_object);
+			
+			/*
 			switch (bundle.getInt(ObjectValues.TYPE))
 			{
 			case ObjectIdMapper.OBJECT_ID_BUTTON:
@@ -179,6 +207,7 @@ public class BackgroundColorModule extends Module
 				break;
 
 			}
+			*/
 		}
 	}
 

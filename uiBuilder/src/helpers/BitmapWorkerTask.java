@@ -54,7 +54,7 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap>
 	{
     	if (photoPath != null)
 		{
-	
+    		Log.d("image worker", " path not null ");
 			/* Get the size of the image */
 			BitmapFactory.Options bmOptions = new BitmapFactory.Options();
 			bmOptions.inJustDecodeBounds = true;
@@ -94,7 +94,7 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap>
             if (imageView != null) 
             {
                 imageView.setImageBitmap(bitmap);
-                
+                Log.d("image worker", "image set");
                 imageView.postInvalidate();
             }
         }

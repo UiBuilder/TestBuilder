@@ -118,9 +118,10 @@ public class ObjectFactory implements OnObjectLoadedFromDatabaseListener, OnObje
 		
 		this.designArea.addView(newItem);
 		Log.d("object generated", "get bundle");
-		setDataSources(newItem);	
+		setDataSources(newItem);
 		
 		newItem.startAnimation(showUpAnimation);
+		//designArea.invalidate();
 	}
 	
 	

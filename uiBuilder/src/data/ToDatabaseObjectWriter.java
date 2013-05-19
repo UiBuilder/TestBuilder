@@ -80,7 +80,7 @@ public class ToDatabaseObjectWriter extends AsyncTask<View, Void, Void>
 	 */
 	private Void writeObjects(View root)
 	{
-		ArrayList<View> objectList = grabber.getChildren(root);
+		ArrayList<View> objectList = grabber.getChildren(root, ChildGrabber.MODE_FLAT);
 		
 		ArrayList<ContentValues> values = new ArrayList<ContentValues>();
 		ContentResolver cres = context.getContentResolver();

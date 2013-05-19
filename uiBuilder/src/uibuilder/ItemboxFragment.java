@@ -17,6 +17,7 @@ import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import de.ur.rk.uibuilder.R;
 
 
@@ -30,11 +31,14 @@ import de.ur.rk.uibuilder.R;
 public class ItemboxFragment extends Fragment implements
 		OnTouchListener, OnDragListener
 {
-	private View active;
+	private View active;	
+	private View newV;
 
 	private View layout;
 	
 	private Context context;
+	
+	public static final String DRAG_EVENT_ORIGIN_ITEMBOX = "itemboxdrag";
 
 	@Override
 	public void onAttach(Activity activity)
@@ -144,7 +148,6 @@ public class ItemboxFragment extends Fragment implements
 		
 		case MotionEvent.ACTION_UP:
 			
-			//listener.typeChanged(objectType);
 			active.setActivated(false);
 			break;
 			
@@ -152,7 +155,8 @@ public class ItemboxFragment extends Fragment implements
 			
 			if (newV != null)
 			{
-				ClipData.Item item = new ClipData.Item("itembox");
+				ClipData.Item item = new ClipData.Item(DRAG_EVENT_ORIGIN_ITEMBOX);
+				
 				ClipData clipData = new ClipData((CharSequence) String.valueOf(objectType), new String[]
 				{ ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
 	
@@ -169,27 +173,7 @@ public class ItemboxFragment extends Fragment implements
 		}
 		return true;
 	}
-	
-	private View newV;
 
-	/**
-	 * Interface to notify listeners that the user has selected another type
-	 * of view he wants to create.
-	 * @author funklos
-	 *
-	 */
-	public interface onUiElementSelectedListener
-	{
-		void typeChanged(int id);
-	}
-
-	private static onUiElementSelectedListener listener;
-
-	public static void setOnUiElementSelectedListener(
-			onUiElementSelectedListener listener)
-	{
-		ItemboxFragment.listener = listener;
-	}
 
 	@Override
 	public boolean onDrag(View inProcess, DragEvent event)
@@ -209,6 +193,7 @@ public class ItemboxFragment extends Fragment implements
 			break;
 			
 		case DragEvent.ACTION_DRAG_ENDED:
+			
 			
 			Log.d("drag ", "ended");
 			active.setActivated(false);
@@ -235,5 +220,6 @@ public class ItemboxFragment extends Fragment implements
 	{
 		ItemboxFragment.requestListener = listener;
 	}
+	
 	
 }

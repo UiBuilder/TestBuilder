@@ -197,7 +197,7 @@ public class ObjectManipulator
 					@Override
 					public void run()
 					{
-						activeItem.setBackgroundResource(((Bundle) activeItem.getTag()).getInt(ObjectValues.BACKGROUND_EDIT));
+						activeItem.setBackgroundResource(R.drawable.object_background_default);
 					}
 				});
 				break;

@@ -36,6 +36,9 @@ public class ObjectValues
 			FONTSIZE = "fontSize", 
 			IMG_SRC = "imageSource",
 			ICN_SRC = "iconSource", 
-			BACKGROUND_EDIT = "backgroundEditmode",
-			BACKGROUND_PRES = "backgroundPresentationmode";
+			//BACKGROUND_EDIT = "backgroundEditmode",
+			//BACKGROUND_PRES = "backgroundPresentationmode",
+			BACKGROUNDCOLOR = "backgroundcolor"
+			
+			;
 }

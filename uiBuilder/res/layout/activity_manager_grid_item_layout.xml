@@ -16,7 +16,7 @@
 	        android:gravity="center"
 	        
 	        android:padding="@dimen/default_padding_large"
-	        android:background="@color/fresh_aqua"
+	        android:background="@color/fresh_aqua_solid"
 	        android:text="@string/manager_caption_unedited_screen"
 	        android:textColor="@android:color/white"
         />
