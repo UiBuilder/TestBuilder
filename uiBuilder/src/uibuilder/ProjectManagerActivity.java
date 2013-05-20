@@ -17,6 +17,9 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
@@ -24,10 +27,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import data.ProjectAdapter;
+import android.widget.Toast;
+import data.SectionAdapter;
+import data.ProjectPagerAdapter;
 import data.ScreenProvider;
 import de.ur.rk.uibuilder.R;
 
@@ -37,17 +44,17 @@ import de.ur.rk.uibuilder.R;
  *
  */
 
-public class ProjectManagerActivity extends Activity implements LoaderCallbacks<Cursor>
+public class ProjectManagerActivity extends FragmentActivity implements LoaderCallbacks<Cursor>, OnClickListener, OnItemClickListener
 {
 	public static final int REQUEST_SCREEN = 0x00;
 
 	private EditText projectName;
 	private Button newProjectButton;
-	private ListView projectList;
+	//private ListView projectList;
 
-	private ProjectAdapter projectAdapter;
+	//private ProjectAdapter projectAdapter;
 	//public static final String DATABASE_SCREEN_ID = "screen";
-	private LoaderManager manager;
+	//private LoaderManager manager;
 
 	//private boolean deleteInProgress;
 	//private RelativeLayout deleteScreenShowing;
@@ -56,12 +63,27 @@ public class ProjectManagerActivity extends Activity implements LoaderCallbacks<
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_project_manager);
+		setContentView(R.layout.activity_project_manager_paged);
 
+		setupFragments();
+		
 		setupUi();
 		setupActionBar();
 		setupDatabaseConnection();
 		setupInteraction();
+	}
+
+	private ViewPager mPager;
+	private PagerAdapter mPagerAdapter;
+	
+	private void setupFragments()
+	{
+		// TODO Auto-generated method stub
+		mPager = (ViewPager) findViewById(R.id.pager);
+        mPagerAdapter = new ProjectPagerAdapter(getSupportFragmentManager(), this.getApplicationContext());
+        mPager.setAdapter(mPagerAdapter);
+        
+        mPager.setPageTransformer(true, new ZoomOutPageTransformer());
 	}
 
 	@Override
@@ -150,10 +172,10 @@ public class ProjectManagerActivity extends Activity implements LoaderCallbacks<
 		case ScreenProvider.LOADER_ID_PROJECTS:
 			
 			Log.d("loader", "finished");
-			projectAdapter.swapCursor(newCursor);
+			/*projectAdapter.swapCursor(newCursor);
 			projectAdapter.notifyDataSetChanged();
 
-			projectList.setAdapter(projectAdapter);
+			projectList.setAdapter(projectAdapter);*/
 			break;
 			
 		case ScreenProvider.LOADER_ID_SECTIONS:
@@ -176,7 +198,7 @@ public class ProjectManagerActivity extends Activity implements LoaderCallbacks<
 		default:
 			break;
 		}
-		projectAdapter.swapCursor(null);
+		//projectAdapter.swapCursor(null);
 	}
 
 	/**
@@ -373,11 +395,11 @@ public class ProjectManagerActivity extends Activity implements LoaderCallbacks<
 	 */
 	private void setupDatabaseConnection()
 	{
-		manager = getLoaderManager();
+		/*manager = getLoaderManager();
 		manager.initLoader(ScreenProvider.LOADER_ID_PROJECTS, null, this);
 		
 		
-		projectAdapter = new ProjectAdapter(getApplicationContext(), null, true);
+		projectAdapter = new ProjectAdapter(getApplicationContext(), null, true, this);*/
 	}
 
 	/**
@@ -385,7 +407,7 @@ public class ProjectManagerActivity extends Activity implements LoaderCallbacks<
 	 */
 	private void invalidated()
 	{
-		manager.restartLoader(ScreenProvider.LOADER_ID_PROJECTS, null, this);
+		//manager.restartLoader(ScreenProvider.LOADER_ID_PROJECTS, null, this);
 	}
 
 	/**
@@ -395,7 +417,10 @@ public class ProjectManagerActivity extends Activity implements LoaderCallbacks<
 	{
 		newProjectButton = (Button) findViewById(R.id.new_screen_button);
 		projectName = (EditText) findViewById(R.id.activity_manager_new_screen_name);
+		/*
 		projectList = (ListView) findViewById(R.id.project_manager_list);
+		projectList.setOnItemClickListener(this);
+		projectList.addHeaderView(getLayoutInflater().inflate(R.layout.activity_manager_new_screen_layout, null));*/
 	}
 
 	/**
@@ -430,24 +455,25 @@ public class ProjectManagerActivity extends Activity implements LoaderCallbacks<
 		
 		ContentValues testValues = new ContentValues();
 		testValues.put(ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT, id);
-		testValues.put(ScreenProvider.KEY_SECTION_DESCRIPTION, "section description");
-		testValues.put(ScreenProvider.KEY_SECTION_NAME, "section name");
+		testValues.put(ScreenProvider.KEY_SECTION_DESCRIPTION, "section description 1.1");
+		testValues.put(ScreenProvider.KEY_SECTION_NAME, "section name 1");
 		
 		res.insert(ScreenProvider.CONTENT_URI_SECTIONS, testValues);
 		
 		testValues = new ContentValues();
 		testValues.put(ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT, id);
-		testValues.put(ScreenProvider.KEY_SECTION_DESCRIPTION, "section description");
+		testValues.put(ScreenProvider.KEY_SECTION_DESCRIPTION, "section description 2.1");
 		testValues.put(ScreenProvider.KEY_SECTION_NAME, "section name 2");
 		
 		res.insert(ScreenProvider.CONTENT_URI_SECTIONS, testValues);
 		
 		testValues = new ContentValues();
 		testValues.put(ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT, id);
-		testValues.put(ScreenProvider.KEY_SECTION_DESCRIPTION, "section description 3");
+		testValues.put(ScreenProvider.KEY_SECTION_DESCRIPTION, "section description 3.1");
 		testValues.put(ScreenProvider.KEY_SECTION_NAME, "section name 3");
 		
 		res.insert(ScreenProvider.CONTENT_URI_SECTIONS, testValues);
+		
 	}
 
 	/**
@@ -481,6 +507,23 @@ public class ProjectManagerActivity extends Activity implements LoaderCallbacks<
 		Date date = currentDateCal.getTime();
 
 		return DateFormat.format("dd.MM.yyyy, kk:mm", date).toString();
+	}
+
+	@Override
+	public void onClick(View v)
+	{
+		int id = (Integer) v.getTag();
+		
+		Toast.makeText(this, "launching " + String.valueOf(id), Toast.LENGTH_SHORT).show();
+		
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
+	{
+		// TODO Auto-generated method stub
+		Log.d("onlistitem", "click");
+		arg1.setSelected(true);
 	}
 
 	/**

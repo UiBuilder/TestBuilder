@@ -31,10 +31,10 @@ public class ScreenProvider extends ContentProvider
 {
 	//accesing loaders should use these constants as identifiers.
 	public static final int 
-					LOADER_ID_SCREENS = 0x01,	
-					LOADER_ID_OBJECTS = 0x02,
-					LOADER_ID_PROJECTS = 0x03,
-					LOADER_ID_SECTIONS = 0x04
+					LOADER_ID_SCREENS = 0x101ff,	
+					LOADER_ID_OBJECTS = 0x102ff,
+					LOADER_ID_PROJECTS = 0x103ff,
+					LOADER_ID_SECTIONS = 0x104ff
 					;
 	
 	private static final String 
@@ -524,7 +524,7 @@ public class ScreenProvider extends ContentProvider
 						;
 		
 		
-		private static final int DB_VERSION = 39;
+		private static final int DB_VERSION = 41;
 		
 		private static final String CREATE = "create table if not exists ";
 		private static final String DROP = "DROP TABLE if exists ";	
