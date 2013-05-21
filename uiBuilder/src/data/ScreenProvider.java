@@ -55,6 +55,7 @@ public class ScreenProvider extends ContentProvider
 					;
 	
 	private DataManager data;
+	private ContentResolver innerRes;
 	
 	
 	//uri match constants
@@ -95,6 +96,7 @@ public class ScreenProvider extends ContentProvider
 	@Override
 	public boolean onCreate()
 	{
+		innerRes = getContext().getContentResolver();
 		data = new DataManager(getContext(), DataManager.DB_NAME, null, DataManager.DB_VERSION);
 		return true;
 	}
@@ -300,7 +302,6 @@ public class ScreenProvider extends ContentProvider
 			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
 			
 			Log.d("database delete was called with", row);
-			ContentResolver innerRes = getContext().getContentResolver();	
 			
 			deletePreviewImage(uri, row, innerRes);
 			deleteObjects(row, innerRes);
@@ -331,6 +332,19 @@ public class ScreenProvider extends ContentProvider
 			Log.d("deleting", String.valueOf(row));
 			deleteCount = db.delete(DataManager.TABLE_PROJECTS, selection, selArgs);
 			break;
+			
+		case SECTIONS_ALL:
+			break;
+			
+		case SECTIONS_SINGLE:
+			
+			row = uri.getPathSegments().get(1);
+			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
+			
+			Log.d("database delete section single was called with", row);	
+			
+			deleteCount = db.delete(DataManager.TABLE_SECTIONS, selection, selArgs);
+			break;
 		
 		default: break;
 		}
@@ -340,7 +354,7 @@ public class ScreenProvider extends ContentProvider
 			selection = "1";
 		}
 		
-		getContext().getContentResolver().notifyChange(uri, null);
+		innerRes.notifyChange(uri, null);
 		return deleteCount;
 	}
 	

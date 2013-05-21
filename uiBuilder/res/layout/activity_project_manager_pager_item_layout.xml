@@ -4,13 +4,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     
-    android:orientation="horizontal"
+    android:orientation="vertical"
     
     
     
     android:padding="@dimen/default_padding_medium"
 
     >
+    
+    <Button 
+	        android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        
+	        android:text="X"
+	        android:layout_gravity="right"
+	        android:background="@android:color/transparent"
+	        android:textColor="@color/element_out_of_dropzone"
+	        />
+    
 	    <LinearLayout
 	        android:layout_width="match_parent"
     		android:layout_height="match_parent"
@@ -39,26 +50,26 @@
 	            android:layout_height="wrap_content"
 	            
 	            
-	            android:id="@+id/project_manager_list_item_title"
+	            android:id="@+id/project_manager_display_project_title"
 	            />
 	        <TextView 
 	            android:layout_width="match_parent"
 	            android:layout_height="wrap_content"
 	            
-	            android:id="@+id/project_manager_list_item_date"
+	            android:id="@+id/project_manager_display_project_date"
 	            />
 	        <TextView 
 	            android:layout_width="match_parent"
 	            android:layout_height="wrap_content"
 	            
-	            android:id="@+id/project_manager_list_item_section_name"
+	            android:id="@+id/project_manager_display_project_description"
 	            />
 	        
 	        <TextView 
 	            android:layout_width="match_parent"
 	            android:layout_height="wrap_content"
 	            
-	            android:id="@+id/project_manager_list_item_numberofscreens"
+	            android:id="@+id/project_manager_list_item"
 	            />
 	
 	    </LinearLayout>
@@ -71,5 +82,7 @@
 	            ></ListView>
 	    
 	</LinearLayout>
+	
+	    
 
 </LinearLayout>

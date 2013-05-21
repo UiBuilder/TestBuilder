@@ -2,18 +2,25 @@ package uibuilder;
 
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.ContentUris;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,7 +30,7 @@ import data.ScreenProvider;
 import data.SectionAdapter;
 import de.ur.rk.uibuilder.R;
 
-public class ProjectDisplay extends Fragment implements OnClickListener, LoaderCallbacks<Cursor>, OnItemClickListener
+public class ProjectDisplay extends Fragment implements OnClickListener, LoaderCallbacks<Cursor>, OnItemClickListener, OnItemLongClickListener
 {
 	private String 
 	
@@ -94,12 +101,14 @@ public class ProjectDisplay extends Fragment implements OnClickListener, LoaderC
 	 */
 	private void displayProjectProperties()
 	{
-		TextView numberOfScreensView = (TextView) root.findViewById(R.id.project_manager_list_item_numberofscreens);
-		TextView titleView = (TextView) root.findViewById(R.id.project_manager_list_item_title);
-		TextView dateView = (TextView) root.findViewById(R.id.project_manager_list_item_date);
 		
-		titleView.setText(projectName);
-		dateView.setText(projectDate);
+		TextView projectTitleView = (TextView) root.findViewById(R.id.project_manager_display_project_title);
+		TextView projectDateView = (TextView) root.findViewById(R.id.project_manager_display_project_date);
+		TextView projectDescriptionView = (TextView) root.findViewById(R.id.project_manager_display_project_description);
+		
+		projectTitleView.setText(projectName);
+		projectDateView.setText(projectDate);
+		projectDescriptionView.setText(projectDescription);
 	}
 
 	/**
@@ -122,6 +131,8 @@ public class ProjectDisplay extends Fragment implements OnClickListener, LoaderC
 		sectionList = (ListView) root.findViewById(R.id.project_manager_list_item_sections);
 		sectionList.addHeaderView(sectionListHeader);
 		sectionList.setOnItemClickListener(this);
+		sectionList.setOnItemLongClickListener(this);
+		this.registerForContextMenu(sectionList);
 	}
 
 
@@ -202,6 +213,58 @@ public class ProjectDisplay extends Fragment implements OnClickListener, LoaderC
 
 
 	@Override
+	public boolean onContextItemSelected(MenuItem item)
+	{
+		// TODO Auto-generated method stub
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		int screenId = (Integer) info.targetView.getTag();
+		
+		
+		switch (item.getItemId())
+		{
+		case SCREENMENU_ACTION_DELETE:
+			
+			Toast.makeText(getActivity(), "deleting " + String.valueOf(screenId), Toast.LENGTH_SHORT).show();
+			deleteScreenFromDb(screenId);
+			break;
+			
+		case SCREENMENU_ACTION_EDIT:
+			
+			Toast.makeText(getActivity(), "editing " + String.valueOf(screenId), Toast.LENGTH_SHORT).show();
+			break;
+
+		default:
+			break;
+		}
+		
+		return super.onContextItemSelected(item);
+	}
+
+
+	private void deleteScreenFromDb(int screenId)
+	{
+		Uri id = ContentUris.withAppendedId(ScreenProvider.CONTENT_URI_SECTIONS, screenId);
+		getActivity().getContentResolver().delete(id, null, null); 
+		
+	}
+
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo)
+	{
+		// TODO Auto-generated method stub
+		super.onCreateContextMenu(menu, v, menuInfo);
+
+		menu.add(ContextMenu.NONE, SCREENMENU_ACTION_DELETE, ContextMenu.NONE, "Delete Screen");
+		menu.add(ContextMenu.NONE, SCREENMENU_ACTION_EDIT, ContextMenu.NONE, "Edit Screen Preferences");
+	}
+
+	private static final int 
+					SCREENMENU_ACTION_DELETE = 0X00,
+					SCREENMENU_ACTION_EDIT = 0X01;
+	
+	@Override
 	public void onItemClick(AdapterView<?> arg0, View listitem, int arg2, long id)
 	{
 		// TODO Auto-generated method stub
@@ -212,6 +275,16 @@ public class ProjectDisplay extends Fragment implements OnClickListener, LoaderC
 		
 
 		Toast.makeText(getActivity(), "launching " + String.valueOf(projectId), Toast.LENGTH_SHORT).show();
+	}
+
+
+	@Override
+	public boolean onItemLongClick(AdapterView<?> arg0, View listitem, int arg2,
+			long arg3)
+	{
+		listitem.setSelected(true);
+		
+		return false;
 	}
 	
 }
