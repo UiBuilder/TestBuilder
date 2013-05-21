@@ -58,10 +58,15 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 
 	private boolean deleteInProgress;
 	private RelativeLayout deleteScreenShowing;
+	
+	private int thisSection;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
+		Intent startingIntent = getIntent();
+		thisSection = startingIntent.getIntExtra(ProjectDisplay.SECTION_ID, 0);
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_manager);
 
@@ -122,11 +127,12 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	/**
 	 * Create a new loader for the screen preview grid, querying the
 	 * ScreenProviders screens table. Async database query
+	 * USES thisSection int for identifying
 	 */
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args)
 	{
-		String selection = ScreenProvider.KEY_SCREEN_ASSOCIATED_SECTION + " = " + "'" + String.valueOf(1) + "'";
+		String selection = ScreenProvider.KEY_SCREEN_ASSOCIATED_SECTION + " = " + "'" + String.valueOf(thisSection) + "'";
 		
 		return new CursorLoader(getApplicationContext(), ScreenProvider.CONTENT_URI_SCREENS, null, selection, null, null);
 	}
@@ -412,7 +418,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 		values.put(ScreenProvider.KEY_SCREEN_PREVIEW, 0);
 		values.put(ScreenProvider.KEY_SCREEN_DATE, now);
 		values.put(ScreenProvider.KEY_SCREEN_NAME, screenName.getText().toString());
-		values.put(ScreenProvider.KEY_SCREEN_ASSOCIATED_SECTION, 1);
+		values.put(ScreenProvider.KEY_SCREEN_ASSOCIATED_SECTION, thisSection);
 
 		return values;
 	}

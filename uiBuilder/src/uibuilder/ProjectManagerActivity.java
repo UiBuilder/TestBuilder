@@ -1,18 +1,12 @@
 package uibuilder;
 
 import helpers.ZoomOutPageTransformer;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
-
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,13 +35,11 @@ public class ProjectManagerActivity extends FragmentActivity implements OnClickL
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_project_manager_paged);
-
-		
+		setContentView(R.layout.activity_project_manager_paged);	
 		
 		setupUi();
 		setupActionBar();
-		//setupDatabaseConnection();
+
 		setupInteraction();
 	}
 
@@ -131,8 +123,6 @@ public class ProjectManagerActivity extends FragmentActivity implements OnClickL
 		if (resultCode == RESULT_OK && requestCode == REQUEST_PROJECT) 
 		{
 			setupFragments();
-			
-
 		}
 	}
 
@@ -145,26 +135,12 @@ public class ProjectManagerActivity extends FragmentActivity implements OnClickL
 	}
 
 
-
-	/**
-	 * Restart the loader to update the cusror data.
-	 */
-	private void invalidated()
-	{
-		//manager.restartLoader(ScreenProvider.LOADER_ID_PROJECTS, null, this);
-	}
-
 	/**
 	 * initial setup for interaction
 	 */
 	private void setupUi()
 	{
-		//newProjectButton = (Button) findViewById(R.id.new_screen_button);
-		//projectName = (EditText) findViewById(R.id.activity_manager_new_screen_name);
-		/*
-		projectList = (ListView) findViewById(R.id.project_manager_list);
-		projectList.setOnItemClickListener(this);
-		projectList.addHeaderView(getLayoutInflater().inflate(R.layout.activity_manager_new_screen_layout, null));*/
+
 	}
 
 	/**
@@ -178,107 +154,10 @@ public class ProjectManagerActivity extends FragmentActivity implements OnClickL
 		bar.setBackgroundDrawable(getResources().getDrawable(R.color.designfragment_background));
 	}
 
-	/**
-	 * Called when a new screen is requested by the user.
-	 */
-	private void createNewProject()
-	{
-		putInDatabase();
-	}
-
-	/**
-	 * Insert a new row in the Screenproviders screens table. Fetch the values
-	 * to insert by @see getNewScreenValues
-	 * 
-	 */
-	private void putInDatabase()
-	{/*
-		ContentResolver res = getContentResolver();
-		Uri inserted = res.insert(ScreenProvider.CONTENT_URI_PROJECTS, getNewScreenValues());
-		int id = Integer.valueOf(inserted.getPathSegments().get(1));
-		
-		ContentValues testValues = new ContentValues();
-		testValues.put(ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT, id);
-		testValues.put(ScreenProvider.KEY_SECTION_DESCRIPTION, "section description 1.1");
-		testValues.put(ScreenProvider.KEY_SECTION_NAME, "section name 1");
-		
-		res.insert(ScreenProvider.CONTENT_URI_SECTIONS, testValues);
-		
-		testValues = new ContentValues();
-		testValues.put(ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT, id);
-		testValues.put(ScreenProvider.KEY_SECTION_DESCRIPTION, "section description 2.1");
-		testValues.put(ScreenProvider.KEY_SECTION_NAME, "section name 2");
-		
-		res.insert(ScreenProvider.CONTENT_URI_SECTIONS, testValues);
-		
-		testValues = new ContentValues();
-		testValues.put(ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT, id);
-		testValues.put(ScreenProvider.KEY_SECTION_DESCRIPTION, "section description 3.1");
-		testValues.put(ScreenProvider.KEY_SECTION_NAME, "section name 3");
-		
-		res.insert(ScreenProvider.CONTENT_URI_SECTIONS, testValues);
-		
-		testValues = new ContentValues();
-		testValues.put(ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT, id);
-		testValues.put(ScreenProvider.KEY_SECTION_DESCRIPTION, "section description 1.1");
-		testValues.put(ScreenProvider.KEY_SECTION_NAME, "section name 1");
-		
-		res.insert(ScreenProvider.CONTENT_URI_SECTIONS, testValues);
-		
-		testValues = new ContentValues();
-		testValues.put(ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT, id);
-		testValues.put(ScreenProvider.KEY_SECTION_DESCRIPTION, "section description 2.1");
-		testValues.put(ScreenProvider.KEY_SECTION_NAME, "section name 2");
-		
-		res.insert(ScreenProvider.CONTENT_URI_SECTIONS, testValues);
-		
-		testValues = new ContentValues();
-		testValues.put(ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT, id);
-		testValues.put(ScreenProvider.KEY_SECTION_DESCRIPTION, "section description 3.1");
-		testValues.put(ScreenProvider.KEY_SECTION_NAME, "section name 3");
-		
-		res.insert(ScreenProvider.CONTENT_URI_SECTIONS, testValues);*/
-	}
-
-	/**
-	 * Generates the content Value object to insert into the screen provider
-	 * 
-	 * @return
-	 */
-/*	private ContentValues getNewScreenValues()
-	{
-		ContentValues values = new ContentValues();
-
-		String now = generateDate();
-
-		values.put(ScreenProvider.KEY_PROJECTS_DESCRIPTION, 0);
-		values.put(ScreenProvider.KEY_PROJECTS_DATE, now);
-		values.put(ScreenProvider.KEY_PROJECTS_NAME, projectName.getText().toString());
-
-		return values;
-	}*/
-
-	/**
-	 * generate a new date string based on the users timezone.
-	 * 
-	 * @return
-	 */
-	private String generateDate()
-	{
-		Calendar currentDateCal = Calendar.getInstance();
-		currentDateCal.setTimeZone(TimeZone.getDefault());
-
-		Date date = currentDateCal.getTime();
-
-		return DateFormat.format("dd.MM.yyyy, kk:mm", date).toString();
-	}
 
 	@Override
 	public void onClick(View v)
 	{
-		int id = (Integer) v.getTag();
-		
-		Toast.makeText(this, "launching " + String.valueOf(id), Toast.LENGTH_SHORT).show();
 		
 	}
 
@@ -288,25 +167,6 @@ public class ProjectManagerActivity extends FragmentActivity implements OnClickL
 		// TODO Auto-generated method stub
 		Log.d("onlistitem", "click");
 		arg1.setSelected(true);
-	}
-
-	/**
-	 * start a new @see UiBuilderActivity with the associated screen id, to be
-	 * used as identifier for objects which will be inserted in the objects
-	 * table. shows a slide animation when showing the new activity.
-	 * 
-	 * @param screen
-	 * @param id
-	 */
-	private void startForEditing(View screen, long id)
-	{
-		/*
-		Intent start = new Intent(getApplicationContext(), UiBuilderActivity.class);
-		start.putExtra(DATABASE_SCREEN_ID, (int) id);
-
-		startActivityForResult(start, REQUEST_SCREEN);
-		overridePendingTransition(R.anim.activity_transition_from_right_in, R.anim.activity_transition_to_left_out);
-		*/
 	}
 
 }

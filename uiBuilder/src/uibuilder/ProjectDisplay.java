@@ -4,6 +4,7 @@ import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentUris;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -181,6 +182,7 @@ public class ProjectDisplay extends Fragment implements OnClickListener, LoaderC
 		sectionAdapter.notifyDataSetChanged();
 
 		sectionList.setAdapter(sectionAdapter);
+		Log.d("adapter stable ids", String.valueOf(sectionAdapter.hasStableIds()));
 		
 		TextView headerContent = (TextView) sectionListHeader.findViewById(R.id.project_manager_list_item_sections_header);
 		headerContent.setText("Project contains " + String.valueOf(newCursor.getCount()) + " sections:");
@@ -255,7 +257,12 @@ public class ProjectDisplay extends Fragment implements OnClickListener, LoaderC
 	{
 		// TODO Auto-generated method stub
 		super.onCreateContextMenu(menu, v, menuInfo);
-
+		menu.setHeaderIcon(android.R.drawable.ic_menu_edit);
+		
+		TextView screenNameView = (TextView) v.findViewById(R.id.project_manager_list_item_section_container_name);
+		String screenName = String.valueOf(screenNameView.getText());
+		menu.setHeaderTitle("Options for \"" + screenName + "\"");
+		
 		menu.add(ContextMenu.NONE, SCREENMENU_ACTION_DELETE, ContextMenu.NONE, "Delete Screen");
 		menu.add(ContextMenu.NONE, SCREENMENU_ACTION_EDIT, ContextMenu.NONE, "Edit Screen Preferences");
 	}
@@ -271,10 +278,20 @@ public class ProjectDisplay extends Fragment implements OnClickListener, LoaderC
 		
 		Log.d("sectionlist", "itemclick");
 		
-		int projectId = (Integer) listitem.getTag();
+		int sectionId = (Integer) listitem.getTag();
 		
-
 		Toast.makeText(getActivity(), "launching " + String.valueOf(projectId), Toast.LENGTH_SHORT).show();
+		startScreenManager(sectionId);
+	}
+
+	public static final String SECTION_ID = "sectionid";
+
+	private void startScreenManager(int sectionId)
+	{
+		Intent start = new Intent(getActivity(), ManagerActivity.class);
+		start.putExtra(SECTION_ID, sectionId);
+		
+		startActivity(start);
 	}
 
 
