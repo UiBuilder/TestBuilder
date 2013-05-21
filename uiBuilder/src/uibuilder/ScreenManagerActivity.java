@@ -42,7 +42,7 @@ import de.ur.rk.uibuilder.R;
  *
  */
 
-public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
+public class ScreenManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 {
 	public static final int REQUEST_SCREEN = 0x00;
 	public static final String RESULT_SCREEN_ID = "edited_screen";
@@ -66,12 +66,13 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	{
 		Intent startingIntent = getIntent();
 		thisSection = startingIntent.getIntExtra(ProjectDisplay.SECTION_ID, 0);
+		String thisName = startingIntent.getStringExtra(ProjectDisplay.SECTION_NAME);
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_manager);
 
 		setupUi();
-		setupActionBar();
+		setupActionBar(thisName);
 		setupDatabaseConnection();
 		setupInteraction();
 	}
@@ -114,7 +115,7 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 
 		case R.id.manager_menu_action_about:	
 			
-			Intent aboutIntent = new Intent(ManagerActivity.this, AboutActivity.class);
+			Intent aboutIntent = new Intent(ScreenManagerActivity.this, AboutActivity.class);
 			startActivity(aboutIntent);
 			break;
 
@@ -377,11 +378,14 @@ public class ManagerActivity extends Activity implements LoaderCallbacks<Cursor>
 	/**
 	 * customize actionbar to match the overall ui-style of the app
 	 */
-	private void setupActionBar()
+	private void setupActionBar(String name)
 	{
 		ActionBar bar = getActionBar();
-
-		bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME);
+		
+		Log.d("name is", name);
+		bar.setTitle(name);
+		bar.setDisplayHomeAsUpEnabled(true);
+		bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME|ActionBar.DISPLAY_SHOW_TITLE|ActionBar.DISPLAY_HOME_AS_UP);
 		bar.setBackgroundDrawable(getResources().getDrawable(R.color.designfragment_background));
 	}
 

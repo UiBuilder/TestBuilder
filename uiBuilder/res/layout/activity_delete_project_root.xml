@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent" android:layout_height="match_parent"
+
+	android:background="@color/designfragment_background">
+	
+	<LinearLayout android:layout_width="match_parent"
+		android:layout_height="wrap_content" android:layout_centerInParent="true"
+		android:orientation="horizontal" android:weightSum="1">
+		
+		<View android:layout_width="0dp" android:layout_height="match_parent"
+
+			android:layout_weight="0.25" />
+
+
+		<LinearLayout android:id="@+id/project_delete_container"
+			android:layout_height="wrap_content" android:layout_width="0dp"
+			android:layout_weight="0.5" android:background="@color/superlight_grey"
+			android:padding="@dimen/default_padding_medium"
+			android:orientation="horizontal"
+			>
+
+
+			<LinearLayout android:background="@android:color/white"
+				android:layout_height="match_parent" android:layout_width="match_parent"
+
+				android:padding="@dimen/default_padding_large" android:orientation="vertical"
+				>
+
+				<TextView style="@style/editbox_header"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+
+					android:text="Delete Projects" 
+					/>
+
+				<TextView android:padding="@dimen/default_padding_small"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+
+					android:text="Select the projects you want to delete" />
+
+				
+				
+				<RelativeLayout 
+				    android:layout_width="match_parent"
+				    android:layout_height="match_parent"
+					
+				    android:layout_margin="@dimen/default_padding_large"
+				    >
+				    
+				    <Button android:id="@+id/project_delete_cancel"
+				    
+				    android:layout_alignParentLeft="true"
+				    android:layout_alignParentBottom="true"
+
+				    style="@style/itembox_items_inverted"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+
+					android:text="Cancel" />
+				    
+				    <Button android:id="@+id/project_delete_confirm"
+				    
+				    android:layout_alignParentRight="true"
+				    android:layout_alignParentBottom="true"
+
+				    style="@style/itembox_items_inverted"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+
+					android:text="Delete them" />
+				    
+				</RelativeLayout>
+
+			</LinearLayout>
+
+		</LinearLayout>
+
+		<View android:layout_width="0dp" android:layout_height="match_parent"
+
+			android:layout_weight="0.25" />
+
+
+	</LinearLayout>
+
+
+</RelativeLayout>

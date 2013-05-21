@@ -102,6 +102,14 @@ public class ProjectManagerActivity extends FragmentActivity implements OnClickL
 			
 			Intent startWizard = new Intent(ProjectManagerActivity.this, NewProjectWizard.class);
 			startActivityForResult(startWizard, REQUEST_PROJECT);
+			overridePendingTransition(R.anim.activity_transition_from_top_in, R.anim.activity_transition_to_bottom_out);
+			break;
+			
+		case R.id.project_manager_menu_delete_project:
+			
+			Intent startDelete = new Intent(ProjectManagerActivity.this, DeleteProjectsActivity.class);
+			startActivityForResult(startDelete, REQUEST_PROJECT);
+			overridePendingTransition(R.anim.activity_transition_from_top_in, R.anim.activity_transition_to_bottom_out);
 			break;
 
 		default:
@@ -150,7 +158,9 @@ public class ProjectManagerActivity extends FragmentActivity implements OnClickL
 	{
 		ActionBar bar = getActionBar();
 
-		bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME);
+		bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME|ActionBar.DISPLAY_SHOW_TITLE);
+		bar.setSubtitle("Your Current Projects");
+		bar.setTitle("Prime");
 		bar.setBackgroundDrawable(getResources().getDrawable(R.color.designfragment_background));
 	}
 

@@ -110,19 +110,13 @@ public class NewProjectWizard extends Activity implements OnClickListener
         
         resultSet = (LinearLayout) findViewById(R.id.project_wizard_flipper_step2_results);
 	}
-/*	
+	
 	private void returnToManager()
 	{
-		
-		Intent returnIntent = new Intent();
-		returnIntent.putExtra(ManagerActivity.RESULT_SCREEN_ID, screenId);
-		returnIntent.putExtra(ManagerActivity.RESULT_IMAGE_PATH,imageUri.toString());
-		setResult(RESULT_OK, returnIntent); 
-		
 		finish();
-		overridePendingTransition(R.anim.activity_transition_from_left_in, R.anim.activity_transition_to_right_out);
+		overridePendingTransition(R.anim.activity_transition_from_bottom_in, R.anim.activity_transition_to_top_out);
 	}
-*/	
+	
 	
 	/**
 	 * customize actionbar to match the overall ui-style of the app
@@ -170,7 +164,7 @@ public class NewProjectWizard extends Activity implements OnClickListener
 		case R.id.project_wizard_flipper_step2_ok:
 			
 			insertNewScreens();
-			finish();
+			returnToManager();
 			break;
 			
 		default:

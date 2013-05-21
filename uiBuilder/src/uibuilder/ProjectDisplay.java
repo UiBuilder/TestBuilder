@@ -259,12 +259,23 @@ public class ProjectDisplay extends Fragment implements OnClickListener, LoaderC
 		super.onCreateContextMenu(menu, v, menuInfo);
 		menu.setHeaderIcon(android.R.drawable.ic_menu_edit);
 		
-		TextView screenNameView = (TextView) v.findViewById(R.id.project_manager_list_item_section_container_name);
-		String screenName = String.valueOf(screenNameView.getText());
+		String screenName = getScreenName(v);
 		menu.setHeaderTitle("Options for \"" + screenName + "\"");
 		
 		menu.add(ContextMenu.NONE, SCREENMENU_ACTION_DELETE, ContextMenu.NONE, "Delete Screen");
 		menu.add(ContextMenu.NONE, SCREENMENU_ACTION_EDIT, ContextMenu.NONE, "Edit Screen Preferences");
+	}
+
+
+	/**
+	 * @param v
+	 * @return
+	 */
+	private String getScreenName(View v)
+	{
+		TextView screenNameView = (TextView) v.findViewById(R.id.project_manager_list_item_section_container_name);
+		String screenName = String.valueOf(screenNameView.getText());
+		return screenName;
 	}
 
 	private static final int 
@@ -278,18 +289,21 @@ public class ProjectDisplay extends Fragment implements OnClickListener, LoaderC
 		
 		Log.d("sectionlist", "itemclick");
 		
-		int sectionId = (Integer) listitem.getTag();
+		int sectionId = (Integer) listitem.getTag();	
 		
 		Toast.makeText(getActivity(), "launching " + String.valueOf(projectId), Toast.LENGTH_SHORT).show();
-		startScreenManager(sectionId);
+		
+		startScreenManager(sectionId, listitem);
 	}
 
 	public static final String SECTION_ID = "sectionid";
+	public static final String SECTION_NAME = "sectionname";
 
-	private void startScreenManager(int sectionId)
+	private void startScreenManager(int sectionId, View listitem)
 	{
-		Intent start = new Intent(getActivity(), ManagerActivity.class);
+		Intent start = new Intent(getActivity(), ScreenManagerActivity.class);
 		start.putExtra(SECTION_ID, sectionId);
+		start.putExtra(SECTION_NAME, getScreenName(listitem));
 		
 		startActivity(start);
 	}

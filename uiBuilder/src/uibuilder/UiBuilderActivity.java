@@ -186,7 +186,7 @@ public class UiBuilderActivity
 
 		if (intentBundle != null)
 		{
-			screenId = intentBundle.getInt(ManagerActivity.DATABASE_SCREEN_ID);
+			screenId = intentBundle.getInt(ScreenManagerActivity.DATABASE_SCREEN_ID);
 			Log.d("screen id is", String.valueOf(screenId));
 		}
 	}
@@ -251,8 +251,8 @@ public class UiBuilderActivity
 		Uri imageUri = getPreviewImage();
 		
 		Intent returnIntent = new Intent();
-		returnIntent.putExtra(ManagerActivity.RESULT_SCREEN_ID, screenId);
-		returnIntent.putExtra(ManagerActivity.RESULT_IMAGE_PATH,imageUri.toString());
+		returnIntent.putExtra(ScreenManagerActivity.RESULT_SCREEN_ID, screenId);
+		returnIntent.putExtra(ScreenManagerActivity.RESULT_IMAGE_PATH,imageUri.toString());
 		setResult(RESULT_OK, returnIntent); 
 		
 		finish();
