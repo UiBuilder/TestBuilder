@@ -36,6 +36,7 @@
             
             android:id="@+id/project_manager_list"
             
+            
             ></ListView>
         
         

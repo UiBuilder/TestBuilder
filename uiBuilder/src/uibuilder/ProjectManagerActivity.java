@@ -1,21 +1,13 @@
 package uibuilder;
 
+import helpers.ZoomOutPageTransformer;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
 import android.app.ActionBar;
-import android.app.Activity;
-import android.app.LoaderManager;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.ContentResolver;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.CursorLoader;
 import android.content.Intent;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
@@ -26,16 +18,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
-import data.SectionAdapter;
 import data.ProjectPagerAdapter;
-import data.ScreenProvider;
 import de.ur.rk.uibuilder.R;
 
 /**
@@ -44,20 +30,12 @@ import de.ur.rk.uibuilder.R;
  *
  */
 
-public class ProjectManagerActivity extends FragmentActivity implements LoaderCallbacks<Cursor>, OnClickListener, OnItemClickListener
+public class ProjectManagerActivity extends FragmentActivity implements OnClickListener, OnItemClickListener
 {
 	public static final int REQUEST_SCREEN = 0x00;
+	public static final int REQUEST_PROJECT = 0x01;
 
-	private EditText projectName;
-	private Button newProjectButton;
-	//private ListView projectList;
 
-	//private ProjectAdapter projectAdapter;
-	//public static final String DATABASE_SCREEN_ID = "screen";
-	//private LoaderManager manager;
-
-	//private boolean deleteInProgress;
-	//private RelativeLayout deleteScreenShowing;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -69,7 +47,7 @@ public class ProjectManagerActivity extends FragmentActivity implements LoaderCa
 		
 		setupUi();
 		setupActionBar();
-		setupDatabaseConnection();
+		//setupDatabaseConnection();
 		setupInteraction();
 	}
 
@@ -99,20 +77,24 @@ public class ProjectManagerActivity extends FragmentActivity implements LoaderCa
 	@Override
 	public void onBackPressed()
 	{
-		/*if (deleteInProgress) 
+		if (mPager.getCurrentItem() == 0) 
 		{
-			returnToNormalMode(deleteScreenShowing);
-		} else */
-		{
-			super.onBackPressed();
-		}
+            // If the user is currently looking at the first step, allow the system to handle the
+            // Back button. This calls finish() on this activity and pops the back stack.
+            super.onBackPressed();
+        } 
+		else 
+        {
+            // Otherwise, select the previous step.
+            mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+        }
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		// Inflate the menu; this adds items to the action bar if it is present.
-		//getMenuInflater().inflate(R.menu.manager, menu);
+		getMenuInflater().inflate(R.menu.project_manager_menu, menu);
 		return true;
 	}
 	
@@ -123,83 +105,18 @@ public class ProjectManagerActivity extends FragmentActivity implements LoaderCa
 		switch (item.getItemId())
 		{
 
-		/*case R.id.manager_menu_action_about:	
+		case R.id.project_manager_menu_new_project:	
 			
-			Intent aboutIntent = new Intent(ProjectManagerActivity.this, AboutActivity.class);
-			startActivity(aboutIntent);
+			Intent startWizard = new Intent(ProjectManagerActivity.this, NewProjectWizard.class);
+			startActivityForResult(startWizard, REQUEST_PROJECT);
 			break;
-*/
+
 		default:
 			break;
 		}
 		return true;
 	}
 
-	/**
-	 * Create a new loader for the screen preview grid, querying the
-	 * ScreenProviders screens table. Async database query
-	 */
-	@Override
-	public Loader<Cursor> onCreateLoader(int id, Bundle args)
-	{
-		//String selection = ScreenProvider.KEY_SCREEN_ASSOCIATED_SECTION + " = " + "'" + String.valueOf(1) + "'";
-		switch (id)
-		{
-		case ScreenProvider.LOADER_ID_PROJECTS:
-			
-			return new CursorLoader(getApplicationContext(), ScreenProvider.CONTENT_URI_PROJECTS, null, null, null, null);
-			
-		case ScreenProvider.LOADER_ID_SECTIONS:
-			
-			return new CursorLoader(getApplicationContext(), ScreenProvider.CONTENT_URI_SECTIONS, null, null, null, null);
-
-		default:
-			break;
-		}
-		return null;
-	}
-
-	/**
-	 * After finishing the dataloading the adapter receives a new cursor to
-	 * display the containing data.
-	 */
-	@Override
-	public void onLoadFinished(Loader<Cursor> loader, Cursor newCursor)
-	{
-		
-		switch (loader.getId())
-		{
-		case ScreenProvider.LOADER_ID_PROJECTS:
-			
-			Log.d("loader", "finished");
-			/*projectAdapter.swapCursor(newCursor);
-			projectAdapter.notifyDataSetChanged();
-
-			projectList.setAdapter(projectAdapter);*/
-			break;
-			
-		case ScreenProvider.LOADER_ID_SECTIONS:
-
-		default:
-			break;
-		}
-
-	}
-
-	@Override
-	public void onLoaderReset(Loader<Cursor> loader)
-	{
-		switch (loader.getId())
-		{
-		case ScreenProvider.LOADER_ID_PROJECTS:
-			
-			break;
-
-		default:
-			break;
-		}
-		//projectAdapter.swapCursor(null);
-	}
 
 	/**
 	 * The result is delivered by the uibuilderactivity, represented as an
@@ -210,23 +127,12 @@ public class ProjectManagerActivity extends FragmentActivity implements LoaderCa
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
-		/*if (resultCode == RESULT_OK && requestCode == REQUEST_SCREEN) 
+		if (resultCode == RESULT_OK && requestCode == REQUEST_PROJECT) 
 		{
-			String imagePath = data.getStringExtra(RESULT_IMAGE_PATH);
-			int id = data.getIntExtra(RESULT_SCREEN_ID, -1);
+			setupFragments();
+			
 
-			if (id != -1) 
-			{
-				ContentValues image = new ContentValues();
-				image.put(ScreenProvider.KEY_SCREEN_PREVIEW, imagePath);
-
-				ContentResolver res = getContentResolver();
-				Uri imageUpdate = ContentUris.withAppendedId(ScreenProvider.CONTENT_URI_SCREENS, id);
-
-				res.update(imageUpdate, image, null, null);
-				invalidated();
-			}
-		}*/
+		}
 	}
 
 	/**
@@ -234,173 +140,10 @@ public class ProjectManagerActivity extends FragmentActivity implements LoaderCa
 	 */
 	private void setupInteraction()
 	{
-		// the button to create a new screen
-		newProjectButton.setOnClickListener(new OnClickListener()
-		{
 
-			@Override
-			public void onClick(View v)
-			{
-				createNewProject();
-				
-				resetDialog();
-			}
-
-			/**
-			 * 
-			 */
-			private void resetDialog()
-			{
-				projectName.setText("");
-				InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-				inputManager.hideSoftInputFromWindow(projectName.getWindowToken(), 0);
-			}
-		});
-
-		// the griditems should start the editing activity with the
-		// corresponding id
-		/*grid.setOnItemClickListener(new OnItemClickListener()
-		{
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View screen, int position, long id)
-			{
-				Log.d("itemid", String.valueOf(id));
-				startForEditing(screen, id);
-			}
-		});
-
-		// onlongclick is showing the items delete option screen
-		grid.setOnItemLongClickListener(new OnItemLongClickListener()
-		{
-
-			@Override
-			public boolean onItemLongClick(AdapterView<?> arg0, final View item, int arg2, final long id)
-			{
-				final RelativeLayout hidden = (RelativeLayout) item.findViewById(R.id.activity_manager_griditem_deletebox);
-
-				setToDeleteMode(hidden);
-
-				setupDeleteScreenInteraction(item, id, hidden);
-
-				return true;
-			}
-
-			*//**
-			 * Setup the interaction for the delete screen which is showing
-			 * after a long press on a grid item.
-			 * 
-			 * @param item
-			 *            the grid item being clicked
-			 * @param id
-			 *            the associated database id
-			 * @param hidden
-			 *            the grid items deletescreen layout
-			 *//*
-			private void setupDeleteScreenInteraction(final View item, final long id, final RelativeLayout hidden)
-			{
-				Button confirmDeleteButton = (Button) item.findViewById(R.id.activity_manager_griditem_deletebutton);
-
-				confirmDeleteButton.setOnClickListener(new OnClickListener()
-				{
-
-					@Override
-					public void onClick(View v)
-					{
-						deleteScreenFromDatabase(id);
-
-					}
-				});
-
-				// a click on the surrounding box, of an uncertain user, should
-				// just hide the deletescreen
-				RelativeLayout deleteBox = (RelativeLayout) confirmDeleteButton.getParent();
-				deleteBox.setOnClickListener(new OnClickListener()
-				{
-
-					@Override
-					public void onClick(View v)
-					{
-						returnToNormalMode(hidden);
-					}
-				});
-
-				// return to normal mode when cancel is clicked
-				Button cancelButton = (Button) deleteBox.findViewById(R.id.activity_manager_griditem_cancelbutton);
-				cancelButton.setOnClickListener(new OnClickListener()
-				{
-
-					@Override
-					public void onClick(View v)
-					{
-
-						returnToNormalMode(hidden);
-					}
-				});
-			}
-
-			*//**
-			 * @param id
-			 *//*
-			private void deleteScreenFromDatabase(long id)
-			{
-				ContentResolver cres = getContentResolver();
-				
-				// delete the screen in screens table, automatically deletes all
-				// depending entries in tables
-				Uri uri = ContentUris.withAppendedId(ScreenProvider.CONTENT_URI_SCREENS, id);
-				cres.delete(uri, null, null);
-				invalidated();
-
-				deleteInProgress = false;
-			}
-		});*/
 	}
 
-	/**
-	 * Shows the items deleteScreen, which is initially invisible.
-	 * 
-	 * @param deleteScreen
-	 *            the gridItems layout, which is requesting the operation
-	 */
-	/*private void setToDeleteMode(RelativeLayout deleteScreen)
-	{
-		if (deleteScreenShowing != null)
-		{
-			deleteScreenShowing.setVisibility(View.INVISIBLE);
-		}
-		deleteScreen.setVisibility(View.VISIBLE);
-		deleteInProgress = true;
-		deleteScreenShowing = deleteScreen;
-	}*/
 
-	/**
-	 * Hides the deleteScreen part of the layout again.
-	 * 
-	 * @param item
-	 *            the gridItems layout, which is requesting the operation
-	 */
-	/*private void returnToNormalMode(RelativeLayout deleteScreen)
-	{
-		grid.clearFocus();
-		deleteScreen.setVisibility(View.INVISIBLE);
-		deleteInProgress = false;
-		deleteScreenShowing = null;
-	}*/
-
-	/**
-	 * Initialize an async loader, to load the saved screens from the database
-	 * contained in @see ScreenProvider and init a new adapter to be connected
-	 * to the grid in @see onLoadFinished
-	 */
-	private void setupDatabaseConnection()
-	{
-		/*manager = getLoaderManager();
-		manager.initLoader(ScreenProvider.LOADER_ID_PROJECTS, null, this);
-		
-		
-		projectAdapter = new ProjectAdapter(getApplicationContext(), null, true, this);*/
-	}
 
 	/**
 	 * Restart the loader to update the cusror data.
@@ -415,8 +158,8 @@ public class ProjectManagerActivity extends FragmentActivity implements LoaderCa
 	 */
 	private void setupUi()
 	{
-		newProjectButton = (Button) findViewById(R.id.new_screen_button);
-		projectName = (EditText) findViewById(R.id.activity_manager_new_screen_name);
+		//newProjectButton = (Button) findViewById(R.id.new_screen_button);
+		//projectName = (EditText) findViewById(R.id.activity_manager_new_screen_name);
 		/*
 		projectList = (ListView) findViewById(R.id.project_manager_list);
 		projectList.setOnItemClickListener(this);
@@ -448,7 +191,7 @@ public class ProjectManagerActivity extends FragmentActivity implements LoaderCa
 	 * 
 	 */
 	private void putInDatabase()
-	{
+	{/*
 		ContentResolver res = getContentResolver();
 		Uri inserted = res.insert(ScreenProvider.CONTENT_URI_PROJECTS, getNewScreenValues());
 		int id = Integer.valueOf(inserted.getPathSegments().get(1));
@@ -474,6 +217,26 @@ public class ProjectManagerActivity extends FragmentActivity implements LoaderCa
 		
 		res.insert(ScreenProvider.CONTENT_URI_SECTIONS, testValues);
 		
+		testValues = new ContentValues();
+		testValues.put(ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT, id);
+		testValues.put(ScreenProvider.KEY_SECTION_DESCRIPTION, "section description 1.1");
+		testValues.put(ScreenProvider.KEY_SECTION_NAME, "section name 1");
+		
+		res.insert(ScreenProvider.CONTENT_URI_SECTIONS, testValues);
+		
+		testValues = new ContentValues();
+		testValues.put(ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT, id);
+		testValues.put(ScreenProvider.KEY_SECTION_DESCRIPTION, "section description 2.1");
+		testValues.put(ScreenProvider.KEY_SECTION_NAME, "section name 2");
+		
+		res.insert(ScreenProvider.CONTENT_URI_SECTIONS, testValues);
+		
+		testValues = new ContentValues();
+		testValues.put(ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT, id);
+		testValues.put(ScreenProvider.KEY_SECTION_DESCRIPTION, "section description 3.1");
+		testValues.put(ScreenProvider.KEY_SECTION_NAME, "section name 3");
+		
+		res.insert(ScreenProvider.CONTENT_URI_SECTIONS, testValues);*/
 	}
 
 	/**
@@ -481,7 +244,7 @@ public class ProjectManagerActivity extends FragmentActivity implements LoaderCa
 	 * 
 	 * @return
 	 */
-	private ContentValues getNewScreenValues()
+/*	private ContentValues getNewScreenValues()
 	{
 		ContentValues values = new ContentValues();
 
@@ -492,7 +255,7 @@ public class ProjectManagerActivity extends FragmentActivity implements LoaderCa
 		values.put(ScreenProvider.KEY_PROJECTS_NAME, projectName.getText().toString());
 
 		return values;
-	}
+	}*/
 
 	/**
 	 * generate a new date string based on the users timezone.
@@ -534,13 +297,15 @@ public class ProjectManagerActivity extends FragmentActivity implements LoaderCa
 	 * @param screen
 	 * @param id
 	 */
-/*	private void startForEditing(View screen, long id)
+	private void startForEditing(View screen, long id)
 	{
+		/*
 		Intent start = new Intent(getApplicationContext(), UiBuilderActivity.class);
 		start.putExtra(DATABASE_SCREEN_ID, (int) id);
 
 		startActivityForResult(start, REQUEST_SCREEN);
 		overridePendingTransition(R.anim.activity_transition_from_right_in, R.anim.activity_transition_to_left_out);
-	}*/
+		*/
+	}
 
 }

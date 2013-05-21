@@ -23,7 +23,6 @@ import de.ur.rk.uibuilder.R;
  */
 public class SectionAdapter extends CursorAdapter 
 {
-	private OnClickListener listener;
 	
 	
 	@Override
@@ -43,11 +42,11 @@ public class SectionAdapter extends CursorAdapter
 	private LayoutInflater inflater;
 	private ContentResolver resolver;
 
-	public SectionAdapter(Context context, Cursor c, boolean autoRequery, OnClickListener listener)
+	public SectionAdapter(Context context, Cursor c, boolean autoRequery)
 	{
 		super(context, c, autoRequery);
 		
-		this.listener = listener;
+
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		resolver = context.getContentResolver();
 	}
@@ -63,11 +62,9 @@ public class SectionAdapter extends CursorAdapter
 		
 		TextView name = (TextView) section.findViewById(R.id.project_manager_list_item_section_container_name);
 		TextView description = (TextView) section.findViewById(R.id.project_manager_list_item_section_container_description);
-		Button launch = (Button) section.findViewById(R.id.project_manager_list_item_section_container_launch);
+
 		
-		launch.setOnClickListener(listener);
-		
-		launch.setTag(sectionCursor.getInt(sectionIdIdx));
+		section.setTag(sectionCursor.getInt(sectionIdIdx));
 		name.setText(sectionCursor.getString(titleIdx));
 		description.setText(sectionCursor.getString(descIdx));
 		

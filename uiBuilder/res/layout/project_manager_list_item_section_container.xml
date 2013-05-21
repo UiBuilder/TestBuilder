@@ -3,8 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" 
+    
+    android:layout_margin="@dimen/default_padding_medium"
+    android:layout_marginBottom="@dimen/default_padding_medium"
+    android:padding="@dimen/default_padding_medium"
+    
+    android:background="@android:color/white"
     >
-    <TextView 
+    <TextView style="@style/editbox_sub"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         
@@ -14,18 +20,11 @@
     <TextView 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="@dimen/default_padding_medium"
         
         android:id="@+id/project_manager_list_item_section_container_description"
         
         />
     
-    <Button 
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        
-        android:text="Show Category Screens"
-        
-        android:id="@+id/project_manager_list_item_section_container_launch"
-        />
 
 </LinearLayout>

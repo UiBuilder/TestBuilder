@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent" android:layout_height="match_parent"
+
+	android:background="@color/designfragment_background">
+	<LinearLayout android:layout_width="match_parent"
+		android:layout_height="wrap_content" android:layout_centerInParent="true"
+		android:orientation="horizontal" android:weightSum="1">
+		<View android:layout_width="0dp" android:layout_height="match_parent"
+
+			android:layout_weight="0.25" />
+
+
+		<ViewFlipper android:id="@+id/project_wizard_flipper"
+			android:layout_height="wrap_content" android:layout_width="0dp"
+			android:layout_weight="0.5" android:background="@color/superlight_grey"
+			android:padding="@dimen/default_padding_medium">
+
+
+			<LinearLayout android:background="@android:color/white"
+				android:layout_height="match_parent" android:layout_width="match_parent"
+
+				android:padding="@dimen/default_padding_large" android:orientation="vertical">
+
+				<TextView style="@style/editbox_header"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+
+					android:text="Create a new project" />
+
+				<TextView android:padding="@dimen/default_padding_small"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+
+					android:text="Enter a project name" />
+
+				<EditText android:id="@+id/project_wizard_flipper_step1_projectname"
+				    android:layout_margin="@dimen/default_padding_small"
+					android:layout_width="match_parent" android:layout_height="wrap_content" />
+				
+				<TextView android:padding="@dimen/default_padding_small"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+
+					android:text="Enter a description" />
+
+				<EditText android:id="@+id/project_wizard_flipper_step1_description"
+				    android:layout_margin="@dimen/default_padding_small"
+					android:layout_width="match_parent" android:layout_height="wrap_content" 
+					android:layout_marginBottom="@dimen/default_padding_large"
+					/>
+				
+				<RelativeLayout 
+				    android:layout_width="match_parent"
+				    android:layout_height="match_parent"
+					
+				    android:layout_margin="@dimen/default_padding_large"
+				    >
+
+					<Button android:id="@+id/project_wizard_flipper_step1_ok"
+					    android:padding="@dimen/default_padding_small"
+					    
+					    android:layout_alignParentRight="true"
+					    android:layout_alignParentBottom="true"
+					    android:layout_margin="@dimen/default_padding_large"
+
+					    style="@style/itembox_items_inverted"
+						android:layout_width="wrap_content" android:layout_height="wrap_content"
+	
+						android:text="Next" />
+					</RelativeLayout>
+
+
+			</LinearLayout>
+			
+			<LinearLayout android:background="@android:color/white"
+				android:layout_height="match_parent" android:layout_width="match_parent"
+
+				android:padding="@dimen/default_padding_large" android:orientation="vertical">
+
+				<TextView style="@style/editbox_header"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+
+					android:text="Add screens to your project" />
+
+				<TextView android:padding="@dimen/default_padding_small"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+
+					android:text="Your sketches will be organized in categories.\nEach categorie represents a screen (eg. Homescreen) in your app.\nYou can always add more screens in the project-manager view." />
+				
+
+				<TextView android:padding="@dimen/default_padding_small"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+
+					android:text="Enter a screen name" />
+				
+				<EditText android:id="@+id/project_wizard_flipper_step2_screenname"
+				    android:layout_margin="@dimen/default_padding_small"
+					android:layout_width="match_parent" android:layout_height="wrap_content" />
+				
+				<TextView android:padding="@dimen/default_padding_small"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+
+					android:text="Enter a screen description" />
+
+				<EditText android:id="@+id/project_wizard_flipper_step2_screendescription"
+				    android:layout_margin="@dimen/default_padding_small"
+					android:layout_width="match_parent" android:layout_height="wrap_content" 
+					android:layout_marginBottom="@dimen/default_padding_large"
+					/>
+				
+				<Button android:id="@+id/project_wizard_flipper_step2_addScreen"
+				    android:padding="@dimen/default_padding_small"
+				    
+				    android:layout_margin="@dimen/default_padding_large"
+				    android:layout_gravity="center_horizontal"
+				    style="@style/itembox_items_inverted"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+
+					android:text="Add Screen" />
+
+				<RelativeLayout 
+				    android:layout_width="match_parent"
+				    android:layout_height="match_parent"
+					
+				    android:layout_margin="@dimen/default_padding_large"
+				    >
+				    
+				    <Button android:id="@+id/project_wizard_flipper_step2_back"
+				    
+				    android:layout_alignParentLeft="true"
+				    android:layout_alignParentBottom="true"
+
+				    style="@style/itembox_items_inverted"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+
+					android:text="Back" />
+				    
+				    <Button android:id="@+id/project_wizard_flipper_step2_ok"
+				    
+				    android:layout_alignParentRight="true"
+				    android:layout_alignParentBottom="true"
+
+				    style="@style/itembox_items_inverted"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+
+					android:text="Next" />
+				    
+				</RelativeLayout>
+				
+
+
+			</LinearLayout>
+
+
+		</ViewFlipper>
+
+		<View android:layout_width="0dp" android:layout_height="match_parent"
+
+			android:layout_weight="0.25" />
+
+
+	</LinearLayout>
+
+
+</RelativeLayout>
