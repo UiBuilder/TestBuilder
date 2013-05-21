@@ -14,11 +14,13 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
@@ -39,6 +41,8 @@ public class NewProjectWizard extends Activity implements OnClickListener
 			slide_in_right,
 			slide_out_left,
 			slide_out_right;
+	
+	private LinearLayout resultSet;
 	
 	private TextView 
 			screenName,
@@ -63,6 +67,8 @@ public class NewProjectWizard extends Activity implements OnClickListener
         setupUi();
         
         screenHolder = new ArrayList<NewScreenHolder>();
+
+		projectHolder = new ProjectHolder();
         resolver = getContentResolver();
 		date = new DateGenerator();
 	}
@@ -87,8 +93,8 @@ public class NewProjectWizard extends Activity implements OnClickListener
 		Button step1Next = (Button) findViewById(R.id.project_wizard_flipper_step1_ok);
         step1Next.setOnClickListener(this);
         
-        Button step2Next = (Button) findViewById(R.id.project_wizard_flipper_step2_ok);
-        step2Next.setOnClickListener(this);
+        Button finish = (Button) findViewById(R.id.project_wizard_flipper_step2_ok);
+        finish.setOnClickListener(this);
         
         Button step2back = (Button) findViewById(R.id.project_wizard_flipper_step2_back);
         step2back.setOnClickListener(this);
@@ -101,6 +107,8 @@ public class NewProjectWizard extends Activity implements OnClickListener
         
         projectName = (TextView) findViewById(R.id.project_wizard_flipper_step1_projectname);
         projectdesc = (TextView) findViewById(R.id.project_wizard_flipper_step1_description); 
+        
+        resultSet = (LinearLayout) findViewById(R.id.project_wizard_flipper_step2_results);
 	}
 /*	
 	private void returnToManager()
@@ -140,16 +148,11 @@ public class NewProjectWizard extends Activity implements OnClickListener
 		{
 		case R.id.project_wizard_flipper_step1_ok:
 			
-			putValuesInHolder();
+			putValuesInProjectholder();
 			insertNewProject();
 			flipper.setInAnimation(slide_in_right);
 			flipper.setOutAnimation(slide_out_left);
 			flipper.showNext();
-			break;
-			
-		case R.id.project_wizard_flipper_step2_ok:
-			
-			
 			break;
 	
 		case R.id.project_wizard_flipper_step2_back:
@@ -163,16 +166,36 @@ public class NewProjectWizard extends Activity implements OnClickListener
 			
 			addScreenToHolder();
 			break;
+			
+		case R.id.project_wizard_flipper_step2_ok:
+			
+			insertNewScreens();
+			finish();
+			break;
+			
 		default:
 			break;
 		}
 	}
 	
 	
-	private void putValuesInHolder()
+	private void insertNewScreens()
 	{
-		// TODO Auto-generated method stub
-		projectHolder = new ProjectHolder();
+		ContentValues[] screenValues = new ContentValues[screenHolder.size()];
+		
+		int i = 0;
+		for (NewScreenHolder holder: screenHolder)
+		{
+			screenValues[i] = holder.getBundle();
+			i++;
+		}
+		
+		resolver.bulkInsert(ScreenProvider.CONTENT_URI_SECTIONS, screenValues);
+		
+	}
+	
+	private void putValuesInProjectholder()
+	{
 		projectHolder.projectDate = date.generateDate();
 		projectHolder.projectName = String.valueOf(projectName.getText());
 		projectHolder.projectDescription = String.valueOf(projectdesc.getText());
@@ -190,6 +213,8 @@ public class NewProjectWizard extends Activity implements OnClickListener
 			Uri inserted = resolver.insert(ScreenProvider.CONTENT_URI_PROJECTS, values);
 			String path = inserted.getPathSegments().get(1);
 			projectHolder.projectId = Integer.valueOf(path);
+			Log.d("insert project path full", path);
+			Log.d("id in holder", String.valueOf(projectHolder.projectId));
 		}
 		else
 		{
@@ -202,14 +227,27 @@ public class NewProjectWizard extends Activity implements OnClickListener
 	{
 		NewScreenHolder holder = new NewScreenHolder();
 		holder.sectionDescription = String.valueOf(screenDesc.getText());
-		holder.sectionId = 0;
+		holder.sectionId = projectHolder.projectId;
 		holder.sectionName = String.valueOf(screenName.getText());
 		
 		screenHolder.add(holder);
 		
 		notifyUser();
 		resetFields();
+		displayResults();
+	}
+	private void displayResults()
+	{
+		resultSet.removeAllViews();
 		
+		for (NewScreenHolder holder: screenHolder)
+		{
+			LinearLayout resultItem = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_project_wizard_resultset_item, null);
+			TextView resultName = (TextView) resultItem.findViewById(R.id.project_wizard_flipper_step2_results_title);
+			resultName.setText(holder.sectionName);
+			
+			resultSet.addView(resultItem);
+		}
 	}
 	private void notifyUser()
 	{

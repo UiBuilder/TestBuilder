@@ -381,7 +381,28 @@ public class ScreenProvider extends ContentProvider
 				count++;
 			}
 			break;
-		}		
+			
+		case SECTIONS_ALL:
+			
+			Log.d("bulk ", String.valueOf(values.length));
+			
+			for (ContentValues contentValues : values)
+			{
+				Log.d("bulk", "for each");
+				
+				id = db.insert(DataManager.TABLE_SECTIONS, nullColumnHack, contentValues);
+				
+				if (id > -1)
+				{
+					inserted = ContentUris.withAppendedId(CONTENT_URI_SECTIONS, id);
+					getContext().getContentResolver().notifyChange(inserted, null);
+				}
+				count++;
+			}
+			break;
+		}
+		
+		
 		return count;
 	}
 

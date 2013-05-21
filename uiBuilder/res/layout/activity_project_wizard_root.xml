@@ -115,6 +115,16 @@
 					android:layout_width="wrap_content" android:layout_height="wrap_content"
 
 					android:text="Add Screen" />
+				
+				<LinearLayout android:id="@+id/project_wizard_flipper_step2_results"
+				    android:layout_height="wrap_content"
+				    android:layout_width="match_parent"
+				    
+				    android:orientation="vertical"
+				    >
+				    
+				    
+				</LinearLayout>
 
 				<RelativeLayout 
 				    android:layout_width="match_parent"
@@ -141,7 +151,7 @@
 				    style="@style/itembox_items_inverted"
 					android:layout_width="wrap_content" android:layout_height="wrap_content"
 
-					android:text="Next" />
+					android:text="Finish" />
 				    
 				</RelativeLayout>
 				
