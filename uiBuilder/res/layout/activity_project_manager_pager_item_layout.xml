@@ -21,30 +21,61 @@
 	        android:layout_marginRight="30dp"
 	        android:layout_marginTop="0dp"
 	        android:orientation="horizontal"
+	        
+	        android:padding="@dimen/default_padding_medium"
+	        android:weightSum="1"
 	         >
 	    <TextView 
-	        android:layout_width="200dp"
+	        android:layout_width="0dp"
 	        android:layout_height="match_parent"
+	        android:layout_weight="0.25"
 	        
 	        android:id="@+id/project_manager_list_item_test"
 	        android:text="testproject"
 	        />
 	    
 	   	<LinearLayout 
-	        android:layout_width="400dp"
+	        android:layout_width="0dp"
 	        android:layout_height="wrap_content"
 	        
+	        android:background="@android:color/white"
 	        android:orientation="vertical"
+	        android:layout_weight="0.4"
+	        
+	        android:layout_marginLeft="@dimen/default_padding_medium"
 	        
 	        >
-	        <TextView style="@style/editbox_header"
+	        <RelativeLayout 
 	            
 	            android:layout_width="match_parent"
 	            android:layout_height="wrap_content"
+	            android:padding="@dimen/default_padding_small"
+	            android:orientation="horizontal"
+	            >
+	            <TextView style="@style/editbox_header"
 	            
-	            
-	            android:id="@+id/project_manager_display_project_title"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            
+		            android:layout_centerVertical="true"
+		            android:layout_alignParentLeft="true"
+		            android:id="@+id/project_manager_display_project_title"
 	            />
+	            <ImageButton style="@style/itembox_items_inverted"
+	                
+	                android:layout_width="45dp"
+	                android:layout_height="45dp"
+	                android:padding="@dimen/default_padding_small"
+	                
+	                android:layout_margin="@dimen/default_padding_medium"
+
+	                android:layout_alignParentRight="true"
+	                android:src="@raw/ico_small_0045"
+	                android:scaleType="centerInside"
+	                />
+	            
+	        </RelativeLayout>
+	        
 	        <TextView 
 	            android:layout_width="match_parent"
 	            android:layout_height="wrap_content"
@@ -68,9 +99,11 @@
 	    </LinearLayout>
 	    
 	   	<ListView 
-	            android:layout_width="match_parent"
+	            android:layout_width="0dp"
 	            android:layout_height="match_parent"
+				android:layout_weight="0.35"
 	            
+	            android:background="@android:color/white"
 	            android:id="@+id/project_manager_list_item_sections"
 	            ></ListView>
 	    

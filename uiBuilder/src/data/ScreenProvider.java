@@ -291,7 +291,7 @@ public class ScreenProvider extends ContentProvider
 	public int delete(Uri uri, String selection, String[] selArgs)
 	{
 		SQLiteDatabase db = data.getWritableDatabase();
-		Log.d("database", "delete called");
+
 		String row;
 		int deleteCount = 0;
 		
@@ -301,7 +301,7 @@ public class ScreenProvider extends ContentProvider
 			row = uri.getPathSegments().get(1);
 			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
 			
-			Log.d("database delete was called with", row);
+			Log.d("database screens single delete row", row);
 			
 			deletePreviewImage(uri, row, innerRes);
 			deleteObjects(row, innerRes);
@@ -309,10 +309,17 @@ public class ScreenProvider extends ContentProvider
 			deleteCount = db.delete(DataManager.TABLE_SCREENS, selection, selArgs);
 			break;
 			
+		case SCREENS_ALL:
+			
+			innerRes.delete(CONTENT_URI_OBJECTS, null, selArgs);
+			deleteCount = db.delete(DataManager.TABLE_SCREENS, selection, selArgs);
+			Log.d("database screens all deletecount", String.valueOf(deleteCount));
+			break;
+			
 		case OBJECTS_ALL:
 
 			deleteCount = db.delete(DataManager.TABLE_OBJECTS, selection, selArgs);
-			Log.d("objects deleted:", String.valueOf(deleteCount));
+			Log.d("objects all deletecount:", String.valueOf(deleteCount));
 			break;
 			
 		case OBJECTS_SINGLE:
@@ -320,22 +327,34 @@ public class ScreenProvider extends ContentProvider
 			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
 
 			Log.d("database delete objects single was called with", row);
-			Log.d("deleting", String.valueOf(row));
 			deleteCount = db.delete(DataManager.TABLE_OBJECTS, selection, selArgs);
 			break;
 			
 		case PROJECTS_SINGLE:
+			
 			row = uri.getPathSegments().get(1);
 			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
 
-			Log.d("database delete projects single was called with", row);
-			Log.d("deleting", String.valueOf(row));
-			deleteCount = db.delete(DataManager.TABLE_PROJECTS, selection, selArgs);
+			Log.d("database delete projects single was called with row", row);
 			
-			
+			innerRes.delete(CONTENT_URI_SECTIONS, KEY_SECTION_ASSOCIATED_PROJECT + "=" + row, null);
+			deleteCount = db.delete(DataManager.TABLE_PROJECTS, selection, selArgs);		
 			break;
 			
 		case SECTIONS_ALL:
+			
+			Cursor sections = innerRes.query(CONTENT_URI_SECTIONS, null, selection, null, null);
+			
+			int sectionIdIdx = sections.getColumnIndexOrThrow(KEY_ID);
+			while(sections.moveToNext())
+			{
+				Log.d("sections all deleting single row", String.valueOf(sections.getInt(sectionIdIdx)));
+				Uri sectionUriSingle = ContentUris.withAppendedId(CONTENT_URI_SECTIONS, sections.getInt(sectionIdIdx));
+				innerRes.delete(sectionUriSingle, null, null);
+			}
+			
+			deleteCount = db.delete(DataManager.TABLE_SECTIONS, selection, null);
+			Log.d("sections all delete count", String.valueOf(deleteCount));
 			break;
 			
 		case SECTIONS_SINGLE:
@@ -343,7 +362,9 @@ public class ScreenProvider extends ContentProvider
 			row = uri.getPathSegments().get(1);
 			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
 			
-			Log.d("database delete section single was called with", row);	
+			Log.d("database delete section single was called with row", row);	
+			
+			innerRes.delete(CONTENT_URI_SCREENS, KEY_SCREEN_ASSOCIATED_SECTION + " = " + row, null);
 			
 			deleteCount = db.delete(DataManager.TABLE_SECTIONS, selection, selArgs);
 			break;

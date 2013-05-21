@@ -8,7 +8,7 @@
     android:layout_marginBottom="@dimen/default_padding_medium"
     android:padding="@dimen/default_padding_medium"
     
-    android:background="@android:color/white"
+    android:background="@drawable/single_select_list_states"
     >
     <TextView style="@style/editbox_sub"
         android:layout_width="match_parent"

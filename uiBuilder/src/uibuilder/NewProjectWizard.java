@@ -2,16 +2,12 @@ package uibuilder;
 
 import java.util.ArrayList;
 
-import data.DateGenerator;
-import data.NewScreenHolder;
-import data.ProjectHolder;
-import data.ScreenProvider;
-import de.ur.rk.uibuilder.R;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +20,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
+import data.DateGenerator;
+import data.NewScreenHolder;
+import data.ProjectHolder;
+import data.ScreenProvider;
+import de.ur.rk.uibuilder.R;
 
 public class NewProjectWizard extends Activity implements OnClickListener
 {
@@ -61,6 +62,9 @@ public class NewProjectWizard extends Activity implements OnClickListener
 		
 		setContentView(R.layout.activity_project_wizard_root);
 		
+
+        setupHelpers();
+		
 		Intent startIntent = getIntent();
 		
 		projectId = startIntent.getIntExtra(ProjectDisplay.START_WIZARD_FOR_NEW_SCREENS, 0);
@@ -75,8 +79,13 @@ public class NewProjectWizard extends Activity implements OnClickListener
 		setupAnimations();
         
         setupUi();
-        
-        screenHolder = new ArrayList<NewScreenHolder>();
+	}
+	/**
+	 * 
+	 */
+	private void setupHelpers()
+	{
+		screenHolder = new ArrayList<NewScreenHolder>();
 
 		projectHolder = new ProjectHolder();
         resolver = getContentResolver();
@@ -123,6 +132,7 @@ public class NewProjectWizard extends Activity implements OnClickListener
 		{
 			flipperState = 1;
 			step2back.setVisibility(View.INVISIBLE);
+			//loadExistingScreens();
 		}
 		else
 		{
@@ -131,6 +141,18 @@ public class NewProjectWizard extends Activity implements OnClickListener
         flipper.setDisplayedChild(flipperState);
 	}
 	
+	private Cursor existing;
+	
+	private void loadExistingScreens()
+	{
+		existing = getContentResolver().query(ScreenProvider.CONTENT_URI_SECTIONS, null, ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT + "=" + projectId, null, null);
+		
+		while (existing.moveToNext())
+		{
+			addScreenToHolder();
+		}
+		screensRequested = false;
+	}
 	private void returnToManager()
 	{
 		finish();
@@ -240,17 +262,23 @@ public class NewProjectWizard extends Activity implements OnClickListener
 	private void addScreenToHolder()
 	{
 		NewScreenHolder holder = new NewScreenHolder();
-		holder.sectionDescription = String.valueOf(screenDesc.getText());
 		
 		if (screensRequested)
 		{
+			int nameIdx = existing.getColumnIndexOrThrow(ScreenProvider.KEY_SECTION_NAME);
+			int descIdx = existing.getColumnIndexOrThrow(ScreenProvider.KEY_SECTION_DESCRIPTION);
+			
+			holder.sectionName = existing.getString(nameIdx);
 			holder.sectionId = projectId;
+			holder.sectionDescription = existing.getString(descIdx);
 		}
 		else
 		{
+			holder.sectionName = String.valueOf(screenName.getText());
 			holder.sectionId = projectHolder.projectId;
+			holder.sectionDescription = String.valueOf(screenDesc.getText());
 		}
-		holder.sectionName = String.valueOf(screenName.getText());
+		
 		
 		screenHolder.add(holder);
 		
