@@ -76,7 +76,7 @@ public class ProjectManagerActivity extends FragmentActivity implements OnClickL
             // Back button. This calls finish() on this activity and pops the back stack.
             super.onBackPressed();
         } 
-		else 
+		else
         {
             // Otherwise, select the previous step.
             mPager.setCurrentItem(mPager.getCurrentItem() - 1);

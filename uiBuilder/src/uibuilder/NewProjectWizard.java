@@ -86,12 +86,17 @@ public class NewProjectWizard extends Activity implements OnClickListener
 	@Override
 	public void onBackPressed()
 	{
-		if (flipper.getDisplayedChild() == 0)
+		if (screensRequested || flipper.getDisplayedChild() == 0)
 		{
 			super.onBackPressed();
 			overridePendingTransition(R.anim.activity_transition_from_bottom_in, R.anim.activity_transition_to_top_out);
 		}
-		
+		else
+		{
+			flipper.setInAnimation(slide_out_right);
+			flipper.setOutAnimation(slide_in_left);
+			flipper.showPrevious();
+		}
 	}
 
 
