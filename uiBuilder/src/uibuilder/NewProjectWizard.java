@@ -265,20 +265,20 @@ public class NewProjectWizard extends Activity implements OnClickListener
 		
 		if (screensRequested)
 		{
-			int nameIdx = existing.getColumnIndexOrThrow(ScreenProvider.KEY_SECTION_NAME);
+			/*int nameIdx = existing.getColumnIndexOrThrow(ScreenProvider.KEY_SECTION_NAME);
 			int descIdx = existing.getColumnIndexOrThrow(ScreenProvider.KEY_SECTION_DESCRIPTION);
 			
-			holder.sectionName = existing.getString(nameIdx);
+			holder.sectionName = existing.getString(nameIdx);*/
 			holder.sectionId = projectId;
-			holder.sectionDescription = existing.getString(descIdx);
+			//holder.sectionDescription = existing.getString(descIdx);
 		}
 		else
 		{
-			holder.sectionName = String.valueOf(screenName.getText());
+			
 			holder.sectionId = projectHolder.projectId;
-			holder.sectionDescription = String.valueOf(screenDesc.getText());
 		}
-		
+		holder.sectionName = String.valueOf(screenName.getText());
+		holder.sectionDescription = String.valueOf(screenDesc.getText());
 		
 		screenHolder.add(holder);
 		
