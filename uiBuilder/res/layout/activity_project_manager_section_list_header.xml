@@ -27,12 +27,14 @@
 	    android:paddingRight="@dimen/default_padding_large"
 	    >
 	    
-	    <Button style="@style/itembox_items_inverted"
+	    <Button android:id="@+id/project_manager_list_item_sections_newScreen"
+	        
+	        style="@style/itembox_items_inverted"
 	    android:layout_height="wrap_content"
 	    android:layout_width="wrap_content"
 	    
 	    android:layout_gravity="right|center_vertical"
-	    android:text="New Section"
+	    android:text="New Screen"
 	    />
 	    
 	</LinearLayout>

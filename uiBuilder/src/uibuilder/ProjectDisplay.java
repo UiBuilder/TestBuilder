@@ -1,5 +1,7 @@
 package uibuilder;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentUris;
@@ -22,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -93,6 +96,9 @@ public class ProjectDisplay extends Fragment implements OnClickListener, LoaderC
 		setScreenVars(values);
 		displayProjectProperties();
 		
+		Button newScreen = (Button) sectionListHeader.findViewById(R.id.project_manager_list_item_sections_newScreen);
+		newScreen.setOnClickListener(this);
+		
 		// TODO Auto-generated method stub
 		return root; 
 	}
@@ -136,11 +142,24 @@ public class ProjectDisplay extends Fragment implements OnClickListener, LoaderC
 		this.registerForContextMenu(sectionList);
 	}
 
-
+	public static final String START_WIZARD_FOR_NEW_SCREENS = "new screen for project";
+	
 	@Override
 	public void onClick(View v)
 	{
+		switch (v.getId())
+		{
+		case R.id.project_manager_list_item_sections_newScreen:
+			
+			Intent startWizard = new Intent(getActivity(), NewProjectWizard.class);
+			
+			startWizard.putExtra(START_WIZARD_FOR_NEW_SCREENS, projectId);
+			startActivity(startWizard);
+			break;
 
+		default:
+			break;
+		}
 	}
 
 
@@ -153,7 +172,8 @@ public class ProjectDisplay extends Fragment implements OnClickListener, LoaderC
 			
 			//String selection = ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT + " = " + String.valueOf(projectId);
 			//return new CursorLoader(getActivity(), ScreenProvider.CONTENT_URI_SECTIONS, null, selection, null, null);
-
+			
+			
 		default:
 			
 			String selection = ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT + " = " + String.valueOf(projectId);

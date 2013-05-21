@@ -2,53 +2,41 @@ package uibuilder;
 
 import java.util.ArrayList;
 
-import data.DateGenerator;
-import data.NewScreenHolder;
-import data.ProjectHolder;
-import data.ScreenProvider;
-import de.ur.rk.uibuilder.R;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.LoaderManager;
+import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentResolver;
-import android.content.ContentValues;
+import android.content.ContentUris;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.ViewFlipper;
+import data.ProjectCursorAdapter;
+import data.ScreenProvider;
+import de.ur.rk.uibuilder.R;
 
-public class DeleteProjectsActivity extends Activity implements OnClickListener
+public class DeleteProjectsActivity extends Activity implements OnClickListener, LoaderCallbacks<Cursor>, OnItemClickListener
 {
-	private ViewFlipper flipper;
-	private int flipperState;
+
 	
 	private ContentResolver resolver;
-	private DateGenerator date;
+	private ListView projectList;
 	
-	private ProjectHolder projectHolder;
-	private ArrayList<NewScreenHolder> screenHolder;
-	
-	private Animation
-			slide_in_left,
-			slide_in_right,
-			slide_out_left,
-			slide_out_right;
-	
-	private LinearLayout resultSet;
-	
-	private TextView 
-			screenName,
-			screenDesc,
-			projectName,
-			projectdesc;
+	private LoaderManager manager;
+	private ProjectCursorAdapter projectAdapter;
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -65,22 +53,26 @@ public class DeleteProjectsActivity extends Activity implements OnClickListener
 		setupAnimations();
         
         setupUi();
-        
-        screenHolder = new ArrayList<NewScreenHolder>();
 
-		projectHolder = new ProjectHolder();
         resolver = getContentResolver();
-		date = new DateGenerator();
+        setupDatabaseConnection();
+
 	}
+	
+	private void setupDatabaseConnection()
+	{
+		manager = getLoaderManager();
+		manager.initLoader(ScreenProvider.LOADER_ID_PROJECTS, null, this);		
+		
+		projectAdapter = new ProjectCursorAdapter(getApplicationContext(), R.layout.activity_delete_project_adapter_layout, null, new String[] {ScreenProvider.KEY_PROJECTS_NAME}, new int[] {R.id.delete_project_adapter_project_title}, 0);
+	}
+	
 	/**
 	 * 
 	 */
 	private void setupAnimations()
 	{
-		slide_in_left = AnimationUtils.loadAnimation(this, R.anim.activity_transition_from_left_in);
-        slide_in_right = AnimationUtils.loadAnimation(this, R.anim.activity_transition_from_right_in);
-        slide_out_left = AnimationUtils.loadAnimation(this, R.anim.activity_transition_to_left_out);
-        slide_out_right = AnimationUtils.loadAnimation(this, R.anim.activity_transition_to_right_out);
+
 	}
 	/**
 	 * 
@@ -92,6 +84,9 @@ public class DeleteProjectsActivity extends Activity implements OnClickListener
 		
 		cancel.setOnClickListener(this);
 		delete.setOnClickListener(this);
+		
+		projectList = (ListView) findViewById(R.id.project_delete_projectlist);
+		projectList.setOnItemClickListener(this);
 	}
 	
 	private void returnToManager()
@@ -138,7 +133,73 @@ public class DeleteProjectsActivity extends Activity implements OnClickListener
 	private void performSelectedDeletion()
 	{
 		// TODO Auto-generated method stub
+		int projectNumber = projectList.getCount();
 		
+		Log.d("performing deletion of ", String.valueOf(projectNumber));
+		
+		SparseBooleanArray checkedOrNot = projectList.getCheckedItemPositions();
+		ArrayList<View> checkedProjects = new ArrayList<View>();
+		
+		for (int i=0; i<projectNumber; i++)
+		{
+			if(checkedOrNot.get(i))
+			{
+				checkedProjects.add(projectList.getChildAt(i));
+			}
+		}
+		
+		for (View projectView: checkedProjects)
+		{
+			int projectId = (Integer) projectView.getTag();
+			
+			Uri projectpath = ContentUris.withAppendedId(ScreenProvider.CONTENT_URI_PROJECTS, projectId);
+			resolver.delete(projectpath, null, null);
+		}
+	}
+	@Override
+	public Loader<Cursor> onCreateLoader(int id, Bundle args)
+	{
+		// TODO Auto-generated method stub
+		return new CursorLoader(getApplicationContext(), ScreenProvider.CONTENT_URI_PROJECTS, null, null, null, null);
+	}
+	@Override
+	public void onLoadFinished(Loader<Cursor> arg0, Cursor newCursor)
+	{
+		// TODO Auto-generated method stub
+		projectAdapter.swapCursor(newCursor);
+		projectAdapter.notifyDataSetChanged();
+
+		projectList.setAdapter(projectAdapter);
+	}
+	@Override
+	public void onLoaderReset(Loader<Cursor> arg0)
+	{
+		// TODO Auto-generated method stub
+		projectAdapter.swapCursor(null);
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View listItem, int itemId, long arg3)
+	{
+		// TODO Auto-generated method stub
+		
+		if (projectList.isItemChecked(itemId))
+		{
+			Log.d("listitem", "checking");
+			projectList.setItemChecked(itemId, true);
+			listItem.setActivated(true);
+			listItem.invalidate();
+		}
+		else
+		{
+			projectList.setItemChecked(itemId, false);
+			listItem.setActivated(false);
+			listItem.invalidate();
+		}
+		
+		int projectId = (Integer) listItem.getTag();
+		Log.d("item checked", String.valueOf(projectList.isItemChecked(itemId)));
+		Toast.makeText(getApplicationContext(), "Project id is " + String.valueOf(projectId), Toast.LENGTH_SHORT).show();
 	}
 
 }

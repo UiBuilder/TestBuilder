@@ -331,6 +331,8 @@ public class ScreenProvider extends ContentProvider
 			Log.d("database delete projects single was called with", row);
 			Log.d("deleting", String.valueOf(row));
 			deleteCount = db.delete(DataManager.TABLE_PROJECTS, selection, selArgs);
+			
+			
 			break;
 			
 		case SECTIONS_ALL:
@@ -559,7 +561,7 @@ public class ScreenProvider extends ContentProvider
 						;
 		
 		
-		private static final int DB_VERSION = 41;
+		private static final int DB_VERSION = 42;
 		
 		private static final String CREATE = "create table if not exists ";
 		private static final String DROP = "DROP TABLE if exists ";	

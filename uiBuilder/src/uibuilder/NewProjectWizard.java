@@ -50,6 +50,9 @@ public class NewProjectWizard extends Activity implements OnClickListener
 			projectName,
 			projectdesc;
 	
+	private boolean screensRequested = false;
+	private int projectId = 0;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -59,6 +62,13 @@ public class NewProjectWizard extends Activity implements OnClickListener
 		setContentView(R.layout.activity_project_wizard_root);
 		
 		Intent startIntent = getIntent();
+		
+		projectId = startIntent.getIntExtra(ProjectDisplay.START_WIZARD_FOR_NEW_SCREENS, 0);
+		if (projectId != 0)
+		{
+			screensRequested = true;
+		}
+			
 		
 		setupActionBar();
 		
@@ -88,7 +98,6 @@ public class NewProjectWizard extends Activity implements OnClickListener
 	private void setupUi()
 	{
 		flipper = (ViewFlipper) findViewById(R.id.project_wizard_flipper);
-		flipperState = 0;
 		
 		Button step1Next = (Button) findViewById(R.id.project_wizard_flipper_step1_ok);
         step1Next.setOnClickListener(this);
@@ -109,6 +118,17 @@ public class NewProjectWizard extends Activity implements OnClickListener
         projectdesc = (TextView) findViewById(R.id.project_wizard_flipper_step1_description); 
         
         resultSet = (LinearLayout) findViewById(R.id.project_wizard_flipper_step2_results);
+        
+        if (screensRequested)
+		{
+			flipperState = 1;
+			step2back.setVisibility(View.INVISIBLE);
+		}
+		else
+		{
+			flipperState = 0;
+		}
+        flipper.setDisplayedChild(flipperState);
 	}
 	
 	private void returnToManager()
@@ -221,7 +241,15 @@ public class NewProjectWizard extends Activity implements OnClickListener
 	{
 		NewScreenHolder holder = new NewScreenHolder();
 		holder.sectionDescription = String.valueOf(screenDesc.getText());
-		holder.sectionId = projectHolder.projectId;
+		
+		if (screensRequested)
+		{
+			holder.sectionId = projectId;
+		}
+		else
+		{
+			holder.sectionId = projectHolder.projectId;
+		}
 		holder.sectionName = String.valueOf(screenName.getText());
 		
 		screenHolder.add(holder);
