@@ -80,6 +80,22 @@ public class NewProjectWizard extends Activity implements OnClickListener
         
         setupUi();
 	}
+	
+	
+	
+	@Override
+	public void onBackPressed()
+	{
+		if (flipper.getDisplayedChild() == 0)
+		{
+			super.onBackPressed();
+			overridePendingTransition(R.anim.activity_transition_from_bottom_in, R.anim.activity_transition_to_top_out);
+		}
+		
+	}
+
+
+
 	/**
 	 * 
 	 */
