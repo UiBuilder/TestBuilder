@@ -43,7 +43,7 @@ public class ProjectManagerActivity extends FragmentActivity implements OnClickL
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_project_manager_paged);
 
-		setupFragments();
+		
 		
 		setupUi();
 		setupActionBar();
@@ -68,6 +68,7 @@ public class ProjectManagerActivity extends FragmentActivity implements OnClickL
 	protected void onResume()
 	{
 		super.onResume();
+		setupFragments();
 	}
 
 	/**

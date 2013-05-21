@@ -1,5 +1,6 @@
 package data;
 
+import android.content.ContentValues;
 import android.os.Bundle;
 
 public class ProjectHolder
@@ -28,6 +29,17 @@ public class ProjectHolder
 		values.putString(dateArg, projectDate);
 		values.putString(nameArg, projectName);
 		values.putInt(idArg, projectId);
+		
+		return values;
+	}
+	
+	public ContentValues getValues()
+	{
+		ContentValues values = new ContentValues();
+		
+		values.put(ScreenProvider.KEY_PROJECTS_DESCRIPTION, projectDescription);
+		values.put(ScreenProvider.KEY_PROJECTS_NAME, projectName);
+		values.put(ScreenProvider.KEY_PROJECTS_DATE, projectDate);
 		
 		return values;
 	}

@@ -2,10 +2,15 @@ package uibuilder;
 
 import java.util.ArrayList;
 
+import data.DateGenerator;
 import data.NewScreenHolder;
+import data.ProjectHolder;
+import data.ScreenProvider;
 import de.ur.rk.uibuilder.R;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,6 +28,10 @@ public class NewProjectWizard extends Activity implements OnClickListener
 	private ViewFlipper flipper;
 	private int flipperState;
 	
+	private ContentResolver resolver;
+	private DateGenerator date;
+	
+	private ProjectHolder projectHolder;
 	private ArrayList<NewScreenHolder> screenHolder;
 	
 	private Animation
@@ -49,15 +58,33 @@ public class NewProjectWizard extends Activity implements OnClickListener
 		
 		setupActionBar();
 		
-		flipper = (ViewFlipper) findViewById(R.id.project_wizard_flipper);
-		flipperState = 0;
-		
+		setupAnimations();
+        
+        setupUi();
+        
+        screenHolder = new ArrayList<NewScreenHolder>();
+        resolver = getContentResolver();
+		date = new DateGenerator();
+	}
+	/**
+	 * 
+	 */
+	private void setupAnimations()
+	{
 		slide_in_left = AnimationUtils.loadAnimation(this, R.anim.activity_transition_from_left_in);
         slide_in_right = AnimationUtils.loadAnimation(this, R.anim.activity_transition_from_right_in);
         slide_out_left = AnimationUtils.loadAnimation(this, R.anim.activity_transition_to_left_out);
         slide_out_right = AnimationUtils.loadAnimation(this, R.anim.activity_transition_to_right_out);
-        
-        Button step1Next = (Button) findViewById(R.id.project_wizard_flipper_step1_ok);
+	}
+	/**
+	 * 
+	 */
+	private void setupUi()
+	{
+		flipper = (ViewFlipper) findViewById(R.id.project_wizard_flipper);
+		flipperState = 0;
+		
+		Button step1Next = (Button) findViewById(R.id.project_wizard_flipper_step1_ok);
         step1Next.setOnClickListener(this);
         
         Button step2Next = (Button) findViewById(R.id.project_wizard_flipper_step2_ok);
@@ -69,11 +96,11 @@ public class NewProjectWizard extends Activity implements OnClickListener
         Button step2AddScreen = (Button) findViewById(R.id.project_wizard_flipper_step2_addScreen);
         step2AddScreen.setOnClickListener(this);
         
-        screenHolder = new ArrayList<NewScreenHolder>();
-        
         screenDesc = (TextView) findViewById(R.id.project_wizard_flipper_step2_screendescription);
         screenName = (TextView) findViewById(R.id.project_wizard_flipper_step2_screenname);
-		
+        
+        projectName = (TextView) findViewById(R.id.project_wizard_flipper_step1_projectname);
+        projectdesc = (TextView) findViewById(R.id.project_wizard_flipper_step1_description); 
 	}
 /*	
 	private void returnToManager()
@@ -112,11 +139,17 @@ public class NewProjectWizard extends Activity implements OnClickListener
 		switch (v.getId())
 		{
 		case R.id.project_wizard_flipper_step1_ok:
-		case R.id.project_wizard_flipper_step2_ok:
 			
+			putValuesInHolder();
+			insertNewProject();
 			flipper.setInAnimation(slide_in_right);
 			flipper.setOutAnimation(slide_out_left);
 			flipper.showNext();
+			break;
+			
+		case R.id.project_wizard_flipper_step2_ok:
+			
+			
 			break;
 	
 		case R.id.project_wizard_flipper_step2_back:
@@ -136,6 +169,35 @@ public class NewProjectWizard extends Activity implements OnClickListener
 	}
 	
 	
+	private void putValuesInHolder()
+	{
+		// TODO Auto-generated method stub
+		projectHolder = new ProjectHolder();
+		projectHolder.projectDate = date.generateDate();
+		projectHolder.projectName = String.valueOf(projectName.getText());
+		projectHolder.projectDescription = String.valueOf(projectdesc.getText());
+		
+	}
+	
+	
+	
+	private void insertNewProject()
+	{
+		ContentValues values = projectHolder.getValues();
+		
+		if (projectHolder.projectId == 0)
+		{
+			Uri inserted = resolver.insert(ScreenProvider.CONTENT_URI_PROJECTS, values);
+			String path = inserted.getPathSegments().get(1);
+			projectHolder.projectId = Integer.valueOf(path);
+		}
+		else
+		{
+			String where = String.valueOf(projectHolder.projectId);
+			resolver.update(ScreenProvider.CONTENT_URI_PROJECTS, values, where, null);
+		}
+		
+	}
 	private void addScreenToHolder()
 	{
 		NewScreenHolder holder = new NewScreenHolder();
