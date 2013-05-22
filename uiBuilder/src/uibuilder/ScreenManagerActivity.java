@@ -95,6 +95,7 @@ public class ScreenManagerActivity extends Activity implements LoaderCallbacks<C
 			returnToNormalMode(deleteScreenShowing);
 		} else {
 			super.onBackPressed();
+			overridePendingTransition(R.anim.activity_transition_from_top_in, R.anim.activity_transition_to_bottom_out);
 		}
 	}
 
@@ -102,7 +103,7 @@ public class ScreenManagerActivity extends Activity implements LoaderCallbacks<C
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.manager, menu);
+		getMenuInflater().inflate(R.menu.screen_manager_menu, menu);
 		return true;
 	}
 	

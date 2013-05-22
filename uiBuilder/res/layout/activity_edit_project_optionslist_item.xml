@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/single_select_list_states_activated"
+     >
+    
+    <TextView android:id="@+id/project_edit_optionsscreen_optionslist_item_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        
+        style="@style/editbox_sub"
+        />
+    
+    <TextView android:id="@+id/project_edit_optionsscreen_optionslist_item_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        
+        android:padding="@dimen/default_padding_large"
+        />
+
+</LinearLayout>

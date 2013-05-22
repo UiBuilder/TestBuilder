@@ -1,7 +1,5 @@
 package uibuilder;
 
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentUris;
@@ -97,6 +95,9 @@ public class ProjectDisplay extends Fragment implements OnClickListener, LoaderC
 		displayProjectProperties();
 		
 		Button newScreen = (Button) sectionListHeader.findViewById(R.id.project_manager_list_item_sections_newScreen);
+		Button editProject = (Button) root.findViewById(R.id.project_manager_display_project_edit);
+		
+		editProject.setOnClickListener(this);
 		newScreen.setOnClickListener(this);
 		
 		// TODO Auto-generated method stub
@@ -143,6 +144,12 @@ public class ProjectDisplay extends Fragment implements OnClickListener, LoaderC
 	}
 
 	public static final String START_WIZARD_FOR_NEW_SCREENS = "new screen for project";
+	public static final String 
+								START_EDITING_PROJECT_ID = "editProjectwithId",
+								START_EDITING_PROJECT_NAME = "editProjectName",
+								START_EDITING_PROJECT_DESC = "editProjectDesc"
+								;
+	
 	
 	@Override
 	public void onClick(View v)
@@ -155,8 +162,20 @@ public class ProjectDisplay extends Fragment implements OnClickListener, LoaderC
 			
 			startWizard.putExtra(START_WIZARD_FOR_NEW_SCREENS, projectId);
 			startActivity(startWizard);
+			getActivity().overridePendingTransition(R.anim.activity_transition_from_top_in, R.anim.activity_transition_to_bottom_out);
 			break;
 
+		case R.id.project_manager_display_project_edit:
+			
+			Intent startEditProject = new Intent(getActivity(), EditProjectActivity.class);
+			
+			
+			startEditProject.putExtra(START_EDITING_PROJECT_ID, projectId);
+			startEditProject.putExtra(START_EDITING_PROJECT_NAME, projectName);
+			startEditProject.putExtra(START_EDITING_PROJECT_DESC, projectDescription);
+			startActivity(startEditProject);
+			getActivity().overridePendingTransition(R.anim.activity_transition_from_top_in, R.anim.activity_transition_to_bottom_out);
+			break;
 		default:
 			break;
 		}
@@ -170,17 +189,12 @@ public class ProjectDisplay extends Fragment implements OnClickListener, LoaderC
 		{	
 		case ScreenProvider.LOADER_ID_SECTIONS:
 			
-			//String selection = ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT + " = " + String.valueOf(projectId);
-			//return new CursorLoader(getActivity(), ScreenProvider.CONTENT_URI_SECTIONS, null, selection, null, null);
-			
-			
-		default:
-			
+		default:	
 			String selection = ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT + " = " + String.valueOf(projectId);
 			return new CursorLoader(getActivity(), ScreenProvider.CONTENT_URI_SECTIONS, null, selection, null, null);
 			
 		}
-		//return null;
+
 	}
 
 
@@ -190,22 +204,19 @@ public class ProjectDisplay extends Fragment implements OnClickListener, LoaderC
 		switch (loader.getId())
 		{	
 		case ScreenProvider.LOADER_ID_SECTIONS:
-			
-			
-			break;
-
-		default:
-			break;
-		}
-		Log.d("loader", "finished");
-		sectionAdapter.swapCursor(newCursor);
-		sectionAdapter.notifyDataSetChanged();
-
-		sectionList.setAdapter(sectionAdapter);
-		Log.d("adapter stable ids", String.valueOf(sectionAdapter.hasStableIds()));
 		
-		TextView headerContent = (TextView) sectionListHeader.findViewById(R.id.project_manager_list_item_sections_header);
-		headerContent.setText("Project contains " + String.valueOf(newCursor.getCount()) + " sections:");
+			default:
+			Log.d("loader", "finished");
+			sectionAdapter.swapCursor(newCursor);
+			sectionAdapter.notifyDataSetChanged();
+	
+			sectionList.setAdapter(sectionAdapter);
+			Log.d("adapter stable ids", String.valueOf(sectionAdapter.hasStableIds()));
+			newCursor.getCount();
+			
+			//TextView headerContent = (TextView) sectionListHeader.findViewById(R.id.project_manager_list_item_sections_header);
+			//headerContent.setText("Project contains " + String.valueOf(newCursor.getCount()) + " sections:");
+		}
 	}
 
 
@@ -230,7 +241,7 @@ public class ProjectDisplay extends Fragment implements OnClickListener, LoaderC
 		manager = getActivity().getLoaderManager();
 		manager.initLoader(projectId, null, this);		
 		
-		sectionAdapter = new SectionAdapter(getActivity(), null, true);
+		sectionAdapter = new SectionAdapter(getActivity(), null, true, R.layout.project_manager_list_item_section_container);
 	}
 
 
@@ -326,6 +337,7 @@ public class ProjectDisplay extends Fragment implements OnClickListener, LoaderC
 		start.putExtra(SECTION_NAME, getScreenName(listitem));
 		
 		startActivity(start);
+		getActivity().overridePendingTransition(R.anim.activity_transition_from_bottom_in, R.anim.activity_transition_to_top_out);
 	}
 
 

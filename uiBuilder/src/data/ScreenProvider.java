@@ -217,6 +217,14 @@ public class ScreenProvider extends ContentProvider
 				query.setTables(DataManager.TABLE_OBJECTS);
 				break;
 				
+			case PROJECTS_SINGLE:
+				
+				row = uri.getPathSegments().get(1);
+				query.appendWhere(KEY_ID + "=" + row);
+				
+				query.setTables(DataManager.TABLE_PROJECTS);
+				break;
+				
 			case PROJECTS_ALL:
 				
 				sortOrder = KEY_ID + " DESC";

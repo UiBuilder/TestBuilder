@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string-array name="project_options_list_names">
+	    
+	    <item >Name and description</item>
+	    <item >Icon</item>
+	    <item >Screen names and descriptions</item>
+	    <item >Manage collaborators</item>
+	    
+	</string-array>    
+	
+	<string-array name="project_options_list_descriptions">
+	    
+	    <item >The name and description displayed in the projects manager.</item>
+	    <item >The icon used to represent your app.</item>
+	    <item >Edit the screens of your app.</item>
+	    <item >Add and remove collaborators.</item>
+	    
+	</string-array>
+</resources>

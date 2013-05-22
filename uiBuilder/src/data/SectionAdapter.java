@@ -32,6 +32,7 @@ public class SectionAdapter extends CursorAdapter
 		return super.getItem(position);
 	}
 
+	private int resourceLayout;
 
 	private int titleIdx;
 	private int dateIdx;
@@ -42,11 +43,11 @@ public class SectionAdapter extends CursorAdapter
 	private LayoutInflater inflater;
 	private ContentResolver resolver;
 
-	public SectionAdapter(Context context, Cursor c, boolean autoRequery)
+	public SectionAdapter(Context context, Cursor c, boolean autoRequery, int resource)
 	{
 		super(context, c, autoRequery);
 		
-
+		this.resourceLayout = resource;
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		resolver = context.getContentResolver();
 	}
@@ -80,7 +81,7 @@ public class SectionAdapter extends CursorAdapter
 		titleIdx = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_SECTION_NAME);
 		sectionIdIdx = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_ID);
 		
-		View view = inflater.inflate(R.layout.project_manager_list_item_section_container, root, false);
+		View view = inflater.inflate(resourceLayout, root, false);
 		
 		return view;	
 	}

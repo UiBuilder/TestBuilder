@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				android:id="@+id/project_edit_nameanddesc_root"
+			    android:layout_width="match_parent"
+			    android:layout_height="match_parent"
+			    
+			    android:background="@android:color/white"
+			    android:orientation="vertical"
+			    android:padding="@dimen/default_padding_large"
+			    >
+				<TextView android:id="@+id/project_edit_screens_header"
+				    
+				    style="@style/editbox_header"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+
+					android:text="Update your screen titles and descriptions" />		    
+    
+			    <RelativeLayout 
+			        android:layout_width="match_parent" android:layout_height="match_parent"
+			        android:layout_margin="@dimen/default_padding_large"
+
+			        >
+			        
+			        <LinearLayout android:id="@+id/project_edit_screens_form_container"
+			            
+			            android:layout_width="match_parent"
+			            android:layout_height="wrap_content"
+			            android:layout_alignParentBottom="true"
+			            
+			            android:orientation="vertical"
+			            >
+			            
+			            <TextView android:padding="@dimen/default_padding_small"
+							android:layout_width="wrap_content" android:layout_height="wrap_content"
+	
+							android:text="Edit your screen title" 
+							/>
+	
+						<EditText android:id="@+id/project_edit_screens_screenname"
+						    android:layout_margin="@dimen/default_padding_small"
+							android:layout_width="match_parent" android:layout_height="wrap_content" 
+							/>
+					
+						<TextView android:padding="@dimen/default_padding_small"
+							android:layout_width="wrap_content" android:layout_height="wrap_content"
+		
+							android:text="Edit your screen description" 
+							/>
+		
+						<EditText android:id="@+id/project_edit_screens_description"
+						    android:layout_margin="@dimen/default_padding_small"
+							android:layout_width="match_parent" android:layout_height="wrap_content" 
+							android:layout_marginBottom="@dimen/default_padding_large"
+							/>
+						
+						<Button android:id="@+id/project_edit_screens_submit"
+						    style="@style/itembox_items_inverted"
+						    android:layout_width="wrap_content"
+						    android:layout_height="wrap_content"
+						    
+						    android:padding="@dimen/default_padding_large"
+						    android:layout_margin="@dimen/default_padding_large"
+						    
+						    android:layout_gravity="center_horizontal"
+						    android:text="Save changes"
+						    />
+			            
+			            
+			        </LinearLayout>
+			        
+			        <ListView android:id="@+id/project_edit_screens_screenlist"
+			            
+			            android:layout_width="match_parent" android:layout_height="0dp"
+						android:layout_alignParentTop="true"
+						android:layout_above="@id/project_edit_screens_form_container"
+			            />
+				    
+			        
+			    </RelativeLayout>
+			    
+			    
+			</LinearLayout>

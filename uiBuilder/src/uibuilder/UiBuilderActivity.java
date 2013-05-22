@@ -425,7 +425,7 @@ public class UiBuilderActivity
 	{
 
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.design, menu);
+		inflater.inflate(R.menu.design_menu, menu);
 
 		return true;
 	}
