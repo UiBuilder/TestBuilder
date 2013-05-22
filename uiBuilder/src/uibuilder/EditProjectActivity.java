@@ -24,6 +24,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.ViewFlipper;
 import data.ScreenProvider;
 import data.SectionAdapter;
@@ -49,6 +50,9 @@ public class EditProjectActivity extends Activity implements LoaderCallbacks<Cur
 	//SCREENS OPTIONS
 	private SectionAdapter sectionAdapter;
 	private ListView sectionList;
+	private EditText sectionName;
+	private EditText sectionDesc;
+	private int selectedSectionId;
 	
 	private OptionsArrayAdapter optionsListAdapter;
 	
@@ -56,7 +60,12 @@ public class EditProjectActivity extends Activity implements LoaderCallbacks<Cur
 	slide_top_in,
 	slide_bottom_in,
 	slide_top_out,
-	slide_bottom_out;
+	slide_bottom_out,
+	slide_left_in,
+	slide_right_in,
+	slide_left_out,
+	slide_right_out
+	;
 
 	@Override
 	public void onBackPressed()
@@ -97,7 +106,6 @@ public class EditProjectActivity extends Activity implements LoaderCallbacks<Cur
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_edit_project_root);
-		setupActionBar();
 		
 		Intent startIntent = getIntent();
 		int tempId = startIntent.getIntExtra(ProjectDisplay.START_EDITING_PROJECT_ID, -1);
@@ -115,6 +123,7 @@ public class EditProjectActivity extends Activity implements LoaderCallbacks<Cur
 		setupIconPage();
 		setupScreenNameDescPage();
 		setupCollabsPage();
+		setupActionBar();
 	}
 	
 	private void setupCollabsPage()
@@ -127,6 +136,13 @@ public class EditProjectActivity extends Activity implements LoaderCallbacks<Cur
 	private void setupScreenNameDescPage()
 	{
 		sectionList = (ListView) findViewById(R.id.project_edit_screens_screenlist);
+		sectionList.setOnItemClickListener(this);
+		
+		sectionName = (EditText) findViewById(R.id.project_edit_screens_screenname);
+		sectionDesc = (EditText) findViewById(R.id.project_edit_screens_description);
+		
+		Button saveChanges = (Button) findViewById(R.id.project_edit_screens_submit);
+		saveChanges.setOnClickListener(this);
 			
 		sectionAdapter = new SectionAdapter(getApplicationContext(), null, true, R.layout.project_manager_list_item_section_container_small);
 	}
@@ -193,8 +209,8 @@ public class EditProjectActivity extends Activity implements LoaderCallbacks<Cur
 		ActionBar bar = getActionBar();
 
 		bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME|ActionBar.DISPLAY_SHOW_TITLE);
-		bar.setSubtitle("Your Current Projects");
-		bar.setTitle("Prime");
+		bar.setSubtitle("of: " + projectName);
+		bar.setTitle("Edit Project Properties");
 		bar.setBackgroundDrawable(getResources().getDrawable(R.color.designfragment_background));
 	}
 	
@@ -207,6 +223,11 @@ public class EditProjectActivity extends Activity implements LoaderCallbacks<Cur
         slide_bottom_in = AnimationUtils.loadAnimation(this, R.anim.activity_transition_from_bottom_in);
         slide_top_out = AnimationUtils.loadAnimation(this, R.anim.activity_transition_to_top_out);
         slide_bottom_out = AnimationUtils.loadAnimation(this, R.anim.activity_transition_to_bottom_out);
+        
+        slide_left_in = AnimationUtils.loadAnimation(this, R.anim.activity_transition_from_left_in);
+    	slide_right_in = AnimationUtils.loadAnimation(this, R.anim.activity_transition_from_right_in);
+    	slide_left_out = AnimationUtils.loadAnimation(this, R.anim.activity_transition_to_left_out);
+    	slide_right_out = AnimationUtils.loadAnimation(this, R.anim.activity_transition_to_right_out);
 	}
 
 	@Override
@@ -318,7 +339,7 @@ public class EditProjectActivity extends Activity implements LoaderCallbacks<Cur
 				}
 				flipper.setDisplayedChild(id);
 				
-				optionsList.setItemChecked(activeListItemPos, false);
+				//optionsList.setItemChecked(activeListItemPos, false);
 				optionsList.setItemChecked(id, true);
 				
 				//optionsList.getChildAt(activeListItemPos).setActivated(false);
@@ -327,12 +348,30 @@ public class EditProjectActivity extends Activity implements LoaderCallbacks<Cur
 			}
 			break;
 
+		case R.id.project_edit_screens_screenlist:
+			
+			sectionList.setItemChecked(id, true);
+			item.setActivated(true);
+			Log.d("screenlist section id", String.valueOf((Integer)item.getTag()));
+			
+			selectedSectionId = (Integer)item.getTag();
+			
+			TextView displayName = (TextView) item.findViewById(R.id.project_manager_list_item_section_container_name);
+			TextView displayDesc = (TextView) item.findViewById(R.id.project_manager_list_item_section_container_description);
+			
+			sectionName.setText(displayName.getText());
+			sectionDesc.setText(displayDesc.getText());
+			
+			setFlipperMovement(MOVE_DOWN);
+			flipper.setDisplayedChild(4);
+			break;
+			
 		default:
 			break;
 		}
 	}
 
-	private static final int MOVE_BACK = 0X00, MOVE_FORWARD = 0X01;
+	private static final int MOVE_BACK = 0X00, MOVE_FORWARD = 0X01, MOVE_DOWN = 0X02, MOVE_UP = 0X03;
 	
 	private void setFlipperMovement(int direction)
 	{
@@ -348,6 +387,18 @@ public class EditProjectActivity extends Activity implements LoaderCallbacks<Cur
 			
 			flipper.setInAnimation(slide_bottom_in);
 			flipper.setOutAnimation(slide_top_out);
+			break;
+			
+		case MOVE_DOWN:
+			
+			flipper.setInAnimation(slide_right_in);
+			flipper.setOutAnimation(slide_left_out);
+			break;
+			
+		case MOVE_UP:
+			
+			flipper.setInAnimation(slide_left_in);
+			flipper.setOutAnimation(slide_right_out);
 			break;
 
 		}
@@ -372,6 +423,24 @@ public class EditProjectActivity extends Activity implements LoaderCallbacks<Cur
 			
 			setFlipperMovement(MOVE_BACK);
 			flipper.setDisplayedChild(0);
+			break;
+			
+		case R.id.project_edit_screens_submit:
+			 
+			if (selectedSectionId != 0)
+			{
+			
+				ContentValues screenValues = new ContentValues();
+				screenValues.put(ScreenProvider.KEY_SECTION_NAME, sectionName.getText().toString());
+				screenValues.put(ScreenProvider.KEY_SECTION_DESCRIPTION, sectionDesc.getText().toString());
+				
+				Uri sectionUri = ContentUris.withAppendedId(ScreenProvider.CONTENT_URI_SECTIONS, selectedSectionId);
+				resolver.update(sectionUri, screenValues, null, null);
+				
+				setFlipperMovement(MOVE_UP);
+				flipper.setDisplayedChild(2);
+			}
+			
 			break;
 
 		default:
