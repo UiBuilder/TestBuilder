@@ -1,7 +1,6 @@
 package helpers;
 
 import de.ur.rk.uibuilder.R;
-import uibuilder.EditProjectActivity.Options;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,13 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class OptionsArrayAdapter extends ArrayAdapter<Options>
+public class OptionsArrayAdapter extends ArrayAdapter<OptionsHolder>
 {
-	private Options[] options;
+	private OptionsHolder[] options;
 	private Context context;
 
 	public OptionsArrayAdapter(Context context, int textViewResourceId,
-			Options[] objects)
+			OptionsHolder[] objects)
 	{
 		super(context, textViewResourceId, objects);
 		
@@ -32,8 +31,9 @@ public class OptionsArrayAdapter extends ArrayAdapter<Options>
             LayoutInflater vi = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = vi.inflate(R.layout.activity_edit_project_optionslist_item, null);
         }
-        Options o = options[position];
-        if (o != null) {
+        OptionsHolder o = options[position];
+        if (o != null) 
+        {
                 TextView name = (TextView) v.findViewById(R.id.project_edit_optionsscreen_optionslist_item_name);
                 TextView desc = (TextView) v.findViewById(R.id.project_edit_optionsscreen_optionslist_item_description);
                 if (name != null) 

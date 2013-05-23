@@ -1,6 +1,9 @@
 package uibuilder;
 
+import com.parse.ParseObject;
+
 import helpers.OptionsArrayAdapter;
+import helpers.OptionsHolder;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.LoaderManager;
@@ -24,6 +27,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 import data.ScreenProvider;
@@ -41,7 +45,7 @@ public class EditProjectActivity extends Activity implements LoaderCallbacks<Cur
 	
 	//OPTIONSPAGE
 	private ListView optionsList;
-	private Options[] optionListItems;
+	private OptionsHolder[] optionListItems;
 	
 	//NAME AND DESCRIPTION PAGE
 	private EditText namedescProjectName;
@@ -66,6 +70,8 @@ public class EditProjectActivity extends Activity implements LoaderCallbacks<Cur
 	slide_left_out,
 	slide_right_out
 	;
+	
+	private int activeListItemPos;
 
 	@Override
 	public void onBackPressed()
@@ -80,6 +86,9 @@ public class EditProjectActivity extends Activity implements LoaderCallbacks<Cur
 			flipper.setInAnimation(slide_bottom_out);
 			flipper.setOutAnimation(slide_top_in);
 			flipper.setDisplayedChild(0);
+			
+			optionsList.getChildAt(0).setActivated(true);
+			optionsList.setItemChecked(0, true);
 		}
 	}
 	
@@ -105,7 +114,9 @@ public class EditProjectActivity extends Activity implements LoaderCallbacks<Cur
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
-		setContentView(R.layout.activity_edit_project_root);
+		setContentView(R.layout.preferences_root);
+		
+		
 		
 		Intent startIntent = getIntent();
 		int tempId = startIntent.getIntExtra(ProjectDisplay.START_EDITING_PROJECT_ID, -1);
@@ -124,6 +135,7 @@ public class EditProjectActivity extends Activity implements LoaderCallbacks<Cur
 		setupScreenNameDescPage();
 		setupCollabsPage();
 		setupActionBar();
+		
 	}
 	
 	private void setupCollabsPage()
@@ -174,7 +186,7 @@ public class EditProjectActivity extends Activity implements LoaderCallbacks<Cur
 		String[] optionsListNames = getResources().getStringArray(R.array.project_options_list_names);
 		String[] optionsListDescs = getResources().getStringArray(R.array.project_options_list_descriptions);
 		
-		optionListItems = Options.getOptions(optionsListNames, optionsListDescs);
+		optionListItems = OptionsHolder.getOptions(optionsListNames, optionsListDescs);
 		optionsListAdapter = new OptionsArrayAdapter(getApplicationContext(), 0, optionListItems);
 		
 		optionsList.setAdapter(optionsListAdapter);
@@ -199,6 +211,11 @@ public class EditProjectActivity extends Activity implements LoaderCallbacks<Cur
 	{
 
 		flipper = (ViewFlipper) findViewById(R.id.project_edit_flipper);
+		flipper.addView(getLayoutInflater().inflate(R.layout.activity_edit_option_nameanddesc, null));
+		flipper.addView(getLayoutInflater().inflate(R.layout.activity_edit_option_nameanddesc, null));
+		flipper.addView(getLayoutInflater().inflate(R.layout.activity_edit_option_screens_choose, null));
+		flipper.addView(getLayoutInflater().inflate(R.layout.activity_edit_option_nameanddesc, null));
+		flipper.addView(getLayoutInflater().inflate(R.layout.activity_edit_option_screens_edit, null));
 	}
 	
 	/**
@@ -281,10 +298,6 @@ public class EditProjectActivity extends Activity implements LoaderCallbacks<Cur
 	{
 		switch (loader.getId())
 		{
-		case ScreenProvider.LOADER_ID_PROJECTS:
-			
-			break;
-		
 		case ScreenProvider.LOADER_ID_SECTIONS:
 			
 			sectionAdapter.swapCursor(null);
@@ -293,29 +306,6 @@ public class EditProjectActivity extends Activity implements LoaderCallbacks<Cur
 		}
 	}
 	
-	public static class Options
-	{
-		public String name, description;
-		
-		public Options (String name, String description)
-		{
-			this.name = name;
-			this.description = description;
-		}
-		
-		public static Options[] getOptions (String[] nameString, String[] descString)
-		{
-			Options[] options = new Options[nameString.length];
-			
-			for (int i=0; i<nameString.length; i++)
-			{
-				options[i] = new Options(nameString[i], descString[i]);
-			}
-			return options;
-		}
-	}
-	
-	private int activeListItemPos;
 
 	@Override
 	public void onItemClick(AdapterView<?> list, View item, int id, long arg3)

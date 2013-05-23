@@ -14,5 +14,12 @@
         android:showAsAction="always|withText"
         android:title="New Project"
         android:titleCondensed="Delete Project"/>
+    
+    <item android:id="@+id/project_manager_preferences"
+        
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:showAsAction="ifRoom"
+        android:title="Prime Preferences"
+        android:titleCondensed="Prime Preferences"/>
 
 </menu>

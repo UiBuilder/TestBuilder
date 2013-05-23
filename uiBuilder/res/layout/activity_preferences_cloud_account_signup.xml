@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+	
+	android:padding="@dimen/default_padding_large"
+    android:background="@android:color/white"
+    >
+    
+    <TextView style="@style/editbox_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        
+        android:text="Your cloud account"
+        />
+    
+
+    
+    <LinearLayout android:id="@+id/preferences_cloud_account_signup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        
+        android:padding="@dimen/default_padding_large"
+        android:layout_margin="@dimen/default_padding_large"
+        android:orientation="vertical"
+        >
+        
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            
+            android:text="Enter your name"
+            />
+        
+        <EditText android:id="@+id/preferences_cloud_account_signup_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:inputType="textPersonName"
+            />
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            
+            android:text="Choose a password"
+            />
+        
+        <EditText android:id="@+id/preferences_cloud_account_signup_userpassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:inputType="textPassword"
+            />
+        
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            
+            android:text="Enter your email adress"
+            />
+        
+        <EditText android:id="@+id/preferences_cloud_account_signup_usermail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:inputType="textEmailAddress"
+            />
+        
+        <Button android:id="@+id/preferences_cloud_account_signup_signup_request"
+            
+            style="@style/itembox_items_inverted"
+            
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            
+            android:layout_margin="@dimen/default_padding_large"
+            android:layout_gravity="center_horizontal"
+            
+            android:text="Sign up to new account"
+            />
+        
+        <TextView style="@style/editbox_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            
+            
+            android:layout_gravity="center_horizontal"
+            android:text="or"
+            />
+        
+        <Button android:id="@+id/preferences_cloud_account_signup_signin_request"
+            
+            style="@style/itembox_items_inverted"
+            
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_padding_large"
+            
+            android:layout_gravity="center_horizontal"
+            
+            android:text="Log in to existing account"
+            />
+        
+        
+    </LinearLayout>
+    
+
+</LinearLayout>

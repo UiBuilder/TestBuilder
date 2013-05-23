@@ -14,7 +14,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Toast;
+
+import com.parse.Parse;
+
 import data.ProjectPagerAdapter;
 import de.ur.rk.uibuilder.R;
 
@@ -41,6 +43,9 @@ public class ProjectManagerActivity extends FragmentActivity implements OnClickL
 		setupActionBar();
 
 		setupInteraction();
+		
+		//Init cloud-service
+		Parse.initialize(this, "CJnqP0stzTozwnVqLtdREHEhI1y2kdKXAZ31SbxC", "GE9Ogahzy7djtjU66k2vSQA5GBEe2fQIUJ354t6u");
 	}
 
 	private ViewPager mPager;
@@ -111,9 +116,14 @@ public class ProjectManagerActivity extends FragmentActivity implements OnClickL
 			startActivityForResult(startDelete, REQUEST_PROJECT);
 			overridePendingTransition(R.anim.activity_transition_from_top_in, R.anim.activity_transition_to_bottom_out);
 			break;
-
-		default:
+			
+		case R.id.project_manager_preferences:
+			
+			Intent startPreferences = new Intent(ProjectManagerActivity.this, PreferencesActivity.class);
+			startActivity(startPreferences);
+			overridePendingTransition(R.anim.activity_transition_from_top_in, R.anim.activity_transition_to_bottom_out);
 			break;
+
 		}
 		return true;
 	}

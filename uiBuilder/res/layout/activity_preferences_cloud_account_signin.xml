@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+
+	android:padding="@dimen/default_padding_large"
+    android:background="@android:color/white"
+    >
+    
+    <TextView style="@style/editbox_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        
+        android:text="Sign in to existing account"
+        />
+    
+
+    
+  <LinearLayout android:id="@+id/preferences_cloud_account_signin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        
+        android:padding="@dimen/default_padding_large"
+        android:layout_margin="@dimen/default_padding_large"
+        android:orientation="vertical"
+        >
+        
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            
+            android:text="Enter your account name"
+            />
+        
+        <EditText android:id="@+id/preferences_cloud_account_signin_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:inputType="textPersonName"
+            />
+        
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            
+            android:text="enter your password"
+            />
+        
+        <EditText android:id="@+id/preferences_cloud_account_signin_userpassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:inputType="textPassword"
+            />
+        
+
+        
+        <Button android:id="@+id/preferences_cloud_account_signin_signin_request"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            
+            android:layout_gravity="center_horizontal"
+            android:text="Log in to your account"
+            
+            style="@style/itembox_items_inverted"
+            android:layout_margin="@dimen/default_padding_large"
+            />
+        
+        
+    </LinearLayout>
+    
+
+</LinearLayout>
