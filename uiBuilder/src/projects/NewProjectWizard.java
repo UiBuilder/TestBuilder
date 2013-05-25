@@ -1,6 +1,13 @@
 package projects;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -12,12 +19,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.SearchView.OnQueryTextListener;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,7 +40,7 @@ import data.ProjectHolder;
 import data.ScreenProvider;
 import de.ur.rk.uibuilder.R;
 
-public class NewProjectWizard extends Activity implements OnClickListener, OnCheckedChangeListener
+public class NewProjectWizard extends Activity implements OnClickListener, OnCheckedChangeListener, OnQueryTextListener
 {
 	private ViewFlipper flipper;
 	private int flipperState;
@@ -56,6 +68,10 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 	private boolean screensRequested = false;
 	private int projectId = 0;
 	
+	//find users
+	private SearchView searchfield;
+	private LinearLayout searchResults;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -81,10 +97,21 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 		setupAnimations();
         
         setupUi();
+        setupSearchUserPage();
 	}
 	
 	
 	
+	private void setupSearchUserPage()
+	{
+		searchfield = (SearchView) findViewById(R.id.project_wizard_flipper_collab_section_searchfield);
+		searchfield.setOnQueryTextListener(this);
+		
+		searchResults = (LinearLayout) findViewById(R.id.project_wizard_flipper_collab_section_results);
+	}
+
+
+
 	@Override
 	public void onBackPressed()
 	{
@@ -131,7 +158,8 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 	{
 		flipper = (ViewFlipper) findViewById(R.id.project_wizard_flipper);
 		
-		
+		Switch toggleCollab = (Switch) findViewById(R.id.project_wizard_flipper_collab_toggle);
+		toggleCollab.setOnCheckedChangeListener(this);
 		
 		Button goToScreens = (Button) findViewById(R.id.project_wizard_flipper_step1_ok);
         goToScreens.setOnClickListener(this);
@@ -346,7 +374,78 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
 	{
-		// TODO Auto-generated method stub
+		if (isChecked)
+		{
+			ParseUser currentUser = ParseUser.getCurrentUser();
+			
+			if (currentUser != null)
+			{
+				findViewById(R.id.project_wizard_flipper_collab_section).setVisibility(View.VISIBLE);
+			}
+		}
 		
+	}
+
+
+
+	@Override
+	public boolean onQueryTextChange(String arg0)
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+
+	@Override
+	public boolean onQueryTextSubmit(String arg0)
+	{
+		searchfield.clearFocus();
+		
+		ParseQuery query = ParseUser.getQuery();
+
+		
+		query.whereEqualTo("username", arg0);
+		query.findInBackground(new FindCallback() 
+		{
+
+		@Override
+		public void done(List<ParseObject> arg0, ParseException e)
+		{
+			searchResults.removeAllViews();
+			
+			if (e == null && arg0.size() != 0) 
+			{
+				ParseUser user = (ParseUser)arg0.get(0);
+				String name = user.getUsername();
+				String mail = user.getEmail();
+				String id = user.getObjectId();
+				
+				Log.d("query for parse user", name);
+				Log.d("query for parse usermail", mail);
+				Log.d("query for parse id", id);
+	
+				View item;
+				
+				if (name.equalsIgnoreCase(ParseUser.getCurrentUser().getUsername()))
+				{
+					item = new TextView(getApplicationContext());
+					((TextView) item).setText("This is you, dumbass");
+					
+				}
+				else
+				{
+					item = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_project_wizard_collaboration_resultset_item, null);
+					TextView userName = (TextView) item.findViewById(R.id.project_wizard_flipper_collab_section_results_item_collabName);
+					userName.setText(name);
+				}
+				
+				searchResults.addView(item);
+			}
+			
+		}
+		});
+		
+		return true;
 	}
 }

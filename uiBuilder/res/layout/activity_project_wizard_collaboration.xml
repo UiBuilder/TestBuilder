@@ -13,7 +13,7 @@
 				<TextView android:padding="@dimen/default_padding_small"
 					android:layout_width="wrap_content" android:layout_height="wrap_content"
 
-					android:text="Share the new project with your team to collaborate on the sketching process of your app.\nYou will see each others sketchings and be able to comment." />
+					android:text="Share the new project with other Prime users to collaborate on the sketching process of your app.\nYou will see each others sketchings and be able to comment." />
 				
 				<LinearLayout 
 				    android:layout_width="match_parent"
@@ -25,7 +25,14 @@
 				    android:gravity="center_horizontal"
 				    android:orientation="horizontal"
 				    >
-				    <Switch 
+				    <TextView 
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:layout_marginRight="@dimen/default_padding_large"
+				        android:text="Use this feature"
+				        />
+				    
+				    <Switch android:id="@+id/project_wizard_flipper_collab_toggle"
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"
 				        
@@ -33,15 +40,49 @@
 				        android:textOn="On"
 				        android:textOff="Off"
 				        />
-				    
-				    <TextView 
-				        android:layout_width="wrap_content"
-				        android:layout_height="wrap_content"
-				        android:layout_marginLeft="@dimen/default_padding_large"
-				        android:text="Use this feature"
-				        />
+				   
 				    
 				</LinearLayout>
+				
+			<LinearLayout android:id="@+id/project_wizard_flipper_collab_section"
+				    
+				    android:visibility="invisible"
+				    
+				    android:layout_width="match_parent"
+				    android:layout_height="wrap_content"
+				    
+				    android:layout_margin="@dimen/default_padding_large"
+				    
+				    android:gravity="center_horizontal"
+				    android:orientation="vertical"
+				    >
+
+				    
+				    <SearchView 
+				        android:id="@+id/project_wizard_flipper_collab_section_searchfield"
+				        android:layout_width="match_parent"
+				        android:layout_height="wrap_content"
+				        android:iconifiedByDefault="false"
+				        android:queryHint="Type in a Prime user name"
+				        android:inputType="textEmailAddress"
+				        android:imeOptions="actionDone"
+				        
+				        ></SearchView>
+				    <ScrollView 
+				        android:layout_width="match_parent"
+					    android:layout_height="match_parent"
+					    android:padding="@dimen/default_padding_large"
+					    
+				        >
+				    	<LinearLayout android:id="@+id/project_wizard_flipper_collab_section_results"
+					        android:layout_width="wrap_content"
+					        android:layout_height="wrap_content"
+					        android:orientation="vertical"
+					        android:layout_gravity="center_horizontal"
+					        
+					        ></LinearLayout>
+				    </ScrollView>
+				    </LinearLayout>
 				
 				    
 				<RelativeLayout 

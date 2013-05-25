@@ -1,6 +1,8 @@
 package uibuilder;
 
 
+import cloudmodule.UserConstants;
+
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -325,12 +327,13 @@ public class PreferencesActivity extends Activity implements OnItemClickListener
 			String pass = signUpUserPass.getText().toString();
 			String mail = signUpUserMail.getText().toString();
 			
-			if (name.length() >= 4 && pass.length() >= 4 && mail.length() >= 8)
+			if (name.length() >= 4 && pass.length() >= 4 && mail.length() >= 8 && mail.contains("@"));
 			{
 				Log.d("signup", "requested");
 				
 				ParseUser user = new ParseUser();
-				user.setUsername(name);
+				user.setUsername(mail);
+				user.add(UserConstants.USER_DISPLAY_NAME, name);
 				user.setPassword(pass);
 				user.setEmail(mail);
 				

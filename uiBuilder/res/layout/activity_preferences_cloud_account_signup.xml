@@ -17,7 +17,7 @@
     
 
     
-    <LinearLayout android:id="@+id/preferences_cloud_account_signup"
+   	<LinearLayout android:id="@+id/preferences_cloud_account_signup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         
@@ -26,11 +26,25 @@
         android:orientation="vertical"
         >
         
+   	    <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            
+            android:text="Enter your login email adress"
+            />
+        
+        <EditText android:id="@+id/preferences_cloud_account_signup_usermail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:inputType="textEmailAddress"
+            />
+        
         <TextView 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             
-            android:text="Enter your name"
+            android:text="Enter your name (will be displayed to collaborators)"
             />
         
         <EditText android:id="@+id/preferences_cloud_account_signup_username"
@@ -53,19 +67,7 @@
             android:inputType="textPassword"
             />
         
-        <TextView 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            
-            android:text="Enter your email adress"
-            />
         
-        <EditText android:id="@+id/preferences_cloud_account_signup_usermail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:lines="1"
-            android:inputType="textEmailAddress"
-            />
         
         <Button android:id="@+id/preferences_cloud_account_signup_signup_request"
             
