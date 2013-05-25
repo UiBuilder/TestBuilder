@@ -333,12 +333,14 @@ public class PreferencesActivity extends Activity implements OnItemClickListener
 				
 				ParseUser user = new ParseUser();
 				user.setUsername(mail);
-				user.add(UserConstants.USER_DISPLAY_NAME, name);
+				user.put(UserConstants.USER_DISPLAY_NAME, name);
 				user.setPassword(pass);
 				user.setEmail(mail);
 				
-				user.signUpInBackground(new SignUpCallback() {
-					  public void done(ParseException e) {
+				user.signUpInBackground(new SignUpCallback() 
+				{
+					  public void done(ParseException e) 
+					  {
 					    if (e == null) 
 					    {
 					      // Hooray! Let them use the app now.
@@ -350,7 +352,8 @@ public class PreferencesActivity extends Activity implements OnItemClickListener
 					    {
 					      // Sign up didn't succeed. Look at the ParseException
 					      // to figure out what went wrong
-					    	cloudAccountStatus.setText("Error");
+					    	Log.d("Error", "sign up");
+					    	Log.d("exception message", e.getMessage());
 					    }
 					  }
 					});

@@ -9,8 +9,8 @@
     >
     
     <TextView android:id="@+id/project_wizard_flipper_collab_section_results_item_collabName"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:padding="@dimen/default_padding_medium"
         style="@style/editbox_sub"
         />
@@ -22,9 +22,9 @@
         android:layout_height="wrap_content"
         
         style="@style/itembox_items_inverted"
-        android:layout_gravity="right"
+
         
-        android:text=""
+        android:text="Add"
         />
 
 </LinearLayout>

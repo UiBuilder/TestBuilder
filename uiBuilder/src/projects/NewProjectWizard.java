@@ -3,6 +3,8 @@ package projects;
 import java.util.ArrayList;
 import java.util.List;
 
+import cloudmodule.UserConstants;
+
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -71,6 +73,7 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 	//find users
 	private SearchView searchfield;
 	private LinearLayout searchResults;
+	private ArrayList<ParseUser> collabList;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -108,6 +111,7 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 		searchfield.setOnQueryTextListener(this);
 		
 		searchResults = (LinearLayout) findViewById(R.id.project_wizard_flipper_collab_section_results);
+		collabList = new ArrayList<ParseUser>();
 	}
 
 
@@ -392,6 +396,7 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 	public boolean onQueryTextChange(String arg0)
 	{
 		// TODO Auto-generated method stub
+		searchResults.removeAllViews();
 		return false;
 	}
 
@@ -413,6 +418,7 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 		public void done(List<ParseObject> arg0, ParseException e)
 		{
 			searchResults.removeAllViews();
+			View item;
 			
 			if (e == null && arg0.size() != 0) 
 			{
@@ -420,14 +426,14 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 				String name = user.getUsername();
 				String mail = user.getEmail();
 				String id = user.getObjectId();
+				String displayName = user.getString(UserConstants.USER_DISPLAY_NAME);
 				
-				Log.d("query for parse user", name);
+				Log.d("query for parse user", displayName);
 				Log.d("query for parse usermail", mail);
 				Log.d("query for parse id", id);
 	
-				View item;
 				
-				if (name.equalsIgnoreCase(ParseUser.getCurrentUser().getUsername()))
+				if (ParseUser.getCurrentUser().hasSameId(user))
 				{
 					item = new TextView(getApplicationContext());
 					((TextView) item).setText("This is you, dumbass");
@@ -438,11 +444,31 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 					item = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_project_wizard_collaboration_resultset_item, null);
 					TextView userName = (TextView) item.findViewById(R.id.project_wizard_flipper_collab_section_results_item_collabName);
 					userName.setText(name);
+					
+					Button addUser = (Button) item.findViewById(R.id.project_wizard_flipper_collab_section_results_item_addToCollabs);
+					addUser.setTag(user);
+					addUser.setOnClickListener(new OnClickListener()
+					{
+						
+						@Override
+						public void onClick(View v)
+						{
+							// TODO Auto-generated method stub
+							ParseUser user = (ParseUser) v.getTag();
+							
+							collabList.add(user);
+							Log.d("user added", user.getEmail());
+						}
+					});
 				}
 				
-				searchResults.addView(item);
 			}
-			
+			else
+			{
+				item = new TextView(getApplicationContext());
+				((TextView) item).setText("Sorry, no results.");
+			}
+			searchResults.addView(item);
 		}
 		});
 		
