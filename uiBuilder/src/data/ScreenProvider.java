@@ -523,7 +523,9 @@ public class ScreenProvider extends ContentProvider
 		public static final String
 						KEY_PROJECTS_NAME = "projectname",
 						KEY_PROJECTS_DATE = "projectcreation",
-						KEY_PROJECTS_DESCRIPTION = "description"
+						KEY_PROJECTS_DESCRIPTION = "description",
+						KEY_PROJECTS_PARSE_ID = "parseId",
+						KEY_PROJECTS_SHARED = "shared"
 						;
 		
 		//SCREENS TABLE
@@ -590,7 +592,7 @@ public class ScreenProvider extends ContentProvider
 						;
 		
 		
-		private static final int DB_VERSION = 42;
+		private static final int DB_VERSION = 43;
 		
 		private static final String CREATE = "create table if not exists ";
 		private static final String DROP = "DROP TABLE if exists ";	
@@ -640,7 +642,9 @@ public class ScreenProvider extends ContentProvider
 						PROJECTS_PROPERTIES
 						= KEY_PROJECTS_NAME + TEXT_NNULL + KOMMA
 						+ KEY_PROJECTS_DATE + TEXT_NNULL + KOMMA
-						+ KEY_PROJECTS_DESCRIPTION + TEXT
+						+ KEY_PROJECTS_DESCRIPTION + TEXT + KOMMA
+						+ KEY_PROJECTS_PARSE_ID + INT + KOMMA
+						+ KEY_PROJECTS_SHARED + INT
 						,
 						
 						SECTION_PROPERTIES

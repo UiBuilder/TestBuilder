@@ -1,4 +1,4 @@
-package uibuilder;
+package projects;
 
 import java.util.ArrayList;
 
@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +15,10 @@ import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
@@ -26,7 +28,7 @@ import data.ProjectHolder;
 import data.ScreenProvider;
 import de.ur.rk.uibuilder.R;
 
-public class NewProjectWizard extends Activity implements OnClickListener
+public class NewProjectWizard extends Activity implements OnClickListener, OnCheckedChangeListener
 {
 	private ViewFlipper flipper;
 	private int flipperState;
@@ -129,17 +131,25 @@ public class NewProjectWizard extends Activity implements OnClickListener
 	{
 		flipper = (ViewFlipper) findViewById(R.id.project_wizard_flipper);
 		
-		Button step1Next = (Button) findViewById(R.id.project_wizard_flipper_step1_ok);
-        step1Next.setOnClickListener(this);
+		
+		
+		Button goToScreens = (Button) findViewById(R.id.project_wizard_flipper_step1_ok);
+        goToScreens.setOnClickListener(this);
         
-        Button finish = (Button) findViewById(R.id.project_wizard_flipper_step2_ok);
-        finish.setOnClickListener(this);
+        Button goToCollab = (Button) findViewById(R.id.project_wizard_flipper_step2_ok);
+        goToCollab.setOnClickListener(this);
         
         Button step2back = (Button) findViewById(R.id.project_wizard_flipper_step2_back);
         step2back.setOnClickListener(this);
         
+        Button collabBack = (Button) findViewById(R.id.project_wizard_flipper_collab_back);
+        collabBack.setOnClickListener(this);
+        
         Button step2AddScreen = (Button) findViewById(R.id.project_wizard_flipper_step2_addScreen);
         step2AddScreen.setOnClickListener(this);
+        
+        Button finish = (Button) findViewById(R.id.project_wizard_flipper_collab_finish);
+        finish.setOnClickListener(this);
         
         screenDesc = (TextView) findViewById(R.id.project_wizard_flipper_step2_screendescription);
         screenName = (TextView) findViewById(R.id.project_wizard_flipper_step2_screenname);
@@ -162,18 +172,7 @@ public class NewProjectWizard extends Activity implements OnClickListener
         flipper.setDisplayedChild(flipperState);
 	}
 	
-	private Cursor existing;
 	
-	private void loadExistingScreens()
-	{
-		existing = getContentResolver().query(ScreenProvider.CONTENT_URI_SECTIONS, null, ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT + "=" + projectId, null, null);
-		
-		while (existing.moveToNext())
-		{
-			addScreenToHolder();
-		}
-		screensRequested = false;
-	}
 	private void returnToManager()
 	{
 		finish();
@@ -213,6 +212,7 @@ public class NewProjectWizard extends Activity implements OnClickListener
 			break;
 	
 		case R.id.project_wizard_flipper_step2_back:
+		case R.id.project_wizard_flipper_collab_back:
 			
 			flipper.setInAnimation(slide_out_right);
 			flipper.setOutAnimation(slide_in_left);
@@ -225,6 +225,13 @@ public class NewProjectWizard extends Activity implements OnClickListener
 			break;
 			
 		case R.id.project_wizard_flipper_step2_ok:
+			
+			flipper.setInAnimation(slide_in_right);
+			flipper.setOutAnimation(slide_out_left);
+			flipper.showNext();
+			break;
+			
+		case R.id.project_wizard_flipper_collab_finish:
 			
 			insertNewScreens();
 			returnToManager();
@@ -332,5 +339,14 @@ public class NewProjectWizard extends Activity implements OnClickListener
 		screenDesc.setText("");
 		screenName.setText("");
 		screenName.requestFocus();
+	}
+
+
+
+	@Override
+	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }

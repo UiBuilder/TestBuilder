@@ -1,5 +1,6 @@
-package uibuilder;
+package projects;
 
+import uibuilder.ScreenManagerActivity;
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentUris;

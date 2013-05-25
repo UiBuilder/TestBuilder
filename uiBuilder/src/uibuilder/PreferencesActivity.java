@@ -258,6 +258,12 @@ public class PreferencesActivity extends Activity implements OnItemClickListener
 				{
 					setFlipperMovement(MOVE_BACK);
 				}
+				
+				if(signedIn && id == 0)
+				{
+					flipper.setDisplayedChild(SHOW_SIGNED_IN);
+				}
+				else
 				flipper.setDisplayedChild(id);
 				
 				//optionsList.setItemChecked(activeListItemPos, false);

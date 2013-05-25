@@ -1,4 +1,4 @@
-package uibuilder;
+package projects;
 
 import java.util.ArrayList;
 

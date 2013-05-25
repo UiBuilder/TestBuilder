@@ -4,6 +4,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import projects.ProjectDisplay;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.LoaderManager;

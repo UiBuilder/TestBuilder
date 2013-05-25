@@ -11,8 +11,11 @@
    
     
     <LinearLayout android:id="@+id/preferences_cloud_account_signedin"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        
+        android:padding="@dimen/default_padding_large"
+       	android:layout_margin="@dimen/default_padding_large"
         
 		android:layout_centerInParent="true"
 		android:gravity="center_horizontal"
@@ -33,13 +36,16 @@
    		    android:id="@+id/preferences_cloud_account_status"
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content"
+        	
+        	android:padding="@dimen/default_padding_large"
+        	android:layout_margin="@dimen/default_padding_large"
         	/>
         
         <TextView 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             
-            android:text="want to switch account?"
+            android:text="Want to switch account?"
             />
         
         

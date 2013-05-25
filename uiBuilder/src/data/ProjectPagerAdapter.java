@@ -1,6 +1,6 @@
 package data;
 
-import uibuilder.ProjectDisplay;
+import projects.ProjectDisplay;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;

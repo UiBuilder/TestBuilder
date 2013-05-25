@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:background="@android:color/white"
+				android:layout_height="match_parent" android:layout_width="match_parent"
+
+				android:padding="@dimen/default_padding_large" android:orientation="vertical">
+
+				<TextView style="@style/editbox_header"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+
+					android:text="Share it with your team" />
+
+				<TextView android:padding="@dimen/default_padding_small"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+
+					android:text="Share the new project with your team to collaborate on the sketching process of your app.\nYou will see each others sketchings and be able to comment." />
+				
+				<LinearLayout 
+				    android:layout_width="match_parent"
+				    android:layout_height="wrap_content"
+				    
+				    android:padding="@dimen/default_padding_large"
+				    android:layout_margin="@dimen/default_padding_large"
+				    
+				    android:gravity="center_horizontal"
+				    android:orientation="horizontal"
+				    >
+				    <Switch 
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        
+				        android:layout_gravity="top"
+				        android:textOn="On"
+				        android:textOff="Off"
+				        />
+				    
+				    <TextView 
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:layout_marginLeft="@dimen/default_padding_large"
+				        android:text="Use this feature"
+				        />
+				    
+				</LinearLayout>
+				
+				    
+				<RelativeLayout 
+				    android:layout_width="match_parent"
+				    android:layout_height="match_parent"
+					
+				    android:layout_margin="@dimen/default_padding_large"
+				    >
+				    
+				    <Button android:id="@+id/project_wizard_flipper_collab_back"
+				    
+				    android:layout_alignParentLeft="true"
+				    android:layout_alignParentBottom="true"
+
+				    style="@style/itembox_items_inverted"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+
+					android:text="Back" />
+				    
+				    <Button android:id="@+id/project_wizard_flipper_collab_finish"
+				    
+				    android:layout_alignParentRight="true"
+				    android:layout_alignParentBottom="true"
+
+				    style="@style/itembox_items_inverted"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+
+					android:text="Finish" />
+				    
+				</RelativeLayout>
+
+</LinearLayout>

@@ -19,6 +19,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+	
+	<uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -35,7 +39,7 @@
             >
         </activity>
         <activity
-            android:name="uibuilder.ProjectManagerActivity"
+            android:name="projects.ProjectManagerActivity"
             android:label="@string/app_name"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan|stateHidden" >
@@ -52,7 +56,7 @@
             android:windowSoftInputMode="adjustPan|stateHidden"
             />
         <activity
-            android:name="uibuilder.NewProjectWizard"
+            android:name="projects.NewProjectWizard"
             android:label="@string/app_name"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan|stateHidden"
@@ -60,7 +64,7 @@
             >
         </activity>
         <activity
-            android:name="uibuilder.DeleteProjectsActivity"
+            android:name="projects.DeleteProjectsActivity"
             android:label="@string/app_name"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan|stateHidden"
@@ -68,7 +72,7 @@
             >
             </activity>
         <activity
-            android:name="uibuilder.EditProjectActivity"
+            android:name="projects.EditProjectActivity"
             android:label="@string/app_name"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan|stateHidden"
@@ -107,6 +111,13 @@
             android:multiprocess="false"
             android:process=":provider" >
         </provider>
+        <service android:name="com.parse.PushService" />
+		<receiver android:name="com.parse.ParseBroadcastReceiver">
+  			<intent-filter>
+    			<action android:name="android.intent.action.BOOT_COMPLETED" />
+    			<action android:name="android.intent.action.USER_PRESENT" />
+  			</intent-filter>
+		</receiver>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
-package uibuilder;
+package projects;
 
+import uibuilder.PreferencesActivity;
 import helpers.ZoomOutPageTransformer;
 import android.app.ActionBar;
 import android.content.Intent;
@@ -16,6 +17,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.parse.Parse;
+import com.parse.ParseInstallation;
+import com.parse.ParseUser;
+import com.parse.PushService;
 
 import data.ProjectPagerAdapter;
 import de.ur.rk.uibuilder.R;
@@ -46,6 +50,10 @@ public class ProjectManagerActivity extends FragmentActivity implements OnClickL
 		
 		//Init cloud-service
 		Parse.initialize(this, "CJnqP0stzTozwnVqLtdREHEhI1y2kdKXAZ31SbxC", "GE9Ogahzy7djtjU66k2vSQA5GBEe2fQIUJ354t6u");
+		
+		PushService.setDefaultPushCallback(this, ProjectManagerActivity.class);
+		ParseInstallation.getCurrentInstallation().saveInBackground();
+		
 	}
 
 	private ViewPager mPager;
