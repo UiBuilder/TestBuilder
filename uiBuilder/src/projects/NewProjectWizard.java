@@ -460,6 +460,13 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 							Log.d("user added", user.getEmail());
 						}
 					});
+					
+					if (!checkList(user))
+					{
+						addUser.setText("Added");
+						addUser.setClickable(false);
+					}
+						
 				}
 				
 			}
@@ -470,6 +477,20 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 			}
 			searchResults.addView(item);
 		}
+
+		private boolean checkList(ParseUser user)
+		{
+			// TODO Auto-generated method stub
+			for (int i=0; i<collabList.size(); i++)
+			{
+				if (collabList.get(i).hasSameId(user))
+				{
+					return false;
+				}		
+			}
+			return true;
+		}
+
 		});
 		
 		return true;
