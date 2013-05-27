@@ -115,7 +115,7 @@ public class EditProjectActivity extends Activity implements LoaderCallbacks<Cur
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
-		setContentView(R.layout.preferences_root);
+		setContentView(R.layout.activity_preferences_root);
 		
 		
 		

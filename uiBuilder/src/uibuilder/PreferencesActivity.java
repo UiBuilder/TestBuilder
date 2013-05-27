@@ -1,12 +1,15 @@
 package uibuilder;
 
 
-import cloudmodule.UserConstants;
+import projects.ProjectManagerActivity;
+import cloudmodule.CloudConstants;
 
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.PushService;
 import com.parse.SignUpCallback;
 import com.parse.gdata.Escaper;
 
@@ -76,6 +79,7 @@ public class PreferencesActivity extends Activity implements OnItemClickListener
 	{
 		if (activeListItemPos == 0)
 		{
+			
 			super.onBackPressed();
 			overridePendingTransition(R.anim.activity_transition_from_bottom_in, R.anim.activity_transition_to_top_out);
 		}
@@ -106,7 +110,7 @@ public class PreferencesActivity extends Activity implements OnItemClickListener
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
-		setContentView(R.layout.preferences_root);
+		setContentView(R.layout.activity_preferences_root);
 		
 		Intent startIntent = getIntent();
 			
@@ -129,7 +133,7 @@ public class PreferencesActivity extends Activity implements OnItemClickListener
 		  // do stuff with the user
 			signedIn = true;
 			flipper.setDisplayedChild(SHOW_SIGNED_IN);
-			cloudAccountStatus.setText(currentUser.getUsername());
+			cloudAccountStatus.setText(currentUser.getString(CloudConstants.USER_DISPLAY_NAME));
 		} 
 		else 	
 		{
@@ -194,17 +198,19 @@ public class PreferencesActivity extends Activity implements OnItemClickListener
 		
 	}
 	
-	private static final int SHOW_SIGN_UP = 0, SHOW_SIGNED_IN = 3, SHOW_SIGN_IN = 2;
+	private static final int SHOW_SIGN_UP = 0, SHOW_SIGNED_IN = 4, SHOW_SIGN_IN = 3;
 
 	private void setupMainUI()
 	{
 		flipper = (ViewFlipper) findViewById(R.id.project_edit_flipper);
 		flipper.addView(getLayoutInflater().inflate(R.layout.activity_preferences_cloud_account_signup, null));
 		flipper.addView(getLayoutInflater().inflate(R.layout.activity_preferences_cloud_settings, null));
+		flipper.addView(getLayoutInflater().inflate(R.layout.activity_preferences_collaborations_settings, null));
 		
 		//additional, not reachable via item click mapping
 		flipper.addView(getLayoutInflater().inflate(R.layout.activity_preferences_cloud_account_signin, null));
 		flipper.addView(getLayoutInflater().inflate(R.layout.activity_preferences_cloud_account_signedin, null));
+		
 	}
 	
 	/**
@@ -331,9 +337,9 @@ public class PreferencesActivity extends Activity implements OnItemClickListener
 			{
 				Log.d("signup", "requested");
 				
-				ParseUser user = new ParseUser();
+				final ParseUser user = new ParseUser();
 				user.setUsername(mail);
-				user.put(UserConstants.USER_DISPLAY_NAME, name);
+				user.put(CloudConstants.USER_DISPLAY_NAME, name);
 				user.setPassword(pass);
 				user.setEmail(mail);
 				
@@ -343,10 +349,18 @@ public class PreferencesActivity extends Activity implements OnItemClickListener
 					  {
 					    if (e == null) 
 					    {
+					    	
 					      // Hooray! Let them use the app now.
 					    	setFlipperMovement(MOVE_DOWN);
 					    	flipper.setDisplayedChild(SHOW_SIGNED_IN);
 					    	signedIn = true;
+					    	
+					    	createPersonalChannel(ParseUser.getCurrentUser().getObjectId());
+					    	
+					    	ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+					    	
+							ParseInstallation.getCurrentInstallation().saveInBackground();
+							installation.put("parseId", ParseUser.getCurrentUser().getObjectId());
 					    	
 					    } else 
 					    {
@@ -354,8 +368,16 @@ public class PreferencesActivity extends Activity implements OnItemClickListener
 					      // to figure out what went wrong
 					    	Log.d("Error", "sign up");
 					    	Log.d("exception message", e.getMessage());
-					    }
+					    } 
 					  }
+
+					private void createPersonalChannel(String mail)
+					{
+						// TODO Auto-generated method stub
+						String personalChannel = CloudConstants.USER_CHANNEL_PREFIX + mail;
+						Log.d("channel", personalChannel);
+						PushService.subscribe(getApplicationContext(), personalChannel, ProjectManagerActivity.class);
+					}
 					});
 			}
 			break;
@@ -377,8 +399,11 @@ public class PreferencesActivity extends Activity implements OnItemClickListener
 			
 		case R.id.preferences_cloud_account_signin_signin_request:
 			
+			
 			String existingName = signInUserName.getText().toString();
 			String existingPass = signInUserPass.getText().toString();
+			
+			if (existingPass.length() >= 4 && existingName.length() >= 8 && existingName.contains("@"));
 			
 			ParseUser.logInInBackground(existingName, existingPass, new LogInCallback() 
 			{
@@ -386,7 +411,7 @@ public class PreferencesActivity extends Activity implements OnItemClickListener
 				  {
 				    if (user != null) 
 				    {
-				    	cloudAccountStatus.setText(ParseUser.getCurrentUser().getUsername());
+				    	cloudAccountStatus.setText(ParseUser.getCurrentUser().getString(CloudConstants.USER_DISPLAY_NAME));
 				    	setFlipperMovement(MOVE_DOWN);
 						flipper.setDisplayedChild(SHOW_SIGNED_IN);
 						signedIn = true;

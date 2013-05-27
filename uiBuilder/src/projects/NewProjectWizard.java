@@ -1,15 +1,21 @@
 package projects;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
-import cloudmodule.UserConstants;
+import cloudmodule.CloudConstants;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.PushService;
+import com.parse.SendCallback;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -237,7 +243,6 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 		case R.id.project_wizard_flipper_step1_ok:
 			
 			putValuesInProjectholder();
-			insertNewProject();
 			flipper.setInAnimation(slide_in_right);
 			flipper.setOutAnimation(slide_out_left);
 			flipper.showNext();
@@ -265,7 +270,8 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 			
 		case R.id.project_wizard_flipper_collab_finish:
 			
-			insertNewScreens();
+			insertNewProject();
+			//inviteCollaborators();
 			returnToManager();
 			break;
 			
@@ -274,7 +280,65 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 		}
 	}
 	
-	
+
+
+
+/*
+	private void inviteCollaborators()
+	{
+		for (ParseUser collab: collabList)
+		{
+			String userId = collab.getObjectId();
+			String userChannel = UserConstants.USER_CHANNEL_PREFIX + userId;
+			
+			ParsePush invite = new ParsePush();
+			invite.setChannel(userChannel);
+			invite.setMessage("You have been in invited to sketch in project: " + projectHolder.projectName);
+			invite.sendInBackground(new SendCallback()
+			{
+				
+				@Override
+				public void done(ParseException arg0)
+				{
+					// TODO Auto-generated method stub
+					
+				}
+			});
+		}
+		
+		// TODO Auto-generated method stub
+		//ParsePush push = new ParsePush();
+		
+		//String[] collabIds = getIds();
+		/*
+		ParseQuery pushQuery = ParseInstallation.getQuery();
+		Arrays.asList(collabIds);
+		String s = ParseInstallation.getCurrentInstallation().getInstallationId();
+		Log.d("install id", s);
+		pushQuery.whereContains("installationId", s);
+		//pushQuery.whereContainedIn("parseId", "");
+		
+		push.setQuery(pushQuery); // Set our Installation query
+		push.setMessage("Willie Hayes injured by own pop fly.");
+		push.sendInBackground();*/
+//	}
+
+
+
+	private String[] getIds()
+	{
+		String[] ids = new String[collabList.size()];
+		
+		for (int i=0; i<collabList.size();i++)
+		{
+			ids[i] = collabList.get(i).getObjectId();
+			Log.d("id at i", ids[i]);
+		}
+		return ids;
+	}
+
+
+
 	private void insertNewScreens()
 	{
 		ContentValues[] screenValues = new ContentValues[screenHolder.size()];
@@ -282,6 +346,7 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 		int i = 0;
 		for (NewScreenHolder holder: screenHolder)
 		{
+			setProjectId(holder);
 			screenValues[i] = holder.getBundle();
 			i++;
 		}
@@ -290,12 +355,19 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 		
 	}
 	
+	private void setProjectId(NewScreenHolder holder)
+	{
+		holder.sectionId = projectHolder.projectId;	
+	}
+
+
+
 	private void putValuesInProjectholder()
 	{
 		projectHolder.projectDate = date.generateDate();
 		projectHolder.projectName = String.valueOf(projectName.getText());
 		projectHolder.projectDescription = String.valueOf(projectdesc.getText());
-		
+		projectHolder.projectShared = CloudConstants.PROJECT_SHARED_FALSE;
 	}
 	
 	
@@ -305,8 +377,14 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 		ContentValues values = projectHolder.getValues();
 		
 		if (projectHolder.projectId == 0)
-		{
+		{			
+			addselfToCollabs();
+			String collabs = convertIdsToString(getIds());
+			values.put(CloudConstants.PROJECT_COLLABS, collabs);
+			
 			Uri inserted = resolver.insert(ScreenProvider.CONTENT_URI_PROJECTS, values);
+			
+		
 			String path = inserted.getPathSegments().get(1);
 			projectHolder.projectId = Integer.valueOf(path);
 			Log.d("insert project path full", path);
@@ -318,7 +396,28 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 			resolver.update(ScreenProvider.CONTENT_URI_PROJECTS, values, where, null);
 		}
 		
+		insertNewScreens();
 	}
+	private void addselfToCollabs()
+	{
+		// TODO Auto-generated method stub
+		collabList.add(ParseUser.getCurrentUser());
+	}
+
+
+
+	private String convertIdsToString(String[] ids)
+	{
+		String idString = "";
+		for (int i=0; i<ids.length; i++)
+		{
+			idString += ids[i] + " ";
+		}
+		return idString;
+	}
+
+
+
 	private void addScreenToHolder()
 	{
 		NewScreenHolder holder = new NewScreenHolder();
@@ -332,11 +431,7 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 			holder.sectionId = projectId;
 			//holder.sectionDescription = existing.getString(descIdx);
 		}
-		else
-		{
-			
-			holder.sectionId = projectHolder.projectId;
-		}
+
 		holder.sectionName = String.valueOf(screenName.getText());
 		holder.sectionDescription = String.valueOf(screenDesc.getText());
 		
@@ -385,7 +480,14 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 			if (currentUser != null)
 			{
 				findViewById(R.id.project_wizard_flipper_collab_section).setVisibility(View.VISIBLE);
+				projectHolder.projectShared = CloudConstants.PROJECT_SHARED_TRUE;
 			}
+
+		}
+		else
+		{
+			findViewById(R.id.project_wizard_flipper_collab_section).setVisibility(View.INVISIBLE);
+			projectHolder.projectShared = CloudConstants.PROJECT_SHARED_FALSE;
 		}
 		
 	}
@@ -426,7 +528,7 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 				String name = user.getUsername();
 				String mail = user.getEmail();
 				String id = user.getObjectId();
-				String displayName = user.getString(UserConstants.USER_DISPLAY_NAME);
+				String displayName = user.getString(CloudConstants.USER_DISPLAY_NAME);
 				
 				Log.d("query for parse user", displayName);
 				Log.d("query for parse usermail", mail);
@@ -447,25 +549,51 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 					
 					Button addUser = (Button) item.findViewById(R.id.project_wizard_flipper_collab_section_results_item_addToCollabs);
 					addUser.setTag(user);
+					
+					int listpos = checkList(user);
+					Log.d("listpos", String.valueOf(listpos));
+					
+					if (listpos == -1)
+					{
+						addUser.setText("Add");
+					}
+					else
+					{
+						addUser.setText("Remove");
+					}
+					
 					addUser.setOnClickListener(new OnClickListener()
 					{
+						
 						
 						@Override
 						public void onClick(View v)
 						{
-							// TODO Auto-generated method stub
-							ParseUser user = (ParseUser) v.getTag();
+							ParseUser foundUser = (ParseUser) v.getTag();
 							
-							collabList.add(user);
-							Log.d("user added", user.getEmail());
+							
+							if (((Button) v).getText().equals("Remove"))
+							{
+								removeFromList(foundUser);
+								
+								searchResults.removeAllViews();
+							}
+							else
+							{
+								// TODO Auto-generated method stub
+								
+								collabList.add(foundUser);
+								Log.d("user added", foundUser.getEmail());
+								((Button) v).setText("Remove");
+							}
+						}
+
+						private void removeFromList(ParseUser user)
+						{
+							int idx = checkList(user);
+							collabList.remove(idx);
 						}
 					});
-					
-					if (!checkList(user))
-					{
-						addUser.setText("Added");
-						addUser.setClickable(false);
-					}
 						
 				}
 				
@@ -478,17 +606,19 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 			searchResults.addView(item);
 		}
 
-		private boolean checkList(ParseUser user)
+		private int checkList(ParseUser user)
 		{
 			// TODO Auto-generated method stub
 			for (int i=0; i<collabList.size(); i++)
 			{
 				if (collabList.get(i).hasSameId(user))
 				{
-					return false;
+					Log.d("actual user", user.getObjectId());
+					Log.d("in list", collabList.get(i).getObjectId());
+					return i;
 				}		
 			}
-			return true;
+			return -1;
 		}
 
 		});

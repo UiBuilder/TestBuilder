@@ -4,14 +4,14 @@
 	    
 	    <item >Cloud Service Account</item>
 	    <item >Service Settings</item>
-	    
+	    <item >Collaborations</item>
 	</string-array>    
 	
 	<string-array name="prime_preferences_descriptions">
 	    
 	    <item >Register and login to your account.</item>
 	    <item >Notification settings and such.</item>
-
+		<item >Manage your group-projects.</item>
 	    
 	</string-array>
 </resources>

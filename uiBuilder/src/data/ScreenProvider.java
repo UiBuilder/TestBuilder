@@ -2,6 +2,9 @@ package data;
 
 import java.io.File;
 
+import cloudmodule.CloudConnection;
+import cloudmodule.CloudConstants;
+
 import android.content.ContentProvider;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -14,6 +17,7 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.os.Bundle;
 import android.text.TextUtils;
 import helpers.Log;
 
@@ -93,14 +97,26 @@ public class ScreenProvider extends ContentProvider
 	}
 
 
+	private CloudConnection cloud;
+	
 	@Override
 	public boolean onCreate()
 	{
 		innerRes = getContext().getContentResolver();
+		cloud = new CloudConnection(this, innerRes);
 		data = new DataManager(getContext(), DataManager.DB_NAME, null, DataManager.DB_VERSION);
 		return true;
 	}
 	
+
+
+	@Override
+	public Bundle call(String method, String arg, Bundle extras)
+	{
+		// TODO Auto-generated method stub
+		return super.call(method, arg, extras);
+	}
+
 
 
 	@Override
@@ -144,12 +160,16 @@ public class ScreenProvider extends ContentProvider
 			
 		case PROJECTS_ALL:
 			
+			String collabs = values.getAsString(CloudConstants.PROJECT_COLLABS);
+			values.remove(CloudConstants.PROJECT_COLLABS);
+			
 			id = db.insert(DataManager.TABLE_PROJECTS, nullColumnHack, values);
 			
 			if (id > -1)
 			{
 				inserted = ContentUris.withAppendedId(CONTENT_URI_PROJECTS, id);
 				getContext().getContentResolver().notifyChange(inserted, null);
+				cloud.createProject(values, id, collabs);
 			}
 			break;
 			
@@ -592,7 +612,7 @@ public class ScreenProvider extends ContentProvider
 						;
 		
 		
-		private static final int DB_VERSION = 43;
+		private static final int DB_VERSION = 45;
 		
 		private static final String CREATE = "create table if not exists ";
 		private static final String DROP = "DROP TABLE if exists ";	

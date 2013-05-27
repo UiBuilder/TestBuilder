@@ -12,12 +12,15 @@ public class ProjectHolder
 						idArg = "id"
 						;
 	
+
 	
 	public String projectName;
 	
 	public String projectDate;
 	
 	public String projectDescription;
+	
+	public String projectShared;
 	
 	public int projectId;
 	
@@ -40,6 +43,7 @@ public class ProjectHolder
 		values.put(ScreenProvider.KEY_PROJECTS_DESCRIPTION, projectDescription);
 		values.put(ScreenProvider.KEY_PROJECTS_NAME, projectName);
 		values.put(ScreenProvider.KEY_PROJECTS_DATE, projectDate);
+		values.put(ScreenProvider.KEY_PROJECTS_SHARED, projectShared);
 		
 		return values;
 	}
