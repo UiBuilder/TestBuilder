@@ -2,6 +2,7 @@ package projects;
 
 import helpers.ZoomOutPageTransformer;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -19,6 +20,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import cloudmodule.CloudConnection;
+import cloudmodule.CloudConnection.OnFromCloudLoadedListener;
 import cloudmodule.CloudConstants;
 
 import com.parse.FindCallback;
@@ -42,7 +45,7 @@ import de.ur.rk.uibuilder.R;
  *
  */
 
-public class ProjectManagerActivity extends FragmentActivity implements OnClickListener, OnItemClickListener
+public class ProjectManagerActivity extends FragmentActivity implements OnClickListener, OnItemClickListener, OnFromCloudLoadedListener
 {
 	public static final int REQUEST_SCREEN = 0x00;
 	public static final int REQUEST_PROJECT = 0x01;
@@ -71,107 +74,15 @@ public class ProjectManagerActivity extends FragmentActivity implements OnClickL
 		ins.getInstallationId();
 
 
-		checkForNewCollabProjects();
+		linkWithCloud();
 	}
 	
-	private void checkForNewCollabProjects()
+	private void linkWithCloud()
 	{
+		CloudConnection.setOnFromCloudLoadedListener(this);
 		
-		try
-		{
-			ParseQuery queryProjects = new ParseQuery("project");
-			queryProjects.whereEqualTo(CloudConstants.PROJECT_COLLABS, ParseUser.getCurrentUser().getObjectId());
-			
-			queryProjects.findInBackground(new FindCallback()
-			{
-				
-				@Override
-				public void done(List<ParseObject> results, ParseException arg1)
-				{
-					// TODO Auto-generated method stub
-					for (ParseObject newFoundCollabProject: results)
-					{
-						String projectId = newFoundCollabProject.getObjectId();
-						String projectName = newFoundCollabProject.getString(ScreenProvider.KEY_PROJECTS_NAME);
-						
-						String channelName = CloudConstants.PROJECT_CHANNEL_PREFIX + projectId;
-						Log.d("collaborating in", projectId);
-						
-						if(checkForChannel(channelName))
-						{
-							Log.d("subscriptioncheck", "already subscribed");
-						}
-						else
-						{
-							Log.d("subscriptioncheck", "new Channel found");
-							Log.d("subscriptioncheck", "subscribing now");
-							PushService.subscribe(getApplicationContext(), channelName, ProjectManagerActivity.class);
-							ParseInstallation.getCurrentInstallation().saveInBackground();
-							
-							sendJoinMessage(channelName, projectName);
-						}	
-					}
-				}
-				
-	
-				private boolean checkForChannel(String project)
-				{
-					// TODO Auto-generated method stub
-					
-					Log.d("check for channel", project);
-					Set<String> setOfAllSubscriptions = PushService.getSubscriptions(getApplicationContext());
-					
-					for (String subscribed: setOfAllSubscriptions)
-					{
-						
-						if(subscribed.equalsIgnoreCase(project))
-						{
-							return true;
-						}
-						
-					}
-					return false;
-					/*
-					String[] subs = new String[setOfAllSubscriptions.size()];
-					
-					setOfAllSubscriptions.toArray(subs);
-					Log.d("check collabs", String.valueOf(subs.length));		
-					
-					if (subs.length != 0)	
-						for (String s: subs)
-						{
-							//PushService.unsubscribe(context, s);
-							String sub = s.substring("project_".length());
-							Log.d("subscriptions are ", s);
-							Log.d("splitted", sub);
-						}*/
-				}
-			});
-		}
-		catch (Exception e) {
-			// TODO: handle exception
-		}
-	}
-	
-	
-	private void sendJoinMessage(String channel, String projectName)
-	{
-		String newMember = ParseUser.getCurrentUser().getUsername();
-		ParsePush push = new ParsePush();
-		
-		push.setChannel(channel);
-		push.setMessage(newMember + " joined " + projectName);
-		push.sendInBackground(new SendCallback()
-		{
-			
-			@Override
-			public void done(ParseException e)
-			{
-				// TODO Auto-generated method stub
-				if(e != null)
-				Log.d("push error", e.getMessage());
-			}
-		});
+		CloudConnection cloud = CloudConnection.establish(getApplicationContext(), getContentResolver());
+		cloud.checkForNewCollabProjects();
 	}
 
 	private ViewPager mPager;
@@ -313,6 +224,34 @@ public class ProjectManagerActivity extends FragmentActivity implements OnClickL
 		// TODO Auto-generated method stub
 		Log.d("onlistitem", "click");
 		arg1.setSelected(true);
+	}
+
+	@Override
+	public void usersLoaded(ArrayList<ParseUser> users)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void userFound(ParseUser user)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void projectLoaded(ParseObject project)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void newCloudProjectFound(String cloudProjectId)
+	{
+		Log.d("projectmanager received notification from cloud", "newCloudProjectFound");
+		
 	}
 
 }

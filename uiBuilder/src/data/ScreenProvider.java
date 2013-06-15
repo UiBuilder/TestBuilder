@@ -1,9 +1,8 @@
 package data;
 
-import java.io.File;
+import helpers.Log;
 
-import cloudmodule.CloudConnection;
-import cloudmodule.CloudConstants;
+import java.io.File;
 
 import android.content.ContentProvider;
 import android.content.ContentResolver;
@@ -19,7 +18,11 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import helpers.Log;
+import cloudmodule.CloudConnection;
+import cloudmodule.CloudConstants;
+
+import com.parse.Parse;
+import com.parse.PushService;
 
 /**
  * ContentProvider SKELETON from
@@ -103,8 +106,12 @@ public class ScreenProvider extends ContentProvider
 	public boolean onCreate()
 	{
 		innerRes = getContext().getContentResolver();
-		cloud = new CloudConnection(this, innerRes);
+		cloud = CloudConnection.establish(getContext(), innerRes);
 		data = new DataManager(getContext(), DataManager.DB_NAME, null, DataManager.DB_VERSION);
+		
+		Parse.initialize(getContext(), "CJnqP0stzTozwnVqLtdREHEhI1y2kdKXAZ31SbxC", "GE9Ogahzy7djtjU66k2vSQA5GBEe2fQIUJ354t6u");
+		PushService.startServiceIfRequired(getContext());
+		
 		return true;
 	}
 	
@@ -140,7 +147,7 @@ public class ScreenProvider extends ContentProvider
 			if (id > -1)
 			{
 				inserted = ContentUris.withAppendedId(CONTENT_URI_SCREENS, id);
-				getContext().getContentResolver().notifyChange(inserted, null);
+				getContext().getContentResolver().notifyChange(inserted, null);	
 			}
 			break;
 			
@@ -163,13 +170,21 @@ public class ScreenProvider extends ContentProvider
 			String collabs = values.getAsString(CloudConstants.PROJECT_COLLABS);
 			values.remove(CloudConstants.PROJECT_COLLABS);
 			
+			if (collabs != null)
+			Log.d("Projet collabs", collabs);
+			
 			id = db.insert(DataManager.TABLE_PROJECTS, nullColumnHack, values);
 			
 			if (id > -1)
 			{
 				inserted = ContentUris.withAppendedId(CONTENT_URI_PROJECTS, id);
 				getContext().getContentResolver().notifyChange(inserted, null);
-				cloud.createProject(values, id, collabs);
+				
+				if (values.getAsString(KEY_PROJECTS_SHARED).equalsIgnoreCase(CloudConstants.PROJECT_SHARED_TRUE))
+				{
+					Log.d("about to upload to cloud", "cloud project");
+					cloud.createProject(values, id, collabs);
+				}
 			}
 			break;
 			
@@ -181,6 +196,7 @@ public class ScreenProvider extends ContentProvider
 			{
 				inserted = ContentUris.withAppendedId(CONTENT_URI_SECTIONS, id);
 				getContext().getContentResolver().notifyChange(inserted, null);
+				
 			}
 			break;
 
@@ -249,8 +265,8 @@ public class ScreenProvider extends ContentProvider
 				
 				sortOrder = KEY_ID + " DESC";
 				
-				//String tables = DataManager.TABLE_PROJECTS + " LEFT OUTER JOIN " + DataManager.TABLE_SECTIONS + " ON (" + DataManager.TABLE_SECTIONS + "." + KEY_SECTION_ASSOCIATED_PROJECT + " = " + DataManager.TABLE_PROJECTS + "." + KEY_ID + ")";
-				//query.setTables(tables);
+				if (selection != null)
+				Log.d("projects all with", selection);
 				
 				query.setTables(DataManager.TABLE_PROJECTS);
 				break;
@@ -262,6 +278,13 @@ public class ScreenProvider extends ContentProvider
 				query.setTables(DataManager.TABLE_SECTIONS);
 				break;
 
+			case SECTIONS_SINGLE:
+				
+				row = uri.getPathSegments().get(1);
+				query.appendWhere(KEY_ID + "=" + row);
+				
+				query.setTables(DataManager.TABLE_SECTIONS);
+				break;
 		}
 		
 		Cursor cursor = query.query(db, projection, selection, selectionArgs, groupBy, having, sortOrder);
@@ -284,6 +307,7 @@ public class ScreenProvider extends ContentProvider
 		
 		row = uri.getPathSegments().get(1);
 		selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
+		Log.d("updating row", row);
 		
 		switch (matcher.match(uri))
 		{
@@ -305,6 +329,10 @@ public class ScreenProvider extends ContentProvider
 		case SECTIONS_SINGLE:
 			
 			updateCount = db.update(DataManager.TABLE_SECTIONS, values, selection, selectArgs);
+			
+			Cursor sectionCursor = innerRes.query(uri, null, null, null, null);
+			sectionCursor.moveToFirst();
+			
 			break;
 			
 		default: break;
@@ -355,6 +383,7 @@ public class ScreenProvider extends ContentProvider
 			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
 
 			Log.d("database delete objects single was called with", row);
+			
 			deleteCount = db.delete(DataManager.TABLE_OBJECTS, selection, selArgs);
 			break;
 			
@@ -363,10 +392,27 @@ public class ScreenProvider extends ContentProvider
 			row = uri.getPathSegments().get(1);
 			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
 
-			Log.d("database delete projects single was called with row", row);
+			Log.d("database delete projects single was called with row", selection);
 			
-			innerRes.delete(CONTENT_URI_SECTIONS, KEY_SECTION_ASSOCIATED_PROJECT + "=" + row, null);
-			deleteCount = db.delete(DataManager.TABLE_PROJECTS, selection, selArgs);		
+			Cursor c = innerRes.query(uri, null, selection, null, null);
+			{
+				c.moveToFirst();
+				
+				Log.d("provider delete parse id with size", String.valueOf(c.getCount()));
+				
+				int parseIdx = c.getColumnIndex(ScreenProvider.KEY_PROJECTS_PARSE_ID);
+				
+				Log.d("idx", String.valueOf(parseIdx));
+				
+				String parseId = c.getString(parseIdx);
+				
+				Log.d("provider delete project name", parseId);
+				cloud.deleteProject(parseId);
+				c.close();
+			}
+			
+			innerRes.delete(CONTENT_URI_SECTIONS, KEY_SECTION_ASSOCIATED_PROJECT + "=" + row , null);
+			deleteCount = db.delete(DataManager.TABLE_PROJECTS, selection, selArgs);	
 			break;
 			
 		case SECTIONS_ALL:
@@ -380,6 +426,7 @@ public class ScreenProvider extends ContentProvider
 				Uri sectionUriSingle = ContentUris.withAppendedId(CONTENT_URI_SECTIONS, sections.getInt(sectionIdIdx));
 				innerRes.delete(sectionUriSingle, null, null);
 			}
+			sections.close();
 			
 			deleteCount = db.delete(DataManager.TABLE_SECTIONS, selection, null);
 			Log.d("sections all delete count", String.valueOf(deleteCount));
@@ -441,7 +488,7 @@ public class ScreenProvider extends ContentProvider
 				if (id > -1)
 				{
 					inserted = ContentUris.withAppendedId(CONTENT_URI_OBJECTS, id);
-					getContext().getContentResolver().notifyChange(inserted, null);
+					getContext().getContentResolver().notifyChange(inserted, null);				
 				}
 				count++;
 			}
@@ -461,6 +508,9 @@ public class ScreenProvider extends ContentProvider
 				{
 					inserted = ContentUris.withAppendedId(CONTENT_URI_SECTIONS, id);
 					getContext().getContentResolver().notifyChange(inserted, null);
+					
+					contentValues.put(KEY_ID, id);
+					cloud.createSection(contentValues);
 				}
 				count++;
 			}
@@ -501,6 +551,8 @@ public class ScreenProvider extends ContentProvider
 		
 		int imageIdx = c.getColumnIndexOrThrow(KEY_SCREEN_PREVIEW);	
 		String imagePath = c.getString(imageIdx);
+		
+		c.close();
 		
 		if (!imagePath.equalsIgnoreCase("0"))
 		{
@@ -560,7 +612,9 @@ public class ScreenProvider extends ContentProvider
 		public static final String 
 						KEY_SECTION_NAME = "section",
 						KEY_SECTION_DESCRIPTION = "desc",
-						KEY_SECTION_ASSOCIATED_PROJECT = "associatedproject"
+						KEY_SECTION_ASSOCIATED_PROJECT = "associatedproject",
+						KEY_SECTION_ASSOCIATED_CLOUD_PROJECT = "associatedCloudProject",
+						KEY_SECTION_CLOUD_PARSE_ID = "parseId"
 						;
 		
 		//OBJECTS TABLE
@@ -600,6 +654,8 @@ public class ScreenProvider extends ContentProvider
 	 */
 	private static class DataManager extends SQLiteOpenHelper
 	{	
+		private static final int DB_VERSION = 50;
+		
 		/*
 		 * Database properties
 		 */
@@ -611,8 +667,6 @@ public class ScreenProvider extends ContentProvider
 						TABLE_SECTIONS = "sections"
 						;
 		
-		
-		private static final int DB_VERSION = 45;
 		
 		private static final String CREATE = "create table if not exists ";
 		private static final String DROP = "DROP TABLE if exists ";	
@@ -663,15 +717,16 @@ public class ScreenProvider extends ContentProvider
 						= KEY_PROJECTS_NAME + TEXT_NNULL + KOMMA
 						+ KEY_PROJECTS_DATE + TEXT_NNULL + KOMMA
 						+ KEY_PROJECTS_DESCRIPTION + TEXT + KOMMA
-						+ KEY_PROJECTS_PARSE_ID + INT + KOMMA
+						+ KEY_PROJECTS_PARSE_ID + TEXT + KOMMA
 						+ KEY_PROJECTS_SHARED + INT
 						,
 						
 						SECTION_PROPERTIES
 						= KEY_SECTION_NAME + TEXT_NNULL + KOMMA
 						+ KEY_SECTION_DESCRIPTION + TEXT + KOMMA
-						+ KEY_SECTION_ASSOCIATED_PROJECT + INT_NNULL 
-						
+						+ KEY_SECTION_ASSOCIATED_PROJECT + INT_NNULL + KOMMA
+						+ KEY_SECTION_ASSOCIATED_CLOUD_PROJECT + TEXT + KOMMA
+						+ KEY_SECTION_CLOUD_PARSE_ID + TEXT
 						;
 
 		

@@ -1,13 +1,19 @@
 package uibuilder;
 
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import projects.ProjectManagerActivity;
+import cloudmodule.CloudConnection;
 import cloudmodule.CloudConstants;
 
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseUser;
 import com.parse.PushService;
 import com.parse.SignUpCallback;
@@ -29,8 +35,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -44,22 +52,27 @@ import data.ScreenProvider;
 import data.SectionAdapter;
 import de.ur.rk.uibuilder.R;
 
-public class PreferencesActivity extends Activity implements OnItemClickListener, OnClickListener
+public class PreferencesActivity extends Activity implements OnItemClickListener, OnClickListener, OnKeyListener
 {
 	private ViewFlipper flipper;
 	private ListView optionsList;
 	private OptionsHolder[] optionListItems;
+	private OptionsArrayAdapter optionsListAdapter;
+	
+	private CloudConnection cloud;
 	
 	//Sign up
-	private TextView cloudAccountStatus;
+	private TextView cloudAccountStatus, errorFeedback;
 	private EditText signUpUserName, signUpUserPass, signUpUserMail;
 	private Button signUp, signIn, signOut, signInExisting;
 	
 	//Sign in
 	private EditText signInUserName, signInUserPass;
 
+	//Collabs
+	private ListView projectList;
 	
-	private OptionsArrayAdapter optionsListAdapter;
+	
 	
 	private Animation
 	slide_top_in,
@@ -113,11 +126,14 @@ public class PreferencesActivity extends Activity implements OnItemClickListener
 		setContentView(R.layout.activity_preferences_root);
 		
 		Intent startIntent = getIntent();
+		
+		cloud = CloudConnection.establish(getApplicationContext(), getContentResolver());
 			
 		setupMainUI();
 		setupOptionsPage();
 		
 		setupCloudAccountPage();
+		setupCollabsPage();
 		
 		setupActionBar();
 		
@@ -125,6 +141,43 @@ public class PreferencesActivity extends Activity implements OnItemClickListener
 	}
 
 	
+	private void setupCollabsPage()
+	{
+		projectList = (ListView) findViewById(R.id.preferences_collaborations_list);
+		
+		Set<String> subscriptions = PushService.getSubscriptions(getApplicationContext());
+		
+		
+		if (subscriptions.size() != 0)
+		{
+			String[] projectSubscriptions = new String[subscriptions.size()];
+			ArrayList<String> objectIds = new ArrayList<String>();
+			String objectId;
+			
+			for (String subscription: subscriptions)
+			{
+				PushService.unsubscribe(getApplicationContext(), subscription);
+				
+				if(subscription.startsWith(CloudConstants.PROJECT_CHANNEL_PREFIX))
+				{
+					Log.d("you are subscribed to project:", subscription);
+					objectId = subscription.substring(CloudConstants.PROJECT_CHANNEL_PREFIX.length());
+					Log.d("resulting object id:", objectId);
+					objectIds.add(objectId);
+				}
+			}
+			
+			cloud.queryObjects(objectIds, CloudConstants.TYPE_PROJECT);
+			/*
+			String selection = ScreenProvider.KEY_PROJECTS_PARSE_ID + "=" + "'" + objectId + "'" ;
+			
+			Cursor c = getContentResolver().query(ScreenProvider.CONTENT_URI_PROJECTS, null, selection, null, null);
+			int idIdx = c.getColumnIndexOrThrow(ScreenProvider.KEY_ID);
+			
+			Log.d("database id of project", c.getString(idIdx));*/
+		}
+		
+	}
 	private void checkExistingAccount()
 	{
 		ParseUser currentUser = ParseUser.getCurrentUser();
@@ -150,6 +203,8 @@ public class PreferencesActivity extends Activity implements OnItemClickListener
 		signUpUserName = (EditText) findViewById(R.id.preferences_cloud_account_signup_username);
 		signUpUserMail = (EditText) findViewById(R.id.preferences_cloud_account_signup_usermail);
 		signUpUserPass = (EditText) findViewById(R.id.preferences_cloud_account_signup_userpassword);
+
+		signUpUserName.setOnKeyListener(this);
 		
 		signUp = (Button) findViewById(R.id.preferences_cloud_account_signup_signup_request);
 		signUp.setOnClickListener(this);
@@ -333,7 +388,11 @@ public class PreferencesActivity extends Activity implements OnItemClickListener
 			String pass = signUpUserPass.getText().toString();
 			String mail = signUpUserMail.getText().toString();
 			
-			if (name.length() >= 4 && pass.length() >= 4 && mail.length() >= 8 && mail.contains("@"));
+			boolean nameCondition = name.length() >= 4;
+			boolean passCondition = pass.length() >= 4;
+			boolean mailCondition = mail.contains("@") && mail.contains(".");
+			
+			if (nameCondition && passCondition && mailCondition)
 			{
 				Log.d("signup", "requested");
 				
@@ -353,14 +412,11 @@ public class PreferencesActivity extends Activity implements OnItemClickListener
 					      // Hooray! Let them use the app now.
 					    	setFlipperMovement(MOVE_DOWN);
 					    	flipper.setDisplayedChild(SHOW_SIGNED_IN);
+					    	cloudAccountStatus.setText(ParseUser.getCurrentUser().getString(CloudConstants.USER_DISPLAY_NAME));
 					    	signedIn = true;
 					    	
 					    	createPersonalChannel(ParseUser.getCurrentUser().getObjectId());
 					    	
-					    	ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-					    	
-							ParseInstallation.getCurrentInstallation().saveInBackground();
-							installation.put("parseId", ParseUser.getCurrentUser().getObjectId());
 					    	
 					    } else 
 					    {
@@ -368,6 +424,22 @@ public class PreferencesActivity extends Activity implements OnItemClickListener
 					      // to figure out what went wrong
 					    	Log.d("Error", "sign up");
 					    	Log.d("exception message", e.getMessage());
+					    	switch (e.getCode())
+					    	{
+					    	case ParseException.EMAIL_TAKEN:
+					    		
+					    		signUpUserMail.setError("Email adress already registered. Choose another.");
+					    		break;
+					    		
+					    	case ParseException.USERNAME_TAKEN:
+					    		
+					    		signUpUserMail.setError("Email adress already registered. Choose another.");
+					    		break;
+					    		
+					    	default:
+					    	
+					    		break;
+					    	}
 					    } 
 					  }
 
@@ -377,8 +449,28 @@ public class PreferencesActivity extends Activity implements OnItemClickListener
 						String personalChannel = CloudConstants.USER_CHANNEL_PREFIX + mail;
 						Log.d("channel", personalChannel);
 						PushService.subscribe(getApplicationContext(), personalChannel, ProjectManagerActivity.class);
+						
+						ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+				    	
+						ParseInstallation.getCurrentInstallation().saveInBackground();
+						installation.put("parseId", ParseUser.getCurrentUser().getObjectId());
 					}
 					});
+			}
+			else
+			{
+				if (!nameCondition)
+				{
+					signUpUserName.setError("Must be at least 4 characters.");
+				}
+				if (!passCondition)
+				{
+					signUpUserPass.setError("Must be at least 4 characters.");
+				}
+				if (!mailCondition)
+				{
+					signUpUserMail.setError("Not a valid mail adress.");
+				}
 			}
 			break;
 			
@@ -430,5 +522,15 @@ public class PreferencesActivity extends Activity implements OnItemClickListener
 			break;
 		}
 		
+	}
+	@Override
+	public boolean onKey(View v, int keyCode, KeyEvent event)
+	{
+		// TODO Auto-generated method stub
+		if (v instanceof EditText)
+		{
+			((EditText) v).setError(null);
+		}
+		return false;
 	}
 }

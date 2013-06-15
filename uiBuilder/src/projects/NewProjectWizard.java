@@ -5,7 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import cloudmodule.CloudConnection;
 import cloudmodule.CloudConstants;
+import cloudmodule.CloudConnection.OnFromCloudLoadedListener;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -48,16 +50,14 @@ import data.ProjectHolder;
 import data.ScreenProvider;
 import de.ur.rk.uibuilder.R;
 
-public class NewProjectWizard extends Activity implements OnClickListener, OnCheckedChangeListener, OnQueryTextListener
+public class NewProjectWizard extends Activity implements OnClickListener, OnCheckedChangeListener, OnQueryTextListener, OnFromCloudLoadedListener
 {
 	private ViewFlipper flipper;
 	private int flipperState;
 	
-	private ContentResolver resolver;
-	private DateGenerator date;
-	
-	private ProjectHolder projectHolder;
-	private ArrayList<NewScreenHolder> screenHolder;
+	private Project project;
+	private boolean cloudUser;
+	ParseUser currentUser;
 	
 	private Animation
 			slide_in_left,
@@ -79,8 +79,9 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 	//find users
 	private SearchView searchfield;
 	private LinearLayout searchResults;
-	private ArrayList<ParseUser> collabList;
+	private CloudConnection cloud;
 	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -89,35 +90,42 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 		
 		setContentView(R.layout.activity_project_wizard_root);
 		
-
-        setupHelpers();
-		
 		Intent startIntent = getIntent();
-		
 		projectId = startIntent.getIntExtra(ProjectDisplay.START_WIZARD_FOR_NEW_SCREENS, 0);
-		if (projectId != 0)
-		{
-			screensRequested = true;
-		}
-			
 		
-		setupActionBar();
-		
-		setupAnimations();
-        
+		checkForCloudUser();
+        setupHelpers();	
+		setupActionBar();	
+		setupAnimations();    
         setupUi();
         setupSearchUserPage();
 	}
 	
 	
 	
+	private void checkForCloudUser()
+	{
+		// TODO Auto-generated method stub
+		ParseUser currentUser = ParseUser.getCurrentUser();
+		
+		if (currentUser != null)
+		{
+			cloudUser = true;
+		}
+		else
+		{
+			
+		}
+	}
+
+
+
 	private void setupSearchUserPage()
 	{
 		searchfield = (SearchView) findViewById(R.id.project_wizard_flipper_collab_section_searchfield);
 		searchfield.setOnQueryTextListener(this);
 		
 		searchResults = (LinearLayout) findViewById(R.id.project_wizard_flipper_collab_section_results);
-		collabList = new ArrayList<ParseUser>();
 	}
 
 
@@ -132,9 +140,7 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 		}
 		else
 		{
-			flipper.setInAnimation(slide_out_right);
-			flipper.setOutAnimation(slide_in_left);
-			flipper.showPrevious();
+			flipToLast();
 		}
 	}
 
@@ -144,13 +150,22 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 	 * 
 	 */
 	private void setupHelpers()
-	{
-		screenHolder = new ArrayList<NewScreenHolder>();
-
-		projectHolder = new ProjectHolder();
-        resolver = getContentResolver();
-		date = new DateGenerator();
+	{	
+		if (cloudUser)
+		{
+			CloudConnection.setOnFromCloudLoadedListener(this);
+			cloud = CloudConnection.establish(getApplicationContext(), getContentResolver());
+		}
+		
+		project = new Project(getApplicationContext());
+		
+		if (projectId != 0)
+		{
+			screensRequested = true;
+			project.setProjectId(projectId);
+		}
 	}
+	
 	/**
 	 * 
 	 */
@@ -242,36 +257,41 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 		{
 		case R.id.project_wizard_flipper_step1_ok:
 			
-			putValuesInProjectholder();
-			flipper.setInAnimation(slide_in_right);
-			flipper.setOutAnimation(slide_out_left);
-			flipper.showNext();
+			project.prepare(String.valueOf(projectName.getText()), String.valueOf(projectdesc.getText()));
+			flipToNext();
 			break;
 	
 		case R.id.project_wizard_flipper_step2_back:
 		case R.id.project_wizard_flipper_collab_back:
 			
-			flipper.setInAnimation(slide_out_right);
-			flipper.setOutAnimation(slide_in_left);
-			flipper.showPrevious();
+			flipToLast();
 			break;
 			
 		case R.id.project_wizard_flipper_step2_addScreen:
 			
-			addScreenToHolder();
+			project.addScreen(String.valueOf(screenName.getText()), String.valueOf(screenDesc.getText()));
+			displayResults();
+			resetFields();
 			break;
 			
 		case R.id.project_wizard_flipper_step2_ok:
 			
-			flipper.setInAnimation(slide_in_right);
-			flipper.setOutAnimation(slide_out_left);
-			flipper.showNext();
+			Log.d("new project for cloud user", String.valueOf(cloudUser));
+			if (cloudUser)
+			{
+				flipToNext();
+			}
+			else
+			{
+				project.create();
+				returnToManager();
+			}
 			break;
 			
 		case R.id.project_wizard_flipper_collab_finish:
 			
-			insertNewProject();
-			//inviteCollaborators();
+			project.setShared(CloudConstants.PROJECT_SHARED_TRUE);
+			project.create();
 			returnToManager();
 			break;
 			
@@ -279,173 +299,34 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 			break;
 		}
 	}
-	
 
 
-
-/*
-	private void inviteCollaborators()
+	/**
+	 * 
+	 */
+	private void flipToLast()
 	{
-		for (ParseUser collab: collabList)
-		{
-			String userId = collab.getObjectId();
-			String userChannel = UserConstants.USER_CHANNEL_PREFIX + userId;
-			
-			ParsePush invite = new ParsePush();
-			invite.setChannel(userChannel);
-			invite.setMessage("You have been in invited to sketch in project: " + projectHolder.projectName);
-			invite.sendInBackground(new SendCallback()
-			{
-				
-				@Override
-				public void done(ParseException arg0)
-				{
-					// TODO Auto-generated method stub
-					
-				}
-			});
-		}
-		
-		// TODO Auto-generated method stub
-		//ParsePush push = new ParsePush();
-		
-		//String[] collabIds = getIds();
-		/*
-		ParseQuery pushQuery = ParseInstallation.getQuery();
-		Arrays.asList(collabIds);
-		String s = ParseInstallation.getCurrentInstallation().getInstallationId();
-		Log.d("install id", s);
-		pushQuery.whereContains("installationId", s);
-		//pushQuery.whereContainedIn("parseId", "");
-		
-		push.setQuery(pushQuery); // Set our Installation query
-		push.setMessage("Willie Hayes injured by own pop fly.");
-		push.sendInBackground();*/
-//	}
-
-
-
-	private String[] getIds()
-	{
-		String[] ids = new String[collabList.size()];
-		
-		for (int i=0; i<collabList.size();i++)
-		{
-			ids[i] = collabList.get(i).getObjectId();
-			Log.d("id at i", ids[i]);
-		}
-		return ids;
+		flipper.setInAnimation(slide_out_right);
+		flipper.setOutAnimation(slide_in_left);
+		flipper.showPrevious();
 	}
 
-
-
-	private void insertNewScreens()
+	/**
+	 * 
+	 */
+	private void flipToNext()
 	{
-		ContentValues[] screenValues = new ContentValues[screenHolder.size()];
-		
-		int i = 0;
-		for (NewScreenHolder holder: screenHolder)
-		{
-			setProjectId(holder);
-			screenValues[i] = holder.getBundle();
-			i++;
-		}
-		
-		resolver.bulkInsert(ScreenProvider.CONTENT_URI_SECTIONS, screenValues);
-		
-	}
-	
-	private void setProjectId(NewScreenHolder holder)
-	{
-		holder.sectionId = projectHolder.projectId;	
+		flipper.setInAnimation(slide_in_right);
+		flipper.setOutAnimation(slide_out_left);
+		flipper.showNext();
 	}
 
-
-
-	private void putValuesInProjectholder()
-	{
-		projectHolder.projectDate = date.generateDate();
-		projectHolder.projectName = String.valueOf(projectName.getText());
-		projectHolder.projectDescription = String.valueOf(projectdesc.getText());
-		projectHolder.projectShared = CloudConstants.PROJECT_SHARED_FALSE;
-	}
-	
-	
-	
-	private void insertNewProject()
-	{
-		ContentValues values = projectHolder.getValues();
-		
-		if (projectHolder.projectId == 0)
-		{			
-			addselfToCollabs();
-			String collabs = convertIdsToString(getIds());
-			values.put(CloudConstants.PROJECT_COLLABS, collabs);
-			
-			Uri inserted = resolver.insert(ScreenProvider.CONTENT_URI_PROJECTS, values);
-			
-		
-			String path = inserted.getPathSegments().get(1);
-			projectHolder.projectId = Integer.valueOf(path);
-			Log.d("insert project path full", path);
-			Log.d("id in holder", String.valueOf(projectHolder.projectId));
-		}
-		else
-		{
-			String where = String.valueOf(projectHolder.projectId);
-			resolver.update(ScreenProvider.CONTENT_URI_PROJECTS, values, where, null);
-		}
-		
-		insertNewScreens();
-	}
-	private void addselfToCollabs()
-	{
-		// TODO Auto-generated method stub
-		collabList.add(ParseUser.getCurrentUser());
-	}
-
-
-
-	private String convertIdsToString(String[] ids)
-	{
-		String idString = "";
-		for (int i=0; i<ids.length; i++)
-		{
-			idString += ids[i] + " ";
-		}
-		return idString;
-	}
-
-
-
-	private void addScreenToHolder()
-	{
-		NewScreenHolder holder = new NewScreenHolder();
-		
-		if (screensRequested)
-		{
-			/*int nameIdx = existing.getColumnIndexOrThrow(ScreenProvider.KEY_SECTION_NAME);
-			int descIdx = existing.getColumnIndexOrThrow(ScreenProvider.KEY_SECTION_DESCRIPTION);
-			
-			holder.sectionName = existing.getString(nameIdx);*/
-			holder.sectionId = projectId;
-			//holder.sectionDescription = existing.getString(descIdx);
-		}
-
-		holder.sectionName = String.valueOf(screenName.getText());
-		holder.sectionDescription = String.valueOf(screenDesc.getText());
-		
-		screenHolder.add(holder);
-		
-		notifyUser();
-		resetFields();
-		displayResults();
-	}
 	private void displayResults()
 	{
 		resultSet.removeAllViews();
+		ArrayList<NewScreenHolder> screens = project.getScreens();
 		
-		for (NewScreenHolder holder: screenHolder)
+		for (NewScreenHolder holder: screens)
 		{
 			LinearLayout resultItem = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_project_wizard_resultset_item, null);
 			TextView resultName = (TextView) resultItem.findViewById(R.id.project_wizard_flipper_step2_results_title);
@@ -453,11 +334,6 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 			
 			resultSet.addView(resultItem);
 		}
-	}
-	private void notifyUser()
-	{
-		// TODO Auto-generated method stub
-		Toast.makeText(this, "Screen added!", Toast.LENGTH_SHORT).show();
 	}
 
 	private void resetFields()
@@ -474,20 +350,18 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
 	{
 		if (isChecked)
-		{
-			ParseUser currentUser = ParseUser.getCurrentUser();
-			
-			if (currentUser != null)
+		{	
+			if (cloudUser)
 			{
 				findViewById(R.id.project_wizard_flipper_collab_section).setVisibility(View.VISIBLE);
-				projectHolder.projectShared = CloudConstants.PROJECT_SHARED_TRUE;
+				project.setShared(CloudConstants.PROJECT_SHARED_TRUE);
 			}
 
 		}
 		else
 		{
 			findViewById(R.id.project_wizard_flipper_collab_section).setVisibility(View.INVISIBLE);
-			projectHolder.projectShared = CloudConstants.PROJECT_SHARED_FALSE;
+			project.setShared(CloudConstants.PROJECT_SHARED_FALSE);
 		}
 		
 	}
@@ -509,120 +383,129 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 	{
 		searchfield.clearFocus();
 		
-		ParseQuery query = ParseUser.getQuery();
-
+		cloud.queryUser(arg0);
 		
-		query.whereEqualTo("username", arg0);
-		query.findInBackground(new FindCallback() 
-		{
+		Log.d("querying in background", "started");
+		return true;
+	}
 
-		@Override
-		public void done(List<ParseObject> arg0, ParseException e)
+
+
+	@Override
+	public void usersLoaded(ArrayList<ParseUser> users)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void userFound(ParseUser user)
+	{
+		// TODO Auto-generated method stub
+		View item = searchResults.findViewById(R.id.activity_project_wizard_collaboration_resultset_item);
+		searchResults.setVisibility(View.VISIBLE);
+		
+		Log.d("query user", "done");
+		
+		if (user != null) 
 		{
-			searchResults.removeAllViews();
-			View item;
+			String name = user.getUsername();
+			String mail = user.getEmail();
+			String id = user.getObjectId();
+			String displayName = user.getString(CloudConstants.USER_DISPLAY_NAME);
 			
-			if (e == null && arg0.size() != 0) 
-			{
-				ParseUser user = (ParseUser)arg0.get(0);
-				String name = user.getUsername();
-				String mail = user.getEmail();
-				String id = user.getObjectId();
-				String displayName = user.getString(CloudConstants.USER_DISPLAY_NAME);
-				
-				Log.d("query for parse user", displayName);
-				Log.d("query for parse usermail", mail);
-				Log.d("query for parse id", id);
-	
-				
-				if (ParseUser.getCurrentUser().hasSameId(user))
-				{
-					item = new TextView(getApplicationContext());
-					((TextView) item).setText("This is you, dumbass");
-					
-				}
-				else
-				{
-					item = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_project_wizard_collaboration_resultset_item, null);
-					TextView userName = (TextView) item.findViewById(R.id.project_wizard_flipper_collab_section_results_item_collabName);
-					userName.setText(name);
-					
-					Button addUser = (Button) item.findViewById(R.id.project_wizard_flipper_collab_section_results_item_addToCollabs);
-					addUser.setTag(user);
-					
-					int listpos = checkList(user);
-					Log.d("listpos", String.valueOf(listpos));
-					
-					if (listpos == -1)
-					{
-						addUser.setText("Add");
-					}
-					else
-					{
-						addUser.setText("Remove");
-					}
-					
-					addUser.setOnClickListener(new OnClickListener()
-					{
-						
-						
-						@Override
-						public void onClick(View v)
-						{
-							ParseUser foundUser = (ParseUser) v.getTag();
-							
-							
-							if (((Button) v).getText().equals("Remove"))
-							{
-								removeFromList(foundUser);
-								
-								searchResults.removeAllViews();
-							}
-							else
-							{
-								// TODO Auto-generated method stub
-								
-								collabList.add(foundUser);
-								Log.d("user added", foundUser.getEmail());
-								((Button) v).setText("Remove");
-							}
-						}
+			Log.d("query for parse user", displayName);
+			Log.d("query for parse usermail", mail);
+			Log.d("query for parse id", id);
 
-						private void removeFromList(ParseUser user)
-						{
-							int idx = checkList(user);
-							collabList.remove(idx);
-						}
-					});
-						
-				}
+			
+			if (ParseUser.getCurrentUser().hasSameId(user))
+			{
+				item = new TextView(getApplicationContext());
+				((TextView) item).setText("This is you, dumbass");
 				
 			}
 			else
 			{
-				item = new TextView(getApplicationContext());
-				((TextView) item).setText("Sorry, no results.");
-			}
-			searchResults.addView(item);
-		}
-
-		private int checkList(ParseUser user)
-		{
-			// TODO Auto-generated method stub
-			for (int i=0; i<collabList.size(); i++)
-			{
-				if (collabList.get(i).hasSameId(user))
+				item = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_project_wizard_collaboration_resultset_item, null);
+				TextView userName = (TextView) item.findViewById(R.id.project_wizard_flipper_collab_section_results_item_collabName);
+				userName.setText(name);
+				
+				Button addUser = (Button) item.findViewById(R.id.project_wizard_flipper_collab_section_results_item_addToCollabs);
+				addUser.setTag(user);
+				
+				int listpos = project.checkList(user);
+				Log.d("listpos", String.valueOf(listpos));
+				
+				if (listpos == -1)
 				{
-					Log.d("actual user", user.getObjectId());
-					Log.d("in list", collabList.get(i).getObjectId());
-					return i;
-				}		
-			}
-			return -1;
-		}
+					addUser.setText("Add");
+				}
+				else
+				{
+					addUser.setText("Remove");
+				}
+				
+				addUser.setOnClickListener(new OnClickListener()
+				{
+					
+					
+					@Override
+					public void onClick(View v)
+					{
+						ParseUser foundUser = (ParseUser) v.getTag();
+						
+						
+						if (((Button) v).getText().equals("Remove"))
+						{
+							project.removeUser(foundUser);
+							
+							searchResults.removeAllViews();
+						}
+						else
+						{
+							// TODO Auto-generated method stub
+							project.addUser(foundUser);
+							Log.d("user added", foundUser.getEmail());
+							((Button) v).setText("Remove");
+						}
+					}
 
-		});
+					/*private void removeFromList(ParseUser user)
+					{
+						int idx = checkList(user);
+						collabList.remove(idx);
+					}*/
+				});
+					
+			}
+			
+		}
+		else
+		{
+			item = new TextView(getApplicationContext());
+			((TextView) item).setText("Sorry, no results.");
+		}
+		searchResults.addView(item);
+	}
+
+
+
+	@Override
+	public void projectLoaded(ParseObject project)
+	{
+		// TODO Auto-generated method stub
 		
-		return true;
+	}
+
+
+
+	@Override
+	public void newCloudProjectFound(String cloudProjectId)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }

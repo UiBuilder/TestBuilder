@@ -45,45 +45,13 @@
 				</LinearLayout>
 
 				
-			<LinearLayout android:id="@+id/project_wizard_flipper_collab_section"
+				<include android:visibility="invisible"
 				    
-				    android:visibility="invisible"
-				    
+				    layout="@layout/activity_project_preferences_find_collabs"
 				    android:layout_width="match_parent"
 				    android:layout_height="wrap_content"
 				    
-				    android:layout_margin="@dimen/default_padding_large"
-				    
-				    android:gravity="center_horizontal"
-				    android:orientation="vertical"
-				    >
-
-				    
-				    <SearchView 
-				        android:id="@+id/project_wizard_flipper_collab_section_searchfield"
-				        android:layout_width="match_parent"
-				        android:layout_height="wrap_content"
-				        android:iconifiedByDefault="false"
-				        android:queryHint="Type in a Prime user name"
-				        android:inputType="textEmailAddress"
-				        android:imeOptions="actionDone"
-				        
-				        ></SearchView>
-				    <ScrollView 
-				        android:layout_width="match_parent"
-					    android:layout_height="match_parent"
-					    android:padding="@dimen/default_padding_large"
-					    
-				        >
-				    	<LinearLayout android:id="@+id/project_wizard_flipper_collab_section_results"
-					        android:layout_width="wrap_content"
-					        android:layout_height="wrap_content"
-					        android:orientation="vertical"
-					        android:layout_gravity="center_horizontal"
-					        
-					        ></LinearLayout>
-				    </ScrollView>
-				    </LinearLayout>
+				    />
 				
 				    
 				<RelativeLayout 

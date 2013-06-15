@@ -1,7 +1,18 @@
 package projects;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import cloudmodule.CloudConnection;
+import cloudmodule.CloudConstants;
+import cloudmodule.CloudConnection.OnFromCloudLoadedListener;
+
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import helpers.OptionsArrayAdapter;
 import helpers.OptionsHolder;
@@ -19,6 +30,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -27,15 +39,20 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
+import data.CollabListAdapter;
+import data.CollabListAdapter.OnRemoveUserFromProjectRequestListener;
 import data.ScreenProvider;
 import data.SectionAdapter;
 import de.ur.rk.uibuilder.R;
 
-public class EditProjectActivity extends Activity implements LoaderCallbacks<Cursor>, OnItemClickListener, OnClickListener
+public class EditProjectActivity extends Activity implements LoaderCallbacks<Cursor>, OnItemClickListener, OnClickListener, OnQueryTextListener, OnFromCloudLoadedListener, OnRemoveUserFromProjectRequestListener
 {
 	private ViewFlipper flipper;
 	private int projectId;
@@ -43,6 +60,8 @@ public class EditProjectActivity extends Activity implements LoaderCallbacks<Cur
 	
 	private ContentResolver resolver;
 	private LoaderManager manager;
+	
+	private Project project;
 	
 	//OPTIONSPAGE
 	private ListView optionsList;
@@ -58,6 +77,16 @@ public class EditProjectActivity extends Activity implements LoaderCallbacks<Cur
 	private EditText sectionName;
 	private EditText sectionDesc;
 	private int selectedSectionId;
+	
+	//MANAGE COLLABS SECTION
+	private SearchView searchField;
+	private LinearLayout searchResults;
+	
+	
+	private ListView manageCollabs;
+	private LinearLayout manageHeader;
+	private CollabListAdapter collabListAdapter;
+	private LayoutInflater inflater;
 	
 	private OptionsArrayAdapter optionsListAdapter;
 	
@@ -99,14 +128,6 @@ public class EditProjectActivity extends Activity implements LoaderCallbacks<Cur
 	{
 		// TODO Auto-generated method stub
 		super.onResume();
-
-		initHelpers();
-		setupAnimations();
-		
-		optionsList.setItemChecked(0, true);
-		
-		//optionsList.getChildAt(0).setActivated(true);
-		activeListItemPos = 0;
 	}
 
 	@Override
@@ -117,11 +138,14 @@ public class EditProjectActivity extends Activity implements LoaderCallbacks<Cur
 		
 		setContentView(R.layout.activity_preferences_root);
 		
-		
+		CloudConnection.setOnFromCloudLoadedListener(this);
+		CollabListAdapter.setOnRemoveUserFromProjectRequestListener(this);
+		inflater = getLayoutInflater();
 		
 		Intent startIntent = getIntent();
 		int tempId = startIntent.getIntExtra(ProjectDisplay.START_EDITING_PROJECT_ID, -1);
 		Log.d("Edit Project received id ", String.valueOf(tempId));
+		
 		if (tempId != -1)
 		{
 			projectId = tempId;
@@ -137,12 +161,29 @@ public class EditProjectActivity extends Activity implements LoaderCallbacks<Cur
 		setupCollabsPage();
 		setupActionBar();
 		
+
+		initHelpers();
+		setupAnimations();
+		
+		optionsList.setItemChecked(0, true);
+		
+		//optionsList.getChildAt(0).setActivated(true);
+		activeListItemPos = 0;
 	}
 	
 	private void setupCollabsPage()
 	{
 		// TODO Auto-generated method stub
+		Log.d("setup", "collabs page");
+		manageCollabs = (ListView) findViewById(R.id.project_edit_collabs_list);
+		manageHeader = (LinearLayout) inflater.inflate(R.layout.activity_project_preferences_find_collabs, null);
 		
+		manageCollabs.addHeaderView(manageHeader);
+		
+		searchField = (SearchView) findViewById(R.id.project_wizard_flipper_collab_section_searchfield);
+		searchField.setOnQueryTextListener(this);
+			
+		searchResults = (LinearLayout) findViewById(R.id.project_wizard_flipper_collab_section_results);	
 	}
 
 
@@ -206,16 +247,20 @@ public class EditProjectActivity extends Activity implements LoaderCallbacks<Cur
 	private void getProjectData()
 	{
 		manager.initLoader(ScreenProvider.LOADER_ID_SECTIONS, null, this);
+		manager.initLoader(ScreenProvider.LOADER_ID_PROJECTS, null, this);
 	}
 
 	private void setupMainUI()
 	{
 
 		flipper = (ViewFlipper) findViewById(R.id.project_edit_flipper);
+		
 		flipper.addView(getLayoutInflater().inflate(R.layout.activity_edit_option_nameanddesc, null));
 		flipper.addView(getLayoutInflater().inflate(R.layout.activity_edit_option_nameanddesc, null));
 		flipper.addView(getLayoutInflater().inflate(R.layout.activity_edit_option_screens_choose, null));
-		flipper.addView(getLayoutInflater().inflate(R.layout.activity_edit_option_nameanddesc, null));
+		flipper.addView(getLayoutInflater().inflate(R.layout.activity_edit_option_manage_collabs, null));
+		
+		//not visible via mapping
 		flipper.addView(getLayoutInflater().inflate(R.layout.activity_edit_option_screens_edit, null));
 	}
 	
@@ -251,13 +296,20 @@ public class EditProjectActivity extends Activity implements LoaderCallbacks<Cur
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args)
 	{
+		String selection;
+		
 		switch (id)
 		{
 		
 		case ScreenProvider.LOADER_ID_SECTIONS:
 			
-			String selection = ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT + " = " + String.valueOf(projectId);
+			selection = ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT + " = " + String.valueOf(projectId);
 			return new CursorLoader(this, ScreenProvider.CONTENT_URI_SECTIONS, null, selection, null, null);
+			
+		case ScreenProvider.LOADER_ID_PROJECTS:
+			
+			Uri projectUri = ContentUris.withAppendedId(ScreenProvider.CONTENT_URI_PROJECTS, projectId);
+			return new CursorLoader(this, projectUri, null, null, null, null);
 
 		}
 		return null;
@@ -271,21 +323,23 @@ public class EditProjectActivity extends Activity implements LoaderCallbacks<Cur
 		
 		case ScreenProvider.LOADER_ID_SECTIONS:
 			
-			setProjectRelatedSectionsValues();
+			setProjectRelatedSectionsValues(cursor);
 			break;
-
+			
+		case ScreenProvider.LOADER_ID_PROJECTS:
+			
+			project = new Project(getApplicationContext(), cursor);
+			break;
 		}
-		
-		sectionAdapter.swapCursor(cursor);
+	}
+
+	private void setProjectRelatedSectionsValues(Cursor c)
+	{
+		// TODO Auto-generated method stub
+		sectionAdapter.swapCursor(c);
 		sectionAdapter.notifyDataSetChanged();
 
 		sectionList.setAdapter(sectionAdapter);
-	}
-
-	private void setProjectRelatedSectionsValues()
-	{
-		// TODO Auto-generated method stub
-		
 	}
 	
 	
@@ -438,5 +492,196 @@ public class EditProjectActivity extends Activity implements LoaderCallbacks<Cur
 			break;
 		}
 		
+	}
+
+
+	@Override
+	public boolean onQueryTextChange(String arg0)
+	{
+		searchResults.setVisibility(View.INVISIBLE);
+		//searchResults.removeAllViews();
+		return false;
+	}
+
+
+	@Override
+	public boolean onQueryTextSubmit(String arg0)
+	{
+		searchField.clearFocus();
+		
+		ParseQuery<ParseUser> query = ParseUser.getQuery();
+
+		
+		query.whereEqualTo("username", arg0);
+		query.findInBackground(new FindCallback<ParseUser>() 
+		{
+
+		@Override
+		public void done(List<ParseUser> arg0, ParseException e)
+		{
+			//searchResults.removeAllViews();
+			View item = searchResults.findViewById(R.id.activity_project_wizard_collaboration_resultset_item);
+			searchResults.setVisibility(View.VISIBLE);
+			
+			if (e == null && arg0.size() != 0) 
+			{
+				TextView userName = (TextView) item.findViewById(R.id.project_wizard_flipper_collab_section_results_item_collabName);
+				Button addUser = (Button) item.findViewById(R.id.project_wizard_flipper_collab_section_results_item_addToCollabs);
+				
+				ParseUser user = (ParseUser)arg0.get(0);
+				String name = user.getUsername();
+				String mail = user.getEmail();
+				String id = user.getObjectId();
+				String displayName = user.getString(CloudConstants.USER_DISPLAY_NAME);
+				
+				Log.d("query for parse user", displayName);
+				Log.d("query for parse usermail", mail);
+				Log.d("query for parse id", id);
+	
+				
+				if (ParseUser.getCurrentUser().hasSameId(user))
+				{
+					userName.setText("This is you, dumbass");	
+				}
+				else
+				{
+					//item = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_project_wizard_collaboration_resultset_item, null);
+					
+					addUser.setTag(user);
+					
+					
+					if (project.checkList(user) == -1)
+					{
+						//addUser.setText("Add");
+						addUser.setVisibility(View.VISIBLE);
+						userName.setText(name);
+					}
+					else
+					{
+						addUser.setVisibility(View.GONE);
+						userName.setText("Already a member");
+						//addUser.setText("Remove");
+					}
+					
+					addUser.setOnClickListener(new OnClickListener()
+					{
+						
+						
+						@Override
+						public void onClick(View v)
+						{
+							ParseUser foundUser = (ParseUser) v.getTag();
+							
+							
+							if (((Button) v).getVisibility() == View.INVISIBLE)
+							{
+								//project.removeUser(foundUser);
+								
+								//searchResults.removeAllViews();
+							}
+							else
+							{
+								// TODO Auto-generated method stub
+								project.addUser(foundUser);
+								setAdapter();
+								
+								Log.d("user added", foundUser.getEmail());
+								v.setVisibility(View.GONE);
+								//((Button) v).setText("Remove");
+							}
+						}
+
+						/*private void removeFromList(ParseUser user)
+						{
+							int idx = checkList(user);
+							collabList.remove(idx);
+						}*/
+					});
+						
+				}
+				
+			}
+			else
+			{
+				item = new TextView(getApplicationContext());
+				((TextView) item).setText("Sorry, no results.");
+			}
+			//searchResults.addView(item);
+		}
+
+		/*private int checkList(ParseUser user)
+		{
+			// TODO Auto-generated method stub
+			for (int i=0; i<collabList.size(); i++)
+			{
+				if (collabList.get(i).hasSameId(user))
+				{
+					Log.d("actual user", user.getObjectId());
+					Log.d("in list", collabList.get(i).getObjectId());
+					return i;
+				}		
+			}
+			return -1;
+		}*/
+
+		});
+		
+		return true;
+	}
+
+
+	@Override
+	public void usersLoaded(ArrayList<ParseUser> users)
+	{
+		// TODO Auto-generated method stub
+		
+		for (ParseUser user: users)
+		{
+			project.addUser(user);
+		}
+		
+		setAdapter();
+	}
+
+
+	private void setAdapter()
+	{
+		// TODO Auto-generated method stub
+		collabListAdapter = new CollabListAdapter(getApplicationContext(), 0, 0, project.getUsers());
+		manageCollabs.setAdapter(collabListAdapter);
+	}
+
+
+	@Override
+	public void userFound(ParseUser user)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void projectLoaded(ParseObject cloudProject)
+	{
+		// TODO Auto-generated method stub
+		project.setCloudProject(cloudProject);
+	}
+
+
+	@Override
+	public void newCloudProjectFound(String cloudProjectId)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void userRemoved(ParseUser removedUser)
+	{
+		// TODO Auto-generated method stub
+		project.removeUser(removedUser);
+		
+		setAdapter();
 	}
 }

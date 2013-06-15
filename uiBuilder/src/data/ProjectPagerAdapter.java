@@ -1,5 +1,6 @@
 package data;
 
+import helpers.Log;
 import projects.ProjectDisplay;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -32,10 +33,14 @@ public class ProjectPagerAdapter extends FragmentStatePagerAdapter
 		int descIdx = projectCursor.getColumnIndexOrThrow(ScreenProvider.KEY_PROJECTS_DESCRIPTION);
 		int nameIdx = projectCursor.getColumnIndexOrThrow(ScreenProvider.KEY_PROJECTS_NAME);
 		int idIdx = projectCursor.getColumnIndexOrThrow(ScreenProvider.KEY_ID);
+		int cloudIdx = projectCursor.getColumnIndexOrThrow(ScreenProvider.KEY_PROJECTS_PARSE_ID);
 		
 		int i = 0;
 		while (projectCursor.moveToNext())
 		{
+			if (projectCursor.getInt(cloudIdx) != -1)
+				Log.d("Cloud object id of project", String.valueOf(projectCursor.getString(cloudIdx)));
+			
 			projectHolder[i] = new ProjectHolder();
 			
 			projectHolder[i].projectDate = projectCursor.getString(dateIdx);

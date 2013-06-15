@@ -190,12 +190,17 @@ public class ProjectDisplay extends Fragment implements OnClickListener, LoaderC
 		{	
 		case ScreenProvider.LOADER_ID_SECTIONS:
 			
-		default:	
-			String selection = ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT + " = " + String.valueOf(projectId);
-			return new CursorLoader(getActivity(), ScreenProvider.CONTENT_URI_SECTIONS, null, selection, null, null);
+			break;
 			
+		default:
+			
+			if (loaderId == projectId)
+			{
+				String selection = ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT + " = " + String.valueOf(projectId);
+				return new CursorLoader(getActivity(), ScreenProvider.CONTENT_URI_SECTIONS, null, selection, null, null);
+			}
 		}
-
+		return null;
 	}
 
 
@@ -206,14 +211,22 @@ public class ProjectDisplay extends Fragment implements OnClickListener, LoaderC
 		{	
 		case ScreenProvider.LOADER_ID_SECTIONS:
 		
+			break;
+			
 			default:
-			Log.d("loader", "finished");
-			sectionAdapter.swapCursor(newCursor);
-			sectionAdapter.notifyDataSetChanged();
-	
-			sectionList.setAdapter(sectionAdapter);
-			Log.d("adapter stable ids", String.valueOf(sectionAdapter.hasStableIds()));
-			newCursor.getCount();
+				
+				if (loader.getId() == projectId)
+				{
+					Log.d("loader", "finished");
+					sectionAdapter.swapCursor(newCursor);
+					sectionAdapter.notifyDataSetChanged();
+			
+					sectionList.setAdapter(sectionAdapter);
+					Log.d("adapter stable ids", String.valueOf(sectionAdapter.hasStableIds()));
+					newCursor.getCount();
+				}
+				break;
+			
 			
 			//TextView headerContent = (TextView) sectionListHeader.findViewById(R.id.project_manager_list_item_sections_header);
 			//headerContent.setText("Project contains " + String.valueOf(newCursor.getCount()) + " sections:");
@@ -232,9 +245,14 @@ public class ProjectDisplay extends Fragment implements OnClickListener, LoaderC
 			break;
 
 		default:
+			
+			if (loader.getId() == projectId)
+			{
+				sectionAdapter.swapCursor(null);
+			}
+			
 			break;
 		}
-		sectionAdapter.swapCursor(null);
 	}
 	
 	private void setupDatabaseConnection()

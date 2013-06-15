@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        
+        android:id="@+id/project_wizard_flipper_collab_section"
+	    
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    
+	    android:layout_margin="@dimen/default_padding_large"
+	    android:padding="@dimen/default_padding_large"
+	    
+	    android:gravity="center_horizontal"
+	    android:orientation="vertical"
+	    >
+
+	    
+	    <SearchView 
+	        android:id="@+id/project_wizard_flipper_collab_section_searchfield"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:iconifiedByDefault="false"
+	        android:queryHint="Type in a Prime user name"
+	        android:inputType="textEmailAddress"
+	        android:imeOptions="actionDone"
+	        
+	        />
+	    
+	        
+	    <LinearLayout android:id="@+id/project_wizard_flipper_collab_section_results"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical"
+		    android:layout_gravity="center_horizontal"
+		    
+		    android:visibility="invisible"  
+      		>
+      		
+	        <include 
+	            layout="@layout/activity_project_wizard_collaboration_resultset_item"
+	            
+	            android:id="@+id/activity_project_wizard_collaboration_resultset_item"
+	            />
+	        
+	    </LinearLayout>
+	   
+</LinearLayout>
