@@ -17,5 +17,8 @@
         <item >@color/dk_red</item>
         <item >@color/lt_yellow</item>
         <item >@color/dk_yellow</item>
+        <item >@color/lt_orange</item>
+        <item >@color/dk_orange</item>
+        
     </integer-array>
 </resources>

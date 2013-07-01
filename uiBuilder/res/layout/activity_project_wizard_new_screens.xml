@@ -7,26 +7,22 @@
 
 				<TextView style="@style/editbox_header"
 					android:layout_width="wrap_content" android:layout_height="wrap_content"
-					android:textSize="22sp"
+					android:textSize="20sp"
 					android:text="Add screens to your project" />
 
-				<TextView android:padding="@dimen/default_padding_large"
-					android:layout_width="wrap_content" android:layout_height="wrap_content"
-
-					android:text="Your sketches will be organized in categories.\nEach categorie represents a screen (eg. Homescreen) in your app.\nYou can always add more screens in the project-manager view." />
 				
-
-		
 				
 				<LinearLayout 
+				    android:paddingTop="@dimen/default_padding_large"
 				    android:orientation="horizontal"
 				    android:layout_width="match_parent"
 				    android:layout_height="wrap_content"
 				    android:weightSum="1"
+				    android:gravity="center_horizontal"
 				    >
 				    
 				    <LinearLayout 
-				        android:layout_weight="0.8"
+				        android:layout_weight="0.7"
 				        android:layout_width="0dp"
 				        android:layout_height="wrap_content"
 				        android:orientation="vertical"
@@ -35,7 +31,7 @@
 				        
 				        <TextView android:padding="@dimen/default_padding_small"
 							android:layout_width="wrap_content" android:layout_height="wrap_content"
-							android:textSize="18sp"
+							android:textSize="17sp"
 							android:text="Enter a screen name" />
 						
 						<EditText android:id="@+id/project_wizard_flipper_step2_screenname"
@@ -44,7 +40,7 @@
 						
 						<TextView android:padding="@dimen/default_padding_small"
 							android:layout_width="wrap_content" android:layout_height="wrap_content"
-							android:textSize="18sp"
+							android:textSize="17sp" android:layout_marginTop="@dimen/default_padding_medium"
 							android:text="Enter a screen description" />
 		
 						<EditText android:id="@+id/project_wizard_flipper_step2_screendescription"
@@ -53,26 +49,17 @@
 							android:layout_marginBottom="@dimen/default_padding_large"
 							/>
 				        
+						<Button android:id="@+id/project_wizard_flipper_step2_addScreen"
+						    android:padding="@dimen/default_padding_large"
+						    android:layout_margin="@dimen/default_padding_large"
+						    android:layout_gravity="center_horizontal"
+						    style="@style/itembox_items_inverted"
+							android:layout_width="wrap_content" android:layout_height="wrap_content"
+		
+							android:text="Add Screen" 
+							/>
 				    </LinearLayout>
 				    
-				    <RelativeLayout 
-				        android:layout_weight="0.2"
-				        android:layout_width="0dp"
-				        android:layout_height="match_parent"
-				        >
-				        <Button android:id="@+id/project_wizard_flipper_step2_addScreen"
-					    android:padding="@dimen/default_padding_large"
-					    android:layout_margin="@dimen/default_padding_large"
-					    android:layout_gravity="center_horizontal"
-					    style="@style/itembox_items_inverted"
-						android:layout_width="wrap_content" android:layout_height="wrap_content"
-	
-						android:text="Add Screen" 
-						android:layout_alignParentBottom="true"
-						
-						/>
-				        
-				    </RelativeLayout>
 				    
 				</LinearLayout>
 				
@@ -87,6 +74,8 @@
 				    
 				    
 				</LinearLayout>
+				
+		
 
 				<RelativeLayout 
 				    android:layout_width="match_parent"
@@ -114,6 +103,13 @@
 					android:layout_width="wrap_content" android:layout_height="wrap_content"
 
 					android:text="Next" />
+				    
+				    <TextView android:padding="@dimen/default_padding_large"
+					android:layout_width="match_parent" android:layout_height="wrap_content"
+					android:layout_above="@id/project_wizard_flipper_step2_ok"
+					android:gravity="center_horizontal"
+
+					android:text="Your sketches will be organized in categories.\nEach categorie represents a screen (eg. Homescreen) in your app.\nYou can always add more screens in the project-manager view." />
 				    
 				</RelativeLayout>
 

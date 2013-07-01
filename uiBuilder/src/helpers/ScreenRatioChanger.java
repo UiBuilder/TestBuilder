@@ -32,7 +32,9 @@ public class ScreenRatioChanger implements Runnable
 	@Override
 	public void run()
 	{
+		
 		resizeDrawingArea();
+		//resizeForPreview();
 	}
 
 	/**
@@ -44,6 +46,9 @@ public class ScreenRatioChanger implements Runnable
 	{
 		//float ratio = SCREENRATIO_DEFAULT;
 		int rootHeight = designArea.getMeasuredHeight() - 2 * handleSize;
+		
+		Log.d("height of design frag", String.valueOf(designArea.getMeasuredHeight()));
+		
 		int rootWidth = //Math.round
 				(int)((rootHeight / (330/208.0f)) + 0.5f*handleSize); // does not work with another accessing method
 
@@ -58,6 +63,19 @@ public class ScreenRatioChanger implements Runnable
 		params.height = GridSnapper.snapToGrid(rootHeight);
 
 		designArea.setLayoutParams(params);
+		designArea.forceLayout();
+	}
+	
+	private void resizeForPreview()
+	{
+		designArea.setScaleX(0.7f);
+		designArea.setScaleY(0.7f);
+		
+		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) designArea.getLayoutParams();
+		params.width = GridSnapper.snapToGrid(306);
+		params.height = GridSnapper.snapToGrid(451);
+		
+		//designArea.setLayoutParams(params);
 		designArea.forceLayout();
 	}
 

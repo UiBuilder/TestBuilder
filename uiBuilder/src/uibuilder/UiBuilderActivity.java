@@ -664,7 +664,7 @@ public class UiBuilderActivity
 	 */
 	private void enablePreviewMode()
 	{
-		designbox.disableTouch(true);
+		//designbox.disableTouch(true);
 		
 		isPreview = true;
 		changeDisplayMode(designbox.getView(), DISPLAY_PRESENTATION_MODE);

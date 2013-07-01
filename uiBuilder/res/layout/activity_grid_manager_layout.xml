@@ -15,7 +15,7 @@
 	    android:stretchMode="columnWidth"
 	    android:choiceMode="singleChoice"
 	    
-	    
+	    android:listSelector="@color/superlight_grey_alpha"
 	    android:padding="@dimen/default_padding_large"
 	    ></GridView>
 </LinearLayout>

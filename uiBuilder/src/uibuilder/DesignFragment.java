@@ -635,14 +635,17 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	{
 		synchronized (parent)
 		{
-			if (overlay.isActive())
+			if(inMode == UiBuilderActivity.MODE_EDIT)
 			{
-				overlay.delete();
-
-				dragIndicator = null;
-				return true;
+				if (overlay.isActive())
+				{
+					overlay.delete();
+	
+					dragIndicator = null;
+					return true;
+				}
 			}
-			else return false;
+			return false;
 		}
 	}
 

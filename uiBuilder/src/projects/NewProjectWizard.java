@@ -200,6 +200,7 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 			{
 				int colorResource = (Integer) arg1.getTag();
 				project.setColor(colorResource);
+				flipper.setBackgroundColor(colorResource);
 			}
 		});
         

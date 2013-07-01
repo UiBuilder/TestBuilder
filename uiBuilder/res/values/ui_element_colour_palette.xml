@@ -18,6 +18,7 @@
 	<color name="dk_red">#f6040f</color>
 	<color name="white">#ffffff</color>
 	<color name="lt_grey">#ffffff</color>
-							
-    
+	<color name="dk_orange">#ffa800</color>					
+    <color name="lt_orange">#ffe0a5</color>
+	
 </resources>

@@ -38,7 +38,7 @@
 	    android:layout_alignParentRight="true"
 	    android:layout_alignParentLeft="true"
 	    android:layout_below="@id/comment_user_icon"
-
+		android:padding="@dimen/default_padding_small"
 	    android:textSize="18sp"
 	     android:background="@android:color/white"
 	    />

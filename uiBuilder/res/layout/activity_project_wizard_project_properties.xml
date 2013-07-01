@@ -9,34 +9,52 @@
 				<TextView android:id="@+id/project_wizard_properties_title"
 				    style="@style/editbox_header"
 					android:layout_width="wrap_content" android:layout_height="wrap_content"
-
+					android:textSize="20sp"
 					android:text="Create a new project" />
 
-				<TextView android:padding="@dimen/default_padding_small"
-					android:layout_width="wrap_content" android:layout_height="wrap_content"
-
-					android:text="Enter a project name" />
-
-				<EditText android:id="@+id/project_wizard_flipper_step1_projectname"
-				    android:layout_margin="@dimen/default_padding_small"
-					android:layout_width="match_parent" android:layout_height="wrap_content" />
-				
-				<TextView android:padding="@dimen/default_padding_small"
-					android:layout_width="wrap_content" android:layout_height="wrap_content"
-
-					android:text="Enter a description" />
-
-				<EditText android:id="@+id/project_wizard_flipper_step1_description"
-				    android:layout_margin="@dimen/default_padding_small"
-					android:layout_width="match_parent" android:layout_height="wrap_content" 
-					android:layout_marginBottom="@dimen/default_padding_large"
-					/>
-				
+				<LinearLayout 
+				    android:paddingTop="@dimen/default_padding_large"
+				    android:orientation="horizontal"
+				    android:layout_width="match_parent"
+				    android:layout_height="wrap_content"
+				    android:weightSum="1"
+				    android:gravity="center_horizontal"
+				    >
+					<LinearLayout 
+					    	android:layout_weight="0.7"
+					        android:layout_width="0dp"
+					        android:layout_height="wrap_content"
+					        android:orientation="vertical"
+					        >
+							<TextView android:padding="@dimen/default_padding_small"
+								android:layout_width="wrap_content" android:layout_height="wrap_content"
+								android:textSize="17sp"
+								android:layout_marginTop="@dimen/default_padding_large"
+								android:text="Enter a project name" />
+			
+							<EditText android:id="@+id/project_wizard_flipper_step1_projectname"
+							    android:layout_margin="@dimen/default_padding_small"
+								android:layout_width="match_parent" android:layout_height="wrap_content" />
+							
+							<TextView android:padding="@dimen/default_padding_small"
+								android:layout_width="wrap_content" android:layout_height="wrap_content"
+								android:textSize="17sp"
+								android:text="Enter a description" />
+			
+							<EditText android:id="@+id/project_wizard_flipper_step1_description"
+							    android:layout_margin="@dimen/default_padding_small"
+								android:layout_width="match_parent" android:layout_height="wrap_content" 
+								android:layout_marginBottom="@dimen/default_padding_large"
+								/>
+					</LinearLayout>
+				</LinearLayout>
 				<TextView style="@style/editbox_header"
 				    android:layout_marginTop="@dimen/default_padding_large"
-				    android:padding="@dimen/default_padding_small"
+				    android:paddingTop="@dimen/default_padding_large"
+				    
+				    android:layout_marginBottom="@dimen/default_padding_large"
 					android:layout_width="wrap_content" android:layout_height="wrap_content"
-
+					android:textSize="20sp"
 					android:text="Choose a highlight color" />
 				    
 			
@@ -44,7 +62,7 @@
 				    android:layout_width="match_parent"
 				    android:layout_height="match_parent"
 					
-				    android:layout_margin="@dimen/default_padding_large"
+
 				    >
 
 					<Button android:id="@+id/project_wizard_flipper_step1_ok"
