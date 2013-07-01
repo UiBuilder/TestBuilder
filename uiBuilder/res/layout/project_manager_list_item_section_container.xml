@@ -4,24 +4,43 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" 
     
-    android:layout_margin="@dimen/default_padding_medium"
-    android:layout_marginBottom="@dimen/default_padding_medium"
     android:padding="@dimen/default_padding_medium"
+    android:background="@drawable/single_select_list_states_activated"
     
-    android:background="@drawable/single_select_list_states"
     >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        
+        android:textSize="@dimen/font_size_small"
+        android:textColor="@color/text_light"
+        android:text="Screenname"
+        />
+    
     <TextView style="@style/editbox_sub"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         
         android:id="@+id/project_manager_list_item_section_container_name"
-        
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
         />
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_padding_medium"
+        android:textSize="@dimen/font_size_small"
+        android:textColor="@color/text_light"
+        android:text="Description"
+        />
+    
     <TextView 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/default_padding_medium"
         
+        android:textColor="@android:color/white"
         android:id="@+id/project_manager_list_item_section_container_description"
         
         />

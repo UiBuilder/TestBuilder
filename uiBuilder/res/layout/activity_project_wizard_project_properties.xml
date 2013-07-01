@@ -37,8 +37,9 @@
 				    android:padding="@dimen/default_padding_small"
 					android:layout_width="wrap_content" android:layout_height="wrap_content"
 
-					android:text="Supply an icon for your app" />
-				
+					android:text="Choose a highlight color" />
+				    
+			
 				<RelativeLayout 
 				    android:layout_width="match_parent"
 				    android:layout_height="match_parent"
@@ -57,6 +58,17 @@
 						android:layout_width="wrap_content" android:layout_height="wrap_content"
 	
 						android:text="Next" />
+					
+					<GridView android:id="@+id/color_grid"
+					    android:padding="@dimen/default_padding_large"
+					    android:layout_centerHorizontal="true"
+				    android:layout_width="200dp"
+					android:layout_height="match_parent"
+					android:layout_above="@id/project_wizard_flipper_step1_ok"
+					android:numColumns="4"
+					android:columnWidth="50dp"
+					
+				    />
 					</RelativeLayout>
 
 

@@ -90,7 +90,6 @@ public class ProjectManagerActivity extends FragmentActivity implements OnClickL
 	
 	private void setupFragments()
 	{
-		// TODO Auto-generated method stub
 		mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ProjectPagerAdapter(getSupportFragmentManager(), this.getApplicationContext());
         mPager.setAdapter(mPagerAdapter);
@@ -147,12 +146,12 @@ public class ProjectManagerActivity extends FragmentActivity implements OnClickL
 			overridePendingTransition(R.anim.activity_transition_from_top_in, R.anim.activity_transition_to_bottom_out);
 			break;
 			
-		case R.id.project_manager_menu_delete_project:
+		/*case R.id.project_manager_menu_delete_project:
 			
 			Intent startDelete = new Intent(ProjectManagerActivity.this, DeleteProjectsActivity.class);
 			startActivityForResult(startDelete, REQUEST_PROJECT);
 			overridePendingTransition(R.anim.activity_transition_from_top_in, R.anim.activity_transition_to_bottom_out);
-			break;
+			break;*/
 			
 		case R.id.project_manager_preferences:
 			

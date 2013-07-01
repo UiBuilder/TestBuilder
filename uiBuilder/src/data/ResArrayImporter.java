@@ -37,4 +37,16 @@ public class ResArrayImporter
 		ar.recycle();
 		return resIds;
 	}
+	
+	public static int[] getColors (Context c, int id)
+	{
+		TypedArray ta = c.getResources().obtainTypedArray(id);
+		int[] colors = new int[ta.length()];
+		for (int i = 0; i < ta.length(); i++) {
+		    colors[i] = ta.getColor(i, 0);
+		}
+		ta.recycle();
+		
+		return colors;
+	}
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- BIG icon resources -->
+    <integer-array name="project_colors" >
+        <item >@color/lt_blue</item>
+        <item >@color/dk_blue</item>
+        <item >@color/lt_cyan</item>
+        <item >@color/dk_cyan</item>
+        <item >@color/lt_green</item>
+        <item >@color/dk_green</item>
+        <item >@color/lt_grey</item>
+        <item >@color/white</item>
+        <item >@color/lt_pink</item>
+        <item >@color/dk_pink</item>
+        <item >@color/lt_red</item>
+        <item >@color/dk_red</item>
+        <item >@color/lt_yellow</item>
+        <item >@color/dk_yellow</item>
+    </integer-array>
+</resources>

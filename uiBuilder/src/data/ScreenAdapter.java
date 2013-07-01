@@ -1,9 +1,12 @@
 package data;
 
 
+import uibuilder.UiBuilderActivity;
 import helpers.ImageTools;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,15 +30,26 @@ public class ScreenAdapter extends CursorAdapter
 	private int dateIdx;
 	private int idIdx;
 	private int previewIdx;
+	private TextView messageBadge, newScreenBadge;
+	
+	int layout;
 
 	private LayoutInflater inflater;
 
-	public ScreenAdapter(Context context, Cursor c, boolean autoRequery)
+/*	public ScreenAdapter(Context context, Cursor c, boolean autoRequery)
 	{
 		super(context, c, autoRequery);
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	
+	*/
+	public ScreenAdapter(Context context, Cursor c, int layout)
+	{
+		super(context, c, true);
+		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		this.layout = layout;
+	}
+
 
 	/**
 	 * Responsible for mapping and inserting data.
@@ -44,39 +58,59 @@ public class ScreenAdapter extends CursorAdapter
 	@Override
 	public void bindView(View view, Context context, Cursor cursor)
 	{
-		
 		Log.d("screenadapter", "bindview");
+		messageBadge = (TextView) view.findViewById(R.id.message_badge);
+		newScreenBadge = (TextView) view.findViewById(R.id.newscreen_badge);
+		
 		dateIdx = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_SCREEN_DATE);
 		titleIdx = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_SCREEN_NAME);
 		idIdx = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_ID);
 		previewIdx = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_SCREEN_PREVIEW);
 		
-		TextView titleView = (TextView) view.findViewById(R.id.activity_manager_griditem_layout_title);
+		/*TextView titleView = (TextView) view.findViewById(R.id.activity_manager_griditem_layout_title);
 		TextView dateView = (TextView) view.findViewById(R.id.activity_manager_griditem_layout_date);
-		
 		
 		String title = cursor.getString(titleIdx);
 		String date = cursor.getString(dateIdx);
 		
-
 		titleView.setText(title);
-		dateView.setText(date);
+		dateView.setText(date);*/
 		
-		view.invalidate();
-	}
-
-
-	@Override
-	public View newView(Context context, Cursor cursor, ViewGroup root)
-	{
-		View view = inflater.inflate(R.layout.activity_manager_grid_item_layout, root, false);
-		
-		//bindView(view, context, cursor);
-		
-		//had to set the image here, else the view would not refresh properly
-		ImageView preView = (ImageView) view.findViewById(R.id.activity_manager_griditem_layout_image);
+		ImageView preView = (ImageView) view.findViewById(R.id.screenshot);
 		String photoFilePath = cursor.getString(previewIdx);
 		int id = cursor.getInt(idIdx);
+		
+		String selection = ScreenProvider.KEY_COMMENTS_ASSOCIATED_SCREEN + " = " + "'" + String.valueOf(id) + "'";
+		Cursor messages = context.getApplicationContext().getContentResolver().query(ScreenProvider.CONTENT_URI_COMMENTS, null, selection, null, null);
+		
+		int messageCount = messages.getCount();
+		messages.close();
+		
+		Log.d("photopath is", photoFilePath);
+		
+		if (photoFilePath.equalsIgnoreCase("0"))
+		{
+			newScreenBadge.setVisibility(View.VISIBLE);
+		}
+		else
+		{
+			newScreenBadge.setVisibility(View.INVISIBLE);
+		}
+		
+		if(messageCount == 0)
+		{
+			messageBadge.setVisibility(View.INVISIBLE);
+		}
+		else
+		{
+			messageBadge.setVisibility(View.VISIBLE);
+			messageBadge.setText(String.valueOf(messageCount));
+		}
+		
+		Bundle tag = new Bundle();
+		tag.putInt(ScreenProvider.KEY_ID, id);
+		tag.putInt(UiBuilderActivity.NUMBER_OF_COMMENTS, messageCount);
+		view.setTag(tag);
 		
 		Log.d("binding view for screen id", String.valueOf(id));
 
@@ -94,6 +128,17 @@ public class ScreenAdapter extends CursorAdapter
 		
 		view.postInvalidate();
 		Log.d("screenadapter", "newview");
+		
+		view.invalidate();
+	}
+
+
+	@Override
+	public View newView(Context context, Cursor cursor, ViewGroup root)
+	{
+		View view = inflater.inflate(layout, root, false);
+		
+		
 		return view;	
 	}
 }

@@ -8,12 +8,12 @@
         android:title="New Project"
         android:titleCondensed="New Project"/>
     
-    <item android:id="@+id/project_manager_menu_delete_project"
+   <!--  <item android:id="@+id/project_manager_menu_delete_project"
         
         android:icon="@android:drawable/ic_menu_delete"
         android:showAsAction="always|withText"
         android:title="New Project"
-        android:titleCondensed="Delete Project"/>
+        android:titleCondensed="Delete Project"/>  -->
     
     <item android:id="@+id/project_manager_preferences"
         

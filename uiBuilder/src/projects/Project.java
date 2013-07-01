@@ -36,6 +36,7 @@ public class Project
 	private Context context;
 	
 	private boolean notNew = false;
+	
 	//private String 
 	
 	public Project(Context c)
@@ -78,6 +79,7 @@ public class Project
 		int descIdx = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_PROJECTS_DESCRIPTION);
 		int sharedIdx = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_PROJECTS_SHARED);
 		int projIdIdx = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_ID);
+		int cloudIdIdx = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_PROJECTS_PARSE_ID);
 		
 		cursor.moveToFirst();
 		
@@ -85,7 +87,8 @@ public class Project
 		projectHolder.projectDescription = cursor.getString(descIdx);
 		projectHolder.projectName = cursor.getString(nameIdx);
 		projectHolder.projectShared = cursor.getString(sharedIdx);
-		projectHolder.projectId = cursor.getInt(projIdIdx);	
+		projectHolder.projectId = cursor.getInt(projIdIdx);
+		projectHolder.cloudId = cursor.getString(cloudIdIdx);
 	}
 
 	protected void setNotNew()
@@ -199,7 +202,7 @@ public class Project
 		Log.d("project", "create called");
 		ContentValues values = projectHolder.getValues();
 		
-		if (projectHolder.projectId == 0)
+		if (!notNew)
 		{		
 			if (projectHolder.projectShared.equalsIgnoreCase(CloudConstants.PROJECT_SHARED_TRUE))
 			{
@@ -218,9 +221,7 @@ public class Project
 		}
 		else
 		{
-			//Uri projectUri = ContentUris.withAppendedId(ScreenProvider.CONTENT_URI_PROJECTS, projectHolder.projectId);
-			
-			//resolver.update(projectUri, values, null, null);
+
 		}
 		
 		insertNewScreens();
@@ -247,6 +248,11 @@ public class Project
 		for (NewScreenHolder holder: screenHolder)
 		{
 			holder.sectionId = projectHolder.projectId;
+			
+			if (notNew)
+			{
+				holder.cloudProjectId = projectHolder.cloudId;
+			}
 			//setProjectId(holder);
 			screenValues[i] = holder.getBundle();
 			i++;
@@ -279,6 +285,12 @@ public class Project
 			Log.d("id at i", ids[i]);
 		}
 		return ids;
+	}
+
+	public void setColor(int colorResource)
+	{
+		projectHolder.projectColor = colorResource;
+		
 	}
 	
 }

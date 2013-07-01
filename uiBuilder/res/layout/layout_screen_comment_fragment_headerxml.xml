@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+    
+	<RelativeLayout android:id="@+id/screen_comments_commenting_area"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+	
+		    android:padding="@dimen/default_padding_medium"
+		    >
+		    
+        
+        <TextView  android:id="@+id/screen_comments_header"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:textColor="@color/background_red"
+	        
+	        
+	        android:textSize="22sp"
+	        
+	        android:text="Leave your comment"
+        
+        />
+		    
+        <FrameLayout android:id="@+id/frame_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:padding="@dimen/default_padding_medium"
+            android:layout_below="@id/screen_comments_header"
+            android:layout_marginTop="@dimen/default_padding_medium"
+            >
+            <EditText android:id="@+id/screen_comments_comment"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:lines="3"
+		        
+		        />
+            
+        </FrameLayout>
+        
+        <FrameLayout 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            
+            android:padding="@dimen/default_padding_medium"
+            android:layout_alignParentRight="true"
+			android:layout_below="@id/frame_comment"
+            >
+	        <Button android:id="@+id/screen_comments_send"
+			        
+			        style="@style/itembox_items_inverted"
+				    android:layout_height="wrap_content"
+				    android:layout_width="match_parent"
+				    android:textColor="@color/superlight_grey"
+				    android:layout_gravity="right|center_vertical"
+				    android:text="Send"
+				    />
+		</FrameLayout>
+	</RelativeLayout>
+</LinearLayout>

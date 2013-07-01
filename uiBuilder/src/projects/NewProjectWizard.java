@@ -1,53 +1,37 @@
 package projects;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-
-import cloudmodule.CloudConnection;
-import cloudmodule.CloudConstants;
-import cloudmodule.CloudConnection.OnFromCloudLoadedListener;
-
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseInstallation;
-import com.parse.ParseObject;
-import com.parse.ParsePush;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-import com.parse.PushService;
-import com.parse.SendCallback;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.SearchView.OnQueryTextListener;
+import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
-import data.DateGenerator;
+import cloudmodule.CloudConnection;
+import cloudmodule.CloudConnection.OnFromCloudLoadedListener;
+import cloudmodule.CloudConstants;
+
+import com.parse.ParseObject;
+import com.parse.ParseUser;
+
 import data.NewScreenHolder;
-import data.ProjectHolder;
-import data.ScreenProvider;
+import data.ProjectColorAdapter;
 import de.ur.rk.uibuilder.R;
 
 public class NewProjectWizard extends Activity implements OnClickListener, OnCheckedChangeListener, OnQueryTextListener, OnFromCloudLoadedListener
@@ -162,6 +146,7 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 		if (projectId != 0)
 		{
 			screensRequested = true;
+			project.setNotNew();
 			project.setProjectId(projectId);
 		}
 	}
@@ -204,6 +189,21 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
         Button finish = (Button) findViewById(R.id.project_wizard_flipper_collab_finish);
         finish.setOnClickListener(this);
         
+        GridView colorGrid = (GridView) findViewById(R.id.color_grid);
+        colorGrid.setAdapter(new ProjectColorAdapter(getApplicationContext(), 0, 0, null));
+        colorGrid.setOnItemClickListener(new OnItemClickListener()
+		{
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3)
+			{
+				int colorResource = (Integer) arg1.getTag();
+				project.setColor(colorResource);
+			}
+		});
+        
+        
         screenDesc = (TextView) findViewById(R.id.project_wizard_flipper_step2_screendescription);
         screenName = (TextView) findViewById(R.id.project_wizard_flipper_step2_screenname);
         
@@ -216,6 +216,7 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 		{
 			flipperState = 1;
 			step2back.setVisibility(View.INVISIBLE);
+			goToCollab.setText("Done");
 			//loadExistingScreens();
 		}
 		else
@@ -277,7 +278,7 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 		case R.id.project_wizard_flipper_step2_ok:
 			
 			Log.d("new project for cloud user", String.valueOf(cloudUser));
-			if (cloudUser)
+			if (cloudUser && !screensRequested)
 			{
 				flipToNext();
 			}

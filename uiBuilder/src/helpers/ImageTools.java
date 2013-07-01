@@ -174,9 +174,11 @@ public class ImageTools
 	public Uri requestBitmap(View root, ContentResolver cres, boolean insert, boolean intern, int screenId)
 	{
 		RelativeLayout content = (RelativeLayout) root.findViewById(R.id.design_area);
-
-		Bitmap image = Bitmap.createBitmap(content.getWidth(), content.getHeight(), Bitmap.Config.ARGB_8888);
+		//content.setScaleX(2.0f);
+		//content.setScaleY(2.0f);
 		
+		Bitmap image = Bitmap.createBitmap(content.getWidth(), content.getHeight(), Bitmap.Config.ARGB_8888);
+
 		content.draw(new Canvas(image));
 		
 		File f;

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" 
+    android:padding="@dimen/default_padding_medium"
+    >
+    
+	<ImageView android:id="@+id/comment_user_icon"
+	    android:layout_width="50dp"
+	    android:layout_height="50dp"
+	    android:background="@color/background_aqua"
+	    android:layout_margin="@dimen/default_padding_medium"
+	    
+	    android:src="@raw/ico_small_0039"
+	    android:scaleType="centerInside"
+	    android:layout_alignParentLeft="true"
+	    android:layout_alignParentTop="true"
+	    />
+	
+	<TextView android:id="@+id/comment_user_name"
+	    android:layout_width="0dp"
+	    android:layout_height="wrap_content"
+	    android:padding="@dimen/default_padding_medium"
+	    android:layout_toRightOf="@id/comment_user_icon"
+	    android:layout_alignTop="@id/comment_user_icon"
+	    android:layout_alignBottom="@id/comment_user_icon"
+	    android:layout_alignParentRight="true"
+	    android:textColor="@color/superlight_grey"
+	    android:gravity="center_vertical"
+	    android:textSize="20sp"
+	    />
+	
+	<TextView android:id="@+id/comment_user_text"
+	    android:layout_width="0dp"
+	    android:layout_height="wrap_content"
+	    android:layout_margin="@dimen/default_padding_medium"
+	    android:layout_marginTop="@dimen/default_padding_small"
+	    android:layout_alignParentRight="true"
+	    android:layout_alignParentLeft="true"
+	    android:layout_below="@id/comment_user_icon"
+
+	    android:textSize="18sp"
+	     android:background="@android:color/white"
+	    />
+	
+</RelativeLayout>

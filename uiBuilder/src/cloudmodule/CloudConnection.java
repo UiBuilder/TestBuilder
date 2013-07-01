@@ -40,9 +40,6 @@ public class CloudConnection
 	
 	private static CloudConnection self;
 	
-	public static final String PARSE_PROJECT = "project",
-								PARSE_SECTION = "section"
-								;	
 	
 	private CloudConnection(Context c, ContentResolver resolver)
 	{
@@ -86,17 +83,20 @@ public class CloudConnection
 		project.saveInBackground();
 	}
 	
-	public void createSection(final ContentValues values)
+	public void createSection(ContentValues values)
 	{
 		if (cloudActive)
 		{
+			Log.d("creating section in cloud", "called");
+			
 			final int sectionId = values.getAsInteger(ScreenProvider.KEY_ID);
 			
-			final ParseObject section = new ParseObject(PARSE_SECTION);
+			final ParseObject section = new ParseObject(CloudConstants.TYPE_SECTIONS);
+			
 			section.put(ScreenProvider.KEY_SECTION_NAME, values.getAsString(ScreenProvider.KEY_SECTION_NAME));
 			section.put(ScreenProvider.KEY_SECTION_DESCRIPTION, values.getAsString(ScreenProvider.KEY_SECTION_DESCRIPTION));
 			
-			section.saveEventually(new SaveCallback()
+			section.saveInBackground(new SaveCallback()
 			{
 				
 				@Override
@@ -108,10 +108,189 @@ public class CloudConnection
 						String cloudSectionId = section.getObjectId();
 						
 						Uri localSectionUri = ContentUris.withAppendedId(ScreenProvider.CONTENT_URI_SECTIONS, sectionId);
-						values.put(ScreenProvider.KEY_SECTION_CLOUD_PARSE_ID, cloudSectionId);
-						resolver.update(localSectionUri, values, null, null);
-						Log.d("section updated with cloud id", cloudSectionId);
+						
+						ContentValues cloudIdValues = new ContentValues();
+						cloudIdValues.put(ScreenProvider.KEY_SECTION_PARSE_ID, cloudSectionId);
+						
+						resolver.update(localSectionUri, cloudIdValues, null, null);
+						Log.d("section uploaded and updated with cloud id", cloudSectionId);
 					}
+				}
+			});
+		}
+	}
+	
+	public void createObject(ContentValues objectvalues)
+	{
+		if (cloudActive)
+		{
+			Log.d("creating object in cloud", "called");
+			
+			final int objectId = objectvalues.getAsInteger(ScreenProvider.KEY_ID);
+			final int associatedScreenId = objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_SCREEN);
+			
+			Uri localScreenUri = ContentUris.withAppendedId(ScreenProvider.CONTENT_URI_SCREENS, associatedScreenId);
+			
+			Cursor screen = resolver.query(localScreenUri, new String[] {ScreenProvider.KEY_SCREEN_CLOUD_PARSE_ID}, null, null, null);
+			screen.moveToFirst();
+			String screenCloudId = screen.getString(screen.getColumnIndexOrThrow(ScreenProvider.KEY_SCREEN_CLOUD_PARSE_ID));
+			screen.close();
+			
+			final ParseObject object = new ParseObject(CloudConstants.TYPE_OBJECTS);
+			
+			object.put(ScreenProvider.KEY_OBJECTS_SCREEN_PARSE_ID, screenCloudId);
+			
+			putValuesInObject(objectvalues, object);
+			
+			object.saveInBackground(new SaveCallback()
+			{
+				
+				@Override
+				public void done(ParseException e)
+				{
+					// TODO Auto-generated method stub
+					if (e == null)
+					{
+						String cloudId = object.getObjectId();
+						
+						Uri localObjectUri = ContentUris.withAppendedId(ScreenProvider.CONTENT_URI_OBJECTS, objectId);
+						
+						ContentValues cloudIdValues = new ContentValues();
+						cloudIdValues.put(ScreenProvider.KEY_OBJECTS_PARSE_ID, cloudId);
+						
+						resolver.update(localObjectUri, cloudIdValues, null, null);
+						Log.d("object uploaded and updated with cloud id", cloudId);
+					}
+				}
+			});
+		}
+	}
+	
+	public void updateObject(ContentValues newValues)
+	{
+		if (cloudActive)
+		{
+			final String objectId = newValues.getAsString(ScreenProvider.KEY_OBJECTS_PARSE_ID);
+			
+			Log.d("cloud about to update object", objectId);
+			
+			final ParseObject objectToUpdate = new ParseObject(CloudConstants.TYPE_OBJECTS);
+			objectToUpdate.setObjectId(objectId);
+			
+			putValuesInObject(newValues, objectToUpdate);
+			objectToUpdate.saveInBackground(new SaveCallback()
+			{
+				
+				@Override
+				public void done(ParseException e)
+				{
+					if (e == null)
+					Log.d("object updatet in cloud", "success");
+					
+					else
+					{
+						Log.d("cloud object update ", "failed: " + e.getLocalizedMessage());
+						
+					}
+				}
+			});
+		}
+	}
+
+	/**
+	 * @param objectvalues
+	 * @param object
+	 */
+	private void putValuesInObject(ContentValues objectvalues,
+			final ParseObject object)
+	{
+		if (objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_VIEW_ALIGNMENT) != null)
+		object.put(ScreenProvider.KEY_OBJECTS_VIEW_ALIGNMENT, objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_VIEW_ALIGNMENT));
+		
+		if (objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_VIEW_BACKGROUND) != null)
+		object.put(ScreenProvider.KEY_OBJECTS_VIEW_BACKGROUND, objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_VIEW_BACKGROUND));
+		
+		if (objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_VIEW_COLUMNS_NUM) != null)
+		object.put(ScreenProvider.KEY_OBJECTS_VIEW_COLUMNS_NUM, objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_VIEW_COLUMNS_NUM));
+		
+		if (objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_VIEW_CONTENT) != null)
+		object.put(ScreenProvider.KEY_OBJECTS_VIEW_CONTENT, objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_VIEW_CONTENT));
+		
+		if (objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_VIEW_FONTSIZE) != null)
+		object.put(ScreenProvider.KEY_OBJECTS_VIEW_FONTSIZE, objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_VIEW_FONTSIZE));
+		
+		if (objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_VIEW_HEIGHT) != null)
+		object.put(ScreenProvider.KEY_OBJECTS_VIEW_HEIGHT, objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_VIEW_HEIGHT));
+		
+		if (objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_VIEW_ICNSRC) != null)
+		object.put(ScreenProvider.KEY_OBJECTS_VIEW_ICNSRC, objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_VIEW_ICNSRC));
+		//object.put(ScreenProvider.KEY_OBJECTS_VIEW_IMGSRC, objectvalues.getAsString(ScreenProvider.KEY_OBJECTS_VIEW_IMGSRC));
+		
+		if (objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_VIEW_LAYOUT) != null)
+		object.put(ScreenProvider.KEY_OBJECTS_VIEW_LAYOUT, objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_VIEW_LAYOUT));
+		
+		if (objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_VIEW_RATING) != null)
+		object.put(ScreenProvider.KEY_OBJECTS_VIEW_RATING, objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_VIEW_RATING));
+		
+		if (objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_VIEW_STARSNUM) != null)
+		object.put(ScreenProvider.KEY_OBJECTS_VIEW_STARSNUM, objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_VIEW_STARSNUM));
+		
+		if (objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_VIEW_TYPE) != null)
+		object.put(ScreenProvider.KEY_OBJECTS_VIEW_TYPE, objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_VIEW_TYPE));
+		
+		if (objectvalues.getAsString(ScreenProvider.KEY_OBJECTS_VIEW_USERTEXT) != null)
+		object.put(ScreenProvider.KEY_OBJECTS_VIEW_USERTEXT, objectvalues.getAsString(ScreenProvider.KEY_OBJECTS_VIEW_USERTEXT));
+		
+		if (objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_VIEW_WIDTH) != null)
+		object.put(ScreenProvider.KEY_OBJECTS_VIEW_WIDTH, objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_VIEW_WIDTH));
+		
+		if (objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_VIEW_XPOS) != null)
+		object.put(ScreenProvider.KEY_OBJECTS_VIEW_XPOS, objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_VIEW_XPOS));
+		
+		if (objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_VIEW_YPOS) != null)
+		object.put(ScreenProvider.KEY_OBJECTS_VIEW_YPOS, objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_VIEW_YPOS));
+		
+		if (objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_VIEW_ZORDER) != null)
+		object.put(ScreenProvider.KEY_OBJECTS_VIEW_ZORDER, objectvalues.getAsInteger(ScreenProvider.KEY_OBJECTS_VIEW_ZORDER));
+	}
+	
+	public void createScreen(ContentValues screenValues)
+	{
+		if (cloudActive)
+		{
+			final ParseObject screen = new ParseObject(CloudConstants.TYPE_SCREENS);
+			final int localScreenId = screenValues.getAsInteger(ScreenProvider.KEY_ID);
+			
+			Uri localSection = ContentUris.withAppendedId(ScreenProvider.CONTENT_URI_SECTIONS, screenValues.getAsInteger(ScreenProvider.KEY_SCREEN_ASSOCIATED_SECTION));
+			Cursor sectionCursor = resolver.query(localSection, new String[] {ScreenProvider.KEY_SECTION_PARSE_ID}, null, null, null);
+			
+			sectionCursor.moveToFirst();
+			String associatedCloudSectionId = sectionCursor.getString(sectionCursor.getColumnIndexOrThrow(ScreenProvider.KEY_SECTION_PARSE_ID));
+			sectionCursor.close();
+			
+			screen.put(ScreenProvider.KEY_SCREEN_NAME, screenValues.getAsString(ScreenProvider.KEY_SCREEN_NAME));
+			screen.put(ScreenProvider.KEY_SCREEN_ASSOCIATED_CLOUD_SECTION, associatedCloudSectionId);
+			
+			screen.saveInBackground(new SaveCallback()
+			{
+				
+				@Override
+				public void done(ParseException e)
+				{
+					if (e == null)
+					{
+						Log.d("saved screen to cloud", "success");
+						
+						String cloudObjectId = screen.getObjectId();
+						Log.d("saved screen id", cloudObjectId);
+						
+						ContentValues screenIdValue = new ContentValues();
+						screenIdValue.put(ScreenProvider.KEY_SCREEN_CLOUD_PARSE_ID, cloudObjectId);
+						
+						Uri localScreenUri = ContentUris.withAppendedId(ScreenProvider.CONTENT_URI_SCREENS, localScreenId);
+						resolver.update(localScreenUri, screenIdValue, null, null);
+					}
+					
 				}
 			});
 		}
@@ -122,7 +301,7 @@ public class CloudConnection
 	{
 		if (cloudActive)
 		{	
-			final ParseObject project = new ParseObject(PARSE_PROJECT);
+			final ParseObject project = new ParseObject(CloudConstants.TYPE_PROJECT);
 			
 			
 			String[] collabArray = collabs.split(" ");
@@ -147,22 +326,20 @@ public class CloudConnection
 					
 					resolver.update(path, values, null, null);
 					
-					Cursor sections = resolver.query(ScreenProvider.CONTENT_URI_SECTIONS, new String[] {ScreenProvider.KEY_ID}, ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT + "=" + String.valueOf(id), null, null);
-					int sectionIdIdx = sections.getColumnIndexOrThrow(ScreenProvider.KEY_ID);
+					ContentValues sectionValues = new ContentValues();
+					sectionValues.put(ScreenProvider.KEY_SECTION_ASSOCIATED_CLOUD_PROJECT, cloudProjectId);
 					
+					Cursor sections = resolver.query(ScreenProvider.CONTENT_URI_SECTIONS, new String[] {ScreenProvider.KEY_ID}, ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT + "=" + String.valueOf(id), null, null);
+					int idIdx = sections.getColumnIndex(ScreenProvider.KEY_ID);
 					
 					while (sections.moveToNext())
 					{
-						ContentValues localValues = new ContentValues();
-						localValues.put(ScreenProvider.KEY_SECTION_ASSOCIATED_CLOUD_PROJECT, cloudProjectId);
-						
-						int sectionId = sections.getInt(sectionIdIdx);
-						Log.d("section found", String.valueOf(sectionId));
-						Log.d("updating section with cloud project id", cloudProjectId);
-						
+						int sectionId = sections.getInt(idIdx);
 						Uri sectionUri = ContentUris.withAppendedId(ScreenProvider.CONTENT_URI_SECTIONS, sectionId);
-						resolver.update(sectionUri, localValues, null, null);		
+						
+						resolver.update(sectionUri, sectionValues, null, null);
 					}
+					sections.close();
 					
 					notifyCollabs(project);
 					subscribe(cloudProjectId);
@@ -216,6 +393,7 @@ public class CloudConnection
 		int parseIdx = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_PROJECTS_PARSE_ID);
 		
 		String cloudProjectId = cursor.getString(parseIdx);
+		cursor.close();
 		//Log.d("object id of loacal project", cloudProjectId);
 		
 		if(cloudProjectId != null)
@@ -291,8 +469,6 @@ public class CloudConnection
 			}
 		});
 	}
-	
-	
 	
 	private void fetchUsers(List<String> collabs)
 	{
@@ -412,38 +588,45 @@ public class CloudConnection
 		});
 	}
 	
-	public void deleteProject(final String objectId)
+	public void deleteObject(final String objectId, final String type)
 	{
-		
-		ParseQuery<ParseObject> deleteQuery = ParseQuery.getQuery(CloudConstants.TYPE_PROJECT);
-		
-		deleteQuery.getInBackground(objectId, new GetCallback<ParseObject>() 
+		if (cloudActive)
 		{
-		  public void done(ParseObject project, ParseException e) 
-		  {
-		    if (e == null) 
-		    {
-		    	project.deleteEventually(new DeleteCallback()
-				{
-					
-					@Override
-					public void done(ParseException e)
+			Log.d("cloud deleting type", type);
+			
+			ParseQuery<ParseObject> deleteQuery = ParseQuery.getQuery(type);
+			
+			deleteQuery.getInBackground(objectId, new GetCallback<ParseObject>() 
+			{
+			  public void done(ParseObject object, ParseException e) 
+			  {
+			    if (e == null) 
+			    {
+			    	object.deleteInBackground(new DeleteCallback()
 					{
-						if (e == null)
-						{
-							unsubscribeFromProject(objectId);
-							Log.d("cloud deleted", objectId);
-						}
 						
-					}
-				});
-		    	
-		    } 
-		    else {
-		      // something went wrong
-		    }
-		  }
-		});
+						@Override
+						public void done(ParseException e)
+						{
+							if (e == null)
+							{
+								if (type.equalsIgnoreCase(CloudConstants.TYPE_PROJECT))
+								{
+									unsubscribeFromProject(objectId);
+								}
+								Log.d("cloud deleted", objectId);
+							}
+							
+						}
+					});
+			    	
+			    } 
+			    else {
+			      // something went wrong
+			    }
+			  }
+			});
+		}
 	}
 	
 	public void queryObjects(List<String> objectIds, String type)
@@ -473,9 +656,7 @@ public class CloudConnection
 			        }
 			    }
 			});
-		}
-		
-		
+		}	
 	}
 	
 	
@@ -506,5 +687,84 @@ public class CloudConnection
 			OnFromCloudLoadedListener listener)
 	{
 		CloudConnection.fromCloudLoaded = listener;
+	}
+
+	public void updateSection(final ContentValues cloudValues)
+	{
+		String cloudId = cloudValues.getAsString(ScreenProvider.KEY_SECTION_PARSE_ID);
+		
+		if (cloudActive && cloudId != null)
+		{
+			Log.d("cloud", "updating section " + cloudId);
+			
+			ParseObject section = new ParseObject(CloudConstants.TYPE_SECTIONS);
+			section.setObjectId(cloudId);
+			
+			String name = cloudValues.getAsString(ScreenProvider.KEY_SECTION_NAME);
+			String desc = cloudValues.getAsString(ScreenProvider.KEY_SECTION_DESCRIPTION);
+			String cloudProject = cloudValues.getAsString(ScreenProvider.KEY_SECTION_ASSOCIATED_CLOUD_PROJECT);
+			
+			if (name != null)
+			{
+				section.put(ScreenProvider.KEY_SECTION_NAME, name);
+				Log.d("updating name to", name);
+			}
+			
+			if (desc != null)
+			{
+				section.put(ScreenProvider.KEY_SECTION_DESCRIPTION, desc);
+				Log.d("updating description to", desc);
+			}
+			
+			if (cloudProject != null)
+			{
+				section.put(ScreenProvider.KEY_SECTION_ASSOCIATED_CLOUD_PROJECT, cloudProject);
+				Log.d("updating associated cloud project id to", cloudProject);
+			}
+			
+			//if (cloudId != null)
+			//section.put(ScreenProvider.KEY_SECTION_CLOUD_PARSE_ID, cloudId);
+			
+			section.saveInBackground(new SaveCallback()
+			{
+				
+				@Override
+				public void done(ParseException e)
+				{
+					if (e == null)
+					{
+						Log.d("cloud section", "update cpmplete");
+					}
+				}
+			});
+			
+			ParseQuery<ParseObject> query = ParseQuery.getQuery(CloudConstants.TYPE_SECTIONS);
+			query.whereEqualTo(CloudConstants.OBJECT_ID, cloudId);
+		}
+	}
+
+	public void updateProject(ContentValues projectCloudValues)
+	{
+		if (cloudActive)
+		{
+			Log.d("cloud updating project with id", projectCloudValues.getAsString(ScreenProvider.KEY_PROJECTS_PARSE_ID));
+			
+			ParseObject project = new ParseObject(CloudConstants.TYPE_PROJECT);
+			project.setObjectId(projectCloudValues.getAsString(ScreenProvider.KEY_PROJECTS_PARSE_ID));
+			
+			project.put(ScreenProvider.KEY_PROJECTS_NAME, projectCloudValues.getAsString(ScreenProvider.KEY_PROJECTS_NAME));
+			project.put(ScreenProvider.KEY_PROJECTS_DESCRIPTION, projectCloudValues.getAsString(ScreenProvider.KEY_PROJECTS_DESCRIPTION));
+			
+			project.saveEventually(new SaveCallback()
+			{
+				
+				@Override
+				public void done(ParseException arg0)
+				{
+					// TODO Auto-generated method stub
+					Log.d("project in cloud ", "updated");
+				}
+			});
+		}	
 	}
 }

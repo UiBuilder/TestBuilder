@@ -9,7 +9,8 @@ public class ProjectHolder
 						nameArg = "name",
 						dateArg = "date",
 						descArg = "description",
-						idArg = "id"
+						idArg = "id",
+						colorArg = "color"
 						;
 	
 
@@ -23,6 +24,11 @@ public class ProjectHolder
 	public String projectShared;
 	
 	public int projectId;
+
+	public String cloudId;
+
+	public int projectColor;
+
 	
 	public Bundle getBundle()
 	{
@@ -32,6 +38,7 @@ public class ProjectHolder
 		values.putString(dateArg, projectDate);
 		values.putString(nameArg, projectName);
 		values.putInt(idArg, projectId);
+		values.putInt(colorArg, projectColor);
 		
 		return values;
 	}
@@ -44,6 +51,7 @@ public class ProjectHolder
 		values.put(ScreenProvider.KEY_PROJECTS_NAME, projectName);
 		values.put(ScreenProvider.KEY_PROJECTS_DATE, projectDate);
 		values.put(ScreenProvider.KEY_PROJECTS_SHARED, projectShared);
+		values.put(ScreenProvider.KEY_PROJECTS_COLOR, projectColor);
 		
 		return values;
 	}

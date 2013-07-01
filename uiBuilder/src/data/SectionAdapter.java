@@ -4,12 +4,11 @@ package data;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 import de.ur.rk.uibuilder.R;
@@ -60,15 +59,23 @@ public class SectionAdapter extends CursorAdapter
 	@Override
 	public void bindView(View section, final Context context, Cursor sectionCursor)
 	{
+		descIdx = sectionCursor.getColumnIndexOrThrow(ScreenProvider.KEY_SECTION_DESCRIPTION);
+		titleIdx = sectionCursor.getColumnIndexOrThrow(ScreenProvider.KEY_SECTION_NAME);
+		sectionIdIdx = sectionCursor.getColumnIndexOrThrow(ScreenProvider.KEY_ID);
 		
 		TextView name = (TextView) section.findViewById(R.id.project_manager_list_item_section_container_name);
 		TextView description = (TextView) section.findViewById(R.id.project_manager_list_item_section_container_description);
 
 		
-		section.setTag(sectionCursor.getInt(sectionIdIdx));
+		//section.setTag(sectionCursor.getInt(sectionIdIdx));
 		name.setText(sectionCursor.getString(titleIdx));
-		description.setText(sectionCursor.getString(descIdx));
+		description.setText(sectionCursor.getString(descIdx));	
 		
+		Bundle tag = new Bundle();
+		tag.putString(ScreenProvider.KEY_SECTION_NAME, sectionCursor.getString(titleIdx));
+		tag.putInt(ScreenProvider.KEY_ID, sectionCursor.getInt(sectionIdIdx));
+		
+		section.setTag(tag);
 	}
 
 
@@ -76,10 +83,6 @@ public class SectionAdapter extends CursorAdapter
 	public View newView(Context context, Cursor cursor, ViewGroup root)
 	{
 		Log.d("projectadapter", "newView called");
-		
-		descIdx = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_SECTION_DESCRIPTION);
-		titleIdx = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_SECTION_NAME);
-		sectionIdIdx = cursor.getColumnIndexOrThrow(ScreenProvider.KEY_ID);
 		
 		View view = inflater.inflate(resourceLayout, root, false);
 		

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" 
+    android:padding="@dimen/default_padding_large"
+    >
+    
+	<RelativeLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    
+	    >
+	    
+	    
+	    
+	    <ImageView android:id="@+id/top"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        
+	        android:layout_alignParentTop="true"
+	        android:layout_centerHorizontal="true"
+	        android:src="@raw/top"
+	        />
+	    
+	    <ImageView android:id="@+id/left"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        
+	        android:layout_alignLeft="@id/top"
+	        android:layout_below="@id/top"
+	        android:src="@raw/left"
+	        />
+	    
+	    <ImageView android:id="@+id/right"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        
+	        android:layout_below="@id/top"
+	        android:layout_alignRight="@id/top"
+	        android:src="@raw/right"
+	        />
+	    
+	    <ImageView android:id="@+id/bottom"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+
+	        
+	        android:layout_alignParentBottom="true"
+	        android:layout_alignLeft="@id/left"
+	        android:layout_alignRight="@id/right"
+	        android:layout_below="@id/left"
+	        
+	        
+	        android:src="@raw/bottom"
+	        
+	        />
+	    
+	    <ImageView android:id="@+id/screenshot"
+	        android:layout_width="0dp"
+	        android:layout_height="0dp"
+	        
+	        android:layout_below="@id/top"
+	        android:layout_toRightOf="@id/left"
+	        android:layout_toLeftOf="@id/right"
+	        android:layout_above="@id/bottom"
+	        
+	        android:background="@color/superlight_grey_alpha"
+	        />
+	    
+	    <TextView android:id="@+id/message_badge"
+	        android:layout_width="60dp"
+	        android:layout_height="60dp"
+	        android:layout_alignParentTop="true"
+	        android:layout_alignLeft="@id/top"
+	        android:background="@drawable/message_badge"
+	        android:layout_marginLeft="@dimen/default_padding_small"
+	        android:textSize="20sp"
+	        android:textStyle="bold"
+	        android:gravity="center_vertical|center_horizontal"
+	        android:text="1"
+	        android:textColor="@color/designfragment_background"
+	        />
+	    
+	    <TextView android:id="@+id/newscreen_badge"
+	        android:layout_width="90dp"
+	        android:layout_height="90dp"
+	        
+	        android:layout_centerInParent="true"
+	        android:background="@drawable/message_newscreen_badge"
+	        
+	        android:textSize="16sp"
+	        android:gravity="center_vertical|center_horizontal"
+	        android:text="New\nsketch!"
+	        android:textColor="@color/designfragment_background"
+	        />
+	    
+	</RelativeLayout>
+</LinearLayout>

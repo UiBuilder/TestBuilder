@@ -28,10 +28,6 @@ import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-
-import com.larvalabs.svgandroid.SVG;
-import com.larvalabs.svgandroid.SVGParser;
-
 import creators.ObjectFactory;
 import creators.ObjectManipulator;
 import data.ObjectValues;
@@ -55,6 +51,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	private View activeItem;
 	private View currentTouch;
 	
+	private int inMode;
 	
 	private ObjectManipulator manipulator;
 
@@ -75,6 +72,9 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		designArea = (RelativeLayout) root.findViewById(R.id.design_area);
 		parent = (RelativeLayout) designArea.getParent();
 		
+		Bundle args = getArguments();
+		inMode = args.getInt(UiBuilderActivity.MODE);
+		
 		designArea.post(new ScreenRatioChanger(designArea, this.getActivity()));
 		return root;
 	}
@@ -84,9 +84,11 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	{
 		activeItem = null;
 
-		initHelpers();
-		setListeners();
-
+		if (inMode == UiBuilderActivity.MODE_EDIT)
+		{
+			initHelpers();
+			setListeners();
+		}
 		super.onActivityCreated(savedInstanceState);
 	}
 
@@ -146,7 +148,7 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	 */
 	private void initHelpers()
 	{
-		SVG svg = SVGParser.getSVGFromResource(getActivity().getResources(), R.raw.test);
+		//SVG svg = SVGParser.getSVGFromResource(getActivity().getResources(), R.raw.test);
 		
 		//Drawable d = (Drawable)svg.createPictureDrawable();
 		
@@ -187,55 +189,92 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	@Override
 	public boolean onTouch(View v, MotionEvent event)
 	{
-		if (isPreviewing)
+		if (inMode == UiBuilderActivity.MODE_EDIT)
 		{
-			return true;
-		}
-		
-		int pointer = event.getPointerId(getIndex(event));
-
-		Log.d("first down", String.valueOf(event.getPointerCount()));
-		
-		//catch Multitouch events
-		if(pointer > 0)
-		{
-			return scaleDetector.onTouchEvent(event);
-		}
-		
-		int action = event.getAction() & MotionEvent.ACTION_MASK;
-
-		switch (action)
-		{
-		
-			case MotionEvent.ACTION_POINTER_DOWN:
-				
-				
+			if (isPreviewing)
+			{
 				return true;
+			}
+			
+			int pointer = event.getPointerId(getIndex(event));
+	
+			Log.d("first down", String.valueOf(event.getPointerCount()));
+			
+			//catch Multitouch events
+			if(pointer > 0)
+			{
+				return scaleDetector.onTouchEvent(event);
+			}
+			
+			int action = event.getAction() & MotionEvent.ACTION_MASK;
+	
+			switch (action)
+			{
+			
+				case MotionEvent.ACTION_POINTER_DOWN:
+					
+					
+					return true;
+			
+				case MotionEvent.ACTION_DOWN:
 		
-			case MotionEvent.ACTION_DOWN:
+					currentTouch = v;
+					selectionListener.objectChanged(currentTouch);
 	
+		
+					switch (currentTouch.getId())
+					{
+						/*
+						 * touch on designarea
+						 */
+						case R.id.design_area:
+							Log.d("DesignArea", "called");
+							
+							if (deselect())
+							{
+								return true;
+							}
+							Log.d("layout forward", "called");
+							break;
+		
+						/*
+						 * touch on overlay
+						 */
+						case R.id.overlay_top:
+						case R.id.overlay_right:
+						case R.id.overlay_bottom:
+						case R.id.overlay_left:
+						case R.id.overlay_drag:
+			
+							selectOverlay();
+							break;
+			
+						/*
+						 * touch on object
+						 */
+						default:
+							Log.d("Default case in ontouch", "called");
+			
+							if (selectItem())
+							{
+								return true;
+							}
+							break;
+					}
+					break;
+					
+					//This part of code works but is flickering, provides multitouch
+					//resizing when scalelistener disabled. we still have to work on this
+	/*
+			case MotionEvent.ACTION_MOVE:
 				currentTouch = v;
-				selectionListener.objectChanged(currentTouch);
-
-	
+				designArea.invalidate();
+				
 				switch (currentTouch.getId())
 				{
-					/*
-					 * touch on designarea
-					 */
-					case R.id.design_area:
-						Log.d("DesignArea", "called");
-						
-						if (deselect())
-						{
-							return true;
-						}
-						Log.d("layout forward", "called");
-						break;
-	
-					/*
+					
 					 * touch on overlay
-					 */
+					 
 					case R.id.overlay_top:
 					case R.id.overlay_right:
 					case R.id.overlay_bottom:
@@ -245,63 +284,30 @@ public class DesignFragment extends Fragment implements OnDragListener,
 						selectOverlay();
 						break;
 		
-					/*
-					 * touch on object
-					 */
-					default:
-						Log.d("Default case in ontouch", "called");
-		
-						if (selectItem())
-						{
-							return true;
-						}
-						break;
 				}
 				break;
-				
-				//This part of code works but is flickering, provides multitouch
-				//resizing when scalelistener disabled. we still have to work on this
-/*
-		case MotionEvent.ACTION_MOVE:
-			currentTouch = v;
-			designArea.invalidate();
-			
-			switch (currentTouch.getId())
-			{
-				
-				 * touch on overlay
-				 
-				case R.id.overlay_top:
-				case R.id.overlay_right:
-				case R.id.overlay_bottom:
-				case R.id.overlay_left:
-				case R.id.overlay_drag:
+	*/
+			case MotionEvent.ACTION_UP:
 	
-					selectOverlay();
-					break;
+				if (dragIndicator != null)
+				{
+					Log.d("drag indikator", "drag handle disabled");
+					dragIndicator.setActivated(false);
+					isresizing = false;
+				}
+				break;
 	
+			default:
+				break;
 			}
-			break;
-*/
-		case MotionEvent.ACTION_UP:
-
-			if (dragIndicator != null)
-			{
-				Log.d("drag indikator", "drag handle disabled");
-				dragIndicator.setActivated(false);
-				isresizing = false;
-			}
-			break;
-
-		default:
-			break;
+		
+			/**
+			 * @return forward the touch event to the gesturedetector for further
+			 *         processing
+			 */
+			return detector.onTouchEvent(event);
 		}
-	
-		/**
-		 * @return forward the touch event to the gesturedetector for further
-		 *         processing
-		 */
-		return detector.onTouchEvent(event);
+		return true;
 	}
 
 	/**
@@ -467,15 +473,19 @@ public class DesignFragment extends Fragment implements OnDragListener,
 				{
 					View v = (View) event.getLocalState();
 					
+					newObjectEvent();
+					
 					activeItem = v;
 					designArea.addView(v);
 					overlay.generate(v);
 					overlay.setVisibility(false);
 					v.setVisibility(View.VISIBLE);
+					
+					manipulator.performDrop(event, v, overlay.getDrag());
+					return true;
 				}
 				
 				manipulator.performDrop(event, activeItem, overlay.getDrag());
-				
 				Log.d("action drop", "registered");
 			
 				break;
@@ -576,7 +586,6 @@ public class DesignFragment extends Fragment implements OnDragListener,
 	private void adaptToNormal()
 	{
 		manipulator.setStyle(DragEvent.ACTION_DRAG_ENDED, activeItem);
-		overlay.setVisibility(true);
 		toggleGrid();
 
 		if (activeItem == null)
@@ -585,10 +594,18 @@ public class DesignFragment extends Fragment implements OnDragListener,
 		} 
 		else
 		{
-			//if (!newObjectInProgress)
+			if (!newObjectInProgress)
 			{
 				selectionListener.objectChanged(activeItem);
 				selectionListener.objectSelected(true);
+				overlay.setVisibility(true);	
+			}
+			else
+			{
+				selectionListener.objectSelected(false);
+				overlay.delete();
+				newObjectInProgress = false;
+				activeItem = null;
 			}
 		}
 		Log.d("dragging", "ended");

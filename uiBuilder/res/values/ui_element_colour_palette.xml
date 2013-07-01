@@ -1,26 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     	
-	<!-- COLOUR PALETTE FOR BACKGROUND -->
+	<!-- COLOUR PALETTE FOR PROJECTS -->
 	
-	<color name="background_red">#FF4040</color>
-	<color name="background_orange">#FF5600</color>
-	<color name="background_yellow">#FFD300</color>
-	<color name="background_green_light">#C9F600</color>
-	<color name="background_green">#228D00</color>
-	<color name="background_aqua">#009999</color>
-	<color name="background_blue">#1144AA</color>
-	<color name="background_grey_light">#BABABA</color>
-	<color name="background_grey">#505050</color>
+	<color name="lt_yellow">#fff29d</color>
+	<color name="dk_yellow">#fffc12</color>
+	<color name="lt_green">#ccff82</color>
+	<color name="dk_green">#9af715</color>
+	<color name="lt_cyan">#a3faed</color>
+	<color name="dk_cyan">#47ebd2</color>
+	<color name="lt_blue">#9fdff7</color>
+	<color name="dk_blue">#1e7b9e</color>
+	<color name="lt_pink">#f8a0ed</color>
 	
-	<color name="background_lt_red">#aaec9999</color>
-	<color name="background_lt_grey_dark">#aab2b1b1</color>
-	<color name="background_lt_orange">#aaeacfb0</color>
-	<color name="background_lt_green_light">#aabce4a1</color>
-	<color name="background_lt_green">#aa9bd574</color>
-	<color name="background_lt_aqua">#aab5eadd</color>
-	<color name="background_lt_blue">#aaaed8de</color>
-	<color name="background_lt_grey_light">#aaf5f5f5</color>
-	<color name="background_lt_grey">#aad0d0d0</color>								
+	<color name="dk_pink">#b61da2</color>
+	<color name="lt_red">#ff7c82</color>
+	<color name="dk_red">#f6040f</color>
+	<color name="white">#ffffff</color>
+	<color name="lt_grey">#ffffff</color>
+							
     
 </resources>

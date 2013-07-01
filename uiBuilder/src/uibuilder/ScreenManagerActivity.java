@@ -357,7 +357,7 @@ public class ScreenManagerActivity extends Activity implements LoaderCallbacks<C
 	{
 		manager = getLoaderManager();
 		manager.initLoader(ScreenProvider.LOADER_ID_SCREENS, null, this);
-		adapter = new ScreenAdapter(getApplicationContext(), null, true);
+		//adapter = new ScreenAdapter(getApplicationContext(), null, true);
 	}
 
 	/**

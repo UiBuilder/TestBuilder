@@ -21,6 +21,8 @@ public class NewScreenHolder
 	
 	public int sectionId;
 	
+	public String cloudProjectId;
+	
 	public ContentValues getBundle()
 	{
 		ContentValues values = new ContentValues();
@@ -28,6 +30,7 @@ public class NewScreenHolder
 		values.put(ScreenProvider.KEY_SECTION_NAME, sectionName);
 		values.put(ScreenProvider.KEY_SECTION_DESCRIPTION, sectionDescription);
 		values.put(ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT, sectionId);
+		values.put(ScreenProvider.KEY_SECTION_ASSOCIATED_CLOUD_PROJECT, cloudProjectId);
 		
 		return values;
 	}

@@ -43,15 +43,19 @@ public class ScreenRatioChanger implements Runnable
 	private void resizeDrawingArea()
 	{
 		//float ratio = SCREENRATIO_DEFAULT;
-		int rootHeight = designArea.getHeight();
-		int rootWidth = Math.round(rootHeight / 16*10f); // does not work with another accessing method
+		int rootHeight = designArea.getMeasuredHeight() - 2 * handleSize;
+		int rootWidth = //Math.round
+				(int)((rootHeight / (330/208.0f)) + 0.5f*handleSize); // does not work with another accessing method
 
-		int maxWidth = rootWidth - 2 * handleSize;
-		int maxHeight = rootHeight - 2 * handleSize;
+		Log.d("width", String.valueOf(rootWidth));
+		Log.d("height", String.valueOf(rootHeight));
+		
+		//int maxWidth = rootWidth - 2 * handleSize;
+		//int maxHeight = rootHeight - 2 * handleSize;
 
 		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) designArea.getLayoutParams();
-		params.width = GridSnapper.snapToGrid(maxWidth);
-		params.height = GridSnapper.snapToGrid(maxHeight);
+		params.width = GridSnapper.snapToGrid(rootWidth);
+		params.height = GridSnapper.snapToGrid(rootHeight);
 
 		designArea.setLayoutParams(params);
 		designArea.forceLayout();

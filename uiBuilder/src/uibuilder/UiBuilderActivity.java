@@ -8,12 +8,17 @@ import java.util.ArrayList;
 import uibuilder.DeleteFragment.onDeleteRequestListener;
 import uibuilder.DesignFragment.onObjectSelectedListener;
 import uibuilder.ItemboxFragment.onObjectRequestedListener;
+import uxcomponents.ScreenCommentsFragment;
+import uxcomponents.ScreenCommentsFragment.commentsUpdatedListener;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -26,9 +31,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import creators.ObjectFactory;
 import data.FromDatabaseObjectLoader;
@@ -50,7 +57,7 @@ public class UiBuilderActivity
 								onObjectSelectedListener,
 								onDeleteRequestListener, 
 								LoaderCallbacks<Cursor>, 
-								onImageImportListener, onObjectRequestedListener
+								onImageImportListener, onObjectRequestedListener, commentsUpdatedListener
 {
 
 	@Override
@@ -66,12 +73,17 @@ public class UiBuilderActivity
 			NOTHING = 0x03;
 	
 
+	public static final String MODE = "mode";
+	public static final int MODE_EDIT = 0xaf, MODE_VIEW = 0xbf;
+	private int inMode;
+	
 	private static final int DISPLAY_PRESENTATION_MODE = 0x01;
 	private static final int DISPLAY_EDIT_MODE = 0x02;
 
 	private ItemboxFragment itembox;
 	private EditmodeFragment editbox;
 	private DesignFragment designbox;
+	private ScreenCommentsFragment commentsBox;
 	private FragmentManager fManager;
 	
 	private RelativeLayout rootLayout;
@@ -86,6 +98,9 @@ public class UiBuilderActivity
 	private FromDatabaseObjectLoader objectBundleLoader;
 
 	private int screenId;
+	private Bundle intentBundle;
+	private int numberOfComments;
+	public static final String NUMBER_OF_COMMENTS = "comments";
 	private boolean isPreview = false, intentStarted = false;
 	
 	private ObjectFactory factory;
@@ -96,14 +111,16 @@ public class UiBuilderActivity
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.layout_fragment_container);
-		setupUi();
 		checkIntent();
+		setupUi();
+		
 		
 		grabber = new ChildGrabber();
 		objectBundleLoader = new FromDatabaseObjectLoader();
 
 		fManager = getFragmentManager();
 		exporter = new ImageTools(getApplicationContext());
+		ScreenCommentsFragment.setCommentsUpdatedListener(this);
 
 		performInitTransaction();
 		
@@ -182,12 +199,15 @@ public class UiBuilderActivity
 	private void checkIntent()
 	{
 		Intent intent = getIntent();
-		Bundle intentBundle = intent.getExtras();
+		intentBundle = intent.getExtras();
 
 		if (intentBundle != null)
 		{
-			screenId = intentBundle.getInt(ScreenManagerActivity.DATABASE_SCREEN_ID);
-			Log.d("screen id is", String.valueOf(screenId));
+			screenId = intentBundle.getInt(ScreenProvider.KEY_ID);
+			inMode = intentBundle.getInt(MODE);
+			numberOfComments = intentBundle.getInt(NUMBER_OF_COMMENTS);
+			
+			Log.d("number of comments ", String.valueOf(numberOfComments));
 		}
 	}
 
@@ -212,25 +232,35 @@ public class UiBuilderActivity
 	@Override
 	public void onBackPressed()
 	{	
-		
-		/**
-		 * USABILITY TEST REQUIREMENT:
-		 * if an overlay is active, use the back button to disable it
-		 */
-		if (designbox.deleteOverlay())
+		if (inMode == UiBuilderActivity.MODE_EDIT)
 		{
-			displaySidebar(ITEMBOX);
+			/**
+			 * USABILITY TEST REQUIREMENT:
+			 * if an overlay is active, use the back button to disable it
+			 */
+			if (designbox.deleteOverlay())
+			{
+				displaySidebar(ITEMBOX);
+			}
+			
+			/**
+			 * USABILITY TEST REQUIREMENT:
+			 * if the activity is in preview mode, use the back button to disable it
+			 */
+			else if (isPreview)
+			{
+				togglePreview();
+			}
+			else if (isDisplayingComments)
+			{
+				displaySidebar(ITEMBOX);
+				isDisplayingComments = false;
+			}
+			else
+			{
+				returnToManager();
+			}
 		}
-		
-		/**
-		 * USABILITY TEST REQUIREMENT:
-		 * if the activity is in preview mode, use the back button to disable it
-		 */
-		else if (isPreview)
-		{
-			togglePreview();
-		}
-		
 		/**
 		 * default case, use back button to leave the design activity and navigate back to the manager
 		 */
@@ -248,13 +278,21 @@ public class UiBuilderActivity
 	 */
 	private void returnToManager()
 	{
-		Uri imageUri = getPreviewImage();
 		
-		Intent returnIntent = new Intent();
+		Uri imageUri = getPreviewImage();
+		ContentValues image = new ContentValues();
+		image.put(ScreenProvider.KEY_SCREEN_PREVIEW, imageUri.toString());
+
+		ContentResolver res = getContentResolver();
+		Uri imageUpdate = ContentUris.withAppendedId(ScreenProvider.CONTENT_URI_SCREENS, screenId);
+
+		res.update(imageUpdate, image, null, null);
+		
+		/*Intent returnIntent = new Intent();
 		returnIntent.putExtra(ScreenManagerActivity.RESULT_SCREEN_ID, screenId);
 		returnIntent.putExtra(ScreenManagerActivity.RESULT_IMAGE_PATH,imageUri.toString());
 		setResult(RESULT_OK, returnIntent); 
-		
+		*/
 		finish();
 		overridePendingTransition(R.anim.activity_transition_from_left_in, R.anim.activity_transition_to_right_out);
 	}
@@ -303,11 +341,14 @@ public class UiBuilderActivity
 	 */
 	private void setupUi()
 	{
+
 		itembox = new ItemboxFragment();
 		editbox = new EditmodeFragment();
 		designbox = new DesignFragment();
+		designbox.setArguments(intentBundle);
 		deletebox = new DeleteFragment();
-
+		commentsBox = new ScreenCommentsFragment();
+		commentsBox.setArguments(intentBundle);
 
 		DesignFragment.setOnObjectSelectedListener(this);
 		DeleteFragment.setOnDeleteRequestListener(this);
@@ -318,6 +359,40 @@ public class UiBuilderActivity
 		sideFragment = (LinearLayout) findViewById(R.id.fragment_sidebar);
 		
 		setActionBarStyle();
+		setupMessageBadge();
+	}
+
+	private void setupMessageBadge()
+	{
+		TextView badge = (TextView) findViewById(R.id.message_badge);
+		
+		
+		{
+			badge.setVisibility(View.VISIBLE);
+			badge.setText(String.valueOf(numberOfComments));
+			badge.setOnClickListener(new OnClickListener()
+			{
+				
+				@Override
+				public void onClick(View v)
+				{
+					if (inMode == MODE_EDIT)
+					{
+						if (isDisplayingComments)
+						{
+							displaySidebar(ITEMBOX);
+							isDisplayingComments = false;
+						}
+						else
+							performDisplayCommentsTransaction();
+					}
+					
+				}
+
+			});
+		}
+
+		
 	}
 
 	/**
@@ -327,12 +402,14 @@ public class UiBuilderActivity
 	private void setActionBarStyle()
 	{
 		ActionBar bar = getActionBar();
+		bar.setDisplayShowTitleEnabled(true);
 
 		bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME);
 		bar.setBackgroundDrawable(getResources().getDrawable(R.color.designfragment_background));
 		
 		bar.setDisplayHomeAsUpEnabled(true);
-		bar.setDisplayOptions(ActionBar.NAVIGATION_MODE_STANDARD|ActionBar.DISPLAY_SHOW_HOME|ActionBar.DISPLAY_HOME_AS_UP);
+		bar.setDisplayOptions(ActionBar.NAVIGATION_MODE_STANDARD|ActionBar.DISPLAY_SHOW_HOME|ActionBar.DISPLAY_HOME_AS_UP|ActionBar.DISPLAY_SHOW_TITLE);
+		
 	}
 
 
@@ -345,19 +422,58 @@ public class UiBuilderActivity
 	{
 		FragmentTransaction init = fManager.beginTransaction();
 
-		init.add(R.id.fragment_sidebar, editbox);
-		init.add(R.id.fragment_sidebar, itembox);
-		init.add(R.id.fragment_sidebar, deletebox);
-		init.add(R.id.fragment_design, designbox);
-
-		init.hide(editbox);
-		init.hide(itembox);
-		init.hide(deletebox);
+		if (inMode == MODE_EDIT)
+		{
+			init.add(R.id.fragment_sidebar, editbox);
+			init.add(R.id.fragment_sidebar, itembox);
+			init.add(R.id.fragment_sidebar, deletebox);
+			init.add(R.id.fragment_design, designbox);
+			init.add(R.id.fragment_sidebar, commentsBox);
+		
+			init.hide(editbox);
+			init.hide(itembox);
+			init.hide(deletebox);
+			init.hide(commentsBox);
+		}
+		if (inMode == MODE_VIEW)
+		{
+			//init.add(R.id.fragment_sidebar, editbox);
+			//init.add(R.id.fragment_sidebar, itembox);
+			//init.add(R.id.fragment_sidebar, deletebox);
+			init.add(R.id.fragment_design, designbox);
+			init.add(R.id.fragment_sidebar, commentsBox);
+		
+			//init.hide(editbox);
+			//init.hide(itembox);
+			//init.hide(deletebox);
+			//init.hide(commentsBox);
+		}
 
 		init.setCustomAnimations(R.animator.to_left_in, R.animator.to_left_out);
 		init.commit();
 
 		objectSelected(false);
+	}
+	
+	private boolean isDisplayingComments;
+	
+	private void performDisplayCommentsTransaction()
+	{
+		if (inMode == MODE_EDIT)
+		{
+			FragmentTransaction comments = fManager.beginTransaction();
+			comments.show(commentsBox);
+		
+			comments.hide(editbox);
+			comments.hide(itembox);
+			comments.hide(deletebox);
+			
+			comments.setCustomAnimations(R.animator.to_left_in, R.animator.to_left_out);
+			comments.commit();
+			
+			isDisplayingComments = true;
+		}
+		
 	}
 
 	/**
@@ -726,5 +842,12 @@ public class UiBuilderActivity
 		designbox.newObjectEvent();
 		
 		return v;
+	}
+
+	@Override
+	public void newCommentsLoaded(int number)
+	{
+		TextView badge = (TextView) findViewById(R.id.message_badge);
+		badge.setText(String.valueOf(number));
 	}	
 }
