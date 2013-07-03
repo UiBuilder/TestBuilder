@@ -1,58 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" 
-    android:id="@+id/layout_project_fragments_container"
+	android:layout_height="match_parent"
     >
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="vertical" 
+	    android:id="@+id/layout_project_fragments_container"
+	    >
     
-    <FrameLayout android:id="@+id/layout_project_collabs_fragment"
-        
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/default_padding_large"
-        android:background="@color/designfragment_background" 
-        ></FrameLayout>
-
-    <LinearLayout 
-        android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:orientation="horizontal"
-        >
-        
-        <FrameLayout android:id="@+id/layout_project_sections_fragment"
-            android:layout_height="match_parent"
-            android:layout_width="300dp"
-            android:background="@color/designfragment_background"
-            android:padding="@dimen/default_padding_large"
-            ></FrameLayout>
-        
-        <LinearLayout 
-            android:baselineAligned="false"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:weightSum="1"
-            >
-            <FrameLayout android:id="@+id/layout_project_myscreens_fragment"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:padding="@dimen/default_padding_large"
-                android:background="@color/designfragment_background"
-                
-                ></FrameLayout>
-            
-            <FrameLayout android:id="@+id/layout_project_collabscreens_fragment"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:padding="@dimen/default_padding_large"
-                android:background="@color/designfragment_background"
-                ></FrameLayout>
-            
-            
-        </LinearLayout>
-        
-    </LinearLayout>
-</LinearLayout>
+	    <FrameLayout android:id="@+id/layout_project_collabs_fragment"
+	        
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:padding="@dimen/default_padding_large"
+	        android:background="@color/designfragment_background" 
+	        ></FrameLayout>
+	
+	    <LinearLayout 
+	        android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="horizontal"
+	        >
+	        
+	        <FrameLayout android:id="@+id/layout_project_sections_fragment"
+	            android:layout_height="match_parent"
+	            android:layout_width="300dp"
+	            android:background="@color/designfragment_background"
+	            android:padding="@dimen/default_padding_large"
+	            ></FrameLayout>
+	        
+	        <LinearLayout 
+	            android:baselineAligned="false"
+	            android:layout_width="match_parent"
+	            android:layout_height="match_parent"
+	            android:orientation="horizontal"
+	            android:weightSum="1"
+	            >
+	            <FrameLayout android:id="@+id/layout_project_myscreens_fragment"
+	                android:layout_width="0dp"
+	                android:layout_height="match_parent"
+	                android:layout_weight="0.5"
+	                android:padding="@dimen/default_padding_large"
+	                android:background="@color/designfragment_background"
+	                
+	                ></FrameLayout>
+	            
+	            <FrameLayout android:id="@+id/layout_project_collabscreens_fragment"
+	                android:layout_width="0dp"
+	                android:layout_height="match_parent"
+	                android:layout_weight="0.5"
+	                android:padding="@dimen/default_padding_large"
+	                android:background="@color/designfragment_background"
+	                ></FrameLayout>
+	            
+	            
+	        </LinearLayout>
+	        
+	    </LinearLayout>
+	</LinearLayout>
+	
+	<LinearLayout android:id="@+id/layout_project_userdetails"
+	    android:orientation="vertical"
+	    android:layout_width="200dp"
+	    android:layout_height="wrap_content"
+	    android:background="@color/superlight_grey"
+	    
+	    android:layout_alignParentRight="true"
+	    android:layout_alignParentTop="true"
+	    android:layout_marginRight="20dp"
+	    android:layout_marginTop="100dp"
+	    android:visibility="gone"
+	    >
+	    <TextView android:id="@+id/layout_project_userdetails_username"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="center_horizontal"
+	        android:padding="@dimen/default_padding_large"
+	        
+	        style="@style/editbox_sub"
+	        />
+	    
+	    <Button android:id="@+id/layout_project_userdetails_remove"
+	        style="@style/itembox_items_inverted"
+	        android:layout_margin="@dimen/default_padding_medium"
+	        
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="Remove"
+	        />
+	    
+	</LinearLayout>
+</RelativeLayout>

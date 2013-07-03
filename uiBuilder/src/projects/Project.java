@@ -215,7 +215,27 @@ public class Project
 			
 		
 			String path = inserted.getPathSegments().get(1);
-			projectHolder.projectId = Integer.valueOf(path);
+			
+			int projectId = Integer.valueOf(path);
+			
+			projectHolder.projectId = projectId;
+			
+			for (ParseUser collab: collabList)
+			{
+				String userId = collab.getObjectId();
+				String mail = collab.getUsername();
+				String name = collab.getString(CloudConstants.USER_DISPLAY_NAME);
+				
+				ContentValues userValues = new ContentValues();
+				userValues.put(ScreenProvider.KEY_COLLAB_PARSEID, userId);
+				userValues.put(ScreenProvider.KEY_COLLAB_OF_PROJECT, projectId);
+				
+				userValues.put(ScreenProvider.KEY_COLLAB_NAME, name);
+				
+				resolver.insert(ScreenProvider.CONTENT_URI_COLLABS, userValues);
+				Log.d("inserted iser in usertable", name);
+			}
+			
 			Log.d("insert project path full", path);
 			Log.d("id in holder", String.valueOf(projectHolder.projectId));
 		}

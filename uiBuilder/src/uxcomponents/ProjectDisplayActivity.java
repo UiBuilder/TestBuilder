@@ -1,6 +1,9 @@
 package uxcomponents;
 
+import com.parse.ParseUser;
+
 import helpers.Log;
+import uxcomponents.ProjectCollabsFragment.userSelectedListener;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -14,12 +17,15 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import data.ScreenProvider;
 import de.ur.rk.uibuilder.R;
 
-public class ProjectDisplayActivity extends Activity implements LoaderCallbacks<Cursor>
+public class ProjectDisplayActivity extends Activity implements LoaderCallbacks<Cursor>, userSelectedListener
 {
 	private int projectId;
 	private String projectName;
@@ -49,6 +55,7 @@ public class ProjectDisplayActivity extends Activity implements LoaderCallbacks<
 		projectName = startingBundle.getString(ScreenProvider.KEY_PROJECTS_NAME);
 		
 		Log.d("project id", String.valueOf(projectId));
+		ProjectCollabsFragment.setUserSelectedListener(this);
 		
 		setupUI();
 		//setActionBarStyle();
@@ -101,7 +108,9 @@ public class ProjectDisplayActivity extends Activity implements LoaderCallbacks<
 		sectionsFragment.setArguments(startingBundle);
 		
 		Bundle collabsArgs = new Bundle();
+		collabsArgs.putInt(ScreenProvider.KEY_ID, projectId);
 		collabsArgs.putString(ScreenProvider.KEY_PROJECTS_NAME, projectName);
+		
 		collabFragment.setArguments(collabsArgs);
 	}
 	
@@ -159,6 +168,40 @@ public class ProjectDisplayActivity extends Activity implements LoaderCallbacks<
 	{
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void displayUserDetails(Bundle userValues)
+	{
+		String userName = userValues.getString(ScreenProvider.KEY_COLLAB_NAME);
+		String userId = userValues.getString(ScreenProvider.KEY_COLLAB_PARSEID);
+		
+		Log.d("user id selected", userId);
+		
+		LinearLayout userDetails = (LinearLayout) findViewById(R.id.layout_project_userdetails);
+		userDetails.setVisibility(View.VISIBLE);
+		
+		TextView userNameDisplay = (TextView) userDetails.findViewById(R.id.layout_project_userdetails_username);
+		userNameDisplay.setText(userName);
+		
+		
+		Button remove = (Button) userDetails.findViewById(R.id.layout_project_userdetails_remove);
+		remove.setVisibility(View.VISIBLE);
+		remove.setTag(userValues);
+		remove.setOnClickListener(collabFragment);
+		
+		if (userId.equals(ParseUser.getCurrentUser().getObjectId()))
+		{
+			remove.setVisibility(View.GONE);
+		}
+	}
+
+	@Override
+	public void hideUserDetails()
+	{
+		// TODO Auto-generated method stub
+		LinearLayout userDetails = (LinearLayout) findViewById(R.id.layout_project_userdetails);
+		userDetails.setVisibility(View.GONE);
 	}
 	
 }

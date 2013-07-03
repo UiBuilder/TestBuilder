@@ -248,6 +248,19 @@ public class ScreenProvider extends ContentProvider
 				Log.d("comment inserted local", "inserted");
 			}
 			break;
+			
+		case COLLABS_ALL:
+			
+			id = db.insert(DataManager.TABLE_COLLABS, nullColumnHack, values);
+			
+			if (id > -1)
+			{
+				inserted = ContentUris.withAppendedId(CONTENT_URI_COMMENTS, id);
+				getContext().getContentResolver().notifyChange(inserted, null);
+				
+				Log.d("collab inserted local", "inserted");
+			}
+			break;
 
 		}
 		//breakpoint, remove when done
@@ -344,6 +357,16 @@ public class ScreenProvider extends ContentProvider
 				
 				query.setTables(DataManager.TABLE_COMMENTS);
 				break;
+				
+			case COLLABS_ALL:
+				
+				sortOrder = KEY_ID + " DESC";
+				
+				if (selection != null)
+				Log.d("comments all with", selection);
+				
+				query.setTables(DataManager.TABLE_COLLABS);
+				break;	
 		}
 		
 		Cursor cursor = query.query(db, projection, selection, selectionArgs, groupBy, having, sortOrder);
@@ -476,6 +499,15 @@ public class ScreenProvider extends ContentProvider
 		
 		switch (matcher.match(uri))
 		{
+		case COLLABS_SINGLE:
+			
+			row = uri.getPathSegments().get(1);
+			selection = KEY_ID + "=" + row + (!TextUtils.isEmpty(selection) ? " AND (" + selection +')' : "");
+			
+			
+			deleteCount = db.delete(DataManager.TABLE_COLLABS, selection, selArgs);
+			break;
+		
 		case SCREENS_SINGLE:
 			
 			row = uri.getPathSegments().get(1);
