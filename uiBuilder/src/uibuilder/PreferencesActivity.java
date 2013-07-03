@@ -55,7 +55,7 @@ import de.ur.rk.uibuilder.R;
 public class PreferencesActivity extends Activity implements OnItemClickListener, OnClickListener, OnKeyListener
 {
 	private ViewFlipper flipper;
-	private ListView optionsList;
+	//private ListView optionsList;
 	private OptionsHolder[] optionListItems;
 	private OptionsArrayAdapter optionsListAdapter;
 	
@@ -112,8 +112,8 @@ public class PreferencesActivity extends Activity implements OnItemClickListener
 				flipper.setDisplayedChild(SHOW_SIGNED_IN);
 			}
 			
-			optionsList.getChildAt(0).setActivated(true);
-			optionsList.setItemChecked(0, true);
+			//optionsList.getChildAt(0).setActivated(true);
+			//optionsList.setItemChecked(0, true);
 			activeListItemPos = 0;
 		}
 	}
@@ -231,7 +231,7 @@ public class PreferencesActivity extends Activity implements OnItemClickListener
 
 		setupAnimations();
 		
-		optionsList.setItemChecked(0, true);
+		//optionsList.setItemChecked(0, true);
 		
 		//optionsList.getChildAt(0).setActivated(true);
 		activeListItemPos = 0;
@@ -240,7 +240,7 @@ public class PreferencesActivity extends Activity implements OnItemClickListener
 	
 	private void setupOptionsPage()
 	{
-		optionsList = (ListView) findViewById(R.id.project_edit_optionsscreen_optionslist);
+		//optionsList = (ListView) findViewById(R.id.project_edit_optionsscreen_optionslist);
 		
 		String[] optionsListNames = getResources().getStringArray(R.array.prime_preferences_names);
 		String[] optionsListDescs = getResources().getStringArray(R.array.prime_preferences_descriptions);
@@ -248,19 +248,19 @@ public class PreferencesActivity extends Activity implements OnItemClickListener
 		optionListItems = OptionsHolder.getOptions(optionsListNames, optionsListDescs);
 		optionsListAdapter = new OptionsArrayAdapter(getApplicationContext(), 0, optionListItems);
 		
-		optionsList.setAdapter(optionsListAdapter);
-		optionsList.setOnItemClickListener(this);
+		//optionsList.setAdapter(optionsListAdapter);
+		//optionsList.setOnItemClickListener(this);
 		
 	}
 	
-	private static final int SHOW_SIGN_UP = 0, SHOW_SIGNED_IN = 4, SHOW_SIGN_IN = 3;
+	private static final int SHOW_SIGN_UP = 0, SHOW_SIGNED_IN = 2, SHOW_SIGN_IN = 1;
 
 	private void setupMainUI()
 	{
 		flipper = (ViewFlipper) findViewById(R.id.project_edit_flipper);
 		flipper.addView(getLayoutInflater().inflate(R.layout.activity_preferences_cloud_account_signup, null));
-		flipper.addView(getLayoutInflater().inflate(R.layout.activity_preferences_cloud_settings, null));
-		flipper.addView(getLayoutInflater().inflate(R.layout.activity_preferences_collaborations_settings, null));
+		//flipper.addView(getLayoutInflater().inflate(R.layout.activity_preferences_cloud_settings, null));
+		//flipper.addView(getLayoutInflater().inflate(R.layout.activity_preferences_collaborations_settings, null));
 		
 		//additional, not reachable via item click mapping
 		flipper.addView(getLayoutInflater().inflate(R.layout.activity_preferences_cloud_account_signin, null));
@@ -330,7 +330,7 @@ public class PreferencesActivity extends Activity implements OnItemClickListener
 				flipper.setDisplayedChild(id);
 				
 				//optionsList.setItemChecked(activeListItemPos, false);
-				optionsList.setItemChecked(id, true);
+				//optionsList.setItemChecked(id, true);
 				
 				//optionsList.getChildAt(activeListItemPos).setActivated(false);
 				item.setActivated(true);

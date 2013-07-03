@@ -60,6 +60,7 @@ public class ManagerGridAdapter extends CursorAdapter
 		Bundle tag = new Bundle();
 		tag.putString(ScreenProvider.KEY_PROJECTS_NAME, title);
 		tag.putInt(ScreenProvider.KEY_ID, localId);
+		tag.putInt(ScreenProvider.KEY_PROJECTS_COLOR, backgroundResource);
 		view.setTag(tag);
 		
 		view.invalidate();

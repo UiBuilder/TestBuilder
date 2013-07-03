@@ -15,15 +15,15 @@
 	    
 		<View android:layout_width="0dp" android:layout_height="match_parent"
 
-			android:layout_weight="0.1" />
-		
+			android:layout_weight="0.25" />
+<!-- 		
 		<include layout="@layout/activity_edit_project_optionslist"
 			    android:layout_height="match_parent" android:layout_width="0dp"
 			    android:layout_weight="0.3"
 			    android:background="@color/superlight_grey"
 				android:padding="@dimen/default_padding_medium"
 			    />
-
+ -->
 
 		<ViewFlipper android:id="@+id/project_edit_flipper"
 			android:layout_height="match_parent" android:layout_width="0dp"
@@ -36,7 +36,7 @@
 
 		<View android:layout_width="0dp" android:layout_height="match_parent"
 
-			android:layout_weight="0.1" />
+			android:layout_weight="0.25" />
 
 
 	</LinearLayout>

@@ -3,17 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" 
-    android:background="@color/designfragment_background"
+    android:padding="@dimen/default_padding_medium"
     >
     
-	<FrameLayout android:id="@+id/screenflow_section_container"
-	    android:layout_width="300dp"
-	    android:layout_height="match_parent"
-	    ></FrameLayout>
-	
-	<RelativeLayout android:id="@+id/screenflow_design_area"
+	<ListView android:id="@+id/screenflow_screens" 
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
-	    
-	    ></RelativeLayout>
+	    ></ListView>
 </LinearLayout>

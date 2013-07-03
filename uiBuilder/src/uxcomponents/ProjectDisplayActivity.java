@@ -29,6 +29,7 @@ public class ProjectDisplayActivity extends Activity implements LoaderCallbacks<
 {
 	private int projectId;
 	private String projectName;
+	private int colorCode;
 	private Bundle startingBundle;
 	
 	private ProjectCollabsFragment collabFragment;
@@ -53,6 +54,7 @@ public class ProjectDisplayActivity extends Activity implements LoaderCallbacks<
 		
 		projectId = startingBundle.getInt(ScreenProvider.KEY_ID);
 		projectName = startingBundle.getString(ScreenProvider.KEY_PROJECTS_NAME);
+		colorCode = startingBundle.getInt(ScreenProvider.KEY_PROJECTS_COLOR);
 		
 		Log.d("project id", String.valueOf(projectId));
 		ProjectCollabsFragment.setUserSelectedListener(this);
@@ -110,6 +112,7 @@ public class ProjectDisplayActivity extends Activity implements LoaderCallbacks<
 		Bundle collabsArgs = new Bundle();
 		collabsArgs.putInt(ScreenProvider.KEY_ID, projectId);
 		collabsArgs.putString(ScreenProvider.KEY_PROJECTS_NAME, projectName);
+		collabsArgs.putInt(ScreenProvider.KEY_PROJECTS_COLOR, colorCode);
 		
 		collabFragment.setArguments(collabsArgs);
 	}

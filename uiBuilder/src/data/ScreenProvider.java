@@ -45,7 +45,8 @@ public class ScreenProvider extends ContentProvider
 					LOADER_ID_PROJECTS = 0x103ff,
 					LOADER_ID_SECTIONS = 0x104ff,
 					LOADER_ID_COMMENTS = 0x105ff,
-					LOADER_ID_COLLABORATORS = 0x106ff
+					LOADER_ID_COLLABORATORS = 0x106ff,
+					LOADER_ID_SCREENFLOWER = 0x107ff
 					;
 	
 	private static final String 

@@ -144,7 +144,12 @@ public class ProjectMyScreensFragment extends Fragment implements sectionSelecte
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args)
 	{
-		String currentUser = ParseUser.getCurrentUser().getObjectId();
+		String currentUser;
+		try {
+			currentUser = ParseUser.getCurrentUser().getObjectId();
+		} catch (Exception e) {
+			currentUser = "";
+		}
 		Log.d("loader created for section with id", String.valueOf(thisSection));
 		String selection = ScreenProvider.KEY_SCREEN_ASSOCIATED_SECTION + " = " + "'" + String.valueOf(thisSection) + "'" + 
 								" AND " + ScreenProvider.KEY_SCREEN_OWNER + " = " + "'" + currentUser + "'";
@@ -275,12 +280,18 @@ public class ProjectMyScreensFragment extends Fragment implements sectionSelecte
 		ContentValues values = new ContentValues();
 
 		String now = generateDate();
+		String userId = "";
+		
+		if (ParseUser.getCurrentUser() != null)
+		{
+			userId = ParseUser.getCurrentUser().getObjectId();
+		}
 
 		values.put(ScreenProvider.KEY_SCREEN_PREVIEW, 0);
 		values.put(ScreenProvider.KEY_SCREEN_DATE, now);
 		values.put(ScreenProvider.KEY_SCREEN_NAME, "");
 		values.put(ScreenProvider.KEY_SCREEN_ASSOCIATED_SECTION, thisSection);
-		values.put(ScreenProvider.KEY_SCREEN_OWNER, ParseUser.getCurrentUser().getObjectId());
+		values.put(ScreenProvider.KEY_SCREEN_OWNER, userId); 
 
 		return values;
 	}

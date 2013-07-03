@@ -28,6 +28,7 @@ public class ProjectCollabsFragment extends Fragment implements sectionSelectedL
 	
 	private String selectedProject;
 	private int projectId;
+	private int colorCode;
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState)
@@ -69,16 +70,19 @@ public class ProjectCollabsFragment extends Fragment implements sectionSelectedL
 		Bundle values = getArguments();
 		selectedProject = values.getString(ScreenProvider.KEY_PROJECTS_NAME);
 		projectId = values.getInt(ScreenProvider.KEY_ID);
+		colorCode = values.getInt(ScreenProvider.KEY_PROJECTS_COLOR);
 		
 		if (root == null)
 		{
 			root = inflater.inflate(R.layout.layout_project_fragment_collabs, container, false);
 			rootLayout = (LinearLayout) root;
 			collabLayout = (LinearLayout) root.findViewById(R.id.collablayout);
+			//root.setBackgroundColor(colorCode);
 			
 			userPath = (TextView) root.findViewById(R.id.user_path);
 			
 			userPath.setText(selectedProject);
+			userPath.setBackgroundColor(colorCode);
 			ProjectSectionsFragment.setHeaderSectionSelectedListener(this);
 		}
 		return root;

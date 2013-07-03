@@ -129,8 +129,15 @@ public class ProjectCollabScreensFragment extends Fragment implements sectionSel
 	public Loader<Cursor> onCreateLoader(int id, Bundle args)
 	{
 		Log.d("loader created for section with id", String.valueOf(thisSection));
+		String currentUser;
 		
-		String currentUser = ParseUser.getCurrentUser().getObjectId();
+		if (ParseUser.getCurrentUser() != null)
+		{
+			currentUser = ParseUser.getCurrentUser().getObjectId();
+		} else {
+			currentUser = "";
+		}
+		
 		String selection = ScreenProvider.KEY_SCREEN_ASSOCIATED_SECTION + " = " + "'" + String.valueOf(thisSection) + "'" + 
 				" AND " + ScreenProvider.KEY_SCREEN_OWNER + " != " + "'" + currentUser + "'";
 
