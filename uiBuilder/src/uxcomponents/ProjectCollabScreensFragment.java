@@ -203,6 +203,8 @@ public class ProjectCollabScreensFragment extends Fragment implements sectionSel
 		
 		Bundle tag = (Bundle)screen.getTag();
 		tag.putInt(UiBuilderActivity.MODE, UiBuilderActivity.MODE_VIEW);
+		
+		tag.putString(ScreenProvider.KEY_SECTION_NAME, thisSectionName);
 		start.putExtras(tag);
 
 		startActivityForResult(start, REQUEST_SCREEN);

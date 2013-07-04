@@ -177,6 +177,10 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
         
         Button goToCollab = (Button) findViewById(R.id.project_wizard_flipper_step2_ok);
         goToCollab.setOnClickListener(this);
+        if(ParseUser.getCurrentUser() == null)
+        {
+        	goToCollab.setText("Finish");
+        }
         
         Button step2back = (Button) findViewById(R.id.project_wizard_flipper_step2_back);
         step2back.setOnClickListener(this);

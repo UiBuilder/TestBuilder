@@ -100,6 +100,8 @@ public class UiBuilderActivity
 	private int screenId;
 	private Bundle intentBundle;
 	private int numberOfComments;
+	private String associatedSection;
+	
 	public static final String NUMBER_OF_COMMENTS = "comments";
 	private boolean isPreview = false, intentStarted = false;
 	
@@ -205,6 +207,7 @@ public class UiBuilderActivity
 		{
 			screenId = intentBundle.getInt(ScreenProvider.KEY_ID);
 			inMode = intentBundle.getInt(MODE);
+			associatedSection = intentBundle.getString(ScreenProvider.KEY_SECTION_NAME);
 			numberOfComments = intentBundle.getInt(NUMBER_OF_COMMENTS);
 			
 			Log.d("number of comments ", String.valueOf(numberOfComments));
@@ -402,7 +405,8 @@ public class UiBuilderActivity
 	private void setActionBarStyle()
 	{
 		ActionBar bar = getActionBar();
-		bar.setDisplayShowTitleEnabled(false);
+		bar.setDisplayShowTitleEnabled(true);
+		bar.setTitle(associatedSection);
 
 		//bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME);
 		bar.setBackgroundDrawable(getResources().getDrawable(R.color.designfragment_background));

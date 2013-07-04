@@ -54,6 +54,7 @@ public class ProjectMyScreensFragment extends Fragment implements sectionSelecte
 	
 	private int thisSection;
 	private int colorCode;
+	private String sectionName;
 	
 	private Button newScreen;
 	private EditText sketchName;
@@ -130,6 +131,7 @@ public class ProjectMyScreensFragment extends Fragment implements sectionSelecte
 	{
 		Log.d("loading my screens", "called");
 		thisSection = sectionId.getInt(ScreenProvider.KEY_ID);
+		sectionName = sectionId.getString(ScreenProvider.KEY_SECTION_NAME);
 		
 		loadScreens();
 	}
@@ -205,7 +207,7 @@ public class ProjectMyScreensFragment extends Fragment implements sectionSelecte
 		//String screenName = getScreenName(v);
 		//menu.setHeaderTitle("Options for \"" + screenName + "\"");
 		
-		menu.add(ContextMenu.NONE, SCREENMENU_ACTION_DELETE, ContextMenu.NONE, "Delete Screen");
+		menu.add(ContextMenu.NONE, SCREENMENU_ACTION_DELETE, ContextMenu.NONE, "Delete Sketch");
 		//menu.add(ContextMenu.NONE, SCREENMENU_ACTION_EDIT, ContextMenu.NONE, "Edit Screen Preferences");
 	}
 	
@@ -324,6 +326,7 @@ public class ProjectMyScreensFragment extends Fragment implements sectionSelecte
 		Intent start = new Intent(getActivity().getApplicationContext(), UiBuilderActivity.class);
 		
 		Bundle tag = (Bundle)screen.getTag();
+		tag.putString(ScreenProvider.KEY_SECTION_NAME, sectionName);
 		tag.putInt(UiBuilderActivity.MODE, UiBuilderActivity.MODE_EDIT);
 		start.putExtras(tag);
 

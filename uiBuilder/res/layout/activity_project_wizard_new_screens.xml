@@ -35,7 +35,7 @@
 							android:text="Enter a screen name" />
 						
 						<EditText android:id="@+id/project_wizard_flipper_step2_screenname"
-						    android:layout_margin="@dimen/default_padding_small"
+						    android:layout_margin="@dimen/default_padding_small" android:lines="1"
 							android:layout_width="match_parent" android:layout_height="wrap_content" />
 						
 						<TextView android:padding="@dimen/default_padding_small"
@@ -44,7 +44,7 @@
 							android:text="Enter a screen description" />
 		
 						<EditText android:id="@+id/project_wizard_flipper_step2_screendescription"
-						    android:layout_margin="@dimen/default_padding_small"
+						    android:layout_margin="@dimen/default_padding_small" android:lines="1"
 							android:layout_width="match_parent" android:layout_height="wrap_content" 
 							android:layout_marginBottom="@dimen/default_padding_large"
 							/>

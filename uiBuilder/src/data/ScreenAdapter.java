@@ -110,6 +110,7 @@ public class ScreenAdapter extends CursorAdapter
 		Bundle tag = new Bundle();
 		tag.putInt(ScreenProvider.KEY_ID, id);
 		tag.putInt(UiBuilderActivity.NUMBER_OF_COMMENTS, messageCount);
+		
 		view.setTag(tag);
 		
 		Log.d("binding view for screen id", String.valueOf(id));

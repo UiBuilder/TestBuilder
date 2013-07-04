@@ -72,6 +72,7 @@ public class ScreenFlowActivity extends Activity
 		}
 		
 		finish();
+		overridePendingTransition(R.anim.activity_transition_from_left_in, R.anim.activity_transition_to_right_out);
 	}
 
 	@Override

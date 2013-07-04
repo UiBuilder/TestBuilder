@@ -137,32 +137,35 @@ public class CloudConnection
 			screen.close();
 			
 			final ParseObject object = new ParseObject(CloudConstants.TYPE_OBJECTS);
-			
-			object.put(ScreenProvider.KEY_OBJECTS_SCREEN_PARSE_ID, screenCloudId);
-			
-			putValuesInObject(objectvalues, object);
-			
-			object.saveInBackground(new SaveCallback()
-			{
 				
-				@Override
-				public void done(ParseException e)
+			if(screenCloudId != null)
+			{
+				object.put(ScreenProvider.KEY_OBJECTS_SCREEN_PARSE_ID, screenCloudId);
+				
+				putValuesInObject(objectvalues, object);
+				
+				object.saveInBackground(new SaveCallback()
 				{
-					// TODO Auto-generated method stub
-					if (e == null)
+					
+					@Override
+					public void done(ParseException e)
 					{
-						String cloudId = object.getObjectId();
-						
-						Uri localObjectUri = ContentUris.withAppendedId(ScreenProvider.CONTENT_URI_OBJECTS, objectId);
-						
-						ContentValues cloudIdValues = new ContentValues();
-						cloudIdValues.put(ScreenProvider.KEY_OBJECTS_PARSE_ID, cloudId);
-						
-						resolver.update(localObjectUri, cloudIdValues, null, null);
-						Log.d("object uploaded and updated with cloud id", cloudId);
+						// TODO Auto-generated method stub
+						if (e == null)
+						{
+							String cloudId = object.getObjectId();
+							
+							Uri localObjectUri = ContentUris.withAppendedId(ScreenProvider.CONTENT_URI_OBJECTS, objectId);
+							
+							ContentValues cloudIdValues = new ContentValues();
+							cloudIdValues.put(ScreenProvider.KEY_OBJECTS_PARSE_ID, cloudId);
+							
+							resolver.update(localObjectUri, cloudIdValues, null, null);
+							Log.d("object uploaded and updated with cloud id", cloudId);
+						}
 					}
-				}
-			});
+				});
+			}
 		}
 	}
 	
@@ -172,7 +175,7 @@ public class CloudConnection
 		{
 			final String objectId = newValues.getAsString(ScreenProvider.KEY_OBJECTS_PARSE_ID);
 			
-			Log.d("cloud about to update object", objectId);
+
 			
 			final ParseObject objectToUpdate = new ParseObject(CloudConstants.TYPE_OBJECTS);
 			objectToUpdate.setObjectId(objectId);
