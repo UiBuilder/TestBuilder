@@ -28,6 +28,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 import data.ScreenProvider;
 import de.ur.rk.uibuilder.R;
 
@@ -117,20 +118,26 @@ public class ScreenCommentsFragment extends Fragment implements OnClickListener,
 	@Override
 	public void onClick(View arg0)
 	{
-		// TODO Auto-generated method stub
-		Comment c = new Comment("me", comment.getText().toString());
-		//comments.add(c);
-		
-		ContentValues values = new ContentValues();
-		values.put(ScreenProvider.KEY_COMMENTS_COMMENT, comment.getText().toString());
-		values.put(ScreenProvider.KEY_COMMENTS_USERID, ParseUser.getCurrentUser().getObjectId());
-		values.put(ScreenProvider.KEY_COLLAB_NAME, ParseUser.getCurrentUser().getString(CloudConstants.USER_DISPLAY_NAME));
-		values.put(ScreenProvider.KEY_COMMENTS_ASSOCIATED_SCREEN, screenId);
-		comment.setText("");
-		
-		ContentResolver resolver = getActivity().getContentResolver();
-		resolver.insert(ScreenProvider.CONTENT_URI_COMMENTS, values);
-		manager.restartLoader(ScreenProvider.LOADER_ID_COMMENTS, null, this);
+		if (ParseUser.getCurrentUser() != null)// TODO Auto-generated method stub
+		{
+			Comment c = new Comment("me", comment.getText().toString());
+			//comments.add(c);
+			
+			ContentValues values = new ContentValues();
+			values.put(ScreenProvider.KEY_COMMENTS_COMMENT, comment.getText().toString());
+			values.put(ScreenProvider.KEY_COMMENTS_USERID, ParseUser.getCurrentUser().getObjectId());
+			values.put(ScreenProvider.KEY_COLLAB_NAME, ParseUser.getCurrentUser().getString(CloudConstants.USER_DISPLAY_NAME));
+			values.put(ScreenProvider.KEY_COMMENTS_ASSOCIATED_SCREEN, screenId);
+			comment.setText("");
+			
+			ContentResolver resolver = getActivity().getContentResolver();
+			resolver.insert(ScreenProvider.CONTENT_URI_COMMENTS, values);
+			manager.restartLoader(ScreenProvider.LOADER_ID_COMMENTS, null, this);
+		}
+		else
+		{
+			Toast.makeText(getActivity().getApplicationContext(), "You must be signed in to use this feature.", Toast.LENGTH_LONG).show();
+		}
 	}
 
 	@Override

@@ -44,6 +44,7 @@ public class ProjectSectionsFragment extends Fragment implements LoaderCallbacks
 	private TextView projectNameView;
 	
 	private int projectId;
+	private int colorCode;
 	//private String projectName;
 	
 	public static final String START_WIZARD_FOR_NEW_SCREENS = "new screen for project";
@@ -74,6 +75,7 @@ public class ProjectSectionsFragment extends Fragment implements LoaderCallbacks
 
 		Bundle values = getArguments();
 		projectId = values.getInt(ScreenProvider.KEY_ID);
+		colorCode = values.getInt(ScreenProvider.KEY_PROJECTS_COLOR);
 		//projectName = values.getString(ScreenProvider.KEY_PROJECTS_NAME);
 		
 		Log.d("sections received associated project id", String.valueOf(projectId));
@@ -86,6 +88,7 @@ public class ProjectSectionsFragment extends Fragment implements LoaderCallbacks
 			sectionList = (ListView) root.findViewById(R.id.project_sections_fragment_sections);
 			sectionListHeader = (LinearLayout) inflater.inflate(R.layout.activity_project_manager_section_list_header, null);
 			//((TextView)sectionListHeader.findViewById(R.id.screens_listheader_title)).setText(projectName);
+			
 		}
 		
 		setupList();
@@ -102,6 +105,9 @@ public class ProjectSectionsFragment extends Fragment implements LoaderCallbacks
 		Button newScreen = (Button) sectionListHeader.findViewById(R.id.project_manager_list_item_sections_newScreen);
 
 		newScreen.setOnClickListener(this);
+		
+		TextView header = (TextView) sectionListHeader.findViewById(R.id.screens_screenlist_title);
+		header.setTextColor(colorCode);
 		
 		setupDatabaseConnection();
 	}

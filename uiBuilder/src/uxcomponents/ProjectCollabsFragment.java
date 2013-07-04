@@ -80,9 +80,13 @@ public class ProjectCollabsFragment extends Fragment implements sectionSelectedL
 			//root.setBackgroundColor(colorCode);
 			
 			userPath = (TextView) root.findViewById(R.id.user_path);
+			TextView members = (TextView) root.findViewById(R.id.members);
 			
 			userPath.setText(selectedProject);
-			userPath.setBackgroundColor(colorCode);
+
+			userPath.setTextColor(colorCode);
+			members.setTextColor(colorCode);
+		
 			ProjectSectionsFragment.setHeaderSectionSelectedListener(this);
 		}
 		return root;

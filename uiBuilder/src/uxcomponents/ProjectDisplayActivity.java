@@ -3,6 +3,7 @@ package uxcomponents;
 import com.parse.ParseUser;
 
 import helpers.Log;
+import uibuilder.UiBuilderActivity;
 import uxcomponents.ProjectCollabsFragment.userSelectedListener;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -18,6 +19,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -25,12 +27,14 @@ import android.widget.TextView;
 import data.ScreenProvider;
 import de.ur.rk.uibuilder.R;
 
-public class ProjectDisplayActivity extends Activity implements LoaderCallbacks<Cursor>, userSelectedListener
+public class ProjectDisplayActivity extends Activity implements LoaderCallbacks<Cursor>, userSelectedListener, OnClickListener
 {
 	private int projectId;
 	private String projectName;
 	private int colorCode;
 	private Bundle startingBundle;
+	
+	private TextView startScreenFlow;
 	
 	private ProjectCollabsFragment collabFragment;
 	private ProjectMyScreensFragment myscreensFragment;
@@ -82,6 +86,10 @@ public class ProjectDisplayActivity extends Activity implements LoaderCallbacks<
 	private void setupUI()
 	{
 		setContentView(R.layout.layout_project_fragment_container);
+		
+		startScreenFlow = (TextView) findViewById(R.id.start_flow);
+		startScreenFlow.setOnClickListener(this);
+		
 		fragmentContainerLayout = (LinearLayout) findViewById(R.id.layout_project_fragments_container);
 		fragmentCollabLayout = (FrameLayout) findViewById(R.id.layout_project_collabs_fragment);
 		fragmentMyScreensLayout = (FrameLayout) findViewById(R.id.layout_project_myscreens_fragment);
@@ -104,17 +112,10 @@ public class ProjectDisplayActivity extends Activity implements LoaderCallbacks<
 		collabscreensFragment = new ProjectCollabScreensFragment();
 		sectionsFragment = new ProjectSectionsFragment();
 		
-		Bundle sectionArgs = new Bundle();
-		sectionArgs.putInt(ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT, projectId);
-		//sectionArgs
+		myscreensFragment.setArguments(startingBundle);
+		collabscreensFragment.setArguments(startingBundle);
 		sectionsFragment.setArguments(startingBundle);
-		
-		Bundle collabsArgs = new Bundle();
-		collabsArgs.putInt(ScreenProvider.KEY_ID, projectId);
-		collabsArgs.putString(ScreenProvider.KEY_PROJECTS_NAME, projectName);
-		collabsArgs.putInt(ScreenProvider.KEY_PROJECTS_COLOR, colorCode);
-		
-		collabFragment.setArguments(collabsArgs);
+		collabFragment.setArguments(startingBundle);
 	}
 	
 	private void performInitTransaction()
@@ -205,6 +206,32 @@ public class ProjectDisplayActivity extends Activity implements LoaderCallbacks<
 		// TODO Auto-generated method stub
 		LinearLayout userDetails = (LinearLayout) findViewById(R.id.layout_project_userdetails);
 		userDetails.setVisibility(View.GONE);
+	}
+
+	@Override
+	public void onClick(View v)
+	{
+		switch (v.getId())
+		{
+		case R.id.start_flow:
+			startScreenFlow();
+			break;
+
+		default:
+			break;
+		}
+		
+	}
+	
+	private void startScreenFlow()
+	{
+		Intent start = new Intent(this, ScreenFlowActivity.class);
+		
+		
+		start.putExtras(startingBundle);
+
+		startActivity(start);
+		overridePendingTransition(R.anim.activity_transition_from_right_in, R.anim.activity_transition_to_left_out);
 	}
 	
 }

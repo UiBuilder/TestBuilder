@@ -24,12 +24,48 @@
 			android:orientation="horizontal"
 	        >
 	        
-	        <FrameLayout android:id="@+id/layout_project_sections_fragment"
-	            android:layout_height="match_parent"
+	        <LinearLayout 
 	            android:layout_width="300dp"
+	            android:layout_height="match_parent"
+	            android:orientation="vertical"
+	            android:weightSum="1"
 	            android:background="@color/designfragment_background"
-	            android:padding="@dimen/default_padding_large"
+	            >
+	            
+	            <FrameLayout android:id="@+id/layout_project_sections_fragment"
+	            android:layout_height="0dp"
+	            android:layout_weight="0.9"
+	            android:layout_width="match_parent"
+	            android:background="@color/designfragment_background"
+	            android:paddingLeft="@dimen/default_padding_small"
+	            android:paddingRight="@dimen/default_padding_small"
+	            
 	            ></FrameLayout>
+	            
+	            <FrameLayout
+					
+					android:layout_weight="0.1"
+				    android:layout_height="0dp"
+				    android:layout_width="match_parent"
+					android:padding="@dimen/default_padding_medium"
+					android:background="@color/designfragment_background"
+				    >
+				    
+	                <TextView android:id="@+id/start_flow"
+				   		android:text="Screenflow"
+	                    android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						
+						
+						android:gravity="center_vertical|center_horizontal"
+						android:textColor="@color/superlight_grey"
+						style="@style/itembox_items_inverted"	                    
+	                    />
+	                
+	                </FrameLayout>
+	            
+	        </LinearLayout>
+	        
 	        
 	        <LinearLayout 
 	            android:baselineAligned="false"
@@ -42,17 +78,20 @@
 	                android:layout_width="0dp"
 	                android:layout_height="match_parent"
 	                android:layout_weight="0.5"
-	                android:padding="@dimen/default_padding_large"
-	                android:background="@color/designfragment_background"
 	                
+	                android:background="@color/designfragment_background"
+	                android:paddingLeft="@dimen/default_padding_small"
+	            	android:paddingRight="@dimen/default_padding_small"
 	                ></FrameLayout>
 	            
 	            <FrameLayout android:id="@+id/layout_project_collabscreens_fragment"
 	                android:layout_width="0dp"
 	                android:layout_height="match_parent"
 	                android:layout_weight="0.5"
-	                android:padding="@dimen/default_padding_large"
+	                
 	                android:background="@color/designfragment_background"
+	                android:paddingLeft="@dimen/default_padding_small"
+	            	android:paddingRight="@dimen/default_padding_small"
 	                ></FrameLayout>
 	            
 	            

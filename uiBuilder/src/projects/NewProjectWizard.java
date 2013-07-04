@@ -142,6 +142,7 @@ public class NewProjectWizard extends Activity implements OnClickListener, OnChe
 		}
 		
 		project = new Project(getApplicationContext());
+		project.setColor(getApplicationContext().getResources().getColor(R.color.superlight_grey));
 		
 		if (projectId != 0)
 		{

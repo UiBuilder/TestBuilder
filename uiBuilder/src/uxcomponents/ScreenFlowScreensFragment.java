@@ -1,27 +1,37 @@
 package uxcomponents;
 
+import uibuilder.ItemboxFragment;
+import uibuilder.ItemboxFragment.onObjectRequestedListener;
 import android.app.Fragment;
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.ClipData;
+import android.content.ClipDescription;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnDragListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import data.ScreenProvider;
 import data.SectionAdapter;
 import de.ur.rk.uibuilder.R;
 
-public class ScreenFlowScreensFragment extends Fragment implements LoaderCallbacks<Cursor>, OnItemLongClickListener, OnDragListener
+public class ScreenFlowScreensFragment extends Fragment implements LoaderCallbacks<Cursor>, OnItemLongClickListener, OnDragListener, OnItemClickListener
 {
 	private View root;
+	
 	private SectionAdapter adapter;
 	private ListView screenList;
 	private int projectId;
@@ -33,6 +43,7 @@ public class ScreenFlowScreensFragment extends Fragment implements LoaderCallbac
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
+		setupDatabaseConnection();
 	}
 
 	@Override
@@ -45,11 +56,13 @@ public class ScreenFlowScreensFragment extends Fragment implements LoaderCallbac
 			root = inflater.inflate(R.layout.layout_project_screenflow_screens, null);
 			screenList = (ListView) root.findViewById(R.id.screenflow_screens);
 			screenList.setOnItemLongClickListener(this);
+			screenList.setOnItemClickListener(this);
+			//root.setOnDragListener(this);
 		}
 		Bundle values = getArguments();
-		values.getInt(ScreenProvider.KEY_ID);
+		projectId = values.getInt(ScreenProvider.KEY_ID);
 		
-		setupDatabaseConnection();
+		
 		return root; 
 	}
 	
@@ -63,8 +76,7 @@ public class ScreenFlowScreensFragment extends Fragment implements LoaderCallbac
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		String selection = ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT + " = " + "'" + String.valueOf(projectId) + "'";
-		
+		String selection = ScreenProvider.KEY_SECTION_ASSOCIATED_PROJECT + " = " + String.valueOf(projectId);
 		return new CursorLoader(getActivity(), ScreenProvider.CONTENT_URI_SECTIONS, null, selection, null, null);
 	}
 
@@ -73,7 +85,7 @@ public class ScreenFlowScreensFragment extends Fragment implements LoaderCallbac
 		
 		adapter.swapCursor(arg1);
 		adapter.notifyDataSetChanged();
-		
+		Log.d("cursor size in screenflow", String.valueOf(arg1.getCount()));
 		screenList.setAdapter(adapter);
 	}
 
@@ -87,15 +99,46 @@ public class ScreenFlowScreensFragment extends Fragment implements LoaderCallbac
 	public boolean onItemLongClick(AdapterView<?> arg0, View screen, int arg2,
 			long arg3) {
 		
-		View screenView = inflater.inflate(R.layout.screen_list_item, null);
-		//screenView.startDrag(data, shadowBuilder, myLocalState, flags)
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean onDrag(View v, DragEvent event) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
+	}
+	
+	public interface onScreenFlowObjectRequest
+	{
+		View addScreen(Bundle values);
 	}
 
+	private static onScreenFlowObjectRequest requestListener;
+
+	public static void setOnScreenRequestedListener(
+			onScreenFlowObjectRequest listener)
+	{
+		ScreenFlowScreensFragment.requestListener = listener;
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View screen, int arg2, long arg3)
+	{
+		// TODO Auto-generated method stub
+Log.d("list", "lonclicked");
+		
+		View screenView = requestListener.addScreen((Bundle) screen.getTag());
+		
+		
+		ClipData.Item item = new ClipData.Item("screen");
+		
+		ClipData clipData = new ClipData("hello", new String[]
+		{ ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
+
+		screenView.startDrag(clipData, new View.DragShadowBuilder(screenView), screenView, 0);
+		
+		ViewGroup parent = (ViewGroup) screenView.getParent();
+		//parent.removeView(screenView);
+		
+	}
 }

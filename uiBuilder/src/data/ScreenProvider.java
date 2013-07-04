@@ -57,7 +57,8 @@ public class ScreenProvider extends ContentProvider
 					PROJECTS_URI = "project",
 					SECTIONS_URI = "section",
 					COMMENTS_URI = "comment",
-					COLLAB_URI = "collaborators"
+					COLLAB_URI = "collaborators",
+					FLOW_URI = "flow"
 					;
 	
 	//URI definition for access
@@ -67,7 +68,8 @@ public class ScreenProvider extends ContentProvider
 					CONTENT_URI_PROJECTS = Uri.parse(PREFIX + AUTHORITY + "/" + PROJECTS_URI),
 					CONTENT_URI_SECTIONS = Uri.parse(PREFIX + AUTHORITY + "/" + SECTIONS_URI),
 					CONTENT_URI_COMMENTS = Uri.parse(PREFIX + AUTHORITY + "/" + COMMENTS_URI),
-					CONTENT_URI_COLLABS = Uri.parse(PREFIX + AUTHORITY + "/" + COLLAB_URI)
+					CONTENT_URI_COLLABS = Uri.parse(PREFIX + AUTHORITY + "/" + COLLAB_URI),
+					CONTENT_URI_FLOW = Uri.parse(PREFIX + AUTHORITY + "/" + FLOW_URI)
 					;
 	
 	private DataManager data;
@@ -92,7 +94,10 @@ public class ScreenProvider extends ContentProvider
 					COLLABS_ALL = 0x10,
 					
 					COMMENTS_SINGLE = 0x11,
-					COMMENTS_ALL = 0x12
+					COMMENTS_ALL = 0x12,
+					
+					FLOW_ALL = 0x13,
+					FLOW_SINGLE = 0x14
 					;
 	
 	
@@ -119,6 +124,8 @@ public class ScreenProvider extends ContentProvider
 		matcher.addURI(AUTHORITY, COLLAB_URI, COLLABS_ALL);
 		matcher.addURI(AUTHORITY, COLLAB_URI + "/#", COLLABS_SINGLE);
 		
+		matcher.addURI(AUTHORITY, FLOW_URI, FLOW_ALL);
+		matcher.addURI(AUTHORITY, FLOW_URI + "/#", FLOW_SINGLE)
 		;
 	}
 
@@ -161,6 +168,17 @@ public class ScreenProvider extends ContentProvider
 		
 		switch (matcher.match(uri))
 		{
+		case FLOW_ALL:
+			
+			id = db.insert(DataManager.TABLE_FLOW, nullColumnHack, values);
+			
+			if (id > -1)
+			{
+				inserted = ContentUris.withAppendedId(CONTENT_URI_FLOW, id);
+				getContext().getContentResolver().notifyChange(inserted, null);
+			}
+			break;
+		
 		case SCREENS_ALL:
 			
 			String owner = values.getAsString(KEY_SCREEN_OWNER);
@@ -287,6 +305,14 @@ public class ScreenProvider extends ContentProvider
 		
 		switch (matcher.match(uri))
 		{
+			case FLOW_ALL:
+			
+				sortOrder = KEY_ID + " DESC";
+				//query.appendWhere(KEY_SCREEN_ASSOCIATED_PROJECT + "=" + selection);
+				Log.d("selection is", selection);
+				query.setTables(DataManager.TABLE_FLOW);
+				break;
+		
 			case SCREENS_SINGLE:
 				row = uri.getPathSegments().get(1);
 				query.appendWhere(KEY_ID + "=" + row);
@@ -396,6 +422,12 @@ public class ScreenProvider extends ContentProvider
 			
 			Log.d("updating", "screens single");
 			updateCount = db.update(DataManager.TABLE_SCREENS, values, selection, selectArgs);
+			break;
+			
+		case FLOW_SINGLE:
+			
+			Log.d("updating", "screens single");
+			updateCount = db.update(DataManager.TABLE_FLOW, values, selection, selectArgs);
 			break;
 			
 		case OBJECTS_SINGLE:
@@ -573,7 +605,6 @@ public class ScreenProvider extends ContentProvider
 				
 				String parseId = c.getString(parseIdx);
 				
-				Log.d("provider delete project name", parseId);
 				cloud.deleteObject(parseId, CloudConstants.TYPE_PROJECT);
 				c.close();
 			}
@@ -824,6 +855,13 @@ public class ScreenProvider extends ContentProvider
 						KEY_PROJECTS_COLOR = "color"
 						;
 		
+		//screenflow table
+		public static final String
+						KEY_FLOW_PROJECT_ID = "project",
+						KEY_FLOW_X = "X",
+						KEY_FLOW_Y = "Y",
+						KEY_FLOW_LABEL = "LABEL";
+		
 		//SCREENS TABLE
 		public static final String 
 						KEY_SCREEN_NAME = "name", 
@@ -897,7 +935,7 @@ public class ScreenProvider extends ContentProvider
 	 */
 	private static class DataManager extends SQLiteOpenHelper
 	{	
-		private static final int DB_VERSION = 59;
+		private static final int DB_VERSION = 60;
 		
 		/*
 		 * Database properties
@@ -909,7 +947,8 @@ public class ScreenProvider extends ContentProvider
 						TABLE_PROJECTS = "projects",
 						TABLE_SECTIONS = "sections",
 						TABLE_COMMENTS = "comments",
-						TABLE_COLLABS = "collabs"
+						TABLE_COLLABS = "collabs",
+						TABLE_FLOW = "flow"
 						;
 		
 		
@@ -992,6 +1031,13 @@ public class ScreenProvider extends ContentProvider
 						+ KEY_COLLAB_PARSEID + TEXT_NNULL + KOMMA
 						+ KEY_COLLAB_PICTURE + TEXT + KOMMA
 						+ KEY_COLLAB_OF_PROJECT + TEXT
+						,
+						
+						FLOW_PROPERTIES
+						= KEY_FLOW_PROJECT_ID + INT + KOMMA
+						+ KEY_FLOW_X + INT + KOMMA
+						+ KEY_FLOW_Y + INT + KOMMA
+						+ KEY_FLOW_LABEL + TEXT
 						;
 		
 		//CREATE COMMANDS
@@ -1001,6 +1047,14 @@ public class ScreenProvider extends ContentProvider
 						+ TABLE_SCREENS + " ("
 						+ ID 
 						+ SCREEN_PROPERTIES
+						+ ");"
+						,
+						
+						CREATE_FLOW_TABLE
+						= CREATE
+						+ TABLE_FLOW + " ("
+						+ ID
+						+ FLOW_PROPERTIES
 						+ ");"
 						,
 		
@@ -1075,6 +1129,11 @@ public class ScreenProvider extends ContentProvider
 						DROP_COLLABS
 						= DROP
 						+ TABLE_COLLABS
+						,
+						
+						DROP_FLOW
+						= DROP
+						+ TABLE_FLOW
 					
 						;
 		
@@ -1095,6 +1154,7 @@ public class ScreenProvider extends ContentProvider
 			db.execSQL(CREATE_SECTION_TABLE);
 			db.execSQL(CREATE_COMMENTS_TABLE);
 			db.execSQL(CREATE_COLLABS_TABLE);
+			db.execSQL(CREATE_FLOW_TABLE);
 		}
 
 		@Override
@@ -1108,6 +1168,7 @@ public class ScreenProvider extends ContentProvider
 			db.execSQL(DROP_SECTIONS);
 			db.execSQL(DROP_COMMENTS);
 			db.execSQL(DROP_COLLABS);
+			db.execSQL(DROP_FLOW);
 			
 			onCreate(db);
 		}

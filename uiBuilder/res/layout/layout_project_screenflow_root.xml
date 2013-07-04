@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
+    android:orientation="horizontal" 
     android:background="@color/designfragment_background"
     >
     
@@ -11,9 +11,10 @@
 	    android:layout_height="match_parent"
 	    ></FrameLayout>
 	
-	<RelativeLayout android:id="@+id/screenflow_design_area"
+	<FrameLayout android:id="@+id/screenflow_design_area"
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
+	    android:background="@color/background_aqua"
 	    
-	    ></RelativeLayout>
+	    />
 </LinearLayout>

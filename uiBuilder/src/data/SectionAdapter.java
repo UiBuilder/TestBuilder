@@ -22,7 +22,7 @@ import de.ur.rk.uibuilder.R;
  */
 public class SectionAdapter extends CursorAdapter 
 {
-	public static final int TYPE_SCREENFLOW = R.layout.screen_list_item;
+	public static final int TYPE_SCREENFLOW = R.layout.project_manager_list_item_section_container;
 	
 	@Override
 	public Object getItem(int position)
@@ -65,13 +65,10 @@ public class SectionAdapter extends CursorAdapter
 		sectionIdIdx = sectionCursor.getColumnIndexOrThrow(ScreenProvider.KEY_ID);
 		
 		switch (resourceLayout) {
-		case TYPE_SCREENFLOW:
-			
-			
+		case TYPE_SCREENFLOW:	
 			break;
 
 		default:
-			
 			break;
 		}	
 		TextView name = (TextView) section.findViewById(R.id.project_manager_list_item_section_container_name);

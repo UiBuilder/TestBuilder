@@ -185,8 +185,8 @@ public class ManagerGrid extends Activity implements LoaderCallbacks<Cursor>, On
 		
 		//Log.d("name is", name);
 		//bar.setTitle(name);
-		bar.setDisplayHomeAsUpEnabled(true);
-		bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME|ActionBar.DISPLAY_SHOW_TITLE|ActionBar.DISPLAY_HOME_AS_UP);
+		//bar.setDisplayHomeAsUpEnabled(true);
+		//bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME|ActionBar.DISPLAY_SHOW_TITLE|ActionBar.DISPLAY_HOME_AS_UP);
 		bar.setBackgroundDrawable(getResources().getDrawable(R.color.designfragment_background));
 	}
 

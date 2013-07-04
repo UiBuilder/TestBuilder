@@ -62,6 +62,14 @@
             android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             />
+        
+        <activity
+            android:name="uxcomponents.ScreenFlowActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            />
         <activity
             android:name="uibuilder.PreferencesActivity"
             android:label="@string/app_name"

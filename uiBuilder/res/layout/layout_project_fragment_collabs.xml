@@ -23,7 +23,7 @@
         android:orientation="horizontal"
         >
         
-       	<TextView 
+       	<TextView android:id="@+id/members"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center_vertical"

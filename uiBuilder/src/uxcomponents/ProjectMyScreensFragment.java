@@ -53,6 +53,7 @@ public class ProjectMyScreensFragment extends Fragment implements sectionSelecte
 	private ListView screenList;
 	
 	private int thisSection;
+	private int colorCode;
 	
 	private Button newScreen;
 	private EditText sketchName;
@@ -84,6 +85,9 @@ public class ProjectMyScreensFragment extends Fragment implements sectionSelecte
 			screenList = (ListView) root.findViewById(R.id.project_myscreens_fragment_myscreens);
 			listHeader = (LinearLayout) inflater.inflate(R.layout.layout_project_manager_myscreens_header, null);
 			//listHeader.setVisibility(View.INVISIBLE);
+			
+			Bundle startingBundle = getArguments();
+			colorCode = startingBundle.getInt(ScreenProvider.KEY_PROJECTS_COLOR);
 			setupList();
 		}
 		return root;
@@ -99,6 +103,7 @@ public class ProjectMyScreensFragment extends Fragment implements sectionSelecte
 		
 		newScreen = (Button) listHeader.findViewById(R.id.project_manager_myscreens_header_create);
 		titleView = (TextView) listHeader.findViewById(R.id.myscreens_listheader_title);
+		titleView.setTextColor(colorCode);
 		//sketchName = (EditText) listHeader.findViewById(R.id.project_manager_myscreens_header_projectname);
 
 		newScreen.setOnClickListener(this);

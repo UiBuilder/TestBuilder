@@ -590,7 +590,7 @@ public class CloudConnection
 	
 	public void deleteObject(final String objectId, final String type)
 	{
-		if (cloudActive)
+		if (cloudActive && objectId != null)
 		{
 			Log.d("cloud deleting type", type);
 			

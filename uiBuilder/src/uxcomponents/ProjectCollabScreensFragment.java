@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import data.ScreenAdapter;
 import data.ScreenProvider;
 import de.ur.rk.uibuilder.R;
@@ -41,6 +42,7 @@ public class ProjectCollabScreensFragment extends Fragment implements sectionSel
 	
 	private int thisSection;
 	private String thisSectionName;
+	private int colorCode;
 	
 	private Button newScreen;
 	private EditText sketchName;
@@ -71,6 +73,10 @@ public class ProjectCollabScreensFragment extends Fragment implements sectionSel
 			listHeader = (LinearLayout) inflater.inflate(R.layout.layout_project_manager_myscreens_header, null);
 			listHeader.findViewById(R.id.project_manager_myscreens_header_create).setVisibility(View.INVISIBLE);
 
+			Bundle startingBundle = getArguments();
+			colorCode = startingBundle.getInt(ScreenProvider.KEY_PROJECTS_COLOR);
+			TextView headerText = (TextView) listHeader.findViewById(R.id.myscreens_listheader_title);
+			headerText.setTextColor(colorCode);
 			setupList();
 		}
 		return root;

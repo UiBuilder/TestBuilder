@@ -63,18 +63,22 @@
 				    
 				</LinearLayout>
 				
-				
-				<LinearLayout android:id="@+id/project_wizard_flipper_step2_results"
-				    android:layout_height="wrap_content"
+				<ScrollView 
 				    android:layout_width="match_parent"
+				    android:layout_height="250dp"
 				    
-				    android:padding="@dimen/default_padding_large"
-				    android:orientation="vertical"
 				    >
-				    
-				    
-				</LinearLayout>
-				
+					<LinearLayout android:id="@+id/project_wizard_flipper_step2_results"
+					    android:layout_height="wrap_content"
+					    android:layout_width="match_parent"
+					    
+					    android:padding="@dimen/default_padding_large"
+					    android:orientation="vertical"
+					    >
+					    
+					    
+					</LinearLayout>
+				</ScrollView>
 		
 
 				<RelativeLayout 

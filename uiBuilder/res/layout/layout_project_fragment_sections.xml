@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+
+    >
 
 	<ListView android:id="@+id/project_sections_fragment_sections"
 	    android:layout_width="match_parent"
@@ -10,6 +12,8 @@
 	    android:scrollbars="none"
 	    android:choiceMode="singleChoice"
 	    android:listSelector="@color/superlight_grey_alpha"
-	    
+
 	    ></ListView>
+	
+	
 </LinearLayout>

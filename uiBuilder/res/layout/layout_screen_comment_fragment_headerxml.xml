@@ -15,7 +15,7 @@
         <TextView  android:id="@+id/screen_comments_header"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
-	        android:textColor="@color/background_red"
+	        style="@style/itembox_header"
 	        
 	        
 	        android:textSize="22sp"

@@ -402,13 +402,13 @@ public class UiBuilderActivity
 	private void setActionBarStyle()
 	{
 		ActionBar bar = getActionBar();
-		bar.setDisplayShowTitleEnabled(true);
+		bar.setDisplayShowTitleEnabled(false);
 
-		bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME);
+		//bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME);
 		bar.setBackgroundDrawable(getResources().getDrawable(R.color.designfragment_background));
 		
-		bar.setDisplayHomeAsUpEnabled(true);
-		bar.setDisplayOptions(ActionBar.NAVIGATION_MODE_STANDARD|ActionBar.DISPLAY_SHOW_HOME|ActionBar.DISPLAY_HOME_AS_UP|ActionBar.DISPLAY_SHOW_TITLE);
+		//bar.setDisplayHomeAsUpEnabled(true);
+		//bar.setDisplayOptions(ActionBar.NAVIGATION_MODE_STANDARD|ActionBar.DISPLAY_SHOW_HOME|ActionBar.DISPLAY_HOME_AS_UP|ActionBar.DISPLAY_SHOW_TITLE);
 		
 	}
 
